@@ -7,10 +7,10 @@ Below is a list of all the public functions that can be called from the JsonTree
 
 ## Configuration:
 
-### **setConfiguration( *newOptions* )**:
+### **setConfiguration( *newConfiguration* )**:
 Sets the specific configuration options that should be used.
 <br>
-***Parameter: newOptions***: '*Options*' - All the configuration options that should be set (refer to ["Configuration Options"](configuration/OPTIONS.md) documentation for properties).
+***Parameter: newConfiguration***: '*Options*' - All the configuration options that should be set (refer to ["Configuration Options"](configuration/OPTIONS.md) documentation for properties).
 <br>
 ***Returns***: '*Object*' - The JsonTree.js class instance.
 <br>

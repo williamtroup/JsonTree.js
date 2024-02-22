@@ -299,8 +299,8 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.setConfiguration = function( newOptions ) {
-        _configuration = !isDefinedObject( newOptions ) ? {} : newOptions;
+    this.setConfiguration = function( newConfiguration ) {
+        _configuration = !isDefinedObject( newConfiguration ) ? {} : newConfiguration;
         
         buildDefaultConfiguration();
 
