@@ -100,19 +100,15 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
-  font-weight: var(--json-tree-js-header-bold-weight);
   color: #A71500;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.number {
-  font-weight: var(--json-tree-js-header-bold-weight);
   color: #484dd2;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.string {
-  font-weight: var(--json-tree-js-header-bold-weight);
   color: #78b13f;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.date {
-  font-weight: var(--json-tree-js-header-bold-weight);
   color: #a656f5;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.array {
