@@ -138,8 +138,7 @@
 
     function renderArray( container, bindingOptions, data ) {
         var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.arrayText ),
-            objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            propertyCount = 0;
+            objectTypeContents = createElement( container, "div", "object-type-contents" );
 
         renderArrayValues( objectTypeContents, bindingOptions, data );
 

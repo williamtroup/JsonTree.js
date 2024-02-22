@@ -143,17 +143,15 @@ div.json-tree-js {
             span.array {
                 font-weight: var(--json-tree-js-header-bold-weight);
                 color: #F28C28;
-
-                span.count {
-                    margin-left: calc( var(--json-tree-js-spacing) / 2 );
-                    font-weight: var(--json-tree-js-text-bold-weight);
-                }
             }
 
             span.object {
                 font-weight: var(--json-tree-js-header-bold-weight);
                 color: #C0C0C0;
+            }
 
+            span.array,
+            span.object {
                 span.count {
                     margin-left: calc( var(--json-tree-js-spacing) / 2 );
                     font-weight: var(--json-tree-js-text-bold-weight);

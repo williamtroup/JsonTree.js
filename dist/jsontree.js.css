@@ -115,14 +115,11 @@ div.json-tree-js div.object-type-contents div.object-type-value span.array {
   font-weight: var(--json-tree-js-header-bold-weight);
   color: #F28C28;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.array span.count {
-  margin-left: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
-}
 div.json-tree-js div.object-type-contents div.object-type-value span.object {
   font-weight: var(--json-tree-js-header-bold-weight);
   color: #C0C0C0;
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.array span.count,
 div.json-tree-js div.object-type-contents div.object-type-value span.object span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
