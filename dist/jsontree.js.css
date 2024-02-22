@@ -80,13 +80,13 @@ div.json-tree-js div.down-arrow {
   border-top: 8px solid var(--json-tree-js-color-white);
   margin-right: calc(var(--json-tree-js-spacing));
 }
-div.json-tree-js div.down-right {
+div.json-tree-js div.right-arrow {
   display: inline-block;
   width: 0;
   height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left: 8px solid var(--json-tree-js-color-white);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 12px solid var(--json-tree-js-color-white);
   margin-right: calc(var(--json-tree-js-spacing));
 }
 

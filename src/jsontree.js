@@ -129,9 +129,9 @@
     function renderObject( container, bindingOptions, data ) {
         var objectTypeTitle = createElement( container, "div", "object-type-title" ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            propertyCount = renderObjectValues( objectTypeContents, bindingOptions, data );
+            arrow = createElement( objectTypeTitle, "div", "down-arrow" ),
+            propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        createElement( objectTypeTitle, "div", "down-arrow" );
         createElementWithHTML( objectTypeTitle, "span", "title", _configuration.objectText );
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
@@ -141,19 +141,19 @@
 
     function renderArray( container, bindingOptions, data ) {
         var objectTypeTitle = createElement( container, "div", "object-type-title" ),
-            objectTypeContents = createElement( container, "div", "object-type-contents" );
+            objectTypeContents = createElement( container, "div", "object-type-contents" ),
+            arrow = createElement( objectTypeTitle, "div", "down-arrow" );
 
-        createElement( objectTypeTitle, "div", "down-arrow" );
         createElementWithHTML( objectTypeTitle, "span", "title", _configuration.arrayText );
 
-        renderArrayValues( objectTypeContents, bindingOptions, data );
+        renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts ) {
             createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
         }
     }
 
-    function renderObjectValues( objectTypeContents, bindingOptions, data ) {
+    function renderObjectValues( arrow, objectTypeContents, bindingOptions, data ) {
         var propertyCount = 0;
 
         for ( var key in data ) {
@@ -163,10 +163,12 @@
             }
         }
 
+        addArrowEvent( arrow, objectTypeContents );
+
         return propertyCount;
     }
 
-    function renderArrayValues( objectTypeContents, bindingOptions, data ) {
+    function renderArrayValues( arrow, objectTypeContents, bindingOptions, data ) {
         var dataLength = data.length;
 
         for ( var dataIndex = 0; dataIndex < dataLength; dataIndex++ ) {
@@ -174,6 +176,8 @@
 
             renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ] );
         }
+
+        addArrowEvent( arrow, objectTypeContents );
     }
 
     function renderValue( container, bindingOptions, name, value ) {
@@ -198,7 +202,7 @@
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
             var objectTitle = createElement( objectTypeValue, "span", "object" ),
                 objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
-                propertyCount = renderObjectValues( objectTypeContents, bindingOptions, value );
+                propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
             arrow.className = "down-arrow";
 
@@ -213,14 +217,26 @@
                 arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
 
             arrow.className = "down-arrow";
-            
+
             createElementWithHTML( arrayTitle, "span", "title", _configuration.arrayText );
 
             if ( bindingOptions.showCounts ) {
                 createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
             }
 
-            renderArrayValues( arrayTypeContents, bindingOptions, value );
+            renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
+        }
+    }
+
+    function addArrowEvent( arrow, objectTypeContents ) {
+        arrow.onclick = function() {
+            if ( arrow.className === "down-arrow" ) {
+                objectTypeContents.style.display = "none";
+                arrow.className = "right-arrow";
+            } else {
+                objectTypeContents.style.display = "block";
+                arrow.className = "down-arrow";
+            }
         }
     }
 
