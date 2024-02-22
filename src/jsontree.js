@@ -112,7 +112,7 @@
     function renderControlContainer( bindingOptions ) {
         bindingOptions.currentView.element.innerHTML = _string.empty;
 
-        if ( isDefinedObject( bindingOptions.data ) ) {
+        if ( isDefinedObject( bindingOptions.data ) && !isDefinedArray( bindingOptions.data ) ) {
             renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
         } else if ( isDefinedArray( bindingOptions.data ) ) {
             renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
@@ -133,6 +133,18 @@
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
             createElementWithHTML( objectTypeTitle, "span", "count", "{" + propertyCount + "}" );
+        }
+    }
+
+    function renderArray( container, bindingOptions, data, indentCount ) {
+        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.arrayText ),
+            objectTypeContents = createElement( container, "div", "object-type-contents" ),
+            propertyCount = 0;
+
+        renderArrayValues( objectTypeContents, bindingOptions, data, indentCount );
+
+        if ( bindingOptions.showCounts ) {
+            createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
         }
     }
 
@@ -194,21 +206,6 @@
 
             createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
             renderArrayValues( arrayTypeContents, bindingOptions, value, indentCount );
-        }
-    }
-
-    function renderArray( container, bindingOptions, data, indentCount ) {
-        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.objectText ),
-            
-            objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            propertyCount = 0;
-
-        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
-
-
-
-        if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
         }
     }
 
