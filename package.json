@@ -1,0 +1,25 @@
+{
+    "name": "jjsontree.js",
+    "title": "JsonTree.js",
+    "description": "A lightweight, and easy-to-use, JavaScript library.",
+    "version": "0.1.0",
+    "main": "dist/jsontree.js",
+    "homepage": "https://www.william-troup.com/jsontree-js/",
+    "author": {
+      "name": "Bunoon"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/williamtroup/JsonTree.js"
+    },
+    "keywords": [
+      "javascript",
+      "css",
+      "html5",
+      "JsonTree.js"
+    ],
+    "bugs": {
+      "url": "https://github.com/williamtroup/JsonTree.js/issues"
+    },
+    "license": "MIT"
+  }

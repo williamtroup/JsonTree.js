@@ -1,0 +1,38 @@
+/*
+ * JsonTree.js Library v0.1.0
+ *
+ * Copyright 2024 Bunoon
+ * Released under the MIT License
+ */
+:root {
+  --jsontree-js-color-black: #3b3a3a;
+  --jsontree-js-color-white: #F5F5F5;
+  --jsontree-js-border-radius: 0.5rem;
+  --jsontree-js-border-style-scrollbar: inset 0 0 6px var(--jsontree-js-color-dark-gray);
+  --jsontree-js-border-size: 0.5px;
+  --jsontree-js-transition: all .3s;
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Custom Scroll Bar
+    -------------------------------------------------------------------------
+*/
+.custom-scroll-bars::-webkit-scrollbar {
+  width: 12px;
+}
+.custom-scroll-bars::-webkit-scrollbar-track {
+  -webkit-box-shadow: var(--jsontree-js-border-style-scrollbar);
+  box-shadow: var(--jsontree-js-border-style-scrollbar);
+}
+.custom-scroll-bars::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: var(--jsontree-js-border-style-scrollbar);
+  box-shadow: var(--jsontree-js-border-style-scrollbar);
+  background: var(--jsontree-js-color-white);
+}
+.custom-scroll-bars::-webkit-scrollbar-thumb:hover {
+  background-color: var(--jsontree-js-color-white);
+}
+.custom-scroll-bars::-webkit-scrollbar-thumb:active {
+  background-color: var(--jsontree-js-color-lighter-gray);
+}/*# sourceMappingURL=jsontree.js.css.map */

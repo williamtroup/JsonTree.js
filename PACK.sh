@@ -1,0 +1,1 @@
+nuget pack jsontree.js.nuspec
