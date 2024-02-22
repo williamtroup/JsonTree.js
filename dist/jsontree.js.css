@@ -130,7 +130,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
-  color: #A71500;
+  color: #FF0000;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.number {
   color: #484dd2;
