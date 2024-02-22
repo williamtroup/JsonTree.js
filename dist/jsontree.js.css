@@ -71,23 +71,29 @@ div.json-tree-js div.no-arrow {
   height: 8px;
   margin-right: calc(var(--json-tree-js-spacing));
 }
-div.json-tree-js div.down-arrow {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid var(--json-tree-js-color-white);
-  margin-right: calc(var(--json-tree-js-spacing));
-}
+div.json-tree-js div.down-arrow,
 div.json-tree-js div.right-arrow {
   display: inline-block;
   width: 0;
   height: 0;
+  margin-right: calc(var(--json-tree-js-spacing));
+  cursor: pointer;
+  transition: var(--json-tree-js-transition);
+  transition-property: opacity;
+}
+div.json-tree-js div.down-arrow:hover,
+div.json-tree-js div.right-arrow:hover {
+  opacity: 0.7;
+}
+div.json-tree-js div.down-arrow {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--json-tree-js-color-white);
+}
+div.json-tree-js div.right-arrow {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 12px solid var(--json-tree-js-color-white);
-  margin-right: calc(var(--json-tree-js-spacing));
 }
 
 /*
