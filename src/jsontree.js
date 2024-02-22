@@ -28,7 +28,7 @@
         },
 
         // Variables: Attribute Names
-        _attribute_Name_Options = "data-JsonTree-options";
+        _attribute_Name_Options = "data-jsontree-options";
 
     
     /*
