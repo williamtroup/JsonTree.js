@@ -127,9 +127,12 @@
      */
 
     function renderObject( container, bindingOptions, data ) {
-        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.objectText ),
+        var objectTypeTitle = createElement( container, "div", "object-type-title" ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
             propertyCount = renderObjectValues( objectTypeContents, bindingOptions, data );
+
+        createElement( objectTypeTitle, "div", "down-arrow" );
+        createElementWithHTML( objectTypeTitle, "span", "title", _configuration.objectText );
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
             createElementWithHTML( objectTypeTitle, "span", "count", "{" + propertyCount + "}" );
@@ -137,8 +140,11 @@
     }
 
     function renderArray( container, bindingOptions, data ) {
-        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.arrayText ),
+        var objectTypeTitle = createElement( container, "div", "object-type-title" ),
             objectTypeContents = createElement( container, "div", "object-type-contents" );
+
+        createElement( objectTypeTitle, "div", "down-arrow" );
+        createElementWithHTML( objectTypeTitle, "span", "title", _configuration.arrayText );
 
         renderArrayValues( objectTypeContents, bindingOptions, data );
 
@@ -171,7 +177,10 @@
     }
 
     function renderValue( container, bindingOptions, name, value ) {
-        var objectTypeValue = createElementWithHTML( container, "div", "object-type-value", name );
+        var objectTypeValue = createElement( container, "div", "object-type-value" ),
+            arrow = createElement( objectTypeValue, "div", "no-arrow" );
+
+        createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( isDefinedBoolean( value ) ) {
@@ -187,17 +196,25 @@
             createElementWithHTML( objectTypeValue, "span", "date", getIsoDateTimeString( value ) );
             
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
-            var objectTitle = createElementWithHTML( objectTypeValue, "span", "object", _configuration.objectText ),
+            var objectTitle = createElement( objectTypeValue, "span", "object" ),
                 objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
                 propertyCount = renderObjectValues( objectTypeContents, bindingOptions, value );
+
+            arrow.className = "down-arrow";
+
+            createElementWithHTML( objectTitle, "span", "title", _configuration.objectText );
 
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
                 createElementWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
             }
 
         } else if ( isDefinedArray( value ) ) {
-            var arrayTitle = createElementWithHTML( objectTypeValue, "span", "array", _configuration.arrayText ),
+            var arrayTitle = createElement( objectTypeValue, "span", "array" ),
                 arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
+
+            arrow.className = "down-arrow";
+            
+            createElementWithHTML( arrayTitle, "span", "title", _configuration.arrayText );
 
             if ( bindingOptions.showCounts ) {
                 createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
@@ -237,7 +254,7 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function createElement( container, type, className ) {
+    function createElement( container, type, className, beforeNode ) {
         var result = null,
             nodeType = type.toLowerCase(),
             isText = nodeType === "text";
@@ -252,13 +269,17 @@
             result.className = className;
         }
 
-        container.appendChild( result );
+        if ( isDefined( beforeNode ) ) {
+            container.insertBefore( result, beforeNode );
+        } else {
+            container.appendChild( result );
+        }
 
         return result;
     }
 
-    function createElementWithHTML( container, type, className, html ) {
-        var element = createElement( container, type, className );
+    function createElementWithHTML( container, type, className, html, beforeNode ) {
+        var element = createElement( container, type, className, beforeNode );
         element.innerHTML = html;
 
         return element;

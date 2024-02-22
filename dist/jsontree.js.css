@@ -62,6 +62,36 @@ div.json-tree-js *::before, div.json-tree-js *::after {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Arrows
+    -------------------------------------------------------------------------
+*/
+div.json-tree-js div.no-arrow {
+  display: inline-block;
+  width: 12px;
+  height: 8px;
+  margin-right: calc(var(--json-tree-js-spacing));
+}
+div.json-tree-js div.down-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--json-tree-js-color-white);
+  margin-right: calc(var(--json-tree-js-spacing));
+}
+div.json-tree-js div.down-right {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--json-tree-js-color-white);
+  margin-right: calc(var(--json-tree-js-spacing));
+}
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - Object Type Title
     -------------------------------------------------------------------------
 */
@@ -88,7 +118,7 @@ div.json-tree-js div.object-type-contents {
     -------------------------------------------------------------------------
 */
 div.json-tree-js div.object-type-contents {
-  margin-left: var(--json-tree-js-spacing);
+  margin-left: calc(var(--json-tree-js-spacing) * 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
