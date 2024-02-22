@@ -64,12 +64,7 @@
                 var bindingOptions = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && isDefinedObject( bindingOptions.result ) ) {
-                    bindingOptions = buildAttributeOptions( bindingOptions.result );
-                    bindingOptions.element = element;
-
-                    element.removeAttribute( _attribute_Name_Options );
-
-                    fireCustomTrigger( bindingOptions.onBeforeRender, bindingOptions.element );
+                    renderControl( renderBindingOptions( bindingOptions.result, element ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
@@ -89,6 +84,32 @@
         return result;
     }
 
+    function renderBindingOptions( data, element ) {
+        var bindingOptions = buildAttributeOptions( data );
+        bindingOptions.currentView = {};
+        bindingOptions.currentView.element = element;
+
+        return bindingOptions;
+    }
+
+    function renderControl( bindingOptions ) {
+        fireCustomTrigger( bindingOptions.onBeforeRender, bindingOptions.element );
+
+        if ( !isDefinedString( bindingOptions.currentView.element.id ) ) {
+            bindingOptions.currentView.element.id = newGuid();
+        }
+
+        bindingOptions.currentView.element.className = "json-tree-js";
+        bindingOptions.currentView.element.removeAttribute( _attribute_Name_Options );
+
+        renderControlContainer( bindingOptions );
+        fireCustomTrigger( bindingOptions.onRenderComplete, bindingOptions.currentView.element );
+    }
+
+    function renderControlContainer( bindingOptions ) {
+        bindingOptions.currentView.element.innerHTML = _string.empty;
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -98,7 +119,7 @@
 
     function buildAttributeOptions( newOptions ) {
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
-        options.speed = getDefaultNumber( options.speed, 100 );
+        options.data = getDefaultObject( options.speed, null );
 
         return buildAttributeOptionCustomTriggers( options );
     }
@@ -183,6 +204,10 @@
 
     function getDefaultNumber( value, defaultValue ) {
         return isDefinedNumber( value ) ? value : defaultValue;
+    }
+
+    function getDefaultObject( value, defaultValue ) {
+        return isDefinedObject( value ) ? value : defaultValue;
     }
 
     function getDefaultStringOrArray( value, defaultValue ) {

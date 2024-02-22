@@ -1,0 +1,21 @@
+$minimum-width: 768px;
+
+@mixin no-selection-allowed {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+@mixin transform( $property ) {
+    -webkit-transform: $property;
+    -ms-transform: $property;
+    transform: $property;
+}
+
+@mixin box-sizing {
+    box-sizing: border-box;
+    line-height: normal;
+}

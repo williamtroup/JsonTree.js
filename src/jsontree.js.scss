@@ -6,18 +6,68 @@
  */
  
 
+@import "foundation/styles";
+
 :root {
+    // Fonts
+    --json-tree-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        
     // Colors
-    --jsontree-js-color-black: #3b3a3a;
-    --jsontree-js-color-white: #F5F5F5;
+    --json-tree-js-color-black: #3b3a3a;
+    --json-tree-js-color-white: #F5F5F5;
+
+    // Containers
+    --json-tree-js-container-background-color: #22272e;
+    --json-tree-js-container-border-color: #454c56;
 
     // Borders
-    --jsontree-js-border-radius: 0.5rem;
-    --jsontree-js-border-style-scrollbar: inset 0 0 6px var(--jsontree-js-color-dark-gray);
-    --jsontree-js-border-size: 0.5px;
+    --json-tree-js-border-radius: 0.5rem;
+    --json-tree-js-border-style-scrollbar: inset 0 0 6px var(--json-tree-js-color-dark-gray);
+    --json-tree-js-border-size: 0.5px;
+
+    // Sizes
+    --json-tree-js-spacing: 10px;
+    --json-tree-js-spacing-font-size: 0.85rem;
 
     // Transitions
-    --jsontree-js-transition: all .3s;
+    --json-tree-js-transition: all .3s;
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Container
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    @include no-selection-allowed;
+    @include box-sizing;
+    font-family: var(--json-tree-js-default-font);
+    display: inline-block;
+    position: relative;
+    border-radius: var(--json-tree-js-border-radius);
+    background-color: var(--json-tree-js-container-background-color);
+    color: var(--json-tree-js-color-white);
+    border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
+    padding: var(--json-tree-js-spacing);
+    font-size: var(--json-tree-js-spacing-font-size);
+    width: 100%;
+    overflow: hidden;
+    margin: 0 !important;
+    
+    div.no-click {
+        pointer-events: none !important;
+    }
+
+    * {
+        @include box-sizing;
+
+        &::before,
+        &::after {
+            @include box-sizing;
+        }
+    }
 }
 
 
@@ -33,21 +83,21 @@
     }
     
     &::-webkit-scrollbar-track {
-        -webkit-box-shadow: var(--jsontree-js-border-style-scrollbar);
-        box-shadow: var(--jsontree-js-border-style-scrollbar);
+        -webkit-box-shadow: var(--json-tree-js-border-style-scrollbar);
+        box-shadow: var(--json-tree-js-border-style-scrollbar);
     }
     
     &::-webkit-scrollbar-thumb {
-        -webkit-box-shadow: var(--jsontree-js-border-style-scrollbar);
-        box-shadow: var(--jsontree-js-border-style-scrollbar);
-        background: var(--jsontree-js-color-white);
+        -webkit-box-shadow: var(--json-tree-js-border-style-scrollbar);
+        box-shadow: var(--json-tree-js-border-style-scrollbar);
+        background: var(--json-tree-js-color-white);
 
         &:hover {
-            background-color: var(--jsontree-js-color-white);
+            background-color: var(--json-tree-js-color-white);
         }
 
         &:active {
-            background-color: var(--jsontree-js-color-lighter-gray);
+            background-color: var(--json-tree-js-color-lighter-gray);
         }
     }
 }

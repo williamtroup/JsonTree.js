@@ -8,7 +8,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
-| *boolean* | showCopyButton | States if the copy button should be added (defaults to true). |
+| *Object* | data | States the dta that should be used for the tree (defaults to null). |
 <br/>
 
 

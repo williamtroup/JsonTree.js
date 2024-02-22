@@ -8,12 +8,12 @@ Below is a list of all the custom triggers supported in the "data-jsontree-optio
 ## For Rendering:
 
 ### options.onBeforeRenderComplete( *element* ):
-Fires before the rendering of the jsontree of an element.
+Fires before the rendering of the JsonTree.js of an element.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that is going to be rendered.
 
 ### options.onRenderComplete( *element* ):
-Fires when the rendering of the jsontree for an element is complete.
+Fires when the rendering of the JsonTree.js for an element is complete.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that was rendered.
 
