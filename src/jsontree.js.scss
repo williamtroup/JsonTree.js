@@ -11,7 +11,9 @@
 :root {
     // Fonts
     --json-tree-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        
+    --json-tree-js-text-bold-weight: 400;
+    --json-tree-js-header-bold-weight: 900;
+
     // Colors
     --json-tree-js-color-black: #3b3a3a;
     --json-tree-js-color-white: #F5F5F5;
@@ -52,6 +54,7 @@ div.json-tree-js {
     border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
     padding: var(--json-tree-js-spacing);
     font-size: var(--json-tree-js-spacing-font-size);
+    font-weight: var(--json-tree-js-text-bold-weight);
     width: auto;
     overflow: hidden;
     margin: 0 !important;
@@ -66,6 +69,98 @@ div.json-tree-js {
         &::before,
         &::after {
             @include box-sizing;
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Object Type Title
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.object-type-title {
+        font-weight: var(--json-tree-js-header-bold-weight);
+
+        span.count {
+            margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-text-bold-weight);
+        }
+    }
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Object Type Contents
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.object-type-contents {
+        margin-top: calc( var(--json-tree-js-spacing) / 2 );
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Object Type Contents - Values
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.object-type-contents {
+        div.object-type-value {
+            white-space: nowrap;
+            overflow: hidden;
+            margin-top: calc( var(--json-tree-js-spacing) / 2 );
+
+            span.split {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                margin-right: calc( var(--json-tree-js-spacing) / 2 );
+            }
+
+            span.boolean {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #A71500;
+            }
+
+            span.number {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #484dd2;
+            }
+
+            span.string {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #78b13f;
+            }
+
+            span.date {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #a656f5;
+            }
+
+            span.array {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #F28C28;
+
+                span.count {
+                    margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                    font-weight: var(--json-tree-js-text-bold-weight);
+                }
+            }
+
+            span.object {
+                font-weight: var(--json-tree-js-header-bold-weight);
+                color: #C0C0C0;
+
+                span.count {
+                    margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                    font-weight: var(--json-tree-js-text-bold-weight);
+                }
+            }
         }
     }
 }

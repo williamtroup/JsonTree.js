@@ -21,6 +21,9 @@
         // Variables: Configuration
         _configuration = {},
 
+        // Variables: Elements
+        _elements_Type = {},
+
         // Variables: Strings
         _string = {
             empty: "",
@@ -108,6 +111,105 @@
 
     function renderControlContainer( bindingOptions ) {
         bindingOptions.currentView.element.innerHTML = _string.empty;
+
+        if ( isDefinedObject( bindingOptions.data ) ) {
+            renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
+        } else if ( isDefinedArray( bindingOptions.data ) ) {
+            renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Tree
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderObject( container, bindingOptions, data, indentCount ) {
+        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.objectText ),
+            objectTypeContents = createElement( container, "div", "object-type-contents" ),
+            propertyCount = renderObjectValues( objectTypeContents, bindingOptions, data, indentCount );
+
+        if ( bindingOptions.showCounts && propertyCount > 0 ) {
+            createElementWithHTML( objectTypeTitle, "span", "count", "{" + propertyCount + "}" );
+        }
+    }
+
+    function renderObjectValues( objectTypeContents, bindingOptions, data, indentCount ) {
+        var propertyCount = 0;
+
+        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
+
+        for ( var key in data ) {
+            if ( data.hasOwnProperty( key ) ) {
+                renderValue( objectTypeContents, bindingOptions, key, data[ key ], indentCount + 1 );
+                propertyCount++;
+            }
+        }
+
+        return propertyCount;
+    }
+
+    function renderArrayValues( objectTypeContents, bindingOptions, data, indentCount ) {
+        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
+
+        var dataLength = data.length;
+
+        for ( var dataIndex = 0; dataIndex < dataLength; dataIndex++ ) {
+            var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
+
+            renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ], indentCount + 1 );
+        }
+    }
+
+    function renderValue( container, bindingOptions, name, value, indentCount ) {
+        var objectTypeValue = createElementWithHTML( container, "div", "object-type-value", name );
+        createElementWithHTML( objectTypeValue, "span", "split", ":" );
+
+        if ( isDefinedBoolean( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "boolean", value );
+
+        } else if ( isDefinedNumber( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "number", value );
+
+        } else if ( isDefinedString( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "string", "\"" + value + "\"" );
+
+        } else if ( isDefinedDate( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "date", getIsoDateTimeString( value ) );
+            
+        } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
+            var objectTitle = createElementWithHTML( objectTypeValue, "span", "object", _configuration.objectText ),
+                objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
+                propertyCount = renderObjectValues( objectTypeContents, bindingOptions, value, indentCount );
+
+            if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                createElementWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
+            }
+
+        } else if ( isDefinedArray( value ) ) {
+            var arrayTitle = createElementWithHTML( objectTypeValue, "span", "array", _configuration.arrayText ),
+                arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
+
+            createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+            renderArrayValues( arrayTypeContents, bindingOptions, value, indentCount );
+        }
+    }
+
+    function renderArray( container, bindingOptions, data, indentCount ) {
+        var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.objectText ),
+            
+            objectTypeContents = createElement( container, "div", "object-type-contents" ),
+            propertyCount = 0;
+
+        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
+
+
+
+        if ( bindingOptions.showCounts && propertyCount > 0 ) {
+            createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
+        }
     }
 
 
@@ -119,7 +221,10 @@
 
     function buildAttributeOptions( newOptions ) {
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
-        options.data = getDefaultObject( options.speed, null );
+        options.data = getDefaultObject( options.data, null );
+        options.showCounts = getDefaultBoolean( options.showCounts, true );
+        options.indentSpacing = getDefaultNumber( options.indentSpacing, 10 );
+        options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
 
         return buildAttributeOptionCustomTriggers( options );
     }
@@ -129,6 +234,40 @@
         options.onRenderComplete = getDefaultFunction( options.onRenderComplete, null );
 
         return options;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Element Handling
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function createElement( container, type, className ) {
+        var result = null,
+            nodeType = type.toLowerCase(),
+            isText = nodeType === "text";
+
+        if ( !_elements_Type.hasOwnProperty( nodeType ) ) {
+            _elements_Type[ nodeType ] = isText ? _parameter_Document.createTextNode( _string.empty ) : _parameter_Document.createElement( nodeType );
+        }
+
+        result = _elements_Type[ nodeType ].cloneNode( false );
+
+        if ( isDefined( className ) ) {
+            result.className = className;
+        }
+
+        container.appendChild( result );
+
+        return result;
+    }
+
+    function createElementWithHTML( container, type, className, html ) {
+        var element = createElement( container, type, className );
+        element.innerHTML = html;
+
+        return element;
     }
 
 
@@ -164,6 +303,10 @@
 
     function isDefinedArray( object ) {
         return isDefinedObject( object ) && object instanceof Array;
+    }
+
+    function isDefinedDate( object ) {
+        return isDefinedObject( object ) && object instanceof Date;
     }
 
 
@@ -281,6 +424,31 @@
         return result.join( _string.empty );
     }
 
+    function padNumber( number ) {
+        var numberString = number.toString();
+
+        return numberString.length === 1 ? "0" + numberString : numberString;
+    }
+
+    function getIsoDateTimeString( date ) {
+        var format = [];
+
+        if ( isDefined( date ) ) {
+            format.push( date.getFullYear() );
+            format.push( "-" );
+            format.push( padNumber( date.getMonth() + 1 ) );
+            format.push( "-" );
+            format.push( padNumber( date.getDate() ) );
+            format.push( "T" );
+            format.push( padNumber( date.getHours() ) );
+            format.push( ":" );
+            format.push( padNumber( date.getMinutes() ) );
+            format.push( ":00Z" );
+        }
+
+        return format.join( _string.empty );
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -300,16 +468,28 @@
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
     this.setConfiguration = function( newConfiguration ) {
-        _configuration = !isDefinedObject( newConfiguration ) ? {} : newConfiguration;
-        
-        buildDefaultConfiguration();
+        for ( var propertyName in newConfiguration ) {
+            if ( newConfiguration.hasOwnProperty( propertyName ) ) {
+                _configuration[ propertyName ] = newConfiguration[ propertyName ];
+            }
+        }
+
+        buildDefaultConfiguration( _configuration );
 
         return this;
     };
 
-    function buildDefaultConfiguration() {
+    function buildDefaultConfiguration( newConfiguration ) {
+        _configuration = !isDefinedObject( newConfiguration ) ? {} : newConfiguration;
         _configuration.safeMode = getDefaultBoolean( _configuration.safeMode, true );
         _configuration.domElementTypes = getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+
+        buildDefaultConfigurationStrings();
+    }
+
+    function buildDefaultConfigurationStrings() {
+        _configuration.objectText = getDefaultString( _configuration.objectText, "object" );
+        _configuration.arrayText = getDefaultString( _configuration.arrayText, "array" );
     }
 
 
