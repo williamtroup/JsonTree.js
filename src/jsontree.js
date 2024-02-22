@@ -197,7 +197,7 @@
             createElementWithHTML( objectTypeValue, "span", "string", "\"" + value + "\"" );
 
         } else if ( isDefinedDate( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "date", getIsoDateTimeString( value ) );
+            createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
             
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
             var objectTitle = createElement( objectTypeValue, "span", "object" ),
@@ -252,6 +252,7 @@
         options.data = getDefaultObject( options.data, null );
         options.showCounts = getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
+        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
 
         return buildAttributeOptionCustomTriggers( options );
     }
@@ -461,23 +462,37 @@
         return numberString.length === 1 ? "0" + numberString : numberString;
     }
 
-    function getIsoDateTimeString( date ) {
-        var format = [];
 
-        if ( isDefined( date ) ) {
-            format.push( date.getFullYear() );
-            format.push( "-" );
-            format.push( padNumber( date.getMonth() + 1 ) );
-            format.push( "-" );
-            format.push( padNumber( date.getDate() ) );
-            format.push( "T" );
-            format.push( padNumber( date.getHours() ) );
-            format.push( ":" );
-            format.push( padNumber( date.getMinutes() ) );
-            format.push( ":00Z" );
-        }
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Date/Time
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
 
-        return format.join( _string.empty );
+    function getCustomFormattedDateTimeText( date, dateFormat ) {
+        var result = dateFormat;
+
+        result = result.replace( "{hh}", padNumber( date.getHours() ) );
+        result = result.replace( "{h}", date.getHours() );
+
+        result = result.replace( "{MM}", padNumber( date.getMinutes() ) );
+        result = result.replace( "{M}", date.getMinutes() );
+
+        result = result.replace( "{ss}", padNumber( date.getSeconds() ) );
+        result = result.replace( "{s}", date.getSeconds() );
+
+        result = result.replace( "{dd}", padNumber( date.getDate() ) );
+        result = result.replace( "{d}", date.getDate() );
+
+        result = result.replace( "{mm}", padNumber( date.getMonth() + 1 ) );
+        result = result.replace( "{m}", date.getMonth() + 1 );
+
+        result = result.replace( "{yyyy}", date.getFullYear() );
+        result = result.replace( "{yyy}", date.getFullYear().toString().substring( 1 ) );
+        result = result.replace( "{yy}", date.getFullYear().toString().substring( 2 ) );
+        result = result.replace( "{y}", parseInt( date.getFullYear().toString().substring( 2 ) ).toString() );
+
+        return result;
     }
 
 

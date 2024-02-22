@@ -11,6 +11,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *Object* | data | States the data that should be used for the tree (defaults to null). |
 | *boolean* | showCounts | States ... (defaults to true). |
 | *boolean* | useZeroIndexingForArrays | States ... (defaults to true). |
+| *string* | dateTimeFormat | States ... (defaults to "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z"). |
 
 <br/>
 
