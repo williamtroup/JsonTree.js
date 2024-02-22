@@ -204,7 +204,10 @@
             var arrayTitle = createElementWithHTML( objectTypeValue, "span", "array", _configuration.arrayText ),
                 arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
 
-            createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+            if ( bindingOptions.showCounts ) {
+                createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+            }
+
             renderArrayValues( arrayTypeContents, bindingOptions, value, indentCount );
         }
     }
