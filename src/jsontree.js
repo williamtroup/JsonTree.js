@@ -129,7 +129,7 @@
     function renderObject( container, bindingOptions, data ) {
         var objectTypeTitle = createElement( container, "div", "object-type-title" ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            arrow = createElement( objectTypeTitle, "div", "down-arrow" ),
+            arrow = bindingOptions.showArrowToggles ? createElement( objectTypeTitle, "div", "down-arrow" ) : null,
             propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
         createElementWithHTML( objectTypeTitle, "span", "title", _configuration.objectText );
@@ -142,7 +142,7 @@
     function renderArray( container, bindingOptions, data ) {
         var objectTypeTitle = createElement( container, "div", "object-type-title" ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            arrow = createElement( objectTypeTitle, "div", "down-arrow" );
+            arrow = bindingOptions.showArrowToggles ? createElement( objectTypeTitle, "div", "down-arrow" ) : null;
 
         createElementWithHTML( objectTypeTitle, "span", "title", _configuration.arrayText );
 
@@ -182,7 +182,7 @@
 
     function renderValue( container, bindingOptions, name, value ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
-            arrow = createElement( objectTypeValue, "div", "no-arrow" );
+            arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null;
 
         createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
@@ -204,7 +204,9 @@
                 objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
                 propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-            arrow.className = "down-arrow";
+            if ( isDefined( arrow ) ) {
+                arrow.className = "down-arrow";
+            }
 
             createElementWithHTML( objectTitle, "span", "title", _configuration.objectText );
 
@@ -216,7 +218,9 @@
             var arrayTitle = createElement( objectTypeValue, "span", "array" ),
                 arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
 
-            arrow.className = "down-arrow";
+            if ( isDefined( arrow ) ) {
+                arrow.className = "down-arrow";
+            }
 
             createElementWithHTML( arrayTitle, "span", "title", _configuration.arrayText );
 
@@ -229,13 +233,15 @@
     }
 
     function addArrowEvent( arrow, objectTypeContents ) {
-        arrow.onclick = function() {
-            if ( arrow.className === "down-arrow" ) {
-                objectTypeContents.style.display = "none";
-                arrow.className = "right-arrow";
-            } else {
-                objectTypeContents.style.display = "block";
-                arrow.className = "down-arrow";
+        if ( isDefined( arrow ) ) {
+            arrow.onclick = function() {
+                if ( arrow.className === "down-arrow" ) {
+                    objectTypeContents.style.display = "none";
+                    arrow.className = "right-arrow";
+                } else {
+                    objectTypeContents.style.display = "block";
+                    arrow.className = "down-arrow";
+                }
             }
         }
     }
@@ -253,6 +259,7 @@
         options.showCounts = getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
         options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
+        options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
 
         return buildAttributeOptionCustomTriggers( options );
     }
