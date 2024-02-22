@@ -16,11 +16,36 @@
         </div>
 
         <div class="contents">
+            <div id="json-tree-1" data-jsontree-options="bindingOptions"></div>
         </div>
     </body>
 
     <script>
         document.title += " v" + $jsontree.getVersion();
         document.getElementById( "header" ).innerText += " - v" + $jsontree.getVersion();
+
+        function bindingOptions() {
+            return {
+                data: {
+                    value1: true,
+                    value2: "This is a string",
+                    value3: new Date(),
+                    value4: 5,
+                    value5: [
+                        true,
+                        "This is another string",
+                        {
+                            arrayValue1: true,
+                            arrayValue2: 10
+                        }
+                    ],
+                    value6: {
+                        objectValue1: false,
+                        objectValue2: "This is a new string",
+                        objectValue3: 20
+                    }
+                }
+            }
+        }
     </script>
 </html>

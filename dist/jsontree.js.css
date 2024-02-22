@@ -41,7 +41,7 @@ div.json-tree-js {
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
   padding: var(--json-tree-js-spacing);
   font-size: var(--json-tree-js-spacing-font-size);
-  width: 100%;
+  width: auto;
   overflow: hidden;
   margin: 0 !important;
 }
