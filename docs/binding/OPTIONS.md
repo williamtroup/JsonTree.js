@@ -10,7 +10,6 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | --- | --- | --- |
 | *Object* | data | States the data that should be used for the tree (defaults to null). |
 | *boolean* | showCounts | States ... (defaults to true). |
-| *number* | indentSpacing | States ... (defaults to 10). |
 | *boolean* | useZeroIndexingForArrays | States ... (defaults to true). |
 
 <br/>

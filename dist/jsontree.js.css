@@ -87,6 +87,9 @@ div.json-tree-js div.object-type-contents {
     JsonTree.js - Object Type Contents - Values
     -------------------------------------------------------------------------
 */
+div.json-tree-js div.object-type-contents {
+  margin-left: var(--json-tree-js-spacing);
+}
 div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
   overflow: hidden;

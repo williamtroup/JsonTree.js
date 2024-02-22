@@ -113,9 +113,9 @@
         bindingOptions.currentView.element.innerHTML = _string.empty;
 
         if ( isDefinedObject( bindingOptions.data ) && !isDefinedArray( bindingOptions.data ) ) {
-            renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
+            renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
         } else if ( isDefinedArray( bindingOptions.data ) ) {
-            renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data, 1 );
+            renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
         }
     }
 
@@ -126,36 +126,34 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container, bindingOptions, data, indentCount ) {
+    function renderObject( container, bindingOptions, data ) {
         var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.objectText ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
-            propertyCount = renderObjectValues( objectTypeContents, bindingOptions, data, indentCount );
+            propertyCount = renderObjectValues( objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
             createElementWithHTML( objectTypeTitle, "span", "count", "{" + propertyCount + "}" );
         }
     }
 
-    function renderArray( container, bindingOptions, data, indentCount ) {
+    function renderArray( container, bindingOptions, data ) {
         var objectTypeTitle = createElementWithHTML( container, "div", "object-type-title", _configuration.arrayText ),
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
             propertyCount = 0;
 
-        renderArrayValues( objectTypeContents, bindingOptions, data, indentCount );
+        renderArrayValues( objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts ) {
             createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
         }
     }
 
-    function renderObjectValues( objectTypeContents, bindingOptions, data, indentCount ) {
+    function renderObjectValues( objectTypeContents, bindingOptions, data ) {
         var propertyCount = 0;
-
-        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
 
         for ( var key in data ) {
             if ( data.hasOwnProperty( key ) ) {
-                renderValue( objectTypeContents, bindingOptions, key, data[ key ], indentCount + 1 );
+                renderValue( objectTypeContents, bindingOptions, key, data[ key ] );
                 propertyCount++;
             }
         }
@@ -163,19 +161,17 @@
         return propertyCount;
     }
 
-    function renderArrayValues( objectTypeContents, bindingOptions, data, indentCount ) {
-        objectTypeContents.style.marginLeft = ( indentCount * bindingOptions.indentSpacing ) + "px";
-
+    function renderArrayValues( objectTypeContents, bindingOptions, data ) {
         var dataLength = data.length;
 
         for ( var dataIndex = 0; dataIndex < dataLength; dataIndex++ ) {
             var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
 
-            renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ], indentCount + 1 );
+            renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ] );
         }
     }
 
-    function renderValue( container, bindingOptions, name, value, indentCount ) {
+    function renderValue( container, bindingOptions, name, value ) {
         var objectTypeValue = createElementWithHTML( container, "div", "object-type-value", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
@@ -194,7 +190,7 @@
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
             var objectTitle = createElementWithHTML( objectTypeValue, "span", "object", _configuration.objectText ),
                 objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
-                propertyCount = renderObjectValues( objectTypeContents, bindingOptions, value, indentCount );
+                propertyCount = renderObjectValues( objectTypeContents, bindingOptions, value );
 
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
                 createElementWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
@@ -208,7 +204,7 @@
                 createElementWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
             }
 
-            renderArrayValues( arrayTypeContents, bindingOptions, value, indentCount );
+            renderArrayValues( arrayTypeContents, bindingOptions, value );
         }
     }
 
@@ -223,7 +219,6 @@
         var options = !isDefinedObject( newOptions ) ? {} : newOptions;
         options.data = getDefaultObject( options.data, null );
         options.showCounts = getDefaultBoolean( options.showCounts, true );
-        options.indentSpacing = getDefaultNumber( options.indentSpacing, 10 );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
 
         return buildAttributeOptionCustomTriggers( options );

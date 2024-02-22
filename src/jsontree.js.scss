@@ -112,6 +112,8 @@ div.json-tree-js {
 
 div.json-tree-js {
     div.object-type-contents {
+        margin-left: var(--json-tree-js-spacing);
+        
         div.object-type-value {
             white-space: nowrap;
             overflow: hidden;
