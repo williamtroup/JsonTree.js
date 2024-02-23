@@ -4,7 +4,7 @@
         <id>jJsonTree.js</id>
         <version>0.1.0</version>
         <title>JsonTree.js</title>
-        <description>A lightweight, and easy-to-use, JavaScript library.</description>
+        <description>A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</description>
         <authors>William Troup</authors>
         <projectUrl>https://www.william-troup.com/jsontree-js/</projectUrl>
         <repository type="git" url="https://github.com/williamtroup/JsonTree.js" branch="main" />
