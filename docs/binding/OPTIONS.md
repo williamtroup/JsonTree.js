@@ -16,7 +16,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | showStringQuotes | States if quotes should be shown around string values (defaults to true). |
 | *boolean* | showTitle | States if the title should be shown (defaults to true). |
 | *boolean* | showTitleTreeControls | States if the tree control button should be shown in the title bar (defaults to true). |
-| *boolean* | showAllAsClosed | States if all the notes should be closed when first rendered (defaults to false). |
+| *boolean* | showAllAsClosed | States if all the nodes should be closed when first rendered (defaults to false). |
 | *boolean* | sortPropertyNames | States if the property names for an object should be sorted (defaults to true). |
 | *boolean* | sortPropertyNamesInAlphabeticalOrder | States if the sorted property names for an object should be in alphabetical order (defaults to true). |
 | *boolean* | showCommas | States if commas should be shown at the end of each line (defaults to false). |

@@ -13,6 +13,9 @@
 #### **UI Improvements:**
 - The spacing used for the title bar buttons is now smaller when viewed in a mobile.
 
+#### **Documentation:**
+- Fixed some spelling and grammar mistakes in the documentation.
+
 <br>
 
 
