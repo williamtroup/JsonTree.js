@@ -16,7 +16,12 @@
       "javascript",
       "css",
       "html5",
-      "JsonTree.js"
+      "JsonTree.js",
+      "treeview",
+      "tree",
+      "visualize",
+      "json",
+      "array"
     ],
     "bugs": {
       "url": "https://github.com/williamtroup/JsonTree.js/issues"
