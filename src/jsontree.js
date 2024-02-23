@@ -187,7 +187,10 @@
         createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
-        if ( isDefinedBoolean( value ) ) {
+        if ( !isDefined( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "null", "null" );
+
+        } else if ( isDefinedBoolean( value ) ) {
             createElementWithHTML( objectTypeValue, "span", "boolean", value );
 
         } else if ( isDefinedNumber( value ) ) {

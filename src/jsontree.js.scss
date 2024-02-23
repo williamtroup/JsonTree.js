@@ -193,6 +193,11 @@ div.json-tree-js {
                 color: #C0C0C0;
             }
 
+            span.null {
+                color: #BBBBBB;
+                font-style: italic;
+            }
+
             span.array,
             span.object {
                 span.count {
