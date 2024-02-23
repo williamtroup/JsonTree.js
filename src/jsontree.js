@@ -191,11 +191,26 @@
     }
 
     function renderObjectValues( arrow, objectTypeContents, bindingOptions, data ) {
-        var propertyCount = 0;
+        var propertyCount = 0,
+            properties = [];
 
         for ( var key in data ) {
             if ( data.hasOwnProperty( key ) ) {
-                renderValue( objectTypeContents, bindingOptions, key, data[ key ] );
+                properties.push( key );
+            }
+        }
+
+        if ( bindingOptions.sortPropertyNames ) {
+            properties = properties.sort();
+        }
+
+        var propertiesLength = properties.length;
+
+        for ( var propertyIndex = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
+            var propertyName = properties[ propertyIndex ];
+
+            if ( data.hasOwnProperty( propertyName ) ) {
+                renderValue( objectTypeContents, bindingOptions, propertyName, data[ propertyName ] );
                 propertyCount++;
             }
         }
@@ -322,6 +337,7 @@
         options.showTitle = getDefaultBoolean( options.showTitle, true );
         options.showTitleTreeControls = getDefaultBoolean( options.showTitleTreeControls, true );
         options.showAllAsClosed = getDefaultBoolean( options.showAllAsClosed, false );
+        options.sortPropertyNames = getDefaultBoolean( options.sortPropertyNames, true );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
