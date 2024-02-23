@@ -22,6 +22,7 @@ Finds all new elements and renders them.
 <br>
 ***Returns***: '*Object*' - The JsonTree.js class instance.
 <br>
+<br>
 
 
 ## Configuration:
