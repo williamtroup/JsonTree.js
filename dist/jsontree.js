@@ -419,6 +419,16 @@
   var _elements_Type = {};
   var _string = {empty:"", space:" "};
   var _attribute_Name_Options = "data-jsontree-options";
+  this.render = function(element, options) {
+    if (isDefinedObject(element) && isDefinedObject(options)) {
+      renderControl(renderBindingOptions(options, element));
+    }
+    return this;
+  };
+  this.renderAll = function() {
+    render();
+    return this;
+  };
   this.setConfiguration = function(newConfiguration) {
     var propertyName;
     for (propertyName in newConfiguration) {

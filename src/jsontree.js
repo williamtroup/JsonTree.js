@@ -635,6 +635,48 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Manage Instances
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * render().
+     * 
+     * Renders an element using the options specified.
+     * 
+     * @public
+     * 
+     * @param       {Object}    element                                     The element to render.
+     * @param       {Object}    options                                     The options to use (refer to "Binding Options" documentation for properties).
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.render = function( element, options ) {
+        if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
+            renderControl( renderBindingOptions( options, element ) );
+        }
+
+        return this;
+    };
+
+    /**
+     * renderAll().
+     * 
+     * Finds all new elements and renders them.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.renderAll = function() {
+        render();
+
+        return this;
+    };
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Public Functions:  Configuration
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
