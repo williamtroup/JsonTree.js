@@ -9,15 +9,15 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | Type: | Name: | Description: |
 | --- | --- | --- |
 | *Object* | data | States the data that should be used for the tree (defaults to null). |
-| *boolean* | showCounts | States ... (defaults to true). |
-| *boolean* | useZeroIndexingForArrays | States ... (defaults to true). |
-| *string* | dateTimeFormat | States ... (defaults to "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z", refer to ["Date Formats"](DATE_FORMATS.md) documentation for formatting). |
-| *boolean* | showArrowToggles | States ... (defaults to true). |
-| *boolean* | showStringQuotes | States ... (defaults to true). |
-| *boolean* | showTitle | States ... (defaults to true). |
-| *boolean* | showTitleTreeControls | States ... (defaults to true). |
-| *boolean* | showAllAsClosed | States ... (defaults to false). |
-| *boolean* | sortPropertyNames | States ... (defaults to true). |
+| *boolean* | showCounts | States if the property/length counts should be shown for Objects/Arrays (defaults to true). |
+| *boolean* | useZeroIndexingForArrays | States if the indexes should for arrays should start from zero (defaults to true). |
+| *string* | dateTimeFormat | States the display format that should be used for date values (defaults to "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z", refer to ["Date Formats"](DATE_FORMATS.md) documentation for formatting). |
+| *boolean* | showArrowToggles | States if the toggle arrows should be shown (defaults to true). |
+| *boolean* | showStringQuotes | States if quotes should be shown around string values (defaults to true). |
+| *boolean* | showTitle | States if the title should be shown (defaults to true). |
+| *boolean* | showTitleTreeControls | States if the tree control button should be shown in the title bar (defaults to true). |
+| *boolean* | showAllAsClosed | States if all the notes should be closed when first rendered (defaults to false). |
+| *boolean* | sortPropertyNames | States if the property names for an object should be sorted in alphabetical order (defaults to true). |
 
 <br/>
 
