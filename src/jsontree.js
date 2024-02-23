@@ -234,28 +234,29 @@
 
     function renderValue( container, bindingOptions, name, value ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
-            arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null;
+            arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null,
+            valueElement = null;
 
         createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isDefined( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "null", "null" );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "null", "null" );
 
         } else if ( isDefinedFunction( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
 
         }  else if ( isDefinedBoolean( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "boolean", value );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "boolean", value );
 
         } else if ( isDefinedNumber( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "number", value );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "number", value );
 
         } else if ( isDefinedString( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? "\"" + value + "\"" : value );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? "\"" + value + "\"" : value );
 
         } else if ( isDefinedDate( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+            valueElement = createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
             
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
             var objectTitle = createElement( objectTypeValue, "span", "object" ),
@@ -279,6 +280,21 @@
             }
 
             renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
+        }
+
+        if ( isDefined( valueElement ) ) {
+            addValueClickEvent( bindingOptions, valueElement, value );
+        }
+    }
+
+    function addValueClickEvent( bindingOptions, valueElement, value ) {
+        if ( isDefinedFunction( bindingOptions.onValueClick ) ) {
+            valueElement.onclick = function() {
+                fireCustomTrigger( bindingOptions.onValueClick, value );
+            };
+
+        } else {
+            addClass( valueElement, "no-hover" );
         }
     }
 
@@ -354,6 +370,7 @@
     function buildAttributeOptionCustomTriggers( options ) {
         options.onBeforeRender = getDefaultFunction( options.onBeforeRender, null );
         options.onRenderComplete = getDefaultFunction( options.onRenderComplete, null );
+        options.onValueClick = getDefaultFunction( options.onValueClick, null );
 
         return options;
     }
@@ -394,6 +411,10 @@
         element.innerHTML = html;
 
         return element;
+    }
+
+    function addClass( element, className ) {
+        element.className += _string.space + className;
     }
 
 

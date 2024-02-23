@@ -201,6 +201,24 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.boolean,
+div.json-tree-js div.object-type-contents div.object-type-value span.number,
+div.json-tree-js div.object-type-contents div.object-type-value span.string,
+div.json-tree-js div.object-type-contents div.object-type-value span.date,
+div.json-tree-js div.object-type-contents div.object-type-value span.null,
+div.json-tree-js div.object-type-contents div.object-type-value span.function {
+  transition: var(--json-tree-js-transition);
+  transition-property: opacity;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.boolean:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.number:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.string:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
   color: var(--json-tree-js-color-boolean);
 }

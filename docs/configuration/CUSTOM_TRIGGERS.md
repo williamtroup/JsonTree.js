@@ -7,18 +7,28 @@ Below is a list of all the custom triggers supported in the configuration option
 
 ### Rendering:
 
-### options.onBeforeRender():
-Fires before the DOM elements are rendered (if any are found).
+### options.onBeforeRender( *element* ):
+Fires before the rendering of an element.
+<br>
+***Parameter:*** element: '*object*' - The DOM element that is going to be rendered.
 
-### options.onAfterRender():
-Fires after the DOM elements are rendered (if any are found).
+### options.onRenderComplete( *element* ):
+Fires when the rendering of an element is complete.
+<br>
+***Parameter:*** element: '*object*' - The DOM element that was rendered.
+<br>
 
 
-<br/>
+## For Clicking:
+
+### options.onValueClick( *value* ):
+Fires when a a value is clicked.
+<br>
+***Parameter:*** value: '*Object*' - The value that was clicked.
+<br>
 
 
 ## Example:
-<br/>
 
 ```markdown
 <script> 

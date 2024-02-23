@@ -226,6 +226,21 @@ div.json-tree-js {
                 margin-right: calc( var(--json-tree-js-spacing) / 2 );
             }
 
+            span.boolean,
+            span.number,
+            span.string,
+            span.date,
+            span.null,
+            span.function {
+                transition: var(--json-tree-js-transition);
+                transition-property: opacity;
+
+                &:not(.no-hover):hover {
+                    cursor: pointer;
+                    opacity: 0.7;
+                }
+            }
+
             span.boolean {
                 color: var(--json-tree-js-color-boolean);
             }

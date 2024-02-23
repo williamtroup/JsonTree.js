@@ -71,8 +71,13 @@
                         objectValue2: "This is a new string",
                         objectValue3: 20
                     }
-                }
+                },
+                onValueClick: onValueClickEvent
             }
+        }
+
+        function onValueClickEvent( value ) {
+            console.log( "Value clicked: " + value.toString() );
         }
     </script>
 </html>
