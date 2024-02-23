@@ -132,10 +132,10 @@
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeTitle, "div", "down-arrow" ) : null,
             propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        createElementWithHTML( objectTypeTitle, "span", "title", _configuration.objectText );
+        createElementWithHTML( objectTypeTitle, "span", "object", _configuration.objectText );
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            createElementWithHTML( objectTypeTitle, "span", "count", "{" + propertyCount + "}" );
+            createElementWithHTML( objectTypeTitle, "span", "object count", "{" + propertyCount + "}" );
         }
     }
 
@@ -144,12 +144,12 @@
             objectTypeContents = createElement( container, "div", "object-type-contents" ),
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeTitle, "div", "down-arrow" ) : null;
 
-        createElementWithHTML( objectTypeTitle, "span", "title", _configuration.arrayText );
+        createElementWithHTML( objectTypeTitle, "span", "array", _configuration.arrayText );
 
         renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts ) {
-            createElementWithHTML( objectTypeTitle, "span", "count", "[" + data.length + "]" );
+            createElementWithHTML( objectTypeTitle, "span", "array count", "[" + data.length + "]" );
         }
     }
 

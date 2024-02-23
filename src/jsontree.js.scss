@@ -18,6 +18,16 @@
     --json-tree-js-color-black: #3b3a3a;
     --json-tree-js-color-white: #F5F5F5;
 
+    // Colors - Types
+    --json-tree-js-color-boolean: #FF0000;
+    --json-tree-js-color-number: #666bf9;
+    --json-tree-js-color-string: #78b13f;
+    --json-tree-js-color-date: #a656f5;
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: #C0C0C0;
+    --json-tree-js-color-null: #BBBBBB;
+    --json-tree-js-color-function: #BBBBBB;
+
     // Containers
     --json-tree-js-container-background-color: #22272e;
     --json-tree-js-container-border-color: #454c56;
@@ -127,6 +137,14 @@ div.json-tree-js {
     div.object-type-title {
         font-weight: var(--json-tree-js-header-bold-weight);
 
+        span.array {
+            color: var(--json-tree-js-color-array);
+        }
+
+        span.object {
+            color: var(--json-tree-js-color-object);
+        }
+
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
@@ -168,38 +186,38 @@ div.json-tree-js {
             }
 
             span.boolean {
-                color: #FF0000;
+                color: var(--json-tree-js-color-boolean);
             }
 
             span.number {
-                color: #666bf9;
+                color: var(--json-tree-js-color-number);
             }
 
             span.string {
-                color: #78b13f;
+                color: var(--json-tree-js-color-string)
             }
 
             span.date {
-                color: #a656f5;
+                color: var(--json-tree-js-color-date)
             }
 
             span.array {
                 font-weight: var(--json-tree-js-header-bold-weight);
-                color: #F28C28;
+                color: var(--json-tree-js-color-array);
             }
 
             span.object {
                 font-weight: var(--json-tree-js-header-bold-weight);
-                color: #C0C0C0;
+                color: var(--json-tree-js-color-object);
             }
 
             span.null {
-                color: #BBBBBB;
+                color: var(--json-tree-js-color-null);
                 font-style: italic;
             }
 
             span.function {
-                color: #BBBBBB;
+                color: var(--json-tree-js-color-function);
                 font-style: italic;
             }
 
