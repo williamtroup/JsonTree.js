@@ -35,9 +35,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 ## Binding Example:
 
 ```markdown
-<code data-jsontree-options="{ 'showCopyButton': false }">
-    <pre>
-        var something = true;
-    </pre>
-</code>
+<div data-jsontree-options="{ 'showCounts': false }">
+    Your HTML.
+</div>
 ```

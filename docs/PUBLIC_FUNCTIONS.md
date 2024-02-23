@@ -20,7 +20,7 @@ Sets the specific configuration options that should be used.
 ## Additional Data:
 
 ### **getVersion()**:
-Returns the version of v.js.
+Returns the version of JsonTree.js.
 <br>
 ***Returns***: '*string*' - The version number.
 <br>
