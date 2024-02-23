@@ -16,7 +16,15 @@ Fires before the rendering of the JsonTree.js of an element.
 Fires when the rendering of the JsonTree.js for an element is complete.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that was rendered.
+<br>
 
+
+## For Clicking:
+
+### options.onValueClick( *value* ):
+Fires when a a value is clicked.
+<br>
+***Parameter:*** value: '*Object*' - The value that was clicked.
 <br>
 
 
