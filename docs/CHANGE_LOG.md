@@ -15,6 +15,7 @@
 
 #### **Documentation:**
 - Fixed some spelling and grammar mistakes in the documentation.
+- Minor improvements to the documentation layout.
 
 <br>
 

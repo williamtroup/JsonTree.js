@@ -1,10 +1,11 @@
 # JsonTree.js - Binding Options:
 
 Below are all the JSON properties that can be passed in the "data-jsontree-options" binding attribute for a DOM element.
+<br>
+<br>
 
 
 ## Standard Options:
-<br/>
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
@@ -21,17 +22,16 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | sortPropertyNamesInAlphabeticalOrder | States if the sorted property names for an object should be in alphabetical order (defaults to true). |
 | *boolean* | showCommas | States if commas should be shown at the end of each line (defaults to false). |
 
-<br/>
+<br>
 
 
 ## String Options:
-<br/>
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
 | *string* | titleText | The text that should be displayed for the "JsonTree.js" title bar label. |
 
-<br/>
+<br>
 
 
 ## Binding Example:

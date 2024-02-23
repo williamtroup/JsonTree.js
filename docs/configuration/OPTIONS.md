@@ -1,8 +1,8 @@
 # JsonTree.js - Configuration - Options:
 
 Below are all the configuration options that can be passed to the "setConfiguration()" public function.
-<br/>
-<br/>
+<br>
+<br>
 
 
 ### Options:
@@ -12,7 +12,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *boolean* | safeMode | States if safe-mode is enabled (errors will be ignored and logged only, defaults to true). |
 | *Object* | highlightAllDomElementTypes | The DOM element types to lookup (can be either an array of strings, or a space separated string, and defaults to "*"). |
 
-<br/>
+<br>
 
 
 ### Options - Strings:
@@ -24,11 +24,10 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | closeAllButtonText | The text that should be shown for the "Close All" button text. |
 | *string* | openAllButtonText | The text that should be shown for the "Open All" button text. |
 
-<br/>
+<br>
 
 
 ## Example:
-<br/>
 
 ```markdown
 <script> 
