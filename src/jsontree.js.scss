@@ -158,9 +158,13 @@ div.json-tree-js {
         }
 
         div.controls {
-            margin-left: calc( var(--json-tree-js-spacing) * 12 );
+            margin-left: calc( var(--json-tree-js-spacing) * 6 );
             flex-grow: 1;
             text-align: right;
+
+            @media (min-width: $minimum-width) { 
+                margin-left: calc( var(--json-tree-js-spacing) * 12 );
+            }
 
             @include buttons;
         }
