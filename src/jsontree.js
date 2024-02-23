@@ -194,7 +194,7 @@
             createElementWithHTML( objectTypeValue, "span", "number", value );
 
         } else if ( isDefinedString( value ) ) {
-            createElementWithHTML( objectTypeValue, "span", "string", "\"" + value + "\"" );
+            createElementWithHTML( objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? "\"" + value + "\"" : value );
 
         } else if ( isDefinedDate( value ) ) {
             createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
@@ -260,6 +260,7 @@
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
         options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
+        options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
 
         return buildAttributeOptionCustomTriggers( options );
     }

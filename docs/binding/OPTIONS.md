@@ -13,6 +13,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | useZeroIndexingForArrays | States ... (defaults to true). |
 | *string* | dateTimeFormat | States ... (defaults to "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z"). |
 | *boolean* | showArrowToggles | States ... (defaults to true). |
+| *boolean* | showStringQuotes | States ... (defaults to true). |
 
 <br/>
 
