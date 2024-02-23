@@ -245,6 +245,11 @@ div.json-tree-js {
                 }
             }
 
+            span.comma {
+                color: var(--json-tree-js-color-white);
+                font-weight: var(--json-tree-js-text-bold-weight);
+            }
+
             span.boolean {
                 color: var(--json-tree-js-color-boolean);
             }

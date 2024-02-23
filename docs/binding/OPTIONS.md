@@ -19,6 +19,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | showAllAsClosed | States if all the notes should be closed when first rendered (defaults to false). |
 | *boolean* | sortPropertyNames | States if the property names for an object should be sorted (defaults to true). |
 | *boolean* | sortPropertyNamesInAlphabeticalOrder | States if the sorted property names for an object should be in alphabetical order (defaults to true). |
+| *boolean* | showCommas | States if commas should be shown at the end of each line (defaults to false). |
 
 <br/>
 

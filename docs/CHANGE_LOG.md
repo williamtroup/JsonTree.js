@@ -4,6 +4,7 @@
 
 #### **Binding Options:**
 - Added a new binding option called "sortPropertyNamesInAlphabeticalOrder", which states if the sorted property names for an object should be in alphabetical order (defaults to true).
+- Added a new binding option called "showCommas", which states if commas should be shown at the end of each line (defaults to false).
 
 #### **UI Improvements:**
 - The spacing used for the title bar buttons is now smaller when viewed in a mobile.

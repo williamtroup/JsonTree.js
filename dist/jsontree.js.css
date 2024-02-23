@@ -224,6 +224,10 @@ div.json-tree-js div.object-type-contents div.object-type-value span.function:no
   cursor: pointer;
   opacity: 0.7;
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.comma {
+  color: var(--json-tree-js-color-white);
+  font-weight: var(--json-tree-js-text-bold-weight);
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
   color: var(--json-tree-js-color-boolean);
 }
