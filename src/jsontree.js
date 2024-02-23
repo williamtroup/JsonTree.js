@@ -129,10 +129,30 @@
      */
 
     function renderControlTitleBar( bindingOptions ) {
-        var titleBar = createElement( bindingOptions.currentView.element, "div", "title-bar" );
+        if ( bindingOptions.showTitle || bindingOptions.showTitleTreeControls ) {
+            var titleBar = createElement( bindingOptions.currentView.element, "div", "title-bar" );
         
-        if ( bindingOptions.showTitle ) {
-            createElementWithHTML( titleBar, "div", "title", bindingOptions.titleText );
+            if ( bindingOptions.showTitle ) {
+                createElementWithHTML( titleBar, "div", "title", bindingOptions.titleText );
+            }
+
+            if ( bindingOptions.showTitleTreeControls ) {
+                var controls = createElement( titleBar, "div", "controls" ),
+                    openAll = createElementWithHTML( controls, "button", "openAll", _configuration.openAllButtonText ),
+                    closeAll = createElementWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText );
+
+                openAll.onclick = function() {
+                    bindingOptions.showAllAsClosed = false;
+
+                    renderControlContainer( bindingOptions );
+                };
+
+                closeAll.onclick = function() {
+                    bindingOptions.showAllAsClosed = true;
+
+                    renderControlContainer( bindingOptions );
+                };
+            }
         }
     }
 
@@ -180,7 +200,7 @@
             }
         }
 
-        addArrowEvent( arrow, objectTypeContents );
+        addArrowEvent( bindingOptions, arrow, objectTypeContents );
 
         return propertyCount;
     }
@@ -194,7 +214,7 @@
             renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ] );
         }
 
-        addArrowEvent( arrow, objectTypeContents );
+        addArrowEvent( bindingOptions, arrow, objectTypeContents );
     }
 
     function renderValue( container, bindingOptions, name, value ) {
@@ -227,10 +247,6 @@
                 objectTypeContents = createElement( objectTypeValue, "div", "object-type-contents" ),
                 propertyCount = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-            if ( isDefined( arrow ) ) {
-                arrow.className = "down-arrow";
-            }
-
             createElementWithHTML( objectTitle, "span", "title", _configuration.objectText );
 
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
@@ -240,10 +256,6 @@
         } else if ( isDefinedArray( value ) ) {
             var arrayTitle = createElement( objectTypeValue, "span", "array" ),
                 arrayTypeContents = createElement( objectTypeValue, "div", "object-type-contents" );
-
-            if ( isDefined( arrow ) ) {
-                arrow.className = "down-arrow";
-            }
 
             createElementWithHTML( arrayTitle, "span", "title", _configuration.arrayText );
 
@@ -255,7 +267,7 @@
         }
     }
 
-    function addArrowEvent( arrow, objectTypeContents ) {
+    function addArrowEvent( bindingOptions, arrow, objectTypeContents ) {
         if ( isDefined( arrow ) ) {
             arrow.onclick = function() {
                 if ( arrow.className === "down-arrow" ) {
@@ -266,6 +278,13 @@
                     arrow.className = "down-arrow";
                 }
             };
+
+            if ( bindingOptions.showAllAsClosed ) {
+                objectTypeContents.style.display = "none";
+                arrow.className = "right-arrow";
+            } else {
+                arrow.className = "down-arrow";
+            }
         }
     }
 
@@ -301,7 +320,9 @@
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
         options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
         options.showTitle = getDefaultBoolean( options.showTitle, true );
-        
+        options.showTitleTreeControls = getDefaultBoolean( options.showTitleTreeControls, true );
+        options.showAllAsClosed = getDefaultBoolean( options.showAllAsClosed, false );
+
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
 
@@ -593,6 +614,8 @@
     function buildDefaultConfigurationStrings() {
         _configuration.objectText = getDefaultString( _configuration.objectText, "object" );
         _configuration.arrayText = getDefaultString( _configuration.arrayText, "array" );
+        _configuration.closeAllButtonText = getDefaultString( _configuration.closeAllButtonText, "Close All" );
+        _configuration.openAllButtonText = getDefaultString( _configuration.openAllButtonText, "Open All" );
     }
 
 

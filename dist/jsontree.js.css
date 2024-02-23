@@ -9,8 +9,10 @@
   --json-tree-js-text-bold-weight: 400;
   --json-tree-js-header-bold-weight: 900;
   --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
+  --json-tree-js-text-bold-weight-active: var(--json-tree-js-header-bold-weight);
   --json-tree-js-color-black: #3b3a3a;
   --json-tree-js-color-white: #F5F5F5;
+  --json-tree-js-color-snow-white: #F5F5F5;
   --json-tree-js-color-boolean: #FF0000;
   --json-tree-js-color-number: #666bf9;
   --json-tree-js-color-string: #78b13f;
@@ -21,6 +23,13 @@
   --json-tree-js-color-function: #BBBBBB;
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
+  --json-tree-js-button-background-color: #2d333b;
+  --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
+  --json-tree-js-button-text-color: var(--json-tree-js-color-white);
+  --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
+  --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
+  --json-tree-js-button-background-color-active: #616b79;
+  --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
   --json-tree-js-border-radius: 0.5rem;
   --json-tree-js-border-style-scrollbar: inset 0 0 6px var(--json-tree-js-color-dark-gray);
   --json-tree-js-border-size: 0.5px;
@@ -121,37 +130,30 @@ div.json-tree-js div.title-bar div.title {
   font-size: 1.2rem;
 }
 div.json-tree-js div.title-bar div.controls {
-  margin-left: var(--json-tree-js-spacing);
+  margin-left: calc(var(--json-tree-js-spacing) * 12);
   flex-grow: 1;
   text-align: right;
 }
 div.json-tree-js div.title-bar div.controls button {
-  background-color: var(--tree-js-button-background-color);
-  border: var(--tree-js-border-size) solid var(--tree-js-button-border-color);
-  color: var(--tree-js-button-text-color);
-  border-radius: var(--tree-js-border-radius);
+  background-color: var(--json-tree-js-button-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-text-color);
+  border-radius: var(--json-tree-js-border-radius);
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 9px;
   padding-right: 9px;
   outline: none;
-  transition: var(--tree-js-transition);
+  transition: var(--json-tree-js-transition);
 }
 div.json-tree-js div.title-bar div.controls button:not(.active):active {
-  background: var(--tree-js-button-background-color-active) !important;
-  color: var(--tree-js-button-text-color-active) !important;
+  background: var(--json-tree-js-button-background-color-active) !important;
+  color: var(--json-tree-js-button-text-color-active) !important;
 }
 div.json-tree-js div.title-bar div.controls button:not(.active):hover {
   cursor: pointer;
-  background: var(--tree-js-button-background-color-hover);
-  color: var(--tree-js-button-text-color-hover);
-}
-div.json-tree-js div.title-bar div.controls button.active {
-  cursor: default;
-  background: var(--tree-js-button-background-color-hover);
-  color: var(--tree-js-button-text-color-hover);
-  transition: var(--tree-js-transition);
-  font-weight: var(--tree-js-text-bold-weight-active);
+  background: var(--json-tree-js-button-background-color-hover);
+  color: var(--json-tree-js-button-text-color-hover);
 }
 
 /*

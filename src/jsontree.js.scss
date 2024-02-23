@@ -14,10 +14,12 @@
     --json-tree-js-text-bold-weight: 400;
     --json-tree-js-header-bold-weight: 900;
     --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
+    --json-tree-js-text-bold-weight-active: var(--json-tree-js-header-bold-weight);
 
     // Colors
     --json-tree-js-color-black: #3b3a3a;
     --json-tree-js-color-white: #F5F5F5;
+    --json-tree-js-color-snow-white: #F5F5F5;
 
     // Colors - Types
     --json-tree-js-color-boolean: #FF0000;
@@ -32,6 +34,15 @@
     // Containers
     --json-tree-js-container-background-color: #22272e;
     --json-tree-js-container-border-color: #454c56;
+
+    // Button
+    --json-tree-js-button-background-color: #2d333b;
+    --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-active: #616b79;
+    --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
 
     // Borders
     --json-tree-js-border-radius: 0.5rem;
@@ -147,7 +158,7 @@ div.json-tree-js {
         }
 
         div.controls {
-            margin-left: var(--json-tree-js-spacing);
+            margin-left: calc( var(--json-tree-js-spacing) * 12 );
             flex-grow: 1;
             text-align: right;
 

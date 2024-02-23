@@ -15,6 +15,8 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | showArrowToggles | States ... (defaults to true). |
 | *boolean* | showStringQuotes | States ... (defaults to true). |
 | *boolean* | showTitle | States ... (defaults to true). |
+| *boolean* | showTitleTreeControls | States ... (defaults to true). |
+| *boolean* | showAllAsClosed | States ... (defaults to false). |
 
 <br/>
 

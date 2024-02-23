@@ -22,34 +22,26 @@ $minimum-width: 768px;
 
 @mixin buttons {
     button {
-        background-color: var(--tree-js-button-background-color);
-        border: var(--tree-js-border-size) solid var(--tree-js-button-border-color);
-        color: var(--tree-js-button-text-color);
-        border-radius: var(--tree-js-border-radius);
+        background-color: var(--json-tree-js-button-background-color);
+        border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
+        color: var(--json-tree-js-button-text-color);
+        border-radius: var(--json-tree-js-border-radius);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 9px;
         padding-right: 9px;
         outline: none;
-        transition: var(--tree-js-transition);
+        transition: var(--json-tree-js-transition);
 
         &:not(.active):active {
-            background: var(--tree-js-button-background-color-active) !important;
-            color: var(--tree-js-button-text-color-active) !important;
+            background: var(--json-tree-js-button-background-color-active) !important;
+            color: var(--json-tree-js-button-text-color-active) !important;
         }
 
         &:not(.active):hover {
             cursor: pointer;
-            background: var(--tree-js-button-background-color-hover);
-            color: var(--tree-js-button-text-color-hover);
+            background: var(--json-tree-js-button-background-color-hover);
+            color: var(--json-tree-js-button-text-color-hover);
         }
-    }
-
-    button.active {
-        cursor: default;
-        background: var(--tree-js-button-background-color-hover);
-        color: var(--tree-js-button-text-color-hover);
-        transition: var(--tree-js-transition);
-        font-weight: var(--tree-js-text-bold-weight-active);
     }
 }
