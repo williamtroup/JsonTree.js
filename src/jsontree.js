@@ -190,7 +190,10 @@
         if ( !isDefined( value ) ) {
             createElementWithHTML( objectTypeValue, "span", "null", "null" );
 
-        } else if ( isDefinedBoolean( value ) ) {
+        } else if ( isDefinedFunction( value ) ) {
+            createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
+
+        }  else if ( isDefinedBoolean( value ) ) {
             createElementWithHTML( objectTypeValue, "span", "boolean", value );
 
         } else if ( isDefinedNumber( value ) ) {
@@ -245,8 +248,24 @@
                     objectTypeContents.style.display = "block";
                     arrow.className = "down-arrow";
                 }
-            }
+            };
         }
+    }
+
+    function getFunctionName( value ) {
+        var result,
+            valueParts = value.toString().split( "(" ),
+            valueNameParts = valueParts[ 0 ].split( _string.space );
+
+        if ( valueNameParts.length === 2 ) {
+            result = valueNameParts[ 1 ];
+        } else {
+            result = valueNameParts[ 0 ];
+        }
+
+        result += "()";
+
+        return result;
     }
 
 
