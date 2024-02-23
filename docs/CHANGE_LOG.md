@@ -2,6 +2,9 @@
 
 ## Version 0.2.0:
 
+#### **Binding Options:**
+- Added a new binding option called "sortPropertyNamesInAlphabeticalOrder", which states if the sorted property names for an object should be in alphabetical order (defaults to true).
+
 #### **UI Improvements:**
 - The spacing used for the title bar buttons is now smaller when viewed in a mobile.
 

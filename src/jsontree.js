@@ -202,6 +202,10 @@
 
         if ( bindingOptions.sortPropertyNames ) {
             properties = properties.sort();
+
+            if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
+                properties = properties.reverse();
+            }
         }
 
         var propertiesLength = properties.length;
@@ -354,6 +358,7 @@
         options.showTitleTreeControls = getDefaultBoolean( options.showTitleTreeControls, true );
         options.showAllAsClosed = getDefaultBoolean( options.showAllAsClosed, false );
         options.sortPropertyNames = getDefaultBoolean( options.sortPropertyNames, true );
+        options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
