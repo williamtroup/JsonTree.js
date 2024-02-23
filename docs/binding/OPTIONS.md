@@ -14,6 +14,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *string* | dateTimeFormat | States ... (defaults to "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z"). |
 | *boolean* | showArrowToggles | States ... (defaults to true). |
 | *boolean* | showStringQuotes | States ... (defaults to true). |
+| *boolean* | showTitle | States ... (defaults to true). |
 
 <br/>
 
@@ -23,7 +24,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 
 | Type: | Name: | Description: |
 | --- | --- | --- |
-| *string* | copyButtonText | The text that should be displayed for the "Copy" button. |
+| *string* | titleText | The text that should be displayed for the "JsonTree.js" title bar label. |
 
 <br/>
 

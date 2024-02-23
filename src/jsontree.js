@@ -112,6 +112,8 @@
     function renderControlContainer( bindingOptions ) {
         bindingOptions.currentView.element.innerHTML = _string.empty;
 
+        renderControlTitleBar( bindingOptions );
+
         if ( isDefinedObject( bindingOptions.data ) && !isDefinedArray( bindingOptions.data ) ) {
             renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
         } else if ( isDefinedArray( bindingOptions.data ) ) {
@@ -122,7 +124,22 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Tree
+     * Render:  Title Bar
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlTitleBar( bindingOptions ) {
+        var titleBar = createElement( bindingOptions.currentView.element, "div", "title-bar" );
+        
+        if ( bindingOptions.showTitle ) {
+            createElementWithHTML( titleBar, "div", "title", bindingOptions.titleText );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Tree
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -283,8 +300,18 @@
         options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
         options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
+        options.showTitle = getDefaultBoolean( options.showTitle, true );
+        
+        options = buildAttributeOptionStrings( options );
+        options = buildAttributeOptionCustomTriggers( options );
 
-        return buildAttributeOptionCustomTriggers( options );
+        return options;
+    }
+
+    function buildAttributeOptionStrings( options ) {
+        options.titleText = getDefaultString( options.titleText, "JsonTree.js" );
+
+        return options;
     }
 
     function buildAttributeOptionCustomTriggers( options ) {
