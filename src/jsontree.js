@@ -455,10 +455,6 @@
         return isDefinedArray( value ) ? value : defaultValue;
     }
 
-    function getDefaultNumber( value, defaultValue ) {
-        return isDefinedNumber( value ) ? value : defaultValue;
-    }
-
     function getDefaultObject( value, defaultValue ) {
         return isDefinedObject( value ) ? value : defaultValue;
     }
