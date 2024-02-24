@@ -240,12 +240,12 @@
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( var dataIndex1 = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1 ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
             }
 
         } else {
             for ( var dataIndex2 = dataLength; dataIndex2--; ) {
-                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2 ), data[ dataIndex2 ], dataIndex2 === 0 );
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0 );
             }
         }
 
@@ -402,8 +402,14 @@
         }
     }
 
-    function getIndexName( bindingOptions, index ) {
-        return bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
+    function getIndexName( bindingOptions, index, largestValue ) {
+        var result = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
+
+        if ( !bindingOptions.addArrayIndexPadding ) {
+            result = padNumber( result, largestValue.toString().length );
+        }
+
+        return result;
     }
 
 
@@ -430,6 +436,7 @@
         options.ignoreNullValues = getDefaultBoolean( options.ignoreNullValues, false );
         options.ignoreFunctionValues = getDefaultBoolean( options.ignoreFunctionValues, false );
         options.reverseArrayValues = getDefaultBoolean( options.reverseArrayValues, false );
+        options.addArrayIndexPadding = getDefaultBoolean( options.addArrayIndexPadding, false );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
@@ -648,10 +655,19 @@
         return result.join( _string.empty );
     }
 
-    function padNumber( number ) {
-        var numberString = number.toString();
+    function padNumber( number, length ) {
+        length = isDefined( length ) ? length : 1;
 
-        return numberString.length === 1 ? "0" + numberString : numberString;
+        var numberString = number.toString(),
+            numberResult = numberString;
+
+        if ( numberString.length < length ) {
+            var arrayLength = ( length - numberString.length ) + 1;
+
+            numberResult = Array( arrayLength ).join( "0" ) + numberString;
+        }
+
+        return numberResult;
     }
 
 
@@ -664,19 +680,19 @@
     function getCustomFormattedDateTimeText( date, dateFormat ) {
         var result = dateFormat;
 
-        result = result.replace( "{hh}", padNumber( date.getHours() ) );
+        result = result.replace( "{hh}", padNumber( date.getHours(), 2 ) );
         result = result.replace( "{h}", date.getHours() );
 
-        result = result.replace( "{MM}", padNumber( date.getMinutes() ) );
+        result = result.replace( "{MM}", padNumber( date.getMinutes(), 2 ) );
         result = result.replace( "{M}", date.getMinutes() );
 
-        result = result.replace( "{ss}", padNumber( date.getSeconds() ) );
+        result = result.replace( "{ss}", padNumber( date.getSeconds(), 2 ) );
         result = result.replace( "{s}", date.getSeconds() );
 
-        result = result.replace( "{dd}", padNumber( date.getDate() ) );
+        result = result.replace( "{dd}", padNumber( date.getDate() ), 2 );
         result = result.replace( "{d}", date.getDate() );
 
-        result = result.replace( "{mm}", padNumber( date.getMonth() + 1 ) );
+        result = result.replace( "{mm}", padNumber( date.getMonth() + 1, 2 ) );
         result = result.replace( "{m}", date.getMonth() + 1 );
 
         result = result.replace( "{yyyy}", date.getFullYear() );

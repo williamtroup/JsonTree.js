@@ -24,6 +24,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | ignoreNullValues | States if NULL values should be ignored and not rendered (defaults to false). |
 | *boolean* | ignoreFunctionValues | States if FUNCTION values should be ignored and not rendered (defaults to false). |
 | *boolean* | reverseArrayValues | States if the values from an array should be shown in reverse order (defaults to false). |
+| *boolean* | addArrayIndexPadding | States if the indexes shown for an array should be padded (defaults to false). |
 
 <br>
 

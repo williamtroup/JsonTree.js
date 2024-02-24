@@ -6,6 +6,7 @@
 - Added a new binding option called "ignoreNullValues", which states if NULL values should be ignored and not rendered (defaults to false).
 - Added a new binding option called "ignoreFunctionValues", which states if FUNCTION values should be ignored and not rendered (defaults to false).
 - Added a new binding option called "reverseArrayValues", which states if the values from an array should be shown in reverse order (defaults to false).
+- Added a new binding option called "addArrayIndexPadding", which states if the indexes shown for an array should be padded (defaults to false).
 - Updated the default value for the binding option "dateTimeFormat" to "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}".
 
 #### **Binding Options - Custom Triggers:**
