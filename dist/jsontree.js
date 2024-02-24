@@ -141,10 +141,16 @@
   }
   function renderArrayValues(arrow, objectTypeContents, bindingOptions, data) {
     var dataLength = data.length;
-    var dataIndex = 0;
-    for (; dataIndex < dataLength; dataIndex++) {
-      var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : (dataIndex + 1).toString();
-      renderValue(objectTypeContents, bindingOptions, name, data[dataIndex], dataIndex === dataLength - 1);
+    if (!bindingOptions.reverseArrayValues) {
+      var dataIndex1 = 0;
+      for (; dataIndex1 < dataLength; dataIndex1++) {
+        renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex1), data[dataIndex1], dataIndex1 === dataLength - 1);
+      }
+    } else {
+      var dataIndex2 = dataLength;
+      for (; dataIndex2--;) {
+        renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex2), data[dataIndex2], dataIndex2 === 0);
+      }
     }
     addArrowEvent(bindingOptions, arrow, objectTypeContents);
   }
@@ -259,6 +265,9 @@
       createElementWithHTML(objectTypeValue, "span", "comma", ",");
     }
   }
+  function getIndexName(bindingOptions, index) {
+    return bindingOptions.useZeroIndexingForArrays ? index.toString() : (index + 1).toString();
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.data = getDefaultObject(options.data, null);
@@ -275,6 +284,7 @@
     options.showCommas = getDefaultBoolean(options.showCommas, false);
     options.ignoreNullValues = getDefaultBoolean(options.ignoreNullValues, false);
     options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
+    options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;

@@ -238,10 +238,15 @@
     function renderArrayValues( arrow, objectTypeContents, bindingOptions, data ) {
         var dataLength = data.length;
 
-        for ( var dataIndex = 0; dataIndex < dataLength; dataIndex++ ) {
-            var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
+        if ( !bindingOptions.reverseArrayValues ) {
+            for ( var dataIndex1 = 0; dataIndex1 < dataLength; dataIndex1++ ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1 ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
+            }
 
-            renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ], dataIndex === dataLength - 1 );
+        } else {
+            for ( var dataIndex2 = dataLength; dataIndex2--; ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2 ), data[ dataIndex2 ], dataIndex2 === 0 );
+            }
         }
 
         addArrowEvent( bindingOptions, arrow, objectTypeContents );
@@ -397,6 +402,10 @@
         }
     }
 
+    function getIndexName( bindingOptions, index ) {
+        return bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -420,6 +429,7 @@
         options.showCommas = getDefaultBoolean( options.showCommas, false );
         options.ignoreNullValues = getDefaultBoolean( options.ignoreNullValues, false );
         options.ignoreFunctionValues = getDefaultBoolean( options.ignoreFunctionValues, false );
+        options.reverseArrayValues = getDefaultBoolean( options.reverseArrayValues, false );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
