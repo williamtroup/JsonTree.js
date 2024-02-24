@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.1.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v0.2.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function render() {
     var tagTypes = _configuration.domElementTypes;
@@ -116,13 +116,16 @@
     }
     if (bindingOptions.sortPropertyNames) {
       properties = properties.sort();
+      if (!bindingOptions.sortPropertyNamesInAlphabeticalOrder) {
+        properties = properties.reverse();
+      }
     }
     var propertiesLength = properties.length;
     var propertyIndex = 0;
     for (; propertyIndex < propertiesLength; propertyIndex++) {
       var propertyName = properties[propertyIndex];
       if (data.hasOwnProperty(propertyName)) {
-        renderValue(objectTypeContents, bindingOptions, propertyName, data[propertyName]);
+        renderValue(objectTypeContents, bindingOptions, propertyName, data[propertyName], propertyIndex === propertiesLength - 1);
         propertyCount++;
       }
     }
@@ -134,11 +137,11 @@
     var dataIndex = 0;
     for (; dataIndex < dataLength; dataIndex++) {
       var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : (dataIndex + 1).toString();
-      renderValue(objectTypeContents, bindingOptions, name, data[dataIndex]);
+      renderValue(objectTypeContents, bindingOptions, name, data[dataIndex], dataIndex === dataLength - 1);
     }
     addArrowEvent(bindingOptions, arrow, objectTypeContents);
   }
-  function renderValue(container, bindingOptions, name, value) {
+  function renderValue(container, bindingOptions, name, value, isLastItem) {
     var objectTypeValue = createElement(container, "div", "object-type-value");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null;
     var valueElement = null;
@@ -146,16 +149,22 @@
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "null", "null");
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedFunction(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "function", getFunctionName(value));
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedBoolean(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "boolean", value);
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "number", value);
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? '"' + value + '"' : value);
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "date", getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
       var objectTitle = createElement(objectTypeValue, "span", "object");
       var objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
@@ -164,6 +173,7 @@
       if (bindingOptions.showCounts && propertyCount > 0) {
         createElementWithHTML(objectTitle, "span", "count", "{" + propertyCount + "}");
       }
+      createComma(bindingOptions, objectTitle, isLastItem);
     } else if (isDefinedArray(value)) {
       var arrayTitle = createElement(objectTypeValue, "span", "array");
       var arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
@@ -171,6 +181,7 @@
       if (bindingOptions.showCounts) {
         createElementWithHTML(arrayTitle, "span", "count", "[" + value.length + "]");
       }
+      createComma(bindingOptions, arrayTitle, isLastItem);
       renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
     }
     if (isDefined(valueElement)) {
@@ -217,6 +228,11 @@
     result = result + "()";
     return result;
   }
+  function createComma(bindingOptions, objectTypeValue, isLastItem) {
+    if (bindingOptions.showCommas && !isLastItem) {
+      createElementWithHTML(objectTypeValue, "span", "comma", ",");
+    }
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.data = getDefaultObject(options.data, null);
@@ -229,6 +245,8 @@
     options.showTitleTreeControls = getDefaultBoolean(options.showTitleTreeControls, true);
     options.showAllAsClosed = getDefaultBoolean(options.showAllAsClosed, false);
     options.sortPropertyNames = getDefaultBoolean(options.sortPropertyNames, true);
+    options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean(options.sortPropertyNamesInAlphabeticalOrder, true);
+    options.showCommas = getDefaultBoolean(options.showCommas, false);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -401,6 +419,16 @@
   var _elements_Type = {};
   var _string = {empty:"", space:" "};
   var _attribute_Name_Options = "data-jsontree-options";
+  this.render = function(element, options) {
+    if (isDefinedObject(element) && isDefinedObject(options)) {
+      renderControl(renderBindingOptions(options, element));
+    }
+    return this;
+  };
+  this.renderAll = function() {
+    render();
+    return this;
+  };
   this.setConfiguration = function(newConfiguration) {
     var propertyName;
     for (propertyName in newConfiguration) {
@@ -412,7 +440,7 @@
     return this;
   };
   this.getVersion = function() {
-    return "0.1.0";
+    return "0.2.0";
   };
   (function(documentObject, windowObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;

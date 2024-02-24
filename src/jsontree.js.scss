@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v0.1.0
+ * JsonTree.js Library v0.2.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -158,9 +158,13 @@ div.json-tree-js {
         }
 
         div.controls {
-            margin-left: calc( var(--json-tree-js-spacing) * 12 );
+            margin-left: calc( var(--json-tree-js-spacing) * 6 );
             flex-grow: 1;
             text-align: right;
+
+            @media (min-width: $minimum-width) { 
+                margin-left: calc( var(--json-tree-js-spacing) * 12 );
+            }
 
             @include buttons;
         }
@@ -239,6 +243,11 @@ div.json-tree-js {
                     cursor: pointer;
                     opacity: 0.7;
                 }
+            }
+
+            span.comma {
+                color: var(--json-tree-js-color-white);
+                font-weight: var(--json-tree-js-text-bold-weight);
             }
 
             span.boolean {
