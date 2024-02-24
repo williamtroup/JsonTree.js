@@ -21,7 +21,7 @@
 - Added "decimal" property type support! This will use a new CSS class called "decimal".
 
 #### **General Improvements:**
-- All data is now tracked internally, allow for future improvements.
+- All data is now tracked internally, allowing for future improvements.
 
 #### **Documentation:**
 - Fixed the badge links in the README files pointing to the wrong project.
