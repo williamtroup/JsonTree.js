@@ -272,6 +272,7 @@
     options.onBeforeRender = getDefaultFunction(options.onBeforeRender, null);
     options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
     options.onValueClick = getDefaultFunction(options.onValueClick, null);
+    options.onRefresh = getDefaultFunction(options.onRefresh, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -436,6 +437,25 @@
   var _elements_Data = {};
   var _string = {empty:"", space:" "};
   var _attribute_Name_Options = "data-jsontree-options";
+  this.refresh = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      var bindingOptions = _elements_Data[elementId].options;
+      renderControlContainer(bindingOptions);
+      fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+    }
+    return this;
+  };
+  this.refreshAll = function() {
+    var elementId;
+    for (elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        var bindingOptions = _elements_Data[elementId].options;
+        renderControlContainer(bindingOptions);
+        fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+      }
+    }
+    return this;
+  };
   this.render = function(element, options) {
     if (isDefinedObject(element) && isDefinedObject(options)) {
       renderControl(renderBindingOptions(options, element));

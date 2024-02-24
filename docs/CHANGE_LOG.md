@@ -2,6 +2,10 @@
 
 ## Version 0.3.0:
 
+#### **Public Functions:**
+- Added a new public function "refresh()", which refreshes the UI for a specific element.
+- Added a new public function "refreshAll()", which will refresh all the rendered elements.
+
 #### **UI Improvements:**
 - Added "unknown" property type support! This will use a new CSS class called "unknown".
 - Added "decimal" property type support! This will use a new CSS class called "decimal".

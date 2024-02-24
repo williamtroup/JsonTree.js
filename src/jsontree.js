@@ -419,6 +419,7 @@
         options.onBeforeRender = getDefaultFunction( options.onBeforeRender, null );
         options.onRenderComplete = getDefaultFunction( options.onRenderComplete, null );
         options.onValueClick = getDefaultFunction( options.onValueClick, null );
+        options.onRefresh = getDefaultFunction( options.onRefresh, null );
 
         return options;
     }
@@ -664,6 +665,52 @@
      * Public Functions:  Manage Instances
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
+
+    /**
+     * refresh().
+     * 
+     * Refreshes a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onRefresh
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be refreshed.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.refresh = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            var bindingOptions = _elements_Data[ elementId ].options;
+
+            renderControlContainer( bindingOptions );
+            fireCustomTrigger( bindingOptions.onRefresh, bindingOptions.currentView.element );
+        }
+
+        return this;
+    };
+
+    /**
+     * refreshAll().
+     * 
+     * Refreshes all of the rendered JsonTree.js instances.
+     * 
+     * @public
+     * @fires       onRefresh
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.refreshAll = function() {
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                var bindingOptions = _elements_Data[ elementId ].options;
+
+                renderControlContainer( bindingOptions );
+                fireCustomTrigger( bindingOptions.onRefresh, bindingOptions.currentView.element );
+            }
+        }
+
+        return this;
+    };
 
     /**
      * render().

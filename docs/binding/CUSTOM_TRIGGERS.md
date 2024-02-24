@@ -7,6 +7,12 @@ Below is a list of all the custom triggers supported in the "data-jsontree-optio
 
 ## For Rendering:
 
+### options.onRefresh( *element* ):
+Fires when a rendered element is refreshed.
+<br>
+***Parameter:*** element: '*Object*' - The element that was refreshed.
+<br>
+
 ### options.onBeforeRenderComplete( *element* ):
 Fires before the rendering of the JsonTree.js of an element.
 <br>
