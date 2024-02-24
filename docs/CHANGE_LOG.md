@@ -7,6 +7,9 @@
 - Added a new binding option called "ignoreFunctionValues", which states if FUNCTION values should be ignored and not rendered (defaults to false).
 - Added a new binding option called "reverseArrayValues", which states if the values from an array should be shown in reverse order (defaults to false).
 
+#### **Binding Options - Custom Triggers:**
+- Added a new binding option custom trigger called "onRefresh", which states an event that should be triggered when a rendered element is refreshed.
+
 #### **Public Functions:**
 - Added a new public function "refresh()", which refreshes the UI for a specific element.
 - Added a new public function "refreshAll()", which will refresh all the rendered elements.
