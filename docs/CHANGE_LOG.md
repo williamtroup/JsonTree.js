@@ -11,7 +11,7 @@
 - Added new public function "renderAll()", which will find all new DOM elements with the "data-jsontree-options" attribute and render them.
 
 #### **UI Improvements:**
-- The spacing used for the title bar buttons is now smaller when viewed in a mobile.
+- The spacing used for the title bar buttons is now smaller when viewed on a mobile.
 
 #### **Documentation:**
 - Fixed some spelling and grammar mistakes in the documentation.
