@@ -418,7 +418,7 @@
         options.data = getDefaultObject( options.data, null );
         options.showCounts = getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
+        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}" );
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
         options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
         options.showTitle = getDefaultBoolean( options.showTitle, true );
