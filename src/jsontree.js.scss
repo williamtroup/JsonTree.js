@@ -23,6 +23,7 @@
 
     // Colors - Types
     --json-tree-js-color-boolean: #FF0000;
+    --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
     --json-tree-js-color-string: #78b13f;
     --json-tree-js-color-date: #a656f5;
@@ -232,6 +233,7 @@ div.json-tree-js {
             }
 
             span.boolean,
+            span.decimal,
             span.number,
             span.string,
             span.date,
@@ -253,6 +255,10 @@ div.json-tree-js {
 
             span.boolean {
                 color: var(--json-tree-js-color-boolean);
+            }
+
+            span.decimal {
+                color: var(--json-tree-js-color-decimal);
             }
 
             span.number {

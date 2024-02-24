@@ -2,8 +2,9 @@
 
 ## Version 0.3.0:
 
-#### **General Improvements:**
+#### **UI Improvements:**
 - Added "unknown" property type support! This will use a new CSS class called "unknown".
+- Added "decimal" property type support! This will use a new CSS class called "decimal".
 
 <br>
 

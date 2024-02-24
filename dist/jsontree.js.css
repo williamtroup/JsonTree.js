@@ -14,6 +14,7 @@
   --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
   --json-tree-js-color-boolean: #FF0000;
+  --json-tree-js-color-decimal: #e3c868;
   --json-tree-js-color-number: #666bf9;
   --json-tree-js-color-string: #78b13f;
   --json-tree-js-color-date: #a656f5;
@@ -208,6 +209,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean,
+div.json-tree-js div.object-type-contents div.object-type-value span.decimal,
 div.json-tree-js div.object-type-contents div.object-type-value span.number,
 div.json-tree-js div.object-type-contents div.object-type-value span.string,
 div.json-tree-js div.object-type-contents div.object-type-value span.date,
@@ -217,6 +219,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.function {
   transition-property: opacity;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.decimal:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.number:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.string:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
@@ -231,6 +234,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.comma {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
   color: var(--json-tree-js-color-boolean);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.decimal {
+  color: var(--json-tree-js-color-decimal);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.number {
   color: var(--json-tree-js-color-number);

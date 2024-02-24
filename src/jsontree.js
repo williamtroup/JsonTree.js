@@ -254,8 +254,13 @@
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
-        }  else if ( isDefinedBoolean( value ) ) {
+        } else if ( isDefinedBoolean( value ) ) {
             valueElement = createElementWithHTML( objectTypeValue, "span", "boolean", value );
+            
+            createComma( bindingOptions, objectTypeValue, isLastItem );
+
+        } else if ( isDefinedDecimal( value ) ) {
+            valueElement = createElementWithHTML( objectTypeValue, "span", "decimal", value );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -486,6 +491,10 @@
 
     function isDefinedDate( object ) {
         return isDefinedObject( object ) && object instanceof Date;
+    }
+
+    function isDefinedDecimal( object ) {
+        return isDefined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 
 
