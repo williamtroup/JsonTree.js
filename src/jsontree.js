@@ -271,6 +271,7 @@
 
         } else if ( isDefinedDate( value ) ) {
             valueElement = createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+            
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
