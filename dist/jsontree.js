@@ -152,14 +152,23 @@
     var objectTypeValue = createElement(container, "div", "object-type-value");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null;
     var valueElement = null;
+    var ignored = false;
     createElementWithHTML(objectTypeValue, "span", "title", name);
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "null", "null");
-      createComma(bindingOptions, objectTypeValue, isLastItem);
+      if (!bindingOptions.ignoreNullValues) {
+        valueElement = createElementWithHTML(objectTypeValue, "span", "null", "null");
+        createComma(bindingOptions, objectTypeValue, isLastItem);
+      } else {
+        ignored = true;
+      }
     } else if (isDefinedFunction(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "function", getFunctionName(value));
-      createComma(bindingOptions, objectTypeValue, isLastItem);
+      if (!bindingOptions.ignoreFunctionValues) {
+        valueElement = createElementWithHTML(objectTypeValue, "span", "function", getFunctionName(value));
+        createComma(bindingOptions, objectTypeValue, isLastItem);
+      } else {
+        ignored = true;
+      }
     } else if (isDefinedBoolean(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", "boolean", value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
@@ -197,8 +206,12 @@
       valueElement = createElementWithHTML(objectTypeValue, "span", "unknown", value.toString());
       createComma(bindingOptions, objectTypeValue, isLastItem);
     }
-    if (isDefined(valueElement)) {
-      addValueClickEvent(bindingOptions, valueElement, value);
+    if (ignored) {
+      container.removeChild(objectTypeValue);
+    } else {
+      if (isDefined(valueElement)) {
+        addValueClickEvent(bindingOptions, valueElement, value);
+      }
     }
   }
   function addValueClickEvent(bindingOptions, valueElement, value) {
@@ -260,6 +273,8 @@
     options.sortPropertyNames = getDefaultBoolean(options.sortPropertyNames, true);
     options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean(options.sortPropertyNamesInAlphabeticalOrder, true);
     options.showCommas = getDefaultBoolean(options.showCommas, false);
+    options.ignoreNullValues = getDefaultBoolean(options.ignoreNullValues, false);
+    options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;

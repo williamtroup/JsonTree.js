@@ -250,20 +250,31 @@
     function renderValue( container, bindingOptions, name, value, isLastItem ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null,
-            valueElement = null;
+            valueElement = null,
+            ignored = false;
 
         createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isDefined( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", "null", "null" );
+            if ( !bindingOptions.ignoreNullValues ) {
+                valueElement = createElementWithHTML( objectTypeValue, "span", "null", "null" );
 
-            createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
 
         } else if ( isDefinedFunction( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
+            if ( !bindingOptions.ignoreFunctionValues ) {
+                valueElement = createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
             
-            createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
 
         } else if ( isDefinedBoolean( value ) ) {
             valueElement = createElementWithHTML( objectTypeValue, "span", "boolean", value );
@@ -322,8 +333,13 @@
             createComma( bindingOptions, objectTypeValue, isLastItem );
         }
 
-        if ( isDefined( valueElement ) ) {
-            addValueClickEvent( bindingOptions, valueElement, value );
+        if ( ignored ) {
+            container.removeChild( objectTypeValue );
+            
+        } else {
+            if ( isDefined( valueElement ) ) {
+                addValueClickEvent( bindingOptions, valueElement, value );
+            }
         }
     }
 
@@ -402,6 +418,8 @@
         options.sortPropertyNames = getDefaultBoolean( options.sortPropertyNames, true );
         options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
         options.showCommas = getDefaultBoolean( options.showCommas, false );
+        options.ignoreNullValues = getDefaultBoolean( options.ignoreNullValues, false );
+        options.ignoreFunctionValues = getDefaultBoolean( options.ignoreFunctionValues, false );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
