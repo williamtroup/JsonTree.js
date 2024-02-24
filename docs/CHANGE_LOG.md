@@ -17,6 +17,9 @@
 #### **General Improvements:**
 - All data is now tracked internally, allow for future improvements.
 
+#### **Documentation:**
+- Fixed the badge links in the README files pointing to the wrong project.
+
 <br>
 
 
