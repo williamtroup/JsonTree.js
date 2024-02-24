@@ -1,5 +1,34 @@
 # JsonTree.js - Change Log:
 
+## Version 0.3.0:
+
+#### **Binding Options:**
+- Added a new binding option called "ignoreNullValues", which states if NULL values should be ignored and not rendered (defaults to false).
+- Added a new binding option called "ignoreFunctionValues", which states if FUNCTION values should be ignored and not rendered (defaults to false).
+- Added a new binding option called "reverseArrayValues", which states if the values from an array should be shown in reverse order (defaults to false).
+- Added a new binding option called "addArrayIndexPadding", which states if the indexes shown for an array should be padded (defaults to false).
+- Updated the default value for the binding option "dateTimeFormat" to "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}".
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding option custom trigger called "onRefresh", which states an event that should be triggered when a rendered element is refreshed.
+
+#### **Public Functions:**
+- Added a new public function "refresh()", which refreshes the UI for a specific element.
+- Added a new public function "refreshAll()", which will refresh all the rendered elements.
+
+#### **UI Improvements:**
+- Added "unknown" property type support! This will use a new CSS class called "unknown".
+- Added "decimal" property type support! This will use a new CSS class called "decimal".
+
+#### **General Improvements:**
+- All data is now tracked internally, allowing for future improvements.
+
+#### **Documentation:**
+- Fixed the badge links in the README files pointing to the wrong project.
+
+<br>
+
+
 ## Version 0.2.0:
 
 #### **Binding Options:**

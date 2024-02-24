@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.js
- * @version     v0.2.0
+ * @version     v0.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -23,6 +23,7 @@
 
         // Variables: Elements
         _elements_Type = {},
+        _elements_Data = {},
 
         // Variables: Strings
         _string = {
@@ -105,19 +106,29 @@
         bindingOptions.currentView.element.className = "json-tree-js";
         bindingOptions.currentView.element.removeAttribute( _attribute_Name_Options );
 
+        if ( !_elements_Data.hasOwnProperty( bindingOptions.currentView.element.id ) ) {
+            _elements_Data[ bindingOptions.currentView.element.id ] = {};
+            _elements_Data[ bindingOptions.currentView.element.id ].options = bindingOptions;
+            _elements_Data[ bindingOptions.currentView.element.id ].data = bindingOptions.data;
+
+            delete bindingOptions.data;
+        }
+
         renderControlContainer( bindingOptions );
         fireCustomTrigger( bindingOptions.onRenderComplete, bindingOptions.currentView.element );
     }
 
     function renderControlContainer( bindingOptions ) {
+        var data = _elements_Data[ bindingOptions.currentView.element.id ].data;
+
         bindingOptions.currentView.element.innerHTML = _string.empty;
 
         renderControlTitleBar( bindingOptions );
 
-        if ( isDefinedObject( bindingOptions.data ) && !isDefinedArray( bindingOptions.data ) ) {
-            renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
-        } else if ( isDefinedArray( bindingOptions.data ) ) {
-            renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
+        if ( isDefinedObject( data ) && !isDefinedArray( data ) ) {
+            renderObject( bindingOptions.currentView.element, bindingOptions, data );
+        } else if ( isDefinedArray( data ) ) {
+            renderArray( bindingOptions.currentView.element, bindingOptions, data );
         }
     }
 
@@ -227,10 +238,15 @@
     function renderArrayValues( arrow, objectTypeContents, bindingOptions, data ) {
         var dataLength = data.length;
 
-        for ( var dataIndex = 0; dataIndex < dataLength; dataIndex++ ) {
-            var name = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
+        if ( !bindingOptions.reverseArrayValues ) {
+            for ( var dataIndex1 = 0; dataIndex1 < dataLength; dataIndex1++ ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
+            }
 
-            renderValue( objectTypeContents, bindingOptions, name, data[ dataIndex ], dataIndex === dataLength - 1 );
+        } else {
+            for ( var dataIndex2 = dataLength; dataIndex2--; ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0 );
+            }
         }
 
         addArrowEvent( bindingOptions, arrow, objectTypeContents );
@@ -239,23 +255,39 @@
     function renderValue( container, bindingOptions, name, value, isLastItem ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null,
-            valueElement = null;
+            valueElement = null,
+            ignored = false;
 
         createElementWithHTML( objectTypeValue, "span", "title", name );
         createElementWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isDefined( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", "null", "null" );
+            if ( !bindingOptions.ignoreNullValues ) {
+                valueElement = createElementWithHTML( objectTypeValue, "span", "null", "null" );
 
-            createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
 
         } else if ( isDefinedFunction( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
+            if ( !bindingOptions.ignoreFunctionValues ) {
+                valueElement = createElementWithHTML( objectTypeValue, "span", "function", getFunctionName( value ) );
+            
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( isDefinedBoolean( value ) ) {
+            valueElement = createElementWithHTML( objectTypeValue, "span", "boolean", value );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
-        }  else if ( isDefinedBoolean( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", "boolean", value );
+        } else if ( isDefinedDecimal( value ) ) {
+            valueElement = createElementWithHTML( objectTypeValue, "span", "decimal", value );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -271,6 +303,7 @@
 
         } else if ( isDefinedDate( value ) ) {
             valueElement = createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
@@ -298,10 +331,20 @@
 
             createComma( bindingOptions, arrayTitle, isLastItem );
             renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
+
+        } else {
+            valueElement = createElementWithHTML( objectTypeValue, "span", "unknown", value.toString() );
+
+            createComma( bindingOptions, objectTypeValue, isLastItem );
         }
 
-        if ( isDefined( valueElement ) ) {
-            addValueClickEvent( bindingOptions, valueElement, value );
+        if ( ignored ) {
+            container.removeChild( objectTypeValue );
+            
+        } else {
+            if ( isDefined( valueElement ) ) {
+                addValueClickEvent( bindingOptions, valueElement, value );
+            }
         }
     }
 
@@ -359,6 +402,16 @@
         }
     }
 
+    function getIndexName( bindingOptions, index, largestValue ) {
+        var result = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
+
+        if ( !bindingOptions.addArrayIndexPadding ) {
+            result = padNumber( result, largestValue.toString().length );
+        }
+
+        return result;
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -371,7 +424,7 @@
         options.data = getDefaultObject( options.data, null );
         options.showCounts = getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{yyyy}-{mm}-{dd}T{hh}:{MM}:{ss}Z" );
+        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}" );
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
         options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
         options.showTitle = getDefaultBoolean( options.showTitle, true );
@@ -380,6 +433,10 @@
         options.sortPropertyNames = getDefaultBoolean( options.sortPropertyNames, true );
         options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
         options.showCommas = getDefaultBoolean( options.showCommas, false );
+        options.ignoreNullValues = getDefaultBoolean( options.ignoreNullValues, false );
+        options.ignoreFunctionValues = getDefaultBoolean( options.ignoreFunctionValues, false );
+        options.reverseArrayValues = getDefaultBoolean( options.reverseArrayValues, false );
+        options.addArrayIndexPadding = getDefaultBoolean( options.addArrayIndexPadding, false );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
@@ -397,6 +454,7 @@
         options.onBeforeRender = getDefaultFunction( options.onBeforeRender, null );
         options.onRenderComplete = getDefaultFunction( options.onRenderComplete, null );
         options.onValueClick = getDefaultFunction( options.onValueClick, null );
+        options.onRefresh = getDefaultFunction( options.onRefresh, null );
 
         return options;
     }
@@ -480,6 +538,10 @@
 
     function isDefinedDate( object ) {
         return isDefinedObject( object ) && object instanceof Date;
+    }
+
+    function isDefinedDecimal( object ) {
+        return isDefined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 
 
@@ -593,10 +655,19 @@
         return result.join( _string.empty );
     }
 
-    function padNumber( number ) {
-        var numberString = number.toString();
+    function padNumber( number, length ) {
+        length = isDefined( length ) ? length : 1;
 
-        return numberString.length === 1 ? "0" + numberString : numberString;
+        var numberString = number.toString(),
+            numberResult = numberString;
+
+        if ( numberString.length < length ) {
+            var arrayLength = ( length - numberString.length ) + 1;
+
+            numberResult = Array( arrayLength ).join( "0" ) + numberString;
+        }
+
+        return numberResult;
     }
 
 
@@ -609,19 +680,19 @@
     function getCustomFormattedDateTimeText( date, dateFormat ) {
         var result = dateFormat;
 
-        result = result.replace( "{hh}", padNumber( date.getHours() ) );
+        result = result.replace( "{hh}", padNumber( date.getHours(), 2 ) );
         result = result.replace( "{h}", date.getHours() );
 
-        result = result.replace( "{MM}", padNumber( date.getMinutes() ) );
+        result = result.replace( "{MM}", padNumber( date.getMinutes(), 2 ) );
         result = result.replace( "{M}", date.getMinutes() );
 
-        result = result.replace( "{ss}", padNumber( date.getSeconds() ) );
+        result = result.replace( "{ss}", padNumber( date.getSeconds(), 2 ) );
         result = result.replace( "{s}", date.getSeconds() );
 
-        result = result.replace( "{dd}", padNumber( date.getDate() ) );
+        result = result.replace( "{dd}", padNumber( date.getDate() ), 2 );
         result = result.replace( "{d}", date.getDate() );
 
-        result = result.replace( "{mm}", padNumber( date.getMonth() + 1 ) );
+        result = result.replace( "{mm}", padNumber( date.getMonth() + 1, 2 ) );
         result = result.replace( "{m}", date.getMonth() + 1 );
 
         result = result.replace( "{yyyy}", date.getFullYear() );
@@ -638,6 +709,52 @@
      * Public Functions:  Manage Instances
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
+
+    /**
+     * refresh().
+     * 
+     * Refreshes a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onRefresh
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be refreshed.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.refresh = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            var bindingOptions = _elements_Data[ elementId ].options;
+
+            renderControlContainer( bindingOptions );
+            fireCustomTrigger( bindingOptions.onRefresh, bindingOptions.currentView.element );
+        }
+
+        return this;
+    };
+
+    /**
+     * refreshAll().
+     * 
+     * Refreshes all of the rendered JsonTree.js instances.
+     * 
+     * @public
+     * @fires       onRefresh
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.refreshAll = function() {
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                var bindingOptions = _elements_Data[ elementId ].options;
+
+                renderControlContainer( bindingOptions );
+                fireCustomTrigger( bindingOptions.onRefresh, bindingOptions.currentView.element );
+            }
+        }
+
+        return this;
+    };
 
     /**
      * render().
@@ -736,7 +853,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.2.0";
+        return "0.3.0";
     };
 
 

@@ -7,6 +7,24 @@ Below is a list of all the public functions that can be called from the JsonTree
 
 ## Manage Instances:
 
+### **refresh( *elementId* )**:
+Refreshes a JsonTree.js instance.
+<br>
+***Fires***:  onRefresh
+<br>
+***Parameter: elementId***: '*string*' - The JsonTree.js element ID that should be refreshed.
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
+
+### **refreshAll()**:
+Refreshes all of the rendered JsonTree.js instances.
+<br>
+***Fires***:  onRefresh
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
+
 ### **render( *element*, *options* )**:
 Renders an element using the options specified.
 <br>

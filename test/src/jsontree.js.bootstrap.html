@@ -27,7 +27,11 @@
             <h2>Manage Instances:</h2>
             <button class="btn btn-primary" onclick="$jsontree.render( document.getElementById( 'json-tree-2' ), bindingOptions() );">Render</button>
             <button class="btn btn-primary" onclick="$jsontree.renderAll();">Render All</button>
-            <br />
+            <br>
+            <button class="btn btn-primary" onclick="$jsontree.refresh( 'json-tree-1' );">Refresh</button>
+            <br>
+            <button class="btn btn-primary" onclick="$jsontree.refreshAll();">Refresh All</button>
+            <br>
 
             <h2>Configuration:</h2>
             <button class="btn btn-primary" onclick="setupConfiguration();">Set Configuration</button>
@@ -59,6 +63,7 @@
                     value8: function() {
                         // Does nothing
                     },
+                    value9: 3.1415926535,
                     value5: [
                         true,
                         "This is another string",

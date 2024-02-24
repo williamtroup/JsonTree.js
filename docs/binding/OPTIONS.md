@@ -21,6 +21,10 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | sortPropertyNames | States if the property names for an object should be sorted (defaults to true). |
 | *boolean* | sortPropertyNamesInAlphabeticalOrder | States if the sorted property names for an object should be in alphabetical order (defaults to true). |
 | *boolean* | showCommas | States if commas should be shown at the end of each line (defaults to false). |
+| *boolean* | ignoreNullValues | States if NULL values should be ignored and not rendered (defaults to false). |
+| *boolean* | ignoreFunctionValues | States if FUNCTION values should be ignored and not rendered (defaults to false). |
+| *boolean* | reverseArrayValues | States if the values from an array should be shown in reverse order (defaults to false). |
+| *boolean* | addArrayIndexPadding | States if the indexes shown for an array should be padded (defaults to false). |
 
 <br>
 
