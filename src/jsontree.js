@@ -23,6 +23,7 @@
 
         // Variables: Elements
         _elements_Type = {},
+        _elements_Data = {},
 
         // Variables: Strings
         _string = {
@@ -105,19 +106,29 @@
         bindingOptions.currentView.element.className = "json-tree-js";
         bindingOptions.currentView.element.removeAttribute( _attribute_Name_Options );
 
+        if ( !_elements_Data.hasOwnProperty( bindingOptions.currentView.element.id ) ) {
+            _elements_Data[ bindingOptions.currentView.element.id ] = {};
+            _elements_Data[ bindingOptions.currentView.element.id ].options = bindingOptions;
+            _elements_Data[ bindingOptions.currentView.element.id ].data = bindingOptions.data;
+
+            delete bindingOptions.data;
+        }
+
         renderControlContainer( bindingOptions );
         fireCustomTrigger( bindingOptions.onRenderComplete, bindingOptions.currentView.element );
     }
 
     function renderControlContainer( bindingOptions ) {
+        var data = _elements_Data[ bindingOptions.currentView.element.id ].data;
+
         bindingOptions.currentView.element.innerHTML = _string.empty;
 
         renderControlTitleBar( bindingOptions );
 
-        if ( isDefinedObject( bindingOptions.data ) && !isDefinedArray( bindingOptions.data ) ) {
-            renderObject( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
-        } else if ( isDefinedArray( bindingOptions.data ) ) {
-            renderArray( bindingOptions.currentView.element, bindingOptions, bindingOptions.data );
+        if ( isDefinedObject( data ) && !isDefinedArray( data ) ) {
+            renderObject( bindingOptions.currentView.element, bindingOptions, data );
+        } else if ( isDefinedArray( data ) ) {
+            renderArray( bindingOptions.currentView.element, bindingOptions, data );
         }
     }
 

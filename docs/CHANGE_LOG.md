@@ -6,6 +6,9 @@
 - Added "unknown" property type support! This will use a new CSS class called "unknown".
 - Added "decimal" property type support! This will use a new CSS class called "decimal".
 
+#### **General Improvements:**
+- All data is now tracked internally, allow for future improvements.
+
 <br>
 
 
