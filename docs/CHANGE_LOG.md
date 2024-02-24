@@ -1,7 +1,9 @@
 # JsonTree.js - Change Log:
 
 ## Version 0.3.0:
-- 
+
+#### **General Improvements:**
+- Added "unknown" property type support! This will use a new CSS class called "unknown".
 
 <br>
 

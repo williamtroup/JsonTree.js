@@ -183,6 +183,9 @@
       }
       createComma(bindingOptions, arrayTitle, isLastItem);
       renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
+    } else {
+      valueElement = createElementWithHTML(objectTypeValue, "span", "unknown", value.toString());
+      createComma(bindingOptions, objectTypeValue, isLastItem);
     }
     if (isDefined(valueElement)) {
       addValueClickEvent(bindingOptions, valueElement, value);

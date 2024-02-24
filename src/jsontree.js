@@ -271,7 +271,7 @@
 
         } else if ( isDefinedDate( value ) ) {
             valueElement = createElementWithHTML( objectTypeValue, "span", "date", getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
-            
+
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedObject( value ) && !isDefinedArray( value ) ) {
@@ -299,6 +299,11 @@
 
             createComma( bindingOptions, arrayTitle, isLastItem );
             renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
+
+        } else {
+            valueElement = createElementWithHTML( objectTypeValue, "span", "unknown", value.toString() );
+
+            createComma( bindingOptions, objectTypeValue, isLastItem );
         }
 
         if ( isDefined( valueElement ) ) {

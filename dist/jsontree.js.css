@@ -20,7 +20,8 @@
   --json-tree-js-color-array: #F28C28;
   --json-tree-js-color-object: #C0C0C0;
   --json-tree-js-color-null: #BBBBBB;
-  --json-tree-js-color-function: #BBBBBB;
+  --json-tree-js-color-function: var(--json-tree-js-color-null);
+  --json-tree-js-color-unknown: var(--json-tree-js-color-null);
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
   --json-tree-js-button-background-color: #2d333b;
@@ -254,6 +255,10 @@ div.json-tree-js div.object-type-contents div.object-type-value span.null {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.function {
   color: var(--json-tree-js-color-function);
+  font-style: italic;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
+  color: var(--json-tree-js-color-unknown);
   font-style: italic;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.array span.count,
