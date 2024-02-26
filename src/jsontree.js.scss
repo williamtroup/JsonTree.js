@@ -169,6 +169,14 @@ div.json-tree-js {
             }
 
             @include buttons;
+
+            button.copy-all {
+                display: none;
+        
+                @media (min-width: $minimum-width) { 
+                    display: inline-block;
+                }
+            }
         }
     }
 }

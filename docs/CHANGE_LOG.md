@@ -2,6 +2,15 @@
 
 ## Version 0.4.0:
 
+#### **Binding Options:**
+- Added a new binding option called "showTitleCopyButton", which states if the copy all button should be shown in the title bar (defaults to false).
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding option custom trigger called "onCopy", which states an event that should be triggered when the JSON is copied to the clipboard.
+
+#### **Configuration Options:**
+- Added a new binding option called "copyAllButtonText", which states the text that should be shown for the "Copy All" button text.
+
 #### **Fixes:**
 - Fixed the font being overridden for the display.
 

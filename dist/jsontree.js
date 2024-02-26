@@ -72,13 +72,21 @@
     }
   }
   function renderControlTitleBar(bindingOptions) {
-    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls) {
+    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls || bindingOptions.showTitleCopyButton) {
       var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar");
+      var controls = createElement(titleBar, "div", "controls");
       if (bindingOptions.showTitle) {
-        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText);
+        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText, controls);
+      }
+      if (bindingOptions.showTitleCopyButton) {
+        var copy = createElementWithHTML(controls, "button", "copy-all", _configuration.copyAllButtonText);
+        copy.onclick = function() {
+          var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
+          _parameter_Navigator.clipboard.writeText(copyData);
+          fireCustomTrigger(bindingOptions.onCopy, copyData);
+        };
       }
       if (bindingOptions.showTitleTreeControls) {
-        var controls = createElement(titleBar, "div", "controls");
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText);
         var closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
@@ -290,6 +298,7 @@
     options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
     options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
+    options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -303,6 +312,7 @@
     options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
     options.onValueClick = getDefaultFunction(options.onValueClick, null);
     options.onRefresh = getDefaultFunction(options.onRefresh, null);
+    options.onCopy = getDefaultFunction(options.onCopy, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -463,9 +473,11 @@
     _configuration.arrayText = getDefaultString(_configuration.arrayText, "array");
     _configuration.closeAllButtonText = getDefaultString(_configuration.closeAllButtonText, "Close All");
     _configuration.openAllButtonText = getDefaultString(_configuration.openAllButtonText, "Open All");
+    _configuration.copyAllButtonText = getDefaultString(_configuration.copyAllButtonText, "Copy All");
   }
   var _parameter_Document = null;
   var _parameter_Window = null;
+  var _parameter_Navigator = null;
   var _parameter_Math = null;
   var _parameter_JSON = null;
   var _configuration = {};
@@ -515,9 +527,10 @@
   this.getVersion = function() {
     return "0.4.0";
   };
-  (function(documentObject, windowObject, mathObject, jsonObject) {
+  (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
     _parameter_Window = windowObject;
+    _parameter_Navigator = navigatorObject;
     _parameter_Math = mathObject;
     _parameter_JSON = jsonObject;
     buildDefaultConfiguration();
@@ -527,5 +540,5 @@
     if (!isDefined(_parameter_Window.$jsontree)) {
       _parameter_Window.$jsontree = this;
     }
-  })(document, window, Math, JSON);
+  })(document, window, navigator, Math, JSON);
 })();

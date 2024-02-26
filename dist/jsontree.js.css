@@ -162,6 +162,14 @@ div.json-tree-js div.title-bar div.controls button:not(.active):hover {
   background: var(--json-tree-js-button-background-color-hover);
   color: var(--json-tree-js-button-text-color-hover);
 }
+div.json-tree-js div.title-bar div.controls button.copy-all {
+  display: none;
+}
+@media (min-width: 768px) {
+  div.json-tree-js div.title-bar div.controls button.copy-all {
+    display: inline-block;
+  }
+}
 
 /*
     -------------------------------------------------------------------------

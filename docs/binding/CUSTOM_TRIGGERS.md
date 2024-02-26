@@ -23,6 +23,17 @@ Fires when the rendering of the JsonTree.js for an element is complete.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that was rendered.
 <br>
+<br>
+
+
+## For Data:
+
+### options.onCopy( *element* ):
+Fires when the JSON is copied to the clipboard.
+<br>
+***Parameter:*** data: '*string*' - The JSON that was copied to the clipboard
+<br>
+<br>
 
 
 ## For Clicking:
@@ -31,6 +42,7 @@ Fires when the rendering of the JsonTree.js for an element is complete.
 Fires when a a value is clicked.
 <br>
 ***Parameter:*** value: '*Object*' - The value that was clicked.
+<br>
 <br>
 
 
