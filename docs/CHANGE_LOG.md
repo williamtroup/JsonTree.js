@@ -1,7 +1,10 @@
 # JsonTree.js - Change Log:
 
 ## Version 0.5.0:
-- 
+
+#### **Public Functions:**
+- Added a new public function "openAll()", which will open all the nodes for a specific DOM element.
+- Added a new public function "closeAll()", which will close all the nodes for a specific DOM element.
 
 <br>
 

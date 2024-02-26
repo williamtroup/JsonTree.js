@@ -90,17 +90,23 @@
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText);
         var closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
-          bindingOptions.showAllAsClosed = false;
-          renderControlContainer(bindingOptions);
-          fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+          openAllNodes(bindingOptions);
         };
         closeAll.onclick = function() {
-          bindingOptions.showAllAsClosed = true;
-          renderControlContainer(bindingOptions);
-          fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
+          closeAllNodes(bindingOptions);
         };
       }
     }
+  }
+  function openAllNodes(bindingOptions) {
+    bindingOptions.showAllAsClosed = false;
+    renderControlContainer(bindingOptions);
+    fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+  }
+  function closeAllNodes(bindingOptions) {
+    bindingOptions.showAllAsClosed = true;
+    renderControlContainer(bindingOptions);
+    fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
   }
   function renderObject(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title");
@@ -517,6 +523,18 @@
   };
   this.renderAll = function() {
     render();
+    return this;
+  };
+  this.openAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      openAllNodes(_elements_Data[elementId].options);
+    }
+    return this;
+  };
+  this.closeAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      closeAllNodes(_elements_Data[elementId].options);
+    }
     return this;
   };
   this.setConfiguration = function(newConfiguration) {

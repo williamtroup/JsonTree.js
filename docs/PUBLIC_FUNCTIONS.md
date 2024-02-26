@@ -40,6 +40,26 @@ Finds all new elements and renders them.
 <br>
 ***Returns***: '*Object*' - The JsonTree.js class instance.
 <br>
+
+### **openAll( *elementId* )**:
+Opens all the nodes in a JsonTree.js instance.
+<br>
+***Fires***:  onOpenAll
+<br>
+***Parameter: elementId***: '*string*' - The JsonTree.js element ID that should be updated.
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
+
+### **closeAll( *elementId* )**:
+Closes all the nodes in a JsonTree.js instance.
+<br>
+***Fires***:  onCloseAll
+<br>
+***Parameter: elementId***: '*string*' - The JsonTree.js element ID that should be updated.
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
 <br>
 
 

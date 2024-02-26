@@ -166,20 +166,28 @@
                     closeAll = createElementWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText );
 
                 openAll.onclick = function() {
-                    bindingOptions.showAllAsClosed = false;
-
-                    renderControlContainer( bindingOptions );
-                    fireCustomTrigger( bindingOptions.onOpenAll, bindingOptions.currentView.element );
+                    openAllNodes( bindingOptions );
                 };
 
                 closeAll.onclick = function() {
-                    bindingOptions.showAllAsClosed = true;
-
-                    renderControlContainer( bindingOptions );
-                    fireCustomTrigger( bindingOptions.onCloseAll, bindingOptions.currentView.element );
+                    closeAllNodes( bindingOptions );
                 };
             }
         }
+    }
+
+    function openAllNodes( bindingOptions ) {
+        bindingOptions.showAllAsClosed = false;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTrigger( bindingOptions.onOpenAll, bindingOptions.currentView.element );
+    }
+
+    function closeAllNodes( bindingOptions ) {
+        bindingOptions.showAllAsClosed = true;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTrigger( bindingOptions.onCloseAll, bindingOptions.currentView.element );
     }
 
 
@@ -807,6 +815,46 @@
      */
     this.renderAll = function() {
         render();
+
+        return this;
+    };
+
+    /**
+     * openAll().
+     * 
+     * Opens all the nodes in a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onOpenAll
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.openAll = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            openAllNodes( _elements_Data[ elementId ].options );
+        }
+
+        return this;
+    };
+
+    /**
+     * closeAll().
+     * 
+     * Closes all the nodes in a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onCloseAll
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.closeAll = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            closeAllNodes( _elements_Data[ elementId ].options );
+        }
 
         return this;
     };
