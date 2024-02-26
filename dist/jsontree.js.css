@@ -275,8 +275,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
   color: var(--json-tree-js-color-unknown);
   font-style: italic;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.array span.count,
-div.json-tree-js div.object-type-contents div.object-type-value span.object span.count {
+div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
 }

@@ -105,19 +105,19 @@
     var objectTypeContents = createElement(container, "div", "object-type-contents");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
     var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
-    createElementWithHTML(objectTypeTitle, "span", "object", _configuration.objectText);
+    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : _string.empty, _configuration.objectText);
     if (bindingOptions.showCounts && propertyCount > 0) {
-      createElementWithHTML(objectTypeTitle, "span", "object count", "{" + propertyCount + "}");
+      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}");
     }
   }
   function renderArray(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title");
     var objectTypeContents = createElement(container, "div", "object-type-contents");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
-    createElementWithHTML(objectTypeTitle, "span", "array", _configuration.arrayText);
+    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : _string.empty, _configuration.arrayText);
     renderArrayValues(arrow, objectTypeContents, bindingOptions, data);
     if (bindingOptions.showCounts) {
-      createElementWithHTML(objectTypeTitle, "span", "array count", "[" + data.length + "]");
+      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]");
     }
   }
   function renderObjectValues(arrow, objectTypeContents, bindingOptions, data) {
@@ -171,35 +171,35 @@
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
       if (!bindingOptions.ignoreNullValues) {
-        valueElement = createElementWithHTML(objectTypeValue, "span", "null", "null");
+        valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "null" : _string.empty, "null");
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
       }
     } else if (isDefinedFunction(value)) {
       if (!bindingOptions.ignoreFunctionValues) {
-        valueElement = createElementWithHTML(objectTypeValue, "span", "function", getFunctionName(value));
+        valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "function" : _string.empty, getFunctionName(value));
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
       }
     } else if (isDefinedBoolean(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "boolean", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "decimal", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "number", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? '"' + value + '"' : value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "string" : _string.empty, bindingOptions.showStringQuotes ? '"' + value + '"' : value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "date", getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "date" : _string.empty, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
-      var objectTitle = createElement(objectTypeValue, "span", "object");
+      var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty);
       var objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
       var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, value);
       createElementWithHTML(objectTitle, "span", "title", _configuration.objectText);
@@ -208,7 +208,7 @@
       }
       createComma(bindingOptions, objectTitle, isLastItem);
     } else if (isDefinedArray(value)) {
-      var arrayTitle = createElement(objectTypeValue, "span", "array");
+      var arrayTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "array" : _string.empty);
       var arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
       createElementWithHTML(arrayTitle, "span", "title", _configuration.arrayText);
       if (bindingOptions.showCounts) {
@@ -217,7 +217,7 @@
       createComma(bindingOptions, arrayTitle, isLastItem);
       renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
     } else {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "unknown", value.toString());
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString());
       createComma(bindingOptions, objectTypeValue, isLastItem);
     }
     if (ignored) {
@@ -299,6 +299,7 @@
     options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
     options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
+    options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;

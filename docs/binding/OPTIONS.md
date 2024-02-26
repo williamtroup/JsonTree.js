@@ -26,6 +26,7 @@ Below are all the JSON properties that can be passed in the "data-jsontree-optio
 | *boolean* | reverseArrayValues | States if the values from an array should be shown in reverse order (defaults to false). |
 | *boolean* | addArrayIndexPadding | States if the indexes shown for an array should be padded (defaults to false). |
 | *boolean* | showTitleCopyButton | States if the copy all button should be shown in the title bar (defaults to false). |
+| *boolean* | showValueColors | States if the colors for the values should be shown (defaults to true). |
 
 <br>
 

@@ -4,6 +4,7 @@
 
 #### **Binding Options:**
 - Added a new binding option called "showTitleCopyButton", which states if the copy all button should be shown in the title bar (defaults to false).
+- Added a new binding option called "showValueColors", which states if the colors for the values should be shown (defaults to true).
 
 #### **Binding Options - Custom Triggers:**
 - Added a new binding option custom trigger called "onCopy", which states an event that should be triggered when the JSON is copied to the clipboard.

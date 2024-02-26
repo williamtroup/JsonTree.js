@@ -306,12 +306,9 @@ div.json-tree-js {
                 font-style: italic;
             }
 
-            span.array,
-            span.object {
-                span.count {
-                    margin-left: calc( var(--json-tree-js-spacing) / 2 );
-                    font-weight: var(--json-tree-js-text-bold-weight);
-                }
+            span.count {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                font-weight: var(--json-tree-js-text-bold-weight);
             }
         }
     }
