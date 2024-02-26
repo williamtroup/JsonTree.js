@@ -1,7 +1,9 @@
 # JsonTree.js - Change Log:
 
 ## Version 0.4.0:
-- 
+
+#### **Fixes:**
+- Fixed the font being overridden for the display.
 
 <br>
 

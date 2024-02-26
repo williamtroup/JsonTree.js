@@ -69,7 +69,7 @@
 div.json-tree-js {
     @include no-selection-allowed;
     @include box-sizing;
-    font-family: var(--json-tree-js-default-font);
+    font-family: var(--json-tree-js-default-font) !important;
     display: inline-block;
     position: relative;
     border-radius: var(--json-tree-js-border-radius);
