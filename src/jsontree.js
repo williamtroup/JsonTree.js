@@ -972,6 +972,27 @@
      */
 
     /**
+     * getIds().
+     * 
+     * Returns an array of element IDs that have been rendered.
+     * 
+     * @public
+     * 
+     * @returns     {string[]}                                              The element IDs that have been rendered.
+     */
+    this.getIds = function() {
+        var result = [];
+        
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                result.push( elementId );
+            }
+        }
+
+        return result;
+    };
+
+    /**
      * getVersion().
      * 
      * Returns the version of JsonTree.js.

@@ -99,6 +99,12 @@ Sets the specific configuration options that should be used.
 
 ## Additional Data:
 
+### **getIds()**:
+Returns an array of element IDs that have been rendered.
+<br>
+***Returns***: '*string[]*' - The element IDs that have been rendered.
+<br>
+
 ### **getVersion()**:
 Returns the version of JsonTree.js.
 <br>

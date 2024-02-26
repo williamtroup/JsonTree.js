@@ -10,6 +10,7 @@
 - Added a new public function "closeAll()", which will close all the nodes for a specific DOM element.
 - Added a new public function "destroy()", which will revert a rendered DOM element to its original state.
 - Added a new public function "destroyAll()", which will revert all rendered DOM elements to their original state.
+- Added a new public function "getIds()", which will return all the IDs for the elements that have been rendered.
 
 <br>
 

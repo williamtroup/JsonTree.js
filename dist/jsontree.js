@@ -570,6 +570,16 @@
     buildDefaultConfiguration(_configuration);
     return this;
   };
+  this.getIds = function() {
+    var result = [];
+    var elementId;
+    for (elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        result.push(elementId);
+      }
+    }
+    return result;
+  };
   this.getVersion = function() {
     return "0.5.0";
   };
