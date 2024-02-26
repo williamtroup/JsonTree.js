@@ -83,7 +83,7 @@
         copy.onclick = function() {
           var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
           _parameter_Navigator.clipboard.writeText(copyData);
-          fireCustomTrigger(bindingOptions.onCopy, copyData);
+          fireCustomTrigger(bindingOptions.onCopyAll, copyData);
         };
       }
       if (bindingOptions.showTitleTreeControls) {
@@ -92,10 +92,12 @@
         openAll.onclick = function() {
           bindingOptions.showAllAsClosed = false;
           renderControlContainer(bindingOptions);
+          fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
         };
         closeAll.onclick = function() {
           bindingOptions.showAllAsClosed = true;
           renderControlContainer(bindingOptions);
+          fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
         };
       }
     }
@@ -313,7 +315,9 @@
     options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
     options.onValueClick = getDefaultFunction(options.onValueClick, null);
     options.onRefresh = getDefaultFunction(options.onRefresh, null);
-    options.onCopy = getDefaultFunction(options.onCopy, null);
+    options.onCopyAll = getDefaultFunction(options.onCopyAll, null);
+    options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
+    options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {

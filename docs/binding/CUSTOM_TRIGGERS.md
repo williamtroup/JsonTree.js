@@ -28,10 +28,22 @@ Fires when the rendering of the JsonTree.js for an element is complete.
 
 ## For Data:
 
-### options.onCopy( *element* ):
-Fires when the JSON is copied to the clipboard.
+### options.onCopyAll( *data* ):
+Fires when all the JSON is copied to the clipboard.
 <br>
-***Parameter:*** data: '*string*' - The JSON that was copied to the clipboard
+***Parameter:*** data: '*string*' - The JSON that was copied to the clipboard.
+<br>
+
+### options.onOpenAll( *element* ):
+Fires when all the JSON nodes are opened.
+<br>
+***Parameter:*** element: '*Object*' - The DOM element.
+<br>
+
+### options.onCloseAll( *element* ):
+Fires when all the JSON nodes are closed.
+<br>
+***Parameter:*** element: '*Object*' - The DOM element.
 <br>
 <br>
 
