@@ -1,5 +1,25 @@
 # JsonTree.js - Change Log:
 
+## Version 0.4.0:
+
+#### **Binding Options:**
+- Added a new binding option called "showTitleCopyButton", which states if the copy all button should be shown in the title bar (defaults to false).
+- Added a new binding option called "showValueColors", which states if the colors for the values should be shown (defaults to true).
+
+#### **Binding Options - Custom Triggers:**
+- Added a new binding option custom trigger called "onCopyAll", which states an event that should be triggered when the JSON is copied to the clipboard.
+- Added a new binding option custom trigger called "onOpenAll", which states an event that should be triggered when all the JSON nodes are opened.
+- Added a new binding option custom trigger called "onCloseAll", which states an event that should be triggered when all the JSON nodes are closed.
+
+#### **Configuration Options:**
+- Added a new binding option called "copyAllButtonText", which states the text that should be shown for the "Copy All" button text.
+
+#### **Fixes:**
+- Fixed the font being overridden for the display.
+
+<br>
+
+
 ## Version 0.3.0:
 
 #### **Binding Options:**

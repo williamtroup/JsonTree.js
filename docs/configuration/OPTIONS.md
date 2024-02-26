@@ -23,6 +23,7 @@ Below are all the configuration options that can be passed to the "setConfigurat
 | *string* | arrayText | The text that should be shown for the "array" label. |
 | *string* | closeAllButtonText | The text that should be shown for the "Close All" button text. |
 | *string* | openAllButtonText | The text that should be shown for the "Open All" button text. |
+| *string* | copyAllButtonText | The text that should be shown for the "Copy All" button text. |
 
 <br>
 

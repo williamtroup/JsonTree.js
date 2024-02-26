@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.3.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v0.4.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function render() {
     var tagTypes = _configuration.domElementTypes;
@@ -72,22 +72,32 @@
     }
   }
   function renderControlTitleBar(bindingOptions) {
-    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls) {
+    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls || bindingOptions.showTitleCopyButton) {
       var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar");
+      var controls = createElement(titleBar, "div", "controls");
       if (bindingOptions.showTitle) {
-        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText);
+        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText, controls);
+      }
+      if (bindingOptions.showTitleCopyButton) {
+        var copy = createElementWithHTML(controls, "button", "copy-all", _configuration.copyAllButtonText);
+        copy.onclick = function() {
+          var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
+          _parameter_Navigator.clipboard.writeText(copyData);
+          fireCustomTrigger(bindingOptions.onCopyAll, copyData);
+        };
       }
       if (bindingOptions.showTitleTreeControls) {
-        var controls = createElement(titleBar, "div", "controls");
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText);
         var closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
           bindingOptions.showAllAsClosed = false;
           renderControlContainer(bindingOptions);
+          fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
         };
         closeAll.onclick = function() {
           bindingOptions.showAllAsClosed = true;
           renderControlContainer(bindingOptions);
+          fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
         };
       }
     }
@@ -97,19 +107,19 @@
     var objectTypeContents = createElement(container, "div", "object-type-contents");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
     var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
-    createElementWithHTML(objectTypeTitle, "span", "object", _configuration.objectText);
+    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : _string.empty, _configuration.objectText);
     if (bindingOptions.showCounts && propertyCount > 0) {
-      createElementWithHTML(objectTypeTitle, "span", "object count", "{" + propertyCount + "}");
+      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}");
     }
   }
   function renderArray(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title");
     var objectTypeContents = createElement(container, "div", "object-type-contents");
     var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
-    createElementWithHTML(objectTypeTitle, "span", "array", _configuration.arrayText);
+    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : _string.empty, _configuration.arrayText);
     renderArrayValues(arrow, objectTypeContents, bindingOptions, data);
     if (bindingOptions.showCounts) {
-      createElementWithHTML(objectTypeTitle, "span", "array count", "[" + data.length + "]");
+      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]");
     }
   }
   function renderObjectValues(arrow, objectTypeContents, bindingOptions, data) {
@@ -163,35 +173,35 @@
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
       if (!bindingOptions.ignoreNullValues) {
-        valueElement = createElementWithHTML(objectTypeValue, "span", "null", "null");
+        valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "null" : _string.empty, "null");
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
       }
     } else if (isDefinedFunction(value)) {
       if (!bindingOptions.ignoreFunctionValues) {
-        valueElement = createElementWithHTML(objectTypeValue, "span", "function", getFunctionName(value));
+        valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "function" : _string.empty, getFunctionName(value));
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
       }
     } else if (isDefinedBoolean(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "boolean", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "decimal", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "number", value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "string", bindingOptions.showStringQuotes ? '"' + value + '"' : value);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "string" : _string.empty, bindingOptions.showStringQuotes ? '"' + value + '"' : value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "date", getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "date" : _string.empty, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
-      var objectTitle = createElement(objectTypeValue, "span", "object");
+      var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty);
       var objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
       var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, value);
       createElementWithHTML(objectTitle, "span", "title", _configuration.objectText);
@@ -200,7 +210,7 @@
       }
       createComma(bindingOptions, objectTitle, isLastItem);
     } else if (isDefinedArray(value)) {
-      var arrayTitle = createElement(objectTypeValue, "span", "array");
+      var arrayTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "array" : _string.empty);
       var arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
       createElementWithHTML(arrayTitle, "span", "title", _configuration.arrayText);
       if (bindingOptions.showCounts) {
@@ -209,7 +219,7 @@
       createComma(bindingOptions, arrayTitle, isLastItem);
       renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
     } else {
-      valueElement = createElementWithHTML(objectTypeValue, "span", "unknown", value.toString());
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString());
       createComma(bindingOptions, objectTypeValue, isLastItem);
     }
     if (ignored) {
@@ -290,6 +300,8 @@
     options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
     options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
+    options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
+    options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -303,6 +315,9 @@
     options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
     options.onValueClick = getDefaultFunction(options.onValueClick, null);
     options.onRefresh = getDefaultFunction(options.onRefresh, null);
+    options.onCopyAll = getDefaultFunction(options.onCopyAll, null);
+    options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
+    options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -463,9 +478,11 @@
     _configuration.arrayText = getDefaultString(_configuration.arrayText, "array");
     _configuration.closeAllButtonText = getDefaultString(_configuration.closeAllButtonText, "Close All");
     _configuration.openAllButtonText = getDefaultString(_configuration.openAllButtonText, "Open All");
+    _configuration.copyAllButtonText = getDefaultString(_configuration.copyAllButtonText, "Copy All");
   }
   var _parameter_Document = null;
   var _parameter_Window = null;
+  var _parameter_Navigator = null;
   var _parameter_Math = null;
   var _parameter_JSON = null;
   var _configuration = {};
@@ -513,11 +530,12 @@
     return this;
   };
   this.getVersion = function() {
-    return "0.3.0";
+    return "0.4.0";
   };
-  (function(documentObject, windowObject, mathObject, jsonObject) {
+  (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
     _parameter_Window = windowObject;
+    _parameter_Navigator = navigatorObject;
     _parameter_Math = mathObject;
     _parameter_JSON = jsonObject;
     buildDefaultConfiguration();
@@ -527,5 +545,5 @@
     if (!isDefined(_parameter_Window.$jsontree)) {
       _parameter_Window.$jsontree = this;
     }
-  })(document, window, Math, JSON);
+  })(document, window, navigator, Math, JSON);
 })();
