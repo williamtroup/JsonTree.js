@@ -63,6 +63,28 @@ Closes all the nodes in a JsonTree.js instance.
 <br>
 
 
+## Destroying:
+
+### **destroy( *elementId* )**:
+Reverts an element to its original state (without render attributes).
+<br>
+***Fires***:  onDestroy
+<br>
+***Parameter: elementId***: '*string*' - The Heat.js element ID to destroy.
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
+
+### **destroyAll()**:
+Reverts all rendered elements to their original state (without render attributes).
+<br>
+***Fires***:  onDestroy
+<br>
+***Returns***: '*Object*' - The JsonTree.js class instance.
+<br>
+<br>
+
+
 ## Configuration:
 
 ### **setConfiguration( *newConfiguration* )**:

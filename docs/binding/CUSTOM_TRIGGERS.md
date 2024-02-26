@@ -17,11 +17,18 @@ Fires when a rendered element is refreshed.
 Fires before the rendering of the JsonTree.js of an element.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that is going to be rendered.
+<br>
 
 ### options.onRenderComplete( *element* ):
 Fires when the rendering of the JsonTree.js for an element is complete.
 <br>
 ***Parameter:*** element: '*object*' - The DOM element that was rendered.
+<br>
+
+### options.onDestroy( *element* ):
+Fires when the element is destroyed (reverted to its original state).
+<br>
+***Parameter:*** element: '*object*' - The DOM element that was destroyed.
 <br>
 <br>
 

@@ -2,9 +2,14 @@
 
 ## Version 0.5.0:
 
+#### **Binding Options - Custom Triggers:**
+- Added a new binding option custom trigger called "onDestroy", which states an event that should be triggered when an element is destroyed.
+
 #### **Public Functions:**
 - Added a new public function "openAll()", which will open all the nodes for a specific DOM element.
 - Added a new public function "closeAll()", which will close all the nodes for a specific DOM element.
+- Added a new public function "destroy()", which will revert a rendered DOM element to its original state.
+- Added a new public function "destroyAll()", which will revert all rendered DOM elements to their original state.
 
 <br>
 

@@ -483,6 +483,7 @@
         options.onCopyAll = getDefaultFunction( options.onCopyAll, null );
         options.onOpenAll = getDefaultFunction( options.onOpenAll, null );
         options.onCloseAll = getDefaultFunction( options.onCloseAll, null );
+        options.onDestroy = getDefaultFunction( options.onDestroy, null );
 
         return options;
     }
@@ -858,6 +859,64 @@
 
         return this;
     };
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Destroying
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * destroyAll().
+     * 
+     * Reverts all rendered elements to their original state (without render attributes).
+     * 
+     * @public
+     * @fires       onDestroy
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.destroyAll = function() {
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                destroyElement( _elements_Data[ elementId ].options );
+            }
+        }
+
+        _elements_Data = {};
+
+        return this;
+    };
+
+    /**
+     * destroy().
+     * 
+     * Reverts an element to its original state (without render attributes).
+     * 
+     * @public
+     * @fires       onDestroy
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID to destroy.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.destroy = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            destroyElement( _elements_Data[ elementId ].options );
+
+            delete _elements_Data[ elementId ];
+        }
+
+        return this;
+    };
+
+    function destroyElement( bindingOptions ) {
+        bindingOptions.currentView.element.innerHTML = _string.empty;
+        bindingOptions.currentView.element.className = _string.empty;
+
+        fireCustomTrigger( bindingOptions.onDestroy, bindingOptions.currentView.element );
+    }
 
 
     /*
