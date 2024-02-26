@@ -30,6 +30,13 @@ JsonTree.js
 <br />
 
 
+<h1>Where can I find the documentation?</h1>
+
+All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html):  
+<br>
+<br>
+
+
 <h1>What browsers are supported?</h1>
 
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
@@ -39,7 +46,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 <h1>What are the most recent changes?</h1>
 
-To see a list of all the most recent changes, click [here](docs/CHANGE_LOG.md).
+To see a list of all the most recent changes, click [here](https://www.william-troup.com/jsontree-js/documentation/recent-changes.html).
 <br>
 <br>
 
@@ -88,9 +95,9 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 </div>
 ```
 
-To see a list of all the available binding options you can use for "data-jsontree-options", click [here](docs/binding/OPTIONS.md).
+To see a list of all the available binding options you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](docs/binding/CUSTOM_TRIGGERS.md).
+To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
 
 <br>
 
@@ -110,7 +117,7 @@ To customize, and get more out of JsonTree.js, please read through the following
 
 ### 1. Public Functions:
 
-To see a list of all the public functions available, click [here](docs/PUBLIC_FUNCTIONS.md).
+To see a list of all the public functions available, click [here](https://www.william-troup.com/jsontree-js/documentation/public-functions.html).
 <br>
 <br>
 
@@ -127,4 +134,4 @@ Configuration options allow you to customize how JsonTree.js will function.  You
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/jsontree-js/documentation/options.html).
