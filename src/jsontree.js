@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.js
- * @version     v0.4.0
+ * @version     v0.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -166,20 +166,28 @@
                     closeAll = createElementWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText );
 
                 openAll.onclick = function() {
-                    bindingOptions.showAllAsClosed = false;
-
-                    renderControlContainer( bindingOptions );
-                    fireCustomTrigger( bindingOptions.onOpenAll, bindingOptions.currentView.element );
+                    openAllNodes( bindingOptions );
                 };
 
                 closeAll.onclick = function() {
-                    bindingOptions.showAllAsClosed = true;
-
-                    renderControlContainer( bindingOptions );
-                    fireCustomTrigger( bindingOptions.onCloseAll, bindingOptions.currentView.element );
+                    closeAllNodes( bindingOptions );
                 };
             }
         }
+    }
+
+    function openAllNodes( bindingOptions ) {
+        bindingOptions.showAllAsClosed = false;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTrigger( bindingOptions.onOpenAll, bindingOptions.currentView.element );
+    }
+
+    function closeAllNodes( bindingOptions ) {
+        bindingOptions.showAllAsClosed = true;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTrigger( bindingOptions.onCloseAll, bindingOptions.currentView.element );
     }
 
 
@@ -475,6 +483,7 @@
         options.onCopyAll = getDefaultFunction( options.onCopyAll, null );
         options.onOpenAll = getDefaultFunction( options.onOpenAll, null );
         options.onCloseAll = getDefaultFunction( options.onCloseAll, null );
+        options.onDestroy = getDefaultFunction( options.onDestroy, null );
 
         return options;
     }
@@ -811,6 +820,104 @@
         return this;
     };
 
+    /**
+     * openAll().
+     * 
+     * Opens all the nodes in a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onOpenAll
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.openAll = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            openAllNodes( _elements_Data[ elementId ].options );
+        }
+
+        return this;
+    };
+
+    /**
+     * closeAll().
+     * 
+     * Closes all the nodes in a JsonTree.js instance.
+     * 
+     * @public
+     * @fires       onCloseAll
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.closeAll = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            closeAllNodes( _elements_Data[ elementId ].options );
+        }
+
+        return this;
+    };
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public Functions:  Destroying
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * destroyAll().
+     * 
+     * Reverts all rendered elements to their original state (without render attributes).
+     * 
+     * @public
+     * @fires       onDestroy
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.destroyAll = function() {
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                destroyElement( _elements_Data[ elementId ].options );
+            }
+        }
+
+        _elements_Data = {};
+
+        return this;
+    };
+
+    /**
+     * destroy().
+     * 
+     * Reverts an element to its original state (without render attributes).
+     * 
+     * @public
+     * @fires       onDestroy
+     * 
+     * @param       {string}    elementId                                   The JsonTree.js element ID to destroy.
+     * 
+     * @returns     {Object}                                                The JsonTree.js class instance.
+     */
+    this.destroy = function( elementId ) {
+        if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+            destroyElement( _elements_Data[ elementId ].options );
+
+            delete _elements_Data[ elementId ];
+        }
+
+        return this;
+    };
+
+    function destroyElement( bindingOptions ) {
+        bindingOptions.currentView.element.innerHTML = _string.empty;
+        bindingOptions.currentView.element.className = _string.empty;
+
+        fireCustomTrigger( bindingOptions.onDestroy, bindingOptions.currentView.element );
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -865,6 +972,27 @@
      */
 
     /**
+     * getIds().
+     * 
+     * Returns an array of element IDs that have been rendered.
+     * 
+     * @public
+     * 
+     * @returns     {string[]}                                              The element IDs that have been rendered.
+     */
+    this.getIds = function() {
+        var result = [];
+        
+        for ( var elementId in _elements_Data ) {
+            if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                result.push( elementId );
+            }
+        }
+
+        return result;
+    };
+
+    /**
      * getVersion().
      * 
      * Returns the version of JsonTree.js.
@@ -874,7 +1002,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.4.0";
+        return "0.5.0";
     };
 
 

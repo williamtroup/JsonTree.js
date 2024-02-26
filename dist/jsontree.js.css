@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v0.4.0
+ * JsonTree.js Library v0.5.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -162,6 +162,9 @@ div.json-tree-js div.title-bar div.controls button:not(.active):hover {
   background: var(--json-tree-js-button-background-color-hover);
   color: var(--json-tree-js-button-text-color-hover);
 }
+div.json-tree-js div.title-bar div.controls button {
+  margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+}
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;
 }
@@ -178,6 +181,7 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
 */
 div.json-tree-js div.object-type-title {
   font-weight: var(--json-tree-js-header-bold-weight);
+  text-align: left !important;
 }
 div.json-tree-js div.object-type-title span.array {
   color: var(--json-tree-js-color-array);
@@ -206,6 +210,7 @@ div.json-tree-js div.object-type-contents {
 */
 div.json-tree-js div.object-type-contents {
   margin-left: calc(var(--json-tree-js-spacing) * 2);
+  text-align: left !important;
 }
 div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;

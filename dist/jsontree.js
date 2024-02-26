@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.4.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v0.5.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function render() {
     var tagTypes = _configuration.domElementTypes;
@@ -90,17 +90,23 @@
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText);
         var closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
-          bindingOptions.showAllAsClosed = false;
-          renderControlContainer(bindingOptions);
-          fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+          openAllNodes(bindingOptions);
         };
         closeAll.onclick = function() {
-          bindingOptions.showAllAsClosed = true;
-          renderControlContainer(bindingOptions);
-          fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
+          closeAllNodes(bindingOptions);
         };
       }
     }
+  }
+  function openAllNodes(bindingOptions) {
+    bindingOptions.showAllAsClosed = false;
+    renderControlContainer(bindingOptions);
+    fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+  }
+  function closeAllNodes(bindingOptions) {
+    bindingOptions.showAllAsClosed = true;
+    renderControlContainer(bindingOptions);
+    fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
   }
   function renderObject(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title");
@@ -318,6 +324,7 @@
     options.onCopyAll = getDefaultFunction(options.onCopyAll, null);
     options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
     options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
+    options.onDestroy = getDefaultFunction(options.onDestroy, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -467,6 +474,11 @@
     result = result.replace("{y}", parseInt(date.getFullYear().toString().substring(2)).toString());
     return result;
   }
+  function destroyElement(bindingOptions) {
+    bindingOptions.currentView.element.innerHTML = _string.empty;
+    bindingOptions.currentView.element.className = _string.empty;
+    fireCustomTrigger(bindingOptions.onDestroy, bindingOptions.currentView.element);
+  }
   function buildDefaultConfiguration(newConfiguration) {
     _configuration = !isDefinedObject(newConfiguration) ? {} : newConfiguration;
     _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
@@ -519,6 +531,35 @@
     render();
     return this;
   };
+  this.openAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      openAllNodes(_elements_Data[elementId].options);
+    }
+    return this;
+  };
+  this.closeAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      closeAllNodes(_elements_Data[elementId].options);
+    }
+    return this;
+  };
+  this.destroyAll = function() {
+    var elementId;
+    for (elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        destroyElement(_elements_Data[elementId].options);
+      }
+    }
+    _elements_Data = {};
+    return this;
+  };
+  this.destroy = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      destroyElement(_elements_Data[elementId].options);
+      delete _elements_Data[elementId];
+    }
+    return this;
+  };
   this.setConfiguration = function(newConfiguration) {
     var propertyName;
     for (propertyName in newConfiguration) {
@@ -529,8 +570,18 @@
     buildDefaultConfiguration(_configuration);
     return this;
   };
+  this.getIds = function() {
+    var result = [];
+    var elementId;
+    for (elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        result.push(elementId);
+      }
+    }
+    return result;
+  };
   this.getVersion = function() {
-    return "0.4.0";
+    return "0.5.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;

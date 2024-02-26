@@ -1,8 +1,8 @@
-# JsonTree.js v0.4.0
+# JsonTree.js v0.5.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v0.4.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v0.4.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v0.5.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v0.5.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -21,6 +21,11 @@
 - Clickable values!
 
 
+## Where can I find the documentation?
+
+All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html):  
+
+
 ## What browsers are supported?
 
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
@@ -28,7 +33,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 
 ## What are the most recent changes?
 
-To see a list of all the most recent changes, click [here](docs/CHANGE_LOG.md).
+To see a list of all the most recent changes, click [here](https://www.william-troup.com/jsontree-js/documentation/recent-changes.html).
 
 
 ## How do I install JsonTree.js?
@@ -67,9 +72,9 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 </div>
 ```
 
-To see a list of all the available binding options you can use for "data-jsontree-options", click [here](docs/binding/OPTIONS.md).
+To see a list of all the available binding options you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](docs/binding/CUSTOM_TRIGGERS.md).
+To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
 
 
 ### 4. Finishing Up:
@@ -84,7 +89,7 @@ To customize, and get more out of JsonTree.js, please read through the following
 
 ### 1. Public Functions:
 
-To see a list of all the public functions available, click [here](docs/PUBLIC_FUNCTIONS.md).
+To see a list of all the public functions available, click [here](https://www.william-troup.com/jsontree-js/documentation/public-functions.html).
 
 
 ### 2. Configuration:
@@ -99,4 +104,4 @@ Configuration options allow you to customize how JsonTree.js will function.  You
 </script>
 ```
 
-To see a list of all the available configuration options you can use, click [here](docs/configuration/OPTIONS.md).
+To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/jsontree-js/documentation/options.html).
