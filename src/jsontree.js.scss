@@ -170,6 +170,10 @@ div.json-tree-js {
 
             @include buttons;
 
+            button {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
+            }
+
             button.copy-all {
                 display: none;
         
@@ -191,6 +195,7 @@ div.json-tree-js {
 div.json-tree-js {
     div.object-type-title {
         font-weight: var(--json-tree-js-header-bold-weight);
+        text-align: left !important;
 
         span.array {
             color: var(--json-tree-js-color-array);
@@ -229,6 +234,7 @@ div.json-tree-js {
 div.json-tree-js {
     div.object-type-contents {
         margin-left: calc( var(--json-tree-js-spacing) * 2 );
+        text-align: left !important;
         
         div.object-type-value {
             white-space: nowrap;
