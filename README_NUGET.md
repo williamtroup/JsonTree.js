@@ -23,7 +23,7 @@
 
 ## Where can I find the documentation?
 
-All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html):  
+All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html).
 
 
 ## What browsers are supported?

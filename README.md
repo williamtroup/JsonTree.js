@@ -32,7 +32,7 @@ JsonTree.js
 
 <h1>Where can I find the documentation?</h1>
 
-All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html):  
+All the documentation can be found [here](https://www.william-troup.com/jsontree-js/documentation/index.html).
 <br>
 <br>
 
