@@ -216,6 +216,7 @@ div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
   overflow: hidden;
   margin-top: calc(var(--json-tree-js-spacing) / 2);
+  margin-bottom: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

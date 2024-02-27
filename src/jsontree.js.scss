@@ -240,6 +240,7 @@ div.json-tree-js {
             white-space: nowrap;
             overflow: hidden;
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
+            margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
 
             span.split {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
