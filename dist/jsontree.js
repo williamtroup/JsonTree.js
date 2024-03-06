@@ -464,7 +464,7 @@
     result = result.replace("{M}", date.getMinutes());
     result = result.replace("{ss}", padNumber(date.getSeconds(), 2));
     result = result.replace("{s}", date.getSeconds());
-    result = result.replace("{dd}", padNumber(date.getDate()), 2);
+    result = result.replace("{dd}", padNumber(date.getDate(), 2));
     result = result.replace("{d}", date.getDate());
     result = result.replace("{mm}", padNumber(date.getMonth() + 1, 2));
     result = result.replace("{m}", date.getMonth() + 1);
