@@ -310,7 +310,9 @@
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedDecimal( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, value );
+            var newValue = getFixedValue( value, bindingOptions.maximumDecimalPlaces );
+
+            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, newValue );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -435,6 +437,12 @@
         return result;
     }
 
+    function getFixedValue( number, length ) {
+        var regExp = new RegExp( "^-?\\d+(?:\.\\d{0," + ( length || -1 ) + "})?" );
+
+        return number.toString().match( regExp )[ 0 ];
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -462,6 +470,7 @@
         options.addArrayIndexPadding = getDefaultBoolean( options.addArrayIndexPadding, false );
         options.showTitleCopyButton = getDefaultBoolean( options.showTitleCopyButton, false );
         options.showValueColors = getDefaultBoolean( options.showValueColors, true );
+        options.maximumDecimalPlaces = getDefaultNumber( options.maximumDecimalPlaces, 2 );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
@@ -599,6 +608,10 @@
 
     function getDefaultBoolean( value, defaultValue ) {
         return isDefinedBoolean( value ) ? value : defaultValue;
+    }
+
+    function getDefaultNumber( value, defaultValue ) {
+        return isDefinedNumber( value ) ? value : defaultValue;
     }
 
     function getDefaultFunction( value, defaultValue ) {

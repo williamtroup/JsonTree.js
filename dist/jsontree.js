@@ -195,7 +195,8 @@
       valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, value);
+      var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, newValue);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value);
@@ -288,6 +289,10 @@
     }
     return result;
   }
+  function getFixedValue(number, length) {
+    var regExp = new RegExp("^-?\\d+(?:.\\d{0," + (length || -1) + "})?");
+    return number.toString().match(regExp)[0];
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.data = getDefaultObject(options.data, null);
@@ -308,6 +313,7 @@
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
     options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
+    options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -390,6 +396,9 @@
   }
   function getDefaultBoolean(value, defaultValue) {
     return isDefinedBoolean(value) ? value : defaultValue;
+  }
+  function getDefaultNumber(value, defaultValue) {
+    return isDefinedNumber(value) ? value : defaultValue;
   }
   function getDefaultFunction(value, defaultValue) {
     return isDefinedFunction(value) ? value : defaultValue;
