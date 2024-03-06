@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.5.1 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v0.6.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function render() {
     var tagTypes = _configuration.domElementTypes;
@@ -195,7 +195,8 @@
       valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
-      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, value);
+      var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
+      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, newValue);
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value);
@@ -288,6 +289,10 @@
     }
     return result;
   }
+  function getFixedValue(number, length) {
+    var regExp = new RegExp("^-?\\d+(?:.\\d{0," + (length || -1) + "})?");
+    return number.toString().match(regExp)[0];
+  }
   function buildAttributeOptions(newOptions) {
     var options = !isDefinedObject(newOptions) ? {} : newOptions;
     options.data = getDefaultObject(options.data, null);
@@ -308,6 +313,7 @@
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
     options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
+    options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -391,6 +397,9 @@
   function getDefaultBoolean(value, defaultValue) {
     return isDefinedBoolean(value) ? value : defaultValue;
   }
+  function getDefaultNumber(value, defaultValue) {
+    return isDefinedNumber(value) ? value : defaultValue;
+  }
   function getDefaultFunction(value, defaultValue) {
     return isDefinedFunction(value) ? value : defaultValue;
   }
@@ -464,7 +473,7 @@
     result = result.replace("{M}", date.getMinutes());
     result = result.replace("{ss}", padNumber(date.getSeconds(), 2));
     result = result.replace("{s}", date.getSeconds());
-    result = result.replace("{dd}", padNumber(date.getDate()), 2);
+    result = result.replace("{dd}", padNumber(date.getDate(), 2));
     result = result.replace("{d}", date.getDate());
     result = result.replace("{mm}", padNumber(date.getMonth() + 1, 2));
     result = result.replace("{m}", date.getMonth() + 1);
@@ -581,7 +590,7 @@
     return result;
   };
   this.getVersion = function() {
-    return "0.5.1";
+    return "0.6.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
