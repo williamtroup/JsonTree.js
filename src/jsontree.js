@@ -278,6 +278,7 @@
     function renderValue( container, bindingOptions, name, value, isLastItem ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null,
+            valueClass = null,
             valueElement = null,
             ignored = false;
 
@@ -286,7 +287,8 @@
 
         if ( !isDefined( value ) ) {
             if ( !bindingOptions.ignoreNullValues ) {
-                valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "null" : _string.empty, "null" );
+                valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, "null" );
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -296,7 +298,8 @@
 
         } else if ( isDefinedFunction( value ) ) {
             if ( !bindingOptions.ignoreFunctionValues ) {
-                valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "function" : _string.empty, getFunctionName( value ) );
+                valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, getFunctionName( value ) );
             
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -305,29 +308,36 @@
             }
 
         } else if ( isDefinedBoolean( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value );
+            valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedDecimal( value ) ) {
             var newValue = getFixedValue( value, bindingOptions.maximumDecimalPlaces );
 
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, newValue );
+            valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, newValue );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedNumber( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value );
+            valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedString( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "string" : _string.empty, bindingOptions.showStringQuotes ? "\"" + value + "\"" : value );
+            var newStringValue = bindingOptions.showStringQuotes ? "\"" + value + "\"" : value;
+
+            valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, newStringValue );
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedDate( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "date" : _string.empty, getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+            valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
 
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -359,7 +369,8 @@
 
         } else {
             if ( !bindingOptions.ignoreUnknownValues ) {
-                valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString() );
+                valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value.toString() );
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
