@@ -226,8 +226,12 @@
       createComma(bindingOptions, arrayTitle, isLastItem);
       renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
     } else {
-      valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString());
-      createComma(bindingOptions, objectTypeValue, isLastItem);
+      if (!bindingOptions.ignoreUnknownValues) {
+        valueElement = createElementWithHTML(objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString());
+        createComma(bindingOptions, objectTypeValue, isLastItem);
+      } else {
+        ignored = true;
+      }
     }
     if (ignored) {
       container.removeChild(objectTypeValue);
@@ -314,6 +318,7 @@
     options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
+    options.ignoreUnknownValues = getDefaultBoolean(options.ignoreUnknownValues, false);
     options = buildAttributeOptionStrings(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
