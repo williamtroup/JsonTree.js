@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.js
- * @version     v0.6.0
+ * @version     v0.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -278,6 +278,7 @@
     function renderValue( container, bindingOptions, name, value, isLastItem ) {
         var objectTypeValue = createElement( container, "div", "object-type-value" ),
             arrow = bindingOptions.showArrowToggles ? createElement( objectTypeValue, "div", "no-arrow" ) : null,
+            valueClass = null,
             valueElement = null,
             ignored = false;
 
@@ -286,7 +287,12 @@
 
         if ( !isDefined( value ) ) {
             if ( !bindingOptions.ignoreNullValues ) {
-                valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "null" : _string.empty, "null" );
+                valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, "null" );
+
+                if ( isDefinedFunction( bindingOptions.onNullRender ) ) {
+                    fireCustomTrigger( bindingOptions.onNullRender, valueElement );
+                }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -296,7 +302,12 @@
 
         } else if ( isDefinedFunction( value ) ) {
             if ( !bindingOptions.ignoreFunctionValues ) {
-                valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "function" : _string.empty, getFunctionName( value ) );
+                valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, getFunctionName( value ) );
+
+                if ( isDefinedFunction( bindingOptions.onFunctionRender ) ) {
+                    fireCustomTrigger( bindingOptions.onFunctionRender, valueElement );
+                }
             
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -305,29 +316,56 @@
             }
 
         } else if ( isDefinedBoolean( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "boolean" : _string.empty, value );
+            valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value );
+
+            if ( isDefinedFunction( bindingOptions.onBooleanRender ) ) {
+                fireCustomTrigger( bindingOptions.onBooleanRender, valueElement );
+            }
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedDecimal( value ) ) {
             var newValue = getFixedValue( value, bindingOptions.maximumDecimalPlaces );
 
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "decimal" : _string.empty, newValue );
+            valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, newValue );
+
+            if ( isDefinedFunction( bindingOptions.onDecimalRender ) ) {
+                fireCustomTrigger( bindingOptions.onDecimalRender, valueElement );
+            }
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedNumber( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "number" : _string.empty, value );
+            valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value );
+
+            if ( isDefinedFunction( bindingOptions.onNumberRender ) ) {
+                fireCustomTrigger( bindingOptions.onNumberRender, valueElement );
+            }
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedString( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "string" : _string.empty, bindingOptions.showStringQuotes ? "\"" + value + "\"" : value );
+            var newStringValue = bindingOptions.showStringQuotes ? "\"" + value + "\"" : value;
+
+            valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+
+            if ( isDefinedFunction( bindingOptions.onStringRender ) ) {
+                fireCustomTrigger( bindingOptions.onStringRender, valueElement );
+            }
             
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
         } else if ( isDefinedDate( value ) ) {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "date" : _string.empty, getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+            valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
+            valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText( value, bindingOptions.dateTimeFormat ) );
+
+            if ( isDefinedFunction( bindingOptions.onDateRender ) ) {
+                fireCustomTrigger( bindingOptions.onDateRender, valueElement );
+            }
 
             createComma( bindingOptions, objectTypeValue, isLastItem );
 
@@ -358,9 +396,19 @@
             renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
 
         } else {
-            valueElement = createElementWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "unknown" : _string.empty, value.toString() );
+            if ( !bindingOptions.ignoreUnknownValues ) {
+                valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
+                valueElement = createElementWithHTML( objectTypeValue, "span", valueClass, value.toString() );
 
-            createComma( bindingOptions, objectTypeValue, isLastItem );
+                if ( isDefinedFunction( bindingOptions.onUnknownRender ) ) {
+                    fireCustomTrigger( bindingOptions.onUnknownRender, valueElement );
+                }
+
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
         }
 
         if ( ignored ) {
@@ -471,6 +519,7 @@
         options.showTitleCopyButton = getDefaultBoolean( options.showTitleCopyButton, false );
         options.showValueColors = getDefaultBoolean( options.showValueColors, true );
         options.maximumDecimalPlaces = getDefaultNumber( options.maximumDecimalPlaces, 2 );
+        options.ignoreUnknownValues = getDefaultBoolean( options.ignoreUnknownValues, false );
 
         options = buildAttributeOptionStrings( options );
         options = buildAttributeOptionCustomTriggers( options );
@@ -493,6 +542,14 @@
         options.onOpenAll = getDefaultFunction( options.onOpenAll, null );
         options.onCloseAll = getDefaultFunction( options.onCloseAll, null );
         options.onDestroy = getDefaultFunction( options.onDestroy, null );
+        options.onBooleanRender = getDefaultFunction( options.onBooleanRender, null );
+        options.onDecimalRender = getDefaultFunction( options.onDecimalRender, null );
+        options.onNumberRender = getDefaultFunction( options.onNumberRender, null );
+        options.onStringRender = getDefaultFunction( options.onStringRender, null );
+        options.onDateRender = getDefaultFunction( options.onDateRender, null );
+        options.onFunctionRender = getDefaultFunction( options.onFunctionRender, null );
+        options.onNullRender = getDefaultFunction( options.onNullRender, null );
+        options.onUnknownRender = getDefaultFunction( options.onUnknownRender, null );
 
         return options;
     }
@@ -1015,7 +1072,7 @@
      * @returns     {string}                                                The version number.
      */
     this.getVersion = function() {
-        return "0.6.0";
+        return "0.7.0";
     };
 
 
