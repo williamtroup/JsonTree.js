@@ -182,6 +182,9 @@
       if (!bindingOptions.ignoreNullValues) {
         valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, "null");
+        if (isDefinedFunction(bindingOptions.onNullRender)) {
+          fireCustomTrigger(bindingOptions.onNullRender, valueElement);
+        }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
@@ -190,6 +193,9 @@
       if (!bindingOptions.ignoreFunctionValues) {
         valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getFunctionName(value));
+        if (isDefinedFunction(bindingOptions.onFunctionRender)) {
+          fireCustomTrigger(bindingOptions.onFunctionRender, valueElement);
+        }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
@@ -197,24 +203,39 @@
     } else if (isDefinedBoolean(value)) {
       valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
+      if (isDefinedFunction(bindingOptions.onBooleanRender)) {
+        fireCustomTrigger(bindingOptions.onBooleanRender, valueElement);
+      }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
       var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
       valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newValue);
+      if (isDefinedFunction(bindingOptions.onDecimalRender)) {
+        fireCustomTrigger(bindingOptions.onDecimalRender, valueElement);
+      }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
+      if (isDefinedFunction(bindingOptions.onNumberRender)) {
+        fireCustomTrigger(bindingOptions.onNumberRender, valueElement);
+      }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
       var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
       valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
+      if (isDefinedFunction(bindingOptions.onStringRender)) {
+        fireCustomTrigger(bindingOptions.onStringRender, valueElement);
+      }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
       valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
+      if (isDefinedFunction(bindingOptions.onDateRender)) {
+        fireCustomTrigger(bindingOptions.onDateRender, valueElement);
+      }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
       var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty);
@@ -238,6 +259,9 @@
       if (!bindingOptions.ignoreUnknownValues) {
         valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value.toString());
+        if (isDefinedFunction(bindingOptions.onUnknownRender)) {
+          fireCustomTrigger(bindingOptions.onUnknownRender, valueElement);
+        }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
         ignored = true;
@@ -346,6 +370,14 @@
     options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
     options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
     options.onDestroy = getDefaultFunction(options.onDestroy, null);
+    options.onBooleanRender = getDefaultFunction(options.onBooleanRender, null);
+    options.onDecimalRender = getDefaultFunction(options.onDecimalRender, null);
+    options.onNumberRender = getDefaultFunction(options.onNumberRender, null);
+    options.onStringRender = getDefaultFunction(options.onStringRender, null);
+    options.onDateRender = getDefaultFunction(options.onDateRender, null);
+    options.onFunctionRender = getDefaultFunction(options.onFunctionRender, null);
+    options.onNullRender = getDefaultFunction(options.onNullRender, null);
+    options.onUnknownRender = getDefaultFunction(options.onUnknownRender, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {

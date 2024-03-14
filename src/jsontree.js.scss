@@ -253,7 +253,8 @@ div.json-tree-js {
             span.string,
             span.date,
             span.null,
-            span.function {
+            span.function,
+            span.unknown {
                 transition: var(--json-tree-js-transition);
                 transition-property: opacity;
 

@@ -228,7 +228,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.number,
 div.json-tree-js div.object-type-contents div.object-type-value span.string,
 div.json-tree-js div.object-type-contents div.object-type-value span.date,
 div.json-tree-js div.object-type-contents div.object-type-value span.null,
-div.json-tree-js div.object-type-contents div.object-type-value span.function {
+div.json-tree-js div.object-type-contents div.object-type-value span.function,
+div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
@@ -238,7 +239,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.number:not(
 div.json-tree-js div.object-type-contents div.object-type-value span.string:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
-div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.unknown:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
 }

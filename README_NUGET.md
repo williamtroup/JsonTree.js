@@ -14,11 +14,12 @@
 
 - Zero-dependencies and extremely lightweight!
 - Full API available via public functions.
-- Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library.
+- Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables).
-- Fully configurable per DOM element.
+- Fully configurable per DOM element!
 - Close/Open all.
 - Clickable values!
+- Custom value rendering.
 
 
 ## Where can I find the documentation?
