@@ -1,15 +1,11 @@
 /*! JsonTree.js v0.8.0 | (c) Bunoon 2024 | MIT License */
 (function() {
+  var _parameter_Document = null, _parameter_Window = null, _parameter_Navigator = null, _parameter_Math = null, _parameter_JSON = null, _public = {}, _configuration = {}, _elements_Type = {}, _elements_Data = {}, _string = {empty:"", space:" "}, _attribute_Name_Options = "data-jsontree-options";
   function render() {
-    var tagTypes = _configuration.domElementTypes;
-    var tagTypesLength = tagTypes.length;
-    var tagTypeIndex = 0;
-    for (; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
-      var domElements = _parameter_Document.getElementsByTagName(tagTypes[tagTypeIndex]);
-      var elements = [].slice.call(domElements);
-      var elementsLength = elements.length;
-      var elementIndex = 0;
-      for (; elementIndex < elementsLength; elementIndex++) {
+    var tagTypes = _configuration.domElementTypes, tagTypesLength = tagTypes.length;
+    for (var tagTypeIndex = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
+      var domElements = _parameter_Document.getElementsByTagName(tagTypes[tagTypeIndex]), elements = [].slice.call(domElements), elementsLength = elements.length;
+      for (var elementIndex = 0; elementIndex < elementsLength; elementIndex++) {
         if (!renderElement(elements[elementIndex])) {
           break;
         }
@@ -73,8 +69,7 @@
   }
   function renderControlTitleBar(bindingOptions) {
     if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls || bindingOptions.showTitleCopyButton) {
-      var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar");
-      var controls = createElement(titleBar, "div", "controls");
+      var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar"), controls = createElement(titleBar, "div", "controls");
       if (bindingOptions.showTitle) {
         createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText, controls);
       }
@@ -87,8 +82,7 @@
         };
       }
       if (bindingOptions.showTitleTreeControls) {
-        var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText);
-        var closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
+        var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText), closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
           openAllNodes(bindingOptions);
         };
@@ -109,19 +103,14 @@
     fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
   }
   function renderObject(container, bindingOptions, data) {
-    var objectTypeTitle = createElement(container, "div", "object-type-title");
-    var objectTypeContents = createElement(container, "div", "object-type-contents");
-    var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
-    var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
+    var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null, propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
     createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : _string.empty, _configuration.objectText);
     if (bindingOptions.showCounts && propertyCount > 0) {
       createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}");
     }
   }
   function renderArray(container, bindingOptions, data) {
-    var objectTypeTitle = createElement(container, "div", "object-type-title");
-    var objectTypeContents = createElement(container, "div", "object-type-contents");
-    var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
+    var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
     createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : _string.empty, _configuration.arrayText);
     renderArrayValues(arrow, objectTypeContents, bindingOptions, data);
     if (bindingOptions.showCounts) {
@@ -129,10 +118,8 @@
     }
   }
   function renderObjectValues(arrow, objectTypeContents, bindingOptions, data) {
-    var propertyCount = 0;
-    var properties = [];
-    var key;
-    for (key in data) {
+    var propertyCount = 0, properties = [];
+    for (var key in data) {
       if (data.hasOwnProperty(key)) {
         properties.push(key);
       }
@@ -144,8 +131,7 @@
       }
     }
     var propertiesLength = properties.length;
-    var propertyIndex = 0;
-    for (; propertyIndex < propertiesLength; propertyIndex++) {
+    for (var propertyIndex = 0; propertyIndex < propertiesLength; propertyIndex++) {
       var propertyName = properties[propertyIndex];
       if (data.hasOwnProperty(propertyName)) {
         renderValue(objectTypeContents, bindingOptions, propertyName, data[propertyName], propertyIndex === propertiesLength - 1);
@@ -158,24 +144,18 @@
   function renderArrayValues(arrow, objectTypeContents, bindingOptions, data) {
     var dataLength = data.length;
     if (!bindingOptions.reverseArrayValues) {
-      var dataIndex1 = 0;
-      for (; dataIndex1 < dataLength; dataIndex1++) {
+      for (var dataIndex1 = 0; dataIndex1 < dataLength; dataIndex1++) {
         renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex1, dataLength), data[dataIndex1], dataIndex1 === dataLength - 1);
       }
     } else {
-      var dataIndex2 = dataLength;
-      for (; dataIndex2--;) {
+      for (var dataIndex2 = dataLength; dataIndex2--;) {
         renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex2, dataLength), data[dataIndex2], dataIndex2 === 0);
       }
     }
     addArrowEvent(bindingOptions, arrow, objectTypeContents);
   }
   function renderValue(container, bindingOptions, name, value, isLastItem) {
-    var objectTypeValue = createElement(container, "div", "object-type-value");
-    var arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null;
-    var valueClass = null;
-    var valueElement = null;
-    var ignored = false;
+    var objectTypeValue = createElement(container, "div", "object-type-value"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null, valueClass = null, valueElement = null, ignored = false;
     createElementWithHTML(objectTypeValue, "span", "title", name);
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
@@ -238,17 +218,14 @@
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
-      var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty);
-      var objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
-      var propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, value);
+      var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty), objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents"), propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, value);
       createElementWithHTML(objectTitle, "span", "title", _configuration.objectText);
       if (bindingOptions.showCounts && propertyCount > 0) {
         createElementWithHTML(objectTitle, "span", "count", "{" + propertyCount + "}");
       }
       createComma(bindingOptions, objectTitle, isLastItem);
     } else if (isDefinedArray(value)) {
-      var arrayTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "array" : _string.empty);
-      var arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
+      var arrayTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "array" : _string.empty), arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
       createElementWithHTML(arrayTitle, "span", "title", _configuration.arrayText);
       if (bindingOptions.showCounts) {
         createElementWithHTML(arrayTitle, "span", "count", "[" + value.length + "]");
@@ -304,15 +281,13 @@
     }
   }
   function getFunctionName(value) {
-    var result;
-    var valueParts = value.toString().split("(");
-    var valueNameParts = valueParts[0].split(_string.space);
+    var result, valueParts = value.toString().split("("), valueNameParts = valueParts[0].split(_string.space);
     if (valueNameParts.length === 2) {
       result = valueNameParts[1];
     } else {
       result = valueNameParts[0];
     }
-    result = result + "()";
+    result += "()";
     return result;
   }
   function createComma(bindingOptions, objectTypeValue, isLastItem) {
@@ -381,9 +356,7 @@
     return options;
   }
   function createElement(container, type, className, beforeNode) {
-    var result = null;
-    var nodeType = type.toLowerCase();
-    var isText = nodeType === "text";
+    var result = null, nodeType = type.toLowerCase(), isText = nodeType === "text";
     if (!_elements_Type.hasOwnProperty(nodeType)) {
       _elements_Type[nodeType] = isText ? _parameter_Document.createTextNode(_string.empty) : _parameter_Document.createElement(nodeType);
     }
@@ -468,8 +441,7 @@
     return value;
   }
   function getObjectFromString(objectString) {
-    var parsed = true;
-    var result = null;
+    var parsed = true, result = null;
     try {
       if (isDefinedString(objectString)) {
         result = _parameter_JSON.parse(objectString);
@@ -492,8 +464,7 @@
   }
   function newGuid() {
     var result = [];
-    var charIndex = 0;
-    for (; charIndex < 32; charIndex++) {
+    for (var charIndex = 0; charIndex < 32; charIndex++) {
       if (charIndex === 8 || charIndex === 12 || charIndex === 16 || charIndex === 20) {
         result.push("-");
       }
@@ -504,8 +475,7 @@
   }
   function padNumber(number, length) {
     length = isDefined(length) ? length : 1;
-    var numberString = number.toString();
-    var numberResult = numberString;
+    var numberString = number.toString(), numberResult = numberString;
     if (numberString.length < length) {
       var arrayLength = length - numberString.length + 1;
       numberResult = Array(arrayLength).join("0") + numberString;
@@ -530,11 +500,76 @@
     result = result.replace("{y}", parseInt(date.getFullYear().toString().substring(2)).toString());
     return result;
   }
+  _public.refresh = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      var bindingOptions = _elements_Data[elementId].options;
+      renderControlContainer(bindingOptions);
+      fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+    }
+    return _public;
+  };
+  _public.refreshAll = function() {
+    for (var elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        var bindingOptions = _elements_Data[elementId].options;
+        renderControlContainer(bindingOptions);
+        fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+      }
+    }
+    return _public;
+  };
+  _public.render = function(element, options) {
+    if (isDefinedObject(element) && isDefinedObject(options)) {
+      renderControl(renderBindingOptions(options, element));
+    }
+    return _public;
+  };
+  _public.renderAll = function() {
+    render();
+    return _public;
+  };
+  _public.openAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      openAllNodes(_elements_Data[elementId].options);
+    }
+    return _public;
+  };
+  _public.closeAll = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      closeAllNodes(_elements_Data[elementId].options);
+    }
+    return _public;
+  };
+  _public.destroyAll = function() {
+    for (var elementId in _elements_Data) {
+      if (_elements_Data.hasOwnProperty(elementId)) {
+        destroyElement(_elements_Data[elementId].options);
+      }
+    }
+    _elements_Data = {};
+    return _public;
+  };
+  _public.destroy = function(elementId) {
+    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
+      destroyElement(_elements_Data[elementId].options);
+      delete _elements_Data[elementId];
+    }
+    return _public;
+  };
   function destroyElement(bindingOptions) {
     bindingOptions.currentView.element.innerHTML = _string.empty;
     bindingOptions.currentView.element.className = _string.empty;
     fireCustomTrigger(bindingOptions.onDestroy, bindingOptions.currentView.element);
   }
+  _public.setConfiguration = function(newConfiguration) {
+    for (var propertyName in newConfiguration) {
+      if (newConfiguration.hasOwnProperty(propertyName)) {
+        _configuration[propertyName] = newConfiguration[propertyName];
+      }
+    }
+    buildDefaultConfiguration(_configuration);
+    return _public;
+  };
   function buildDefaultConfiguration(newConfiguration) {
     _configuration = !isDefinedObject(newConfiguration) ? {} : newConfiguration;
     _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
@@ -548,95 +583,16 @@
     _configuration.openAllButtonText = getDefaultString(_configuration.openAllButtonText, "Open All");
     _configuration.copyAllButtonText = getDefaultString(_configuration.copyAllButtonText, "Copy All");
   }
-  var _parameter_Document = null;
-  var _parameter_Window = null;
-  var _parameter_Navigator = null;
-  var _parameter_Math = null;
-  var _parameter_JSON = null;
-  var _configuration = {};
-  var _elements_Type = {};
-  var _elements_Data = {};
-  var _string = {empty:"", space:" "};
-  var _attribute_Name_Options = "data-jsontree-options";
-  this.refresh = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      var bindingOptions = _elements_Data[elementId].options;
-      renderControlContainer(bindingOptions);
-      fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
-    }
-    return this;
-  };
-  this.refreshAll = function() {
-    var elementId;
-    for (elementId in _elements_Data) {
-      if (_elements_Data.hasOwnProperty(elementId)) {
-        var bindingOptions = _elements_Data[elementId].options;
-        renderControlContainer(bindingOptions);
-        fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
-      }
-    }
-    return this;
-  };
-  this.render = function(element, options) {
-    if (isDefinedObject(element) && isDefinedObject(options)) {
-      renderControl(renderBindingOptions(options, element));
-    }
-    return this;
-  };
-  this.renderAll = function() {
-    render();
-    return this;
-  };
-  this.openAll = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      openAllNodes(_elements_Data[elementId].options);
-    }
-    return this;
-  };
-  this.closeAll = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      closeAllNodes(_elements_Data[elementId].options);
-    }
-    return this;
-  };
-  this.destroyAll = function() {
-    var elementId;
-    for (elementId in _elements_Data) {
-      if (_elements_Data.hasOwnProperty(elementId)) {
-        destroyElement(_elements_Data[elementId].options);
-      }
-    }
-    _elements_Data = {};
-    return this;
-  };
-  this.destroy = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      destroyElement(_elements_Data[elementId].options);
-      delete _elements_Data[elementId];
-    }
-    return this;
-  };
-  this.setConfiguration = function(newConfiguration) {
-    var propertyName;
-    for (propertyName in newConfiguration) {
-      if (newConfiguration.hasOwnProperty(propertyName)) {
-        _configuration[propertyName] = newConfiguration[propertyName];
-      }
-    }
-    buildDefaultConfiguration(_configuration);
-    return this;
-  };
-  this.getIds = function() {
+  _public.getIds = function() {
     var result = [];
-    var elementId;
-    for (elementId in _elements_Data) {
+    for (var elementId in _elements_Data) {
       if (_elements_Data.hasOwnProperty(elementId)) {
         result.push(elementId);
       }
     }
     return result;
   };
-  this.getVersion = function() {
+  _public.getVersion = function() {
     return "0.8.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
@@ -650,7 +606,7 @@
       render();
     });
     if (!isDefined(_parameter_Window.$jsontree)) {
-      _parameter_Window.$jsontree = this;
+      _parameter_Window.$jsontree = _public;
     }
   })(document, window, navigator, Math, JSON);
 })();
