@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.js
- * @version     v0.7.0
+ * @version     v0.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -12,12 +12,17 @@
 
 
 ( function() {
+    "use strict";
+
     var // Variables: Constructor Parameters
         _parameter_Document = null,
         _parameter_Window = null,
         _parameter_Navigator = null,
         _parameter_Math = null,
         _parameter_JSON = null,
+
+        // Variables: Public Scope
+        _public = {},
 
         // Variables: Configuration
         _configuration = {},
@@ -73,14 +78,14 @@
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( "The attribute '" + _attribute_Name_Options + "' is not a valid object." );
+                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( "The attribute '" + _attribute_Name_Options + "' has not been set correctly." );
+                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                     result = false;
                 }
             }
@@ -718,7 +723,7 @@
                 
             } catch ( e2 ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( "Errors in object: " + e1.message + ", " + e2.message );
+                    console.error( _configuration.objectErrorText.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     parsed = false;
                 }
                 
@@ -821,7 +826,7 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.refresh = function( elementId ) {
+    _public.refresh = function( elementId ) {
         if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
             var bindingOptions = _elements_Data[ elementId ].options;
 
@@ -829,7 +834,7 @@
             fireCustomTrigger( bindingOptions.onRefresh, bindingOptions.currentView.element );
         }
 
-        return this;
+        return _public;
     };
 
     /**
@@ -842,7 +847,7 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.refreshAll = function() {
+    _public.refreshAll = function() {
         for ( var elementId in _elements_Data ) {
             if ( _elements_Data.hasOwnProperty( elementId ) ) {
                 var bindingOptions = _elements_Data[ elementId ].options;
@@ -852,7 +857,7 @@
             }
         }
 
-        return this;
+        return _public;
     };
 
     /**
@@ -867,12 +872,12 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.render = function( element, options ) {
+    _public.render = function( element, options ) {
         if ( isDefinedObject( element ) && isDefinedObject( options ) ) {
             renderControl( renderBindingOptions( options, element ) );
         }
 
-        return this;
+        return _public;
     };
 
     /**
@@ -884,10 +889,10 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.renderAll = function() {
+    _public.renderAll = function() {
         render();
 
-        return this;
+        return _public;
     };
 
     /**
@@ -902,12 +907,12 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.openAll = function( elementId ) {
+    _public.openAll = function( elementId ) {
         if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
             openAllNodes( _elements_Data[ elementId ].options );
         }
 
-        return this;
+        return _public;
     };
 
     /**
@@ -922,12 +927,12 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.closeAll = function( elementId ) {
+    _public.closeAll = function( elementId ) {
         if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
             closeAllNodes( _elements_Data[ elementId ].options );
         }
 
-        return this;
+        return _public;
     };
 
 
@@ -947,7 +952,7 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.destroyAll = function() {
+    _public.destroyAll = function() {
         for ( var elementId in _elements_Data ) {
             if ( _elements_Data.hasOwnProperty( elementId ) ) {
                 destroyElement( _elements_Data[ elementId ].options );
@@ -956,7 +961,7 @@
 
         _elements_Data = {};
 
-        return this;
+        return _public;
     };
 
     /**
@@ -971,14 +976,14 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.destroy = function( elementId ) {
+    _public.destroy = function( elementId ) {
         if ( isDefinedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
             destroyElement( _elements_Data[ elementId ].options );
 
             delete _elements_Data[ elementId ];
         }
 
-        return this;
+        return _public;
     };
 
     function destroyElement( bindingOptions ) {
@@ -1006,7 +1011,7 @@
      * 
      * @returns     {Object}                                                The JsonTree.js class instance.
      */
-    this.setConfiguration = function( newConfiguration ) {
+    _public.setConfiguration = function( newConfiguration ) {
         for ( var propertyName in newConfiguration ) {
             if ( newConfiguration.hasOwnProperty( propertyName ) ) {
                 _configuration[ propertyName ] = newConfiguration[ propertyName ];
@@ -1015,7 +1020,7 @@
 
         buildDefaultConfiguration( _configuration );
 
-        return this;
+        return _public;
     };
 
     function buildDefaultConfiguration( newConfiguration ) {
@@ -1032,6 +1037,9 @@
         _configuration.closeAllButtonText = getDefaultString( _configuration.closeAllButtonText, "Close All" );
         _configuration.openAllButtonText = getDefaultString( _configuration.openAllButtonText, "Open All" );
         _configuration.copyAllButtonText = getDefaultString( _configuration.copyAllButtonText, "Copy All" );
+        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
     }
 
 
@@ -1050,7 +1058,7 @@
      * 
      * @returns     {string[]}                                              The element IDs that have been rendered.
      */
-    this.getIds = function() {
+    _public.getIds = function() {
         var result = [];
         
         for ( var elementId in _elements_Data ) {
@@ -1071,8 +1079,8 @@
      * 
      * @returns     {string}                                                The version number.
      */
-    this.getVersion = function() {
-        return "0.7.0";
+    _public.getVersion = function() {
+        return "0.8.0";
     };
 
 
@@ -1096,7 +1104,7 @@
         } );
 
         if ( !isDefined( _parameter_Window.$jsontree ) ) {
-            _parameter_Window.$jsontree = this;
+            _parameter_Window.$jsontree = _public;
         }
 
     } ) ( document, window, navigator, Math, JSON );
