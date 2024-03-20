@@ -78,14 +78,14 @@
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( "The attribute '" + _attribute_Name_Options + "' is not a valid object." );
+                        console.error( _configuration.attributeNotValidErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( "The attribute '" + _attribute_Name_Options + "' has not been set correctly." );
+                    console.error( _configuration.attributeNotSetErrorText.replace( "{{attribute_name}}", _attribute_Name_Options ) );
                     result = false;
                 }
             }
@@ -723,7 +723,7 @@
                 
             } catch ( e2 ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( "Errors in object: " + e1.message + ", " + e2.message );
+                    console.error( _configuration.objectErrorText.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     parsed = false;
                 }
                 
@@ -1037,6 +1037,9 @@
         _configuration.closeAllButtonText = getDefaultString( _configuration.closeAllButtonText, "Close All" );
         _configuration.openAllButtonText = getDefaultString( _configuration.openAllButtonText, "Open All" );
         _configuration.copyAllButtonText = getDefaultString( _configuration.copyAllButtonText, "Copy All" );
+        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
     }
 
 
