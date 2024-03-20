@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.7.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v0.8.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   function render() {
     var tagTypes = _configuration.domElementTypes;
@@ -637,7 +637,7 @@
     return result;
   };
   this.getVersion = function() {
-    return "0.7.0";
+    return "0.8.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
