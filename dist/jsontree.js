@@ -42,7 +42,7 @@
     return bindingOptions;
   }
   function renderControl(bindingOptions) {
-    fireCustomTrigger(bindingOptions.onBeforeRender, bindingOptions.element);
+    fireCustomTrigger(bindingOptions.events.onBeforeRender, bindingOptions.element);
     if (!isDefinedString(bindingOptions.currentView.element.id)) {
       bindingOptions.currentView.element.id = newGuid();
     }
@@ -55,7 +55,7 @@
       delete bindingOptions.data;
     }
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onRenderComplete, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onRenderComplete, bindingOptions.currentView.element);
   }
   function renderControlContainer(bindingOptions) {
     var data = _elements_Data[bindingOptions.currentView.element.id].data;
@@ -68,20 +68,20 @@
     }
   }
   function renderControlTitleBar(bindingOptions) {
-    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls || bindingOptions.showTitleCopyButton) {
+    if (bindingOptions.title.show || bindingOptions.title.showTreeControls || bindingOptions.title.showCopyButton) {
       var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar"), controls = createElement(titleBar, "div", "controls");
-      if (bindingOptions.showTitle) {
-        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText, controls);
+      if (bindingOptions.title.show) {
+        createElementWithHTML(titleBar, "div", "title", bindingOptions.title.text, controls);
       }
-      if (bindingOptions.showTitleCopyButton) {
+      if (bindingOptions.title.showCopyButton) {
         var copy = createElementWithHTML(controls, "button", "copy-all", _configuration.copyAllButtonText);
         copy.onclick = function() {
           var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
           _parameter_Navigator.clipboard.writeText(copyData);
-          fireCustomTrigger(bindingOptions.onCopyAll, copyData);
+          fireCustomTrigger(bindingOptions.events.onCopyAll, copyData);
         };
       }
-      if (bindingOptions.showTitleTreeControls) {
+      if (bindingOptions.title.showTreeControls) {
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText), closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
           openAllNodes(bindingOptions);
@@ -95,12 +95,12 @@
   function openAllNodes(bindingOptions) {
     bindingOptions.showAllAsClosed = false;
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onOpenAll, bindingOptions.currentView.element);
   }
   function closeAllNodes(bindingOptions) {
     bindingOptions.showAllAsClosed = true;
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onCloseAll, bindingOptions.currentView.element);
   }
   function renderObject(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null, propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
@@ -162,8 +162,8 @@
       if (!bindingOptions.ignoreNullValues) {
         valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, "null");
-        if (isDefinedFunction(bindingOptions.onNullRender)) {
-          fireCustomTrigger(bindingOptions.onNullRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onNullRender)) {
+          fireCustomTrigger(bindingOptions.events.onNullRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -173,8 +173,8 @@
       if (!bindingOptions.ignoreFunctionValues) {
         valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getFunctionName(value));
-        if (isDefinedFunction(bindingOptions.onFunctionRender)) {
-          fireCustomTrigger(bindingOptions.onFunctionRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onFunctionRender)) {
+          fireCustomTrigger(bindingOptions.events.onFunctionRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -183,38 +183,38 @@
     } else if (isDefinedBoolean(value)) {
       valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-      if (isDefinedFunction(bindingOptions.onBooleanRender)) {
-        fireCustomTrigger(bindingOptions.onBooleanRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onBooleanRender)) {
+        fireCustomTrigger(bindingOptions.events.onBooleanRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
       var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
       valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newValue);
-      if (isDefinedFunction(bindingOptions.onDecimalRender)) {
-        fireCustomTrigger(bindingOptions.onDecimalRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onDecimalRender)) {
+        fireCustomTrigger(bindingOptions.events.onDecimalRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-      if (isDefinedFunction(bindingOptions.onNumberRender)) {
-        fireCustomTrigger(bindingOptions.onNumberRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onNumberRender)) {
+        fireCustomTrigger(bindingOptions.events.onNumberRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
       var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
       valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
-      if (isDefinedFunction(bindingOptions.onStringRender)) {
-        fireCustomTrigger(bindingOptions.onStringRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onStringRender)) {
+        fireCustomTrigger(bindingOptions.events.onStringRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
       valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
-      if (isDefinedFunction(bindingOptions.onDateRender)) {
-        fireCustomTrigger(bindingOptions.onDateRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onDateRender)) {
+        fireCustomTrigger(bindingOptions.events.onDateRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
@@ -236,8 +236,8 @@
       if (!bindingOptions.ignoreUnknownValues) {
         valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value.toString());
-        if (isDefinedFunction(bindingOptions.onUnknownRender)) {
-          fireCustomTrigger(bindingOptions.onUnknownRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onUnknownRender)) {
+          fireCustomTrigger(bindingOptions.events.onUnknownRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -253,9 +253,9 @@
     }
   }
   function addValueClickEvent(bindingOptions, valueElement, value) {
-    if (isDefinedFunction(bindingOptions.onValueClick)) {
+    if (isDefinedFunction(bindingOptions.events.onValueClick)) {
       valueElement.onclick = function() {
-        fireCustomTrigger(bindingOptions.onValueClick, value);
+        fireCustomTrigger(bindingOptions.events.onValueClick, value);
       };
     } else {
       addClass(valueElement, "no-hover");
@@ -307,15 +307,13 @@
     return number.toString().match(regExp)[0];
   }
   function buildAttributeOptions(newOptions) {
-    var options = !isDefinedObject(newOptions) ? {} : newOptions;
+    var options = getDefaultObject(newOptions, {});
     options.data = getDefaultObject(options.data, null);
     options.showCounts = getDefaultBoolean(options.showCounts, true);
     options.useZeroIndexingForArrays = getDefaultBoolean(options.useZeroIndexingForArrays, true);
     options.dateTimeFormat = getDefaultString(options.dateTimeFormat, "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}");
     options.showArrowToggles = getDefaultBoolean(options.showArrowToggles, true);
     options.showStringQuotes = getDefaultBoolean(options.showStringQuotes, true);
-    options.showTitle = getDefaultBoolean(options.showTitle, true);
-    options.showTitleTreeControls = getDefaultBoolean(options.showTitleTreeControls, true);
     options.showAllAsClosed = getDefaultBoolean(options.showAllAsClosed, false);
     options.sortPropertyNames = getDefaultBoolean(options.sortPropertyNames, true);
     options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean(options.sortPropertyNamesInAlphabeticalOrder, true);
@@ -324,35 +322,39 @@
     options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
     options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
-    options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options.ignoreUnknownValues = getDefaultBoolean(options.ignoreUnknownValues, false);
-    options = buildAttributeOptionStrings(options);
+    options = buildAttributeOptionTitle(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
   }
-  function buildAttributeOptionStrings(options) {
-    options.titleText = getDefaultString(options.titleText, "JsonTree.js");
+  function buildAttributeOptionTitle(options) {
+    options.title = getDefaultObject(options.title, {});
+    options.title.text = getDefaultString(options.title.text, "JsonTree.js");
+    options.title.show = getDefaultBoolean(options.title.show, true);
+    options.title.showTreeControls = getDefaultBoolean(options.title.showTreeControls, true);
+    options.title.showCopyButton = getDefaultBoolean(options.title.showCopyButton, false);
     return options;
   }
   function buildAttributeOptionCustomTriggers(options) {
-    options.onBeforeRender = getDefaultFunction(options.onBeforeRender, null);
-    options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
-    options.onValueClick = getDefaultFunction(options.onValueClick, null);
-    options.onRefresh = getDefaultFunction(options.onRefresh, null);
-    options.onCopyAll = getDefaultFunction(options.onCopyAll, null);
-    options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
-    options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
-    options.onDestroy = getDefaultFunction(options.onDestroy, null);
-    options.onBooleanRender = getDefaultFunction(options.onBooleanRender, null);
-    options.onDecimalRender = getDefaultFunction(options.onDecimalRender, null);
-    options.onNumberRender = getDefaultFunction(options.onNumberRender, null);
-    options.onStringRender = getDefaultFunction(options.onStringRender, null);
-    options.onDateRender = getDefaultFunction(options.onDateRender, null);
-    options.onFunctionRender = getDefaultFunction(options.onFunctionRender, null);
-    options.onNullRender = getDefaultFunction(options.onNullRender, null);
-    options.onUnknownRender = getDefaultFunction(options.onUnknownRender, null);
+    options.events = getDefaultObject(options.events, {});
+    options.events.onBeforeRender = getDefaultFunction(options.events.onBeforeRender, null);
+    options.events.onRenderComplete = getDefaultFunction(options.events.onRenderComplete, null);
+    options.events.onValueClick = getDefaultFunction(options.events.onValueClick, null);
+    options.events.onRefresh = getDefaultFunction(options.events.onRefresh, null);
+    options.events.onCopyAll = getDefaultFunction(options.events.onCopyAll, null);
+    options.events.onOpenAll = getDefaultFunction(options.events.onOpenAll, null);
+    options.events.onCloseAll = getDefaultFunction(options.events.onCloseAll, null);
+    options.events.onDestroy = getDefaultFunction(options.events.onDestroy, null);
+    options.events.onBooleanRender = getDefaultFunction(options.events.onBooleanRender, null);
+    options.events.onDecimalRender = getDefaultFunction(options.events.onDecimalRender, null);
+    options.events.onNumberRender = getDefaultFunction(options.events.onNumberRender, null);
+    options.events.onStringRender = getDefaultFunction(options.events.onStringRender, null);
+    options.events.onDateRender = getDefaultFunction(options.events.onDateRender, null);
+    options.events.onFunctionRender = getDefaultFunction(options.events.onFunctionRender, null);
+    options.events.onNullRender = getDefaultFunction(options.events.onNullRender, null);
+    options.events.onUnknownRender = getDefaultFunction(options.events.onUnknownRender, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -507,7 +509,7 @@
     if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
       var bindingOptions = _elements_Data[elementId].options;
       renderControlContainer(bindingOptions);
-      fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+      fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
     }
     return _public;
   };
@@ -516,7 +518,7 @@
       if (_elements_Data.hasOwnProperty(elementId)) {
         var bindingOptions = _elements_Data[elementId].options;
         renderControlContainer(bindingOptions);
-        fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+        fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
       }
     }
     return _public;
@@ -562,7 +564,7 @@
   function destroyElement(bindingOptions) {
     bindingOptions.currentView.element.innerHTML = _string.empty;
     bindingOptions.currentView.element.className = _string.empty;
-    fireCustomTrigger(bindingOptions.onDestroy, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onDestroy, bindingOptions.currentView.element);
   }
   _public.setConfiguration = function(newConfiguration) {
     for (var propertyName in newConfiguration) {
