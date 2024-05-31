@@ -664,6 +664,10 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
+    function getDefaultAnyString( value, defaultValue ) {
+        return typeof value === "string" ? value : defaultValue;
+    }
+
     function getDefaultString( value, defaultValue ) {
         return isDefinedString( value ) ? value : defaultValue;
     }
@@ -1032,14 +1036,14 @@
     }
 
     function buildDefaultConfigurationStrings() {
-        _configuration.objectText = getDefaultString( _configuration.objectText, "object" );
-        _configuration.arrayText = getDefaultString( _configuration.arrayText, "array" );
-        _configuration.closeAllButtonText = getDefaultString( _configuration.closeAllButtonText, "Close All" );
-        _configuration.openAllButtonText = getDefaultString( _configuration.openAllButtonText, "Open All" );
-        _configuration.copyAllButtonText = getDefaultString( _configuration.copyAllButtonText, "Copy All" );
-        _configuration.objectErrorText = getDefaultString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = getDefaultString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = getDefaultString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.objectText = getDefaultAnyString( _configuration.objectText, "object" );
+        _configuration.arrayText = getDefaultAnyString( _configuration.arrayText, "array" );
+        _configuration.closeAllButtonText = getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
+        _configuration.openAllButtonText = getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
+        _configuration.copyAllButtonText = getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
+        _configuration.objectErrorText = getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
     }
 
 
