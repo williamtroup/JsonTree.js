@@ -1,4 +1,4 @@
-/*! JsonTree.js v0.8.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v1.0.0 | (c) Bunoon 2024 | MIT License */
 (function() {
   var _parameter_Document = null, _parameter_Window = null, _parameter_Navigator = null, _parameter_Math = null, _parameter_JSON = null, _public = {}, _configuration = {}, _elements_Type = {}, _elements_Data = {}, _string = {empty:"", space:" "}, _attribute_Name_Options = "data-jsontree-options";
   function render() {
@@ -596,7 +596,7 @@
     return result;
   };
   _public.getVersion = function() {
-    return "0.8.0";
+    return "1.0.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;
