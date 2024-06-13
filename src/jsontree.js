@@ -508,7 +508,7 @@
         options.data = getDefaultObject( options.data, null );
         options.showCounts = getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}" );
+        options.dateTimeFormat = getDefaultString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
         options.showArrowToggles = getDefaultBoolean( options.showArrowToggles, true );
         options.showStringQuotes = getDefaultBoolean( options.showStringQuotes, true );
         options.showAllAsClosed = getDefaultBoolean( options.showAllAsClosed, false );
@@ -606,6 +606,19 @@
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Triggering Custom Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function fireCustomTrigger( triggerFunction ) {
+        if ( isDefinedFunction( triggerFunction ) ) {
+            triggerFunction.apply( null, [].slice.call( arguments, 1 ) );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Validation
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -646,17 +659,10 @@
         return isDefined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 
+    function isInvalidOptionArray( array, minimumLength ) {
+        minimumLength = isDefinedNumber( minimumLength ) ? minimumLength : 1;
 
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Triggering Custom Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function fireCustomTrigger( triggerFunction ) {
-        if ( isDefinedFunction( triggerFunction ) ) {
-            triggerFunction.apply( null, [].slice.call( arguments, 1 ) );
-        }
+        return !isDefinedArray( array ) || array.length < minimumLength;
     }
 
 
@@ -787,8 +793,27 @@
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
+    function getWeekdayNumber( date ) {
+        return date.getDay() - 1 < 0 ? 6 : date.getDay() - 1;
+    }
+
+    function getDayOrdinal( value ) {
+        var result = _configuration.thText;
+
+        if ( value === 31 || value === 21 || value === 1 ) {
+            result = _configuration.stText;
+        } else if ( value === 22 || value === 2 ) {
+            result = _configuration.ndText;
+        } else if ( value === 23 || value === 3 ) {
+            result = _configuration.rdText;
+        }
+
+        return result;
+    }
+
     function getCustomFormattedDateTimeText( date, dateFormat ) {
-        var result = dateFormat;
+        var result = dateFormat,
+            weekDayNumber = getWeekdayNumber( date );
 
         result = result.replace( "{hh}", padNumber( date.getHours(), 2 ) );
         result = result.replace( "{h}", date.getHours() );
@@ -799,10 +824,16 @@
         result = result.replace( "{ss}", padNumber( date.getSeconds(), 2 ) );
         result = result.replace( "{s}", date.getSeconds() );
 
-        result = result.replace( "{dd}", padNumber( date.getDate(), 2 ) );
+        result = result.replace( "{dddd}", _configuration.dayNames[ weekDayNumber ] );
+        result = result.replace( "{ddd}", _configuration.dayNamesAbbreviated[ weekDayNumber ] );
+        result = result.replace( "{dd}", padNumber( date.getDate() ) );
         result = result.replace( "{d}", date.getDate() );
 
-        result = result.replace( "{mm}", padNumber( date.getMonth() + 1, 2 ) );
+        result = result.replace( "{o}", getDayOrdinal( date.getDate() ) );
+
+        result = result.replace( "{mmmm}", _configuration.monthNames[ date.getMonth() ] );
+        result = result.replace( "{mmm}", _configuration.monthNamesAbbreviated[ date.getMonth() ] );
+        result = result.replace( "{mm}", padNumber( date.getMonth() + 1 ) );
         result = result.replace( "{m}", date.getMonth() + 1 );
 
         result = result.replace( "{yyyy}", date.getFullYear() );
@@ -1046,6 +1077,68 @@
         _configuration.objectErrorText = getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
         _configuration.attributeNotValidErrorText = getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
         _configuration.attributeNotSetErrorText = getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.stText = getDefaultAnyString( _configuration.stText, "st" );
+        _configuration.ndText = getDefaultAnyString( _configuration.ndText, "nd" );
+        _configuration.rdText = getDefaultAnyString( _configuration.rdText, "rd" );
+        _configuration.thText = getDefaultAnyString( _configuration.thText, "th" );
+
+        if ( isInvalidOptionArray( _configuration.dayNames, 7 ) ) {
+            _configuration.dayNames = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+            ];
+        }
+
+        if ( isInvalidOptionArray( _configuration.dayNamesAbbreviated, 7 ) ) {
+            _configuration.dayNamesAbbreviated = [
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat",
+                "Sun"
+            ];
+        }
+
+        if ( isInvalidOptionArray( _configuration.monthNames, 12 ) ) {
+            _configuration.monthNames = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+        }
+
+        if ( isInvalidOptionArray( _configuration.monthNamesAbbreviated, 12 ) ) {
+            _configuration.monthNamesAbbreviated = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ];
+        }
     }
 
 
