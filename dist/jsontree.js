@@ -1,6 +1,6 @@
-/*! JsonTree.js v0.8.0 | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v1.0.0 | (c) Bunoon 2024 | MIT License */
 (function() {
-  var _parameter_Document = null, _parameter_Window = null, _parameter_Navigator = null, _parameter_Math = null, _parameter_JSON = null, _public = {}, _configuration = {}, _elements_Type = {}, _elements_Data = {}, _string = {empty:"", space:" "}, _attribute_Name_Options = "data-jsontree-options";
+  var _parameter_Document = null, _parameter_Window = null, _parameter_Navigator = null, _parameter_Math = null, _parameter_JSON = null, _public = {}, _configuration = {}, _elements_Type = {}, _elements_Data = {}, _string = {empty:"", space:" "}, _attribute_Name_Options = "data-jsontree-js";
   function render() {
     var tagTypes = _configuration.domElementTypes, tagTypesLength = tagTypes.length;
     for (var tagTypeIndex = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
@@ -42,7 +42,7 @@
     return bindingOptions;
   }
   function renderControl(bindingOptions) {
-    fireCustomTrigger(bindingOptions.onBeforeRender, bindingOptions.element);
+    fireCustomTrigger(bindingOptions.events.onBeforeRender, bindingOptions.element);
     if (!isDefinedString(bindingOptions.currentView.element.id)) {
       bindingOptions.currentView.element.id = newGuid();
     }
@@ -55,7 +55,7 @@
       delete bindingOptions.data;
     }
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onRenderComplete, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onRenderComplete, bindingOptions.currentView.element);
   }
   function renderControlContainer(bindingOptions) {
     var data = _elements_Data[bindingOptions.currentView.element.id].data;
@@ -68,20 +68,20 @@
     }
   }
   function renderControlTitleBar(bindingOptions) {
-    if (bindingOptions.showTitle || bindingOptions.showTitleTreeControls || bindingOptions.showTitleCopyButton) {
+    if (bindingOptions.title.show || bindingOptions.title.showTreeControls || bindingOptions.title.showCopyButton) {
       var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar"), controls = createElement(titleBar, "div", "controls");
-      if (bindingOptions.showTitle) {
-        createElementWithHTML(titleBar, "div", "title", bindingOptions.titleText, controls);
+      if (bindingOptions.title.show) {
+        createElementWithHTML(titleBar, "div", "title", bindingOptions.title.text, controls);
       }
-      if (bindingOptions.showTitleCopyButton) {
+      if (bindingOptions.title.showCopyButton) {
         var copy = createElementWithHTML(controls, "button", "copy-all", _configuration.copyAllButtonText);
         copy.onclick = function() {
           var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
           _parameter_Navigator.clipboard.writeText(copyData);
-          fireCustomTrigger(bindingOptions.onCopyAll, copyData);
+          fireCustomTrigger(bindingOptions.events.onCopyAll, copyData);
         };
       }
-      if (bindingOptions.showTitleTreeControls) {
+      if (bindingOptions.title.showTreeControls) {
         var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText), closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
         openAll.onclick = function() {
           openAllNodes(bindingOptions);
@@ -95,12 +95,12 @@
   function openAllNodes(bindingOptions) {
     bindingOptions.showAllAsClosed = false;
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onOpenAll, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onOpenAll, bindingOptions.currentView.element);
   }
   function closeAllNodes(bindingOptions) {
     bindingOptions.showAllAsClosed = true;
     renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.onCloseAll, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onCloseAll, bindingOptions.currentView.element);
   }
   function renderObject(container, bindingOptions, data) {
     var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null, propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
@@ -162,8 +162,8 @@
       if (!bindingOptions.ignoreNullValues) {
         valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, "null");
-        if (isDefinedFunction(bindingOptions.onNullRender)) {
-          fireCustomTrigger(bindingOptions.onNullRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onNullRender)) {
+          fireCustomTrigger(bindingOptions.events.onNullRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -173,8 +173,8 @@
       if (!bindingOptions.ignoreFunctionValues) {
         valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getFunctionName(value));
-        if (isDefinedFunction(bindingOptions.onFunctionRender)) {
-          fireCustomTrigger(bindingOptions.onFunctionRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onFunctionRender)) {
+          fireCustomTrigger(bindingOptions.events.onFunctionRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -183,38 +183,41 @@
     } else if (isDefinedBoolean(value)) {
       valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-      if (isDefinedFunction(bindingOptions.onBooleanRender)) {
-        fireCustomTrigger(bindingOptions.onBooleanRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onBooleanRender)) {
+        fireCustomTrigger(bindingOptions.events.onBooleanRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDecimal(value)) {
       var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
       valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newValue);
-      if (isDefinedFunction(bindingOptions.onDecimalRender)) {
-        fireCustomTrigger(bindingOptions.onDecimalRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onDecimalRender)) {
+        fireCustomTrigger(bindingOptions.events.onDecimalRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedNumber(value)) {
       valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-      if (isDefinedFunction(bindingOptions.onNumberRender)) {
-        fireCustomTrigger(bindingOptions.onNumberRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onNumberRender)) {
+        fireCustomTrigger(bindingOptions.events.onNumberRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
+      if (bindingOptions.maximumStringLength > 0 && value.length > bindingOptions.maximumStringLength) {
+        value = value.substring(0, bindingOptions.maximumStringLength) + _configuration.ellipsisText;
+      }
       var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
       valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
-      if (isDefinedFunction(bindingOptions.onStringRender)) {
-        fireCustomTrigger(bindingOptions.onStringRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onStringRender)) {
+        fireCustomTrigger(bindingOptions.events.onStringRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedDate(value)) {
       valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
-      if (isDefinedFunction(bindingOptions.onDateRender)) {
-        fireCustomTrigger(bindingOptions.onDateRender, valueElement);
+      if (isDefinedFunction(bindingOptions.events.onDateRender)) {
+        fireCustomTrigger(bindingOptions.events.onDateRender, valueElement);
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedObject(value) && !isDefinedArray(value)) {
@@ -236,8 +239,8 @@
       if (!bindingOptions.ignoreUnknownValues) {
         valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value.toString());
-        if (isDefinedFunction(bindingOptions.onUnknownRender)) {
-          fireCustomTrigger(bindingOptions.onUnknownRender, valueElement);
+        if (isDefinedFunction(bindingOptions.events.onUnknownRender)) {
+          fireCustomTrigger(bindingOptions.events.onUnknownRender, valueElement);
         }
         createComma(bindingOptions, objectTypeValue, isLastItem);
       } else {
@@ -253,9 +256,9 @@
     }
   }
   function addValueClickEvent(bindingOptions, valueElement, value) {
-    if (isDefinedFunction(bindingOptions.onValueClick)) {
+    if (isDefinedFunction(bindingOptions.events.onValueClick)) {
       valueElement.onclick = function() {
-        fireCustomTrigger(bindingOptions.onValueClick, value);
+        fireCustomTrigger(bindingOptions.events.onValueClick, value);
       };
     } else {
       addClass(valueElement, "no-hover");
@@ -307,15 +310,13 @@
     return number.toString().match(regExp)[0];
   }
   function buildAttributeOptions(newOptions) {
-    var options = !isDefinedObject(newOptions) ? {} : newOptions;
+    var options = getDefaultObject(newOptions, {});
     options.data = getDefaultObject(options.data, null);
     options.showCounts = getDefaultBoolean(options.showCounts, true);
     options.useZeroIndexingForArrays = getDefaultBoolean(options.useZeroIndexingForArrays, true);
-    options.dateTimeFormat = getDefaultString(options.dateTimeFormat, "{dd}/{mm}/{yyyy} {hh}:{MM}:{ss}");
+    options.dateTimeFormat = getDefaultString(options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
     options.showArrowToggles = getDefaultBoolean(options.showArrowToggles, true);
     options.showStringQuotes = getDefaultBoolean(options.showStringQuotes, true);
-    options.showTitle = getDefaultBoolean(options.showTitle, true);
-    options.showTitleTreeControls = getDefaultBoolean(options.showTitleTreeControls, true);
     options.showAllAsClosed = getDefaultBoolean(options.showAllAsClosed, false);
     options.sortPropertyNames = getDefaultBoolean(options.sortPropertyNames, true);
     options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean(options.sortPropertyNamesInAlphabeticalOrder, true);
@@ -324,35 +325,40 @@
     options.ignoreFunctionValues = getDefaultBoolean(options.ignoreFunctionValues, false);
     options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
     options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
-    options.showTitleCopyButton = getDefaultBoolean(options.showTitleCopyButton, false);
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options.ignoreUnknownValues = getDefaultBoolean(options.ignoreUnknownValues, false);
-    options = buildAttributeOptionStrings(options);
+    options.maximumStringLength = getDefaultNumber(options.maximumStringLength, 0);
+    options = buildAttributeOptionTitle(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
   }
-  function buildAttributeOptionStrings(options) {
-    options.titleText = getDefaultString(options.titleText, "JsonTree.js");
+  function buildAttributeOptionTitle(options) {
+    options.title = getDefaultObject(options.title, {});
+    options.title.text = getDefaultString(options.title.text, "JsonTree.js");
+    options.title.show = getDefaultBoolean(options.title.show, true);
+    options.title.showTreeControls = getDefaultBoolean(options.title.showTreeControls, true);
+    options.title.showCopyButton = getDefaultBoolean(options.title.showCopyButton, false);
     return options;
   }
   function buildAttributeOptionCustomTriggers(options) {
-    options.onBeforeRender = getDefaultFunction(options.onBeforeRender, null);
-    options.onRenderComplete = getDefaultFunction(options.onRenderComplete, null);
-    options.onValueClick = getDefaultFunction(options.onValueClick, null);
-    options.onRefresh = getDefaultFunction(options.onRefresh, null);
-    options.onCopyAll = getDefaultFunction(options.onCopyAll, null);
-    options.onOpenAll = getDefaultFunction(options.onOpenAll, null);
-    options.onCloseAll = getDefaultFunction(options.onCloseAll, null);
-    options.onDestroy = getDefaultFunction(options.onDestroy, null);
-    options.onBooleanRender = getDefaultFunction(options.onBooleanRender, null);
-    options.onDecimalRender = getDefaultFunction(options.onDecimalRender, null);
-    options.onNumberRender = getDefaultFunction(options.onNumberRender, null);
-    options.onStringRender = getDefaultFunction(options.onStringRender, null);
-    options.onDateRender = getDefaultFunction(options.onDateRender, null);
-    options.onFunctionRender = getDefaultFunction(options.onFunctionRender, null);
-    options.onNullRender = getDefaultFunction(options.onNullRender, null);
-    options.onUnknownRender = getDefaultFunction(options.onUnknownRender, null);
+    options.events = getDefaultObject(options.events, {});
+    options.events.onBeforeRender = getDefaultFunction(options.events.onBeforeRender, null);
+    options.events.onRenderComplete = getDefaultFunction(options.events.onRenderComplete, null);
+    options.events.onValueClick = getDefaultFunction(options.events.onValueClick, null);
+    options.events.onRefresh = getDefaultFunction(options.events.onRefresh, null);
+    options.events.onCopyAll = getDefaultFunction(options.events.onCopyAll, null);
+    options.events.onOpenAll = getDefaultFunction(options.events.onOpenAll, null);
+    options.events.onCloseAll = getDefaultFunction(options.events.onCloseAll, null);
+    options.events.onDestroy = getDefaultFunction(options.events.onDestroy, null);
+    options.events.onBooleanRender = getDefaultFunction(options.events.onBooleanRender, null);
+    options.events.onDecimalRender = getDefaultFunction(options.events.onDecimalRender, null);
+    options.events.onNumberRender = getDefaultFunction(options.events.onNumberRender, null);
+    options.events.onStringRender = getDefaultFunction(options.events.onStringRender, null);
+    options.events.onDateRender = getDefaultFunction(options.events.onDateRender, null);
+    options.events.onFunctionRender = getDefaultFunction(options.events.onFunctionRender, null);
+    options.events.onNullRender = getDefaultFunction(options.events.onNullRender, null);
+    options.events.onUnknownRender = getDefaultFunction(options.events.onUnknownRender, null);
     return options;
   }
   function createElement(container, type, className, beforeNode) {
@@ -378,6 +384,11 @@
   }
   function addClass(element, className) {
     element.className += _string.space + className;
+  }
+  function fireCustomTrigger(triggerFunction) {
+    if (isDefinedFunction(triggerFunction)) {
+      triggerFunction.apply(null, [].slice.call(arguments, 1));
+    }
   }
   function isDefined(value) {
     return value !== null && value !== undefined && value !== _string.empty;
@@ -406,10 +417,12 @@
   function isDefinedDecimal(object) {
     return isDefined(object) && typeof object === "number" && object % 1 !== 0;
   }
-  function fireCustomTrigger(triggerFunction) {
-    if (isDefinedFunction(triggerFunction)) {
-      triggerFunction.apply(null, [].slice.call(arguments, 1));
-    }
+  function isInvalidOptionArray(array, minimumLength) {
+    minimumLength = isDefinedNumber(minimumLength) ? minimumLength : 1;
+    return !isDefinedArray(array) || array.length < minimumLength;
+  }
+  function getDefaultAnyString(value, defaultValue) {
+    return typeof value === "string" ? value : defaultValue;
   }
   function getDefaultString(value, defaultValue) {
     return isDefinedString(value) ? value : defaultValue;
@@ -482,17 +495,36 @@
     }
     return numberResult;
   }
+  function getWeekdayNumber(date) {
+    return date.getDay() - 1 < 0 ? 6 : date.getDay() - 1;
+  }
+  function getDayOrdinal(value) {
+    var result = _configuration.thText;
+    if (value === 31 || value === 21 || value === 1) {
+      result = _configuration.stText;
+    } else if (value === 22 || value === 2) {
+      result = _configuration.ndText;
+    } else if (value === 23 || value === 3) {
+      result = _configuration.rdText;
+    }
+    return result;
+  }
   function getCustomFormattedDateTimeText(date, dateFormat) {
-    var result = dateFormat;
+    var result = dateFormat, weekDayNumber = getWeekdayNumber(date);
     result = result.replace("{hh}", padNumber(date.getHours(), 2));
     result = result.replace("{h}", date.getHours());
     result = result.replace("{MM}", padNumber(date.getMinutes(), 2));
     result = result.replace("{M}", date.getMinutes());
     result = result.replace("{ss}", padNumber(date.getSeconds(), 2));
     result = result.replace("{s}", date.getSeconds());
-    result = result.replace("{dd}", padNumber(date.getDate(), 2));
+    result = result.replace("{dddd}", _configuration.dayNames[weekDayNumber]);
+    result = result.replace("{ddd}", _configuration.dayNamesAbbreviated[weekDayNumber]);
+    result = result.replace("{dd}", padNumber(date.getDate()));
     result = result.replace("{d}", date.getDate());
-    result = result.replace("{mm}", padNumber(date.getMonth() + 1, 2));
+    result = result.replace("{o}", getDayOrdinal(date.getDate()));
+    result = result.replace("{mmmm}", _configuration.monthNames[date.getMonth()]);
+    result = result.replace("{mmm}", _configuration.monthNamesAbbreviated[date.getMonth()]);
+    result = result.replace("{mm}", padNumber(date.getMonth() + 1));
     result = result.replace("{m}", date.getMonth() + 1);
     result = result.replace("{yyyy}", date.getFullYear());
     result = result.replace("{yyy}", date.getFullYear().toString().substring(1));
@@ -504,7 +536,7 @@
     if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
       var bindingOptions = _elements_Data[elementId].options;
       renderControlContainer(bindingOptions);
-      fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+      fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
     }
     return _public;
   };
@@ -513,7 +545,7 @@
       if (_elements_Data.hasOwnProperty(elementId)) {
         var bindingOptions = _elements_Data[elementId].options;
         renderControlContainer(bindingOptions);
-        fireCustomTrigger(bindingOptions.onRefresh, bindingOptions.currentView.element);
+        fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
       }
     }
     return _public;
@@ -559,7 +591,7 @@
   function destroyElement(bindingOptions) {
     bindingOptions.currentView.element.innerHTML = _string.empty;
     bindingOptions.currentView.element.className = _string.empty;
-    fireCustomTrigger(bindingOptions.onDestroy, bindingOptions.currentView.element);
+    fireCustomTrigger(bindingOptions.events.onDestroy, bindingOptions.currentView.element);
   }
   _public.setConfiguration = function(newConfiguration) {
     for (var propertyName in newConfiguration) {
@@ -577,14 +609,31 @@
     buildDefaultConfigurationStrings();
   }
   function buildDefaultConfigurationStrings() {
-    _configuration.objectText = getDefaultString(_configuration.objectText, "object");
-    _configuration.arrayText = getDefaultString(_configuration.arrayText, "array");
-    _configuration.closeAllButtonText = getDefaultString(_configuration.closeAllButtonText, "Close All");
-    _configuration.openAllButtonText = getDefaultString(_configuration.openAllButtonText, "Open All");
-    _configuration.copyAllButtonText = getDefaultString(_configuration.copyAllButtonText, "Copy All");
-    _configuration.objectErrorText = getDefaultString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-    _configuration.attributeNotValidErrorText = getDefaultString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-    _configuration.attributeNotSetErrorText = getDefaultString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.objectText = getDefaultAnyString(_configuration.objectText, "object");
+    _configuration.arrayText = getDefaultAnyString(_configuration.arrayText, "array");
+    _configuration.closeAllButtonText = getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
+    _configuration.openAllButtonText = getDefaultAnyString(_configuration.openAllButtonText, "Open All");
+    _configuration.copyAllButtonText = getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
+    _configuration.objectErrorText = getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+    _configuration.attributeNotValidErrorText = getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+    _configuration.attributeNotSetErrorText = getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+    _configuration.stText = getDefaultAnyString(_configuration.stText, "st");
+    _configuration.ndText = getDefaultAnyString(_configuration.ndText, "nd");
+    _configuration.rdText = getDefaultAnyString(_configuration.rdText, "rd");
+    _configuration.thText = getDefaultAnyString(_configuration.thText, "th");
+    _configuration.ellipsisText = getDefaultAnyString(_configuration.ellipsisText, "...");
+    if (isInvalidOptionArray(_configuration.dayNames, 7)) {
+      _configuration.dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    }
+    if (isInvalidOptionArray(_configuration.dayNamesAbbreviated, 7)) {
+      _configuration.dayNamesAbbreviated = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    }
+    if (isInvalidOptionArray(_configuration.monthNames, 12)) {
+      _configuration.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    }
+    if (isInvalidOptionArray(_configuration.monthNamesAbbreviated, 12)) {
+      _configuration.monthNamesAbbreviated = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    }
   }
   _public.getIds = function() {
     var result = [];
@@ -596,7 +645,7 @@
     return result;
   };
   _public.getVersion = function() {
-    return "0.8.0";
+    return "1.0.0";
   };
   (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
     _parameter_Document = documentObject;

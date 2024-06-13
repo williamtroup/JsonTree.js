@@ -2,15 +2,15 @@
 JsonTree.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v0.8.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v0.8.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.0.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.0.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</p>
-> <p align="center">v0.8.0</p>
+> <p align="center">v1.0.0</p>
 <br />
 
 ![JsonTree.js](docs/images/main.png)
@@ -91,14 +91,14 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<div id="tree-1" data-jsontree-options="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
+<div id="tree-1" data-jsontree-js="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
     Your HTML.
 </div>
 ```
 
-To see a list of all the available binding options you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
+To see a list of all the available binding options you can use for "data-jsontree-js", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
+To see a list of all the available custom triggers you can use for "data-jsontree-js", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
 
 <br>
 
