@@ -203,6 +203,9 @@
       }
       createComma(bindingOptions, objectTypeValue, isLastItem);
     } else if (isDefinedString(value)) {
+      if (bindingOptions.maximumStringLength > 0 && value.length > bindingOptions.maximumStringLength) {
+        value = value.substring(0, bindingOptions.maximumStringLength) + _configuration.ellipsisText;
+      }
       var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
       valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
       valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
@@ -325,6 +328,7 @@
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options.ignoreUnknownValues = getDefaultBoolean(options.ignoreUnknownValues, false);
+    options.maximumStringLength = getDefaultNumber(options.maximumStringLength, 0);
     options = buildAttributeOptionTitle(options);
     options = buildAttributeOptionCustomTriggers(options);
     return options;
@@ -617,6 +621,7 @@
     _configuration.ndText = getDefaultAnyString(_configuration.ndText, "nd");
     _configuration.rdText = getDefaultAnyString(_configuration.rdText, "rd");
     _configuration.thText = getDefaultAnyString(_configuration.thText, "th");
+    _configuration.ellipsisText = getDefaultAnyString(_configuration.ellipsisText, "...");
     if (isInvalidOptionArray(_configuration.dayNames, 7)) {
       _configuration.dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     }
