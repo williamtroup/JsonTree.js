@@ -38,7 +38,7 @@
         },
 
         // Variables: Attribute Names
-        _attribute_Name_Options = "data-jsontree-options";
+        _attribute_Name_Options = "data-jsontree-js";
 
     
     /*

@@ -91,14 +91,14 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<div id="tree-1" data-jsontree-options="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
+<div id="tree-1" data-jsontree-js="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
     Your HTML.
 </div>
 ```
 
-To see a list of all the available binding options you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
+To see a list of all the available binding options you can use for "data-jsontree-js", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options.html).
 
-To see a list of all the available custom triggers you can use for "data-jsontree-options", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
+To see a list of all the available custom triggers you can use for "data-jsontree-js", click [here](https://www.william-troup.com/jsontree-js/documentation/binding-options-custom-triggers.html).
 
 <br>
 
