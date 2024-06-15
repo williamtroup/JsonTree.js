@@ -155,13 +155,14 @@
     addArrowEvent(bindingOptions, arrow, objectTypeContents);
   }
   function renderValue(container, bindingOptions, name, value, isLastItem) {
-    var objectTypeValue = createElement(container, "div", "object-type-value"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null, valueClass = null, valueElement = null, ignored = false;
+    var objectTypeValue = createElement(container, "div", "object-type-value"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null, valueClass = null, valueElement = null, ignored = false, type = null, addClickEvent = true;
     createElementWithHTML(objectTypeValue, "span", "title", name);
     createElementWithHTML(objectTypeValue, "span", "split", ":");
     if (!isDefined(value)) {
       if (!bindingOptions.ignore.nullValues) {
         valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, "null");
+        addClickEvent = false;
         if (isDefinedFunction(bindingOptions.events.onNullRender)) {
           fireCustomTrigger(bindingOptions.events.onNullRender, valueElement);
         }
@@ -173,6 +174,7 @@
       if (!bindingOptions.ignore.functionValues) {
         valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getFunctionName(value));
+        type = "function";
         if (isDefinedFunction(bindingOptions.events.onFunctionRender)) {
           fireCustomTrigger(bindingOptions.events.onFunctionRender, valueElement);
         }
@@ -184,6 +186,7 @@
       if (!bindingOptions.ignore.booleanValues) {
         valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
+        type = "boolean";
         if (isDefinedFunction(bindingOptions.events.onBooleanRender)) {
           fireCustomTrigger(bindingOptions.events.onBooleanRender, valueElement);
         }
@@ -196,6 +199,7 @@
         var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
         valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newValue);
+        type = "decimal";
         if (isDefinedFunction(bindingOptions.events.onDecimalRender)) {
           fireCustomTrigger(bindingOptions.events.onDecimalRender, valueElement);
         }
@@ -207,6 +211,7 @@
       if (!bindingOptions.ignore.numberValues) {
         valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
+        type = "number";
         if (isDefinedFunction(bindingOptions.events.onNumberRender)) {
           fireCustomTrigger(bindingOptions.events.onNumberRender, valueElement);
         }
@@ -227,6 +232,7 @@
         var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
         valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
+        type = "string";
         if (isDefinedString(color)) {
           valueElement.style.color = color;
         }
@@ -241,6 +247,7 @@
       if (!bindingOptions.ignore.dateValues) {
         valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
+        type = "date";
         if (isDefinedFunction(bindingOptions.events.onDateRender)) {
           fireCustomTrigger(bindingOptions.events.onDateRender, valueElement);
         }
@@ -256,6 +263,7 @@
           createElementWithHTML(objectTitle, "span", "count", "{" + propertyCount + "}");
         }
         createComma(bindingOptions, objectTitle, isLastItem);
+        type = "object";
       } else {
         ignored = true;
       }
@@ -268,6 +276,7 @@
         }
         createComma(bindingOptions, arrayTitle, isLastItem);
         renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
+        type = "array";
       } else {
         ignored = true;
       }
@@ -275,6 +284,7 @@
       if (!bindingOptions.ignore.unknownValues) {
         valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value.toString());
+        type = "unknown";
         if (isDefinedFunction(bindingOptions.events.onUnknownRender)) {
           fireCustomTrigger(bindingOptions.events.onUnknownRender, valueElement);
         }
@@ -287,14 +297,14 @@
       container.removeChild(objectTypeValue);
     } else {
       if (isDefined(valueElement)) {
-        addValueClickEvent(bindingOptions, valueElement, value);
+        addValueClickEvent(bindingOptions, valueElement, value, type, addClickEvent);
       }
     }
   }
-  function addValueClickEvent(bindingOptions, valueElement, value) {
-    if (isDefinedFunction(bindingOptions.events.onValueClick)) {
+  function addValueClickEvent(bindingOptions, valueElement, value, type, addClickEvent) {
+    if (addClickEvent && isDefinedFunction(bindingOptions.events.onValueClick)) {
       valueElement.onclick = function() {
-        fireCustomTrigger(bindingOptions.events.onValueClick, value);
+        fireCustomTrigger(bindingOptions.events.onValueClick, value, type);
       };
     } else {
       addClass(valueElement, "no-hover");
