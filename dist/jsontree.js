@@ -216,12 +216,20 @@
       }
     } else if (isDefinedString(value)) {
       if (!bindingOptions.ignore.stringValues) {
-        if (bindingOptions.maximumStringLength > 0 && value.length > bindingOptions.maximumStringLength) {
-          value = value.substring(0, bindingOptions.maximumStringLength) + _configuration.ellipsisText;
+        var color = null;
+        if (bindingOptions.showStringHexColors && isHexColor(value)) {
+          color = value;
+        } else {
+          if (bindingOptions.maximumStringLength > 0 && value.length > bindingOptions.maximumStringLength) {
+            value = value.substring(0, bindingOptions.maximumStringLength) + _configuration.ellipsisText;
+          }
         }
         var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
         valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
         valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
+        if (isDefinedString(color)) {
+          valueElement.style.color = color;
+        }
         if (isDefinedFunction(bindingOptions.events.onStringRender)) {
           fireCustomTrigger(bindingOptions.events.onStringRender, valueElement);
         }
@@ -337,6 +345,13 @@
     var regExp = new RegExp("^-?\\d+(?:.\\d{0," + (length || -1) + "})?");
     return number.toString().match(regExp)[0];
   }
+  function isHexColor(value) {
+    var valid = value.length >= 2 && value.length <= 7;
+    if (valid && value[0] === "#") {
+      valid = isNaN(value.substring(1, value.length - 1));
+    }
+    return valid;
+  }
   function buildAttributeOptions(newOptions) {
     var options = getDefaultObject(newOptions, {});
     options.data = getDefaultObject(options.data, null);
@@ -354,6 +369,7 @@
     options.showValueColors = getDefaultBoolean(options.showValueColors, true);
     options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
     options.maximumStringLength = getDefaultNumber(options.maximumStringLength, 0);
+    options.showStringHexColors = getDefaultBoolean(options.showStringHexColors, false);
     options = buildAttributeOptionTitle(options);
     options = buildAttributeOptionIgnore(options);
     options = buildAttributeOptionCustomTriggers(options);
