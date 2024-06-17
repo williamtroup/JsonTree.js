@@ -11,12 +11,12 @@
  */
 
 
-var jsonTree = {
+var jsontree = {
     js: function() {
         return window.$jsontree;
     }
 };
 
-Object.assign( window, { jsonTree } );
+Object.assign( window, { jsontree } );
 
-export { jsonTree };
+export { jsontree };
