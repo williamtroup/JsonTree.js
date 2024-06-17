@@ -1,8 +1,8 @@
-# JsonTree.js v1.1.0
+# JsonTree.js v1.1.1
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v1.1.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.1.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.1.1-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.1.1-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -13,6 +13,7 @@
 ## What features does JsonTree.js have?
 
 - Zero-dependencies and extremely lightweight!
+- Exportable for use in other frameworks!
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables).
