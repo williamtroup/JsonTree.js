@@ -20,6 +20,7 @@ JsonTree.js
 <h1>What features does JsonTree.js have?</h1>
 
 - Zero-dependencies and extremely lightweight!
+- Exportable for use in other frameworks!
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables).
