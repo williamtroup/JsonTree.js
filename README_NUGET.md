@@ -46,6 +46,14 @@ You can install the library with npm into your local modules directory using the
 npm install jjsontree.js
 ```
 
+You can also use the following CDN links:
+
+```markdown
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@1.1.2/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@1.1.2/dist/jsontree.export.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@1.1.2/dist/jsontree.js.min.css
+```
+
 
 ## How do I get started?
 
