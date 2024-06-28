@@ -2,3 +2,5 @@
 /.vscode
 .DS_Store
 *.nupkg
+dist
+build

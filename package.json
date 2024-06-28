@@ -26,5 +26,11 @@
   "bugs": {
     "url": "https://github.com/williamtroup/JsonTree.js/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "sass": "^1.77.6",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
+  }
 }
