@@ -1,10 +1,7 @@
-import { getDefaultBoolean, getDefaultNumber, getDefaultObject, getDefaultString } from "./helpers";
-
 export enum STRING {
 	empty = "",
-	space = " "
+	space = " ",
 }
-
 
 export type PublicApi = {
 	/**
@@ -29,7 +26,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	renderAll : () => void;
+	renderAll: () => void;
 	/**
 	 * openAll().
 	 *
@@ -42,7 +39,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	openAll : (elementId?: string) => void;
+	openAll: (elementId?: string) => void;
 	/**
 	 * closeAll().
 	 *
@@ -69,7 +66,7 @@ export type PublicApi = {
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
 	destroy: (elementId: string) => void;
-	destroyElement: (options: any) => void;
+	destroyElement: (options: BindingOptions) => void;
 	/**
 	 * destroyAll().
 	 *
@@ -140,95 +137,92 @@ export type PublicApi = {
 	 * @returns     {string[]}                                              The element IDs that have been rendered.
 	 */
 	getIds: () => string[];
-
-}
-
+};
 
 export type Configuration = {
-	safeMode: boolean
-	domElementTypes: string[]
-	objectText: string
-	arrayText: string
-	closeAllButtonText: string
-	openAllButtonText: string
-	copyAllButtonText: string
-	objectErrorText: string
-	attributeNotValidErrorText: string
-	attributeNotSetErrorText: string
-	stText: string
-	ndText: string
-	rdText: string
-	thText: string
-	ellipsisText: string
-	dayNames: string[]
-	dayNamesAbbreviated: string[]
-	monthNames: string[]
-	monthNamesAbbreviated: string[]
-}
+	safeMode: boolean;
+	domElementTypes: string[];
+	objectText: string;
+	arrayText: string;
+	closeAllButtonText: string;
+	openAllButtonText: string;
+	copyAllButtonText: string;
+	objectErrorText: string;
+	attributeNotValidErrorText: string;
+	attributeNotSetErrorText: string;
+	stText: string;
+	ndText: string;
+	rdText: string;
+	thText: string;
+	ellipsisText: string;
+	dayNames: string[];
+	dayNamesAbbreviated: string[];
+	monthNames: string[];
+	monthNamesAbbreviated: string[];
+};
 
 export type BindingOptions = {
-	data : Object | null
-	showCounts : boolean
-	useZeroIndexingForArrays :boolean
-	dateTimeFormat : string
-	showArrowToggles :boolean
-	showStringQuotes  :boolean
-	showAllAsClosed  :boolean
-	sortPropertyNames  :boolean
-	sortPropertyNamesInAlphabeticalOrder  :boolean
-	showCommas  :boolean
-	reverseArrayValues  :boolean
-	addArrayIndexPadding  :boolean
-	showValueColors  :boolean
-	maximumDecimalPlaces :number
-	maximumStringLength : number
-	showStringHexColors : boolean
+	data: Object | null;
+	showCounts: boolean;
+	useZeroIndexingForArrays: boolean;
+	dateTimeFormat: string;
+	showArrowToggles: boolean;
+	showStringQuotes: boolean;
+	showAllAsClosed: boolean;
+	sortPropertyNames: boolean;
+	sortPropertyNamesInAlphabeticalOrder: boolean;
+	showCommas: boolean;
+	reverseArrayValues: boolean;
+	addArrayIndexPadding: boolean;
+	showValueColors: boolean;
+	maximumDecimalPlaces: number;
+	maximumStringLength: number;
+	showStringHexColors: boolean;
 	title: {
-		text : string
-		show : boolean
-		showTreeControls: boolean
-		showCopyButton : boolean
-	}
-	ignore : {
-		nullValues : boolean,
-		functionValues: boolean
-		unknownValues : boolean
-		booleanValues: boolean
-		decimalValues: boolean
-		stringValues: boolean
-		arrayValues: boolean
-		objectValues: boolean
-		dateValues : boolean
-		numberValues: boolean
-	}
+		text: string;
+		show: boolean;
+		showTreeControls: boolean;
+		showCopyButton: boolean;
+	};
+	ignore: {
+		nullValues: boolean;
+		functionValues: boolean;
+		unknownValues: boolean;
+		booleanValues: boolean;
+		decimalValues: boolean;
+		stringValues: boolean;
+		arrayValues: boolean;
+		objectValues: boolean;
+		dateValues: boolean;
+		numberValues: boolean;
+	};
 
-	events : {
-		onBeforeRender : Function  | null
-		onRender : Function | null
-		onRenderComplete : Function | null
-		onValueClick: Function | null
-		onOpenAll : Function | null
-		onCloseAll : Function | null
-		onDestroy : Function | null
-		onRefresh : Function | null
-		onCopyAll : Function | null
-		onBooleanRender : Function | null
-		onDateRender : Function | null
-		onNumberRender : Function | null
-		onDecimalRender : Function | null
-		onFunctionRender : Function | null
-		onNullRender : Function | null
-		onStringRender : Function | null
-		onUnknownRender : Function | null
-
-	}
-	currentView : {
-		element: HTMLElement
-	}
-}
+	events: {
+		onBeforeRender: Function | null;
+		onRender: Function | null;
+		onRenderComplete: Function | null;
+		onValueClick: Function | null;
+		onOpenAll: Function | null;
+		onCloseAll: Function | null;
+		onDestroy: Function | null;
+		onRefresh: Function | null;
+		onCopyAll: Function | null;
+		onBooleanRender: Function | null;
+		onDateRender: Function | null;
+		onNumberRender: Function | null;
+		onDecimalRender: Function | null;
+		onFunctionRender: Function | null;
+		onNullRender: Function | null;
+		onStringRender: Function | null;
+		onUnknownRender: Function | null;
+	};
+	currentView: {
+		element: HTMLElement;
+	};
+};
 
 declare global {
 	interface Window {
-		$jsontree: PublicApi
+		$jsontree: PublicApi;
 	}
 }

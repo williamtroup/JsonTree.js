@@ -1,10 +1,10 @@
-import { BindingOptions, Configuration, STRING } from "./types";
+import { type BindingOptions, type Configuration, STRING } from "./types";
 
 /*
-  * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  * String Handling
-  * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  */
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * String Handling
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ */
 
 export function newGuid() {
 	const result = [];
@@ -21,13 +21,12 @@ export function newGuid() {
 	return result.join(STRING.empty);
 }
 
-export function padNumber(number: number | string , length: number = 1) {
-
+export function padNumber(number: number | string, length = 1) {
 	let numberString = number.toString(),
 		numberResult = numberString;
 
 	if (numberString.length < length) {
-		let arrayLength = (length - numberString.length) + 1;
+		const arrayLength = length - numberString.length + 1;
 
 		numberResult = Array(arrayLength).join("0") + numberString;
 	}
@@ -35,12 +34,11 @@ export function padNumber(number: number | string , length: number = 1) {
 	return numberResult;
 }
 
-
 /*
-	* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	* Date/Time
-	* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	*/
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * Date/Time
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ */
 
 export function getWeekdayNumber(date: Date) {
 	return date.getDay() - 1 < 0 ? 6 : date.getDay() - 1;
@@ -62,7 +60,7 @@ export function getDayOrdinal(value: number, configuration: Configuration) {
 
 export function getCustomFormattedDateTimeText(date: Date, dateFormat: string, configuration: Configuration) {
 	let result = dateFormat;
-	let weekDayNumber = getWeekdayNumber(date);
+	const weekDayNumber = getWeekdayNumber(date);
 
 	result = result.replace("{hh}", padNumber(date.getHours(), 2));
 	result = result.replace("{h}", date.getHours().toString());
@@ -88,22 +86,20 @@ export function getCustomFormattedDateTimeText(date: Date, dateFormat: string, c
 	result = result.replace("{yyyy}", date.getFullYear().toString());
 	result = result.replace("{yyy}", date.getFullYear().toString().substring(1));
 	result = result.replace("{yy}", date.getFullYear().toString().substring(2));
-	result = result.replace("{y}", parseInt(date.getFullYear().toString().substring(2)).toString());
+	result = result.replace("{y}", Number.parseInt(date.getFullYear().toString().substring(2)).toString());
 
 	return result;
 }
 
-
 // --------------------
 
-
 /*
-	* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	* Default Parameter/Option Handling
-	* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	*/
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * Default Parameter/Option Handling
+ * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ */
 
-export function isDefined(value: any ) {
+export function isDefined(value: any) {
 	return value !== null && value !== undefined && value !== STRING.empty;
 }
 
@@ -128,7 +124,7 @@ export function isDefinedNumber(object: any): object is number {
 }
 
 export function isDefinedArray(object: any): object is any[] {
-	return Array.isArray(object)
+	return Array.isArray(object);
 }
 
 export function isDefinedDate(object: any): object is Date {
@@ -139,48 +135,45 @@ export function isDefinedDecimal(object: any): object is number {
 	return isDefined(object) && typeof object === "number" && object % 1 !== 0;
 }
 
-export function isInvalidOptionArray(array:any , minimumLength = 1 ) {
-
+export function isInvalidOptionArray(array: any, minimumLength = 1) {
 	return !isDefinedArray(array) || array.length < minimumLength;
 }
 
-
-export function getDefaultAnyString(value:any , defaultValue: string ) {
+export function getDefaultAnyString(value: any, defaultValue: string) {
 	return typeof value === "string" ? value : defaultValue;
 }
 
-export function getDefaultString(value:any , defaultValue: string ) {
+export function getDefaultString(value: any, defaultValue: string) {
 	return isDefinedString(value) ? value : defaultValue;
 }
 
-export function getDefaultBoolean(value:any , defaultValue: boolean) {
+export function getDefaultBoolean(value: any, defaultValue: boolean) {
 	return isDefinedBoolean(value) ? value : defaultValue;
 }
 
-export function getDefaultNumber(value: any , defaultValue: number) {
+export function getDefaultNumber(value: any, defaultValue: number) {
 	return isDefinedNumber(value) ? value : defaultValue;
 }
 
-export function getDefaultFunction(value: any , defaultValue : Function | null  ) : Function | null {
+export function getDefaultFunction(value: any, defaultValue: Function | null): Function | null {
 	return isDefinedFunction(value) ? value : defaultValue;
 }
 
-export function getDefaultArray(value:any , defaultValue: any[] ) {
+export function getDefaultArray(value: any, defaultValue: any[]) {
 	return isDefinedArray(value) ? value : defaultValue;
 }
 
-export function getDefaultObject(value: any, defaultValue: Object | null ) {
+export function getDefaultObject(value: any, defaultValue: Object | null) {
 	return isDefinedObject(value) ? value : defaultValue;
 }
 
-export function getDefaultStringOrArray(value:any , defaultValue: any[]): any[] {
+export function getDefaultStringOrArray(value: any, defaultValue: any[]): any[] {
 	if (isDefinedString(value)) {
 		value = value.split(STRING.space);
 
 		if (value.length === 0) {
 			value = defaultValue;
 		}
-
 	} else {
 		value = getDefaultArray(value, defaultValue);
 	}
@@ -188,7 +181,7 @@ export function getDefaultStringOrArray(value:any , defaultValue: any[]): any[] 
 	return value;
 }
 
-export function getObjectFromString(objectString: string , configuration: Configuration) {
+export function getObjectFromString(objectString: string, configuration: Configuration) {
 	let parsed = true,
 		result = null;
 
@@ -196,19 +189,18 @@ export function getObjectFromString(objectString: string , configuration: Config
 		if (isDefinedString(objectString)) {
 			result = JSON.parse(objectString);
 		}
-
 	} catch (e1: any) {
-
 		try {
 			result = eval("(" + objectString + ")");
 
 			if (isDefinedFunction(result)) {
 				result = result();
 			}
-
-		} catch (e2:any ) {
+		} catch (e2: any) {
 			if (!configuration.safeMode) {
-				console.error(configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e2.message));
+				console.error(
+					configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e2.message),
+				);
 				parsed = false;
 			}
 
@@ -228,15 +220,19 @@ export function getObjectFromString(objectString: string , configuration: Config
  * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  */
 
-export function createElement(container: HTMLElement, type: string, className?: string, beforeNode: Node | null  = null ) {
-		let nodeType = type.toLowerCase(),
+export function createElement(
+	container: HTMLElement,
+	type: string,
+	className?: string,
+	beforeNode: Node | null = null,
+) {
+	const nodeType = type.toLowerCase(),
 		isText = nodeType === "text";
-let result  =  (isText ? document.createTextNode(STRING.empty): document.createElement(nodeType)) as HTMLElement
+	const result = (isText ? document.createTextNode(STRING.empty) : document.createElement(nodeType)) as HTMLElement;
 
 	if (className) {
-		result.className = className
+		result.className = className;
 	}
-
 
 	if (isDefined(beforeNode)) {
 		container.insertBefore(result, beforeNode);
@@ -247,8 +243,14 @@ let result  =  (isText ? document.createTextNode(STRING.empty): document.createE
 	return result;
 }
 
-export function createElementWithHTML(container: HTMLElement, type: string, className: string, html: string | boolean | number, beforeNode?: HTMLElement) {
-	let element = createElement(container, type, className, beforeNode);
+export function createElementWithHTML(
+	container: HTMLElement,
+	type: string,
+	className: string,
+	html: string | boolean | number,
+	beforeNode?: HTMLElement,
+) {
+	const element = createElement(container, type, className, beforeNode);
 	element.innerHTML = String(html);
 
 	return element;
@@ -258,9 +260,7 @@ export function addClass(element: HTMLElement, className: string) {
 	element.classList.add(className);
 }
 
-
-
-export function getFunctionName(value: any ) {
+export function getFunctionName(value: any) {
 	let result,
 		valueParts = value.toString().split("("),
 		valueNameParts = valueParts[0].split(STRING.space);
@@ -276,7 +276,7 @@ export function getFunctionName(value: any ) {
 	return result;
 }
 
-export function createComma(bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem : boolean) {
+export function createComma(bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean) {
 	if (bindingOptions.showCommas && !isLastItem) {
 		createElementWithHTML(objectTypeValue, "span", "comma", ",");
 	}
@@ -292,13 +292,13 @@ export function getIndexName(bindingOptions: BindingOptions, index: number, larg
 	return result;
 }
 
-export function getFixedValue(value: number, length: number ): string  {
-	const  regExp = new RegExp("^-?\\d+(?:\.\\d{0," + (length || -1) + "})?");
+export function getFixedValue(value: number, length: number): string {
+	const regExp = new RegExp("^-?\\d+(?:.\\d{0," + (length || -1) + "})?");
 
-	return value.toString().match(regExp)?.[0] || '';
+	return value.toString().match(regExp)?.[0] || "";
 }
 
-export function isHexColor(value: string ) {
+export function isHexColor(value: string) {
 	let valid = value.length >= 2 && value.length <= 7;
 
 	if (valid && value[0] === "#") {
