@@ -32,10 +32,17 @@ export namespace Data {
             return result.join( Char.empty );
         }
     
-        export function padNumber( number: number ) : string {
+        export function padNumber( number: number, length: number = 1 ) : string {
             const numberString: string = number.toString();
+            let numberResult: string = numberString;
     
-            return numberString.length === 1 ? Char.zero + numberString : numberString;
+            if ( numberString.length < length ) {
+                const arrayLength: number = ( length - numberString.length ) + 1;
+    
+                numberResult = Array( arrayLength ).join( "0" ) + numberString;
+            }
+    
+            return numberResult;
         }
     }
 
