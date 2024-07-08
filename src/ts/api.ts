@@ -33,7 +33,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	refresh: ( elementId: string ) => void;
+	refresh: ( elementId: string ) => PublicApi;
 
 	/**
 	 * refreshAll().
@@ -45,7 +45,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	refreshAll: () => void;
+	refreshAll: () => PublicApi;
 
 	/**
 	 * render().
@@ -59,7 +59,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	render: ( element: HTMLElement, options: Object ) => void;
+	render: ( element: HTMLElement, options: Object ) => PublicApi;
 
 	/**
 	 * renderAll().
@@ -70,7 +70,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	renderAll: () => void;
+	renderAll: () => PublicApi;
 
 	/**
 	 * openAll().
@@ -84,7 +84,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	openAll: ( elementId?: string ) => void;
+	openAll: ( elementId?: string ) => PublicApi;
 
 	/**
 	 * closeAll().
@@ -98,7 +98,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	closeAll: ( elementId?: string ) => void;
+	closeAll: ( elementId?: string ) => PublicApi;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	destroy: ( elementId: string ) => void;
+	destroy: ( elementId: string ) => PublicApi;
 
 	/**
 	 * destroyAll().
@@ -130,7 +130,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	destroyAll: () => void;
+	destroyAll: () => PublicApi;
 
 
     /*
@@ -150,7 +150,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	setConfiguration: ( config: Configuration ) => void;
+	setConfiguration: ( config: Configuration ) => PublicApi;
 
 
     /*
