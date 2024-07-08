@@ -58,14 +58,14 @@ export type BindingOptions = {
 
 export type CurrentView = {
     element: HTMLElement;
-}
+};
 
 export type Title = {
     text?: string;
     show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
-}
+};
 
 export type Ignore = {
     nullValues?: boolean;
@@ -78,7 +78,7 @@ export type Ignore = {
     objectValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
-}
+};
 
 export type Events = {
     onBeforeRender?: () => void;
@@ -98,4 +98,4 @@ export type Events = {
     onNullRender?: () => void;
     onStringRender?: () => void;
     onUnknownRender?: () => void;
-}
+};
