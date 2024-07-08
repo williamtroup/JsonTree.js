@@ -2,8 +2,5 @@
 /.vscode
 .DS_Store
 *.nupkg
-dist
-build
-node_modules
-.idea
-package-lock.json
+/build
+/node_modules
