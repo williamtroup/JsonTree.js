@@ -4,7 +4,7 @@ import { defineConfig } from "tsup";
 export default defineConfig( [
   {
     entry: [
-      "src/heat.ts"
+      "src/jsontree.ts"
     ],
     outExtension({ }) {
       return {
