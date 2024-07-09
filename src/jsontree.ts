@@ -16,7 +16,8 @@ import {
     type Events,
     type Ignore,
     type Title,
-    type Configuration } from "./ts/type";
+    type Configuration, 
+    type CurrentView } from "./ts/type";
 
 import { PublicApi } from "./ts/api";
 import { Data } from "./ts/data";
@@ -24,10 +25,17 @@ import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
 import { Char } from "./ts/enum";
 import { DateTime } from "./ts/datetime";
+import { Constants } from "./ts/constant";
+
 
 type StringToJson = {
     parsed: boolean;
     object: any;
+};
+
+type JsonTreeData = {
+    options: BindingOptions;
+    data: any;
 };
 
 
@@ -36,9 +44,163 @@ type StringToJson = {
     let _configuration: Configuration = {} as Configuration;
 
     // Variables: Data
-    let _elements_Data: Record<string, { options: BindingOptions; data: any }> = {};
+    let _elements_Data: Record<string, JsonTreeData> = {};
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Rendering
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function render() : void {
+        const tagTypes: string[] = _configuration.domElementTypes as string[];
+        const tagTypesLength: number = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
+            const elements: HTMLElement[] = [].slice.call( domElements );
+            const elementsLength: number = elements.length;
+
+            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+                if ( !renderElement( elements[ elementIndex ] ) ) {
+                    break;
+                }
+            }
+        }
+    }
+
+    function renderElement( element: HTMLElement ) : boolean {
+        let result: boolean = true;
+
+        if ( Is.defined( element ) && element.hasAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME ) ) {
+            const bindingOptionsData: string = element.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME )!;
+
+            if ( Is.definedString( bindingOptionsData ) ) {
+                const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
+
+                if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
+                    renderControl( renderBindingOptions( bindingOptions.object, element ) );
+
+                } else {
+                    if ( !_configuration.safeMode ) {
+                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                        result = false;
+                    }
+                }
+
+            } else {
+                if ( !_configuration.safeMode ) {
+                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                    result = false;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    function renderBindingOptions( data: any, element: HTMLElement ) : BindingOptions {
+        const bindingOptions: BindingOptions = buildAttributeOptions( data );
+        bindingOptions._currentView = {} as CurrentView;
+        bindingOptions._currentView.element = element;
+
+        return bindingOptions;
+    }
+
+    function renderControl( bindingOptions: BindingOptions ) : void {
+        fireCustomTriggerEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
+
+        if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
+            bindingOptions._currentView.element.id = Data.String.newGuid();
+        }
+
+        bindingOptions._currentView.element.className = "json-tree-js";
+        bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
+
+        if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+            _elements_Data[ bindingOptions._currentView.element.id ] = {} as JsonTreeData;
+            _elements_Data[ bindingOptions._currentView.element.id ].options = bindingOptions;
+            _elements_Data[ bindingOptions._currentView.element.id ].data = bindingOptions.data;
+
+            delete bindingOptions.data;
+        }
+
+        renderControlContainer( bindingOptions );
+        fireCustomTriggerEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
+    }
+
+    function renderControlContainer( bindingOptions: BindingOptions ) : void {
+        const data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+
+        bindingOptions._currentView.element.innerHTML = Char.empty;
+
+        renderControlTitleBar( bindingOptions );
+
+        if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
+            renderObject( bindingOptions._currentView.element, bindingOptions, data );
+        } else if ( Is.definedArray( data ) ) {
+            renderArray( bindingOptions._currentView.element, bindingOptions, data );
+        }
+    }
 
     
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Title Bar
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlTitleBar( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
+            const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
+            const controls: HTMLElement = DomElement.create( titleBar, "div", "controls" );
+        
+            if ( bindingOptions.title!.show ) {
+                DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, controls );
+            }
+
+            if ( bindingOptions.title!.showCopyButton ) {
+                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.copyAllButtonText! );
+
+                copy.onclick = function() {
+                    const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
+
+                    navigator.clipboard.writeText( copyData );
+
+                    fireCustomTriggerEvent( bindingOptions.events!.onCopyAll!, copyData );
+                };
+            }
+
+            if ( bindingOptions.title!.showTreeControls ) {
+                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.openAllButtonText! );
+                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText! );
+
+                openAll.onclick = function() {
+                    openAllNodes( bindingOptions );
+                };
+
+                closeAll.onclick = function() {
+                    closeAllNodes( bindingOptions );
+                };
+            }
+        }
+    }
+
+    function openAllNodes( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = false;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTriggerEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+    }
+
+    function closeAllNodes( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = true;
+
+        renderControlContainer( bindingOptions );
+        fireCustomTriggerEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+    }
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

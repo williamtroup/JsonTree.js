@@ -194,9 +194,121 @@ var DateTime;
     e.getCustomFormattedDateText = o;
 })(DateTime || (DateTime = {}));
 
+var Constants;
+
+(e => {
+    e.JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
+})(Constants || (Constants = {}));
+
 (() => {
     let _configuration = {};
     let _elements_Data = {};
+    function render() {
+        const e = _configuration.domElementTypes;
+        const t = e.length;
+        for (let n = 0; n < t; n++) {
+            const t = document.getElementsByTagName(e[n]);
+            const o = [].slice.call(t);
+            const r = o.length;
+            for (let e = 0; e < r; e++) {
+                if (!renderElement(o[e])) {
+                    break;
+                }
+            }
+        }
+    }
+    function renderElement(e) {
+        let t = true;
+        if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
+            const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+            if (Is.definedString(n)) {
+                const o = getObjectFromString(n);
+                if (o.parsed && Is.definedObject(o.object)) {
+                    renderControl(renderBindingOptions(o.object, e));
+                } else {
+                    if (!_configuration.safeMode) {
+                        console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                        t = false;
+                    }
+                }
+            } else {
+                if (!_configuration.safeMode) {
+                    console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                    t = false;
+                }
+            }
+        }
+        return t;
+    }
+    function renderBindingOptions(e, t) {
+        const n = buildAttributeOptions(e);
+        n._currentView = {};
+        n._currentView.element = t;
+        return n;
+    }
+    function renderControl(e) {
+        fireCustomTriggerEvent(e.events.onBeforeRender, e._currentView.element);
+        if (!Is.definedString(e._currentView.element.id)) {
+            e._currentView.element.id = Data.String.newGuid();
+        }
+        e._currentView.element.className = "json-tree-js";
+        e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+        if (!_elements_Data.hasOwnProperty(e._currentView.element.id)) {
+            _elements_Data[e._currentView.element.id] = {};
+            _elements_Data[e._currentView.element.id].options = e;
+            _elements_Data[e._currentView.element.id].data = e.data;
+            delete e.data;
+        }
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
+    }
+    function renderControlContainer(e) {
+        const t = _elements_Data[e._currentView.element.id].data;
+        e._currentView.element.innerHTML = "";
+        renderControlTitleBar(e);
+        if (Is.definedObject(t) && !Is.definedArray(t)) {
+            renderObject(e._currentView.element, e, t);
+        } else if (Is.definedArray(t)) {
+            renderArray(e._currentView.element, e, t);
+        }
+    }
+    function renderControlTitleBar(e) {
+        if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
+            const t = DomElement.create(e._currentView.element, "div", "title-bar");
+            const n = DomElement.create(t, "div", "controls");
+            if (e.title.show) {
+                DomElement.createWithHTML(t, "div", "title", e.title.text, n);
+            }
+            if (e.title.showCopyButton) {
+                const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.copyAllButtonText);
+                t.onclick = function() {
+                    const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
+                    navigator.clipboard.writeText(t);
+                    fireCustomTriggerEvent(e.events.onCopyAll, t);
+                };
+            }
+            if (e.title.showTreeControls) {
+                const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
+                const o = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
+                t.onclick = function() {
+                    openAllNodes(e);
+                };
+                o.onclick = function() {
+                    closeAllNodes(e);
+                };
+            }
+        }
+    }
+    function openAllNodes(e) {
+        e.showAllAsClosed = false;
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onOpenAll, e._currentView.element);
+    }
+    function closeAllNodes(e) {
+        e.showAllAsClosed = true;
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onCloseAll, e._currentView.element);
+    }
     function renderObject(e, t, n) {
         const o = DomElement.create(e, "div", "object-type-title");
         const r = DomElement.create(e, "div", "object-type-contents");
@@ -262,14 +374,14 @@ var DateTime;
         let s = null;
         let u = false;
         let c = null;
-        let f = true;
+        let d = true;
         DomElement.createWithHTML(a, "span", "title", n);
         DomElement.createWithHTML(a, "span", "split", ":");
         if (!Is.defined(o)) {
             if (!t.ignore.nullValues) {
                 i = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(a, "span", i, "null");
-                f = false;
+                d = false;
                 if (Is.definedFunction(t.events.onNullRender)) {
                     fireCustomTriggerEvent(t.events.onNullRender, s);
                 }
@@ -407,7 +519,7 @@ var DateTime;
             e.removeChild(a);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, o, c, f);
+                addValueClickEvent(t, s, o, c, d);
             }
         }
     }
