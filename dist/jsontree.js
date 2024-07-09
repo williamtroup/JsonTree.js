@@ -281,7 +281,7 @@ var Constants;
             }
             if (e.title.showCopyButton) {
                 const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.copyAllButtonText);
-                t.onclick = function() {
+                t.onclick = () => {
                     const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                     navigator.clipboard.writeText(t);
                     fireCustomTriggerEvent(e.events.onCopyAll, t);
@@ -290,10 +290,10 @@ var Constants;
             if (e.title.showTreeControls) {
                 const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
                 const o = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
-                t.onclick = function() {
+                t.onclick = () => {
                     openAllNodes(e);
                 };
-                o.onclick = function() {
+                o.onclick = () => {
                     closeAllNodes(e);
                 };
             }
@@ -525,7 +525,7 @@ var Constants;
     }
     function addValueClickEvent(e, t, n, o, r) {
         if (r && Is.definedFunction(e.events.onValueClick)) {
-            t.onclick = function() {
+            t.onclick = () => {
                 fireCustomTriggerEvent(e.events.onValueClick, n, o);
             };
         } else {
@@ -534,7 +534,7 @@ var Constants;
     }
     function addArrowEvent(e, t, n) {
         if (Is.defined(t)) {
-            t.onclick = function() {
+            t.onclick = () => {
                 if (t.className === "down-arrow") {
                     n.style.display = "none";
                     t.className = "right-arrow";

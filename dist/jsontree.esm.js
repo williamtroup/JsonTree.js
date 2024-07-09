@@ -336,7 +336,7 @@ var require_jsontree = __commonJS({
                     }
                     if (e.title.showCopyButton) {
                         const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.copyAllButtonText);
-                        t.onclick = function() {
+                        t.onclick = () => {
                             const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                             navigator.clipboard.writeText(t);
                             fireCustomTriggerEvent(e.events.onCopyAll, t);
@@ -345,10 +345,10 @@ var require_jsontree = __commonJS({
                     if (e.title.showTreeControls) {
                         const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
                         const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
-                        t.onclick = function() {
+                        t.onclick = () => {
                             openAllNodes(e);
                         };
-                        r.onclick = function() {
+                        r.onclick = () => {
                             closeAllNodes(e);
                         };
                     }
@@ -580,7 +580,7 @@ var require_jsontree = __commonJS({
             }
             function addValueClickEvent(e, t, n, r, o) {
                 if (o && Is.definedFunction(e.events.onValueClick)) {
-                    t.onclick = function() {
+                    t.onclick = () => {
                         fireCustomTriggerEvent(e.events.onValueClick, n, r);
                     };
                 } else {
@@ -589,7 +589,7 @@ var require_jsontree = __commonJS({
             }
             function addArrowEvent(e, t, n) {
                 if (Is.defined(t)) {
-                    t.onclick = function() {
+                    t.onclick = () => {
                         if (t.className === "down-arrow") {
                             n.style.display = "none";
                             t.className = "right-arrow";

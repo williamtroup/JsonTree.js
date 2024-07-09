@@ -165,7 +165,7 @@ type JsonTree = Record<string, JsonTreeData>;
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.copyAllButtonText! );
 
-                copy.onclick = function() {
+                copy.onclick = () => {
                     const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
 
                     navigator.clipboard.writeText( copyData );
@@ -178,11 +178,11 @@ type JsonTree = Record<string, JsonTreeData>;
                 const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.openAllButtonText! );
                 const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText! );
 
-                openAll.onclick = function() {
+                openAll.onclick = () => {
                     openAllNodes( bindingOptions );
                 };
 
-                closeAll.onclick = function() {
+                closeAll.onclick = () => {
                     closeAllNodes( bindingOptions );
                 };
             }
@@ -501,7 +501,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
         if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
-            valueElement.onclick = function() {
+            valueElement.onclick = () => {
                 fireCustomTriggerEvent( bindingOptions.events!.onValueClick!, value, type );
             };
 
@@ -512,7 +512,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, objectTypeContents: HTMLElement ) : void {
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = function() {
+            arrow.onclick = () => {
                 if ( arrow.className === "down-arrow" ) {
                     objectTypeContents.style.display = "none";
                     arrow.className = "right-arrow";
