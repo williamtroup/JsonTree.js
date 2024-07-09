@@ -11,10 +11,17 @@
  */
 
 
+import {
+    type BindingOptions,
+    type Events,
+    type Ignore,
+    type Title,
+    type Configuration } from "./ts/type";
+
 import { PublicApi } from "./ts/api";
 import { Data } from "./ts/data";
 import { Is } from "./ts/is";
-import { BindingOptions, Events, Ignore, Title, type Configuration } from "./ts/type";
+
 
 type StringToJson = {
     parsed: boolean;
