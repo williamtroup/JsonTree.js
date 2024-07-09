@@ -441,7 +441,7 @@ var Constants;
         } else if (Is.definedString(o)) {
             if (!t.ignore.stringValues) {
                 let e = null;
-                if (t.showStringHexColors && isHexColor(o)) {
+                if (t.showValueColors && t.showStringHexColors && isHexColor(o)) {
                     e = o;
                 } else {
                     if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {

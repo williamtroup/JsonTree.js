@@ -384,7 +384,7 @@ type JsonTreeData = {
             if ( !bindingOptions.ignore!.stringValues ) {
                 let color: string = null!;
 
-                if ( bindingOptions.showStringHexColors && isHexColor( value ) ) {
+                if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && isHexColor( value ) ) {
                     color = value;
 
                 } else {

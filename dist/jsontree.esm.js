@@ -496,7 +496,7 @@ var require_jsontree = __commonJS({
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
                         let e = null;
-                        if (t.showStringHexColors && isHexColor(r)) {
+                        if (t.showValueColors && t.showStringHexColors && isHexColor(r)) {
                             e = r;
                         } else {
                             if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
