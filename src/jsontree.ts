@@ -38,13 +38,15 @@ type JsonTreeData = {
     data: any;
 };
 
+type JsonTree = Record<string, JsonTreeData>;
+
 
 ( () => {
     // Variables: Configuration
     let _configuration: Configuration = {} as Configuration;
 
     // Variables: Data
-    let _elements_Data: Record<string, JsonTreeData> = {};
+    let _elements_Data: JsonTree = {} as JsonTree;
 
 
     /*
@@ -904,7 +906,7 @@ type JsonTreeData = {
                 }
             }
 
-            _elements_Data = {} as Record<string, JsonTreeData>;
+            _elements_Data = {} as JsonTree;
 
             return _public;
         },
