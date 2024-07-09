@@ -34,7 +34,7 @@ export namespace DateTime {
         return result;
     }
 
-    export function getCustomFormattedDateText( configuration: Configuration, dateFormat: string, date: Date ) : string {
+    export function getCustomFormattedDateText( configuration: Configuration, date: Date , dateFormat: string) : string {
         let result: string = dateFormat;
         const weekDayNumber: number = getWeekdayNumber( date );
 

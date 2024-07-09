@@ -47,22 +47,22 @@ var init_is = __esm({
                 return t(e) && typeof e === "number";
             }
             e.definedNumber = l;
-            function u(e) {
+            function i(e) {
                 return n(e) && e instanceof Array;
             }
-            e.definedArray = u;
-            function i(e) {
+            e.definedArray = i;
+            function s(e) {
                 return n(e) && e instanceof Date;
             }
-            e.definedDate = i;
-            function s(e) {
+            e.definedDate = s;
+            function u(e) {
                 return t(e) && typeof e === "number" && e % 1 !== 0;
             }
-            e.definedDecimal = s;
-            function f(e, t = 1) {
-                return !u(e) || e.length < t;
+            e.definedDecimal = u;
+            function c(e, t = 1) {
+                return !i(e) || e.length < t;
             }
-            e.invalidOptionArray = f;
+            e.invalidOptionArray = c;
         })(Is || (Is = {}));
     }
 });
@@ -120,15 +120,15 @@ var init_data = __esm({
                 return Is.definedFunction(e) ? e : t;
             }
             e.getDefaultFunction = l;
-            function u(e, t) {
+            function i(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getDefaultArray = u;
-            function i(e, t) {
+            e.getDefaultArray = i;
+            function s(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getDefaultObject = i;
-            function s(e, t) {
+            e.getDefaultObject = s;
+            function u(e, t) {
                 let n = t;
                 if (Is.definedString(e)) {
                     const o = e.toString().split(" ");
@@ -138,11 +138,11 @@ var init_data = __esm({
                         n = o;
                     }
                 } else {
-                    n = u(e, t);
+                    n = i(e, t);
                 }
                 return n;
             }
-            e.getDefaultStringOrArray = s;
+            e.getDefaultStringOrArray = u;
         })(Data || (Data = {}));
     }
 });
@@ -184,14 +184,322 @@ var init_dom = __esm({
     }
 });
 
+var DateTime;
+
+var init_datetime = __esm({
+    "src/ts/datetime.ts"() {
+        "use strict";
+        init_data();
+        (e => {
+            function t(e) {
+                return e.getDay() - 1 < 0 ? 6 : e.getDay() - 1;
+            }
+            e.getWeekdayNumber = t;
+            function n(e, t) {
+                let n = e.thText;
+                if (t === 31 || t === 21 || t === 1) {
+                    n = e.stText;
+                } else if (t === 22 || t === 2) {
+                    n = e.ndText;
+                } else if (t === 23 || t === 3) {
+                    n = e.rdText;
+                }
+                return n;
+            }
+            e.getDayOrdinal = n;
+            function o(e, o, r) {
+                let a = r;
+                const l = t(o);
+                a = a.replace("{hh}", Data.String.padNumber(o.getHours(), 2));
+                a = a.replace("{h}", o.getHours().toString());
+                a = a.replace("{MM}", Data.String.padNumber(o.getMinutes(), 2));
+                a = a.replace("{M}", o.getMinutes().toString());
+                a = a.replace("{ss}", Data.String.padNumber(o.getSeconds(), 2));
+                a = a.replace("{s}", o.getSeconds().toString());
+                a = a.replace("{dddd}", e.dayNames[l]);
+                a = a.replace("{ddd}", e.dayNamesAbbreviated[l]);
+                a = a.replace("{dd}", Data.String.padNumber(o.getDate()));
+                a = a.replace("{d}", o.getDate().toString());
+                a = a.replace("{o}", n(e, o.getDate()));
+                a = a.replace("{mmmm}", e.monthNames[o.getMonth()]);
+                a = a.replace("{mmm}", e.monthNamesAbbreviated[o.getMonth()]);
+                a = a.replace("{mm}", Data.String.padNumber(o.getMonth() + 1));
+                a = a.replace("{m}", (o.getMonth() + 1).toString());
+                a = a.replace("{yyyy}", o.getFullYear().toString());
+                a = a.replace("{yyy}", o.getFullYear().toString().substring(1));
+                a = a.replace("{yy}", o.getFullYear().toString().substring(2));
+                a = a.replace("{y}", Number.parseInt(o.getFullYear().toString().substring(2)).toString());
+                return a;
+            }
+            e.getCustomFormattedDateText = o;
+        })(DateTime || (DateTime = {}));
+    }
+});
+
 var require_jsontree = __commonJS({
     "src/jsontree.ts"(exports, module) {
         init_data();
         init_is();
         init_dom();
+        init_enum();
+        init_datetime();
         (() => {
             let _configuration = {};
             let _elements_Data = {};
+            function renderObject(e, t, n) {
+                const o = DomElement.create(e, "div", "object-type-title");
+                const r = DomElement.create(e, "div", "object-type-contents");
+                const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
+                const l = renderObjectValues(a, r, t, n);
+                DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.objectText);
+                if (t.showCounts && l > 0) {
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + l + "}");
+                }
+            }
+            function renderArray(e, t, n) {
+                const o = DomElement.create(e, "div", "object-type-title");
+                const r = DomElement.create(e, "div", "object-type-contents");
+                const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
+                DomElement.createWithHTML(o, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
+                renderArrayValues(a, r, t, n);
+                if (t.showCounts) {
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+                }
+            }
+            function renderObjectValues(e, t, n, o) {
+                let r = 0;
+                let a = [];
+                for (let e in o) {
+                    if (o.hasOwnProperty(e)) {
+                        a.push(e);
+                    }
+                }
+                if (n.sortPropertyNames) {
+                    a = a.sort();
+                    if (!n.sortPropertyNamesInAlphabeticalOrder) {
+                        a = a.reverse();
+                    }
+                }
+                const l = a.length;
+                for (let e = 0; e < l; e++) {
+                    const i = a[e];
+                    if (o.hasOwnProperty(i)) {
+                        renderValue(t, n, i, o[i], e === l - 1);
+                        r++;
+                    }
+                }
+                addArrowEvent(n, e, t);
+                return r;
+            }
+            function renderArrayValues(e, t, n, o) {
+                const r = o.length;
+                if (!n.reverseArrayValues) {
+                    for (let e = 0; e < r; e++) {
+                        renderValue(t, n, getIndexName(n, e, r), o[e], e === r - 1);
+                    }
+                } else {
+                    for (let e = r; e--; ) {
+                        renderValue(t, n, getIndexName(n, e, r), o[e], e === 0);
+                    }
+                }
+                addArrowEvent(n, e, t);
+            }
+            function renderValue(e, t, n, o, r) {
+                const a = DomElement.create(e, "div", "object-type-value");
+                const l = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
+                let i = null;
+                let s = null;
+                let u = false;
+                let c = null;
+                let d = true;
+                DomElement.createWithHTML(a, "span", "title", n);
+                DomElement.createWithHTML(a, "span", "split", ":");
+                if (!Is.defined(o)) {
+                    if (!t.ignore.nullValues) {
+                        i = t.showValueColors ? "null" : "";
+                        s = DomElement.createWithHTML(a, "span", i, "null");
+                        d = false;
+                        if (Is.definedFunction(t.events.onNullRender)) {
+                            fireCustomTriggerEvent(t.events.onNullRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedFunction(o)) {
+                    if (!t.ignore.functionValues) {
+                        i = t.showValueColors ? "function" : "";
+                        s = DomElement.createWithHTML(a, "span", i, getFunctionName(o));
+                        c = "function";
+                        if (Is.definedFunction(t.events.onFunctionRender)) {
+                            fireCustomTriggerEvent(t.events.onFunctionRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedBoolean(o)) {
+                    if (!t.ignore.booleanValues) {
+                        i = t.showValueColors ? "boolean" : "";
+                        s = DomElement.createWithHTML(a, "span", i, o);
+                        c = "boolean";
+                        if (Is.definedFunction(t.events.onBooleanRender)) {
+                            fireCustomTriggerEvent(t.events.onBooleanRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedDecimal(o)) {
+                    if (!t.ignore.decimalValues) {
+                        const e = getFixedValue(o, t.maximumDecimalPlaces);
+                        i = t.showValueColors ? "decimal" : "";
+                        s = DomElement.createWithHTML(a, "span", i, e);
+                        c = "decimal";
+                        if (Is.definedFunction(t.events.onDecimalRender)) {
+                            fireCustomTriggerEvent(t.events.onDecimalRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedNumber(o)) {
+                    if (!t.ignore.numberValues) {
+                        i = t.showValueColors ? "number" : "";
+                        s = DomElement.createWithHTML(a, "span", i, o);
+                        c = "number";
+                        if (Is.definedFunction(t.events.onNumberRender)) {
+                            fireCustomTriggerEvent(t.events.onNumberRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedString(o)) {
+                    if (!t.ignore.stringValues) {
+                        let e = null;
+                        if (t.showStringHexColors && isHexColor(o)) {
+                            e = o;
+                        } else {
+                            if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {
+                                o = o.substring(0, t.maximumStringLength) + _configuration.ellipsisText;
+                            }
+                        }
+                        const n = t.showStringQuotes ? '"' + o + '"' : o;
+                        i = t.showValueColors ? "string" : "";
+                        s = DomElement.createWithHTML(a, "span", i, n);
+                        c = "string";
+                        if (Is.definedString(e)) {
+                            s.style.color = e;
+                        }
+                        if (Is.definedFunction(t.events.onStringRender)) {
+                            fireCustomTriggerEvent(t.events.onStringRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedDate(o)) {
+                    if (!t.ignore.dateValues) {
+                        i = t.showValueColors ? "date" : "";
+                        s = DomElement.createWithHTML(a, "span", i, DateTime.getCustomFormattedDateText(_configuration, o, t.dateTimeFormat));
+                        c = "date";
+                        if (Is.definedFunction(t.events.onDateRender)) {
+                            fireCustomTriggerEvent(t.events.onDateRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedObject(o) && !Is.definedArray(o)) {
+                    if (!t.ignore.objectValues) {
+                        const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
+                        const n = DomElement.create(a, "div", "object-type-contents");
+                        const i = renderObjectValues(l, n, t, o);
+                        DomElement.createWithHTML(e, "span", "title", _configuration.objectText);
+                        if (t.showCounts && i > 0) {
+                            DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
+                        }
+                        createComma(t, e, r);
+                        c = "object";
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedArray(o)) {
+                    if (!t.ignore.arrayValues) {
+                        const e = DomElement.create(a, "span", t.showValueColors ? "array" : "");
+                        const n = DomElement.create(a, "div", "object-type-contents");
+                        DomElement.createWithHTML(e, "span", "title", _configuration.arrayText);
+                        if (t.showCounts) {
+                            DomElement.createWithHTML(e, "span", "count", "[" + o.length + "]");
+                        }
+                        createComma(t, e, r);
+                        renderArrayValues(l, n, t, o);
+                        c = "array";
+                    } else {
+                        u = true;
+                    }
+                } else {
+                    if (!t.ignore.unknownValues) {
+                        i = t.showValueColors ? "unknown" : "";
+                        s = DomElement.createWithHTML(a, "span", i, o.toString());
+                        c = "unknown";
+                        if (Is.definedFunction(t.events.onUnknownRender)) {
+                            fireCustomTriggerEvent(t.events.onUnknownRender, s);
+                        }
+                        createComma(t, a, r);
+                    } else {
+                        u = true;
+                    }
+                }
+                if (u) {
+                    e.removeChild(a);
+                } else {
+                    if (Is.defined(s)) {
+                        addValueClickEvent(t, s, o, c, d);
+                    }
+                }
+            }
+            function addValueClickEvent(e, t, n, o, r) {
+                if (r && Is.definedFunction(e.events.onValueClick)) {
+                    t.onclick = function() {
+                        fireCustomTriggerEvent(e.events.onValueClick, n, o);
+                    };
+                } else {
+                    DomElement.addClass(t, "no-hover");
+                }
+            }
+            function addArrowEvent(e, t, n) {
+                if (Is.defined(t)) {
+                    t.onclick = function() {
+                        if (t.className === "down-arrow") {
+                            n.style.display = "none";
+                            t.className = "right-arrow";
+                        } else {
+                            n.style.display = "block";
+                            t.className = "down-arrow";
+                        }
+                    };
+                    if (e.showAllAsClosed) {
+                        n.style.display = "none";
+                        t.className = "right-arrow";
+                    } else {
+                        t.className = "down-arrow";
+                    }
+                }
+            }
+            function getFunctionName(e) {
+                let t;
+                const n = e.toString().split("(");
+                const o = n[0].split(" ");
+                if (o.length === 2) {
+                    t = o[1];
+                } else {
+                    t = o[0];
+                }
+                t += "()";
+                return t;
+            }
             function createComma(e, t, n) {
                 if (e.showCommas && !n) {
                     DomElement.createWithHTML(t, "span", "comma", ",");

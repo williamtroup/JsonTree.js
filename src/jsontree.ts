@@ -22,6 +22,8 @@ import { PublicApi } from "./ts/api";
 import { Data } from "./ts/data";
 import { Is } from "./ts/is";
 import { DomElement } from "./ts/dom";
+import { Char } from "./ts/enum";
+import { DateTime } from "./ts/datetime";
 
 type StringToJson = {
     parsed: boolean;
@@ -43,7 +45,344 @@ type StringToJson = {
      * Render:  Tree
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
+
+    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+        const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
+        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+        const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
+
+        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.objectText! );
+
+        if ( bindingOptions.showCounts && propertyCount > 0 ) {
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}" );
+        }
+    }
+
+    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+        const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
+        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+
+        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : Char.empty, _configuration.arrayText! );
+
+        renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
+
+        if ( bindingOptions.showCounts ) {
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]" );
+        }
+    }
+
+    function renderObjectValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any ) : number {
+        let propertyCount: number = 0;
+        let properties: string[] = [];
+
+        for ( let key in data ) {
+            if ( data.hasOwnProperty( key ) ) {
+                properties.push( key );
+            }
+        }
+
+        if ( bindingOptions.sortPropertyNames ) {
+            properties = properties.sort();
+
+            if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
+                properties = properties.reverse();
+            }
+        }
+
+        const propertiesLength: number = properties.length;
+
+        for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
+            const propertyName: string = properties[ propertyIndex ];
+
+            if ( data.hasOwnProperty( propertyName ) ) {
+                renderValue( objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1 );
+                propertyCount++;
+            }
+        }
+
+        addArrowEvent( bindingOptions, arrow, objectTypeContents );
+
+        return propertyCount;
+    }
+
+    function renderArrayValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+        const dataLength: number = data.length;
+
+        if ( !bindingOptions.reverseArrayValues ) {
+            for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
+            }
+
+        } else {
+            for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
+                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0 );
+            }
+        }
+
+        addArrowEvent( bindingOptions, arrow, objectTypeContents );
+    }
+
+    function renderValue( container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean ) : void {
+        const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValue, "div", "no-arrow" ) : null!;
+        let valueClass: string = null!;
+        let valueElement: HTMLElement = null!;
+        let ignored: boolean = false;
+        let type: string = null!;
+        let addClickEvent: boolean = true;
+
+        DomElement.createWithHTML( objectTypeValue, "span", "title", name );
+        DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
+
+        if ( !Is.defined( value ) ) {
+            if ( !bindingOptions.ignore!.nullValues ) {
+                valueClass = bindingOptions.showValueColors ? "null" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
+                addClickEvent = false;
+
+                if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onNullRender!, valueElement );
+                }
+
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedFunction( value ) ) {
+            if ( !bindingOptions.ignore!.functionValues ) {
+                valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, getFunctionName( value ) );
+                type = "function";
+
+                if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+                }
+            
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedBoolean( value ) ) {
+            if ( !bindingOptions.ignore!.booleanValues ) {
+                valueClass = bindingOptions.showValueColors ? "boolean" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = "boolean";
+
+                if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onBooleanRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedDecimal( value ) ) {
+            if ( !bindingOptions.ignore!.decimalValues ) {
+                const newValue: string = getFixedValue( value, bindingOptions.maximumDecimalPlaces! );
+
+                valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
+                type = "decimal";
+
+                if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onDecimalRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedNumber( value ) ) {
+            if ( !bindingOptions.ignore!.numberValues ) {
+                valueClass = bindingOptions.showValueColors ? "number" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = "number";
+
+                if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onNumberRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedString( value ) ) {
+            if ( !bindingOptions.ignore!.stringValues ) {
+                let color: string = null!;
+
+                if ( bindingOptions.showStringHexColors && isHexColor( value ) ) {
+                    color = value;
+
+                } else {
+                    if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
+                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.ellipsisText;
+                    }
+                }
+
+                const newStringValue: string = bindingOptions.showStringQuotes ? "\"" + value + "\"" : value;
     
+                valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                type = "string";
+
+                if ( Is.definedString( color ) ) {
+                    valueElement.style.color = color;
+                }
+    
+                if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onStringRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedDate( value ) ) {
+            if ( !bindingOptions.ignore!.dateValues ) {
+                valueClass = bindingOptions.showValueColors ? "date" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
+                type = "date";
+
+                if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onDateRender!, valueElement );
+                }
+    
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedObject( value ) && !Is.definedArray( value ) ) {
+            if ( !bindingOptions.ignore!.objectValues ) {
+                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "object" : Char.empty );
+                const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
+
+                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.objectText! );
+
+                if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                    DomElement.createWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
+                }
+
+                createComma( bindingOptions, objectTitle, isLastItem );
+
+                type = "object";
+
+            } else {
+                ignored = true;
+            }
+
+
+        } else if ( Is.definedArray( value ) ) {
+            if ( !bindingOptions.ignore!.arrayValues ) {
+                const arrayTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "array" : Char.empty );
+                const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+
+                DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.arrayText! );
+
+                if ( bindingOptions.showCounts ) {
+                    DomElement.createWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+                }
+
+                createComma( bindingOptions, arrayTitle, isLastItem );
+                renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
+
+                type = "array";
+                
+            } else {
+                ignored = true;
+            }
+
+        } else {
+            if ( !bindingOptions.ignore!.unknownValues ) {
+                valueClass = bindingOptions.showValueColors ? "unknown" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                type = "unknown";
+
+                if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
+                    fireCustomTriggerEvent( bindingOptions.events!.onUnknownRender!, valueElement );
+                }
+
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+        }
+
+        if ( ignored ) {
+            container.removeChild( objectTypeValue );
+            
+        } else {
+            if ( Is.defined( valueElement ) ) {
+                addValueClickEvent( bindingOptions, valueElement, value, type, addClickEvent );
+            }
+        }
+    }
+
+    function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
+        if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
+            valueElement.onclick = function() {
+                fireCustomTriggerEvent( bindingOptions.events!.onValueClick!, value, type );
+            };
+
+        } else {
+            DomElement.addClass( valueElement, "no-hover" );
+        }
+    }
+
+    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, objectTypeContents: HTMLElement ) : void {
+        if ( Is.defined( arrow ) ) {
+            arrow.onclick = function() {
+                if ( arrow.className === "down-arrow" ) {
+                    objectTypeContents.style.display = "none";
+                    arrow.className = "right-arrow";
+                } else {
+                    objectTypeContents.style.display = "block";
+                    arrow.className = "down-arrow";
+                }
+            };
+
+            if ( bindingOptions.showAllAsClosed ) {
+                objectTypeContents.style.display = "none";
+                arrow.className = "right-arrow";
+            } else {
+                arrow.className = "down-arrow";
+            }
+        }
+    }
+
+    function getFunctionName( value: any ) : string {
+        let result: string;
+        const valueParts: string[] = value.toString().split( "(" );
+        const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
+
+        if ( valueNameParts.length === 2 ) {
+            result = valueNameParts[ 1 ];
+        } else {
+            result = valueNameParts[ 0 ];
+        }
+
+        result += "()";
+
+        return result;
+    }
+
     function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : void {
         if ( bindingOptions.showCommas && !isLastItem ) {
             DomElement.createWithHTML( objectTypeValue, "span", "comma", "," );
