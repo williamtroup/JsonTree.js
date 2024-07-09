@@ -11,13 +11,10 @@
  */
 
 
-import { type Configuration } from "./type";
-
-
 export type PublicApi = {
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Manage Instances
+     * Public API Functions:  Manage Instances
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -84,7 +81,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	openAll: ( elementId?: string ) => PublicApi;
+	openAll: ( elementId: string ) => PublicApi;
 
 	/**
 	 * closeAll().
@@ -98,11 +95,12 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	closeAll: ( elementId?: string ) => PublicApi;
+	closeAll: ( elementId: string ) => PublicApi;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Destroying
+     * Public API Functions:  Destroying
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -135,7 +133,7 @@ export type PublicApi = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Configuration
+     * Public API Functions:  Configuration
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -150,12 +148,12 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	setConfiguration: ( config: Configuration ) => PublicApi;
+	setConfiguration: ( configuration: any ) => PublicApi;
 
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public Functions:  Additional Data
+     * Public API Functions:  Additional Data
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
