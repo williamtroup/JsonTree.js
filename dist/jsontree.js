@@ -11,14 +11,14 @@ var Is;
         return t(e) && typeof e === "object";
     }
     e.definedObject = n;
-    function o(e) {
+    function r(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = o;
-    function r(e) {
+    e.definedBoolean = r;
+    function o(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = r;
+    e.definedString = o;
     function a(e) {
         return t(e) && typeof e === "function";
     }
@@ -64,12 +64,12 @@ var Data;
         e.newGuid = t;
         function n(e, t = 1) {
             const n = e.toString();
-            let o = n;
+            let r = n;
             if (n.length < t) {
                 const e = t - n.length + 1;
-                o = Array(e).join("0") + n;
+                r = Array(e).join("0") + n;
             }
-            return o;
+            return r;
         }
         e.padNumber = n;
     })(t = e.String || (e.String = {}));
@@ -77,14 +77,14 @@ var Data;
         return typeof e === "string" ? e : t;
     }
     e.getDefaultAnyString = n;
-    function o(e, t) {
+    function r(e, t) {
         return Is.definedString(e) ? e : t;
     }
-    e.getDefaultString = o;
-    function r(e, t) {
+    e.getDefaultString = r;
+    function o(e, t) {
         return Is.definedBoolean(e) ? e : t;
     }
-    e.getDefaultBoolean = r;
+    e.getDefaultBoolean = o;
     function a(e, t) {
         return Is.definedNumber(e) ? e : t;
     }
@@ -104,11 +104,11 @@ var Data;
     function u(e, t) {
         let n = t;
         if (Is.definedString(e)) {
-            const o = e.toString().split(" ");
-            if (o.length === 0) {
+            const r = e.toString().split(" ");
+            if (r.length === 0) {
                 e = t;
             } else {
-                n = o;
+                n = r;
             }
         } else {
             n = l(e, t);
@@ -121,31 +121,31 @@ var Data;
 var DomElement;
 
 (e => {
-    function t(e, t, n = "", o = null) {
-        const r = t.toLowerCase();
-        const a = r === "text";
-        let i = a ? document.createTextNode("") : document.createElement(r);
+    function t(e, t, n = "", r = null) {
+        const o = t.toLowerCase();
+        const a = o === "text";
+        let i = a ? document.createTextNode("") : document.createElement(o);
         if (Is.defined(n)) {
             i.className = n;
         }
-        if (Is.defined(o)) {
-            e.insertBefore(i, o);
+        if (Is.defined(r)) {
+            e.insertBefore(i, r);
         } else {
             e.appendChild(i);
         }
         return i;
     }
     e.create = t;
-    function n(e, n, o, r, a = null) {
-        const i = t(e, n, o, a);
-        i.innerHTML = r;
+    function n(e, n, r, o, a = null) {
+        const i = t(e, n, r, a);
+        i.innerHTML = o;
         return i;
     }
     e.createWithHTML = n;
-    function o(e, t) {
+    function r(e, t) {
         e.classList.add(t);
     }
-    e.addClass = o;
+    e.addClass = r;
 })(DomElement || (DomElement = {}));
 
 var DateTime;
@@ -167,31 +167,31 @@ var DateTime;
         return n;
     }
     e.getDayOrdinal = n;
-    function o(e, o, r) {
-        let a = r;
-        const i = t(o);
-        a = a.replace("{hh}", Data.String.padNumber(o.getHours(), 2));
-        a = a.replace("{h}", o.getHours().toString());
-        a = a.replace("{MM}", Data.String.padNumber(o.getMinutes(), 2));
-        a = a.replace("{M}", o.getMinutes().toString());
-        a = a.replace("{ss}", Data.String.padNumber(o.getSeconds(), 2));
-        a = a.replace("{s}", o.getSeconds().toString());
+    function r(e, r, o) {
+        let a = o;
+        const i = t(r);
+        a = a.replace("{hh}", Data.String.padNumber(r.getHours(), 2));
+        a = a.replace("{h}", r.getHours().toString());
+        a = a.replace("{MM}", Data.String.padNumber(r.getMinutes(), 2));
+        a = a.replace("{M}", r.getMinutes().toString());
+        a = a.replace("{ss}", Data.String.padNumber(r.getSeconds(), 2));
+        a = a.replace("{s}", r.getSeconds().toString());
         a = a.replace("{dddd}", e.dayNames[i]);
         a = a.replace("{ddd}", e.dayNamesAbbreviated[i]);
-        a = a.replace("{dd}", Data.String.padNumber(o.getDate()));
-        a = a.replace("{d}", o.getDate().toString());
-        a = a.replace("{o}", n(e, o.getDate()));
-        a = a.replace("{mmmm}", e.monthNames[o.getMonth()]);
-        a = a.replace("{mmm}", e.monthNamesAbbreviated[o.getMonth()]);
-        a = a.replace("{mm}", Data.String.padNumber(o.getMonth() + 1));
-        a = a.replace("{m}", (o.getMonth() + 1).toString());
-        a = a.replace("{yyyy}", o.getFullYear().toString());
-        a = a.replace("{yyy}", o.getFullYear().toString().substring(1));
-        a = a.replace("{yy}", o.getFullYear().toString().substring(2));
-        a = a.replace("{y}", Number.parseInt(o.getFullYear().toString().substring(2)).toString());
+        a = a.replace("{dd}", Data.String.padNumber(r.getDate()));
+        a = a.replace("{d}", r.getDate().toString());
+        a = a.replace("{o}", n(e, r.getDate()));
+        a = a.replace("{mmmm}", e.monthNames[r.getMonth()]);
+        a = a.replace("{mmm}", e.monthNamesAbbreviated[r.getMonth()]);
+        a = a.replace("{mm}", Data.String.padNumber(r.getMonth() + 1));
+        a = a.replace("{m}", (r.getMonth() + 1).toString());
+        a = a.replace("{yyyy}", r.getFullYear().toString());
+        a = a.replace("{yyy}", r.getFullYear().toString().substring(1));
+        a = a.replace("{yy}", r.getFullYear().toString().substring(2));
+        a = a.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
         return a;
     }
-    e.getCustomFormattedDateText = o;
+    e.getCustomFormattedDateText = r;
 })(DateTime || (DateTime = {}));
 
 var Constants;
@@ -208,10 +208,10 @@ var Constants;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
-            const o = [].slice.call(t);
-            const r = o.length;
-            for (let e = 0; e < r; e++) {
-                if (!renderElement(o[e])) {
+            const r = [].slice.call(t);
+            const o = r.length;
+            for (let e = 0; e < o; e++) {
+                if (!renderElement(r[e])) {
                     break;
                 }
             }
@@ -222,9 +222,9 @@ var Constants;
         if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
             const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
             if (Is.definedString(n)) {
-                const o = getObjectFromString(n);
-                if (o.parsed && Is.definedObject(o.object)) {
-                    renderControl(renderBindingOptions(o.object, e));
+                const r = getObjectFromString(n);
+                if (r.parsed && Is.definedObject(r.object)) {
+                    renderControl(renderBindingOptions(r.object, e));
                 } else {
                     if (!_configuration.safeMode) {
                         console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -254,10 +254,7 @@ var Constants;
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
         if (!_elements_Data.hasOwnProperty(e._currentView.element.id)) {
-            _elements_Data[e._currentView.element.id] = {};
-            _elements_Data[e._currentView.element.id].options = e;
-            _elements_Data[e._currentView.element.id].data = e.data;
-            delete e.data;
+            _elements_Data[e._currentView.element.id] = e;
         }
         renderControlContainer(e);
         fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
@@ -289,11 +286,11 @@ var Constants;
             }
             if (e.title.showTreeControls) {
                 const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
-                const o = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
+                const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
                 t.onclick = () => {
                     openAllNodes(e);
                 };
-                o.onclick = () => {
+                r.onclick = () => {
                     closeAllNodes(e);
                 };
             }
@@ -310,30 +307,30 @@ var Constants;
         fireCustomTriggerEvent(e.events.onCloseAll, e._currentView.element);
     }
     function renderObject(e, t, n) {
-        const o = DomElement.create(e, "div", "object-type-title");
-        const r = DomElement.create(e, "div", "object-type-contents");
-        const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-        const i = renderObjectValues(a, r, t, n);
-        DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.objectText);
+        const r = DomElement.create(e, "div", "object-type-title");
+        const o = DomElement.create(e, "div", "object-type-contents");
+        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        const i = renderObjectValues(a, o, t, n);
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.objectText);
         if (t.showCounts && i > 0) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
         }
     }
     function renderArray(e, t, n) {
-        const o = DomElement.create(e, "div", "object-type-title");
-        const r = DomElement.create(e, "div", "object-type-contents");
-        const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-        DomElement.createWithHTML(o, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
-        renderArrayValues(a, r, t, n);
+        const r = DomElement.create(e, "div", "object-type-title");
+        const o = DomElement.create(e, "div", "object-type-contents");
+        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
+        renderArrayValues(a, o, t, n);
         if (t.showCounts) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
         }
     }
-    function renderObjectValues(e, t, n, o) {
-        let r = 0;
+    function renderObjectValues(e, t, n, r) {
+        let o = 0;
         let a = [];
-        for (let e in o) {
-            if (o.hasOwnProperty(e)) {
+        for (let e in r) {
+            if (r.hasOwnProperty(e)) {
                 a.push(e);
             }
         }
@@ -346,28 +343,28 @@ var Constants;
         const i = a.length;
         for (let e = 0; e < i; e++) {
             const l = a[e];
-            if (o.hasOwnProperty(l)) {
-                renderValue(t, n, l, o[l], e === i - 1);
-                r++;
+            if (r.hasOwnProperty(l)) {
+                renderValue(t, n, l, r[l], e === i - 1);
+                o++;
             }
         }
         addArrowEvent(n, e, t);
-        return r;
+        return o;
     }
-    function renderArrayValues(e, t, n, o) {
-        const r = o.length;
+    function renderArrayValues(e, t, n, r) {
+        const o = r.length;
         if (!n.reverseArrayValues) {
-            for (let e = 0; e < r; e++) {
-                renderValue(t, n, getIndexName(n, e, r), o[e], e === r - 1);
+            for (let e = 0; e < o; e++) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === o - 1);
             }
         } else {
-            for (let e = r; e--; ) {
-                renderValue(t, n, getIndexName(n, e, r), o[e], e === 0);
+            for (let e = o; e--; ) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === 0);
             }
         }
         addArrowEvent(n, e, t);
     }
-    function renderValue(e, t, n, o, r) {
+    function renderValue(e, t, n, r, o) {
         const a = DomElement.create(e, "div", "object-type-value");
         const i = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
         let l = null;
@@ -377,7 +374,7 @@ var Constants;
         let f = true;
         DomElement.createWithHTML(a, "span", "title", n);
         DomElement.createWithHTML(a, "span", "split", ":");
-        if (!Is.defined(o)) {
+        if (!Is.defined(r)) {
             if (!t.ignore.nullValues) {
                 l = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(a, "span", l, "null");
@@ -385,70 +382,70 @@ var Constants;
                 if (Is.definedFunction(t.events.onNullRender)) {
                     fireCustomTriggerEvent(t.events.onNullRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedFunction(o)) {
+        } else if (Is.definedFunction(r)) {
             if (!t.ignore.functionValues) {
                 l = t.showValueColors ? "function" : "";
-                s = DomElement.createWithHTML(a, "span", l, getFunctionName(o));
+                s = DomElement.createWithHTML(a, "span", l, getFunctionName(r));
                 c = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
                     fireCustomTriggerEvent(t.events.onFunctionRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedBoolean(o)) {
+        } else if (Is.definedBoolean(r)) {
             if (!t.ignore.booleanValues) {
                 l = t.showValueColors ? "boolean" : "";
-                s = DomElement.createWithHTML(a, "span", l, o);
+                s = DomElement.createWithHTML(a, "span", l, r);
                 c = "boolean";
                 if (Is.definedFunction(t.events.onBooleanRender)) {
                     fireCustomTriggerEvent(t.events.onBooleanRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedDecimal(o)) {
+        } else if (Is.definedDecimal(r)) {
             if (!t.ignore.decimalValues) {
-                const e = getFixedValue(o, t.maximumDecimalPlaces);
+                const e = getFixedValue(r, t.maximumDecimalPlaces);
                 l = t.showValueColors ? "decimal" : "";
                 s = DomElement.createWithHTML(a, "span", l, e);
                 c = "decimal";
                 if (Is.definedFunction(t.events.onDecimalRender)) {
                     fireCustomTriggerEvent(t.events.onDecimalRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedNumber(o)) {
+        } else if (Is.definedNumber(r)) {
             if (!t.ignore.numberValues) {
                 l = t.showValueColors ? "number" : "";
-                s = DomElement.createWithHTML(a, "span", l, o);
+                s = DomElement.createWithHTML(a, "span", l, r);
                 c = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
                     fireCustomTriggerEvent(t.events.onNumberRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedString(o)) {
+        } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
                 let e = null;
-                if (t.showValueColors && t.showStringHexColors && isHexColor(o)) {
-                    e = o;
+                if (t.showValueColors && t.showStringHexColors && isHexColor(r)) {
+                    e = r;
                 } else {
-                    if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {
-                        o = o.substring(0, t.maximumStringLength) + _configuration.ellipsisText;
+                    if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                        r = r.substring(0, t.maximumStringLength) + _configuration.ellipsisText;
                     }
                 }
-                const n = t.showStringQuotes ? '"' + o + '"' : o;
+                const n = t.showStringQuotes ? '"' + r + '"' : r;
                 l = t.showValueColors ? "string" : "";
                 s = DomElement.createWithHTML(a, "span", l, n);
                 c = "string";
@@ -458,46 +455,46 @@ var Constants;
                 if (Is.definedFunction(t.events.onStringRender)) {
                     fireCustomTriggerEvent(t.events.onStringRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedDate(o)) {
+        } else if (Is.definedDate(r)) {
             if (!t.ignore.dateValues) {
                 l = t.showValueColors ? "date" : "";
-                s = DomElement.createWithHTML(a, "span", l, DateTime.getCustomFormattedDateText(_configuration, o, t.dateTimeFormat));
+                s = DomElement.createWithHTML(a, "span", l, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                 c = "date";
                 if (Is.definedFunction(t.events.onDateRender)) {
                     fireCustomTriggerEvent(t.events.onDateRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedObject(o) && !Is.definedArray(o)) {
+        } else if (Is.definedObject(r) && !Is.definedArray(r)) {
             if (!t.ignore.objectValues) {
                 const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
                 const n = DomElement.create(a, "div", "object-type-contents");
-                const l = renderObjectValues(i, n, t, o);
+                const l = renderObjectValues(i, n, t, r);
                 DomElement.createWithHTML(e, "span", "title", _configuration.objectText);
                 if (t.showCounts && l > 0) {
                     DomElement.createWithHTML(e, "span", "count", "{" + l + "}");
                 }
-                createComma(t, e, r);
+                createComma(t, e, o);
                 c = "object";
             } else {
                 u = true;
             }
-        } else if (Is.definedArray(o)) {
+        } else if (Is.definedArray(r)) {
             if (!t.ignore.arrayValues) {
                 const e = DomElement.create(a, "span", t.showValueColors ? "array" : "");
                 const n = DomElement.create(a, "div", "object-type-contents");
                 DomElement.createWithHTML(e, "span", "title", _configuration.arrayText);
                 if (t.showCounts) {
-                    DomElement.createWithHTML(e, "span", "count", "[" + o.length + "]");
+                    DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
                 }
-                createComma(t, e, r);
-                renderArrayValues(i, n, t, o);
+                createComma(t, e, o);
+                renderArrayValues(i, n, t, r);
                 c = "array";
             } else {
                 u = true;
@@ -505,12 +502,12 @@ var Constants;
         } else {
             if (!t.ignore.unknownValues) {
                 l = t.showValueColors ? "unknown" : "";
-                s = DomElement.createWithHTML(a, "span", l, o.toString());
+                s = DomElement.createWithHTML(a, "span", l, r.toString());
                 c = "unknown";
                 if (Is.definedFunction(t.events.onUnknownRender)) {
                     fireCustomTriggerEvent(t.events.onUnknownRender, s);
                 }
-                createComma(t, a, r);
+                createComma(t, a, o);
             } else {
                 u = true;
             }
@@ -519,14 +516,14 @@ var Constants;
             e.removeChild(a);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, o, c, f);
+                addValueClickEvent(t, s, r, c, f);
             }
         }
     }
-    function addValueClickEvent(e, t, n, o, r) {
-        if (r && Is.definedFunction(e.events.onValueClick)) {
+    function addValueClickEvent(e, t, n, r, o) {
+        if (o && Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
-                fireCustomTriggerEvent(e.events.onValueClick, n, o);
+                fireCustomTriggerEvent(e.events.onValueClick, n, r);
             };
         } else {
             DomElement.addClass(t, "no-hover");
@@ -554,11 +551,11 @@ var Constants;
     function getFunctionName(e) {
         let t;
         const n = e.toString().split("(");
-        const o = n[0].split(" ");
-        if (o.length === 2) {
-            t = o[1];
+        const r = n[0].split(" ");
+        if (r.length === 2) {
+            t = r[1];
         } else {
-            t = o[0];
+            t = r[0];
         }
         t += "()";
         return t;
@@ -569,16 +566,16 @@ var Constants;
         }
     }
     function getIndexName(e, t, n) {
-        let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
+        let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
-            o = Data.String.padNumber(parseInt(o), n.toString().length);
+            r = Data.String.padNumber(parseInt(r), n.toString().length);
         }
-        return o;
+        return r;
     }
     function getFixedValue(e, t) {
         var n;
-        const o = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
-        return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
+        const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+        return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
     function isHexColor(e) {
         let t = e.length >= 2 && e.length <= 7;
@@ -723,7 +720,7 @@ var Constants;
     const _public = {
         refresh: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                const t = _elements_Data[e].options;
+                const t = _elements_Data[e];
                 renderControlContainer(t);
                 fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
             }
@@ -732,7 +729,7 @@ var Constants;
         refreshAll: function() {
             for (let e in _elements_Data) {
                 if (_elements_Data.hasOwnProperty(e)) {
-                    const t = _elements_Data[e].options;
+                    const t = _elements_Data[e];
                     renderControlContainer(t);
                     fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
                 }
@@ -751,19 +748,19 @@ var Constants;
         },
         openAll: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                openAllNodes(_elements_Data[e].options);
+                openAllNodes(_elements_Data[e]);
             }
             return _public;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                closeAllNodes(_elements_Data[e].options);
+                closeAllNodes(_elements_Data[e]);
             }
             return _public;
         },
         destroy: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                destroyElement(_elements_Data[e].options);
+                destroyElement(_elements_Data[e]);
                 delete _elements_Data[e];
             }
             return _public;
@@ -771,7 +768,7 @@ var Constants;
         destroyAll: function() {
             for (let e in _elements_Data) {
                 if (_elements_Data.hasOwnProperty(e)) {
-                    destroyElement(_elements_Data[e].options);
+                    destroyElement(_elements_Data[e]);
                 }
             }
             _elements_Data = {};
@@ -781,9 +778,9 @@ var Constants;
             if (Is.definedObject(e)) {
                 let t = false;
                 const n = _configuration;
-                for (let o in e) {
-                    if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && n[o] !== e[o]) {
-                        n[o] = e[o];
+                for (let r in e) {
+                    if (e.hasOwnProperty(r) && _configuration.hasOwnProperty(r) && n[r] !== e[r]) {
+                        n[r] = e[r];
                         t = true;
                     }
                 }

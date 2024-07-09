@@ -33,12 +33,7 @@ type StringToJson = {
     object: any;
 };
 
-type JsonTreeData = {
-    options: BindingOptions;
-    data: any;
-};
-
-type JsonTree = Record<string, JsonTreeData>;
+type JsonTreeData = Record<string, BindingOptions>;
 
 
 ( () => {
@@ -46,7 +41,7 @@ type JsonTree = Record<string, JsonTreeData>;
     let _configuration: Configuration = {} as Configuration;
 
     // Variables: Data
-    let _elements_Data: JsonTree = {} as JsonTree;
+    let _elements_Data: JsonTreeData = {} as JsonTreeData;
 
 
     /*
@@ -121,11 +116,7 @@ type JsonTree = Record<string, JsonTreeData>;
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
         if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
-            _elements_Data[ bindingOptions._currentView.element.id ] = {} as JsonTreeData;
-            _elements_Data[ bindingOptions._currentView.element.id ].options = bindingOptions;
-            _elements_Data[ bindingOptions._currentView.element.id ].data = bindingOptions.data;
-
-            delete bindingOptions.data;
+            _elements_Data[ bindingOptions._currentView.element.id ] = bindingOptions;
         }
 
         renderControlContainer( bindingOptions );
@@ -830,7 +821,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
         refresh: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                 renderControlContainer( bindingOptions );
                 fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
@@ -842,7 +833,7 @@ type JsonTree = Record<string, JsonTreeData>;
         refreshAll: function () : PublicApi {
             for ( let elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
-                    const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
+                    const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                     renderControlContainer( bindingOptions );
                     fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
@@ -868,7 +859,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
         openAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                openAllNodes( _elements_Data[ elementId ].options );
+                openAllNodes( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -876,7 +867,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
         closeAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                closeAllNodes( _elements_Data[ elementId ].options );
+                closeAllNodes( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -891,7 +882,7 @@ type JsonTree = Record<string, JsonTreeData>;
 
         destroy: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                destroyElement( _elements_Data[ elementId ].options );
+                destroyElement( _elements_Data[ elementId ] );
     
                 delete _elements_Data[ elementId ];
             }
@@ -902,11 +893,11 @@ type JsonTree = Record<string, JsonTreeData>;
         destroyAll: function () : PublicApi {
             for ( let elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
-                    destroyElement( _elements_Data[ elementId ].options );
+                    destroyElement( _elements_Data[ elementId ] );
                 }
             }
 
-            _elements_Data = {} as JsonTree;
+            _elements_Data = {} as JsonTreeData;
 
             return _public;
         },

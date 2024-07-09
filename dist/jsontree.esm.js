@@ -309,10 +309,7 @@ var require_jsontree = __commonJS({
                 e._currentView.element.className = "json-tree-js";
                 e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
                 if (!_elements_Data.hasOwnProperty(e._currentView.element.id)) {
-                    _elements_Data[e._currentView.element.id] = {};
-                    _elements_Data[e._currentView.element.id].options = e;
-                    _elements_Data[e._currentView.element.id].data = e.data;
-                    delete e.data;
+                    _elements_Data[e._currentView.element.id] = e;
                 }
                 renderControlContainer(e);
                 fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
@@ -778,7 +775,7 @@ var require_jsontree = __commonJS({
             const _public = {
                 refresh: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                        const t = _elements_Data[e].options;
+                        const t = _elements_Data[e];
                         renderControlContainer(t);
                         fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
                     }
@@ -787,7 +784,7 @@ var require_jsontree = __commonJS({
                 refreshAll: function() {
                     for (let e in _elements_Data) {
                         if (_elements_Data.hasOwnProperty(e)) {
-                            const t = _elements_Data[e].options;
+                            const t = _elements_Data[e];
                             renderControlContainer(t);
                             fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
                         }
@@ -806,19 +803,19 @@ var require_jsontree = __commonJS({
                 },
                 openAll: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                        openAllNodes(_elements_Data[e].options);
+                        openAllNodes(_elements_Data[e]);
                     }
                     return _public;
                 },
                 closeAll: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                        closeAllNodes(_elements_Data[e].options);
+                        closeAllNodes(_elements_Data[e]);
                     }
                     return _public;
                 },
                 destroy: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                        destroyElement(_elements_Data[e].options);
+                        destroyElement(_elements_Data[e]);
                         delete _elements_Data[e];
                     }
                     return _public;
@@ -826,7 +823,7 @@ var require_jsontree = __commonJS({
                 destroyAll: function() {
                     for (let e in _elements_Data) {
                         if (_elements_Data.hasOwnProperty(e)) {
-                            destroyElement(_elements_Data[e].options);
+                            destroyElement(_elements_Data[e]);
                         }
                     }
                     _elements_Data = {};
