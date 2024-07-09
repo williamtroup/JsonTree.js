@@ -81,21 +81,20 @@ export type Ignore = {
 };
 
 export type Events = {
-    onBeforeRender?: () => void;
-    onRender?: () => void;
-    onRenderComplete?: () => void;
-    onValueClick?: () => void;
-    onOpenAll?: () => void;
-    onCloseAll?: () => void;
-    onDestroy?: () => void;
-    onRefresh?: () => void;
-    onCopyAll?: () => void;
-    onBooleanRender?: () => void;
-    onDateRender?: () => void;
-    onNumberRender?: () => void;
-    onDecimalRender?: () => void;
-    onFunctionRender?: () => void;
-    onNullRender?: () => void;
-    onStringRender?: () => void;
-    onUnknownRender?: () => void;
+    onBeforeRender?: ( element: HTMLElement ) => void;
+    onRenderComplete?: ( element: HTMLElement ) => void;
+    onValueClick?: ( value: any, type: string ) => void;
+    onOpenAll?: ( element: HTMLElement ) => void;
+    onCloseAll?: ( element: HTMLElement ) => void;
+    onDestroy?: ( element: HTMLElement ) => void;
+    onRefresh?: ( element: HTMLElement ) => void;
+    onCopyAll?: ( data: string ) => void;
+    onBooleanRender?: ( element: HTMLElement ) => void;
+    onDateRender?: ( element: HTMLElement ) => void;
+    onNumberRender?: ( element: HTMLElement ) => void;
+    onDecimalRender?: ( element: HTMLElement ) => void;
+    onFunctionRender?: ( element: HTMLElement ) => void;
+    onNullRender?: ( element: HTMLElement ) => void;
+    onStringRender?: ( element: HTMLElement ) => void;
+    onUnknownRender?: ( element: HTMLElement ) => void;
 };
