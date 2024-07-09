@@ -65,7 +65,6 @@ You can also use the following CDN links:
 
 ```markdown
 https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.0.0/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.0.0/dist/jsontree.export.min.js
 https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.0.0/dist/jsontree.js.min.css
 ```
 <br>
