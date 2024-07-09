@@ -554,7 +554,7 @@ type JsonTree = Record<string, JsonTreeData>;
     }
     
     function getIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
-        let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : (index + 1).toString();
+        let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
     
         if ( !bindingOptions.addArrayIndexPadding ) {
             result = Data.String.padNumber( parseInt( result ), largestValue.toString().length );
