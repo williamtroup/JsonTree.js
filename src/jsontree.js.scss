@@ -10,7 +10,20 @@
 
 :root {
     // Fonts
-    --json-tree-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --json-tree-js-default-font: system-ui,
+                                 -apple-system,
+                                 "Segoe UI",
+                                 Roboto,
+                                 "Helvetica Neue",
+                                 "Noto Sans",
+                                 "Liberation Sans",
+                                 Arial,
+                                 sans-serif,
+                                 "Apple Color Emoji",
+                                 "Segoe UI Emoji",
+                                 "Segoe UI Symbol",
+                                 "Noto Color Emoji";
+                                 
     --json-tree-js-text-bold-weight: 400;
     --json-tree-js-header-bold-weight: 900;
     --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
