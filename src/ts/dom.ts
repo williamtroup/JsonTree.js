@@ -15,7 +15,7 @@ import { Char } from "./enum";
 import { Is } from "./is";
 
 
-namespace DomElement {
+export namespace DomElement {
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";

@@ -21,7 +21,7 @@ import {
 import { PublicApi } from "./ts/api";
 import { Data } from "./ts/data";
 import { Is } from "./ts/is";
-
+import { DomElement } from "./ts/dom";
 
 type StringToJson = {
     parsed: boolean;
@@ -37,6 +37,46 @@ type StringToJson = {
     let _elements_Data: Record<string, { options: BindingOptions; data: any }> = {};
 
     
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Tree
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+    
+    function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : void {
+        if ( bindingOptions.showCommas && !isLastItem ) {
+            DomElement.createWithHTML( objectTypeValue, "span", "comma", "," );
+        }
+    }
+    
+    function getIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
+        let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : (index + 1).toString();
+    
+        if ( !bindingOptions.addArrayIndexPadding ) {
+            result = Data.String.padNumber( parseInt( result ), largestValue.toString().length );
+        }
+    
+        return result;
+    }
+    
+    function getFixedValue( value: number, length: number ) : string {
+        const regExp: RegExp = new RegExp( "^-?\\d+(?:.\\d{0," + ( length || -1 ) + "})?" );
+    
+        return value.toString().match( regExp )?.[ 0 ] || "";
+    }
+    
+    function isHexColor( value: string ) : boolean {
+        let valid: boolean = value.length >= 2 && value.length <= 7;
+    
+        if ( valid && value[ 0 ] === "#" ) {
+            valid = isNaN( +value.substring( 1, value.length - 1 ) );
+        }
+    
+        return valid;
+    }
+
+
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Options

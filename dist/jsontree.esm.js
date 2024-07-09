@@ -147,12 +147,75 @@ var init_data = __esm({
     }
 });
 
+var DomElement;
+
+var init_dom = __esm({
+    "src/ts/dom.ts"() {
+        "use strict";
+        init_enum();
+        init_is();
+        (e => {
+            function t(e, t, n = "", o = null) {
+                const r = t.toLowerCase();
+                const a = r === "text";
+                let l = a ? document.createTextNode("") : document.createElement(r);
+                if (Is.defined(n)) {
+                    l.className = n;
+                }
+                if (Is.defined(o)) {
+                    e.insertBefore(l, o);
+                } else {
+                    e.appendChild(l);
+                }
+                return l;
+            }
+            e.create = t;
+            function n(e, n, o, r, a = null) {
+                const l = t(e, n, o, a);
+                l.innerHTML = r;
+                return l;
+            }
+            e.createWithHTML = n;
+            function o(e, t) {
+                e.classList.add(t);
+            }
+            e.addClass = o;
+        })(DomElement || (DomElement = {}));
+    }
+});
+
 var require_jsontree = __commonJS({
     "src/jsontree.ts"(exports, module) {
         init_data();
         init_is();
+        init_dom();
         (() => {
             let _configuration = {};
+            let _elements_Data = {};
+            function createComma(e, t, n) {
+                if (e.showCommas && !n) {
+                    DomElement.createWithHTML(t, "span", "comma", ",");
+                }
+            }
+            function getIndexName(e, t, n) {
+                let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
+                if (!e.addArrayIndexPadding) {
+                    o = Data.String.padNumber(parseInt(o), n.toString().length);
+                }
+                return o;
+            }
+            function getFixedValue(e, t) {
+                var n;
+                const o = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+                return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
+            }
+            function isHexColor(e) {
+                let t = e.length >= 2 && e.length <= 7;
+                if (t && e[0] === "#") {
+                    t = isNaN(+e.substring(1, e.length - 1));
+                }
+                return t;
+            }
             function buildAttributeOptions(e) {
                 var t = Data.getDefaultObject(e, {});
                 t.data = Data.getDefaultObject(t.data, null);
