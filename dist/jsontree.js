@@ -1,730 +1,817 @@
-/*! JsonTree.js v1.1.2 | (c) Bunoon 2024 | MIT License */
-(function() {
-  var _parameter_Document = null, _parameter_Window = null, _parameter_Navigator = null, _parameter_Math = null, _parameter_JSON = null, _public = {}, _configuration = {}, _elements_Type = {}, _elements_Data = {}, _string = {empty:"", space:" "}, _attribute_Name_Options = "data-jsontree-js";
-  function render() {
-    var tagTypes = _configuration.domElementTypes, tagTypesLength = tagTypes.length;
-    for (var tagTypeIndex = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++) {
-      var domElements = _parameter_Document.getElementsByTagName(tagTypes[tagTypeIndex]), elements = [].slice.call(domElements), elementsLength = elements.length;
-      for (var elementIndex = 0; elementIndex < elementsLength; elementIndex++) {
-        if (!renderElement(elements[elementIndex])) {
-          break;
-        }
-      }
+"use strict";
+
+var Is;
+
+(e => {
+    function t(e) {
+        return e !== null && e !== void 0 && e.toString() !== "";
     }
-  }
-  function renderElement(element) {
-    var result = true;
-    if (isDefined(element) && element.hasAttribute(_attribute_Name_Options)) {
-      var bindingOptionsData = element.getAttribute(_attribute_Name_Options);
-      if (isDefinedString(bindingOptionsData)) {
-        var bindingOptions = getObjectFromString(bindingOptionsData);
-        if (bindingOptions.parsed && isDefinedObject(bindingOptions.result)) {
-          renderControl(renderBindingOptions(bindingOptions.result, element));
+    e.defined = t;
+    function n(e) {
+        return t(e) && typeof e === "object";
+    }
+    e.definedObject = n;
+    function r(e) {
+        return t(e) && typeof e === "boolean";
+    }
+    e.definedBoolean = r;
+    function o(e) {
+        return t(e) && typeof e === "string";
+    }
+    e.definedString = o;
+    function a(e) {
+        return t(e) && typeof e === "function";
+    }
+    e.definedFunction = a;
+    function i(e) {
+        return t(e) && typeof e === "number";
+    }
+    e.definedNumber = i;
+    function l(e) {
+        return n(e) && e instanceof Array;
+    }
+    e.definedArray = l;
+    function s(e) {
+        return n(e) && e instanceof Date;
+    }
+    e.definedDate = s;
+    function u(e) {
+        return t(e) && typeof e === "number" && e % 1 !== 0;
+    }
+    e.definedDecimal = u;
+    function c(e, t = 1) {
+        return !l(e) || e.length < t;
+    }
+    e.invalidOptionArray = c;
+    function f(e) {
+        let t = e.length >= 2 && e.length <= 7;
+        if (t && e[0] === "#") {
+            t = isNaN(+e.substring(1, e.length - 1));
+        }
+        return t;
+    }
+    e.hexColor = f;
+})(Is || (Is = {}));
+
+var Data;
+
+(e => {
+    let t;
+    (e => {
+        function t() {
+            const e = [];
+            for (let t = 0; t < 32; t++) {
+                if (t === 8 || t === 12 || t === 16 || t === 20) {
+                    e.push("-");
+                }
+                const n = Math.floor(Math.random() * 16).toString(16);
+                e.push(n);
+            }
+            return e.join("");
+        }
+        e.newGuid = t;
+        function n(e, t = 1) {
+            const n = e.toString();
+            let r = n;
+            if (n.length < t) {
+                const e = t - n.length + 1;
+                r = Array(e).join("0") + n;
+            }
+            return r;
+        }
+        e.padNumber = n;
+    })(t = e.String || (e.String = {}));
+    function n(e, t) {
+        return typeof e === "string" ? e : t;
+    }
+    e.getDefaultAnyString = n;
+    function r(e, t) {
+        return Is.definedString(e) ? e : t;
+    }
+    e.getDefaultString = r;
+    function o(e, t) {
+        return Is.definedBoolean(e) ? e : t;
+    }
+    e.getDefaultBoolean = o;
+    function a(e, t) {
+        return Is.definedNumber(e) ? e : t;
+    }
+    e.getDefaultNumber = a;
+    function i(e, t) {
+        return Is.definedFunction(e) ? e : t;
+    }
+    e.getDefaultFunction = i;
+    function l(e, t) {
+        return Is.definedArray(e) ? e : t;
+    }
+    e.getDefaultArray = l;
+    function s(e, t) {
+        return Is.definedObject(e) ? e : t;
+    }
+    e.getDefaultObject = s;
+    function u(e, t) {
+        let n = t;
+        if (Is.definedString(e)) {
+            const r = e.toString().split(" ");
+            if (r.length === 0) {
+                e = t;
+            } else {
+                n = r;
+            }
         } else {
-          if (!_configuration.safeMode) {
-            console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
-            result = false;
-          }
+            n = l(e, t);
         }
-      } else {
-        if (!_configuration.safeMode) {
-          console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", _attribute_Name_Options));
-          result = false;
+        return n;
+    }
+    e.getDefaultStringOrArray = u;
+    function c(e, t) {
+        var n;
+        const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+        return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
+    }
+    e.getFixedDecimalPlacesValue = c;
+})(Data || (Data = {}));
+
+var DomElement;
+
+(e => {
+    function t(e, t, n = "", r = null) {
+        const o = t.toLowerCase();
+        const a = o === "text";
+        let i = a ? document.createTextNode("") : document.createElement(o);
+        if (Is.defined(n)) {
+            i.className = n;
         }
-      }
-    }
-    return result;
-  }
-  function renderBindingOptions(data, element) {
-    var bindingOptions = buildAttributeOptions(data);
-    bindingOptions.currentView = {};
-    bindingOptions.currentView.element = element;
-    return bindingOptions;
-  }
-  function renderControl(bindingOptions) {
-    fireCustomTrigger(bindingOptions.events.onBeforeRender, bindingOptions.element);
-    if (!isDefinedString(bindingOptions.currentView.element.id)) {
-      bindingOptions.currentView.element.id = newGuid();
-    }
-    bindingOptions.currentView.element.className = "json-tree-js";
-    bindingOptions.currentView.element.removeAttribute(_attribute_Name_Options);
-    if (!_elements_Data.hasOwnProperty(bindingOptions.currentView.element.id)) {
-      _elements_Data[bindingOptions.currentView.element.id] = {};
-      _elements_Data[bindingOptions.currentView.element.id].options = bindingOptions;
-      _elements_Data[bindingOptions.currentView.element.id].data = bindingOptions.data;
-      delete bindingOptions.data;
-    }
-    renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.events.onRenderComplete, bindingOptions.currentView.element);
-  }
-  function renderControlContainer(bindingOptions) {
-    var data = _elements_Data[bindingOptions.currentView.element.id].data;
-    bindingOptions.currentView.element.innerHTML = _string.empty;
-    renderControlTitleBar(bindingOptions);
-    if (isDefinedObject(data) && !isDefinedArray(data)) {
-      renderObject(bindingOptions.currentView.element, bindingOptions, data);
-    } else if (isDefinedArray(data)) {
-      renderArray(bindingOptions.currentView.element, bindingOptions, data);
-    }
-  }
-  function renderControlTitleBar(bindingOptions) {
-    if (bindingOptions.title.show || bindingOptions.title.showTreeControls || bindingOptions.title.showCopyButton) {
-      var titleBar = createElement(bindingOptions.currentView.element, "div", "title-bar"), controls = createElement(titleBar, "div", "controls");
-      if (bindingOptions.title.show) {
-        createElementWithHTML(titleBar, "div", "title", bindingOptions.title.text, controls);
-      }
-      if (bindingOptions.title.showCopyButton) {
-        var copy = createElementWithHTML(controls, "button", "copy-all", _configuration.copyAllButtonText);
-        copy.onclick = function() {
-          var copyData = _parameter_JSON.stringify(_elements_Data[bindingOptions.currentView.element.id].data);
-          _parameter_Navigator.clipboard.writeText(copyData);
-          fireCustomTrigger(bindingOptions.events.onCopyAll, copyData);
-        };
-      }
-      if (bindingOptions.title.showTreeControls) {
-        var openAll = createElementWithHTML(controls, "button", "openAll", _configuration.openAllButtonText), closeAll = createElementWithHTML(controls, "button", "closeAll", _configuration.closeAllButtonText);
-        openAll.onclick = function() {
-          openAllNodes(bindingOptions);
-        };
-        closeAll.onclick = function() {
-          closeAllNodes(bindingOptions);
-        };
-      }
-    }
-  }
-  function openAllNodes(bindingOptions) {
-    bindingOptions.showAllAsClosed = false;
-    renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.events.onOpenAll, bindingOptions.currentView.element);
-  }
-  function closeAllNodes(bindingOptions) {
-    bindingOptions.showAllAsClosed = true;
-    renderControlContainer(bindingOptions);
-    fireCustomTrigger(bindingOptions.events.onCloseAll, bindingOptions.currentView.element);
-  }
-  function renderObject(container, bindingOptions, data) {
-    var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null, propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, data);
-    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : _string.empty, _configuration.objectText);
-    if (bindingOptions.showCounts && propertyCount > 0) {
-      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}");
-    }
-  }
-  function renderArray(container, bindingOptions, data) {
-    var objectTypeTitle = createElement(container, "div", "object-type-title"), objectTypeContents = createElement(container, "div", "object-type-contents"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeTitle, "div", "down-arrow") : null;
-    createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : _string.empty, _configuration.arrayText);
-    renderArrayValues(arrow, objectTypeContents, bindingOptions, data);
-    if (bindingOptions.showCounts) {
-      createElementWithHTML(objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]");
-    }
-  }
-  function renderObjectValues(arrow, objectTypeContents, bindingOptions, data) {
-    var propertyCount = 0, properties = [];
-    for (var key in data) {
-      if (data.hasOwnProperty(key)) {
-        properties.push(key);
-      }
-    }
-    if (bindingOptions.sortPropertyNames) {
-      properties = properties.sort();
-      if (!bindingOptions.sortPropertyNamesInAlphabeticalOrder) {
-        properties = properties.reverse();
-      }
-    }
-    var propertiesLength = properties.length;
-    for (var propertyIndex = 0; propertyIndex < propertiesLength; propertyIndex++) {
-      var propertyName = properties[propertyIndex];
-      if (data.hasOwnProperty(propertyName)) {
-        renderValue(objectTypeContents, bindingOptions, propertyName, data[propertyName], propertyIndex === propertiesLength - 1);
-        propertyCount++;
-      }
-    }
-    addArrowEvent(bindingOptions, arrow, objectTypeContents);
-    return propertyCount;
-  }
-  function renderArrayValues(arrow, objectTypeContents, bindingOptions, data) {
-    var dataLength = data.length;
-    if (!bindingOptions.reverseArrayValues) {
-      for (var dataIndex1 = 0; dataIndex1 < dataLength; dataIndex1++) {
-        renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex1, dataLength), data[dataIndex1], dataIndex1 === dataLength - 1);
-      }
-    } else {
-      for (var dataIndex2 = dataLength; dataIndex2--;) {
-        renderValue(objectTypeContents, bindingOptions, getIndexName(bindingOptions, dataIndex2, dataLength), data[dataIndex2], dataIndex2 === 0);
-      }
-    }
-    addArrowEvent(bindingOptions, arrow, objectTypeContents);
-  }
-  function renderValue(container, bindingOptions, name, value, isLastItem) {
-    var objectTypeValue = createElement(container, "div", "object-type-value"), arrow = bindingOptions.showArrowToggles ? createElement(objectTypeValue, "div", "no-arrow") : null, valueClass = null, valueElement = null, ignored = false, type = null, addClickEvent = true;
-    createElementWithHTML(objectTypeValue, "span", "title", name);
-    createElementWithHTML(objectTypeValue, "span", "split", ":");
-    if (!isDefined(value)) {
-      if (!bindingOptions.ignore.nullValues) {
-        valueClass = bindingOptions.showValueColors ? "null" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, "null");
-        addClickEvent = false;
-        if (isDefinedFunction(bindingOptions.events.onNullRender)) {
-          fireCustomTrigger(bindingOptions.events.onNullRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedFunction(value)) {
-      if (!bindingOptions.ignore.functionValues) {
-        valueClass = bindingOptions.showValueColors ? "function" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getFunctionName(value));
-        type = "function";
-        if (isDefinedFunction(bindingOptions.events.onFunctionRender)) {
-          fireCustomTrigger(bindingOptions.events.onFunctionRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedBoolean(value)) {
-      if (!bindingOptions.ignore.booleanValues) {
-        valueClass = bindingOptions.showValueColors ? "boolean" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-        type = "boolean";
-        if (isDefinedFunction(bindingOptions.events.onBooleanRender)) {
-          fireCustomTrigger(bindingOptions.events.onBooleanRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedDecimal(value)) {
-      if (!bindingOptions.ignore.decimalValues) {
-        var newValue = getFixedValue(value, bindingOptions.maximumDecimalPlaces);
-        valueClass = bindingOptions.showValueColors ? "decimal" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newValue);
-        type = "decimal";
-        if (isDefinedFunction(bindingOptions.events.onDecimalRender)) {
-          fireCustomTrigger(bindingOptions.events.onDecimalRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedNumber(value)) {
-      if (!bindingOptions.ignore.numberValues) {
-        valueClass = bindingOptions.showValueColors ? "number" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value);
-        type = "number";
-        if (isDefinedFunction(bindingOptions.events.onNumberRender)) {
-          fireCustomTrigger(bindingOptions.events.onNumberRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedString(value)) {
-      if (!bindingOptions.ignore.stringValues) {
-        var color = null;
-        if (bindingOptions.showStringHexColors && isHexColor(value)) {
-          color = value;
+        if (Is.defined(r)) {
+            e.insertBefore(i, r);
         } else {
-          if (bindingOptions.maximumStringLength > 0 && value.length > bindingOptions.maximumStringLength) {
-            value = value.substring(0, bindingOptions.maximumStringLength) + _configuration.ellipsisText;
-          }
+            e.appendChild(i);
         }
-        var newStringValue = bindingOptions.showStringQuotes ? '"' + value + '"' : value;
-        valueClass = bindingOptions.showValueColors ? "string" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, newStringValue);
-        type = "string";
-        if (isDefinedString(color)) {
-          valueElement.style.color = color;
-        }
-        if (isDefinedFunction(bindingOptions.events.onStringRender)) {
-          fireCustomTrigger(bindingOptions.events.onStringRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedDate(value)) {
-      if (!bindingOptions.ignore.dateValues) {
-        valueClass = bindingOptions.showValueColors ? "date" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, getCustomFormattedDateTimeText(value, bindingOptions.dateTimeFormat));
-        type = "date";
-        if (isDefinedFunction(bindingOptions.events.onDateRender)) {
-          fireCustomTrigger(bindingOptions.events.onDateRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedObject(value) && !isDefinedArray(value)) {
-      if (!bindingOptions.ignore.objectValues) {
-        var objectTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "object" : _string.empty), objectTypeContents = createElement(objectTypeValue, "div", "object-type-contents"), propertyCount = renderObjectValues(arrow, objectTypeContents, bindingOptions, value);
-        createElementWithHTML(objectTitle, "span", "title", _configuration.objectText);
-        if (bindingOptions.showCounts && propertyCount > 0) {
-          createElementWithHTML(objectTitle, "span", "count", "{" + propertyCount + "}");
-        }
-        createComma(bindingOptions, objectTitle, isLastItem);
-        type = "object";
-      } else {
-        ignored = true;
-      }
-    } else if (isDefinedArray(value)) {
-      if (!bindingOptions.ignore.arrayValues) {
-        var arrayTitle = createElement(objectTypeValue, "span", bindingOptions.showValueColors ? "array" : _string.empty), arrayTypeContents = createElement(objectTypeValue, "div", "object-type-contents");
-        createElementWithHTML(arrayTitle, "span", "title", _configuration.arrayText);
-        if (bindingOptions.showCounts) {
-          createElementWithHTML(arrayTitle, "span", "count", "[" + value.length + "]");
-        }
-        createComma(bindingOptions, arrayTitle, isLastItem);
-        renderArrayValues(arrow, arrayTypeContents, bindingOptions, value);
-        type = "array";
-      } else {
-        ignored = true;
-      }
-    } else {
-      if (!bindingOptions.ignore.unknownValues) {
-        valueClass = bindingOptions.showValueColors ? "unknown" : _string.empty;
-        valueElement = createElementWithHTML(objectTypeValue, "span", valueClass, value.toString());
-        type = "unknown";
-        if (isDefinedFunction(bindingOptions.events.onUnknownRender)) {
-          fireCustomTrigger(bindingOptions.events.onUnknownRender, valueElement);
-        }
-        createComma(bindingOptions, objectTypeValue, isLastItem);
-      } else {
-        ignored = true;
-      }
+        return i;
     }
-    if (ignored) {
-      container.removeChild(objectTypeValue);
-    } else {
-      if (isDefined(valueElement)) {
-        addValueClickEvent(bindingOptions, valueElement, value, type, addClickEvent);
-      }
+    e.create = t;
+    function n(e, n, r, o, a = null) {
+        const i = t(e, n, r, a);
+        i.innerHTML = o;
+        return i;
     }
-  }
-  function addValueClickEvent(bindingOptions, valueElement, value, type, addClickEvent) {
-    if (addClickEvent && isDefinedFunction(bindingOptions.events.onValueClick)) {
-      valueElement.onclick = function() {
-        fireCustomTrigger(bindingOptions.events.onValueClick, value, type);
-      };
-    } else {
-      addClass(valueElement, "no-hover");
+    e.createWithHTML = n;
+    function r(e, t) {
+        e.classList.add(t);
     }
-  }
-  function addArrowEvent(bindingOptions, arrow, objectTypeContents) {
-    if (isDefined(arrow)) {
-      arrow.onclick = function() {
-        if (arrow.className === "down-arrow") {
-          objectTypeContents.style.display = "none";
-          arrow.className = "right-arrow";
+    e.addClass = r;
+})(DomElement || (DomElement = {}));
+
+var DateTime;
+
+(e => {
+    function t(e) {
+        return e.getDay() - 1 < 0 ? 6 : e.getDay() - 1;
+    }
+    e.getWeekdayNumber = t;
+    function n(e, t) {
+        let n = e.thText;
+        if (t === 31 || t === 21 || t === 1) {
+            n = e.stText;
+        } else if (t === 22 || t === 2) {
+            n = e.ndText;
+        } else if (t === 23 || t === 3) {
+            n = e.rdText;
+        }
+        return n;
+    }
+    e.getDayOrdinal = n;
+    function r(e, r, o) {
+        let a = o;
+        const i = t(r);
+        a = a.replace("{hh}", Data.String.padNumber(r.getHours(), 2));
+        a = a.replace("{h}", r.getHours().toString());
+        a = a.replace("{MM}", Data.String.padNumber(r.getMinutes(), 2));
+        a = a.replace("{M}", r.getMinutes().toString());
+        a = a.replace("{ss}", Data.String.padNumber(r.getSeconds(), 2));
+        a = a.replace("{s}", r.getSeconds().toString());
+        a = a.replace("{dddd}", e.dayNames[i]);
+        a = a.replace("{ddd}", e.dayNamesAbbreviated[i]);
+        a = a.replace("{dd}", Data.String.padNumber(r.getDate()));
+        a = a.replace("{d}", r.getDate().toString());
+        a = a.replace("{o}", n(e, r.getDate()));
+        a = a.replace("{mmmm}", e.monthNames[r.getMonth()]);
+        a = a.replace("{mmm}", e.monthNamesAbbreviated[r.getMonth()]);
+        a = a.replace("{mm}", Data.String.padNumber(r.getMonth() + 1));
+        a = a.replace("{m}", (r.getMonth() + 1).toString());
+        a = a.replace("{yyyy}", r.getFullYear().toString());
+        a = a.replace("{yyy}", r.getFullYear().toString().substring(1));
+        a = a.replace("{yy}", r.getFullYear().toString().substring(2));
+        a = a.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+        return a;
+    }
+    e.getCustomFormattedDateText = r;
+})(DateTime || (DateTime = {}));
+
+var Constants;
+
+(e => {
+    e.JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
+})(Constants || (Constants = {}));
+
+(() => {
+    let _configuration = {};
+    let _elements_Data = {};
+    function render() {
+        const e = _configuration.domElementTypes;
+        const t = e.length;
+        for (let n = 0; n < t; n++) {
+            const t = document.getElementsByTagName(e[n]);
+            const r = [].slice.call(t);
+            const o = r.length;
+            for (let e = 0; e < o; e++) {
+                if (!renderElement(r[e])) {
+                    break;
+                }
+            }
+        }
+    }
+    function renderElement(e) {
+        let t = true;
+        if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
+            const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+            if (Is.definedString(n)) {
+                const r = getObjectFromString(n);
+                if (r.parsed && Is.definedObject(r.object)) {
+                    renderControl(renderBindingOptions(r.object, e));
+                } else {
+                    if (!_configuration.safeMode) {
+                        console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                        t = false;
+                    }
+                }
+            } else {
+                if (!_configuration.safeMode) {
+                    console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                    t = false;
+                }
+            }
+        }
+        return t;
+    }
+    function renderBindingOptions(e, t) {
+        const n = buildAttributeOptions(e);
+        n._currentView = {};
+        n._currentView.element = t;
+        return n;
+    }
+    function renderControl(e) {
+        fireCustomTriggerEvent(e.events.onBeforeRender, e._currentView.element);
+        if (!Is.definedString(e._currentView.element.id)) {
+            e._currentView.element.id = Data.String.newGuid();
+        }
+        e._currentView.element.className = "json-tree-js";
+        e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+        if (!_elements_Data.hasOwnProperty(e._currentView.element.id)) {
+            _elements_Data[e._currentView.element.id] = e;
+        }
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
+    }
+    function renderControlContainer(e) {
+        const t = _elements_Data[e._currentView.element.id].data;
+        e._currentView.element.innerHTML = "";
+        renderControlTitleBar(e);
+        if (Is.definedObject(t) && !Is.definedArray(t)) {
+            renderObject(e._currentView.element, e, t);
+        } else if (Is.definedArray(t)) {
+            renderArray(e._currentView.element, e, t);
+        }
+    }
+    function renderControlTitleBar(e) {
+        if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
+            const t = DomElement.create(e._currentView.element, "div", "title-bar");
+            const n = DomElement.create(t, "div", "controls");
+            if (e.title.show) {
+                DomElement.createWithHTML(t, "div", "title", e.title.text, n);
+            }
+            if (e.title.showCopyButton) {
+                const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.copyAllButtonText);
+                t.onclick = () => {
+                    const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
+                    navigator.clipboard.writeText(t);
+                    fireCustomTriggerEvent(e.events.onCopyAll, t);
+                };
+            }
+            if (e.title.showTreeControls) {
+                const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
+                const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
+                t.onclick = () => {
+                    openAllNodes(e);
+                };
+                r.onclick = () => {
+                    closeAllNodes(e);
+                };
+            }
+        }
+    }
+    function openAllNodes(e) {
+        e.showAllAsClosed = false;
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onOpenAll, e._currentView.element);
+    }
+    function closeAllNodes(e) {
+        e.showAllAsClosed = true;
+        renderControlContainer(e);
+        fireCustomTriggerEvent(e.events.onCloseAll, e._currentView.element);
+    }
+    function renderObject(e, t, n) {
+        const r = DomElement.create(e, "div", "object-type-title");
+        const o = DomElement.create(e, "div", "object-type-contents");
+        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        const i = renderObjectValues(a, o, t, n);
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.objectText);
+        if (t.showCounts && i > 0) {
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
+        }
+    }
+    function renderArray(e, t, n) {
+        const r = DomElement.create(e, "div", "object-type-title");
+        const o = DomElement.create(e, "div", "object-type-contents");
+        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
+        renderArrayValues(a, o, t, n);
+        if (t.showCounts) {
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+        }
+    }
+    function renderObjectValues(e, t, n, r) {
+        let o = 0;
+        let a = [];
+        for (let e in r) {
+            if (r.hasOwnProperty(e)) {
+                a.push(e);
+            }
+        }
+        if (n.sortPropertyNames) {
+            a = a.sort();
+            if (!n.sortPropertyNamesInAlphabeticalOrder) {
+                a = a.reverse();
+            }
+        }
+        const i = a.length;
+        for (let e = 0; e < i; e++) {
+            const l = a[e];
+            if (r.hasOwnProperty(l)) {
+                renderValue(t, n, l, r[l], e === i - 1);
+                o++;
+            }
+        }
+        addArrowEvent(n, e, t);
+        return o;
+    }
+    function renderArrayValues(e, t, n, r) {
+        const o = r.length;
+        if (!n.reverseArrayValues) {
+            for (let e = 0; e < o; e++) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === o - 1);
+            }
         } else {
-          objectTypeContents.style.display = "block";
-          arrow.className = "down-arrow";
+            for (let e = o; e--; ) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === 0);
+            }
         }
-      };
-      if (bindingOptions.showAllAsClosed) {
-        objectTypeContents.style.display = "none";
-        arrow.className = "right-arrow";
-      } else {
-        arrow.className = "down-arrow";
-      }
+        addArrowEvent(n, e, t);
     }
-  }
-  function getFunctionName(value) {
-    var result, valueParts = value.toString().split("("), valueNameParts = valueParts[0].split(_string.space);
-    if (valueNameParts.length === 2) {
-      result = valueNameParts[1];
-    } else {
-      result = valueNameParts[0];
-    }
-    result += "()";
-    return result;
-  }
-  function createComma(bindingOptions, objectTypeValue, isLastItem) {
-    if (bindingOptions.showCommas && !isLastItem) {
-      createElementWithHTML(objectTypeValue, "span", "comma", ",");
-    }
-  }
-  function getIndexName(bindingOptions, index, largestValue) {
-    var result = bindingOptions.useZeroIndexingForArrays ? index.toString() : (index + 1).toString();
-    if (!bindingOptions.addArrayIndexPadding) {
-      result = padNumber(result, largestValue.toString().length);
-    }
-    return result;
-  }
-  function getFixedValue(number, length) {
-    var regExp = new RegExp("^-?\\d+(?:.\\d{0," + (length || -1) + "})?");
-    return number.toString().match(regExp)[0];
-  }
-  function isHexColor(value) {
-    var valid = value.length >= 2 && value.length <= 7;
-    if (valid && value[0] === "#") {
-      valid = isNaN(value.substring(1, value.length - 1));
-    }
-    return valid;
-  }
-  function buildAttributeOptions(newOptions) {
-    var options = getDefaultObject(newOptions, {});
-    options.data = getDefaultObject(options.data, null);
-    options.showCounts = getDefaultBoolean(options.showCounts, true);
-    options.useZeroIndexingForArrays = getDefaultBoolean(options.useZeroIndexingForArrays, true);
-    options.dateTimeFormat = getDefaultString(options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-    options.showArrowToggles = getDefaultBoolean(options.showArrowToggles, true);
-    options.showStringQuotes = getDefaultBoolean(options.showStringQuotes, true);
-    options.showAllAsClosed = getDefaultBoolean(options.showAllAsClosed, false);
-    options.sortPropertyNames = getDefaultBoolean(options.sortPropertyNames, true);
-    options.sortPropertyNamesInAlphabeticalOrder = getDefaultBoolean(options.sortPropertyNamesInAlphabeticalOrder, true);
-    options.showCommas = getDefaultBoolean(options.showCommas, false);
-    options.reverseArrayValues = getDefaultBoolean(options.reverseArrayValues, false);
-    options.addArrayIndexPadding = getDefaultBoolean(options.addArrayIndexPadding, false);
-    options.showValueColors = getDefaultBoolean(options.showValueColors, true);
-    options.maximumDecimalPlaces = getDefaultNumber(options.maximumDecimalPlaces, 2);
-    options.maximumStringLength = getDefaultNumber(options.maximumStringLength, 0);
-    options.showStringHexColors = getDefaultBoolean(options.showStringHexColors, false);
-    options = buildAttributeOptionTitle(options);
-    options = buildAttributeOptionIgnore(options);
-    options = buildAttributeOptionCustomTriggers(options);
-    return options;
-  }
-  function buildAttributeOptionTitle(options) {
-    options.title = getDefaultObject(options.title, {});
-    options.title.text = getDefaultString(options.title.text, "JsonTree.js");
-    options.title.show = getDefaultBoolean(options.title.show, true);
-    options.title.showTreeControls = getDefaultBoolean(options.title.showTreeControls, true);
-    options.title.showCopyButton = getDefaultBoolean(options.title.showCopyButton, false);
-    return options;
-  }
-  function buildAttributeOptionIgnore(options) {
-    options.ignore = getDefaultObject(options.ignore, {});
-    options.ignore.nullValues = getDefaultBoolean(options.ignore.nullValues, false);
-    options.ignore.functionValues = getDefaultBoolean(options.ignore.functionValues, false);
-    options.ignore.unknownValues = getDefaultBoolean(options.ignore.unknownValues, false);
-    options.ignore.booleanValues = getDefaultBoolean(options.ignore.booleanValues, false);
-    options.ignore.decimalValues = getDefaultBoolean(options.ignore.decimalValues, false);
-    options.ignore.numberValues = getDefaultBoolean(options.ignore.numberValues, false);
-    options.ignore.stringValues = getDefaultBoolean(options.ignore.stringValues, false);
-    options.ignore.dateValues = getDefaultBoolean(options.ignore.dateValues, false);
-    options.ignore.objectValues = getDefaultBoolean(options.ignore.objectValues, false);
-    options.ignore.arrayValues = getDefaultBoolean(options.ignore.arrayValues, false);
-    return options;
-  }
-  function buildAttributeOptionCustomTriggers(options) {
-    options.events = getDefaultObject(options.events, {});
-    options.events.onBeforeRender = getDefaultFunction(options.events.onBeforeRender, null);
-    options.events.onRenderComplete = getDefaultFunction(options.events.onRenderComplete, null);
-    options.events.onValueClick = getDefaultFunction(options.events.onValueClick, null);
-    options.events.onRefresh = getDefaultFunction(options.events.onRefresh, null);
-    options.events.onCopyAll = getDefaultFunction(options.events.onCopyAll, null);
-    options.events.onOpenAll = getDefaultFunction(options.events.onOpenAll, null);
-    options.events.onCloseAll = getDefaultFunction(options.events.onCloseAll, null);
-    options.events.onDestroy = getDefaultFunction(options.events.onDestroy, null);
-    options.events.onBooleanRender = getDefaultFunction(options.events.onBooleanRender, null);
-    options.events.onDecimalRender = getDefaultFunction(options.events.onDecimalRender, null);
-    options.events.onNumberRender = getDefaultFunction(options.events.onNumberRender, null);
-    options.events.onStringRender = getDefaultFunction(options.events.onStringRender, null);
-    options.events.onDateRender = getDefaultFunction(options.events.onDateRender, null);
-    options.events.onFunctionRender = getDefaultFunction(options.events.onFunctionRender, null);
-    options.events.onNullRender = getDefaultFunction(options.events.onNullRender, null);
-    options.events.onUnknownRender = getDefaultFunction(options.events.onUnknownRender, null);
-    return options;
-  }
-  function createElement(container, type, className, beforeNode) {
-    var result = null, nodeType = type.toLowerCase(), isText = nodeType === "text";
-    if (!_elements_Type.hasOwnProperty(nodeType)) {
-      _elements_Type[nodeType] = isText ? _parameter_Document.createTextNode(_string.empty) : _parameter_Document.createElement(nodeType);
-    }
-    result = _elements_Type[nodeType].cloneNode(false);
-    if (isDefined(className)) {
-      result.className = className;
-    }
-    if (isDefined(beforeNode)) {
-      container.insertBefore(result, beforeNode);
-    } else {
-      container.appendChild(result);
-    }
-    return result;
-  }
-  function createElementWithHTML(container, type, className, html, beforeNode) {
-    var element = createElement(container, type, className, beforeNode);
-    element.innerHTML = html;
-    return element;
-  }
-  function addClass(element, className) {
-    element.className += _string.space + className;
-  }
-  function fireCustomTrigger(triggerFunction) {
-    if (isDefinedFunction(triggerFunction)) {
-      triggerFunction.apply(null, [].slice.call(arguments, 1));
-    }
-  }
-  function isDefined(value) {
-    return value !== null && value !== undefined && value !== _string.empty;
-  }
-  function isDefinedObject(object) {
-    return isDefined(object) && typeof object === "object";
-  }
-  function isDefinedBoolean(object) {
-    return isDefined(object) && typeof object === "boolean";
-  }
-  function isDefinedString(object) {
-    return isDefined(object) && typeof object === "string";
-  }
-  function isDefinedFunction(object) {
-    return isDefined(object) && typeof object === "function";
-  }
-  function isDefinedNumber(object) {
-    return isDefined(object) && typeof object === "number";
-  }
-  function isDefinedArray(object) {
-    return isDefinedObject(object) && object instanceof Array;
-  }
-  function isDefinedDate(object) {
-    return isDefinedObject(object) && object instanceof Date;
-  }
-  function isDefinedDecimal(object) {
-    return isDefined(object) && typeof object === "number" && object % 1 !== 0;
-  }
-  function isInvalidOptionArray(array, minimumLength) {
-    minimumLength = isDefinedNumber(minimumLength) ? minimumLength : 1;
-    return !isDefinedArray(array) || array.length < minimumLength;
-  }
-  function getDefaultAnyString(value, defaultValue) {
-    return typeof value === "string" ? value : defaultValue;
-  }
-  function getDefaultString(value, defaultValue) {
-    return isDefinedString(value) ? value : defaultValue;
-  }
-  function getDefaultBoolean(value, defaultValue) {
-    return isDefinedBoolean(value) ? value : defaultValue;
-  }
-  function getDefaultNumber(value, defaultValue) {
-    return isDefinedNumber(value) ? value : defaultValue;
-  }
-  function getDefaultFunction(value, defaultValue) {
-    return isDefinedFunction(value) ? value : defaultValue;
-  }
-  function getDefaultArray(value, defaultValue) {
-    return isDefinedArray(value) ? value : defaultValue;
-  }
-  function getDefaultObject(value, defaultValue) {
-    return isDefinedObject(value) ? value : defaultValue;
-  }
-  function getDefaultStringOrArray(value, defaultValue) {
-    if (isDefinedString(value)) {
-      value = value.split(_string.space);
-      if (value.length === 0) {
-        value = defaultValue;
-      }
-    } else {
-      value = getDefaultArray(value, defaultValue);
-    }
-    return value;
-  }
-  function getObjectFromString(objectString) {
-    var parsed = true, result = null;
-    try {
-      if (isDefinedString(objectString)) {
-        result = _parameter_JSON.parse(objectString);
-      }
-    } catch (e1) {
-      try {
-        result = eval("(" + objectString + ")");
-        if (isDefinedFunction(result)) {
-          result = result();
+    function renderValue(e, t, n, r, o) {
+        const a = DomElement.create(e, "div", "object-type-value");
+        const i = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
+        let l = null;
+        let s = null;
+        let u = false;
+        let c = null;
+        let f = true;
+        DomElement.createWithHTML(a, "span", "title", n);
+        DomElement.createWithHTML(a, "span", "split", ":");
+        if (!Is.defined(r)) {
+            if (!t.ignore.nullValues) {
+                l = t.showValueColors ? "null" : "";
+                s = DomElement.createWithHTML(a, "span", l, "null");
+                f = false;
+                if (Is.definedFunction(t.events.onNullRender)) {
+                    fireCustomTriggerEvent(t.events.onNullRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedFunction(r)) {
+            if (!t.ignore.functionValues) {
+                l = t.showValueColors ? "function" : "";
+                s = DomElement.createWithHTML(a, "span", l, getFunctionName(r));
+                c = "function";
+                if (Is.definedFunction(t.events.onFunctionRender)) {
+                    fireCustomTriggerEvent(t.events.onFunctionRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedBoolean(r)) {
+            if (!t.ignore.booleanValues) {
+                l = t.showValueColors ? "boolean" : "";
+                s = DomElement.createWithHTML(a, "span", l, r);
+                c = "boolean";
+                if (Is.definedFunction(t.events.onBooleanRender)) {
+                    fireCustomTriggerEvent(t.events.onBooleanRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedDecimal(r)) {
+            if (!t.ignore.decimalValues) {
+                const e = Data.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
+                l = t.showValueColors ? "decimal" : "";
+                s = DomElement.createWithHTML(a, "span", l, e);
+                c = "decimal";
+                if (Is.definedFunction(t.events.onDecimalRender)) {
+                    fireCustomTriggerEvent(t.events.onDecimalRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedNumber(r)) {
+            if (!t.ignore.numberValues) {
+                l = t.showValueColors ? "number" : "";
+                s = DomElement.createWithHTML(a, "span", l, r);
+                c = "number";
+                if (Is.definedFunction(t.events.onNumberRender)) {
+                    fireCustomTriggerEvent(t.events.onNumberRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedString(r)) {
+            if (!t.ignore.stringValues) {
+                let e = null;
+                if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                    e = r;
+                } else {
+                    if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                        r = r.substring(0, t.maximumStringLength) + _configuration.ellipsisText;
+                    }
+                }
+                const n = t.showStringQuotes ? '"' + r + '"' : r;
+                l = t.showValueColors ? "string" : "";
+                s = DomElement.createWithHTML(a, "span", l, n);
+                c = "string";
+                if (Is.definedString(e)) {
+                    s.style.color = e;
+                }
+                if (Is.definedFunction(t.events.onStringRender)) {
+                    fireCustomTriggerEvent(t.events.onStringRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedDate(r)) {
+            if (!t.ignore.dateValues) {
+                l = t.showValueColors ? "date" : "";
+                s = DomElement.createWithHTML(a, "span", l, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                c = "date";
+                if (Is.definedFunction(t.events.onDateRender)) {
+                    fireCustomTriggerEvent(t.events.onDateRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedObject(r) && !Is.definedArray(r)) {
+            if (!t.ignore.objectValues) {
+                const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
+                const n = DomElement.create(a, "div", "object-type-contents");
+                const l = renderObjectValues(i, n, t, r);
+                DomElement.createWithHTML(e, "span", "title", _configuration.objectText);
+                if (t.showCounts && l > 0) {
+                    DomElement.createWithHTML(e, "span", "count", "{" + l + "}");
+                }
+                createComma(t, e, o);
+                c = "object";
+            } else {
+                u = true;
+            }
+        } else if (Is.definedArray(r)) {
+            if (!t.ignore.arrayValues) {
+                const e = DomElement.create(a, "span", t.showValueColors ? "array" : "");
+                const n = DomElement.create(a, "div", "object-type-contents");
+                DomElement.createWithHTML(e, "span", "title", _configuration.arrayText);
+                if (t.showCounts) {
+                    DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
+                }
+                createComma(t, e, o);
+                renderArrayValues(i, n, t, r);
+                c = "array";
+            } else {
+                u = true;
+            }
+        } else {
+            if (!t.ignore.unknownValues) {
+                l = t.showValueColors ? "unknown" : "";
+                s = DomElement.createWithHTML(a, "span", l, r.toString());
+                c = "unknown";
+                if (Is.definedFunction(t.events.onUnknownRender)) {
+                    fireCustomTriggerEvent(t.events.onUnknownRender, s);
+                }
+                createComma(t, a, o);
+            } else {
+                u = true;
+            }
         }
-      } catch (e2) {
-        if (!_configuration.safeMode) {
-          console.error(_configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e2.message));
-          parsed = false;
+        if (u) {
+            e.removeChild(a);
+        } else {
+            if (Is.defined(s)) {
+                addValueClickEvent(t, s, r, c, f);
+            }
         }
-        result = null;
-      }
     }
-    return {parsed:parsed, result:result};
-  }
-  function newGuid() {
-    var result = [];
-    for (var charIndex = 0; charIndex < 32; charIndex++) {
-      if (charIndex === 8 || charIndex === 12 || charIndex === 16 || charIndex === 20) {
-        result.push("-");
-      }
-      var character = _parameter_Math.floor(_parameter_Math.random() * 16).toString(16);
-      result.push(character);
+    function addValueClickEvent(e, t, n, r, o) {
+        if (o && Is.definedFunction(e.events.onValueClick)) {
+            t.onclick = () => {
+                fireCustomTriggerEvent(e.events.onValueClick, n, r);
+            };
+        } else {
+            DomElement.addClass(t, "no-hover");
+        }
     }
-    return result.join(_string.empty);
-  }
-  function padNumber(number, length) {
-    length = isDefined(length) ? length : 1;
-    var numberString = number.toString(), numberResult = numberString;
-    if (numberString.length < length) {
-      var arrayLength = length - numberString.length + 1;
-      numberResult = Array(arrayLength).join("0") + numberString;
+    function addArrowEvent(e, t, n) {
+        if (Is.defined(t)) {
+            t.onclick = () => {
+                if (t.className === "down-arrow") {
+                    n.style.display = "none";
+                    t.className = "right-arrow";
+                } else {
+                    n.style.display = "block";
+                    t.className = "down-arrow";
+                }
+            };
+            if (e.showAllAsClosed) {
+                n.style.display = "none";
+                t.className = "right-arrow";
+            } else {
+                t.className = "down-arrow";
+            }
+        }
     }
-    return numberResult;
-  }
-  function getWeekdayNumber(date) {
-    return date.getDay() - 1 < 0 ? 6 : date.getDay() - 1;
-  }
-  function getDayOrdinal(value) {
-    var result = _configuration.thText;
-    if (value === 31 || value === 21 || value === 1) {
-      result = _configuration.stText;
-    } else if (value === 22 || value === 2) {
-      result = _configuration.ndText;
-    } else if (value === 23 || value === 3) {
-      result = _configuration.rdText;
+    function getFunctionName(e) {
+        let t;
+        const n = e.toString().split("(");
+        const r = n[0].split(" ");
+        if (r.length === 2) {
+            t = r[1];
+        } else {
+            t = r[0];
+        }
+        t += "()";
+        return t;
     }
-    return result;
-  }
-  function getCustomFormattedDateTimeText(date, dateFormat) {
-    var result = dateFormat, weekDayNumber = getWeekdayNumber(date);
-    result = result.replace("{hh}", padNumber(date.getHours(), 2));
-    result = result.replace("{h}", date.getHours());
-    result = result.replace("{MM}", padNumber(date.getMinutes(), 2));
-    result = result.replace("{M}", date.getMinutes());
-    result = result.replace("{ss}", padNumber(date.getSeconds(), 2));
-    result = result.replace("{s}", date.getSeconds());
-    result = result.replace("{dddd}", _configuration.dayNames[weekDayNumber]);
-    result = result.replace("{ddd}", _configuration.dayNamesAbbreviated[weekDayNumber]);
-    result = result.replace("{dd}", padNumber(date.getDate()));
-    result = result.replace("{d}", date.getDate());
-    result = result.replace("{o}", getDayOrdinal(date.getDate()));
-    result = result.replace("{mmmm}", _configuration.monthNames[date.getMonth()]);
-    result = result.replace("{mmm}", _configuration.monthNamesAbbreviated[date.getMonth()]);
-    result = result.replace("{mm}", padNumber(date.getMonth() + 1));
-    result = result.replace("{m}", date.getMonth() + 1);
-    result = result.replace("{yyyy}", date.getFullYear());
-    result = result.replace("{yyy}", date.getFullYear().toString().substring(1));
-    result = result.replace("{yy}", date.getFullYear().toString().substring(2));
-    result = result.replace("{y}", parseInt(date.getFullYear().toString().substring(2)).toString());
-    return result;
-  }
-  _public.refresh = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      var bindingOptions = _elements_Data[elementId].options;
-      renderControlContainer(bindingOptions);
-      fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
+    function createComma(e, t, n) {
+        if (e.showCommas && !n) {
+            DomElement.createWithHTML(t, "span", "comma", ",");
+        }
     }
-    return _public;
-  };
-  _public.refreshAll = function() {
-    for (var elementId in _elements_Data) {
-      if (_elements_Data.hasOwnProperty(elementId)) {
-        var bindingOptions = _elements_Data[elementId].options;
-        renderControlContainer(bindingOptions);
-        fireCustomTrigger(bindingOptions.events.onRefresh, bindingOptions.currentView.element);
-      }
+    function getIndexName(e, t, n) {
+        let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
+        if (!e.addArrayIndexPadding) {
+            r = Data.String.padNumber(parseInt(r), n.toString().length);
+        }
+        return r;
     }
-    return _public;
-  };
-  _public.render = function(element, options) {
-    if (isDefinedObject(element) && isDefinedObject(options)) {
-      renderControl(renderBindingOptions(options, element));
+    function buildAttributeOptions(e) {
+        let t = Data.getDefaultObject(e, {});
+        t.data = Data.getDefaultObject(t.data, null);
+        t.showCounts = Data.getDefaultBoolean(t.showCounts, true);
+        t.useZeroIndexingForArrays = Data.getDefaultBoolean(t.useZeroIndexingForArrays, true);
+        t.dateTimeFormat = Data.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
+        t.showArrowToggles = Data.getDefaultBoolean(t.showArrowToggles, true);
+        t.showStringQuotes = Data.getDefaultBoolean(t.showStringQuotes, true);
+        t.showAllAsClosed = Data.getDefaultBoolean(t.showAllAsClosed, false);
+        t.sortPropertyNames = Data.getDefaultBoolean(t.sortPropertyNames, true);
+        t.sortPropertyNamesInAlphabeticalOrder = Data.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
+        t.showCommas = Data.getDefaultBoolean(t.showCommas, false);
+        t.reverseArrayValues = Data.getDefaultBoolean(t.reverseArrayValues, false);
+        t.addArrayIndexPadding = Data.getDefaultBoolean(t.addArrayIndexPadding, false);
+        t.showValueColors = Data.getDefaultBoolean(t.showValueColors, true);
+        t.maximumDecimalPlaces = Data.getDefaultNumber(t.maximumDecimalPlaces, 2);
+        t.maximumStringLength = Data.getDefaultNumber(t.maximumStringLength, 0);
+        t.showStringHexColors = Data.getDefaultBoolean(t.showStringHexColors, false);
+        t = buildAttributeOptionTitle(t);
+        t = buildAttributeOptionIgnore(t);
+        t = buildAttributeOptionCustomTriggers(t);
+        return t;
     }
-    return _public;
-  };
-  _public.renderAll = function() {
-    render();
-    return _public;
-  };
-  _public.openAll = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      openAllNodes(_elements_Data[elementId].options);
+    function buildAttributeOptionTitle(e) {
+        e.title = Data.getDefaultObject(e.title, {});
+        e.title.text = Data.getDefaultString(e.title.text, "JsonTree.js");
+        e.title.show = Data.getDefaultBoolean(e.title.show, true);
+        e.title.showTreeControls = Data.getDefaultBoolean(e.title.showTreeControls, true);
+        e.title.showCopyButton = Data.getDefaultBoolean(e.title.showCopyButton, false);
+        return e;
     }
-    return _public;
-  };
-  _public.closeAll = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      closeAllNodes(_elements_Data[elementId].options);
+    function buildAttributeOptionIgnore(e) {
+        e.ignore = Data.getDefaultObject(e.ignore, {});
+        e.ignore.nullValues = Data.getDefaultBoolean(e.ignore.nullValues, false);
+        e.ignore.functionValues = Data.getDefaultBoolean(e.ignore.functionValues, false);
+        e.ignore.unknownValues = Data.getDefaultBoolean(e.ignore.unknownValues, false);
+        e.ignore.booleanValues = Data.getDefaultBoolean(e.ignore.booleanValues, false);
+        e.ignore.decimalValues = Data.getDefaultBoolean(e.ignore.decimalValues, false);
+        e.ignore.numberValues = Data.getDefaultBoolean(e.ignore.numberValues, false);
+        e.ignore.stringValues = Data.getDefaultBoolean(e.ignore.stringValues, false);
+        e.ignore.dateValues = Data.getDefaultBoolean(e.ignore.dateValues, false);
+        e.ignore.objectValues = Data.getDefaultBoolean(e.ignore.objectValues, false);
+        e.ignore.arrayValues = Data.getDefaultBoolean(e.ignore.arrayValues, false);
+        return e;
     }
-    return _public;
-  };
-  _public.destroyAll = function() {
-    for (var elementId in _elements_Data) {
-      if (_elements_Data.hasOwnProperty(elementId)) {
-        destroyElement(_elements_Data[elementId].options);
-      }
+    function buildAttributeOptionCustomTriggers(e) {
+        e.events = Data.getDefaultObject(e.events, {});
+        e.events.onBeforeRender = Data.getDefaultFunction(e.events.onBeforeRender, null);
+        e.events.onRenderComplete = Data.getDefaultFunction(e.events.onRenderComplete, null);
+        e.events.onValueClick = Data.getDefaultFunction(e.events.onValueClick, null);
+        e.events.onRefresh = Data.getDefaultFunction(e.events.onRefresh, null);
+        e.events.onCopyAll = Data.getDefaultFunction(e.events.onCopyAll, null);
+        e.events.onOpenAll = Data.getDefaultFunction(e.events.onOpenAll, null);
+        e.events.onCloseAll = Data.getDefaultFunction(e.events.onCloseAll, null);
+        e.events.onDestroy = Data.getDefaultFunction(e.events.onDestroy, null);
+        e.events.onBooleanRender = Data.getDefaultFunction(e.events.onBooleanRender, null);
+        e.events.onDecimalRender = Data.getDefaultFunction(e.events.onDecimalRender, null);
+        e.events.onNumberRender = Data.getDefaultFunction(e.events.onNumberRender, null);
+        e.events.onStringRender = Data.getDefaultFunction(e.events.onStringRender, null);
+        e.events.onDateRender = Data.getDefaultFunction(e.events.onDateRender, null);
+        e.events.onFunctionRender = Data.getDefaultFunction(e.events.onFunctionRender, null);
+        e.events.onNullRender = Data.getDefaultFunction(e.events.onNullRender, null);
+        e.events.onUnknownRender = Data.getDefaultFunction(e.events.onUnknownRender, null);
+        return e;
     }
-    _elements_Data = {};
-    return _public;
-  };
-  _public.destroy = function(elementId) {
-    if (isDefinedString(elementId) && _elements_Data.hasOwnProperty(elementId)) {
-      destroyElement(_elements_Data[elementId].options);
-      delete _elements_Data[elementId];
+    function fireCustomTriggerEvent(e, ...t) {
+        if (Is.definedFunction(e)) {
+            e.apply(null, [].slice.call(t, 0));
+        }
     }
-    return _public;
-  };
-  function destroyElement(bindingOptions) {
-    bindingOptions.currentView.element.innerHTML = _string.empty;
-    bindingOptions.currentView.element.className = _string.empty;
-    fireCustomTrigger(bindingOptions.events.onDestroy, bindingOptions.currentView.element);
-  }
-  _public.setConfiguration = function(newConfiguration) {
-    for (var propertyName in newConfiguration) {
-      if (newConfiguration.hasOwnProperty(propertyName)) {
-        _configuration[propertyName] = newConfiguration[propertyName];
-      }
+    function getObjectFromString(objectString) {
+        const result = {
+            parsed: true,
+            object: null
+        };
+        try {
+            if (Is.definedString(objectString)) {
+                result.object = JSON.parse(objectString);
+            }
+        } catch (e1) {
+            try {
+                result.object = eval("(" + objectString + ")");
+                if (Is.definedFunction(result.object)) {
+                    result.object = result.object();
+                }
+            } catch (e) {
+                if (!_configuration.safeMode) {
+                    console.error(_configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
+                    result.parsed = false;
+                }
+                result.object = null;
+            }
+        }
+        return result;
     }
-    buildDefaultConfiguration(_configuration);
-    return _public;
-  };
-  function buildDefaultConfiguration(newConfiguration) {
-    _configuration = !isDefinedObject(newConfiguration) ? {} : newConfiguration;
-    _configuration.safeMode = getDefaultBoolean(_configuration.safeMode, true);
-    _configuration.domElementTypes = getDefaultStringOrArray(_configuration.domElementTypes, ["*"]);
-    buildDefaultConfigurationStrings();
-  }
-  function buildDefaultConfigurationStrings() {
-    _configuration.objectText = getDefaultAnyString(_configuration.objectText, "object");
-    _configuration.arrayText = getDefaultAnyString(_configuration.arrayText, "array");
-    _configuration.closeAllButtonText = getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
-    _configuration.openAllButtonText = getDefaultAnyString(_configuration.openAllButtonText, "Open All");
-    _configuration.copyAllButtonText = getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
-    _configuration.objectErrorText = getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-    _configuration.attributeNotValidErrorText = getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-    _configuration.attributeNotSetErrorText = getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-    _configuration.stText = getDefaultAnyString(_configuration.stText, "st");
-    _configuration.ndText = getDefaultAnyString(_configuration.ndText, "nd");
-    _configuration.rdText = getDefaultAnyString(_configuration.rdText, "rd");
-    _configuration.thText = getDefaultAnyString(_configuration.thText, "th");
-    _configuration.ellipsisText = getDefaultAnyString(_configuration.ellipsisText, "...");
-    if (isInvalidOptionArray(_configuration.dayNames, 7)) {
-      _configuration.dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    function destroyElement(e) {
+        e._currentView.element.innerHTML = "";
+        e._currentView.element.className = "";
+        fireCustomTriggerEvent(e.events.onDestroy, e._currentView.element);
     }
-    if (isInvalidOptionArray(_configuration.dayNamesAbbreviated, 7)) {
-      _configuration.dayNamesAbbreviated = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    function buildDefaultConfiguration(e = null) {
+        _configuration = Data.getDefaultObject(e, {});
+        _configuration.safeMode = Data.getDefaultBoolean(_configuration.safeMode, true);
+        _configuration.domElementTypes = Data.getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
+        buildDefaultConfigurationStrings();
     }
-    if (isInvalidOptionArray(_configuration.monthNames, 12)) {
-      _configuration.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    function buildDefaultConfigurationStrings() {
+        _configuration.objectText = Data.getDefaultAnyString(_configuration.objectText, "object");
+        _configuration.arrayText = Data.getDefaultAnyString(_configuration.arrayText, "array");
+        _configuration.closeAllButtonText = Data.getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
+        _configuration.openAllButtonText = Data.getDefaultAnyString(_configuration.openAllButtonText, "Open All");
+        _configuration.copyAllButtonText = Data.getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
+        _configuration.objectErrorText = Data.getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+        _configuration.stText = Data.getDefaultAnyString(_configuration.stText, "st");
+        _configuration.ndText = Data.getDefaultAnyString(_configuration.ndText, "nd");
+        _configuration.rdText = Data.getDefaultAnyString(_configuration.rdText, "rd");
+        _configuration.thText = Data.getDefaultAnyString(_configuration.thText, "th");
+        _configuration.ellipsisText = Data.getDefaultAnyString(_configuration.ellipsisText, "...");
+        if (Is.invalidOptionArray(_configuration.dayNames, 7)) {
+            _configuration.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
+        }
+        if (Is.invalidOptionArray(_configuration.dayNamesAbbreviated, 7)) {
+            _configuration.dayNamesAbbreviated = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ];
+        }
+        if (Is.invalidOptionArray(_configuration.monthNames, 12)) {
+            _configuration.monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+        }
+        if (Is.invalidOptionArray(_configuration.monthNamesAbbreviated, 12)) {
+            _configuration.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+        }
     }
-    if (isInvalidOptionArray(_configuration.monthNamesAbbreviated, 12)) {
-      _configuration.monthNamesAbbreviated = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    }
-  }
-  _public.getIds = function() {
-    var result = [];
-    for (var elementId in _elements_Data) {
-      if (_elements_Data.hasOwnProperty(elementId)) {
-        result.push(elementId);
-      }
-    }
-    return result;
-  };
-  _public.getVersion = function() {
-    return "1.1.2";
-  };
-  (function(documentObject, windowObject, navigatorObject, mathObject, jsonObject) {
-    _parameter_Document = documentObject;
-    _parameter_Window = windowObject;
-    _parameter_Navigator = navigatorObject;
-    _parameter_Math = mathObject;
-    _parameter_JSON = jsonObject;
-    buildDefaultConfiguration();
-    _parameter_Document.addEventListener("DOMContentLoaded", function() {
-      render();
-    });
-    if (!isDefined(_parameter_Window.$jsontree)) {
-      _parameter_Window.$jsontree = _public;
-    }
-  })(document, window, navigator, Math, JSON);
-})();
+    const _public = {
+        refresh: function(e) {
+            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                const t = _elements_Data[e];
+                renderControlContainer(t);
+                fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+            }
+            return _public;
+        },
+        refreshAll: function() {
+            for (let e in _elements_Data) {
+                if (_elements_Data.hasOwnProperty(e)) {
+                    const t = _elements_Data[e];
+                    renderControlContainer(t);
+                    fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+                }
+            }
+            return _public;
+        },
+        render: function(e, t) {
+            if (Is.definedObject(e) && Is.definedObject(t)) {
+                renderControl(renderBindingOptions(t, e));
+            }
+            return _public;
+        },
+        renderAll: function() {
+            render();
+            return _public;
+        },
+        openAll: function(e) {
+            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                openAllNodes(_elements_Data[e]);
+            }
+            return _public;
+        },
+        closeAll: function(e) {
+            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                closeAllNodes(_elements_Data[e]);
+            }
+            return _public;
+        },
+        destroy: function(e) {
+            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                destroyElement(_elements_Data[e]);
+                delete _elements_Data[e];
+            }
+            return _public;
+        },
+        destroyAll: function() {
+            for (let e in _elements_Data) {
+                if (_elements_Data.hasOwnProperty(e)) {
+                    destroyElement(_elements_Data[e]);
+                }
+            }
+            _elements_Data = {};
+            return _public;
+        },
+        setConfiguration: function(e) {
+            if (Is.definedObject(e)) {
+                let t = false;
+                const n = _configuration;
+                for (let r in e) {
+                    if (e.hasOwnProperty(r) && _configuration.hasOwnProperty(r) && n[r] !== e[r]) {
+                        n[r] = e[r];
+                        t = true;
+                    }
+                }
+                if (t) {
+                    buildDefaultConfiguration(n);
+                }
+            }
+            return _public;
+        },
+        getIds: function() {
+            const e = [];
+            for (let t in _elements_Data) {
+                if (_elements_Data.hasOwnProperty(t)) {
+                    e.push(t);
+                }
+            }
+            return e;
+        },
+        getVersion: function() {
+            return "2.0.0";
+        }
+    };
+    (() => {
+        buildDefaultConfiguration();
+        document.addEventListener("DOMContentLoaded", (function() {
+            render();
+        }));
+        if (!Is.defined(window.$jsontree)) {
+            window.$jsontree = _public;
+        }
+    })();
+})();//# sourceMappingURL=jsontree.js.map

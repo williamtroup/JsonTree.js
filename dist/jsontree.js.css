@@ -1,11 +1,23 @@
 /*
- * JsonTree.js Library v1.1.2
+ * JsonTree.js Library v2.0.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
  */
 :root {
-  --json-tree-js-default-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --json-tree-js-default-font: system-ui,
+                               -apple-system,
+                               "Segoe UI",
+                               Roboto,
+                               "Helvetica Neue",
+                               "Noto Sans",
+                               "Liberation Sans",
+                               Arial,
+                               sans-serif,
+                               "Apple Color Emoji",
+                               "Segoe UI Emoji",
+                               "Segoe UI Symbol",
+                               "Noto Color Emoji";
   --json-tree-js-text-bold-weight: 400;
   --json-tree-js-header-bold-weight: 900;
   --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
@@ -310,4 +322,6 @@ div.json-tree-js div.object-type-contents div.object-type-value span.count {
 }
 .custom-scroll-bars::-webkit-scrollbar-thumb:active {
   background-color: var(--json-tree-js-color-lighter-gray);
-}/*# sourceMappingURL=jsontree.js.css.map */
+}
+
+/*# sourceMappingURL=jsontree.js.css.map */

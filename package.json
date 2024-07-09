@@ -2,8 +2,7 @@
   "name": "jjsontree.js",
   "title": "JsonTree.js",
   "description": "A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.",
-  "version": "1.1.2",
-  "main": "dist/jsontree.js",
+  "version": "2.0.0",
   "homepage": "https://www.william-troup.com/jsontree-js/",
   "author": {
     "name": "Bunoon"
@@ -12,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/williamtroup/JsonTree.js"
   },
+  "license": "MIT",
   "keywords": [
     "javascript",
     "css",
@@ -26,5 +26,23 @@
   "bugs": {
     "url": "https://github.com/williamtroup/JsonTree.js/issues"
   },
-  "license": "MIT"
+  "main": "dist/jsontree.js",
+  "types": "dist/jsontree.d.ts",
+  "scripts": {
+    "build-all": "npm run build && npm run build-minimized",
+    "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts && sass src/jsontree.js.scss dist/jsontree.js.css",
+    "build-minimized": "tsup --config tsup.build.min.config.ts && sass src/jsontree.js.scss dist/jsontree.js.min.css --style=compressed --no-source-map",
+    "build-typescript": "tsup --config tsup.build.config.ts",
+    "build-typescript-esm": "tsup --config tsup.build.esm.config.ts",
+    "build-typescript-minimized": "tsup --config tsup.build.min.config.ts",
+    "build-sass": "sass src/jsontree.js.scss dist/jsontree.js.css",
+    "build-sass-minimized": "sass src/jsontree.js.scss dist/jsontree.js.min.css --style=compressed --no-source-map"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.6.7",
+    "sass": "^1.77.6",
+    "terser": "^5.31.1",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.2"
+  }
 }

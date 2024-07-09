@@ -3,20 +3,18 @@
  * 
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
- * @file        jsontree.js
- * @version     v1.1.2
+ * @file        enum.ts
+ * @version     v2.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-var jsontree = {
-    js: function() {
-        return window.$jsontree;
-    }
-};
-
-Object.assign( window, { jsontree } );
-
-export { jsontree };
+export const enum Char {
+    empty = "",
+    space = " ",
+    dash = "-",
+    zero = "0",
+    hash = "#",
+}
