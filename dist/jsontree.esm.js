@@ -63,6 +63,14 @@ var init_is = __esm({
                 return !l(e) || e.length < t;
             }
             e.invalidOptionArray = c;
+            function f(e) {
+                let t = e.length >= 2 && e.length <= 7;
+                if (t && e[0] === "#") {
+                    t = isNaN(+e.substring(1, e.length - 1));
+                }
+                return t;
+            }
+            e.hexColor = f;
         })(Is || (Is = {}));
     }
 });
@@ -143,6 +151,12 @@ var init_data = __esm({
                 return n;
             }
             e.getDefaultStringOrArray = u;
+            function c(e, t) {
+                var n;
+                const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+                return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
+            }
+            e.getFixedDecimalPlacesValue = c;
         })(Data || (Data = {}));
     }
 });
@@ -467,7 +481,7 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedDecimal(r)) {
                     if (!t.ignore.decimalValues) {
-                        const e = getFixedValue(r, t.maximumDecimalPlaces);
+                        const e = Data.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
                         l = t.showValueColors ? "decimal" : "";
                         s = DomElement.createWithHTML(a, "span", l, e);
                         c = "decimal";
@@ -493,7 +507,7 @@ var require_jsontree = __commonJS({
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
                         let e = null;
-                        if (t.showValueColors && t.showStringHexColors && isHexColor(r)) {
+                        if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
                             e = r;
                         } else {
                             if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
@@ -626,18 +640,6 @@ var require_jsontree = __commonJS({
                     r = Data.String.padNumber(parseInt(r), n.toString().length);
                 }
                 return r;
-            }
-            function getFixedValue(e, t) {
-                var n;
-                const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
-                return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
-            }
-            function isHexColor(e) {
-                let t = e.length >= 2 && e.length <= 7;
-                if (t && e[0] === "#") {
-                    t = isNaN(+e.substring(1, e.length - 1));
-                }
-                return t;
             }
             function buildAttributeOptions(e) {
                 let t = Data.getDefaultObject(e, {});

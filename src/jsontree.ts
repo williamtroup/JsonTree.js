@@ -341,7 +341,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedDecimal( value ) ) {
             if ( !bindingOptions.ignore!.decimalValues ) {
-                const newValue: string = getFixedValue( value, bindingOptions.maximumDecimalPlaces! );
+                const newValue: string = Data.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
@@ -377,7 +377,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.stringValues ) {
                 let color: string = null!;
 
-                if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && isHexColor( value ) ) {
+                if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
                     color = value;
 
                 } else {
@@ -552,22 +552,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     
         return result;
-    }
-    
-    function getFixedValue( value: number, length: number ) : string {
-        const regExp: RegExp = new RegExp( "^-?\\d+(?:.\\d{0," + ( length || -1 ) + "})?" );
-    
-        return value.toString().match( regExp )?.[ 0 ] || Char.empty;
-    }
-    
-    function isHexColor( value: string ) : boolean {
-        let valid: boolean = value.length >= 2 && value.length <= 7;
-    
-        if ( valid && value[ 0 ] === Char.hash ) {
-            valid = isNaN( +value.substring( 1, value.length - 1 ) );
-        }
-    
-        return valid;
     }
 
 
