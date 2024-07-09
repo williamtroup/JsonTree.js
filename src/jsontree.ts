@@ -423,7 +423,7 @@ type StringToJson = {
      */
 
     function buildAttributeOptions( newOptions: any ) : BindingOptions {
-        var options = Data.getDefaultObject( newOptions, {} as BindingOptions );
+        let options: BindingOptions = Data.getDefaultObject( newOptions, {} as BindingOptions );
         options.data = Data.getDefaultObject( options.data, null! );
         options.showCounts = Data.getDefaultBoolean( options.showCounts, true );
         options.useZeroIndexingForArrays = Data.getDefaultBoolean( options.useZeroIndexingForArrays, true );

@@ -525,7 +525,7 @@ var require_jsontree = __commonJS({
                 return t;
             }
             function buildAttributeOptions(e) {
-                var t = Data.getDefaultObject(e, {});
+                let t = Data.getDefaultObject(e, {});
                 t.data = Data.getDefaultObject(t.data, null);
                 t.showCounts = Data.getDefaultBoolean(t.showCounts, true);
                 t.useZeroIndexingForArrays = Data.getDefaultBoolean(t.useZeroIndexingForArrays, true);
