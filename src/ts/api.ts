@@ -56,7 +56,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	render: ( element: HTMLElement, options: Object ) => PublicApi;
+	render: ( element: HTMLElement, options: object ) => PublicApi;
 
 	/**
 	 * renderAll().

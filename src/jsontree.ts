@@ -713,6 +713,108 @@ type JsonTreeData = {
 
 	/*
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * Public API Functions:  Helpers:  Destroy
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+    function destroyElement( bindingOptions: BindingOptions ) : void {
+        bindingOptions._currentView.element.innerHTML = Char.empty;
+        bindingOptions._currentView.element.className = Char.empty;
+
+        fireCustomTriggerEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
+    }
+
+	/*
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 * Public API Functions:  Helpers:  Configuration
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 */
+
+    function buildDefaultConfiguration( newConfiguration: any = null ) : void {
+        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+
+        buildDefaultConfigurationStrings();
+    }
+
+    function buildDefaultConfigurationStrings() : void {
+        _configuration.objectText = Data.getDefaultAnyString( _configuration.objectText, "object" );
+        _configuration.arrayText = Data.getDefaultAnyString( _configuration.arrayText, "array" );
+        _configuration.closeAllButtonText = Data.getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
+        _configuration.openAllButtonText = Data.getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
+        _configuration.copyAllButtonText = Data.getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
+        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.stText = Data.getDefaultAnyString( _configuration.stText, "st" );
+        _configuration.ndText = Data.getDefaultAnyString( _configuration.ndText, "nd" );
+        _configuration.rdText = Data.getDefaultAnyString( _configuration.rdText, "rd" );
+        _configuration.thText = Data.getDefaultAnyString( _configuration.thText, "th" );
+        _configuration.ellipsisText = Data.getDefaultAnyString( _configuration.ellipsisText, "..." );
+
+        if ( Is.invalidOptionArray( _configuration.dayNames, 7 ) ) {
+            _configuration.dayNames = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+            ];
+        }
+
+        if ( Is.invalidOptionArray( _configuration.dayNamesAbbreviated, 7 ) ) {
+            _configuration.dayNamesAbbreviated = [
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat",
+                "Sun"
+            ];
+        }
+
+        if ( Is.invalidOptionArray( _configuration.monthNames, 12 ) ) {
+            _configuration.monthNames = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+        }
+
+        if ( Is.invalidOptionArray( _configuration.monthNamesAbbreviated, 12 ) ) {
+            _configuration.monthNamesAbbreviated = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ];
+        }
+    }
+
+
+	/*
+	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 * Public API Functions:
 	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 */
@@ -725,27 +827,57 @@ type JsonTreeData = {
          */
 
         refresh: function ( elementId: string ): PublicApi {
-            throw new Error("Function not implemented.");
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
+    
+                renderControlContainer( bindingOptions );
+                fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+            }
+    
+            return _public;
         },
 
         refreshAll: function (): PublicApi {
-            throw new Error("Function not implemented.");
+            for ( let elementId in _elements_Data ) {
+                if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                    const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
+    
+                    renderControlContainer( bindingOptions );
+                    fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+                }
+            }
+    
+            return _public;
         },
 
-        render: function ( element: HTMLElement, options: Object ): PublicApi {
-            throw new Error("Function not implemented.");
+        render: function ( element: HTMLElement, options: object ): PublicApi {
+            if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
+                renderControl( renderBindingOptions( options, element ) );
+            }
+    
+            return _public;
         },
 
         renderAll: function (): PublicApi {
-            throw new Error("Function not implemented.");
+            render();
+
+            return _public;
         },
 
         openAll: function ( elementId: string ): PublicApi {
-            throw new Error("Function not implemented.");
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                openAllNodes( _elements_Data[ elementId ].options );
+            }
+    
+            return _public;
         },
 
         closeAll: function ( elementId: string ): PublicApi {
-            throw new Error("Function not implemented.");
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                closeAllNodes( _elements_Data[ elementId ].options );
+            }
+    
+            return _public;
         },
 
 
@@ -756,11 +888,25 @@ type JsonTreeData = {
          */
 
         destroy: function ( elementId: string ): PublicApi {
-            throw new Error("Function not implemented.");
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                destroyElement( _elements_Data[ elementId ].options );
+    
+                delete _elements_Data[ elementId ];
+            }
+    
+            return _public;
         },
 
         destroyAll: function (): PublicApi {
-            throw new Error("Function not implemented.");
+            for ( let elementId in _elements_Data ) {
+                if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                    destroyElement( _elements_Data[ elementId ].options );
+                }
+            }
+
+            _elements_Data = {} as Record<string, JsonTreeData>;
+
+            return _public;
         },
 
 
@@ -770,8 +916,24 @@ type JsonTreeData = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( configuration: any ): PublicApi {
-            throw new Error("Function not implemented.");
+        setConfiguration: function ( newConfiguration: any ): PublicApi {
+            if ( Is.definedObject( newConfiguration ) ) {
+                let configurationHasChanged: boolean = false;
+                const newInternalConfiguration: any = _configuration;
+            
+                for ( let propertyName in newConfiguration ) {
+                    if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && newInternalConfiguration[ propertyName ] !== newConfiguration[ propertyName ] ) {
+                        newInternalConfiguration[ propertyName ] = newConfiguration[ propertyName ];
+                        configurationHasChanged = true;
+                    }
+                }
+        
+                if ( configurationHasChanged ) {
+                    buildDefaultConfiguration( newInternalConfiguration );
+                }
+            }
+    
+            return _public;
         },
 
 
@@ -782,11 +944,19 @@ type JsonTreeData = {
          */
 
         getIds: function (): string[] {
-            throw new Error("Function not implemented.");
+            const result: string[] = [];
+        
+            for ( let elementId in _elements_Data ) {
+                if ( _elements_Data.hasOwnProperty( elementId ) ) {
+                    result.push( elementId );
+                }
+            }
+    
+            return result;
         },
 
         getVersion: function (): string {
-            throw new Error("Function not implemented.");
+            return "2.0.0";
         }
     };
 
@@ -798,6 +968,14 @@ type JsonTreeData = {
      */
 
     ( () => {
+        buildDefaultConfiguration();
 
+        document.addEventListener( "DOMContentLoaded", function() {
+            render();
+        } );
+
+        if ( !Is.defined( window.$jsontree ) ) {
+            window.$jsontree = _public;
+        }
     } )();
 } )();
