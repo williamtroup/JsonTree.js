@@ -33,6 +33,9 @@ type StringToJson = {
     // Variables: Configuration
     let _configuration: Configuration = {} as Configuration;
 
+    // Variables: Data
+    let _elements_Data: Record<string, { options: BindingOptions; data: any }> = {};
+
     
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
