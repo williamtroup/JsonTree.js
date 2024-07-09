@@ -566,13 +566,13 @@ type JsonTree = Record<string, JsonTreeData>;
     function getFixedValue( value: number, length: number ) : string {
         const regExp: RegExp = new RegExp( "^-?\\d+(?:.\\d{0," + ( length || -1 ) + "})?" );
     
-        return value.toString().match( regExp )?.[ 0 ] || "";
+        return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
     
     function isHexColor( value: string ) : boolean {
         let valid: boolean = value.length >= 2 && value.length <= 7;
     
-        if ( valid && value[ 0 ] === "#" ) {
+        if ( valid && value[ 0 ] === Char.hash ) {
             valid = isNaN( +value.substring( 1, value.length - 1 ) );
         }
     

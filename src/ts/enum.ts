@@ -16,4 +16,5 @@ export const enum Char {
     space = " ",
     dash = "-",
     zero = "0",
+    hash = "#",
 }
