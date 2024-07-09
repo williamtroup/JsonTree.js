@@ -826,7 +826,7 @@ type JsonTreeData = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        refresh: function ( elementId: string ): PublicApi {
+        refresh: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
     
@@ -837,7 +837,7 @@ type JsonTreeData = {
             return _public;
         },
 
-        refreshAll: function (): PublicApi {
+        refreshAll: function () : PublicApi {
             for ( let elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
                     const bindingOptions: BindingOptions = _elements_Data[ elementId ].options;
@@ -850,7 +850,7 @@ type JsonTreeData = {
             return _public;
         },
 
-        render: function ( element: HTMLElement, options: object ): PublicApi {
+        render: function ( element: HTMLElement, options: object ) : PublicApi {
             if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
                 renderControl( renderBindingOptions( options, element ) );
             }
@@ -858,13 +858,13 @@ type JsonTreeData = {
             return _public;
         },
 
-        renderAll: function (): PublicApi {
+        renderAll: function () : PublicApi {
             render();
 
             return _public;
         },
 
-        openAll: function ( elementId: string ): PublicApi {
+        openAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 openAllNodes( _elements_Data[ elementId ].options );
             }
@@ -872,7 +872,7 @@ type JsonTreeData = {
             return _public;
         },
 
-        closeAll: function ( elementId: string ): PublicApi {
+        closeAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 closeAllNodes( _elements_Data[ elementId ].options );
             }
@@ -887,7 +887,7 @@ type JsonTreeData = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        destroy: function ( elementId: string ): PublicApi {
+        destroy: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 destroyElement( _elements_Data[ elementId ].options );
     
@@ -897,7 +897,7 @@ type JsonTreeData = {
             return _public;
         },
 
-        destroyAll: function (): PublicApi {
+        destroyAll: function () : PublicApi {
             for ( let elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
                     destroyElement( _elements_Data[ elementId ].options );
@@ -916,7 +916,7 @@ type JsonTreeData = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setConfiguration: function ( newConfiguration: any ): PublicApi {
+        setConfiguration: function ( newConfiguration: any ) : PublicApi {
             if ( Is.definedObject( newConfiguration ) ) {
                 let configurationHasChanged: boolean = false;
                 const newInternalConfiguration: any = _configuration;
@@ -943,7 +943,7 @@ type JsonTreeData = {
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        getIds: function (): string[] {
+        getIds: function () : string[] {
             const result: string[] = [];
         
             for ( let elementId in _elements_Data ) {
@@ -955,7 +955,7 @@ type JsonTreeData = {
             return result;
         },
 
-        getVersion: function (): string {
+        getVersion: function () : string {
             return "2.0.0";
         }
     };
