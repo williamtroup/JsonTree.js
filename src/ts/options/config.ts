@@ -19,9 +19,9 @@ import { Is } from "../data/is";
 export namespace Config {
     export namespace Options {
         export function get( newConfiguration: any = null ) : Configuration {
-            let configuration: Configuration = Default.getDefaultObject( newConfiguration, {} as Configuration );
-            configuration.safeMode = Default.getDefaultBoolean( configuration.safeMode, true );
-            configuration.domElementTypes = Default.getDefaultStringOrArray( configuration.domElementTypes, [ "*" ] );
+            let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
+            configuration.safeMode = Default.getBoolean( configuration.safeMode, true );
+            configuration.domElementTypes = Default.getStringOrArray( configuration.domElementTypes, [ "*" ] );
     
             configuration = getText( configuration );
 
@@ -29,23 +29,23 @@ export namespace Config {
         }
     
         function getText( configuration: Configuration ) : Configuration {
-            configuration.text = Default.getDefaultObject( configuration.text, {} as ConfigurationText );
-            configuration.text!.objectText = Default.getDefaultAnyString( configuration.text!.objectText, "object" );
-            configuration.text!.arrayText = Default.getDefaultAnyString( configuration.text!.arrayText, "array" );
-            configuration.text!.closeAllButtonText = Default.getDefaultAnyString( configuration.text!.closeAllButtonText, "Close All" );
-            configuration.text!.openAllButtonText = Default.getDefaultAnyString( configuration.text!.openAllButtonText, "Open All" );
-            configuration.text!.copyAllButtonText = Default.getDefaultAnyString( configuration.text!.copyAllButtonText, "Copy All" );
-            configuration.text!.objectErrorText = Default.getDefaultAnyString( configuration.text!.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-            configuration.text!.attributeNotValidErrorText = Default.getDefaultAnyString( configuration.text!.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-            configuration.text!.attributeNotSetErrorText = Default.getDefaultAnyString( configuration.text!.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-            configuration.text!.stText = Default.getDefaultAnyString( configuration.text!.stText, "st" );
-            configuration.text!.ndText = Default.getDefaultAnyString( configuration.text!.ndText, "nd" );
-            configuration.text!.rdText = Default.getDefaultAnyString( configuration.text!.rdText, "rd" );
-            configuration.text!.thText = Default.getDefaultAnyString( configuration.text!.thText, "th" );
-            configuration.text!.ellipsisText = Default.getDefaultAnyString( configuration.text!.ellipsisText, "..." );
-            configuration.text!.closeAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
-            configuration.text!.openAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
-            configuration.text!.copyAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.copyAllButtonSymbolText, "❐" )
+            configuration.text = Default.getObject( configuration.text, {} as ConfigurationText );
+            configuration.text!.objectText = Default.getAnyString( configuration.text!.objectText, "object" );
+            configuration.text!.arrayText = Default.getAnyString( configuration.text!.arrayText, "array" );
+            configuration.text!.closeAllButtonText = Default.getAnyString( configuration.text!.closeAllButtonText, "Close All" );
+            configuration.text!.openAllButtonText = Default.getAnyString( configuration.text!.openAllButtonText, "Open All" );
+            configuration.text!.copyAllButtonText = Default.getAnyString( configuration.text!.copyAllButtonText, "Copy All" );
+            configuration.text!.objectErrorText = Default.getAnyString( configuration.text!.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+            configuration.text!.attributeNotValidErrorText = Default.getAnyString( configuration.text!.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+            configuration.text!.attributeNotSetErrorText = Default.getAnyString( configuration.text!.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+            configuration.text!.stText = Default.getAnyString( configuration.text!.stText, "st" );
+            configuration.text!.ndText = Default.getAnyString( configuration.text!.ndText, "nd" );
+            configuration.text!.rdText = Default.getAnyString( configuration.text!.rdText, "rd" );
+            configuration.text!.thText = Default.getAnyString( configuration.text!.thText, "th" );
+            configuration.text!.ellipsisText = Default.getAnyString( configuration.text!.ellipsisText, "..." );
+            configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
+            configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
+            configuration.text!.copyAllButtonSymbolText = Default.getAnyString( configuration.text!.copyAllButtonSymbolText, "❐" )
     
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

@@ -16,35 +16,35 @@ import { Is } from "./is";
 
 
 export namespace Default {
-    export function getDefaultAnyString( value: any, defaultValue: string ) : string {
+    export function getAnyString( value: any, defaultValue: string ) : string {
         return typeof value === "string" ? value : defaultValue;
     }
 
-    export function getDefaultString( value: any, defaultValue: string ) : string {
+    export function getString( value: any, defaultValue: string ) : string {
         return Is.definedString( value ) ? value : defaultValue;
     }
 
-    export function getDefaultBoolean( value: any, defaultValue: boolean ) : boolean {
+    export function getBoolean( value: any, defaultValue: boolean ) : boolean {
         return Is.definedBoolean( value ) ? value : defaultValue;
     }
 
-    export function getDefaultNumber( value: any, defaultValue: number ) : number {
+    export function getNumber( value: any, defaultValue: number ) : number {
         return Is.definedNumber( value ) ? value : defaultValue;
     }
 
-    export function getDefaultFunction( value: any, defaultValue: object ) : any {
+    export function getFunction( value: any, defaultValue: object ) : any {
         return Is.definedFunction( value ) ? value : defaultValue;
     }
 
-    export function getDefaultArray( value: any, defaultValue: any[] ) : any[] {
+    export function getArray( value: any, defaultValue: any[] ) : any[] {
         return Is.definedArray( value ) ? value : defaultValue;
     }
 
-    export function getDefaultObject( value: any, defaultValue: object ) : any {
+    export function getObject( value: any, defaultValue: object ) : any {
         return Is.definedObject( value ) ? value : defaultValue;
     }
 
-    export function getDefaultStringOrArray( value: any, defaultValue: string[] ) : string[] {
+    export function getStringOrArray( value: any, defaultValue: string[] ) : string[] {
         let result: string[] = defaultValue;
 
         if ( Is.definedString( value ) ) {
@@ -57,7 +57,7 @@ export namespace Default {
             }
 
         } else {
-            result = getDefaultArray( value, defaultValue );
+            result = getArray( value, defaultValue );
         }
 
         return result;

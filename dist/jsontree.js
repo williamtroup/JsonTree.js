@@ -43,14 +43,14 @@ var Is;
         return !i(e) || e.length < t;
     }
     e.invalidOptionArray = c;
-    function f(e) {
+    function d(e) {
         let t = e.length >= 2 && e.length <= 7;
         if (t && e[0] === "#") {
             t = isNaN(+e.substring(1, e.length - 1));
         }
         return t;
     }
-    e.hexColor = f;
+    e.hexColor = d;
 })(Is || (Is = {}));
 
 var Default;
@@ -59,31 +59,31 @@ var Default;
     function t(e, t) {
         return typeof e === "string" ? e : t;
     }
-    e.getDefaultAnyString = t;
+    e.getAnyString = t;
     function n(e, t) {
         return Is.definedString(e) ? e : t;
     }
-    e.getDefaultString = n;
+    e.getString = n;
     function o(e, t) {
         return Is.definedBoolean(e) ? e : t;
     }
-    e.getDefaultBoolean = o;
+    e.getBoolean = o;
     function r(e, t) {
         return Is.definedNumber(e) ? e : t;
     }
-    e.getDefaultNumber = r;
+    e.getNumber = r;
     function l(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
-    e.getDefaultFunction = l;
+    e.getFunction = l;
     function a(e, t) {
         return Is.definedArray(e) ? e : t;
     }
-    e.getDefaultArray = a;
+    e.getArray = a;
     function i(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getDefaultObject = i;
+    e.getObject = i;
     function s(e, t) {
         let n = t;
         if (Is.definedString(e)) {
@@ -98,7 +98,7 @@ var Default;
         }
         return n;
     }
-    e.getDefaultStringOrArray = s;
+    e.getStringOrArray = s;
     function u(e, t) {
         var n;
         const o = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
@@ -229,23 +229,23 @@ var Binding;
         }
         t.getForNewInstance = n;
         function o(e) {
-            let t = Default.getDefaultObject(e, {});
-            t.data = Default.getDefaultObject(t.data, null);
-            t.showCounts = Default.getDefaultBoolean(t.showCounts, true);
-            t.useZeroIndexingForArrays = Default.getDefaultBoolean(t.useZeroIndexingForArrays, true);
-            t.dateTimeFormat = Default.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-            t.showArrowToggles = Default.getDefaultBoolean(t.showArrowToggles, true);
-            t.showStringQuotes = Default.getDefaultBoolean(t.showStringQuotes, true);
-            t.showAllAsClosed = Default.getDefaultBoolean(t.showAllAsClosed, false);
-            t.sortPropertyNames = Default.getDefaultBoolean(t.sortPropertyNames, true);
-            t.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
-            t.showCommas = Default.getDefaultBoolean(t.showCommas, false);
-            t.reverseArrayValues = Default.getDefaultBoolean(t.reverseArrayValues, false);
-            t.addArrayIndexPadding = Default.getDefaultBoolean(t.addArrayIndexPadding, false);
-            t.showValueColors = Default.getDefaultBoolean(t.showValueColors, true);
-            t.maximumDecimalPlaces = Default.getDefaultNumber(t.maximumDecimalPlaces, 2);
-            t.maximumStringLength = Default.getDefaultNumber(t.maximumStringLength, 0);
-            t.showStringHexColors = Default.getDefaultBoolean(t.showStringHexColors, false);
+            let t = Default.getObject(e, {});
+            t.data = Default.getObject(t.data, null);
+            t.showCounts = Default.getBoolean(t.showCounts, true);
+            t.useZeroIndexingForArrays = Default.getBoolean(t.useZeroIndexingForArrays, true);
+            t.dateTimeFormat = Default.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
+            t.showArrowToggles = Default.getBoolean(t.showArrowToggles, true);
+            t.showStringQuotes = Default.getBoolean(t.showStringQuotes, true);
+            t.showAllAsClosed = Default.getBoolean(t.showAllAsClosed, false);
+            t.sortPropertyNames = Default.getBoolean(t.sortPropertyNames, true);
+            t.sortPropertyNamesInAlphabeticalOrder = Default.getBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
+            t.showCommas = Default.getBoolean(t.showCommas, false);
+            t.reverseArrayValues = Default.getBoolean(t.reverseArrayValues, false);
+            t.addArrayIndexPadding = Default.getBoolean(t.addArrayIndexPadding, false);
+            t.showValueColors = Default.getBoolean(t.showValueColors, true);
+            t.maximumDecimalPlaces = Default.getNumber(t.maximumDecimalPlaces, 2);
+            t.maximumStringLength = Default.getNumber(t.maximumStringLength, 0);
+            t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
             t = r(t);
             t = l(t);
             t = a(t);
@@ -253,45 +253,45 @@ var Binding;
         }
         t.get = o;
         function r(e) {
-            e.title = Default.getDefaultObject(e.title, {});
-            e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
-            e.title.show = Default.getDefaultBoolean(e.title.show, true);
-            e.title.showTreeControls = Default.getDefaultBoolean(e.title.showTreeControls, true);
-            e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, true);
+            e.title = Default.getObject(e.title, {});
+            e.title.text = Default.getString(e.title.text, "JsonTree.js");
+            e.title.show = Default.getBoolean(e.title.show, true);
+            e.title.showTreeControls = Default.getBoolean(e.title.showTreeControls, true);
+            e.title.showCopyButton = Default.getBoolean(e.title.showCopyButton, true);
             return e;
         }
         function l(e) {
-            e.ignore = Default.getDefaultObject(e.ignore, {});
-            e.ignore.nullValues = Default.getDefaultBoolean(e.ignore.nullValues, false);
-            e.ignore.functionValues = Default.getDefaultBoolean(e.ignore.functionValues, false);
-            e.ignore.unknownValues = Default.getDefaultBoolean(e.ignore.unknownValues, false);
-            e.ignore.booleanValues = Default.getDefaultBoolean(e.ignore.booleanValues, false);
-            e.ignore.decimalValues = Default.getDefaultBoolean(e.ignore.decimalValues, false);
-            e.ignore.numberValues = Default.getDefaultBoolean(e.ignore.numberValues, false);
-            e.ignore.stringValues = Default.getDefaultBoolean(e.ignore.stringValues, false);
-            e.ignore.dateValues = Default.getDefaultBoolean(e.ignore.dateValues, false);
-            e.ignore.objectValues = Default.getDefaultBoolean(e.ignore.objectValues, false);
-            e.ignore.arrayValues = Default.getDefaultBoolean(e.ignore.arrayValues, false);
+            e.ignore = Default.getObject(e.ignore, {});
+            e.ignore.nullValues = Default.getBoolean(e.ignore.nullValues, false);
+            e.ignore.functionValues = Default.getBoolean(e.ignore.functionValues, false);
+            e.ignore.unknownValues = Default.getBoolean(e.ignore.unknownValues, false);
+            e.ignore.booleanValues = Default.getBoolean(e.ignore.booleanValues, false);
+            e.ignore.decimalValues = Default.getBoolean(e.ignore.decimalValues, false);
+            e.ignore.numberValues = Default.getBoolean(e.ignore.numberValues, false);
+            e.ignore.stringValues = Default.getBoolean(e.ignore.stringValues, false);
+            e.ignore.dateValues = Default.getBoolean(e.ignore.dateValues, false);
+            e.ignore.objectValues = Default.getBoolean(e.ignore.objectValues, false);
+            e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
             return e;
         }
         function a(e) {
-            e.events = Default.getDefaultObject(e.events, {});
-            e.events.onBeforeRender = Default.getDefaultFunction(e.events.onBeforeRender, null);
-            e.events.onRenderComplete = Default.getDefaultFunction(e.events.onRenderComplete, null);
-            e.events.onValueClick = Default.getDefaultFunction(e.events.onValueClick, null);
-            e.events.onRefresh = Default.getDefaultFunction(e.events.onRefresh, null);
-            e.events.onCopyAll = Default.getDefaultFunction(e.events.onCopyAll, null);
-            e.events.onOpenAll = Default.getDefaultFunction(e.events.onOpenAll, null);
-            e.events.onCloseAll = Default.getDefaultFunction(e.events.onCloseAll, null);
-            e.events.onDestroy = Default.getDefaultFunction(e.events.onDestroy, null);
-            e.events.onBooleanRender = Default.getDefaultFunction(e.events.onBooleanRender, null);
-            e.events.onDecimalRender = Default.getDefaultFunction(e.events.onDecimalRender, null);
-            e.events.onNumberRender = Default.getDefaultFunction(e.events.onNumberRender, null);
-            e.events.onStringRender = Default.getDefaultFunction(e.events.onStringRender, null);
-            e.events.onDateRender = Default.getDefaultFunction(e.events.onDateRender, null);
-            e.events.onFunctionRender = Default.getDefaultFunction(e.events.onFunctionRender, null);
-            e.events.onNullRender = Default.getDefaultFunction(e.events.onNullRender, null);
-            e.events.onUnknownRender = Default.getDefaultFunction(e.events.onUnknownRender, null);
+            e.events = Default.getObject(e.events, {});
+            e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
+            e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
+            e.events.onValueClick = Default.getFunction(e.events.onValueClick, null);
+            e.events.onRefresh = Default.getFunction(e.events.onRefresh, null);
+            e.events.onCopyAll = Default.getFunction(e.events.onCopyAll, null);
+            e.events.onOpenAll = Default.getFunction(e.events.onOpenAll, null);
+            e.events.onCloseAll = Default.getFunction(e.events.onCloseAll, null);
+            e.events.onDestroy = Default.getFunction(e.events.onDestroy, null);
+            e.events.onBooleanRender = Default.getFunction(e.events.onBooleanRender, null);
+            e.events.onDecimalRender = Default.getFunction(e.events.onDecimalRender, null);
+            e.events.onNumberRender = Default.getFunction(e.events.onNumberRender, null);
+            e.events.onStringRender = Default.getFunction(e.events.onStringRender, null);
+            e.events.onDateRender = Default.getFunction(e.events.onDateRender, null);
+            e.events.onFunctionRender = Default.getFunction(e.events.onFunctionRender, null);
+            e.events.onNullRender = Default.getFunction(e.events.onNullRender, null);
+            e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -303,31 +303,31 @@ var Config;
     let t;
     (e => {
         function t(e = null) {
-            let t = Default.getDefaultObject(e, {});
-            t.safeMode = Default.getDefaultBoolean(t.safeMode, true);
-            t.domElementTypes = Default.getDefaultStringOrArray(t.domElementTypes, [ "*" ]);
+            let t = Default.getObject(e, {});
+            t.safeMode = Default.getBoolean(t.safeMode, true);
+            t.domElementTypes = Default.getStringOrArray(t.domElementTypes, [ "*" ]);
             t = n(t);
             return t;
         }
         e.get = t;
         function n(e) {
-            e.text = Default.getDefaultObject(e.text, {});
-            e.text.objectText = Default.getDefaultAnyString(e.text.objectText, "object");
-            e.text.arrayText = Default.getDefaultAnyString(e.text.arrayText, "array");
-            e.text.closeAllButtonText = Default.getDefaultAnyString(e.text.closeAllButtonText, "Close All");
-            e.text.openAllButtonText = Default.getDefaultAnyString(e.text.openAllButtonText, "Open All");
-            e.text.copyAllButtonText = Default.getDefaultAnyString(e.text.copyAllButtonText, "Copy All");
-            e.text.objectErrorText = Default.getDefaultAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-            e.text.attributeNotValidErrorText = Default.getDefaultAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-            e.text.attributeNotSetErrorText = Default.getDefaultAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-            e.text.stText = Default.getDefaultAnyString(e.text.stText, "st");
-            e.text.ndText = Default.getDefaultAnyString(e.text.ndText, "nd");
-            e.text.rdText = Default.getDefaultAnyString(e.text.rdText, "rd");
-            e.text.thText = Default.getDefaultAnyString(e.text.thText, "th");
-            e.text.ellipsisText = Default.getDefaultAnyString(e.text.ellipsisText, "...");
-            e.text.closeAllButtonSymbolText = Default.getDefaultAnyString(e.text.closeAllButtonSymbolText, "↑");
-            e.text.openAllButtonSymbolText = Default.getDefaultAnyString(e.text.openAllButtonSymbolText, "↓");
-            e.text.copyAllButtonSymbolText = Default.getDefaultAnyString(e.text.copyAllButtonSymbolText, "❐");
+            e.text = Default.getObject(e.text, {});
+            e.text.objectText = Default.getAnyString(e.text.objectText, "object");
+            e.text.arrayText = Default.getAnyString(e.text.arrayText, "array");
+            e.text.closeAllButtonText = Default.getAnyString(e.text.closeAllButtonText, "Close All");
+            e.text.openAllButtonText = Default.getAnyString(e.text.openAllButtonText, "Open All");
+            e.text.copyAllButtonText = Default.getAnyString(e.text.copyAllButtonText, "Copy All");
+            e.text.objectErrorText = Default.getAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+            e.text.attributeNotValidErrorText = Default.getAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+            e.text.attributeNotSetErrorText = Default.getAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+            e.text.stText = Default.getAnyString(e.text.stText, "st");
+            e.text.ndText = Default.getAnyString(e.text.ndText, "nd");
+            e.text.rdText = Default.getAnyString(e.text.rdText, "rd");
+            e.text.thText = Default.getAnyString(e.text.thText, "th");
+            e.text.ellipsisText = Default.getAnyString(e.text.ellipsisText, "...");
+            e.text.closeAllButtonSymbolText = Default.getAnyString(e.text.closeAllButtonSymbolText, "↑");
+            e.text.openAllButtonSymbolText = Default.getAnyString(e.text.openAllButtonSymbolText, "↓");
+            e.text.copyAllButtonSymbolText = Default.getAnyString(e.text.copyAllButtonSymbolText, "❐");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -526,14 +526,14 @@ var Trigger;
         let s = null;
         let u = false;
         let c = null;
-        let f = true;
+        let d = true;
         DomElement.createWithHTML(l, "span", "title", n);
         DomElement.createWithHTML(l, "span", "split", ":");
         if (!Is.defined(o)) {
             if (!t.ignore.nullValues) {
                 i = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(l, "span", i, "null");
-                f = false;
+                d = false;
                 if (Is.definedFunction(t.events.onNullRender)) {
                     Trigger.customEvent(t.events.onNullRender, s);
                 }
@@ -671,7 +671,7 @@ var Trigger;
             e.removeChild(l);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, o, c, f);
+                addValueClickEvent(t, s, o, c, d);
             }
         }
     }
