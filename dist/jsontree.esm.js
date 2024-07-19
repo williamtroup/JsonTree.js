@@ -277,8 +277,15 @@ var init_binding = __esm({
         init_default();
         (e => {
             let t;
-            (e => {
-                function t(e) {
+            (t => {
+                function n(t, n) {
+                    const r = e.Options.get(t);
+                    r._currentView = {};
+                    r._currentView.element = n;
+                    return r;
+                }
+                t.getForNewInstance = n;
+                function r(e) {
                     let t = Default.getDefaultObject(e, {});
                     t.data = Default.getDefaultObject(t.data, null);
                     t.showCounts = Default.getDefaultBoolean(t.showCounts, true);
@@ -296,13 +303,13 @@ var init_binding = __esm({
                     t.maximumDecimalPlaces = Default.getDefaultNumber(t.maximumDecimalPlaces, 2);
                     t.maximumStringLength = Default.getDefaultNumber(t.maximumStringLength, 0);
                     t.showStringHexColors = Default.getDefaultBoolean(t.showStringHexColors, false);
-                    t = n(t);
-                    t = r(t);
                     t = o(t);
+                    t = l(t);
+                    t = a(t);
                     return t;
                 }
-                e.get = t;
-                function n(e) {
+                t.get = r;
+                function o(e) {
                     e.title = Default.getDefaultObject(e.title, {});
                     e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
                     e.title.show = Default.getDefaultBoolean(e.title.show, true);
@@ -310,7 +317,7 @@ var init_binding = __esm({
                     e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, false);
                     return e;
                 }
-                function r(e) {
+                function l(e) {
                     e.ignore = Default.getDefaultObject(e.ignore, {});
                     e.ignore.nullValues = Default.getDefaultBoolean(e.ignore.nullValues, false);
                     e.ignore.functionValues = Default.getDefaultBoolean(e.ignore.functionValues, false);
@@ -324,7 +331,7 @@ var init_binding = __esm({
                     e.ignore.arrayValues = Default.getDefaultBoolean(e.ignore.arrayValues, false);
                     return e;
                 }
-                function o(e) {
+                function a(e) {
                     e.events = Default.getDefaultObject(e.events, {});
                     e.events.onBeforeRender = Default.getDefaultFunction(e.events.onBeforeRender, null);
                     e.events.onRenderComplete = Default.getDefaultFunction(e.events.onRenderComplete, null);
@@ -456,7 +463,7 @@ var require_jsontree = __commonJS({
                     if (Is.definedString(n)) {
                         const r = getObjectFromString(n);
                         if (r.parsed && Is.definedObject(r.object)) {
-                            renderControl(renderBindingOptions(r.object, e));
+                            renderControl(Binding.Options.getForNewInstance(r.object, e));
                         } else {
                             if (!_configuration.safeMode) {
                                 console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -471,12 +478,6 @@ var require_jsontree = __commonJS({
                     }
                 }
                 return t;
-            }
-            function renderBindingOptions(e, t) {
-                const n = Binding.Options.get(e);
-                n._currentView = {};
-                n._currentView.element = t;
-                return n;
             }
             function renderControl(e) {
                 Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
@@ -855,7 +856,7 @@ var require_jsontree = __commonJS({
                 },
                 render: function(e, t) {
                     if (Is.definedObject(e) && Is.definedObject(t)) {
-                        renderControl(renderBindingOptions(t, e));
+                        renderControl(Binding.Options.getForNewInstance(t, e));
                     }
                     return _public;
                 },

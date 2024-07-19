@@ -11,11 +11,7 @@
  */
 
 
-import {
-    type BindingOptions,
-    type Configuration, 
-    type BindingOptionsCurrentView } from "./ts/type";
-
+import { type BindingOptions, type Configuration } from "./ts/type";
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
@@ -78,7 +74,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
-                    renderControl( renderBindingOptions( bindingOptions.object, element ) );
+                    renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
@@ -96,14 +92,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return result;
-    }
-
-    function renderBindingOptions( data: any, element: HTMLElement ) : BindingOptions {
-        const bindingOptions: BindingOptions = Binding.Options.get( data );
-        bindingOptions._currentView = {} as BindingOptionsCurrentView;
-        bindingOptions._currentView.element = element;
-
-        return bindingOptions;
     }
 
     function renderControl( bindingOptions: BindingOptions ) : void {
@@ -648,7 +636,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         render: function ( element: HTMLElement, options: object ) : PublicApi {
             if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
-                renderControl( renderBindingOptions( options, element ) );
+                renderControl( Binding.Options.getForNewInstance( options, element ) );
             }
     
             return _public;

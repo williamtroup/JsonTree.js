@@ -12,6 +12,7 @@
 
 
 import {
+    BindingOptionsCurrentView,
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
@@ -22,6 +23,14 @@ import { Default } from "../data/default";
 
 export namespace Binding {
     export namespace Options {
+        export function getForNewInstance( data: any, element: HTMLElement ) : BindingOptions {
+            const bindingOptions: BindingOptions = Binding.Options.get( data );
+            bindingOptions._currentView = {} as BindingOptionsCurrentView;
+            bindingOptions._currentView.element = element;
+    
+            return bindingOptions;
+        }
+
         export function get( newOptions: any ) : BindingOptions {
             let options: BindingOptions = Default.getDefaultObject( newOptions, {} as BindingOptions );
             options.data = Default.getDefaultObject( options.data, null! );
