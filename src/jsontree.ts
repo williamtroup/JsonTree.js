@@ -4,28 +4,25 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.ts
- * @version     v2.0.0
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import {
-    type BindingOptions,
-    type Events,
-    type Ignore,
-    type Title,
-    type Configuration, 
-    type CurrentView } from "./ts/type";
-
-import { PublicApi } from "./ts/api";
-import { Data } from "./ts/data";
-import { Is } from "./ts/is";
-import { DomElement } from "./ts/dom";
-import { Char } from "./ts/enum";
-import { DateTime } from "./ts/datetime";
+import { type BindingOptions, type Configuration } from "./ts/type";
+import { type PublicApi } from "./ts/api";
+import { Default } from "./ts/data/default";
+import { Is } from "./ts/data/is";
+import { DomElement } from "./ts/dom/dom";
+import { Char } from "./ts/data/enum";
+import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
+import { Str } from "./ts/data/str";
+import { Binding } from "./ts/options/binding";
+import { Config } from "./ts/options/config";
+import { Trigger } from "./ts/area/trigger";
 
 
 type StringToJson = {
@@ -77,18 +74,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
 
                 if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
-                    renderControl( renderBindingOptions( bindingOptions.object, element ) );
+                    renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                    console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
                     result = false;
                 }
             }
@@ -97,19 +94,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         return result;
     }
 
-    function renderBindingOptions( data: any, element: HTMLElement ) : BindingOptions {
-        const bindingOptions: BindingOptions = buildAttributeOptions( data );
-        bindingOptions._currentView = {} as CurrentView;
-        bindingOptions._currentView.element = element;
-
-        return bindingOptions;
-    }
-
     function renderControl( bindingOptions: BindingOptions ) : void {
-        fireCustomTriggerEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
-            bindingOptions._currentView.element.id = Data.String.newGuid();
+            bindingOptions._currentView.element.id = Str.newGuid();
         }
 
         bindingOptions._currentView.element.className = "json-tree-js";
@@ -120,18 +109,22 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
     }
 
     function renderControlContainer( bindingOptions: BindingOptions ) : void {
-        const data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+        let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
 
-        renderControlTitleBar( bindingOptions );
+        renderControlTitleBar( bindingOptions, data );
+
+        if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
+            data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
+        }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( bindingOptions._currentView.element, bindingOptions, data );
+            renderObject( bindingOptions._currentView.element, bindingOptions, data, true );
         } else if ( Is.definedArray( data ) ) {
             renderArray( bindingOptions._currentView.element, bindingOptions, data );
         }
@@ -144,7 +137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlTitleBar( bindingOptions: BindingOptions ) : void {
+    function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
             const controls: HTMLElement = DomElement.create( titleBar, "div", "controls" );
@@ -154,20 +147,31 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.copyAllButtonText! );
+                const copy: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
-                    const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
+                    let copyData: string = null!;
+
+                    if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
+                        copyData = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, 2 );
+                    }
+                    else {
+                        copyData = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data, null, 2 );
+                    }
 
                     navigator.clipboard.writeText( copyData );
 
-                    fireCustomTriggerEvent( bindingOptions.events!.onCopyAll!, copyData );
+                    Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
                 };
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.openAllButtonText! );
-                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText! );
+                const openAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAll.title = _configuration.text!.openAllButtonText!
+
+                const closeAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAll.title = _configuration.text!.closeAllButtonText!
 
                 openAll.onclick = () => {
                     openAllNodes( bindingOptions );
@@ -177,6 +181,39 @@ type JsonTreeData = Record<string, BindingOptions>;
                     closeAllNodes( bindingOptions );
                 };
             }
+
+            if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
+                const back: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                back.title = _configuration.text!.backButtonText!
+
+                if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                    back.onclick = () => {
+                        bindingOptions._currentView.dataArrayCurrentIndex--;
+    
+                        renderControlContainer( bindingOptions );
+                    };
+
+                } else {
+                    back.disabled = true;
+                }
+
+                const next: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                next.title = _configuration.text!.nextButtonText!
+
+                if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
+                    next.onclick = () => {
+                        bindingOptions._currentView.dataArrayCurrentIndex++;
+                        
+                        renderControlContainer( bindingOptions );
+                    };
+
+                } else {
+                    next.disabled = true;
+                }
+
+            } else {
+                bindingOptions.showArrayItemsAsSeparateObjects = false;
+            }
         }
     }
 
@@ -184,14 +221,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions.showAllAsClosed = false;
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
     }
 
     function closeAllNodes( bindingOptions: BindingOptions ) : void {
         bindingOptions.showAllAsClosed = true;
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
     }
 
 
@@ -201,16 +238,22 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, showPagingIndex: boolean = false ) : void {
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.objectText! );
+        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
+
+        if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
+            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
+        }
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}" );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
         }
     }
 
@@ -219,12 +262,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
 
-        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : Char.empty, _configuration.arrayText! );
+        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : Char.empty, _configuration.text!.arrayText! );
 
         renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]" );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", `[${data.length}]` );
         }
     }
 
@@ -298,7 +341,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addClickEvent = false;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onNullRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -310,11 +353,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedFunction( value ) ) {
             if ( !bindingOptions.ignore!.functionValues ) {
                 valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, getFunctionName( value ) );
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value ) );
                 type = "function";
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
                 }
             
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -330,7 +373,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "boolean";
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onBooleanRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -341,14 +384,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedDecimal( value ) ) {
             if ( !bindingOptions.ignore!.decimalValues ) {
-                const newValue: string = Data.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
+                const newValue: string = Default.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
                 type = "decimal";
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onDecimalRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -364,7 +407,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "number";
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onNumberRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -382,11 +425,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 } else {
                     if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.ellipsisText;
+                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                     }
                 }
 
-                const newStringValue: string = bindingOptions.showStringQuotes ? "\"" + value + "\"" : value;
+                const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
     
                 valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
@@ -397,7 +440,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
     
                 if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -413,7 +456,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "date";
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onDateRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
                 }
     
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -428,10 +471,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.objectText! );
+                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
 
                 if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
+                    DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                 }
 
                 createComma( bindingOptions, objectTitle, isLastItem );
@@ -448,10 +491,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const arrayTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "array" : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
 
-                DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.arrayText! );
+                DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.text!.arrayText! );
 
                 if ( bindingOptions.showCounts ) {
-                    DomElement.createWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+                    DomElement.createWithHTML( arrayTitle, "span", "count", `[${value.length}]` );
                 }
 
                 createComma( bindingOptions, arrayTitle, isLastItem );
@@ -470,7 +513,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "unknown";
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onUnknownRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -493,7 +536,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
         if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
-                fireCustomTriggerEvent( bindingOptions.events!.onValueClick!, value, type );
+                Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
             };
 
         } else {
@@ -522,22 +565,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function getFunctionName( value: any ) : string {
-        let result: string;
-        const valueParts: string[] = value.toString().split( "(" );
-        const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
-
-        if ( valueNameParts.length === 2 ) {
-            result = valueNameParts[ 1 ];
-        } else {
-            result = valueNameParts[ 0 ];
-        }
-
-        result += "()";
-
-        return result;
-    }
-
     function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : void {
         if ( bindingOptions.showCommas && !isLastItem ) {
             DomElement.createWithHTML( objectTypeValue, "span", "comma", "," );
@@ -548,104 +575,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
     
         if ( !bindingOptions.addArrayIndexPadding ) {
-            result = Data.String.padNumber( parseInt( result ), largestValue.toString().length );
+            result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
     
-        return result;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildAttributeOptions( newOptions: any ) : BindingOptions {
-        let options: BindingOptions = Data.getDefaultObject( newOptions, {} as BindingOptions );
-        options.data = Data.getDefaultObject( options.data, null! );
-        options.showCounts = Data.getDefaultBoolean( options.showCounts, true );
-        options.useZeroIndexingForArrays = Data.getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = Data.getDefaultString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
-        options.showArrowToggles = Data.getDefaultBoolean( options.showArrowToggles, true );
-        options.showStringQuotes = Data.getDefaultBoolean( options.showStringQuotes, true );
-        options.showAllAsClosed = Data.getDefaultBoolean( options.showAllAsClosed, false );
-        options.sortPropertyNames = Data.getDefaultBoolean( options.sortPropertyNames, true );
-        options.sortPropertyNamesInAlphabeticalOrder = Data.getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
-        options.showCommas = Data.getDefaultBoolean( options.showCommas, false );
-        options.reverseArrayValues = Data.getDefaultBoolean( options.reverseArrayValues, false );
-        options.addArrayIndexPadding = Data.getDefaultBoolean( options.addArrayIndexPadding, false );
-        options.showValueColors = Data.getDefaultBoolean( options.showValueColors, true );
-        options.maximumDecimalPlaces = Data.getDefaultNumber( options.maximumDecimalPlaces, 2 );
-        options.maximumStringLength = Data.getDefaultNumber( options.maximumStringLength, 0 );
-        options.showStringHexColors = Data.getDefaultBoolean( options.showStringHexColors, false );
-
-        options = buildAttributeOptionTitle( options );
-        options = buildAttributeOptionIgnore( options );
-        options = buildAttributeOptionCustomTriggers( options );
-
-        return options;
-    }
-
-    function buildAttributeOptionTitle( options: BindingOptions ) : BindingOptions {
-        options.title = Data.getDefaultObject( options.title, {} as Title );
-        options.title!.text = Data.getDefaultString( options.title!.text, "JsonTree.js" );
-        options.title!.show = Data.getDefaultBoolean( options.title!.show, true );
-        options.title!.showTreeControls = Data.getDefaultBoolean( options.title!.showTreeControls, true );
-        options.title!.showCopyButton = Data.getDefaultBoolean( options.title!.showCopyButton, false );
-
-        return options;
-    }
-
-    function buildAttributeOptionIgnore( options: BindingOptions ) : BindingOptions {
-        options.ignore = Data.getDefaultObject( options.ignore, {} as Ignore );
-        options.ignore!.nullValues = Data.getDefaultBoolean( options.ignore!.nullValues, false );
-        options.ignore!.functionValues = Data.getDefaultBoolean( options.ignore!.functionValues, false );
-        options.ignore!.unknownValues = Data.getDefaultBoolean( options.ignore!.unknownValues, false );
-        options.ignore!.booleanValues = Data.getDefaultBoolean( options.ignore!.booleanValues, false );
-        options.ignore!.decimalValues = Data.getDefaultBoolean( options.ignore!.decimalValues, false );
-        options.ignore!.numberValues = Data.getDefaultBoolean( options.ignore!.numberValues, false );
-        options.ignore!.stringValues = Data.getDefaultBoolean( options.ignore!.stringValues, false );
-        options.ignore!.dateValues = Data.getDefaultBoolean( options.ignore!.dateValues, false );
-        options.ignore!.objectValues = Data.getDefaultBoolean( options.ignore!.objectValues, false );
-        options.ignore!.arrayValues = Data.getDefaultBoolean( options.ignore!.arrayValues, false );
-
-        return options;
-    }
-
-    function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Data.getDefaultObject( options.events, {} as Events );
-        options.events!.onBeforeRender = Data.getDefaultFunction( options.events!.onBeforeRender, null! );
-        options.events!.onRenderComplete = Data.getDefaultFunction( options.events!.onRenderComplete, null! );
-        options.events!.onValueClick = Data.getDefaultFunction( options.events!.onValueClick, null! );
-        options.events!.onRefresh = Data.getDefaultFunction( options.events!.onRefresh, null! );
-        options.events!.onCopyAll = Data.getDefaultFunction( options.events!.onCopyAll, null! );
-        options.events!.onOpenAll = Data.getDefaultFunction( options.events!.onOpenAll, null! );
-        options.events!.onCloseAll = Data.getDefaultFunction( options.events!.onCloseAll, null! );
-        options.events!.onDestroy = Data.getDefaultFunction( options.events!.onDestroy, null! );
-        options.events!.onBooleanRender = Data.getDefaultFunction( options.events!.onBooleanRender, null! );
-        options.events!.onDecimalRender = Data.getDefaultFunction( options.events!.onDecimalRender, null! );
-        options.events!.onNumberRender =Data.getDefaultFunction( options.events!.onNumberRender, null! );
-        options.events!.onStringRender = Data.getDefaultFunction( options.events!.onStringRender, null! );
-        options.events!.onDateRender = Data.getDefaultFunction( options.events!.onDateRender, null! );
-        options.events!.onFunctionRender = Data.getDefaultFunction( options.events!.onFunctionRender, null! );
-        options.events!.onNullRender = Data.getDefaultFunction( options.events!.onNullRender, null! );
-        options.events!.onUnknownRender = Data.getDefaultFunction( options.events!.onUnknownRender, null! );
-
-        return options;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Triggering Custom Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function fireCustomTriggerEvent( triggerFunction: Function, ...args : any[] ) : void {
-        if ( Is.definedFunction( triggerFunction ) ) {
-            triggerFunction.apply( null, [].slice.call( args, 0 ) );
-        }
+        return `[${result}]`;
     }
 
 
@@ -668,7 +601,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } catch ( e1: any ) {
             try {
-                result.object = eval( "(" + objectString + ")" );
+                result.object = eval( `(${objectString})` );
 
                 if ( Is.definedFunction( result.object ) ) {
                     result.object = result.object();
@@ -676,7 +609,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
             } catch ( e2: any ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( _configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     result.parsed = false;
                 }
                 
@@ -698,95 +631,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.className = Char.empty;
 
-        fireCustomTriggerEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
-    }
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: any = null ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-
-        buildDefaultConfigurationStrings();
-    }
-
-    function buildDefaultConfigurationStrings() : void {
-        _configuration.objectText = Data.getDefaultAnyString( _configuration.objectText, "object" );
-        _configuration.arrayText = Data.getDefaultAnyString( _configuration.arrayText, "array" );
-        _configuration.closeAllButtonText = Data.getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
-        _configuration.openAllButtonText = Data.getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
-        _configuration.copyAllButtonText = Data.getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
-        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.stText = Data.getDefaultAnyString( _configuration.stText, "st" );
-        _configuration.ndText = Data.getDefaultAnyString( _configuration.ndText, "nd" );
-        _configuration.rdText = Data.getDefaultAnyString( _configuration.rdText, "rd" );
-        _configuration.thText = Data.getDefaultAnyString( _configuration.thText, "th" );
-        _configuration.ellipsisText = Data.getDefaultAnyString( _configuration.ellipsisText, "..." );
-
-        if ( Is.invalidOptionArray( _configuration.dayNames, 7 ) ) {
-            _configuration.dayNames = [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.dayNamesAbbreviated, 7 ) ) {
-            _configuration.dayNamesAbbreviated = [
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri",
-                "Sat",
-                "Sun"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.monthNames, 12 ) ) {
-            _configuration.monthNames = [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.monthNamesAbbreviated, 12 ) ) {
-            _configuration.monthNamesAbbreviated = [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec"
-            ];
-        }
+        Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 
 
@@ -808,7 +653,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                 renderControlContainer( bindingOptions );
-                fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
             }
     
             return _public;
@@ -820,7 +665,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                     renderControlContainer( bindingOptions );
-                    fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+                    Trigger.customEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
                 }
             }
     
@@ -829,7 +674,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         render: function ( element: HTMLElement, options: object ) : PublicApi {
             if ( Is.definedObject( element ) && Is.definedObject( options ) ) {
-                renderControl( renderBindingOptions( options, element ) );
+                renderControl( Binding.Options.getForNewInstance( options, element ) );
             }
     
             return _public;
@@ -906,7 +751,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                 }
             }
     
@@ -933,7 +778,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "2.0.0";
+            return "2.1.0";
         }
     };
 
@@ -945,7 +790,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", function() {
             render();

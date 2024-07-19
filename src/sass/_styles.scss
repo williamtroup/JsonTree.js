@@ -33,12 +33,16 @@ $minimum-width: 768px;
         outline: none;
         transition: var(--json-tree-js-transition);
 
-        &:not(.active):active {
+        &:disabled {
+            color: var(--json-tree-js-button-border-color);
+        }
+
+        &:not(.active):not(:disabled):active {
             background: var(--json-tree-js-button-background-color-active) !important;
             color: var(--json-tree-js-button-text-color-active) !important;
         }
 
-        &:not(.active):hover {
+        &:not(.active):not(:disabled):hover {
             cursor: pointer;
             background: var(--json-tree-js-button-background-color-hover);
             color: var(--json-tree-js-button-text-color-hover);

@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.0.0
+ * JsonTree.js Library v2.1.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -95,6 +95,10 @@ div.json-tree-js {
     width: auto;
     overflow: hidden;
     margin: 0 !important;
+
+    button {
+        font-family: var(--heat-js-default-font);
+    }
     
     div.no-click {
         pointer-events: none !important;
@@ -187,6 +191,10 @@ div.json-tree-js {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
             }
 
+            button.back {
+                margin-left: calc( var(--json-tree-js-spacing) * 2 ) !important;
+            }
+
             button.copy-all {
                 display: none;
         
@@ -220,6 +228,11 @@ div.json-tree-js {
 
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-text-bold-weight);
+        }
+
+        span.data-array-index {
+            margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
         }
     }

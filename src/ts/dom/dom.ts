@@ -4,15 +4,15 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        dom.ts
- * @version     v2.0.0
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { Char } from "./enum";
-import { Is } from "./is";
+import { Char } from "../data/enum";
+import { Is } from "../data/is";
 
 
 export namespace DomElement {
@@ -42,7 +42,7 @@ export namespace DomElement {
         return element;
     }
 
-    export function addClass( element: HTMLElement, className: string ) {
+    export function addClass( element: HTMLElement, className: string ) : void {
         element.classList.add( className );
     }
 }

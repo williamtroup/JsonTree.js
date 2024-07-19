@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        type.ts
- * @version     v2.0.0
+ * @version     v2.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -14,6 +14,10 @@
 export type Configuration = {
 	safeMode?: boolean;
 	domElementTypes?: string[] | string;
+	text?: ConfigurationText;
+};
+
+export type ConfigurationText = {
 	objectText?: string;
 	arrayText?: string;
 	closeAllButtonText?: string;
@@ -31,11 +35,18 @@ export type Configuration = {
 	dayNamesAbbreviated?: string[];
 	monthNames?: string[];
 	monthNamesAbbreviated?: string[];
+	closeAllButtonSymbolText?: string;
+	openAllButtonSymbolText?: string;
+	copyAllButtonSymbolText?: string;
+	backButtonText?: string;
+	nextButtonText?: string;
+	backButtonSymbolText?: string;
+	nextButtonSymbolText?: string;
 };
 
 export type BindingOptions = {
-    _currentView: CurrentView;
-	data?: object;
+    _currentView: BindingOptionsCurrentView;
+	data?: any;
 	showCounts?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
@@ -51,23 +62,26 @@ export type BindingOptions = {
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
-	title?: Title;
-	ignore?: Ignore;
-	events?: Events;
+	showArrayItemsAsSeparateObjects: boolean;
+	copyOnlyCurrentPage: boolean;
+	title?: BindingOptionsTitle;
+	ignore?: BindingOptionsIgnore;
+	events?: BindingOptionsEvents;
 };
 
-export type CurrentView = {
+export type BindingOptionsCurrentView = {
     element: HTMLElement;
+	dataArrayCurrentIndex: number;
 };
 
-export type Title = {
+export type BindingOptionsTitle = {
     text?: string;
     show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
 };
 
-export type Ignore = {
+export type BindingOptionsIgnore = {
     nullValues?: boolean;
     functionValues?: boolean;
     unknownValues?: boolean;
@@ -80,7 +94,7 @@ export type Ignore = {
     numberValues?: boolean;
 };
 
-export type Events = {
+export type BindingOptionsEvents = {
     onBeforeRender?: ( element: HTMLElement ) => void;
     onRenderComplete?: ( element: HTMLElement ) => void;
     onValueClick?: ( value: any, type: string ) => void;

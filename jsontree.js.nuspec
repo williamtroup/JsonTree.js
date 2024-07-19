@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>jJsonTree.js</id>
-        <version>2.0.0</version>
+        <version>2.1.0</version>
         <title>JsonTree.js</title>
         <description>A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</description>
         <authors>William Troup</authors>
@@ -15,6 +15,6 @@
         <copyright>William Troup</copyright>
     </metadata>
     <files>
-        <file src="**" target="/" exclude=".git\**;.vscode\**" />
+        <file src="**" target="/" exclude=".git\**;.github\**;.vscode\**;.github\**;node_modules\**;build\**;*.nuspec**;.npmignore**;.gitignore**;*.sh**;*.json**\**;CODE_OF_CONDUCT.md**;CONTRIBUTING.md**;SECURITY.md**;tsup.build.config.ts**;tsup.build.esm.config.ts**;tsup.build.min.config.ts**;BUILD_INSTRUCTIONS.md**;*.nupkg**" />
     </files>
 </package>
