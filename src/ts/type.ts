@@ -38,6 +38,10 @@ export type ConfigurationText = {
 	closeAllButtonSymbolText?: string;
 	openAllButtonSymbolText?: string;
 	copyAllButtonSymbolText?: string;
+	backButtonText?: string;
+	nextButtonText?: string;
+	backButtonSymbolText?: string;
+	nextButtonSymbolText?: string;
 };
 
 export type BindingOptions = {
@@ -58,6 +62,7 @@ export type BindingOptions = {
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
+	showArrayItemsAsSeparateObjects: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;
@@ -65,6 +70,7 @@ export type BindingOptions = {
 
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
+	dataIndex: number;
 };
 
 export type BindingOptionsTitle = {

@@ -165,17 +165,23 @@ div.json-tree-js div.title-bar div.controls button {
   outline: none;
   transition: var(--json-tree-js-transition);
 }
-div.json-tree-js div.title-bar div.controls button:not(.active):active {
+div.json-tree-js div.title-bar div.controls button:disabled {
+  color: var(--json-tree-js-button-border-color);
+}
+div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):active {
   background: var(--json-tree-js-button-background-color-active) !important;
   color: var(--json-tree-js-button-text-color-active) !important;
 }
-div.json-tree-js div.title-bar div.controls button:not(.active):hover {
+div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):hover {
   cursor: pointer;
   background: var(--json-tree-js-button-background-color-hover);
   color: var(--json-tree-js-button-text-color-hover);
 }
 div.json-tree-js div.title-bar div.controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+}
+div.json-tree-js div.title-bar div.controls button.back {
+  margin-left: calc(var(--json-tree-js-spacing) * 2) !important;
 }
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;
@@ -203,6 +209,10 @@ div.json-tree-js div.object-type-title span.object {
 }
 div.json-tree-js div.object-type-title span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-text-bold-weight);
+}
+div.json-tree-js div.object-type-title span.data-array-index {
+  margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
 }
 

@@ -28,6 +28,7 @@ JsonTree.js
 - Close/Open all.
 - Clickable values!
 - Custom value rendering.
+- Array paging support (show array objects on different pages)!
 <br />
 <br />
 

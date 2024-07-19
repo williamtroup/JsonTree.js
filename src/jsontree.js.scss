@@ -187,6 +187,10 @@ div.json-tree-js {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
             }
 
+            button.back {
+                margin-left: calc( var(--json-tree-js-spacing) * 2 ) !important;
+            }
+
             button.copy-all {
                 display: none;
         
@@ -220,6 +224,11 @@ div.json-tree-js {
 
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-text-bold-weight);
+        }
+
+        span.data-array-index {
+            margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
         }
     }

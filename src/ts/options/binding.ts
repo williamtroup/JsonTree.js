@@ -27,7 +27,8 @@ export namespace Binding {
             const bindingOptions: BindingOptions = Binding.Options.get( data );
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
-    
+            bindingOptions._currentView.dataIndex = 0;
+
             return bindingOptions;
         }
 
@@ -49,6 +50,7 @@ export namespace Binding {
             options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
             options.showStringHexColors = Default.getBoolean( options.showStringHexColors, false );
+            options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
     
             options = getTitle( options );
             options = getIgnore( options );

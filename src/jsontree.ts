@@ -113,14 +113,18 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContainer( bindingOptions: BindingOptions ) : void {
-        const data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+        let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
 
-        renderControlTitleBar( bindingOptions );
+        renderControlTitleBar( bindingOptions, data );
+
+        if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
+            data = data[ bindingOptions._currentView.dataIndex ];
+        }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( bindingOptions._currentView.element, bindingOptions, data );
+            renderObject( bindingOptions._currentView.element, bindingOptions, data, true );
         } else if ( Is.definedArray( data ) ) {
             renderArray( bindingOptions._currentView.element, bindingOptions, data );
         }
@@ -133,7 +137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlTitleBar( bindingOptions: BindingOptions ) : void {
+    function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
             const controls: HTMLElement = DomElement.create( titleBar, "div", "controls" );
@@ -143,7 +147,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! );
+                const copy: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
                 copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
@@ -156,10 +160,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! );
+                const openAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAll.title = _configuration.text!.openAllButtonText!
 
-                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! );
+                const closeAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAll.title = _configuration.text!.closeAllButtonText!
 
                 openAll.onclick = () => {
@@ -169,6 +173,39 @@ type JsonTreeData = Record<string, BindingOptions>;
                 closeAll.onclick = () => {
                     closeAllNodes( bindingOptions );
                 };
+            }
+
+            if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
+                const back: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                back.title = _configuration.text!.backButtonText!
+
+                if ( bindingOptions._currentView.dataIndex > 0 ) {
+                    back.onclick = () => {
+                        bindingOptions._currentView.dataIndex--;
+    
+                        renderControlContainer( bindingOptions );
+                    };
+
+                } else {
+                    back.disabled = true;
+                }
+
+                const next: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                next.title = _configuration.text!.nextButtonText!
+
+                if ( bindingOptions._currentView.dataIndex < data.length - 1 ) {
+                    next.onclick = () => {
+                        bindingOptions._currentView.dataIndex++;
+                        
+                        renderControlContainer( bindingOptions );
+                    };
+
+                } else {
+                    next.disabled = true;
+                }
+
+            } else {
+                bindingOptions.showArrayItemsAsSeparateObjects = false;
             }
         }
     }
@@ -194,13 +231,19 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, showPagingIndex: boolean = false ) : void {
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! );
+        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
+
+        if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
+            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataIndex.toString() : ( bindingOptions._currentView.dataIndex + 1 ).toString();
+
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : Char.empty, `[${dataArrayIndex}]:`, titleText );
+        }
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}" );

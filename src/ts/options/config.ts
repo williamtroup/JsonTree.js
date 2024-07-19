@@ -45,7 +45,11 @@ export namespace Config {
             configuration.text!.ellipsisText = Default.getAnyString( configuration.text!.ellipsisText, "..." );
             configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
             configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
-            configuration.text!.copyAllButtonSymbolText = Default.getAnyString( configuration.text!.copyAllButtonSymbolText, "❐" )
+            configuration.text!.copyAllButtonSymbolText = Default.getAnyString( configuration.text!.copyAllButtonSymbolText, "❐" );
+            configuration.text!.backButtonText = Default.getAnyString( configuration.text!.backButtonText, "Back" );
+            configuration.text!.nextButtonText = Default.getAnyString( configuration.text!.nextButtonText, "Next" );
+            configuration.text!.backButtonSymbolText = Default.getAnyString( configuration.text!.backButtonSymbolText, "←" );
+            configuration.text!.nextButtonSymbolText = Default.getAnyString( configuration.text!.nextButtonSymbolText, "→" );
     
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

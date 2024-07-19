@@ -21,6 +21,7 @@
 - Close/Open all.
 - Clickable values!
 - Custom value rendering.
+- Array paging support (show array objects on different pages)!
 
 
 ## Where can I find the documentation?

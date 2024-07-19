@@ -64,42 +64,52 @@
 
         function bindingOptions() {
             return {
-                data: {
-                    value1: true,
-                    value2: "This is a string",
-                    value3: new Date(),
-                    value4: 5,
-                    value7: null,
-                    value8: function() {
-                        // Does nothing
-                    },
-                    value9: 3.1415926535,
-                    value5: [
-                        true,
-                        "This is another string",
-                        {
-                            arrayValue1: true,
-                            arrayValue2: 10
+                data: [
+                    {
+                        value1: true,
+                        value2: "This is a string",
+                        value3: new Date(),
+                        value4: 5,
+                        value7: null,
+                        value8: function() {
+                            // Does nothing
                         },
-                        [
-                            false,
+                        value9: 3.1415926535,
+                        value5: [
                             true,
-                            5,
-                            10,
-                            new Date(),
-                            "#90ee90"
-                        ]
-                    ],
-                    value6: {
-                        objectValue1: false,
-                        objectValue2: "This is a new string",
-                        objectValue3: 20
+                            "This is another string",
+                            {
+                                arrayValue1: true,
+                                arrayValue2: 10
+                            },
+                            [
+                                false,
+                                true,
+                                5,
+                                10,
+                                new Date(),
+                                "#90ee90"
+                            ]
+                        ],
+                        value6: {
+                            objectValue1: false,
+                            objectValue2: "This is a new string",
+                            objectValue3: 20
+                        }
+                    },
+                    {
+                        value1: true,
+                        value2: "This is a string",
+                        value3: new Date(),
+                        value4: 5,
+                        value7: null
                     }
-                },
+                ],
                 events: {
                     onValueClick: onValueClickEvent,
                 },
-                showStringHexColors: true
+                showStringHexColors: true,
+                showArrayItemsAsSeparateObjects: true
             }
         }
 

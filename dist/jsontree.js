@@ -11,14 +11,14 @@ var Is;
         return t(e) && typeof e === "object";
     }
     e.definedObject = n;
-    function o(e) {
+    function r(e) {
         return t(e) && typeof e === "boolean";
     }
-    e.definedBoolean = o;
-    function r(e) {
+    e.definedBoolean = r;
+    function o(e) {
         return t(e) && typeof e === "string";
     }
-    e.definedString = r;
+    e.definedString = o;
     function l(e) {
         return t(e) && typeof e === "function";
     }
@@ -64,14 +64,14 @@ var Default;
         return Is.definedString(e) ? e : t;
     }
     e.getString = n;
-    function o(e, t) {
+    function r(e, t) {
         return Is.definedBoolean(e) ? e : t;
     }
-    e.getBoolean = o;
-    function r(e, t) {
+    e.getBoolean = r;
+    function o(e, t) {
         return Is.definedNumber(e) ? e : t;
     }
-    e.getNumber = r;
+    e.getNumber = o;
     function l(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
@@ -87,11 +87,11 @@ var Default;
     function s(e, t) {
         let n = t;
         if (Is.definedString(e)) {
-            const o = e.toString().split(" ");
-            if (o.length === 0) {
+            const r = e.toString().split(" ");
+            if (r.length === 0) {
                 e = t;
             } else {
-                n = o;
+                n = r;
             }
         } else {
             n = a(e, t);
@@ -101,8 +101,8 @@ var Default;
     e.getStringOrArray = s;
     function u(e, t) {
         var n;
-        const o = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
-        return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
+        const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+        return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
     e.getFixedDecimalPlacesValue = u;
 })(Default || (Default = {}));
@@ -110,31 +110,31 @@ var Default;
 var DomElement;
 
 (e => {
-    function t(e, t, n = "", o = null) {
-        const r = t.toLowerCase();
-        const l = r === "text";
-        let a = l ? document.createTextNode("") : document.createElement(r);
+    function t(e, t, n = "", r = null) {
+        const o = t.toLowerCase();
+        const l = o === "text";
+        let a = l ? document.createTextNode("") : document.createElement(o);
         if (Is.defined(n)) {
             a.className = n;
         }
-        if (Is.defined(o)) {
-            e.insertBefore(a, o);
+        if (Is.defined(r)) {
+            e.insertBefore(a, r);
         } else {
             e.appendChild(a);
         }
         return a;
     }
     e.create = t;
-    function n(e, n, o, r, l = null) {
-        const a = t(e, n, o, l);
-        a.innerHTML = r;
+    function n(e, n, r, o, l = null) {
+        const a = t(e, n, r, l);
+        a.innerHTML = o;
         return a;
     }
     e.createWithHTML = n;
-    function o(e, t) {
+    function r(e, t) {
         e.classList.add(t);
     }
-    e.addClass = o;
+    e.addClass = r;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -154,12 +154,12 @@ var Str;
     e.newGuid = t;
     function n(e, t = 1) {
         const n = e.toString();
-        let o = n;
+        let r = n;
         if (n.length < t) {
             const e = t - n.length + 1;
-            o = Array(e).join("0") + n;
+            r = Array(e).join("0") + n;
         }
-        return o;
+        return r;
     }
     e.padNumber = n;
 })(Str || (Str = {}));
@@ -183,31 +183,31 @@ var DateTime;
         return n;
     }
     e.getDayOrdinal = n;
-    function o(e, o, r) {
-        let l = r;
-        const a = t(o);
-        l = l.replace("{hh}", Str.padNumber(o.getHours(), 2));
-        l = l.replace("{h}", o.getHours().toString());
-        l = l.replace("{MM}", Str.padNumber(o.getMinutes(), 2));
-        l = l.replace("{M}", o.getMinutes().toString());
-        l = l.replace("{ss}", Str.padNumber(o.getSeconds(), 2));
-        l = l.replace("{s}", o.getSeconds().toString());
+    function r(e, r, o) {
+        let l = o;
+        const a = t(r);
+        l = l.replace("{hh}", Str.padNumber(r.getHours(), 2));
+        l = l.replace("{h}", r.getHours().toString());
+        l = l.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
+        l = l.replace("{M}", r.getMinutes().toString());
+        l = l.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
+        l = l.replace("{s}", r.getSeconds().toString());
         l = l.replace("{dddd}", e.text.dayNames[a]);
         l = l.replace("{ddd}", e.text.dayNamesAbbreviated[a]);
-        l = l.replace("{dd}", Str.padNumber(o.getDate()));
-        l = l.replace("{d}", o.getDate().toString());
-        l = l.replace("{o}", n(e, o.getDate()));
-        l = l.replace("{mmmm}", e.text.monthNames[o.getMonth()]);
-        l = l.replace("{mmm}", e.text.monthNamesAbbreviated[o.getMonth()]);
-        l = l.replace("{mm}", Str.padNumber(o.getMonth() + 1));
-        l = l.replace("{m}", (o.getMonth() + 1).toString());
-        l = l.replace("{yyyy}", o.getFullYear().toString());
-        l = l.replace("{yyy}", o.getFullYear().toString().substring(1));
-        l = l.replace("{yy}", o.getFullYear().toString().substring(2));
-        l = l.replace("{y}", Number.parseInt(o.getFullYear().toString().substring(2)).toString());
+        l = l.replace("{dd}", Str.padNumber(r.getDate()));
+        l = l.replace("{d}", r.getDate().toString());
+        l = l.replace("{o}", n(e, r.getDate()));
+        l = l.replace("{mmmm}", e.text.monthNames[r.getMonth()]);
+        l = l.replace("{mmm}", e.text.monthNamesAbbreviated[r.getMonth()]);
+        l = l.replace("{mm}", Str.padNumber(r.getMonth() + 1));
+        l = l.replace("{m}", (r.getMonth() + 1).toString());
+        l = l.replace("{yyyy}", r.getFullYear().toString());
+        l = l.replace("{yyy}", r.getFullYear().toString().substring(1));
+        l = l.replace("{yy}", r.getFullYear().toString().substring(2));
+        l = l.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
         return l;
     }
-    e.getCustomFormattedDateText = o;
+    e.getCustomFormattedDateText = r;
 })(DateTime || (DateTime = {}));
 
 var Constants;
@@ -222,13 +222,14 @@ var Binding;
     let t;
     (t => {
         function n(t, n) {
-            const o = e.Options.get(t);
-            o._currentView = {};
-            o._currentView.element = n;
-            return o;
+            const r = e.Options.get(t);
+            r._currentView = {};
+            r._currentView.element = n;
+            r._currentView.dataIndex = 0;
+            return r;
         }
         t.getForNewInstance = n;
-        function o(e) {
+        function r(e) {
             let t = Default.getObject(e, {});
             t.data = Default.getObject(t.data, null);
             t.showCounts = Default.getBoolean(t.showCounts, true);
@@ -246,13 +247,14 @@ var Binding;
             t.maximumDecimalPlaces = Default.getNumber(t.maximumDecimalPlaces, 2);
             t.maximumStringLength = Default.getNumber(t.maximumStringLength, 0);
             t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
-            t = r(t);
+            t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
+            t = o(t);
             t = l(t);
             t = a(t);
             return t;
         }
-        t.get = o;
-        function r(e) {
+        t.get = r;
+        function o(e) {
             e.title = Default.getObject(e.title, {});
             e.title.text = Default.getString(e.title.text, "JsonTree.js");
             e.title.show = Default.getBoolean(e.title.show, true);
@@ -328,6 +330,10 @@ var Config;
             e.text.closeAllButtonSymbolText = Default.getAnyString(e.text.closeAllButtonSymbolText, "↑");
             e.text.openAllButtonSymbolText = Default.getAnyString(e.text.openAllButtonSymbolText, "↓");
             e.text.copyAllButtonSymbolText = Default.getAnyString(e.text.copyAllButtonSymbolText, "❐");
+            e.text.backButtonText = Default.getAnyString(e.text.backButtonText, "Back");
+            e.text.nextButtonText = Default.getAnyString(e.text.nextButtonText, "Next");
+            e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
+            e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -366,10 +372,10 @@ var Trigger;
         const t = e.length;
         for (let n = 0; n < t; n++) {
             const t = document.getElementsByTagName(e[n]);
-            const o = [].slice.call(t);
-            const r = o.length;
-            for (let e = 0; e < r; e++) {
-                if (!renderElement(o[e])) {
+            const r = [].slice.call(t);
+            const o = r.length;
+            for (let e = 0; e < o; e++) {
+                if (!renderElement(r[e])) {
                     break;
                 }
             }
@@ -380,9 +386,9 @@ var Trigger;
         if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
             const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
             if (Is.definedString(n)) {
-                const o = getObjectFromString(n);
-                if (o.parsed && Is.definedObject(o.object)) {
-                    renderControl(Binding.Options.getForNewInstance(o.object, e));
+                const r = getObjectFromString(n);
+                if (r.parsed && Is.definedObject(r.object)) {
+                    renderControl(Binding.Options.getForNewInstance(r.object, e));
                 } else {
                     if (!_configuration.safeMode) {
                         console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -412,24 +418,27 @@ var Trigger;
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function renderControlContainer(e) {
-        const t = _elements_Data[e._currentView.element.id].data;
+        let t = _elements_Data[e._currentView.element.id].data;
         e._currentView.element.innerHTML = "";
-        renderControlTitleBar(e);
+        renderControlTitleBar(e, t);
+        if (e.showArrayItemsAsSeparateObjects) {
+            t = t[e._currentView.dataIndex];
+        }
         if (Is.definedObject(t) && !Is.definedArray(t)) {
-            renderObject(e._currentView.element, e, t);
+            renderObject(e._currentView.element, e, t, true);
         } else if (Is.definedArray(t)) {
             renderArray(e._currentView.element, e, t);
         }
     }
-    function renderControlTitleBar(e) {
+    function renderControlTitleBar(e, t) {
         if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
-            const t = DomElement.create(e._currentView.element, "div", "title-bar");
-            const n = DomElement.create(t, "div", "controls");
+            const n = DomElement.create(e._currentView.element, "div", "title-bar");
+            const r = DomElement.create(n, "div", "controls");
             if (e.title.show) {
-                DomElement.createWithHTML(t, "div", "title", e.title.text, n);
+                DomElement.createWithHTML(n, "div", "title", e.title.text, r);
             }
             if (e.title.showCopyButton) {
-                const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
+                const t = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
                 t.title = _configuration.text.copyAllButtonText;
                 t.onclick = () => {
                     const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
@@ -438,16 +447,40 @@ var Trigger;
                 };
             }
             if (e.title.showTreeControls) {
-                const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.text.openAllButtonSymbolText);
+                const t = DomElement.createWithHTML(r, "button", "openAll", _configuration.text.openAllButtonSymbolText);
                 t.title = _configuration.text.openAllButtonText;
-                const o = DomElement.createWithHTML(n, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
-                o.title = _configuration.text.closeAllButtonText;
+                const n = DomElement.createWithHTML(r, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
+                n.title = _configuration.text.closeAllButtonText;
                 t.onclick = () => {
                     openAllNodes(e);
                 };
-                o.onclick = () => {
+                n.onclick = () => {
                     closeAllNodes(e);
                 };
+            }
+            if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t) && t.length > 1) {
+                const n = DomElement.createWithHTML(r, "button", "back", _configuration.text.backButtonSymbolText);
+                n.title = _configuration.text.backButtonText;
+                if (e._currentView.dataIndex > 0) {
+                    n.onclick = () => {
+                        e._currentView.dataIndex--;
+                        renderControlContainer(e);
+                    };
+                } else {
+                    n.disabled = true;
+                }
+                const o = DomElement.createWithHTML(r, "button", "next", _configuration.text.nextButtonSymbolText);
+                o.title = _configuration.text.nextButtonText;
+                if (e._currentView.dataIndex < t.length - 1) {
+                    o.onclick = () => {
+                        e._currentView.dataIndex++;
+                        renderControlContainer(e);
+                    };
+                } else {
+                    o.disabled = true;
+                }
+            } else {
+                e.showArrayItemsAsSeparateObjects = false;
             }
         }
     }
@@ -461,31 +494,35 @@ var Trigger;
         renderControlContainer(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function renderObject(e, t, n) {
+    function renderObject(e, t, n, r = false) {
         const o = DomElement.create(e, "div", "object-type-title");
-        const r = DomElement.create(e, "div", "object-type-contents");
-        const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-        const a = renderObjectValues(l, r, t, n);
-        DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
-        if (t.showCounts && a > 0) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + a + "}");
+        const l = DomElement.create(e, "div", "object-type-contents");
+        const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
+        const i = renderObjectValues(a, l, t, n);
+        const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
+        if (r && t.showArrayItemsAsSeparateObjects) {
+            let e = t.useZeroIndexingForArrays ? t._currentView.dataIndex.toString() : (t._currentView.dataIndex + 1).toString();
+            DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "", `[${e}]:`, s);
+        }
+        if (t.showCounts && i > 0) {
+            DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
         }
     }
     function renderArray(e, t, n) {
-        const o = DomElement.create(e, "div", "object-type-title");
-        const r = DomElement.create(e, "div", "object-type-contents");
-        const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-        DomElement.createWithHTML(o, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
-        renderArrayValues(l, r, t, n);
+        const r = DomElement.create(e, "div", "object-type-title");
+        const o = DomElement.create(e, "div", "object-type-contents");
+        const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
+        renderArrayValues(l, o, t, n);
         if (t.showCounts) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
         }
     }
-    function renderObjectValues(e, t, n, o) {
-        let r = 0;
+    function renderObjectValues(e, t, n, r) {
+        let o = 0;
         let l = [];
-        for (let e in o) {
-            if (o.hasOwnProperty(e)) {
+        for (let e in r) {
+            if (r.hasOwnProperty(e)) {
                 l.push(e);
             }
         }
@@ -498,28 +535,28 @@ var Trigger;
         const a = l.length;
         for (let e = 0; e < a; e++) {
             const i = l[e];
-            if (o.hasOwnProperty(i)) {
-                renderValue(t, n, i, o[i], e === a - 1);
-                r++;
+            if (r.hasOwnProperty(i)) {
+                renderValue(t, n, i, r[i], e === a - 1);
+                o++;
             }
         }
         addArrowEvent(n, e, t);
-        return r;
+        return o;
     }
-    function renderArrayValues(e, t, n, o) {
-        const r = o.length;
+    function renderArrayValues(e, t, n, r) {
+        const o = r.length;
         if (!n.reverseArrayValues) {
-            for (let e = 0; e < r; e++) {
-                renderValue(t, n, getIndexName(n, e, r), o[e], e === r - 1);
+            for (let e = 0; e < o; e++) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === o - 1);
             }
         } else {
-            for (let e = r; e--; ) {
-                renderValue(t, n, getIndexName(n, e, r), o[e], e === 0);
+            for (let e = o; e--; ) {
+                renderValue(t, n, getIndexName(n, e, o), r[e], e === 0);
             }
         }
         addArrowEvent(n, e, t);
     }
-    function renderValue(e, t, n, o, r) {
+    function renderValue(e, t, n, r, o) {
         const l = DomElement.create(e, "div", "object-type-value");
         const a = t.showArrowToggles ? DomElement.create(l, "div", "no-arrow") : null;
         let i = null;
@@ -529,7 +566,7 @@ var Trigger;
         let d = true;
         DomElement.createWithHTML(l, "span", "title", n);
         DomElement.createWithHTML(l, "span", "split", ":");
-        if (!Is.defined(o)) {
+        if (!Is.defined(r)) {
             if (!t.ignore.nullValues) {
                 i = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(l, "span", i, "null");
@@ -537,70 +574,70 @@ var Trigger;
                 if (Is.definedFunction(t.events.onNullRender)) {
                     Trigger.customEvent(t.events.onNullRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedFunction(o)) {
+        } else if (Is.definedFunction(r)) {
             if (!t.ignore.functionValues) {
                 i = t.showValueColors ? "function" : "";
-                s = DomElement.createWithHTML(l, "span", i, getFunctionName(o));
+                s = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
                 c = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
                     Trigger.customEvent(t.events.onFunctionRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedBoolean(o)) {
+        } else if (Is.definedBoolean(r)) {
             if (!t.ignore.booleanValues) {
                 i = t.showValueColors ? "boolean" : "";
-                s = DomElement.createWithHTML(l, "span", i, o);
+                s = DomElement.createWithHTML(l, "span", i, r);
                 c = "boolean";
                 if (Is.definedFunction(t.events.onBooleanRender)) {
                     Trigger.customEvent(t.events.onBooleanRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedDecimal(o)) {
+        } else if (Is.definedDecimal(r)) {
             if (!t.ignore.decimalValues) {
-                const e = Default.getFixedDecimalPlacesValue(o, t.maximumDecimalPlaces);
+                const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
                 i = t.showValueColors ? "decimal" : "";
                 s = DomElement.createWithHTML(l, "span", i, e);
                 c = "decimal";
                 if (Is.definedFunction(t.events.onDecimalRender)) {
                     Trigger.customEvent(t.events.onDecimalRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedNumber(o)) {
+        } else if (Is.definedNumber(r)) {
             if (!t.ignore.numberValues) {
                 i = t.showValueColors ? "number" : "";
-                s = DomElement.createWithHTML(l, "span", i, o);
+                s = DomElement.createWithHTML(l, "span", i, r);
                 c = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
                     Trigger.customEvent(t.events.onNumberRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedString(o)) {
+        } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
                 let e = null;
-                if (t.showValueColors && t.showStringHexColors && Is.hexColor(o)) {
-                    e = o;
+                if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                    e = r;
                 } else {
-                    if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {
-                        o = o.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                    if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                        r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
                     }
                 }
-                const n = t.showStringQuotes ? '"' + o + '"' : o;
+                const n = t.showStringQuotes ? '"' + r + '"' : r;
                 i = t.showValueColors ? "string" : "";
                 s = DomElement.createWithHTML(l, "span", i, n);
                 c = "string";
@@ -610,46 +647,46 @@ var Trigger;
                 if (Is.definedFunction(t.events.onStringRender)) {
                     Trigger.customEvent(t.events.onStringRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedDate(o)) {
+        } else if (Is.definedDate(r)) {
             if (!t.ignore.dateValues) {
                 i = t.showValueColors ? "date" : "";
-                s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, o, t.dateTimeFormat));
+                s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                 c = "date";
                 if (Is.definedFunction(t.events.onDateRender)) {
                     Trigger.customEvent(t.events.onDateRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
-        } else if (Is.definedObject(o) && !Is.definedArray(o)) {
+        } else if (Is.definedObject(r) && !Is.definedArray(r)) {
             if (!t.ignore.objectValues) {
                 const e = DomElement.create(l, "span", t.showValueColors ? "object" : "");
                 const n = DomElement.create(l, "div", "object-type-contents");
-                const i = renderObjectValues(a, n, t, o);
+                const i = renderObjectValues(a, n, t, r);
                 DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
                 if (t.showCounts && i > 0) {
                     DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
                 }
-                createComma(t, e, r);
+                createComma(t, e, o);
                 c = "object";
             } else {
                 u = true;
             }
-        } else if (Is.definedArray(o)) {
+        } else if (Is.definedArray(r)) {
             if (!t.ignore.arrayValues) {
                 const e = DomElement.create(l, "span", t.showValueColors ? "array" : "");
                 const n = DomElement.create(l, "div", "object-type-contents");
                 DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                 if (t.showCounts) {
-                    DomElement.createWithHTML(e, "span", "count", "[" + o.length + "]");
+                    DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
                 }
-                createComma(t, e, r);
-                renderArrayValues(a, n, t, o);
+                createComma(t, e, o);
+                renderArrayValues(a, n, t, r);
                 c = "array";
             } else {
                 u = true;
@@ -657,12 +694,12 @@ var Trigger;
         } else {
             if (!t.ignore.unknownValues) {
                 i = t.showValueColors ? "unknown" : "";
-                s = DomElement.createWithHTML(l, "span", i, o.toString());
+                s = DomElement.createWithHTML(l, "span", i, r.toString());
                 c = "unknown";
                 if (Is.definedFunction(t.events.onUnknownRender)) {
                     Trigger.customEvent(t.events.onUnknownRender, s);
                 }
-                createComma(t, l, r);
+                createComma(t, l, o);
             } else {
                 u = true;
             }
@@ -671,14 +708,14 @@ var Trigger;
             e.removeChild(l);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, o, c, d);
+                addValueClickEvent(t, s, r, c, d);
             }
         }
     }
-    function addValueClickEvent(e, t, n, o, r) {
-        if (r && Is.definedFunction(e.events.onValueClick)) {
+    function addValueClickEvent(e, t, n, r, o) {
+        if (o && Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
-                Trigger.customEvent(e.events.onValueClick, n, o);
+                Trigger.customEvent(e.events.onValueClick, n, r);
             };
         } else {
             DomElement.addClass(t, "no-hover");
@@ -706,11 +743,11 @@ var Trigger;
     function getFunctionName(e) {
         let t;
         const n = e.toString().split("(");
-        const o = n[0].split(" ");
-        if (o.length === 2) {
-            t = o[1];
+        const r = n[0].split(" ");
+        if (r.length === 2) {
+            t = r[1];
         } else {
-            t = o[0];
+            t = r[0];
         }
         t += "()";
         return t;
@@ -721,11 +758,11 @@ var Trigger;
         }
     }
     function getIndexName(e, t, n) {
-        let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
+        let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
-            o = Str.padNumber(parseInt(o), n.toString().length);
+            r = Str.padNumber(parseInt(r), n.toString().length);
         }
-        return o;
+        return r;
     }
     function getObjectFromString(objectString) {
         const result = {
@@ -818,9 +855,9 @@ var Trigger;
             if (Is.definedObject(e)) {
                 let t = false;
                 const n = _configuration;
-                for (let o in e) {
-                    if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && n[o] !== e[o]) {
-                        n[o] = e[o];
+                for (let r in e) {
+                    if (e.hasOwnProperty(r) && _configuration.hasOwnProperty(r) && n[r] !== e[r]) {
+                        n[r] = e[r];
                         t = true;
                     }
                 }
