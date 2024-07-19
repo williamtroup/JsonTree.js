@@ -11,8 +11,8 @@
  */
 
 
-import { Char } from "./enum";
-import { Is } from "./is";
+import { Char } from "../data/enum";
+import { Is } from "../data/is";
 
 
 export namespace DomElement {

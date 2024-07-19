@@ -19,12 +19,12 @@ import {
     type Configuration, 
     type CurrentView } from "./ts/type";
 
-import { PublicApi } from "./ts/api";
-import { Data } from "./ts/data";
-import { Is } from "./ts/is";
-import { DomElement } from "./ts/dom";
-import { Char } from "./ts/enum";
-import { DateTime } from "./ts/datetime";
+import { type PublicApi } from "./ts/api";
+import { Data } from "./ts/data/data";
+import { Is } from "./ts/data/is";
+import { DomElement } from "./ts/dom/dom";
+import { Char } from "./ts/data/enum";
+import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 
 

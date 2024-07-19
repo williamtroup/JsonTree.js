@@ -11,7 +11,7 @@ var __commonJS = (e, t) => function n() {
 };
 
 var init_enum = __esm({
-    "src/ts/enum.ts"() {
+    "src/ts/data/enum.ts"() {
         "use strict";
     }
 });
@@ -19,7 +19,7 @@ var init_enum = __esm({
 var Is;
 
 var init_is = __esm({
-    "src/ts/is.ts"() {
+    "src/ts/data/is.ts"() {
         "use strict";
         init_enum();
         (e => {
@@ -78,7 +78,7 @@ var init_is = __esm({
 var Data;
 
 var init_data = __esm({
-    "src/ts/data.ts"() {
+    "src/ts/data/data.ts"() {
         "use strict";
         init_enum();
         init_is();
@@ -164,7 +164,7 @@ var init_data = __esm({
 var DomElement;
 
 var init_dom = __esm({
-    "src/ts/dom.ts"() {
+    "src/ts/dom/dom.ts"() {
         "use strict";
         init_enum();
         init_is();
@@ -201,7 +201,7 @@ var init_dom = __esm({
 var DateTime;
 
 var init_datetime = __esm({
-    "src/ts/datetime.ts"() {
+    "src/ts/data/datetime.ts"() {
         "use strict";
         init_data();
         (e => {

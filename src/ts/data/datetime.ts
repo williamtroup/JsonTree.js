@@ -12,7 +12,7 @@
 
 
 import { Data } from "./data";
-import { Configuration } from "./type";
+import { Configuration } from "../type";
 
 
 export namespace DateTime {
