@@ -120,7 +120,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         renderControlTitleBar( bindingOptions, data );
 
         if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
-            data = data[ bindingOptions._currentView.dataIndex ];
+            data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
@@ -179,9 +179,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const back: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
                 back.title = _configuration.text!.backButtonText!
 
-                if ( bindingOptions._currentView.dataIndex > 0 ) {
+                if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
                     back.onclick = () => {
-                        bindingOptions._currentView.dataIndex--;
+                        bindingOptions._currentView.dataArrayCurrentIndex--;
     
                         renderControlContainer( bindingOptions );
                     };
@@ -193,9 +193,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const next: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
                 next.title = _configuration.text!.nextButtonText!
 
-                if ( bindingOptions._currentView.dataIndex < data.length - 1 ) {
+                if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
                     next.onclick = () => {
-                        bindingOptions._currentView.dataIndex++;
+                        bindingOptions._currentView.dataArrayCurrentIndex++;
                         
                         renderControlContainer( bindingOptions );
                     };
@@ -240,7 +240,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
 
         if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
-            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataIndex.toString() : ( bindingOptions._currentView.dataIndex + 1 ).toString();
+            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
 
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
         }

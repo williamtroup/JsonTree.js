@@ -282,7 +282,7 @@ var init_binding = __esm({
                     const r = e.Options.get(t);
                     r._currentView = {};
                     r._currentView.element = n;
-                    r._currentView.dataIndex = 0;
+                    r._currentView.dataArrayCurrentIndex = 0;
                     return r;
                 }
                 t.getForNewInstance = n;
@@ -506,7 +506,7 @@ var require_jsontree = __commonJS({
                 e._currentView.element.innerHTML = "";
                 renderControlTitleBar(e, t);
                 if (e.showArrayItemsAsSeparateObjects) {
-                    t = t[e._currentView.dataIndex];
+                    t = t[e._currentView.dataArrayCurrentIndex];
                 }
                 if (Is.definedObject(t) && !Is.definedArray(t)) {
                     renderObject(e._currentView.element, e, t, true);
@@ -545,9 +545,9 @@ var require_jsontree = __commonJS({
                     if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t) && t.length > 1) {
                         const n = DomElement.createWithHTML(r, "button", "back", _configuration.text.backButtonSymbolText);
                         n.title = _configuration.text.backButtonText;
-                        if (e._currentView.dataIndex > 0) {
+                        if (e._currentView.dataArrayCurrentIndex > 0) {
                             n.onclick = () => {
-                                e._currentView.dataIndex--;
+                                e._currentView.dataArrayCurrentIndex--;
                                 renderControlContainer(e);
                             };
                         } else {
@@ -555,9 +555,9 @@ var require_jsontree = __commonJS({
                         }
                         const o = DomElement.createWithHTML(r, "button", "next", _configuration.text.nextButtonSymbolText);
                         o.title = _configuration.text.nextButtonText;
-                        if (e._currentView.dataIndex < t.length - 1) {
+                        if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
                             o.onclick = () => {
-                                e._currentView.dataIndex++;
+                                e._currentView.dataArrayCurrentIndex++;
                                 renderControlContainer(e);
                             };
                         } else {
@@ -585,7 +585,7 @@ var require_jsontree = __commonJS({
                 const a = renderObjectValues(l, i, t, n);
                 const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                 if (r && t.showArrayItemsAsSeparateObjects) {
-                    let e = t.useZeroIndexingForArrays ? t._currentView.dataIndex.toString() : (t._currentView.dataIndex + 1).toString();
+                    let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
                     DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
                 }
                 if (t.showCounts && a > 0) {

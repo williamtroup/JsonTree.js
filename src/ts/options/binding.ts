@@ -27,7 +27,7 @@ export namespace Binding {
             const bindingOptions: BindingOptions = Binding.Options.get( data );
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
-            bindingOptions._currentView.dataIndex = 0;
+            bindingOptions._currentView.dataArrayCurrentIndex = 0;
 
             return bindingOptions;
         }

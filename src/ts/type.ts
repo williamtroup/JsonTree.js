@@ -70,7 +70,7 @@ export type BindingOptions = {
 
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
-	dataIndex: number;
+	dataArrayCurrentIndex: number;
 };
 
 export type BindingOptionsTitle = {
