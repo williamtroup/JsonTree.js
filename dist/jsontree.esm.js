@@ -846,7 +846,7 @@ var require_jsontree = __commonJS({
                 if (!e.addArrayIndexPadding) {
                     r = Str.padNumber(parseInt(r), n.toString().length);
                 }
-                return r;
+                return `[${r}]`;
             }
             function getObjectFromString(objectString) {
                 const result = {

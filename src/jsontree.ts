@@ -587,7 +587,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
     
-        return result;
+        return `[${result}]`;
     }
 
 
