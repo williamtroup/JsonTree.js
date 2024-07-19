@@ -248,6 +248,7 @@ var Binding;
             t.maximumStringLength = Default.getNumber(t.maximumStringLength, 0);
             t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
             t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
+            t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
             t = o(t);
             t = l(t);
             t = a(t);
@@ -441,7 +442,12 @@ var Trigger;
                 const t = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
                 t.title = _configuration.text.copyAllButtonText;
                 t.onclick = () => {
-                    const t = JSON.stringify(_elements_Data[e._currentView.element.id].data, null, 2);
+                    let t = null;
+                    if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
+                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data[e._currentView.dataArrayCurrentIndex], null, 2);
+                    } else {
+                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data, null, 2);
+                    }
                     navigator.clipboard.writeText(t);
                     Trigger.customEvent(e.events.onCopyAll, t);
                 };

@@ -46,7 +46,7 @@ export type ConfigurationText = {
 
 export type BindingOptions = {
     _currentView: BindingOptionsCurrentView;
-	data?: object;
+	data?: any;
 	showCounts?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
@@ -63,6 +63,7 @@ export type BindingOptions = {
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
 	showArrayItemsAsSeparateObjects: boolean;
+	copyOnlyCurrentPage: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;

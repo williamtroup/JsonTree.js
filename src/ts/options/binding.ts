@@ -51,7 +51,8 @@ export namespace Binding {
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
             options.showStringHexColors = Default.getBoolean( options.showStringHexColors, false );
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
-    
+            options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
+
             options = getTitle( options );
             options = getIgnore( options );
             options = getCustomTriggers( options );
