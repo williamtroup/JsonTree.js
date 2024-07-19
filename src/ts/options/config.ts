@@ -43,6 +43,9 @@ export namespace Config {
             configuration.text!.rdText = Default.getDefaultAnyString( configuration.text!.rdText, "rd" );
             configuration.text!.thText = Default.getDefaultAnyString( configuration.text!.thText, "th" );
             configuration.text!.ellipsisText = Default.getDefaultAnyString( configuration.text!.ellipsisText, "..." );
+            configuration.text!.closeAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
+            configuration.text!.openAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
+            configuration.text!.copyAllButtonSymbolText = Default.getDefaultAnyString( configuration.text!.copyAllButtonSymbolText, "❐" )
     
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

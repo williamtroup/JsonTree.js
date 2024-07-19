@@ -35,6 +35,9 @@ export type ConfigurationText = {
 	dayNamesAbbreviated?: string[];
 	monthNames?: string[];
 	monthNamesAbbreviated?: string[];
+	closeAllButtonSymbolText?: string;
+	openAllButtonSymbolText?: string;
+	copyAllButtonSymbolText?: string;
 };
 
 export type BindingOptions = {

@@ -143,7 +143,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonText! );
+                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! );
+                copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
                     const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
@@ -155,8 +156,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonText! );
-                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonText! );
+                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! );
+                openAll.title = _configuration.text!.openAllButtonText!
+
+                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! );
+                closeAll.title = _configuration.text!.closeAllButtonText!
 
                 openAll.onclick = () => {
                     openAllNodes( bindingOptions );

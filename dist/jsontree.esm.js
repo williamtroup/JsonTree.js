@@ -314,7 +314,7 @@ var init_binding = __esm({
                     e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
                     e.title.show = Default.getDefaultBoolean(e.title.show, true);
                     e.title.showTreeControls = Default.getDefaultBoolean(e.title.showTreeControls, true);
-                    e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, false);
+                    e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, true);
                     return e;
                 }
                 function l(e) {
@@ -389,6 +389,9 @@ var init_config = __esm({
                     e.text.rdText = Default.getDefaultAnyString(e.text.rdText, "rd");
                     e.text.thText = Default.getDefaultAnyString(e.text.thText, "th");
                     e.text.ellipsisText = Default.getDefaultAnyString(e.text.ellipsisText, "...");
+                    e.text.closeAllButtonSymbolText = Default.getDefaultAnyString(e.text.closeAllButtonSymbolText, "↑");
+                    e.text.openAllButtonSymbolText = Default.getDefaultAnyString(e.text.openAllButtonSymbolText, "↓");
+                    e.text.copyAllButtonSymbolText = Default.getDefaultAnyString(e.text.copyAllButtonSymbolText, "❐");
                     if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                         e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
                     }
@@ -510,7 +513,8 @@ var require_jsontree = __commonJS({
                         DomElement.createWithHTML(t, "div", "title", e.title.text, n);
                     }
                     if (e.title.showCopyButton) {
-                        const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.text.copyAllButtonText);
+                        const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
+                        t.title = _configuration.text.copyAllButtonText;
                         t.onclick = () => {
                             const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                             navigator.clipboard.writeText(t);
@@ -518,8 +522,10 @@ var require_jsontree = __commonJS({
                         };
                     }
                     if (e.title.showTreeControls) {
-                        const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.text.openAllButtonText);
-                        const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.text.closeAllButtonText);
+                        const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.text.openAllButtonSymbolText);
+                        t.title = _configuration.text.openAllButtonText;
+                        const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
+                        r.title = _configuration.text.closeAllButtonText;
                         t.onclick = () => {
                             openAllNodes(e);
                         };

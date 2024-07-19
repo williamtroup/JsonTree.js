@@ -62,7 +62,7 @@ export namespace Binding {
             options.title!.text = Default.getDefaultString( options.title!.text, "JsonTree.js" );
             options.title!.show = Default.getDefaultBoolean( options.title!.show, true );
             options.title!.showTreeControls = Default.getDefaultBoolean( options.title!.showTreeControls, true );
-            options.title!.showCopyButton = Default.getDefaultBoolean( options.title!.showCopyButton, false );
+            options.title!.showCopyButton = Default.getDefaultBoolean( options.title!.showCopyButton, true );
     
             return options;
         }
