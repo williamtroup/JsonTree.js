@@ -353,7 +353,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedFunction( value ) ) {
             if ( !bindingOptions.ignore!.functionValues ) {
                 valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, getFunctionName( value ) );
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value ) );
                 type = "function";
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
@@ -563,22 +563,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 arrow.className = "down-arrow";
             }
         }
-    }
-
-    function getFunctionName( value: any ) : string {
-        let result: string;
-        const valueParts: string[] = value.toString().split( "(" );
-        const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
-
-        if ( valueNameParts.length === 2 ) {
-            result = valueNameParts[ 1 ];
-        } else {
-            result = valueNameParts[ 0 ];
-        }
-
-        result += "()";
-
-        return result;
     }
 
     function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : void {

@@ -68,4 +68,20 @@ export namespace Default {
     
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
+
+    export function getFunctionName( value: any ) : string {
+        let result: string;
+        const valueParts: string[] = value.toString().split( "(" );
+        const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
+
+        if ( valueNameParts.length === 2 ) {
+            result = valueNameParts[ 1 ];
+        } else {
+            result = valueNameParts[ 0 ];
+        }
+
+        result += "()";
+
+        return result;
+    }
 }

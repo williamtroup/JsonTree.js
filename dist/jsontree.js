@@ -105,6 +105,19 @@ var Default;
         return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
     e.getFixedDecimalPlacesValue = u;
+    function c(e) {
+        let t;
+        const n = e.toString().split("(");
+        const r = n[0].split(" ");
+        if (r.length === 2) {
+            t = r[1];
+        } else {
+            t = r[0];
+        }
+        t += "()";
+        return t;
+    }
+    e.getFunctionName = c;
 })(Default || (Default = {}));
 
 var DomElement;
@@ -587,7 +600,7 @@ var Trigger;
         } else if (Is.definedFunction(r)) {
             if (!t.ignore.functionValues) {
                 i = t.showValueColors ? "function" : "";
-                s = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
+                s = DomElement.createWithHTML(l, "span", i, Default.getFunctionName(r));
                 c = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
                     Trigger.customEvent(t.events.onFunctionRender, s);
@@ -745,18 +758,6 @@ var Trigger;
                 t.className = "down-arrow";
             }
         }
-    }
-    function getFunctionName(e) {
-        let t;
-        const n = e.toString().split("(");
-        const r = n[0].split(" ");
-        if (r.length === 2) {
-            t = r[1];
-        } else {
-            t = r[0];
-        }
-        t += "()";
-        return t;
     }
     function createComma(e, t, n) {
         if (e.showCommas && !n) {
