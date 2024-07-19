@@ -80,6 +80,9 @@ div.json-tree-js {
   overflow: hidden;
   margin: 0 !important;
 }
+div.json-tree-js button {
+  font-family: var(--heat-js-default-font);
+}
 div.json-tree-js div.no-click {
   pointer-events: none !important;
 }
