@@ -151,7 +151,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
-                    const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
+                    const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data, null, 2 );
 
                     navigator.clipboard.writeText( copyData );
 

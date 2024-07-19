@@ -441,7 +441,7 @@ var Trigger;
                 const t = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
                 t.title = _configuration.text.copyAllButtonText;
                 t.onclick = () => {
-                    const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
+                    const t = JSON.stringify(_elements_Data[e._currentView.element.id].data, null, 2);
                     navigator.clipboard.writeText(t);
                     Trigger.customEvent(e.events.onCopyAll, t);
                 };
