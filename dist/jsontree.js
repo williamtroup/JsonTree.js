@@ -19,96 +19,71 @@ var Is;
         return t(e) && typeof e === "string";
     }
     e.definedString = o;
-    function a(e) {
+    function l(e) {
         return t(e) && typeof e === "function";
     }
-    e.definedFunction = a;
-    function i(e) {
+    e.definedFunction = l;
+    function a(e) {
         return t(e) && typeof e === "number";
     }
-    e.definedNumber = i;
-    function l(e) {
+    e.definedNumber = a;
+    function i(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = l;
-    function s(e) {
+    e.definedArray = i;
+    function u(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = s;
-    function u(e) {
+    e.definedDate = u;
+    function s(e) {
         return t(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedDecimal = u;
-    function c(e, t = 1) {
-        return !l(e) || e.length < t;
+    e.definedDecimal = s;
+    function f(e, t = 1) {
+        return !i(e) || e.length < t;
     }
-    e.invalidOptionArray = c;
-    function f(e) {
+    e.invalidOptionArray = f;
+    function c(e) {
         let t = e.length >= 2 && e.length <= 7;
         if (t && e[0] === "#") {
             t = isNaN(+e.substring(1, e.length - 1));
         }
         return t;
     }
-    e.hexColor = f;
+    e.hexColor = c;
 })(Is || (Is = {}));
 
-var Data;
+var Default;
 
 (e => {
-    let t;
-    (e => {
-        function t() {
-            const e = [];
-            for (let t = 0; t < 32; t++) {
-                if (t === 8 || t === 12 || t === 16 || t === 20) {
-                    e.push("-");
-                }
-                const n = Math.floor(Math.random() * 16).toString(16);
-                e.push(n);
-            }
-            return e.join("");
-        }
-        e.newGuid = t;
-        function n(e, t = 1) {
-            const n = e.toString();
-            let r = n;
-            if (n.length < t) {
-                const e = t - n.length + 1;
-                r = Array(e).join("0") + n;
-            }
-            return r;
-        }
-        e.padNumber = n;
-    })(t = e.String || (e.String = {}));
-    function n(e, t) {
+    function t(e, t) {
         return typeof e === "string" ? e : t;
     }
-    e.getDefaultAnyString = n;
-    function r(e, t) {
+    e.getDefaultAnyString = t;
+    function n(e, t) {
         return Is.definedString(e) ? e : t;
     }
-    e.getDefaultString = r;
-    function o(e, t) {
+    e.getDefaultString = n;
+    function r(e, t) {
         return Is.definedBoolean(e) ? e : t;
     }
-    e.getDefaultBoolean = o;
-    function a(e, t) {
+    e.getDefaultBoolean = r;
+    function o(e, t) {
         return Is.definedNumber(e) ? e : t;
     }
-    e.getDefaultNumber = a;
-    function i(e, t) {
+    e.getDefaultNumber = o;
+    function l(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
-    e.getDefaultFunction = i;
-    function l(e, t) {
+    e.getDefaultFunction = l;
+    function a(e, t) {
         return Is.definedArray(e) ? e : t;
     }
-    e.getDefaultArray = l;
-    function s(e, t) {
+    e.getDefaultArray = a;
+    function i(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getDefaultObject = s;
+    e.getDefaultObject = i;
     function u(e, t) {
         let n = t;
         if (Is.definedString(e)) {
@@ -119,41 +94,41 @@ var Data;
                 n = r;
             }
         } else {
-            n = l(e, t);
+            n = a(e, t);
         }
         return n;
     }
     e.getDefaultStringOrArray = u;
-    function c(e, t) {
+    function s(e, t) {
         var n;
         const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
         return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
-    e.getFixedDecimalPlacesValue = c;
-})(Data || (Data = {}));
+    e.getFixedDecimalPlacesValue = s;
+})(Default || (Default = {}));
 
 var DomElement;
 
 (e => {
     function t(e, t, n = "", r = null) {
         const o = t.toLowerCase();
-        const a = o === "text";
-        let i = a ? document.createTextNode("") : document.createElement(o);
+        const l = o === "text";
+        let a = l ? document.createTextNode("") : document.createElement(o);
         if (Is.defined(n)) {
-            i.className = n;
+            a.className = n;
         }
         if (Is.defined(r)) {
-            e.insertBefore(i, r);
+            e.insertBefore(a, r);
         } else {
-            e.appendChild(i);
+            e.appendChild(a);
         }
-        return i;
+        return a;
     }
     e.create = t;
-    function n(e, n, r, o, a = null) {
-        const i = t(e, n, r, a);
-        i.innerHTML = o;
-        return i;
+    function n(e, n, r, o, l = null) {
+        const a = t(e, n, r, l);
+        a.innerHTML = o;
+        return a;
     }
     e.createWithHTML = n;
     function r(e, t) {
@@ -161,6 +136,33 @@ var DomElement;
     }
     e.addClass = r;
 })(DomElement || (DomElement = {}));
+
+var Str;
+
+(e => {
+    function t() {
+        const e = [];
+        for (let t = 0; t < 32; t++) {
+            if (t === 8 || t === 12 || t === 16 || t === 20) {
+                e.push("-");
+            }
+            const n = Math.floor(Math.random() * 16).toString(16);
+            e.push(n);
+        }
+        return e.join("");
+    }
+    e.newGuid = t;
+    function n(e, t = 1) {
+        const n = e.toString();
+        let r = n;
+        if (n.length < t) {
+            const e = t - n.length + 1;
+            r = Array(e).join("0") + n;
+        }
+        return r;
+    }
+    e.padNumber = n;
+})(Str || (Str = {}));
 
 var DateTime;
 
@@ -182,28 +184,28 @@ var DateTime;
     }
     e.getDayOrdinal = n;
     function r(e, r, o) {
-        let a = o;
-        const i = t(r);
-        a = a.replace("{hh}", Data.String.padNumber(r.getHours(), 2));
-        a = a.replace("{h}", r.getHours().toString());
-        a = a.replace("{MM}", Data.String.padNumber(r.getMinutes(), 2));
-        a = a.replace("{M}", r.getMinutes().toString());
-        a = a.replace("{ss}", Data.String.padNumber(r.getSeconds(), 2));
-        a = a.replace("{s}", r.getSeconds().toString());
-        a = a.replace("{dddd}", e.dayNames[i]);
-        a = a.replace("{ddd}", e.dayNamesAbbreviated[i]);
-        a = a.replace("{dd}", Data.String.padNumber(r.getDate()));
-        a = a.replace("{d}", r.getDate().toString());
-        a = a.replace("{o}", n(e, r.getDate()));
-        a = a.replace("{mmmm}", e.monthNames[r.getMonth()]);
-        a = a.replace("{mmm}", e.monthNamesAbbreviated[r.getMonth()]);
-        a = a.replace("{mm}", Data.String.padNumber(r.getMonth() + 1));
-        a = a.replace("{m}", (r.getMonth() + 1).toString());
-        a = a.replace("{yyyy}", r.getFullYear().toString());
-        a = a.replace("{yyy}", r.getFullYear().toString().substring(1));
-        a = a.replace("{yy}", r.getFullYear().toString().substring(2));
-        a = a.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
-        return a;
+        let l = o;
+        const a = t(r);
+        l = l.replace("{hh}", Str.padNumber(r.getHours(), 2));
+        l = l.replace("{h}", r.getHours().toString());
+        l = l.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
+        l = l.replace("{M}", r.getMinutes().toString());
+        l = l.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
+        l = l.replace("{s}", r.getSeconds().toString());
+        l = l.replace("{dddd}", e.dayNames[a]);
+        l = l.replace("{ddd}", e.dayNamesAbbreviated[a]);
+        l = l.replace("{dd}", Str.padNumber(r.getDate()));
+        l = l.replace("{d}", r.getDate().toString());
+        l = l.replace("{o}", n(e, r.getDate()));
+        l = l.replace("{mmmm}", e.monthNames[r.getMonth()]);
+        l = l.replace("{mmm}", e.monthNamesAbbreviated[r.getMonth()]);
+        l = l.replace("{mm}", Str.padNumber(r.getMonth() + 1));
+        l = l.replace("{m}", (r.getMonth() + 1).toString());
+        l = l.replace("{yyyy}", r.getFullYear().toString());
+        l = l.replace("{yyy}", r.getFullYear().toString().substring(1));
+        l = l.replace("{yy}", r.getFullYear().toString().substring(2));
+        l = l.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+        return l;
     }
     e.getCustomFormattedDateText = r;
 })(DateTime || (DateTime = {}));
@@ -263,7 +265,7 @@ var Constants;
     function renderControl(e) {
         fireCustomTriggerEvent(e.events.onBeforeRender, e._currentView.element);
         if (!Is.definedString(e._currentView.element.id)) {
-            e._currentView.element.id = Data.String.newGuid();
+            e._currentView.element.id = Str.newGuid();
         }
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
@@ -323,42 +325,42 @@ var Constants;
     function renderObject(e, t, n) {
         const r = DomElement.create(e, "div", "object-type-title");
         const o = DomElement.create(e, "div", "object-type-contents");
-        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
-        const i = renderObjectValues(a, o, t, n);
+        const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        const a = renderObjectValues(l, o, t, n);
         DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.objectText);
-        if (t.showCounts && i > 0) {
-            DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
+        if (t.showCounts && a > 0) {
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", "{" + a + "}");
         }
     }
     function renderArray(e, t, n) {
         const r = DomElement.create(e, "div", "object-type-title");
         const o = DomElement.create(e, "div", "object-type-contents");
-        const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
         DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
-        renderArrayValues(a, o, t, n);
+        renderArrayValues(l, o, t, n);
         if (t.showCounts) {
             DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
         }
     }
     function renderObjectValues(e, t, n, r) {
         let o = 0;
-        let a = [];
+        let l = [];
         for (let e in r) {
             if (r.hasOwnProperty(e)) {
-                a.push(e);
+                l.push(e);
             }
         }
         if (n.sortPropertyNames) {
-            a = a.sort();
+            l = l.sort();
             if (!n.sortPropertyNamesInAlphabeticalOrder) {
-                a = a.reverse();
+                l = l.reverse();
             }
         }
-        const i = a.length;
-        for (let e = 0; e < i; e++) {
-            const l = a[e];
-            if (r.hasOwnProperty(l)) {
-                renderValue(t, n, l, r[l], e === i - 1);
+        const a = l.length;
+        for (let e = 0; e < a; e++) {
+            const i = l[e];
+            if (r.hasOwnProperty(i)) {
+                renderValue(t, n, i, r[i], e === a - 1);
                 o++;
             }
         }
@@ -379,75 +381,75 @@ var Constants;
         addArrowEvent(n, e, t);
     }
     function renderValue(e, t, n, r, o) {
-        const a = DomElement.create(e, "div", "object-type-value");
-        const i = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
-        let l = null;
-        let s = null;
-        let u = false;
-        let c = null;
-        let f = true;
-        DomElement.createWithHTML(a, "span", "title", n);
-        DomElement.createWithHTML(a, "span", "split", ":");
+        const l = DomElement.create(e, "div", "object-type-value");
+        const a = t.showArrowToggles ? DomElement.create(l, "div", "no-arrow") : null;
+        let i = null;
+        let u = null;
+        let s = false;
+        let f = null;
+        let c = true;
+        DomElement.createWithHTML(l, "span", "title", n);
+        DomElement.createWithHTML(l, "span", "split", ":");
         if (!Is.defined(r)) {
             if (!t.ignore.nullValues) {
-                l = t.showValueColors ? "null" : "";
-                s = DomElement.createWithHTML(a, "span", l, "null");
-                f = false;
+                i = t.showValueColors ? "null" : "";
+                u = DomElement.createWithHTML(l, "span", i, "null");
+                c = false;
                 if (Is.definedFunction(t.events.onNullRender)) {
-                    fireCustomTriggerEvent(t.events.onNullRender, s);
+                    fireCustomTriggerEvent(t.events.onNullRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedFunction(r)) {
             if (!t.ignore.functionValues) {
-                l = t.showValueColors ? "function" : "";
-                s = DomElement.createWithHTML(a, "span", l, getFunctionName(r));
-                c = "function";
+                i = t.showValueColors ? "function" : "";
+                u = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
+                f = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
-                    fireCustomTriggerEvent(t.events.onFunctionRender, s);
+                    fireCustomTriggerEvent(t.events.onFunctionRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedBoolean(r)) {
             if (!t.ignore.booleanValues) {
-                l = t.showValueColors ? "boolean" : "";
-                s = DomElement.createWithHTML(a, "span", l, r);
-                c = "boolean";
+                i = t.showValueColors ? "boolean" : "";
+                u = DomElement.createWithHTML(l, "span", i, r);
+                f = "boolean";
                 if (Is.definedFunction(t.events.onBooleanRender)) {
-                    fireCustomTriggerEvent(t.events.onBooleanRender, s);
+                    fireCustomTriggerEvent(t.events.onBooleanRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedDecimal(r)) {
             if (!t.ignore.decimalValues) {
-                const e = Data.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
-                l = t.showValueColors ? "decimal" : "";
-                s = DomElement.createWithHTML(a, "span", l, e);
-                c = "decimal";
+                const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
+                i = t.showValueColors ? "decimal" : "";
+                u = DomElement.createWithHTML(l, "span", i, e);
+                f = "decimal";
                 if (Is.definedFunction(t.events.onDecimalRender)) {
-                    fireCustomTriggerEvent(t.events.onDecimalRender, s);
+                    fireCustomTriggerEvent(t.events.onDecimalRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedNumber(r)) {
             if (!t.ignore.numberValues) {
-                l = t.showValueColors ? "number" : "";
-                s = DomElement.createWithHTML(a, "span", l, r);
-                c = "number";
+                i = t.showValueColors ? "number" : "";
+                u = DomElement.createWithHTML(l, "span", i, r);
+                f = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
-                    fireCustomTriggerEvent(t.events.onNumberRender, s);
+                    fireCustomTriggerEvent(t.events.onNumberRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
@@ -460,77 +462,77 @@ var Constants;
                     }
                 }
                 const n = t.showStringQuotes ? '"' + r + '"' : r;
-                l = t.showValueColors ? "string" : "";
-                s = DomElement.createWithHTML(a, "span", l, n);
-                c = "string";
+                i = t.showValueColors ? "string" : "";
+                u = DomElement.createWithHTML(l, "span", i, n);
+                f = "string";
                 if (Is.definedString(e)) {
-                    s.style.color = e;
+                    u.style.color = e;
                 }
                 if (Is.definedFunction(t.events.onStringRender)) {
-                    fireCustomTriggerEvent(t.events.onStringRender, s);
+                    fireCustomTriggerEvent(t.events.onStringRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedDate(r)) {
             if (!t.ignore.dateValues) {
-                l = t.showValueColors ? "date" : "";
-                s = DomElement.createWithHTML(a, "span", l, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
-                c = "date";
+                i = t.showValueColors ? "date" : "";
+                u = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                f = "date";
                 if (Is.definedFunction(t.events.onDateRender)) {
-                    fireCustomTriggerEvent(t.events.onDateRender, s);
+                    fireCustomTriggerEvent(t.events.onDateRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedObject(r) && !Is.definedArray(r)) {
             if (!t.ignore.objectValues) {
-                const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
-                const n = DomElement.create(a, "div", "object-type-contents");
-                const l = renderObjectValues(i, n, t, r);
+                const e = DomElement.create(l, "span", t.showValueColors ? "object" : "");
+                const n = DomElement.create(l, "div", "object-type-contents");
+                const i = renderObjectValues(a, n, t, r);
                 DomElement.createWithHTML(e, "span", "title", _configuration.objectText);
-                if (t.showCounts && l > 0) {
-                    DomElement.createWithHTML(e, "span", "count", "{" + l + "}");
+                if (t.showCounts && i > 0) {
+                    DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
                 }
                 createComma(t, e, o);
-                c = "object";
+                f = "object";
             } else {
-                u = true;
+                s = true;
             }
         } else if (Is.definedArray(r)) {
             if (!t.ignore.arrayValues) {
-                const e = DomElement.create(a, "span", t.showValueColors ? "array" : "");
-                const n = DomElement.create(a, "div", "object-type-contents");
+                const e = DomElement.create(l, "span", t.showValueColors ? "array" : "");
+                const n = DomElement.create(l, "div", "object-type-contents");
                 DomElement.createWithHTML(e, "span", "title", _configuration.arrayText);
                 if (t.showCounts) {
                     DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
                 }
                 createComma(t, e, o);
-                renderArrayValues(i, n, t, r);
-                c = "array";
+                renderArrayValues(a, n, t, r);
+                f = "array";
             } else {
-                u = true;
+                s = true;
             }
         } else {
             if (!t.ignore.unknownValues) {
-                l = t.showValueColors ? "unknown" : "";
-                s = DomElement.createWithHTML(a, "span", l, r.toString());
-                c = "unknown";
+                i = t.showValueColors ? "unknown" : "";
+                u = DomElement.createWithHTML(l, "span", i, r.toString());
+                f = "unknown";
                 if (Is.definedFunction(t.events.onUnknownRender)) {
-                    fireCustomTriggerEvent(t.events.onUnknownRender, s);
+                    fireCustomTriggerEvent(t.events.onUnknownRender, u);
                 }
-                createComma(t, a, o);
+                createComma(t, l, o);
             } else {
-                u = true;
+                s = true;
             }
         }
-        if (u) {
-            e.removeChild(a);
+        if (s) {
+            e.removeChild(l);
         } else {
-            if (Is.defined(s)) {
-                addValueClickEvent(t, s, r, c, f);
+            if (Is.defined(u)) {
+                addValueClickEvent(t, u, r, f, c);
             }
         }
     }
@@ -582,73 +584,73 @@ var Constants;
     function getIndexName(e, t, n) {
         let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
-            r = Data.String.padNumber(parseInt(r), n.toString().length);
+            r = Str.padNumber(parseInt(r), n.toString().length);
         }
         return r;
     }
     function buildAttributeOptions(e) {
-        let t = Data.getDefaultObject(e, {});
-        t.data = Data.getDefaultObject(t.data, null);
-        t.showCounts = Data.getDefaultBoolean(t.showCounts, true);
-        t.useZeroIndexingForArrays = Data.getDefaultBoolean(t.useZeroIndexingForArrays, true);
-        t.dateTimeFormat = Data.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-        t.showArrowToggles = Data.getDefaultBoolean(t.showArrowToggles, true);
-        t.showStringQuotes = Data.getDefaultBoolean(t.showStringQuotes, true);
-        t.showAllAsClosed = Data.getDefaultBoolean(t.showAllAsClosed, false);
-        t.sortPropertyNames = Data.getDefaultBoolean(t.sortPropertyNames, true);
-        t.sortPropertyNamesInAlphabeticalOrder = Data.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
-        t.showCommas = Data.getDefaultBoolean(t.showCommas, false);
-        t.reverseArrayValues = Data.getDefaultBoolean(t.reverseArrayValues, false);
-        t.addArrayIndexPadding = Data.getDefaultBoolean(t.addArrayIndexPadding, false);
-        t.showValueColors = Data.getDefaultBoolean(t.showValueColors, true);
-        t.maximumDecimalPlaces = Data.getDefaultNumber(t.maximumDecimalPlaces, 2);
-        t.maximumStringLength = Data.getDefaultNumber(t.maximumStringLength, 0);
-        t.showStringHexColors = Data.getDefaultBoolean(t.showStringHexColors, false);
+        let t = Default.getDefaultObject(e, {});
+        t.data = Default.getDefaultObject(t.data, null);
+        t.showCounts = Default.getDefaultBoolean(t.showCounts, true);
+        t.useZeroIndexingForArrays = Default.getDefaultBoolean(t.useZeroIndexingForArrays, true);
+        t.dateTimeFormat = Default.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
+        t.showArrowToggles = Default.getDefaultBoolean(t.showArrowToggles, true);
+        t.showStringQuotes = Default.getDefaultBoolean(t.showStringQuotes, true);
+        t.showAllAsClosed = Default.getDefaultBoolean(t.showAllAsClosed, false);
+        t.sortPropertyNames = Default.getDefaultBoolean(t.sortPropertyNames, true);
+        t.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
+        t.showCommas = Default.getDefaultBoolean(t.showCommas, false);
+        t.reverseArrayValues = Default.getDefaultBoolean(t.reverseArrayValues, false);
+        t.addArrayIndexPadding = Default.getDefaultBoolean(t.addArrayIndexPadding, false);
+        t.showValueColors = Default.getDefaultBoolean(t.showValueColors, true);
+        t.maximumDecimalPlaces = Default.getDefaultNumber(t.maximumDecimalPlaces, 2);
+        t.maximumStringLength = Default.getDefaultNumber(t.maximumStringLength, 0);
+        t.showStringHexColors = Default.getDefaultBoolean(t.showStringHexColors, false);
         t = buildAttributeOptionTitle(t);
         t = buildAttributeOptionIgnore(t);
         t = buildAttributeOptionCustomTriggers(t);
         return t;
     }
     function buildAttributeOptionTitle(e) {
-        e.title = Data.getDefaultObject(e.title, {});
-        e.title.text = Data.getDefaultString(e.title.text, "JsonTree.js");
-        e.title.show = Data.getDefaultBoolean(e.title.show, true);
-        e.title.showTreeControls = Data.getDefaultBoolean(e.title.showTreeControls, true);
-        e.title.showCopyButton = Data.getDefaultBoolean(e.title.showCopyButton, false);
+        e.title = Default.getDefaultObject(e.title, {});
+        e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
+        e.title.show = Default.getDefaultBoolean(e.title.show, true);
+        e.title.showTreeControls = Default.getDefaultBoolean(e.title.showTreeControls, true);
+        e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, false);
         return e;
     }
     function buildAttributeOptionIgnore(e) {
-        e.ignore = Data.getDefaultObject(e.ignore, {});
-        e.ignore.nullValues = Data.getDefaultBoolean(e.ignore.nullValues, false);
-        e.ignore.functionValues = Data.getDefaultBoolean(e.ignore.functionValues, false);
-        e.ignore.unknownValues = Data.getDefaultBoolean(e.ignore.unknownValues, false);
-        e.ignore.booleanValues = Data.getDefaultBoolean(e.ignore.booleanValues, false);
-        e.ignore.decimalValues = Data.getDefaultBoolean(e.ignore.decimalValues, false);
-        e.ignore.numberValues = Data.getDefaultBoolean(e.ignore.numberValues, false);
-        e.ignore.stringValues = Data.getDefaultBoolean(e.ignore.stringValues, false);
-        e.ignore.dateValues = Data.getDefaultBoolean(e.ignore.dateValues, false);
-        e.ignore.objectValues = Data.getDefaultBoolean(e.ignore.objectValues, false);
-        e.ignore.arrayValues = Data.getDefaultBoolean(e.ignore.arrayValues, false);
+        e.ignore = Default.getDefaultObject(e.ignore, {});
+        e.ignore.nullValues = Default.getDefaultBoolean(e.ignore.nullValues, false);
+        e.ignore.functionValues = Default.getDefaultBoolean(e.ignore.functionValues, false);
+        e.ignore.unknownValues = Default.getDefaultBoolean(e.ignore.unknownValues, false);
+        e.ignore.booleanValues = Default.getDefaultBoolean(e.ignore.booleanValues, false);
+        e.ignore.decimalValues = Default.getDefaultBoolean(e.ignore.decimalValues, false);
+        e.ignore.numberValues = Default.getDefaultBoolean(e.ignore.numberValues, false);
+        e.ignore.stringValues = Default.getDefaultBoolean(e.ignore.stringValues, false);
+        e.ignore.dateValues = Default.getDefaultBoolean(e.ignore.dateValues, false);
+        e.ignore.objectValues = Default.getDefaultBoolean(e.ignore.objectValues, false);
+        e.ignore.arrayValues = Default.getDefaultBoolean(e.ignore.arrayValues, false);
         return e;
     }
     function buildAttributeOptionCustomTriggers(e) {
-        e.events = Data.getDefaultObject(e.events, {});
-        e.events.onBeforeRender = Data.getDefaultFunction(e.events.onBeforeRender, null);
-        e.events.onRenderComplete = Data.getDefaultFunction(e.events.onRenderComplete, null);
-        e.events.onValueClick = Data.getDefaultFunction(e.events.onValueClick, null);
-        e.events.onRefresh = Data.getDefaultFunction(e.events.onRefresh, null);
-        e.events.onCopyAll = Data.getDefaultFunction(e.events.onCopyAll, null);
-        e.events.onOpenAll = Data.getDefaultFunction(e.events.onOpenAll, null);
-        e.events.onCloseAll = Data.getDefaultFunction(e.events.onCloseAll, null);
-        e.events.onDestroy = Data.getDefaultFunction(e.events.onDestroy, null);
-        e.events.onBooleanRender = Data.getDefaultFunction(e.events.onBooleanRender, null);
-        e.events.onDecimalRender = Data.getDefaultFunction(e.events.onDecimalRender, null);
-        e.events.onNumberRender = Data.getDefaultFunction(e.events.onNumberRender, null);
-        e.events.onStringRender = Data.getDefaultFunction(e.events.onStringRender, null);
-        e.events.onDateRender = Data.getDefaultFunction(e.events.onDateRender, null);
-        e.events.onFunctionRender = Data.getDefaultFunction(e.events.onFunctionRender, null);
-        e.events.onNullRender = Data.getDefaultFunction(e.events.onNullRender, null);
-        e.events.onUnknownRender = Data.getDefaultFunction(e.events.onUnknownRender, null);
+        e.events = Default.getDefaultObject(e.events, {});
+        e.events.onBeforeRender = Default.getDefaultFunction(e.events.onBeforeRender, null);
+        e.events.onRenderComplete = Default.getDefaultFunction(e.events.onRenderComplete, null);
+        e.events.onValueClick = Default.getDefaultFunction(e.events.onValueClick, null);
+        e.events.onRefresh = Default.getDefaultFunction(e.events.onRefresh, null);
+        e.events.onCopyAll = Default.getDefaultFunction(e.events.onCopyAll, null);
+        e.events.onOpenAll = Default.getDefaultFunction(e.events.onOpenAll, null);
+        e.events.onCloseAll = Default.getDefaultFunction(e.events.onCloseAll, null);
+        e.events.onDestroy = Default.getDefaultFunction(e.events.onDestroy, null);
+        e.events.onBooleanRender = Default.getDefaultFunction(e.events.onBooleanRender, null);
+        e.events.onDecimalRender = Default.getDefaultFunction(e.events.onDecimalRender, null);
+        e.events.onNumberRender = Default.getDefaultFunction(e.events.onNumberRender, null);
+        e.events.onStringRender = Default.getDefaultFunction(e.events.onStringRender, null);
+        e.events.onDateRender = Default.getDefaultFunction(e.events.onDateRender, null);
+        e.events.onFunctionRender = Default.getDefaultFunction(e.events.onFunctionRender, null);
+        e.events.onNullRender = Default.getDefaultFunction(e.events.onNullRender, null);
+        e.events.onUnknownRender = Default.getDefaultFunction(e.events.onUnknownRender, null);
         return e;
     }
     function fireCustomTriggerEvent(e, ...t) {
@@ -687,25 +689,25 @@ var Constants;
         fireCustomTriggerEvent(e.events.onDestroy, e._currentView.element);
     }
     function buildDefaultConfiguration(e = null) {
-        _configuration = Data.getDefaultObject(e, {});
-        _configuration.safeMode = Data.getDefaultBoolean(_configuration.safeMode, true);
-        _configuration.domElementTypes = Data.getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
+        _configuration = Default.getDefaultObject(e, {});
+        _configuration.safeMode = Default.getDefaultBoolean(_configuration.safeMode, true);
+        _configuration.domElementTypes = Default.getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
         buildDefaultConfigurationStrings();
     }
     function buildDefaultConfigurationStrings() {
-        _configuration.objectText = Data.getDefaultAnyString(_configuration.objectText, "object");
-        _configuration.arrayText = Data.getDefaultAnyString(_configuration.arrayText, "array");
-        _configuration.closeAllButtonText = Data.getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
-        _configuration.openAllButtonText = Data.getDefaultAnyString(_configuration.openAllButtonText, "Open All");
-        _configuration.copyAllButtonText = Data.getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
-        _configuration.objectErrorText = Data.getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-        _configuration.stText = Data.getDefaultAnyString(_configuration.stText, "st");
-        _configuration.ndText = Data.getDefaultAnyString(_configuration.ndText, "nd");
-        _configuration.rdText = Data.getDefaultAnyString(_configuration.rdText, "rd");
-        _configuration.thText = Data.getDefaultAnyString(_configuration.thText, "th");
-        _configuration.ellipsisText = Data.getDefaultAnyString(_configuration.ellipsisText, "...");
+        _configuration.objectText = Default.getDefaultAnyString(_configuration.objectText, "object");
+        _configuration.arrayText = Default.getDefaultAnyString(_configuration.arrayText, "array");
+        _configuration.closeAllButtonText = Default.getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
+        _configuration.openAllButtonText = Default.getDefaultAnyString(_configuration.openAllButtonText, "Open All");
+        _configuration.copyAllButtonText = Default.getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
+        _configuration.objectErrorText = Default.getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+        _configuration.attributeNotValidErrorText = Default.getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+        _configuration.attributeNotSetErrorText = Default.getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+        _configuration.stText = Default.getDefaultAnyString(_configuration.stText, "st");
+        _configuration.ndText = Default.getDefaultAnyString(_configuration.ndText, "nd");
+        _configuration.rdText = Default.getDefaultAnyString(_configuration.rdText, "rd");
+        _configuration.thText = Default.getDefaultAnyString(_configuration.thText, "th");
+        _configuration.ellipsisText = Default.getDefaultAnyString(_configuration.ellipsisText, "...");
         if (Is.invalidOptionArray(_configuration.dayNames, 7)) {
             _configuration.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
         }

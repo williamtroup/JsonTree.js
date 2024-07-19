@@ -20,12 +20,13 @@ import {
     type CurrentView } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
-import { Data } from "./ts/data/data";
+import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
 import { Char } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
+import { Str } from "./ts/data/str";
 
 
 type StringToJson = {
@@ -109,7 +110,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         fireCustomTriggerEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
-            bindingOptions._currentView.element.id = Data.String.newGuid();
+            bindingOptions._currentView.element.id = Str.newGuid();
         }
 
         bindingOptions._currentView.element.className = "json-tree-js";
@@ -341,7 +342,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedDecimal( value ) ) {
             if ( !bindingOptions.ignore!.decimalValues ) {
-                const newValue: string = Data.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
+                const newValue: string = Default.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
@@ -548,7 +549,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
     
         if ( !bindingOptions.addArrayIndexPadding ) {
-            result = Data.String.padNumber( parseInt( result ), largestValue.toString().length );
+            result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
     
         return result;
@@ -562,23 +563,23 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function buildAttributeOptions( newOptions: any ) : BindingOptions {
-        let options: BindingOptions = Data.getDefaultObject( newOptions, {} as BindingOptions );
-        options.data = Data.getDefaultObject( options.data, null! );
-        options.showCounts = Data.getDefaultBoolean( options.showCounts, true );
-        options.useZeroIndexingForArrays = Data.getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = Data.getDefaultString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
-        options.showArrowToggles = Data.getDefaultBoolean( options.showArrowToggles, true );
-        options.showStringQuotes = Data.getDefaultBoolean( options.showStringQuotes, true );
-        options.showAllAsClosed = Data.getDefaultBoolean( options.showAllAsClosed, false );
-        options.sortPropertyNames = Data.getDefaultBoolean( options.sortPropertyNames, true );
-        options.sortPropertyNamesInAlphabeticalOrder = Data.getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
-        options.showCommas = Data.getDefaultBoolean( options.showCommas, false );
-        options.reverseArrayValues = Data.getDefaultBoolean( options.reverseArrayValues, false );
-        options.addArrayIndexPadding = Data.getDefaultBoolean( options.addArrayIndexPadding, false );
-        options.showValueColors = Data.getDefaultBoolean( options.showValueColors, true );
-        options.maximumDecimalPlaces = Data.getDefaultNumber( options.maximumDecimalPlaces, 2 );
-        options.maximumStringLength = Data.getDefaultNumber( options.maximumStringLength, 0 );
-        options.showStringHexColors = Data.getDefaultBoolean( options.showStringHexColors, false );
+        let options: BindingOptions = Default.getDefaultObject( newOptions, {} as BindingOptions );
+        options.data = Default.getDefaultObject( options.data, null! );
+        options.showCounts = Default.getDefaultBoolean( options.showCounts, true );
+        options.useZeroIndexingForArrays = Default.getDefaultBoolean( options.useZeroIndexingForArrays, true );
+        options.dateTimeFormat = Default.getDefaultString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
+        options.showArrowToggles = Default.getDefaultBoolean( options.showArrowToggles, true );
+        options.showStringQuotes = Default.getDefaultBoolean( options.showStringQuotes, true );
+        options.showAllAsClosed = Default.getDefaultBoolean( options.showAllAsClosed, false );
+        options.sortPropertyNames = Default.getDefaultBoolean( options.sortPropertyNames, true );
+        options.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
+        options.showCommas = Default.getDefaultBoolean( options.showCommas, false );
+        options.reverseArrayValues = Default.getDefaultBoolean( options.reverseArrayValues, false );
+        options.addArrayIndexPadding = Default.getDefaultBoolean( options.addArrayIndexPadding, false );
+        options.showValueColors = Default.getDefaultBoolean( options.showValueColors, true );
+        options.maximumDecimalPlaces = Default.getDefaultNumber( options.maximumDecimalPlaces, 2 );
+        options.maximumStringLength = Default.getDefaultNumber( options.maximumStringLength, 0 );
+        options.showStringHexColors = Default.getDefaultBoolean( options.showStringHexColors, false );
 
         options = buildAttributeOptionTitle( options );
         options = buildAttributeOptionIgnore( options );
@@ -588,49 +589,49 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function buildAttributeOptionTitle( options: BindingOptions ) : BindingOptions {
-        options.title = Data.getDefaultObject( options.title, {} as Title );
-        options.title!.text = Data.getDefaultString( options.title!.text, "JsonTree.js" );
-        options.title!.show = Data.getDefaultBoolean( options.title!.show, true );
-        options.title!.showTreeControls = Data.getDefaultBoolean( options.title!.showTreeControls, true );
-        options.title!.showCopyButton = Data.getDefaultBoolean( options.title!.showCopyButton, false );
+        options.title = Default.getDefaultObject( options.title, {} as Title );
+        options.title!.text = Default.getDefaultString( options.title!.text, "JsonTree.js" );
+        options.title!.show = Default.getDefaultBoolean( options.title!.show, true );
+        options.title!.showTreeControls = Default.getDefaultBoolean( options.title!.showTreeControls, true );
+        options.title!.showCopyButton = Default.getDefaultBoolean( options.title!.showCopyButton, false );
 
         return options;
     }
 
     function buildAttributeOptionIgnore( options: BindingOptions ) : BindingOptions {
-        options.ignore = Data.getDefaultObject( options.ignore, {} as Ignore );
-        options.ignore!.nullValues = Data.getDefaultBoolean( options.ignore!.nullValues, false );
-        options.ignore!.functionValues = Data.getDefaultBoolean( options.ignore!.functionValues, false );
-        options.ignore!.unknownValues = Data.getDefaultBoolean( options.ignore!.unknownValues, false );
-        options.ignore!.booleanValues = Data.getDefaultBoolean( options.ignore!.booleanValues, false );
-        options.ignore!.decimalValues = Data.getDefaultBoolean( options.ignore!.decimalValues, false );
-        options.ignore!.numberValues = Data.getDefaultBoolean( options.ignore!.numberValues, false );
-        options.ignore!.stringValues = Data.getDefaultBoolean( options.ignore!.stringValues, false );
-        options.ignore!.dateValues = Data.getDefaultBoolean( options.ignore!.dateValues, false );
-        options.ignore!.objectValues = Data.getDefaultBoolean( options.ignore!.objectValues, false );
-        options.ignore!.arrayValues = Data.getDefaultBoolean( options.ignore!.arrayValues, false );
+        options.ignore = Default.getDefaultObject( options.ignore, {} as Ignore );
+        options.ignore!.nullValues = Default.getDefaultBoolean( options.ignore!.nullValues, false );
+        options.ignore!.functionValues = Default.getDefaultBoolean( options.ignore!.functionValues, false );
+        options.ignore!.unknownValues = Default.getDefaultBoolean( options.ignore!.unknownValues, false );
+        options.ignore!.booleanValues = Default.getDefaultBoolean( options.ignore!.booleanValues, false );
+        options.ignore!.decimalValues = Default.getDefaultBoolean( options.ignore!.decimalValues, false );
+        options.ignore!.numberValues = Default.getDefaultBoolean( options.ignore!.numberValues, false );
+        options.ignore!.stringValues = Default.getDefaultBoolean( options.ignore!.stringValues, false );
+        options.ignore!.dateValues = Default.getDefaultBoolean( options.ignore!.dateValues, false );
+        options.ignore!.objectValues = Default.getDefaultBoolean( options.ignore!.objectValues, false );
+        options.ignore!.arrayValues = Default.getDefaultBoolean( options.ignore!.arrayValues, false );
 
         return options;
     }
 
     function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Data.getDefaultObject( options.events, {} as Events );
-        options.events!.onBeforeRender = Data.getDefaultFunction( options.events!.onBeforeRender, null! );
-        options.events!.onRenderComplete = Data.getDefaultFunction( options.events!.onRenderComplete, null! );
-        options.events!.onValueClick = Data.getDefaultFunction( options.events!.onValueClick, null! );
-        options.events!.onRefresh = Data.getDefaultFunction( options.events!.onRefresh, null! );
-        options.events!.onCopyAll = Data.getDefaultFunction( options.events!.onCopyAll, null! );
-        options.events!.onOpenAll = Data.getDefaultFunction( options.events!.onOpenAll, null! );
-        options.events!.onCloseAll = Data.getDefaultFunction( options.events!.onCloseAll, null! );
-        options.events!.onDestroy = Data.getDefaultFunction( options.events!.onDestroy, null! );
-        options.events!.onBooleanRender = Data.getDefaultFunction( options.events!.onBooleanRender, null! );
-        options.events!.onDecimalRender = Data.getDefaultFunction( options.events!.onDecimalRender, null! );
-        options.events!.onNumberRender =Data.getDefaultFunction( options.events!.onNumberRender, null! );
-        options.events!.onStringRender = Data.getDefaultFunction( options.events!.onStringRender, null! );
-        options.events!.onDateRender = Data.getDefaultFunction( options.events!.onDateRender, null! );
-        options.events!.onFunctionRender = Data.getDefaultFunction( options.events!.onFunctionRender, null! );
-        options.events!.onNullRender = Data.getDefaultFunction( options.events!.onNullRender, null! );
-        options.events!.onUnknownRender = Data.getDefaultFunction( options.events!.onUnknownRender, null! );
+        options.events = Default.getDefaultObject( options.events, {} as Events );
+        options.events!.onBeforeRender = Default.getDefaultFunction( options.events!.onBeforeRender, null! );
+        options.events!.onRenderComplete = Default.getDefaultFunction( options.events!.onRenderComplete, null! );
+        options.events!.onValueClick = Default.getDefaultFunction( options.events!.onValueClick, null! );
+        options.events!.onRefresh = Default.getDefaultFunction( options.events!.onRefresh, null! );
+        options.events!.onCopyAll = Default.getDefaultFunction( options.events!.onCopyAll, null! );
+        options.events!.onOpenAll = Default.getDefaultFunction( options.events!.onOpenAll, null! );
+        options.events!.onCloseAll = Default.getDefaultFunction( options.events!.onCloseAll, null! );
+        options.events!.onDestroy = Default.getDefaultFunction( options.events!.onDestroy, null! );
+        options.events!.onBooleanRender = Default.getDefaultFunction( options.events!.onBooleanRender, null! );
+        options.events!.onDecimalRender = Default.getDefaultFunction( options.events!.onDecimalRender, null! );
+        options.events!.onNumberRender =Default.getDefaultFunction( options.events!.onNumberRender, null! );
+        options.events!.onStringRender = Default.getDefaultFunction( options.events!.onStringRender, null! );
+        options.events!.onDateRender = Default.getDefaultFunction( options.events!.onDateRender, null! );
+        options.events!.onFunctionRender = Default.getDefaultFunction( options.events!.onFunctionRender, null! );
+        options.events!.onNullRender = Default.getDefaultFunction( options.events!.onNullRender, null! );
+        options.events!.onUnknownRender = Default.getDefaultFunction( options.events!.onUnknownRender, null! );
 
         return options;
     }
@@ -708,27 +709,27 @@ type JsonTreeData = Record<string, BindingOptions>;
 	 */
 
     function buildDefaultConfiguration( newConfiguration: any = null ) : void {
-        _configuration = Data.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Data.getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Data.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
+        _configuration = Default.getDefaultObject( newConfiguration, {} as Configuration );
+        _configuration.safeMode = Default.getDefaultBoolean( _configuration.safeMode, true );
+        _configuration.domElementTypes = Default.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
 
         buildDefaultConfigurationStrings();
     }
 
     function buildDefaultConfigurationStrings() : void {
-        _configuration.objectText = Data.getDefaultAnyString( _configuration.objectText, "object" );
-        _configuration.arrayText = Data.getDefaultAnyString( _configuration.arrayText, "array" );
-        _configuration.closeAllButtonText = Data.getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
-        _configuration.openAllButtonText = Data.getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
-        _configuration.copyAllButtonText = Data.getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
-        _configuration.objectErrorText = Data.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Data.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Data.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.stText = Data.getDefaultAnyString( _configuration.stText, "st" );
-        _configuration.ndText = Data.getDefaultAnyString( _configuration.ndText, "nd" );
-        _configuration.rdText = Data.getDefaultAnyString( _configuration.rdText, "rd" );
-        _configuration.thText = Data.getDefaultAnyString( _configuration.thText, "th" );
-        _configuration.ellipsisText = Data.getDefaultAnyString( _configuration.ellipsisText, "..." );
+        _configuration.objectText = Default.getDefaultAnyString( _configuration.objectText, "object" );
+        _configuration.arrayText = Default.getDefaultAnyString( _configuration.arrayText, "array" );
+        _configuration.closeAllButtonText = Default.getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
+        _configuration.openAllButtonText = Default.getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
+        _configuration.copyAllButtonText = Default.getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
+        _configuration.objectErrorText = Default.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+        _configuration.attributeNotValidErrorText = Default.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+        _configuration.attributeNotSetErrorText = Default.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+        _configuration.stText = Default.getDefaultAnyString( _configuration.stText, "st" );
+        _configuration.ndText = Default.getDefaultAnyString( _configuration.ndText, "nd" );
+        _configuration.rdText = Default.getDefaultAnyString( _configuration.rdText, "rd" );
+        _configuration.thText = Default.getDefaultAnyString( _configuration.thText, "th" );
+        _configuration.ellipsisText = Default.getDefaultAnyString( _configuration.ellipsisText, "..." );
 
         if ( Is.invalidOptionArray( _configuration.dayNames, 7 ) ) {
             _configuration.dayNames = [
