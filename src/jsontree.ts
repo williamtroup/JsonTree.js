@@ -13,11 +13,11 @@
 
 import {
     type BindingOptions,
-    type Events,
-    type Ignore,
-    type Title,
+    type BindingOptionsEvents,
+    type BindingOptionsIgnore,
+    type BindingOptionsTitle,
     type Configuration, 
-    type CurrentView } from "./ts/type";
+    type BindingOptionsCurrentView } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -27,6 +27,8 @@ import { Char } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
+import { Binding } from "./ts/options/binding";
+import { Config } from "./ts/options/config";
 
 
 type StringToJson = {
@@ -99,8 +101,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderBindingOptions( data: any, element: HTMLElement ) : BindingOptions {
-        const bindingOptions: BindingOptions = buildAttributeOptions( data );
-        bindingOptions._currentView = {} as CurrentView;
+        const bindingOptions: BindingOptions = Binding.Options.get( data );
+        bindingOptions._currentView = {} as BindingOptionsCurrentView;
         bindingOptions._currentView.element = element;
 
         return bindingOptions;
@@ -558,87 +560,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Options
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildAttributeOptions( newOptions: any ) : BindingOptions {
-        let options: BindingOptions = Default.getDefaultObject( newOptions, {} as BindingOptions );
-        options.data = Default.getDefaultObject( options.data, null! );
-        options.showCounts = Default.getDefaultBoolean( options.showCounts, true );
-        options.useZeroIndexingForArrays = Default.getDefaultBoolean( options.useZeroIndexingForArrays, true );
-        options.dateTimeFormat = Default.getDefaultString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
-        options.showArrowToggles = Default.getDefaultBoolean( options.showArrowToggles, true );
-        options.showStringQuotes = Default.getDefaultBoolean( options.showStringQuotes, true );
-        options.showAllAsClosed = Default.getDefaultBoolean( options.showAllAsClosed, false );
-        options.sortPropertyNames = Default.getDefaultBoolean( options.sortPropertyNames, true );
-        options.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
-        options.showCommas = Default.getDefaultBoolean( options.showCommas, false );
-        options.reverseArrayValues = Default.getDefaultBoolean( options.reverseArrayValues, false );
-        options.addArrayIndexPadding = Default.getDefaultBoolean( options.addArrayIndexPadding, false );
-        options.showValueColors = Default.getDefaultBoolean( options.showValueColors, true );
-        options.maximumDecimalPlaces = Default.getDefaultNumber( options.maximumDecimalPlaces, 2 );
-        options.maximumStringLength = Default.getDefaultNumber( options.maximumStringLength, 0 );
-        options.showStringHexColors = Default.getDefaultBoolean( options.showStringHexColors, false );
-
-        options = buildAttributeOptionTitle( options );
-        options = buildAttributeOptionIgnore( options );
-        options = buildAttributeOptionCustomTriggers( options );
-
-        return options;
-    }
-
-    function buildAttributeOptionTitle( options: BindingOptions ) : BindingOptions {
-        options.title = Default.getDefaultObject( options.title, {} as Title );
-        options.title!.text = Default.getDefaultString( options.title!.text, "JsonTree.js" );
-        options.title!.show = Default.getDefaultBoolean( options.title!.show, true );
-        options.title!.showTreeControls = Default.getDefaultBoolean( options.title!.showTreeControls, true );
-        options.title!.showCopyButton = Default.getDefaultBoolean( options.title!.showCopyButton, false );
-
-        return options;
-    }
-
-    function buildAttributeOptionIgnore( options: BindingOptions ) : BindingOptions {
-        options.ignore = Default.getDefaultObject( options.ignore, {} as Ignore );
-        options.ignore!.nullValues = Default.getDefaultBoolean( options.ignore!.nullValues, false );
-        options.ignore!.functionValues = Default.getDefaultBoolean( options.ignore!.functionValues, false );
-        options.ignore!.unknownValues = Default.getDefaultBoolean( options.ignore!.unknownValues, false );
-        options.ignore!.booleanValues = Default.getDefaultBoolean( options.ignore!.booleanValues, false );
-        options.ignore!.decimalValues = Default.getDefaultBoolean( options.ignore!.decimalValues, false );
-        options.ignore!.numberValues = Default.getDefaultBoolean( options.ignore!.numberValues, false );
-        options.ignore!.stringValues = Default.getDefaultBoolean( options.ignore!.stringValues, false );
-        options.ignore!.dateValues = Default.getDefaultBoolean( options.ignore!.dateValues, false );
-        options.ignore!.objectValues = Default.getDefaultBoolean( options.ignore!.objectValues, false );
-        options.ignore!.arrayValues = Default.getDefaultBoolean( options.ignore!.arrayValues, false );
-
-        return options;
-    }
-
-    function buildAttributeOptionCustomTriggers( options: BindingOptions ) : BindingOptions {
-        options.events = Default.getDefaultObject( options.events, {} as Events );
-        options.events!.onBeforeRender = Default.getDefaultFunction( options.events!.onBeforeRender, null! );
-        options.events!.onRenderComplete = Default.getDefaultFunction( options.events!.onRenderComplete, null! );
-        options.events!.onValueClick = Default.getDefaultFunction( options.events!.onValueClick, null! );
-        options.events!.onRefresh = Default.getDefaultFunction( options.events!.onRefresh, null! );
-        options.events!.onCopyAll = Default.getDefaultFunction( options.events!.onCopyAll, null! );
-        options.events!.onOpenAll = Default.getDefaultFunction( options.events!.onOpenAll, null! );
-        options.events!.onCloseAll = Default.getDefaultFunction( options.events!.onCloseAll, null! );
-        options.events!.onDestroy = Default.getDefaultFunction( options.events!.onDestroy, null! );
-        options.events!.onBooleanRender = Default.getDefaultFunction( options.events!.onBooleanRender, null! );
-        options.events!.onDecimalRender = Default.getDefaultFunction( options.events!.onDecimalRender, null! );
-        options.events!.onNumberRender =Default.getDefaultFunction( options.events!.onNumberRender, null! );
-        options.events!.onStringRender = Default.getDefaultFunction( options.events!.onStringRender, null! );
-        options.events!.onDateRender = Default.getDefaultFunction( options.events!.onDateRender, null! );
-        options.events!.onFunctionRender = Default.getDefaultFunction( options.events!.onFunctionRender, null! );
-        options.events!.onNullRender = Default.getDefaultFunction( options.events!.onNullRender, null! );
-        options.events!.onUnknownRender = Default.getDefaultFunction( options.events!.onUnknownRender, null! );
-
-        return options;
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Triggering Custom Events
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -700,94 +621,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.className = Char.empty;
 
         fireCustomTriggerEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
-    }
-
-	/*
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 * Public API Functions:  Helpers:  Configuration
-	 * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	 */
-
-    function buildDefaultConfiguration( newConfiguration: any = null ) : void {
-        _configuration = Default.getDefaultObject( newConfiguration, {} as Configuration );
-        _configuration.safeMode = Default.getDefaultBoolean( _configuration.safeMode, true );
-        _configuration.domElementTypes = Default.getDefaultStringOrArray( _configuration.domElementTypes, [ "*" ] );
-
-        buildDefaultConfigurationStrings();
-    }
-
-    function buildDefaultConfigurationStrings() : void {
-        _configuration.objectText = Default.getDefaultAnyString( _configuration.objectText, "object" );
-        _configuration.arrayText = Default.getDefaultAnyString( _configuration.arrayText, "array" );
-        _configuration.closeAllButtonText = Default.getDefaultAnyString( _configuration.closeAllButtonText, "Close All" );
-        _configuration.openAllButtonText = Default.getDefaultAnyString( _configuration.openAllButtonText, "Open All" );
-        _configuration.copyAllButtonText = Default.getDefaultAnyString( _configuration.copyAllButtonText, "Copy All" );
-        _configuration.objectErrorText = Default.getDefaultAnyString( _configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-        _configuration.attributeNotValidErrorText = Default.getDefaultAnyString( _configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-        _configuration.attributeNotSetErrorText = Default.getDefaultAnyString( _configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-        _configuration.stText = Default.getDefaultAnyString( _configuration.stText, "st" );
-        _configuration.ndText = Default.getDefaultAnyString( _configuration.ndText, "nd" );
-        _configuration.rdText = Default.getDefaultAnyString( _configuration.rdText, "rd" );
-        _configuration.thText = Default.getDefaultAnyString( _configuration.thText, "th" );
-        _configuration.ellipsisText = Default.getDefaultAnyString( _configuration.ellipsisText, "..." );
-
-        if ( Is.invalidOptionArray( _configuration.dayNames, 7 ) ) {
-            _configuration.dayNames = [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.dayNamesAbbreviated, 7 ) ) {
-            _configuration.dayNamesAbbreviated = [
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri",
-                "Sat",
-                "Sun"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.monthNames, 12 ) ) {
-            _configuration.monthNames = [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December"
-            ];
-        }
-
-        if ( Is.invalidOptionArray( _configuration.monthNamesAbbreviated, 12 ) ) {
-            _configuration.monthNamesAbbreviated = [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec"
-            ];
-        }
     }
 
 
@@ -907,7 +740,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
         
                 if ( configurationHasChanged ) {
-                    buildDefaultConfiguration( newInternalConfiguration );
+                    _configuration = Config.Options.get( newInternalConfiguration );
                 }
             }
     
@@ -946,7 +779,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     ( () => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
 
         document.addEventListener( "DOMContentLoaded", function() {
             render();

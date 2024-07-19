@@ -34,7 +34,7 @@ export type Configuration = {
 };
 
 export type BindingOptions = {
-    _currentView: CurrentView;
+    _currentView: BindingOptionsCurrentView;
 	data?: object;
 	showCounts?: boolean;
 	useZeroIndexingForArrays?: boolean;
@@ -51,23 +51,23 @@ export type BindingOptions = {
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
-	title?: Title;
-	ignore?: Ignore;
-	events?: Events;
+	title?: BindingOptionsTitle;
+	ignore?: BindingOptionsIgnore;
+	events?: BindingOptionsEvents;
 };
 
-export type CurrentView = {
+export type BindingOptionsCurrentView = {
     element: HTMLElement;
 };
 
-export type Title = {
+export type BindingOptionsTitle = {
     text?: string;
     show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
 };
 
-export type Ignore = {
+export type BindingOptionsIgnore = {
     nullValues?: boolean;
     functionValues?: boolean;
     unknownValues?: boolean;
@@ -80,7 +80,7 @@ export type Ignore = {
     numberValues?: boolean;
 };
 
-export type Events = {
+export type BindingOptionsEvents = {
     onBeforeRender?: ( element: HTMLElement ) => void;
     onRenderComplete?: ( element: HTMLElement ) => void;
     onValueClick?: ( value: any, type: string ) => void;

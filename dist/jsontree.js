@@ -31,14 +31,14 @@ var Is;
         return n(e) && e instanceof Array;
     }
     e.definedArray = i;
-    function u(e) {
+    function s(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = u;
-    function s(e) {
+    e.definedDate = s;
+    function u(e) {
         return t(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedDecimal = s;
+    e.definedDecimal = u;
     function f(e, t = 1) {
         return !i(e) || e.length < t;
     }
@@ -84,7 +84,7 @@ var Default;
         return Is.definedObject(e) ? e : t;
     }
     e.getDefaultObject = i;
-    function u(e, t) {
+    function s(e, t) {
         let n = t;
         if (Is.definedString(e)) {
             const r = e.toString().split(" ");
@@ -98,13 +98,13 @@ var Default;
         }
         return n;
     }
-    e.getDefaultStringOrArray = u;
-    function s(e, t) {
+    e.getDefaultStringOrArray = s;
+    function u(e, t) {
         var n;
         const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
         return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
-    e.getFixedDecimalPlacesValue = s;
+    e.getFixedDecimalPlacesValue = u;
 })(Default || (Default = {}));
 
 var DomElement;
@@ -216,6 +216,124 @@ var Constants;
     e.JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
 })(Constants || (Constants = {}));
 
+var Binding;
+
+(e => {
+    let t;
+    (e => {
+        function t(e) {
+            let t = Default.getDefaultObject(e, {});
+            t.data = Default.getDefaultObject(t.data, null);
+            t.showCounts = Default.getDefaultBoolean(t.showCounts, true);
+            t.useZeroIndexingForArrays = Default.getDefaultBoolean(t.useZeroIndexingForArrays, true);
+            t.dateTimeFormat = Default.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
+            t.showArrowToggles = Default.getDefaultBoolean(t.showArrowToggles, true);
+            t.showStringQuotes = Default.getDefaultBoolean(t.showStringQuotes, true);
+            t.showAllAsClosed = Default.getDefaultBoolean(t.showAllAsClosed, false);
+            t.sortPropertyNames = Default.getDefaultBoolean(t.sortPropertyNames, true);
+            t.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
+            t.showCommas = Default.getDefaultBoolean(t.showCommas, false);
+            t.reverseArrayValues = Default.getDefaultBoolean(t.reverseArrayValues, false);
+            t.addArrayIndexPadding = Default.getDefaultBoolean(t.addArrayIndexPadding, false);
+            t.showValueColors = Default.getDefaultBoolean(t.showValueColors, true);
+            t.maximumDecimalPlaces = Default.getDefaultNumber(t.maximumDecimalPlaces, 2);
+            t.maximumStringLength = Default.getDefaultNumber(t.maximumStringLength, 0);
+            t.showStringHexColors = Default.getDefaultBoolean(t.showStringHexColors, false);
+            t = n(t);
+            t = r(t);
+            t = o(t);
+            return t;
+        }
+        e.get = t;
+        function n(e) {
+            e.title = Default.getDefaultObject(e.title, {});
+            e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
+            e.title.show = Default.getDefaultBoolean(e.title.show, true);
+            e.title.showTreeControls = Default.getDefaultBoolean(e.title.showTreeControls, true);
+            e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, false);
+            return e;
+        }
+        function r(e) {
+            e.ignore = Default.getDefaultObject(e.ignore, {});
+            e.ignore.nullValues = Default.getDefaultBoolean(e.ignore.nullValues, false);
+            e.ignore.functionValues = Default.getDefaultBoolean(e.ignore.functionValues, false);
+            e.ignore.unknownValues = Default.getDefaultBoolean(e.ignore.unknownValues, false);
+            e.ignore.booleanValues = Default.getDefaultBoolean(e.ignore.booleanValues, false);
+            e.ignore.decimalValues = Default.getDefaultBoolean(e.ignore.decimalValues, false);
+            e.ignore.numberValues = Default.getDefaultBoolean(e.ignore.numberValues, false);
+            e.ignore.stringValues = Default.getDefaultBoolean(e.ignore.stringValues, false);
+            e.ignore.dateValues = Default.getDefaultBoolean(e.ignore.dateValues, false);
+            e.ignore.objectValues = Default.getDefaultBoolean(e.ignore.objectValues, false);
+            e.ignore.arrayValues = Default.getDefaultBoolean(e.ignore.arrayValues, false);
+            return e;
+        }
+        function o(e) {
+            e.events = Default.getDefaultObject(e.events, {});
+            e.events.onBeforeRender = Default.getDefaultFunction(e.events.onBeforeRender, null);
+            e.events.onRenderComplete = Default.getDefaultFunction(e.events.onRenderComplete, null);
+            e.events.onValueClick = Default.getDefaultFunction(e.events.onValueClick, null);
+            e.events.onRefresh = Default.getDefaultFunction(e.events.onRefresh, null);
+            e.events.onCopyAll = Default.getDefaultFunction(e.events.onCopyAll, null);
+            e.events.onOpenAll = Default.getDefaultFunction(e.events.onOpenAll, null);
+            e.events.onCloseAll = Default.getDefaultFunction(e.events.onCloseAll, null);
+            e.events.onDestroy = Default.getDefaultFunction(e.events.onDestroy, null);
+            e.events.onBooleanRender = Default.getDefaultFunction(e.events.onBooleanRender, null);
+            e.events.onDecimalRender = Default.getDefaultFunction(e.events.onDecimalRender, null);
+            e.events.onNumberRender = Default.getDefaultFunction(e.events.onNumberRender, null);
+            e.events.onStringRender = Default.getDefaultFunction(e.events.onStringRender, null);
+            e.events.onDateRender = Default.getDefaultFunction(e.events.onDateRender, null);
+            e.events.onFunctionRender = Default.getDefaultFunction(e.events.onFunctionRender, null);
+            e.events.onNullRender = Default.getDefaultFunction(e.events.onNullRender, null);
+            e.events.onUnknownRender = Default.getDefaultFunction(e.events.onUnknownRender, null);
+            return e;
+        }
+    })(t = e.Options || (e.Options = {}));
+})(Binding || (Binding = {}));
+
+var Config;
+
+(e => {
+    let t;
+    (e => {
+        function t(e = null) {
+            let t = Default.getDefaultObject(e, {});
+            t.safeMode = Default.getDefaultBoolean(t.safeMode, true);
+            t.domElementTypes = Default.getDefaultStringOrArray(t.domElementTypes, [ "*" ]);
+            t = n(t);
+            return t;
+        }
+        e.get = t;
+        function n(e) {
+            e.objectText = Default.getDefaultAnyString(e.objectText, "object");
+            e.arrayText = Default.getDefaultAnyString(e.arrayText, "array");
+            e.closeAllButtonText = Default.getDefaultAnyString(e.closeAllButtonText, "Close All");
+            e.openAllButtonText = Default.getDefaultAnyString(e.openAllButtonText, "Open All");
+            e.copyAllButtonText = Default.getDefaultAnyString(e.copyAllButtonText, "Copy All");
+            e.objectErrorText = Default.getDefaultAnyString(e.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+            e.attributeNotValidErrorText = Default.getDefaultAnyString(e.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+            e.attributeNotSetErrorText = Default.getDefaultAnyString(e.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+            e.stText = Default.getDefaultAnyString(e.stText, "st");
+            e.ndText = Default.getDefaultAnyString(e.ndText, "nd");
+            e.rdText = Default.getDefaultAnyString(e.rdText, "rd");
+            e.thText = Default.getDefaultAnyString(e.thText, "th");
+            e.ellipsisText = Default.getDefaultAnyString(e.ellipsisText, "...");
+            if (Is.invalidOptionArray(e.dayNames, 7)) {
+                e.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
+            }
+            if (Is.invalidOptionArray(e.dayNamesAbbreviated, 7)) {
+                e.dayNamesAbbreviated = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ];
+            }
+            if (Is.invalidOptionArray(e.monthNames, 12)) {
+                e.monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+            }
+            if (Is.invalidOptionArray(e.monthNamesAbbreviated, 12)) {
+                e.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+            }
+            return e;
+        }
+    })(t = e.Options || (e.Options = {}));
+})(Config || (Config = {}));
+
 (() => {
     let _configuration = {};
     let _elements_Data = {};
@@ -257,7 +375,7 @@ var Constants;
         return t;
     }
     function renderBindingOptions(e, t) {
-        const n = buildAttributeOptions(e);
+        const n = Binding.Options.get(e);
         n._currentView = {};
         n._currentView.element = t;
         return n;
@@ -384,8 +502,8 @@ var Constants;
         const l = DomElement.create(e, "div", "object-type-value");
         const a = t.showArrowToggles ? DomElement.create(l, "div", "no-arrow") : null;
         let i = null;
-        let u = null;
-        let s = false;
+        let s = null;
+        let u = false;
         let f = null;
         let c = true;
         DomElement.createWithHTML(l, "span", "title", n);
@@ -393,63 +511,63 @@ var Constants;
         if (!Is.defined(r)) {
             if (!t.ignore.nullValues) {
                 i = t.showValueColors ? "null" : "";
-                u = DomElement.createWithHTML(l, "span", i, "null");
+                s = DomElement.createWithHTML(l, "span", i, "null");
                 c = false;
                 if (Is.definedFunction(t.events.onNullRender)) {
-                    fireCustomTriggerEvent(t.events.onNullRender, u);
+                    fireCustomTriggerEvent(t.events.onNullRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedFunction(r)) {
             if (!t.ignore.functionValues) {
                 i = t.showValueColors ? "function" : "";
-                u = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
+                s = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
                 f = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
-                    fireCustomTriggerEvent(t.events.onFunctionRender, u);
+                    fireCustomTriggerEvent(t.events.onFunctionRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedBoolean(r)) {
             if (!t.ignore.booleanValues) {
                 i = t.showValueColors ? "boolean" : "";
-                u = DomElement.createWithHTML(l, "span", i, r);
+                s = DomElement.createWithHTML(l, "span", i, r);
                 f = "boolean";
                 if (Is.definedFunction(t.events.onBooleanRender)) {
-                    fireCustomTriggerEvent(t.events.onBooleanRender, u);
+                    fireCustomTriggerEvent(t.events.onBooleanRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedDecimal(r)) {
             if (!t.ignore.decimalValues) {
                 const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
                 i = t.showValueColors ? "decimal" : "";
-                u = DomElement.createWithHTML(l, "span", i, e);
+                s = DomElement.createWithHTML(l, "span", i, e);
                 f = "decimal";
                 if (Is.definedFunction(t.events.onDecimalRender)) {
-                    fireCustomTriggerEvent(t.events.onDecimalRender, u);
+                    fireCustomTriggerEvent(t.events.onDecimalRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedNumber(r)) {
             if (!t.ignore.numberValues) {
                 i = t.showValueColors ? "number" : "";
-                u = DomElement.createWithHTML(l, "span", i, r);
+                s = DomElement.createWithHTML(l, "span", i, r);
                 f = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
-                    fireCustomTriggerEvent(t.events.onNumberRender, u);
+                    fireCustomTriggerEvent(t.events.onNumberRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
@@ -463,29 +581,29 @@ var Constants;
                 }
                 const n = t.showStringQuotes ? '"' + r + '"' : r;
                 i = t.showValueColors ? "string" : "";
-                u = DomElement.createWithHTML(l, "span", i, n);
+                s = DomElement.createWithHTML(l, "span", i, n);
                 f = "string";
                 if (Is.definedString(e)) {
-                    u.style.color = e;
+                    s.style.color = e;
                 }
                 if (Is.definedFunction(t.events.onStringRender)) {
-                    fireCustomTriggerEvent(t.events.onStringRender, u);
+                    fireCustomTriggerEvent(t.events.onStringRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedDate(r)) {
             if (!t.ignore.dateValues) {
                 i = t.showValueColors ? "date" : "";
-                u = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                 f = "date";
                 if (Is.definedFunction(t.events.onDateRender)) {
-                    fireCustomTriggerEvent(t.events.onDateRender, u);
+                    fireCustomTriggerEvent(t.events.onDateRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedObject(r) && !Is.definedArray(r)) {
             if (!t.ignore.objectValues) {
@@ -499,7 +617,7 @@ var Constants;
                 createComma(t, e, o);
                 f = "object";
             } else {
-                s = true;
+                u = true;
             }
         } else if (Is.definedArray(r)) {
             if (!t.ignore.arrayValues) {
@@ -513,26 +631,26 @@ var Constants;
                 renderArrayValues(a, n, t, r);
                 f = "array";
             } else {
-                s = true;
+                u = true;
             }
         } else {
             if (!t.ignore.unknownValues) {
                 i = t.showValueColors ? "unknown" : "";
-                u = DomElement.createWithHTML(l, "span", i, r.toString());
+                s = DomElement.createWithHTML(l, "span", i, r.toString());
                 f = "unknown";
                 if (Is.definedFunction(t.events.onUnknownRender)) {
-                    fireCustomTriggerEvent(t.events.onUnknownRender, u);
+                    fireCustomTriggerEvent(t.events.onUnknownRender, s);
                 }
                 createComma(t, l, o);
             } else {
-                s = true;
+                u = true;
             }
         }
-        if (s) {
+        if (u) {
             e.removeChild(l);
         } else {
-            if (Is.defined(u)) {
-                addValueClickEvent(t, u, r, f, c);
+            if (Is.defined(s)) {
+                addValueClickEvent(t, s, r, f, c);
             }
         }
     }
@@ -588,71 +706,6 @@ var Constants;
         }
         return r;
     }
-    function buildAttributeOptions(e) {
-        let t = Default.getDefaultObject(e, {});
-        t.data = Default.getDefaultObject(t.data, null);
-        t.showCounts = Default.getDefaultBoolean(t.showCounts, true);
-        t.useZeroIndexingForArrays = Default.getDefaultBoolean(t.useZeroIndexingForArrays, true);
-        t.dateTimeFormat = Default.getDefaultString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-        t.showArrowToggles = Default.getDefaultBoolean(t.showArrowToggles, true);
-        t.showStringQuotes = Default.getDefaultBoolean(t.showStringQuotes, true);
-        t.showAllAsClosed = Default.getDefaultBoolean(t.showAllAsClosed, false);
-        t.sortPropertyNames = Default.getDefaultBoolean(t.sortPropertyNames, true);
-        t.sortPropertyNamesInAlphabeticalOrder = Default.getDefaultBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
-        t.showCommas = Default.getDefaultBoolean(t.showCommas, false);
-        t.reverseArrayValues = Default.getDefaultBoolean(t.reverseArrayValues, false);
-        t.addArrayIndexPadding = Default.getDefaultBoolean(t.addArrayIndexPadding, false);
-        t.showValueColors = Default.getDefaultBoolean(t.showValueColors, true);
-        t.maximumDecimalPlaces = Default.getDefaultNumber(t.maximumDecimalPlaces, 2);
-        t.maximumStringLength = Default.getDefaultNumber(t.maximumStringLength, 0);
-        t.showStringHexColors = Default.getDefaultBoolean(t.showStringHexColors, false);
-        t = buildAttributeOptionTitle(t);
-        t = buildAttributeOptionIgnore(t);
-        t = buildAttributeOptionCustomTriggers(t);
-        return t;
-    }
-    function buildAttributeOptionTitle(e) {
-        e.title = Default.getDefaultObject(e.title, {});
-        e.title.text = Default.getDefaultString(e.title.text, "JsonTree.js");
-        e.title.show = Default.getDefaultBoolean(e.title.show, true);
-        e.title.showTreeControls = Default.getDefaultBoolean(e.title.showTreeControls, true);
-        e.title.showCopyButton = Default.getDefaultBoolean(e.title.showCopyButton, false);
-        return e;
-    }
-    function buildAttributeOptionIgnore(e) {
-        e.ignore = Default.getDefaultObject(e.ignore, {});
-        e.ignore.nullValues = Default.getDefaultBoolean(e.ignore.nullValues, false);
-        e.ignore.functionValues = Default.getDefaultBoolean(e.ignore.functionValues, false);
-        e.ignore.unknownValues = Default.getDefaultBoolean(e.ignore.unknownValues, false);
-        e.ignore.booleanValues = Default.getDefaultBoolean(e.ignore.booleanValues, false);
-        e.ignore.decimalValues = Default.getDefaultBoolean(e.ignore.decimalValues, false);
-        e.ignore.numberValues = Default.getDefaultBoolean(e.ignore.numberValues, false);
-        e.ignore.stringValues = Default.getDefaultBoolean(e.ignore.stringValues, false);
-        e.ignore.dateValues = Default.getDefaultBoolean(e.ignore.dateValues, false);
-        e.ignore.objectValues = Default.getDefaultBoolean(e.ignore.objectValues, false);
-        e.ignore.arrayValues = Default.getDefaultBoolean(e.ignore.arrayValues, false);
-        return e;
-    }
-    function buildAttributeOptionCustomTriggers(e) {
-        e.events = Default.getDefaultObject(e.events, {});
-        e.events.onBeforeRender = Default.getDefaultFunction(e.events.onBeforeRender, null);
-        e.events.onRenderComplete = Default.getDefaultFunction(e.events.onRenderComplete, null);
-        e.events.onValueClick = Default.getDefaultFunction(e.events.onValueClick, null);
-        e.events.onRefresh = Default.getDefaultFunction(e.events.onRefresh, null);
-        e.events.onCopyAll = Default.getDefaultFunction(e.events.onCopyAll, null);
-        e.events.onOpenAll = Default.getDefaultFunction(e.events.onOpenAll, null);
-        e.events.onCloseAll = Default.getDefaultFunction(e.events.onCloseAll, null);
-        e.events.onDestroy = Default.getDefaultFunction(e.events.onDestroy, null);
-        e.events.onBooleanRender = Default.getDefaultFunction(e.events.onBooleanRender, null);
-        e.events.onDecimalRender = Default.getDefaultFunction(e.events.onDecimalRender, null);
-        e.events.onNumberRender = Default.getDefaultFunction(e.events.onNumberRender, null);
-        e.events.onStringRender = Default.getDefaultFunction(e.events.onStringRender, null);
-        e.events.onDateRender = Default.getDefaultFunction(e.events.onDateRender, null);
-        e.events.onFunctionRender = Default.getDefaultFunction(e.events.onFunctionRender, null);
-        e.events.onNullRender = Default.getDefaultFunction(e.events.onNullRender, null);
-        e.events.onUnknownRender = Default.getDefaultFunction(e.events.onUnknownRender, null);
-        return e;
-    }
     function fireCustomTriggerEvent(e, ...t) {
         if (Is.definedFunction(e)) {
             e.apply(null, [].slice.call(t, 0));
@@ -687,39 +740,6 @@ var Constants;
         e._currentView.element.innerHTML = "";
         e._currentView.element.className = "";
         fireCustomTriggerEvent(e.events.onDestroy, e._currentView.element);
-    }
-    function buildDefaultConfiguration(e = null) {
-        _configuration = Default.getDefaultObject(e, {});
-        _configuration.safeMode = Default.getDefaultBoolean(_configuration.safeMode, true);
-        _configuration.domElementTypes = Default.getDefaultStringOrArray(_configuration.domElementTypes, [ "*" ]);
-        buildDefaultConfigurationStrings();
-    }
-    function buildDefaultConfigurationStrings() {
-        _configuration.objectText = Default.getDefaultAnyString(_configuration.objectText, "object");
-        _configuration.arrayText = Default.getDefaultAnyString(_configuration.arrayText, "array");
-        _configuration.closeAllButtonText = Default.getDefaultAnyString(_configuration.closeAllButtonText, "Close All");
-        _configuration.openAllButtonText = Default.getDefaultAnyString(_configuration.openAllButtonText, "Open All");
-        _configuration.copyAllButtonText = Default.getDefaultAnyString(_configuration.copyAllButtonText, "Copy All");
-        _configuration.objectErrorText = Default.getDefaultAnyString(_configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-        _configuration.attributeNotValidErrorText = Default.getDefaultAnyString(_configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-        _configuration.attributeNotSetErrorText = Default.getDefaultAnyString(_configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-        _configuration.stText = Default.getDefaultAnyString(_configuration.stText, "st");
-        _configuration.ndText = Default.getDefaultAnyString(_configuration.ndText, "nd");
-        _configuration.rdText = Default.getDefaultAnyString(_configuration.rdText, "rd");
-        _configuration.thText = Default.getDefaultAnyString(_configuration.thText, "th");
-        _configuration.ellipsisText = Default.getDefaultAnyString(_configuration.ellipsisText, "...");
-        if (Is.invalidOptionArray(_configuration.dayNames, 7)) {
-            _configuration.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
-        }
-        if (Is.invalidOptionArray(_configuration.dayNamesAbbreviated, 7)) {
-            _configuration.dayNamesAbbreviated = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ];
-        }
-        if (Is.invalidOptionArray(_configuration.monthNames, 12)) {
-            _configuration.monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        }
-        if (Is.invalidOptionArray(_configuration.monthNamesAbbreviated, 12)) {
-            _configuration.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-        }
     }
     const _public = {
         refresh: function(e) {
@@ -789,7 +809,7 @@ var Constants;
                     }
                 }
                 if (t) {
-                    buildDefaultConfiguration(n);
+                    _configuration = Config.Options.get(n);
                 }
             }
             return _public;
@@ -808,7 +828,7 @@ var Constants;
         }
     };
     (() => {
-        buildDefaultConfiguration();
+        _configuration = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (function() {
             render();
         }));
