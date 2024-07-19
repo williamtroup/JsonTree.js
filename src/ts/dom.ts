@@ -42,7 +42,7 @@ export namespace DomElement {
         return element;
     }
 
-    export function addClass( element: HTMLElement, className: string ) {
+    export function addClass( element: HTMLElement, className: string ) : void {
         element.classList.add( className );
     }
 }
