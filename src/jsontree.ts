@@ -82,14 +82,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
 
             } else {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                    console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
                     result = false;
                 }
             }
@@ -155,7 +155,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.copyAllButtonText! );
+                const copy: HTMLElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonText! );
 
                 copy.onclick = () => {
                     const copyData: string = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data );
@@ -167,8 +167,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.openAllButtonText! );
-                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.closeAllButtonText! );
+                const openAll: HTMLElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonText! );
+                const closeAll: HTMLElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonText! );
 
                 openAll.onclick = () => {
                     openAllNodes( bindingOptions );
@@ -208,7 +208,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.objectText! );
+        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! );
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}" );
@@ -220,7 +220,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
 
-        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : Char.empty, _configuration.arrayText! );
+        DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array" : Char.empty, _configuration.text!.arrayText! );
 
         renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
 
@@ -383,7 +383,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 } else {
                     if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.ellipsisText;
+                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                     }
                 }
 
@@ -429,7 +429,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.objectText! );
+                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
 
                 if ( bindingOptions.showCounts && propertyCount > 0 ) {
                     DomElement.createWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
@@ -449,7 +449,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const arrayTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "array" : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
 
-                DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.arrayText! );
+                DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.text!.arrayText! );
 
                 if ( bindingOptions.showCounts ) {
                     DomElement.createWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
@@ -583,7 +583,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
             } catch ( e2: any ) {
                 if ( !_configuration.safeMode ) {
-                    console.error( _configuration.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( _configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
                     result.parsed = false;
                 }
                 

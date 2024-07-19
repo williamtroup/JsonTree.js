@@ -14,6 +14,10 @@
 export type Configuration = {
 	safeMode?: boolean;
 	domElementTypes?: string[] | string;
+	text?: ConfigurationText;
+};
+
+export type ConfigurationText = {
 	objectText?: string;
 	arrayText?: string;
 	closeAllButtonText?: string;

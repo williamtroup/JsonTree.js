@@ -172,13 +172,13 @@ var DateTime;
     }
     e.getWeekdayNumber = t;
     function n(e, t) {
-        let n = e.thText;
+        let n = e.text.thText;
         if (t === 31 || t === 21 || t === 1) {
-            n = e.stText;
+            n = e.text.stText;
         } else if (t === 22 || t === 2) {
-            n = e.ndText;
+            n = e.text.ndText;
         } else if (t === 23 || t === 3) {
-            n = e.rdText;
+            n = e.text.rdText;
         }
         return n;
     }
@@ -192,13 +192,13 @@ var DateTime;
         l = l.replace("{M}", r.getMinutes().toString());
         l = l.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
         l = l.replace("{s}", r.getSeconds().toString());
-        l = l.replace("{dddd}", e.dayNames[a]);
-        l = l.replace("{ddd}", e.dayNamesAbbreviated[a]);
+        l = l.replace("{dddd}", e.text.dayNames[a]);
+        l = l.replace("{ddd}", e.text.dayNamesAbbreviated[a]);
         l = l.replace("{dd}", Str.padNumber(r.getDate()));
         l = l.replace("{d}", r.getDate().toString());
         l = l.replace("{o}", n(e, r.getDate()));
-        l = l.replace("{mmmm}", e.monthNames[r.getMonth()]);
-        l = l.replace("{mmm}", e.monthNamesAbbreviated[r.getMonth()]);
+        l = l.replace("{mmmm}", e.text.monthNames[r.getMonth()]);
+        l = l.replace("{mmm}", e.text.monthNamesAbbreviated[r.getMonth()]);
         l = l.replace("{mm}", Str.padNumber(r.getMonth() + 1));
         l = l.replace("{m}", (r.getMonth() + 1).toString());
         l = l.replace("{yyyy}", r.getFullYear().toString());
@@ -304,30 +304,31 @@ var Config;
         }
         e.get = t;
         function n(e) {
-            e.objectText = Default.getDefaultAnyString(e.objectText, "object");
-            e.arrayText = Default.getDefaultAnyString(e.arrayText, "array");
-            e.closeAllButtonText = Default.getDefaultAnyString(e.closeAllButtonText, "Close All");
-            e.openAllButtonText = Default.getDefaultAnyString(e.openAllButtonText, "Open All");
-            e.copyAllButtonText = Default.getDefaultAnyString(e.copyAllButtonText, "Copy All");
-            e.objectErrorText = Default.getDefaultAnyString(e.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-            e.attributeNotValidErrorText = Default.getDefaultAnyString(e.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-            e.attributeNotSetErrorText = Default.getDefaultAnyString(e.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-            e.stText = Default.getDefaultAnyString(e.stText, "st");
-            e.ndText = Default.getDefaultAnyString(e.ndText, "nd");
-            e.rdText = Default.getDefaultAnyString(e.rdText, "rd");
-            e.thText = Default.getDefaultAnyString(e.thText, "th");
-            e.ellipsisText = Default.getDefaultAnyString(e.ellipsisText, "...");
-            if (Is.invalidOptionArray(e.dayNames, 7)) {
-                e.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
+            e.text = Default.getDefaultObject(e.text, {});
+            e.text.objectText = Default.getDefaultAnyString(e.text.objectText, "object");
+            e.text.arrayText = Default.getDefaultAnyString(e.text.arrayText, "array");
+            e.text.closeAllButtonText = Default.getDefaultAnyString(e.text.closeAllButtonText, "Close All");
+            e.text.openAllButtonText = Default.getDefaultAnyString(e.text.openAllButtonText, "Open All");
+            e.text.copyAllButtonText = Default.getDefaultAnyString(e.text.copyAllButtonText, "Copy All");
+            e.text.objectErrorText = Default.getDefaultAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+            e.text.attributeNotValidErrorText = Default.getDefaultAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+            e.text.attributeNotSetErrorText = Default.getDefaultAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+            e.text.stText = Default.getDefaultAnyString(e.text.stText, "st");
+            e.text.ndText = Default.getDefaultAnyString(e.text.ndText, "nd");
+            e.text.rdText = Default.getDefaultAnyString(e.text.rdText, "rd");
+            e.text.thText = Default.getDefaultAnyString(e.text.thText, "th");
+            e.text.ellipsisText = Default.getDefaultAnyString(e.text.ellipsisText, "...");
+            if (Is.invalidOptionArray(e.text.dayNames, 7)) {
+                e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
-            if (Is.invalidOptionArray(e.dayNamesAbbreviated, 7)) {
-                e.dayNamesAbbreviated = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ];
+            if (Is.invalidOptionArray(e.text.dayNamesAbbreviated, 7)) {
+                e.text.dayNamesAbbreviated = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ];
             }
-            if (Is.invalidOptionArray(e.monthNames, 12)) {
-                e.monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+            if (Is.invalidOptionArray(e.text.monthNames, 12)) {
+                e.text.monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
             }
-            if (Is.invalidOptionArray(e.monthNamesAbbreviated, 12)) {
-                e.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+            if (Is.invalidOptionArray(e.text.monthNamesAbbreviated, 12)) {
+                e.text.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
             }
             return e;
         }
@@ -374,13 +375,13 @@ var Trigger;
                     renderControl(renderBindingOptions(r.object, e));
                 } else {
                     if (!_configuration.safeMode) {
-                        console.error(_configuration.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                        console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
                         t = false;
                     }
                 }
             } else {
                 if (!_configuration.safeMode) {
-                    console.error(_configuration.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                    console.error(_configuration.text.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
                     t = false;
                 }
             }
@@ -424,7 +425,7 @@ var Trigger;
                 DomElement.createWithHTML(t, "div", "title", e.title.text, n);
             }
             if (e.title.showCopyButton) {
-                const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.copyAllButtonText);
+                const t = DomElement.createWithHTML(n, "button", "copy-all", _configuration.text.copyAllButtonText);
                 t.onclick = () => {
                     const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                     navigator.clipboard.writeText(t);
@@ -432,8 +433,8 @@ var Trigger;
                 };
             }
             if (e.title.showTreeControls) {
-                const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.openAllButtonText);
-                const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.closeAllButtonText);
+                const t = DomElement.createWithHTML(n, "button", "openAll", _configuration.text.openAllButtonText);
+                const r = DomElement.createWithHTML(n, "button", "closeAll", _configuration.text.closeAllButtonText);
                 t.onclick = () => {
                     openAllNodes(e);
                 };
@@ -458,7 +459,7 @@ var Trigger;
         const o = DomElement.create(e, "div", "object-type-contents");
         const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
         const a = renderObjectValues(l, o, t, n);
-        DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.objectText);
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
         if (t.showCounts && a > 0) {
             DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", "{" + a + "}");
         }
@@ -467,7 +468,7 @@ var Trigger;
         const r = DomElement.create(e, "div", "object-type-title");
         const o = DomElement.create(e, "div", "object-type-contents");
         const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
-        DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.arrayText);
+        DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
         renderArrayValues(l, o, t, n);
         if (t.showCounts) {
             DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
@@ -589,7 +590,7 @@ var Trigger;
                     e = r;
                 } else {
                     if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
-                        r = r.substring(0, t.maximumStringLength) + _configuration.ellipsisText;
+                        r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
                     }
                 }
                 const n = t.showStringQuotes ? '"' + r + '"' : r;
@@ -623,7 +624,7 @@ var Trigger;
                 const e = DomElement.create(l, "span", t.showValueColors ? "object" : "");
                 const n = DomElement.create(l, "div", "object-type-contents");
                 const i = renderObjectValues(a, n, t, r);
-                DomElement.createWithHTML(e, "span", "title", _configuration.objectText);
+                DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
                 if (t.showCounts && i > 0) {
                     DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
                 }
@@ -636,7 +637,7 @@ var Trigger;
             if (!t.ignore.arrayValues) {
                 const e = DomElement.create(l, "span", t.showValueColors ? "array" : "");
                 const n = DomElement.create(l, "div", "object-type-contents");
-                DomElement.createWithHTML(e, "span", "title", _configuration.arrayText);
+                DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                 if (t.showCounts) {
                     DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
                 }
@@ -736,7 +737,7 @@ var Trigger;
                 }
             } catch (e) {
                 if (!_configuration.safeMode) {
-                    console.error(_configuration.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
+                    console.error(_configuration.text.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
                     result.parsed = false;
                 }
                 result.object = null;

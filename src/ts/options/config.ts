@@ -11,7 +11,7 @@
  */
 
 
-import { type Configuration } from "../type";
+import { ConfigurationText, type Configuration } from "../type";
 import { Default } from "../data/default";
 import { Is } from "../data/is";
 
@@ -29,22 +29,23 @@ export namespace Config {
         }
     
         function getText( configuration: Configuration ) : Configuration {
-            configuration.objectText = Default.getDefaultAnyString( configuration.objectText, "object" );
-            configuration.arrayText = Default.getDefaultAnyString( configuration.arrayText, "array" );
-            configuration.closeAllButtonText = Default.getDefaultAnyString( configuration.closeAllButtonText, "Close All" );
-            configuration.openAllButtonText = Default.getDefaultAnyString( configuration.openAllButtonText, "Open All" );
-            configuration.copyAllButtonText = Default.getDefaultAnyString( configuration.copyAllButtonText, "Copy All" );
-            configuration.objectErrorText = Default.getDefaultAnyString( configuration.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
-            configuration.attributeNotValidErrorText = Default.getDefaultAnyString( configuration.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
-            configuration.attributeNotSetErrorText = Default.getDefaultAnyString( configuration.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
-            configuration.stText = Default.getDefaultAnyString( configuration.stText, "st" );
-            configuration.ndText = Default.getDefaultAnyString( configuration.ndText, "nd" );
-            configuration.rdText = Default.getDefaultAnyString( configuration.rdText, "rd" );
-            configuration.thText = Default.getDefaultAnyString( configuration.thText, "th" );
-            configuration.ellipsisText = Default.getDefaultAnyString( configuration.ellipsisText, "..." );
+            configuration.text = Default.getDefaultObject( configuration.text, {} as ConfigurationText );
+            configuration.text!.objectText = Default.getDefaultAnyString( configuration.text!.objectText, "object" );
+            configuration.text!.arrayText = Default.getDefaultAnyString( configuration.text!.arrayText, "array" );
+            configuration.text!.closeAllButtonText = Default.getDefaultAnyString( configuration.text!.closeAllButtonText, "Close All" );
+            configuration.text!.openAllButtonText = Default.getDefaultAnyString( configuration.text!.openAllButtonText, "Open All" );
+            configuration.text!.copyAllButtonText = Default.getDefaultAnyString( configuration.text!.copyAllButtonText, "Copy All" );
+            configuration.text!.objectErrorText = Default.getDefaultAnyString( configuration.text!.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}" );
+            configuration.text!.attributeNotValidErrorText = Default.getDefaultAnyString( configuration.text!.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object." );
+            configuration.text!.attributeNotSetErrorText = Default.getDefaultAnyString( configuration.text!.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly." );
+            configuration.text!.stText = Default.getDefaultAnyString( configuration.text!.stText, "st" );
+            configuration.text!.ndText = Default.getDefaultAnyString( configuration.text!.ndText, "nd" );
+            configuration.text!.rdText = Default.getDefaultAnyString( configuration.text!.rdText, "rd" );
+            configuration.text!.thText = Default.getDefaultAnyString( configuration.text!.thText, "th" );
+            configuration.text!.ellipsisText = Default.getDefaultAnyString( configuration.text!.ellipsisText, "..." );
     
-            if ( Is.invalidOptionArray( configuration.dayNames, 7 ) ) {
-                configuration.dayNames = [
+            if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
+                configuration.text!.dayNames = [
                     "Monday",
                     "Tuesday",
                     "Wednesday",
@@ -55,8 +56,8 @@ export namespace Config {
                 ];
             }
     
-            if ( Is.invalidOptionArray( configuration.dayNamesAbbreviated, 7 ) ) {
-                configuration.dayNamesAbbreviated = [
+            if ( Is.invalidOptionArray( configuration.text!.dayNamesAbbreviated, 7 ) ) {
+                configuration.text!.dayNamesAbbreviated = [
                     "Mon",
                     "Tue",
                     "Wed",
@@ -67,8 +68,8 @@ export namespace Config {
                 ];
             }
     
-            if ( Is.invalidOptionArray( configuration.monthNames, 12 ) ) {
-                configuration.monthNames = [
+            if ( Is.invalidOptionArray( configuration.text!.monthNames, 12 ) ) {
+                configuration.text!.monthNames = [
                     "January",
                     "February",
                     "March",
@@ -84,8 +85,8 @@ export namespace Config {
                 ];
             }
     
-            if ( Is.invalidOptionArray( configuration.monthNamesAbbreviated, 12 ) ) {
-                configuration.monthNamesAbbreviated = [
+            if ( Is.invalidOptionArray( configuration.text!.monthNamesAbbreviated, 12 ) ) {
+                configuration.text!.monthNamesAbbreviated = [
                     "Jan",
                     "Feb",
                     "Mar",
