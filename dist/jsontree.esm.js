@@ -128,7 +128,7 @@ var init_default = __esm({
             e.getStringOrArray = s;
             function u(e, t) {
                 var n;
-                const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+                const r = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
                 return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
             }
             e.getFixedDecimalPlacesValue = u;
@@ -589,7 +589,7 @@ var require_jsontree = __commonJS({
                     DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
                 }
                 if (t.showCounts && a > 0) {
-                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + a + "}");
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
                 }
             }
             function renderArray(e, t, n) {
@@ -599,7 +599,7 @@ var require_jsontree = __commonJS({
                 DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
                 renderArrayValues(i, o, t, n);
                 if (t.showCounts) {
-                    DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+                    DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
                 }
             }
             function renderObjectValues(e, t, n, r) {
@@ -721,7 +721,7 @@ var require_jsontree = __commonJS({
                                 r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
                             }
                         }
-                        const n = t.showStringQuotes ? '"' + r + '"' : r;
+                        const n = t.showStringQuotes ? `"${r}"` : r;
                         a = t.showValueColors ? "string" : "";
                         s = DomElement.createWithHTML(i, "span", a, n);
                         c = "string";
@@ -754,7 +754,7 @@ var require_jsontree = __commonJS({
                         const a = renderObjectValues(l, n, t, r);
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
                         if (t.showCounts && a > 0) {
-                            DomElement.createWithHTML(e, "span", "count", "{" + a + "}");
+                            DomElement.createWithHTML(e, "span", "count", `{${a}}`);
                         }
                         createComma(t, e, o);
                         c = "object";
@@ -767,7 +767,7 @@ var require_jsontree = __commonJS({
                         const n = DomElement.create(i, "div", "object-type-contents");
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                         if (t.showCounts) {
-                            DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
+                            DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
                         }
                         createComma(t, e, o);
                         renderArrayValues(l, n, t, r);
@@ -859,7 +859,7 @@ var require_jsontree = __commonJS({
                     }
                 } catch (e1) {
                     try {
-                        result.object = eval("(" + objectString + ")");
+                        result.object = eval(`(${objectString})`);
                         if (Is.definedFunction(result.object)) {
                             result.object = result.object();
                         }

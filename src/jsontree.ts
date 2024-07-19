@@ -246,7 +246,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", "{" + propertyCount + "}" );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
         }
     }
 
@@ -260,7 +260,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         renderArrayValues( arrow, objectTypeContents, bindingOptions, data );
 
         if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", "[" + data.length + "]" );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", `[${data.length}]` );
         }
     }
 
@@ -422,7 +422,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
                 }
 
-                const newStringValue: string = bindingOptions.showStringQuotes ? "\"" + value + "\"" : value;
+                const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
     
                 valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
@@ -467,7 +467,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
 
                 if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", "{" + propertyCount + "}" );
+                    DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                 }
 
                 createComma( bindingOptions, objectTitle, isLastItem );
@@ -487,7 +487,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.createWithHTML( arrayTitle, "span", "title", _configuration.text!.arrayText! );
 
                 if ( bindingOptions.showCounts ) {
-                    DomElement.createWithHTML( arrayTitle, "span", "count", "[" + value.length + "]" );
+                    DomElement.createWithHTML( arrayTitle, "span", "count", `[${value.length}]` );
                 }
 
                 createComma( bindingOptions, arrayTitle, isLastItem );
@@ -610,7 +610,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } catch ( e1: any ) {
             try {
-                result.object = eval( "(" + objectString + ")" );
+                result.object = eval( `(${objectString})` );
 
                 if ( Is.definedFunction( result.object ) ) {
                     result.object = result.object();

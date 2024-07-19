@@ -101,7 +101,7 @@ var Default;
     e.getStringOrArray = s;
     function u(e, t) {
         var n;
-        const r = new RegExp("^-?\\d+(?:.\\d{0," + (t || -1) + "})?");
+        const r = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
         return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
     }
     e.getFixedDecimalPlacesValue = u;
@@ -505,7 +505,7 @@ var Trigger;
             DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
         }
         if (t.showCounts && i > 0) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + i + "}");
+            DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${i}}`);
         }
     }
     function renderArray(e, t, n) {
@@ -515,7 +515,7 @@ var Trigger;
         DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
         renderArrayValues(l, o, t, n);
         if (t.showCounts) {
-            DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", "[" + n.length + "]");
+            DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
         }
     }
     function renderObjectValues(e, t, n, r) {
@@ -637,7 +637,7 @@ var Trigger;
                         r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
                     }
                 }
-                const n = t.showStringQuotes ? '"' + r + '"' : r;
+                const n = t.showStringQuotes ? `"${r}"` : r;
                 i = t.showValueColors ? "string" : "";
                 s = DomElement.createWithHTML(l, "span", i, n);
                 c = "string";
@@ -670,7 +670,7 @@ var Trigger;
                 const i = renderObjectValues(a, n, t, r);
                 DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
                 if (t.showCounts && i > 0) {
-                    DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
+                    DomElement.createWithHTML(e, "span", "count", `{${i}}`);
                 }
                 createComma(t, e, o);
                 c = "object";
@@ -683,7 +683,7 @@ var Trigger;
                 const n = DomElement.create(l, "div", "object-type-contents");
                 DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                 if (t.showCounts) {
-                    DomElement.createWithHTML(e, "span", "count", "[" + r.length + "]");
+                    DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
                 }
                 createComma(t, e, o);
                 renderArrayValues(a, n, t, r);
@@ -775,7 +775,7 @@ var Trigger;
             }
         } catch (e1) {
             try {
-                result.object = eval("(" + objectString + ")");
+                result.object = eval(`(${objectString})`);
                 if (Is.definedFunction(result.object)) {
                     result.object = result.object();
                 }
