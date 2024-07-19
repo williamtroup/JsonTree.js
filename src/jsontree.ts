@@ -242,7 +242,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
             let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataIndex.toString() : ( bindingOptions._currentView.dataIndex + 1 ).toString();
 
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : Char.empty, `[${dataArrayIndex}]:`, titleText );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
         }
 
         if ( bindingOptions.showCounts && propertyCount > 0 ) {

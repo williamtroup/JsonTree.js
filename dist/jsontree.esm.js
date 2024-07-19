@@ -586,7 +586,7 @@ var require_jsontree = __commonJS({
                 const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                 if (r && t.showArrayItemsAsSeparateObjects) {
                     let e = t.useZeroIndexingForArrays ? t._currentView.dataIndex.toString() : (t._currentView.dataIndex + 1).toString();
-                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "", `[${e}]:`, s);
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
                 }
                 if (t.showCounts && a > 0) {
                     DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", "{" + a + "}");
