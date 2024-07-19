@@ -400,6 +400,25 @@ var init_config = __esm({
     }
 });
 
+var Trigger;
+
+var init_trigger = __esm({
+    "src/ts/area/trigger.ts"() {
+        "use strict";
+        init_is();
+        (e => {
+            function t(e, ...t) {
+                let n = null;
+                if (Is.definedFunction(e)) {
+                    n = e.apply(null, [].slice.call(t, 0));
+                }
+                return n;
+            }
+            e.customEvent = t;
+        })(Trigger || (Trigger = {}));
+    }
+});
+
 var require_jsontree = __commonJS({
     "src/jsontree.ts"(exports, module) {
         init_default();
@@ -411,6 +430,7 @@ var require_jsontree = __commonJS({
         init_str();
         init_binding();
         init_config();
+        init_trigger();
         (() => {
             let _configuration = {};
             let _elements_Data = {};
@@ -458,7 +478,7 @@ var require_jsontree = __commonJS({
                 return n;
             }
             function renderControl(e) {
-                fireCustomTriggerEvent(e.events.onBeforeRender, e._currentView.element);
+                Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
                 if (!Is.definedString(e._currentView.element.id)) {
                     e._currentView.element.id = Str.newGuid();
                 }
@@ -468,7 +488,7 @@ var require_jsontree = __commonJS({
                     _elements_Data[e._currentView.element.id] = e;
                 }
                 renderControlContainer(e);
-                fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
+                Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
             }
             function renderControlContainer(e) {
                 const t = _elements_Data[e._currentView.element.id].data;
@@ -492,7 +512,7 @@ var require_jsontree = __commonJS({
                         t.onclick = () => {
                             const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                             navigator.clipboard.writeText(t);
-                            fireCustomTriggerEvent(e.events.onCopyAll, t);
+                            Trigger.customEvent(e.events.onCopyAll, t);
                         };
                     }
                     if (e.title.showTreeControls) {
@@ -510,12 +530,12 @@ var require_jsontree = __commonJS({
             function openAllNodes(e) {
                 e.showAllAsClosed = false;
                 renderControlContainer(e);
-                fireCustomTriggerEvent(e.events.onOpenAll, e._currentView.element);
+                Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
             }
             function closeAllNodes(e) {
                 e.showAllAsClosed = true;
                 renderControlContainer(e);
-                fireCustomTriggerEvent(e.events.onCloseAll, e._currentView.element);
+                Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
             }
             function renderObject(e, t, n) {
                 const r = DomElement.create(e, "div", "object-type-title");
@@ -591,7 +611,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, "null");
                         f = false;
                         if (Is.definedFunction(t.events.onNullRender)) {
-                            fireCustomTriggerEvent(t.events.onNullRender, s);
+                            Trigger.customEvent(t.events.onNullRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -603,7 +623,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
                         c = "function";
                         if (Is.definedFunction(t.events.onFunctionRender)) {
-                            fireCustomTriggerEvent(t.events.onFunctionRender, s);
+                            Trigger.customEvent(t.events.onFunctionRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -615,7 +635,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, r);
                         c = "boolean";
                         if (Is.definedFunction(t.events.onBooleanRender)) {
-                            fireCustomTriggerEvent(t.events.onBooleanRender, s);
+                            Trigger.customEvent(t.events.onBooleanRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -628,7 +648,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, e);
                         c = "decimal";
                         if (Is.definedFunction(t.events.onDecimalRender)) {
-                            fireCustomTriggerEvent(t.events.onDecimalRender, s);
+                            Trigger.customEvent(t.events.onDecimalRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -640,7 +660,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, r);
                         c = "number";
                         if (Is.definedFunction(t.events.onNumberRender)) {
-                            fireCustomTriggerEvent(t.events.onNumberRender, s);
+                            Trigger.customEvent(t.events.onNumberRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -664,7 +684,7 @@ var require_jsontree = __commonJS({
                             s.style.color = e;
                         }
                         if (Is.definedFunction(t.events.onStringRender)) {
-                            fireCustomTriggerEvent(t.events.onStringRender, s);
+                            Trigger.customEvent(t.events.onStringRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -676,7 +696,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                         c = "date";
                         if (Is.definedFunction(t.events.onDateRender)) {
-                            fireCustomTriggerEvent(t.events.onDateRender, s);
+                            Trigger.customEvent(t.events.onDateRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -716,7 +736,7 @@ var require_jsontree = __commonJS({
                         s = DomElement.createWithHTML(l, "span", i, r.toString());
                         c = "unknown";
                         if (Is.definedFunction(t.events.onUnknownRender)) {
-                            fireCustomTriggerEvent(t.events.onUnknownRender, s);
+                            Trigger.customEvent(t.events.onUnknownRender, s);
                         }
                         createComma(t, l, o);
                     } else {
@@ -734,7 +754,7 @@ var require_jsontree = __commonJS({
             function addValueClickEvent(e, t, n, r, o) {
                 if (o && Is.definedFunction(e.events.onValueClick)) {
                     t.onclick = () => {
-                        fireCustomTriggerEvent(e.events.onValueClick, n, r);
+                        Trigger.customEvent(e.events.onValueClick, n, r);
                     };
                 } else {
                     DomElement.addClass(t, "no-hover");
@@ -783,11 +803,6 @@ var require_jsontree = __commonJS({
                 }
                 return r;
             }
-            function fireCustomTriggerEvent(e, ...t) {
-                if (Is.definedFunction(e)) {
-                    e.apply(null, [].slice.call(t, 0));
-                }
-            }
             function getObjectFromString(objectString) {
                 const result = {
                     parsed: true,
@@ -816,14 +831,14 @@ var require_jsontree = __commonJS({
             function destroyElement(e) {
                 e._currentView.element.innerHTML = "";
                 e._currentView.element.className = "";
-                fireCustomTriggerEvent(e.events.onDestroy, e._currentView.element);
+                Trigger.customEvent(e.events.onDestroy, e._currentView.element);
             }
             const _public = {
                 refresh: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
                         const t = _elements_Data[e];
                         renderControlContainer(t);
-                        fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+                        Trigger.customEvent(t.events.onRefresh, t._currentView.element);
                     }
                     return _public;
                 },
@@ -832,7 +847,7 @@ var require_jsontree = __commonJS({
                         if (_elements_Data.hasOwnProperty(e)) {
                             const t = _elements_Data[e];
                             renderControlContainer(t);
-                            fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+                            Trigger.customEvent(t.events.onRefresh, t._currentView.element);
                         }
                     }
                     return _public;

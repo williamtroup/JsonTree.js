@@ -39,18 +39,18 @@ var Is;
         return t(e) && typeof e === "number" && e % 1 !== 0;
     }
     e.definedDecimal = u;
-    function f(e, t = 1) {
+    function c(e, t = 1) {
         return !i(e) || e.length < t;
     }
-    e.invalidOptionArray = f;
-    function c(e) {
+    e.invalidOptionArray = c;
+    function f(e) {
         let t = e.length >= 2 && e.length <= 7;
         if (t && e[0] === "#") {
             t = isNaN(+e.substring(1, e.length - 1));
         }
         return t;
     }
-    e.hexColor = c;
+    e.hexColor = f;
 })(Is || (Is = {}));
 
 var Default;
@@ -334,6 +334,19 @@ var Config;
     })(t = e.Options || (e.Options = {}));
 })(Config || (Config = {}));
 
+var Trigger;
+
+(e => {
+    function t(e, ...t) {
+        let n = null;
+        if (Is.definedFunction(e)) {
+            n = e.apply(null, [].slice.call(t, 0));
+        }
+        return n;
+    }
+    e.customEvent = t;
+})(Trigger || (Trigger = {}));
+
 (() => {
     let _configuration = {};
     let _elements_Data = {};
@@ -381,7 +394,7 @@ var Config;
         return n;
     }
     function renderControl(e) {
-        fireCustomTriggerEvent(e.events.onBeforeRender, e._currentView.element);
+        Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
         if (!Is.definedString(e._currentView.element.id)) {
             e._currentView.element.id = Str.newGuid();
         }
@@ -391,7 +404,7 @@ var Config;
             _elements_Data[e._currentView.element.id] = e;
         }
         renderControlContainer(e);
-        fireCustomTriggerEvent(e.events.onRenderComplete, e._currentView.element);
+        Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function renderControlContainer(e) {
         const t = _elements_Data[e._currentView.element.id].data;
@@ -415,7 +428,7 @@ var Config;
                 t.onclick = () => {
                     const t = JSON.stringify(_elements_Data[e._currentView.element.id].data);
                     navigator.clipboard.writeText(t);
-                    fireCustomTriggerEvent(e.events.onCopyAll, t);
+                    Trigger.customEvent(e.events.onCopyAll, t);
                 };
             }
             if (e.title.showTreeControls) {
@@ -433,12 +446,12 @@ var Config;
     function openAllNodes(e) {
         e.showAllAsClosed = false;
         renderControlContainer(e);
-        fireCustomTriggerEvent(e.events.onOpenAll, e._currentView.element);
+        Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
     function closeAllNodes(e) {
         e.showAllAsClosed = true;
         renderControlContainer(e);
-        fireCustomTriggerEvent(e.events.onCloseAll, e._currentView.element);
+        Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
     function renderObject(e, t, n) {
         const r = DomElement.create(e, "div", "object-type-title");
@@ -504,17 +517,17 @@ var Config;
         let i = null;
         let s = null;
         let u = false;
-        let f = null;
-        let c = true;
+        let c = null;
+        let f = true;
         DomElement.createWithHTML(l, "span", "title", n);
         DomElement.createWithHTML(l, "span", "split", ":");
         if (!Is.defined(r)) {
             if (!t.ignore.nullValues) {
                 i = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(l, "span", i, "null");
-                c = false;
+                f = false;
                 if (Is.definedFunction(t.events.onNullRender)) {
-                    fireCustomTriggerEvent(t.events.onNullRender, s);
+                    Trigger.customEvent(t.events.onNullRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -524,9 +537,9 @@ var Config;
             if (!t.ignore.functionValues) {
                 i = t.showValueColors ? "function" : "";
                 s = DomElement.createWithHTML(l, "span", i, getFunctionName(r));
-                f = "function";
+                c = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
-                    fireCustomTriggerEvent(t.events.onFunctionRender, s);
+                    Trigger.customEvent(t.events.onFunctionRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -536,9 +549,9 @@ var Config;
             if (!t.ignore.booleanValues) {
                 i = t.showValueColors ? "boolean" : "";
                 s = DomElement.createWithHTML(l, "span", i, r);
-                f = "boolean";
+                c = "boolean";
                 if (Is.definedFunction(t.events.onBooleanRender)) {
-                    fireCustomTriggerEvent(t.events.onBooleanRender, s);
+                    Trigger.customEvent(t.events.onBooleanRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -549,9 +562,9 @@ var Config;
                 const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
                 i = t.showValueColors ? "decimal" : "";
                 s = DomElement.createWithHTML(l, "span", i, e);
-                f = "decimal";
+                c = "decimal";
                 if (Is.definedFunction(t.events.onDecimalRender)) {
-                    fireCustomTriggerEvent(t.events.onDecimalRender, s);
+                    Trigger.customEvent(t.events.onDecimalRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -561,9 +574,9 @@ var Config;
             if (!t.ignore.numberValues) {
                 i = t.showValueColors ? "number" : "";
                 s = DomElement.createWithHTML(l, "span", i, r);
-                f = "number";
+                c = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
-                    fireCustomTriggerEvent(t.events.onNumberRender, s);
+                    Trigger.customEvent(t.events.onNumberRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -582,12 +595,12 @@ var Config;
                 const n = t.showStringQuotes ? '"' + r + '"' : r;
                 i = t.showValueColors ? "string" : "";
                 s = DomElement.createWithHTML(l, "span", i, n);
-                f = "string";
+                c = "string";
                 if (Is.definedString(e)) {
                     s.style.color = e;
                 }
                 if (Is.definedFunction(t.events.onStringRender)) {
-                    fireCustomTriggerEvent(t.events.onStringRender, s);
+                    Trigger.customEvent(t.events.onStringRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -597,9 +610,9 @@ var Config;
             if (!t.ignore.dateValues) {
                 i = t.showValueColors ? "date" : "";
                 s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
-                f = "date";
+                c = "date";
                 if (Is.definedFunction(t.events.onDateRender)) {
-                    fireCustomTriggerEvent(t.events.onDateRender, s);
+                    Trigger.customEvent(t.events.onDateRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -615,7 +628,7 @@ var Config;
                     DomElement.createWithHTML(e, "span", "count", "{" + i + "}");
                 }
                 createComma(t, e, o);
-                f = "object";
+                c = "object";
             } else {
                 u = true;
             }
@@ -629,7 +642,7 @@ var Config;
                 }
                 createComma(t, e, o);
                 renderArrayValues(a, n, t, r);
-                f = "array";
+                c = "array";
             } else {
                 u = true;
             }
@@ -637,9 +650,9 @@ var Config;
             if (!t.ignore.unknownValues) {
                 i = t.showValueColors ? "unknown" : "";
                 s = DomElement.createWithHTML(l, "span", i, r.toString());
-                f = "unknown";
+                c = "unknown";
                 if (Is.definedFunction(t.events.onUnknownRender)) {
-                    fireCustomTriggerEvent(t.events.onUnknownRender, s);
+                    Trigger.customEvent(t.events.onUnknownRender, s);
                 }
                 createComma(t, l, o);
             } else {
@@ -650,14 +663,14 @@ var Config;
             e.removeChild(l);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, r, f, c);
+                addValueClickEvent(t, s, r, c, f);
             }
         }
     }
     function addValueClickEvent(e, t, n, r, o) {
         if (o && Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
-                fireCustomTriggerEvent(e.events.onValueClick, n, r);
+                Trigger.customEvent(e.events.onValueClick, n, r);
             };
         } else {
             DomElement.addClass(t, "no-hover");
@@ -706,11 +719,6 @@ var Config;
         }
         return r;
     }
-    function fireCustomTriggerEvent(e, ...t) {
-        if (Is.definedFunction(e)) {
-            e.apply(null, [].slice.call(t, 0));
-        }
-    }
     function getObjectFromString(objectString) {
         const result = {
             parsed: true,
@@ -739,14 +747,14 @@ var Config;
     function destroyElement(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.className = "";
-        fireCustomTriggerEvent(e.events.onDestroy, e._currentView.element);
+        Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
     const _public = {
         refresh: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
                 const t = _elements_Data[e];
                 renderControlContainer(t);
-                fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+                Trigger.customEvent(t.events.onRefresh, t._currentView.element);
             }
             return _public;
         },
@@ -755,7 +763,7 @@ var Config;
                 if (_elements_Data.hasOwnProperty(e)) {
                     const t = _elements_Data[e];
                     renderControlContainer(t);
-                    fireCustomTriggerEvent(t.events.onRefresh, t._currentView.element);
+                    Trigger.customEvent(t.events.onRefresh, t._currentView.element);
                 }
             }
             return _public;

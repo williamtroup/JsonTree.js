@@ -13,9 +13,6 @@
 
 import {
     type BindingOptions,
-    type BindingOptionsEvents,
-    type BindingOptionsIgnore,
-    type BindingOptionsTitle,
     type Configuration, 
     type BindingOptionsCurrentView } from "./ts/type";
 
@@ -29,6 +26,7 @@ import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
 import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
+import { Trigger } from "./ts/area/trigger";
 
 
 type StringToJson = {
@@ -109,7 +107,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControl( bindingOptions: BindingOptions ) : void {
-        fireCustomTriggerEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
             bindingOptions._currentView.element.id = Str.newGuid();
@@ -123,7 +121,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
     }
 
     function renderControlContainer( bindingOptions: BindingOptions ) : void {
@@ -164,7 +162,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     navigator.clipboard.writeText( copyData );
 
-                    fireCustomTriggerEvent( bindingOptions.events!.onCopyAll!, copyData );
+                    Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
                 };
             }
 
@@ -187,14 +185,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions.showAllAsClosed = false;
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
     }
 
     function closeAllNodes( bindingOptions: BindingOptions ) : void {
         bindingOptions.showAllAsClosed = true;
 
         renderControlContainer( bindingOptions );
-        fireCustomTriggerEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
     }
 
 
@@ -301,7 +299,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addClickEvent = false;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onNullRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -317,7 +315,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "function";
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
                 }
             
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -333,7 +331,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "boolean";
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onBooleanRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -351,7 +349,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "decimal";
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onDecimalRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -367,7 +365,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "number";
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onNumberRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -400,7 +398,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
     
                 if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -416,7 +414,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "date";
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onDateRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
                 }
     
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -473,7 +471,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = "unknown";
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
-                    fireCustomTriggerEvent( bindingOptions.events!.onUnknownRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -496,7 +494,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
         if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
-                fireCustomTriggerEvent( bindingOptions.events!.onValueClick!, value, type );
+                Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
             };
 
         } else {
@@ -560,19 +558,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Triggering Custom Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function fireCustomTriggerEvent( triggerFunction: Function, ...args : any[] ) : void {
-        if ( Is.definedFunction( triggerFunction ) ) {
-            triggerFunction.apply( null, [].slice.call( args, 0 ) );
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Default Parameter/Option Handling
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -620,7 +605,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.className = Char.empty;
 
-        fireCustomTriggerEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
+        Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 
 
@@ -642,7 +627,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                 renderControlContainer( bindingOptions );
-                fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+                Trigger.customEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
             }
     
             return _public;
@@ -654,7 +639,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                     renderControlContainer( bindingOptions );
-                    fireCustomTriggerEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
+                    Trigger.customEvent( bindingOptions.events!.onRefresh!, bindingOptions._currentView.element );
                 }
             }
     
