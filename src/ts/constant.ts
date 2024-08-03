@@ -12,5 +12,5 @@
 
 
 export namespace Constants {
-    export const JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
+    export const JSONTREE_JS_ATTRIBUTE_NAME: string = "data-jsontree-js";
 }
