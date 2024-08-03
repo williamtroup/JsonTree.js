@@ -968,7 +968,7 @@ var require_jsontree = __commonJS({
                     return e;
                 },
                 getVersion: function() {
-                    return "2.1.0";
+                    return "2.2.0";
                 }
             };
             (() => {

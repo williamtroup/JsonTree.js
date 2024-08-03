@@ -2,15 +2,15 @@
 JsonTree.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v2.1.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v2.1.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v2.2.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v2.2.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</p>
-> <p align="center">v2.1.0</p>
+> <p align="center">v2.2.0</p>
 <br />
 
 ![JsonTree.js](docs/images/main.png)
@@ -65,8 +65,8 @@ npm install jjsontree.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.1.0/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.1.0/dist/jsontree.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.2.0/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.2.0/dist/jsontree.js.min.css
 ```
 <br>
 <br>
