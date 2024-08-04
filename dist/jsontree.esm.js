@@ -581,6 +581,7 @@ var require_jsontree = __commonJS({
                             n.onclick = () => {
                                 e._currentView.dataArrayCurrentIndex--;
                                 renderControlContainer(e);
+                                Trigger.customEvent(e.events.onBackPage, e._currentView.element);
                             };
                         } else {
                             n.disabled = true;
@@ -591,6 +592,7 @@ var require_jsontree = __commonJS({
                             o.onclick = () => {
                                 e._currentView.dataArrayCurrentIndex++;
                                 renderControlContainer(e);
+                                Trigger.customEvent(e.events.onNextPage, e._currentView.element);
                             };
                         } else {
                             o.disabled = true;
@@ -903,6 +905,7 @@ var require_jsontree = __commonJS({
                     t._currentView.dataArrayCurrentIndex = 0;
                     t.data = r;
                     renderControlContainer(t);
+                    Trigger.customEvent(t.events.onSetJson, t._currentView.element);
                 };
                 n.onload = e => {
                     const t = getObjectFromString(e.target.result);
@@ -989,8 +992,8 @@ var require_jsontree = __commonJS({
                         if (n.parsed) {
                             _elements_Data[e]._currentView.dataArrayCurrentIndex = 0;
                             _elements_Data[e].data = n.object;
-                            console.log(n.object);
                             renderControlContainer(_elements_Data[e]);
+                            Trigger.customEvent(_elements_Data[e].events.onSetJson, _elements_Data[e]._currentView.element);
                         }
                     }
                     return _public;

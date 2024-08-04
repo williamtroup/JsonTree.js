@@ -113,4 +113,7 @@ export type BindingOptionsEvents = {
     onNullRender?: ( element: HTMLElement ) => void;
     onStringRender?: ( element: HTMLElement ) => void;
     onUnknownRender?: ( element: HTMLElement ) => void;
+	onBackPage?: ( element: HTMLElement ) => void;
+	onNextPage?: ( element: HTMLElement ) => void;
+	onSetJson?: ( element: HTMLElement ) => void;
 };

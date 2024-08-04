@@ -195,6 +195,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         bindingOptions._currentView.dataArrayCurrentIndex--;
     
                         renderControlContainer( bindingOptions );
+                        Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
                     };
 
                 } else {
@@ -209,6 +210,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         bindingOptions._currentView.dataArrayCurrentIndex++;
                         
                         renderControlContainer( bindingOptions );
+                        Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
                     };
 
                 } else {
@@ -636,6 +638,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions.data = renderData;
 
             renderControlContainer( bindingOptions );
+            Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
         };
     
         reader.onload = ( e: ProgressEvent<FileReader> ) => {
@@ -784,9 +787,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( jsonResult.parsed ) {
                     _elements_Data[ elementId ]._currentView.dataArrayCurrentIndex = 0;
                     _elements_Data[ elementId ].data = jsonResult.object;
-                    console.log( jsonResult.object );
 
                     renderControlContainer( _elements_Data[ elementId ] );
+                    Trigger.customEvent( _elements_Data[ elementId ].events!.onSetJson!, _elements_Data[ elementId ]._currentView.element );
                 }
             }
     
