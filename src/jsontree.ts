@@ -785,11 +785,13 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const jsonResult: StringToJson = getObjectFromString( json );
 
                 if ( jsonResult.parsed ) {
-                    _elements_Data[ elementId ]._currentView.dataArrayCurrentIndex = 0;
-                    _elements_Data[ elementId ].data = jsonResult.object;
+                    const bindingOptions: BindingOptions = _elements_Data[ elementId ];
 
-                    renderControlContainer( _elements_Data[ elementId ] );
-                    Trigger.customEvent( _elements_Data[ elementId ].events!.onSetJson!, _elements_Data[ elementId ]._currentView.element );
+                    bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                    bindingOptions.data = jsonResult.object;
+
+                    renderControlContainer( bindingOptions );
+                    Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
                 }
             }
     

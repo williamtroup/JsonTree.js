@@ -43,14 +43,14 @@ var init_is = __esm({
                 return t(e) && typeof e === "function";
             }
             e.definedFunction = a;
-            function l(e) {
+            function i(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = l;
-            function i(e) {
+            e.definedNumber = i;
+            function l(e) {
                 return n(e) && e instanceof Array;
             }
-            e.definedArray = i;
+            e.definedArray = l;
             function s(e) {
                 return n(e) && e instanceof Date;
             }
@@ -60,7 +60,7 @@ var init_is = __esm({
             }
             e.definedDecimal = u;
             function c(e, t = 1) {
-                return !i(e) || e.length < t;
+                return !l(e) || e.length < t;
             }
             e.invalidOptionArray = c;
             function d(e) {
@@ -103,14 +103,14 @@ var init_default = __esm({
                 return Is.definedFunction(e) ? e : t;
             }
             e.getFunction = a;
-            function l(e, t) {
+            function i(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getArray = l;
-            function i(e, t) {
+            e.getArray = i;
+            function l(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
-            e.getObject = i;
+            e.getObject = l;
             function s(e, t) {
                 let n = t;
                 if (Is.definedString(e)) {
@@ -121,7 +121,7 @@ var init_default = __esm({
                         n = r;
                     }
                 } else {
-                    n = l(e, t);
+                    n = i(e, t);
                 }
                 return n;
             }
@@ -160,22 +160,22 @@ var init_dom = __esm({
             function t(e, t, n = "", r = null) {
                 const o = t.toLowerCase();
                 const a = o === "text";
-                let l = a ? document.createTextNode("") : document.createElement(o);
+                let i = a ? document.createTextNode("") : document.createElement(o);
                 if (Is.defined(n)) {
-                    l.className = n;
+                    i.className = n;
                 }
                 if (Is.defined(r)) {
-                    e.insertBefore(l, r);
+                    e.insertBefore(i, r);
                 } else {
-                    e.appendChild(l);
+                    e.appendChild(i);
                 }
-                return l;
+                return i;
             }
             e.create = t;
             function n(e, n, r, o, a = null) {
-                const l = t(e, n, r, a);
-                l.innerHTML = o;
-                return l;
+                const i = t(e, n, r, a);
+                i.innerHTML = o;
+                return i;
             }
             e.createWithHTML = n;
             function r(e, t) {
@@ -249,15 +249,15 @@ var init_datetime = __esm({
             e.getDayOrdinal = n;
             function r(e, r, o) {
                 let a = o;
-                const l = t(r);
+                const i = t(r);
                 a = a.replace("{hh}", Str.padNumber(r.getHours(), 2));
                 a = a.replace("{h}", r.getHours().toString());
                 a = a.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
                 a = a.replace("{M}", r.getMinutes().toString());
                 a = a.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
                 a = a.replace("{s}", r.getSeconds().toString());
-                a = a.replace("{dddd}", e.text.dayNames[l]);
-                a = a.replace("{ddd}", e.text.dayNamesAbbreviated[l]);
+                a = a.replace("{dddd}", e.text.dayNames[i]);
+                a = a.replace("{ddd}", e.text.dayNamesAbbreviated[i]);
                 a = a.replace("{dd}", Str.padNumber(r.getDate()));
                 a = a.replace("{d}", r.getDate().toString());
                 a = a.replace("{o}", n(e, r.getDate()));
@@ -332,7 +332,7 @@ var init_binding = __esm({
                     t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
                     t = o(t);
                     t = a(t);
-                    t = l(t);
+                    t = i(t);
                     return t;
                 }
                 t.get = r;
@@ -358,7 +358,7 @@ var init_binding = __esm({
                     e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
                     return e;
                 }
-                function l(e) {
+                function i(e) {
                     e.events = Default.getObject(e.events, {});
                     e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
                     e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -615,15 +615,15 @@ var require_jsontree = __commonJS({
             function renderObject(e, t, n, r = false) {
                 const o = DomElement.create(e, "div", "object-type-title");
                 const a = DomElement.create(e, "div", "object-type-contents");
-                const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-                const i = renderObjectValues(l, a, t, n);
+                const i = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
+                const l = renderObjectValues(i, a, t, n);
                 const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                 if (r && t.showArrayItemsAsSeparateObjects) {
                     let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
                     DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
                 }
-                if (t.showCounts && i > 0) {
-                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${i}}`);
+                if (t.showCounts && l > 0) {
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${l}}`);
                 }
             }
             function renderArray(e, t, n) {
@@ -650,11 +650,11 @@ var require_jsontree = __commonJS({
                         a = a.reverse();
                     }
                 }
-                const l = a.length;
-                for (let e = 0; e < l; e++) {
-                    const i = a[e];
-                    if (r.hasOwnProperty(i)) {
-                        renderValue(t, n, i, r[i], e === l - 1);
+                const i = a.length;
+                for (let e = 0; e < i; e++) {
+                    const l = a[e];
+                    if (r.hasOwnProperty(l)) {
+                        renderValue(t, n, l, r[l], e === i - 1);
                         o++;
                     }
                 }
@@ -676,8 +676,8 @@ var require_jsontree = __commonJS({
             }
             function renderValue(e, t, n, r, o) {
                 const a = DomElement.create(e, "div", "object-type-value");
-                const l = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
-                let i = null;
+                const i = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
+                let l = null;
                 let s = null;
                 let u = false;
                 let c = null;
@@ -686,8 +686,8 @@ var require_jsontree = __commonJS({
                 DomElement.createWithHTML(a, "span", "split", ":");
                 if (!Is.defined(r)) {
                     if (!t.ignore.nullValues) {
-                        i = t.showValueColors ? "null" : "";
-                        s = DomElement.createWithHTML(a, "span", i, "null");
+                        l = t.showValueColors ? "null" : "";
+                        s = DomElement.createWithHTML(a, "span", l, "null");
                         d = false;
                         if (Is.definedFunction(t.events.onNullRender)) {
                             Trigger.customEvent(t.events.onNullRender, s);
@@ -698,8 +698,8 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedFunction(r)) {
                     if (!t.ignore.functionValues) {
-                        i = t.showValueColors ? "function" : "";
-                        s = DomElement.createWithHTML(a, "span", i, Default.getFunctionName(r));
+                        l = t.showValueColors ? "function" : "";
+                        s = DomElement.createWithHTML(a, "span", l, Default.getFunctionName(r));
                         c = "function";
                         if (Is.definedFunction(t.events.onFunctionRender)) {
                             Trigger.customEvent(t.events.onFunctionRender, s);
@@ -710,8 +710,8 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedBoolean(r)) {
                     if (!t.ignore.booleanValues) {
-                        i = t.showValueColors ? "boolean" : "";
-                        s = DomElement.createWithHTML(a, "span", i, r);
+                        l = t.showValueColors ? "boolean" : "";
+                        s = DomElement.createWithHTML(a, "span", l, r);
                         c = "boolean";
                         if (Is.definedFunction(t.events.onBooleanRender)) {
                             Trigger.customEvent(t.events.onBooleanRender, s);
@@ -723,8 +723,8 @@ var require_jsontree = __commonJS({
                 } else if (Is.definedDecimal(r)) {
                     if (!t.ignore.decimalValues) {
                         const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
-                        i = t.showValueColors ? "decimal" : "";
-                        s = DomElement.createWithHTML(a, "span", i, e);
+                        l = t.showValueColors ? "decimal" : "";
+                        s = DomElement.createWithHTML(a, "span", l, e);
                         c = "decimal";
                         if (Is.definedFunction(t.events.onDecimalRender)) {
                             Trigger.customEvent(t.events.onDecimalRender, s);
@@ -735,8 +735,8 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedNumber(r)) {
                     if (!t.ignore.numberValues) {
-                        i = t.showValueColors ? "number" : "";
-                        s = DomElement.createWithHTML(a, "span", i, r);
+                        l = t.showValueColors ? "number" : "";
+                        s = DomElement.createWithHTML(a, "span", l, r);
                         c = "number";
                         if (Is.definedFunction(t.events.onNumberRender)) {
                             Trigger.customEvent(t.events.onNumberRender, s);
@@ -760,8 +760,8 @@ var require_jsontree = __commonJS({
                                 }
                             }
                             const n = t.showStringQuotes ? `"${r}"` : r;
-                            i = t.showValueColors ? "string" : "";
-                            s = DomElement.createWithHTML(a, "span", i, n);
+                            l = t.showValueColors ? "string" : "";
+                            s = DomElement.createWithHTML(a, "span", l, n);
                             c = "string";
                             if (Is.definedString(e)) {
                                 s.style.color = e;
@@ -776,8 +776,8 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedDate(r)) {
                     if (!t.ignore.dateValues) {
-                        i = t.showValueColors ? "date" : "";
-                        s = DomElement.createWithHTML(a, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                        l = t.showValueColors ? "date" : "";
+                        s = DomElement.createWithHTML(a, "span", l, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                         c = "date";
                         if (Is.definedFunction(t.events.onDateRender)) {
                             Trigger.customEvent(t.events.onDateRender, s);
@@ -790,10 +790,10 @@ var require_jsontree = __commonJS({
                     if (!t.ignore.objectValues) {
                         const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
                         const n = DomElement.create(a, "div", "object-type-contents");
-                        const i = renderObjectValues(l, n, t, r);
+                        const l = renderObjectValues(i, n, t, r);
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
-                        if (t.showCounts && i > 0) {
-                            DomElement.createWithHTML(e, "span", "count", `{${i}}`);
+                        if (t.showCounts && l > 0) {
+                            DomElement.createWithHTML(e, "span", "count", `{${l}}`);
                         }
                         createComma(t, e, o);
                         c = "object";
@@ -809,15 +809,15 @@ var require_jsontree = __commonJS({
                             DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
                         }
                         createComma(t, e, o);
-                        renderArrayValues(l, n, t, r);
+                        renderArrayValues(i, n, t, r);
                         c = "array";
                     } else {
                         u = true;
                     }
                 } else {
                     if (!t.ignore.unknownValues) {
-                        i = t.showValueColors ? "unknown" : "";
-                        s = DomElement.createWithHTML(a, "span", i, r.toString());
+                        l = t.showValueColors ? "unknown" : "";
+                        s = DomElement.createWithHTML(a, "span", l, r.toString());
                         c = "unknown";
                         if (Is.definedFunction(t.events.onUnknownRender)) {
                             Trigger.customEvent(t.events.onUnknownRender, s);
@@ -990,10 +990,11 @@ var require_jsontree = __commonJS({
                     if (Is.definedString(e) && Is.definedString(t) && _elements_Data.hasOwnProperty(e)) {
                         const n = getObjectFromString(t);
                         if (n.parsed) {
-                            _elements_Data[e]._currentView.dataArrayCurrentIndex = 0;
-                            _elements_Data[e].data = n.object;
-                            renderControlContainer(_elements_Data[e]);
-                            Trigger.customEvent(_elements_Data[e].events.onSetJson, _elements_Data[e]._currentView.element);
+                            const t = _elements_Data[e];
+                            t._currentView.dataArrayCurrentIndex = 0;
+                            t.data = n.object;
+                            renderControlContainer(t);
+                            Trigger.customEvent(t.events.onSetJson, t._currentView.element);
                         }
                     }
                     return _public;

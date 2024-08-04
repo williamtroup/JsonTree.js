@@ -906,10 +906,11 @@ var Trigger;
             if (Is.definedString(e) && Is.definedString(t) && _elements_Data.hasOwnProperty(e)) {
                 const n = getObjectFromString(t);
                 if (n.parsed) {
-                    _elements_Data[e]._currentView.dataArrayCurrentIndex = 0;
-                    _elements_Data[e].data = n.object;
-                    renderControlContainer(_elements_Data[e]);
-                    Trigger.customEvent(_elements_Data[e].events.onSetJson, _elements_Data[e]._currentView.element);
+                    const t = _elements_Data[e];
+                    t._currentView.dataArrayCurrentIndex = 0;
+                    t.data = n.object;
+                    renderControlContainer(t);
+                    Trigger.customEvent(t.events.onSetJson, t._currentView.element);
                 }
             }
             return _public;
