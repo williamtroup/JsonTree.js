@@ -465,17 +465,17 @@ var Trigger;
                 DomElement.createWithHTML(n, "div", "title", e.title.text, r);
             }
             if (e.title.showCopyButton) {
-                const t = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
-                t.title = _configuration.text.copyAllButtonText;
-                t.onclick = () => {
-                    let t = null;
+                const n = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
+                n.title = _configuration.text.copyAllButtonText;
+                n.onclick = () => {
+                    let n = null;
                     if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data[e._currentView.dataArrayCurrentIndex], null, 2);
+                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], null, 2);
                     } else {
-                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data, null, 2);
+                        n = JSON.stringify(t, null, 2);
                     }
-                    navigator.clipboard.writeText(t);
-                    Trigger.customEvent(e.events.onCopyAll, t);
+                    navigator.clipboard.writeText(n);
+                    Trigger.customEvent(e.events.onCopyAll, n);
                 };
             }
             if (e.title.showTreeControls) {
