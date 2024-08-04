@@ -36,6 +36,11 @@
             <button class="btn btn-primary" onclick="$jsontree.closeAll( 'json-tree-1' );">Close All</button>
             <br>
 
+            <h2>Manage Data:</h2>
+            <button class="btn btn-primary" onclick="setJson();">Set JSON</button>
+            <button class="btn btn-primary" onclick="console.log( $jsontree.getJson( 'json-tree-1' ) );">Get JSON</button>
+            <br>
+
             <h2>Destroy:</h2>
             <button class="btn btn-primary" onclick="$jsontree.destroy( 'json-tree-1' );">Destroy (1)</button>
             <br>
@@ -118,6 +123,10 @@
 
         function onValueClickEvent( value, type ) {
             console.log( "Type: " + type + ", Value: " + value.toString() );
+        }
+
+        function setJson() {
+            $jsontree.setJson( "json-tree-1", "{value1:true,value2:\"This is a string\",value3:false,value4:5,value7:null}" )
         }
     </script>
 </html>

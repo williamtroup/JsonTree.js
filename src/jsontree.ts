@@ -773,6 +773,39 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * Public API Functions:  Manage Data
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
+
+        setJson: function ( elementId: string, json: string ) : PublicApi {
+            if ( Is.definedString( elementId ) && Is.definedString( json ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const jsonResult: StringToJson = getObjectFromString( json );
+
+                if ( jsonResult.parsed ) {
+                    _elements_Data[ elementId ]._currentView.dataArrayCurrentIndex = 0;
+                    _elements_Data[ elementId ].data = jsonResult.object;
+                    console.log( jsonResult.object );
+
+                    renderControlContainer( _elements_Data[ elementId ] );
+                }
+            }
+    
+            return _public;
+        },
+
+        getJson: function ( elementId: string ) : any {
+            let result: any = null;
+
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                result = _elements_Data[ elementId ].data;
+            }
+
+            return result;
+        },
+
+
+        /*
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          * Public API Functions:  Destroying
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */

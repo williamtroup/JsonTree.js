@@ -100,6 +100,40 @@ export type PublicApi = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Manage Data
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+	/**
+	 * setJson().
+	 *
+	 * Sets the JSON data currently being displayed.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 * @param       {string}    json                                   		The JSON that should be shown in the display.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	setJson: ( elementId: string, json: string ) => PublicApi;
+
+	/**
+	 * getJson().
+	 *
+	 * Returns the JSON data currently being displayed.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {any}                                                	The JSON that is being displayed.
+	 */
+	getJson: ( elementId: string ) => any;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Public API Functions:  Destroying
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */

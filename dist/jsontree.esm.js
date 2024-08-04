@@ -983,6 +983,25 @@ var require_jsontree = __commonJS({
                     }
                     return _public;
                 },
+                setJson: function(e, t) {
+                    if (Is.definedString(e) && Is.definedString(t) && _elements_Data.hasOwnProperty(e)) {
+                        const n = getObjectFromString(t);
+                        if (n.parsed) {
+                            _elements_Data[e]._currentView.dataArrayCurrentIndex = 0;
+                            _elements_Data[e].data = n.object;
+                            console.log(n.object);
+                            renderControlContainer(_elements_Data[e]);
+                        }
+                    }
+                    return _public;
+                },
+                getJson: function(e) {
+                    let t = null;
+                    if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                        t = _elements_Data[e].data;
+                    }
+                    return t;
+                },
                 destroy: function(e) {
                     if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
                         destroyElement(_elements_Data[e]);
