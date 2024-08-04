@@ -119,14 +119,16 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderControlTitleBar( bindingOptions, data );
 
+        const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
+
         if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( bindingOptions._currentView.element, bindingOptions, data, true );
+            renderObject( contents, bindingOptions, data, true );
         } else if ( Is.definedArray( data ) ) {
-            renderArray( bindingOptions._currentView.element, bindingOptions, data );
+            renderArray( contents, bindingOptions, data );
         }
     }
 

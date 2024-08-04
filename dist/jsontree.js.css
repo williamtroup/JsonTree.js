@@ -79,6 +79,7 @@ div.json-tree-js {
   width: auto;
   overflow: hidden;
   margin: 0 !important;
+  max-width: 500px;
 }
 div.json-tree-js button {
   font-family: var(--heat-js-default-font);
@@ -197,12 +198,24 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Contents
+    -------------------------------------------------------------------------
+*/
+div.json-tree-js div.contents {
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: scroll;
+}
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - Object Type Title
     -------------------------------------------------------------------------
 */
 div.json-tree-js div.object-type-title {
   font-weight: var(--json-tree-js-header-bold-weight);
   text-align: left !important;
+  width: fit-content;
 }
 div.json-tree-js div.object-type-title span.array {
   color: var(--json-tree-js-color-array);
@@ -226,6 +239,7 @@ div.json-tree-js div.object-type-title span.data-array-index {
 */
 div.json-tree-js div.object-type-contents {
   margin-top: calc(var(--json-tree-js-spacing) / 2);
+  width: fit-content;
 }
 
 /*
@@ -236,6 +250,7 @@ div.json-tree-js div.object-type-contents {
 div.json-tree-js div.object-type-contents {
   margin-left: calc(var(--json-tree-js-spacing) * 2);
   text-align: left !important;
+  width: fit-content;
 }
 div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;

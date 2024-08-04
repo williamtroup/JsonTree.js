@@ -519,13 +519,14 @@ var require_jsontree = __commonJS({
                 let t = _elements_Data[e._currentView.element.id].data;
                 e._currentView.element.innerHTML = "";
                 renderControlTitleBar(e, t);
+                const n = DomElement.create(e._currentView.element, "div", "contents");
                 if (e.showArrayItemsAsSeparateObjects) {
                     t = t[e._currentView.dataArrayCurrentIndex];
                 }
                 if (Is.definedObject(t) && !Is.definedArray(t)) {
-                    renderObject(e._currentView.element, e, t, true);
+                    renderObject(n, e, t, true);
                 } else if (Is.definedArray(t)) {
-                    renderArray(e._currentView.element, e, t);
+                    renderArray(n, e, t);
                 }
             }
             function renderControlTitleBar(e, t) {
