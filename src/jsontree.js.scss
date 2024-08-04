@@ -91,7 +91,7 @@ div.json-tree-js {
     padding: var(--json-tree-js-spacing);
     font-size: var(--json-tree-js-spacing-font-size);
     font-weight: var(--json-tree-js-text-bold-weight);
-    width: auto;
+    width: 100%;
     overflow: hidden;
     margin: 0 !important;
     max-width: 500px;
@@ -190,10 +190,6 @@ div.json-tree-js {
 
             button {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
-            }
-
-            button.back {
-                margin-left: calc( var(--json-tree-js-spacing) * 2 ) !important;
             }
 
             button.copy-all {

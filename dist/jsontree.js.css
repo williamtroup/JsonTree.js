@@ -75,7 +75,7 @@ div.json-tree-js {
   padding: var(--json-tree-js-spacing);
   font-size: var(--json-tree-js-spacing-font-size);
   font-weight: var(--json-tree-js-text-bold-weight);
-  width: auto;
+  width: 100%;
   overflow: hidden;
   margin: 0 !important;
   max-width: 500px;
@@ -183,9 +183,6 @@ div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):h
 }
 div.json-tree-js div.title-bar div.controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
-}
-div.json-tree-js div.title-bar div.controls button.back {
-  margin-left: calc(var(--json-tree-js-spacing) * 2) !important;
 }
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;
