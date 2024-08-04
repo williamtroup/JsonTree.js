@@ -123,7 +123,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         makeAreaDroppable( contents, bindingOptions );
 
-        if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
+        if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
@@ -131,6 +131,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderObject( contents, bindingOptions, data, true );
         } else if ( Is.definedArray( data ) ) {
             renderArray( contents, bindingOptions, data );
+        }
+
+        if ( contents.innerHTML === Char.empty ) {
+            DomElement.createWithHTML( contents, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
+
+            bindingOptions._currentView.titleBarButtons.style.display = "none";
+
+        } else {
+            bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
     }
 
@@ -144,14 +153,15 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
-            const controls: HTMLElement = DomElement.create( titleBar, "div", "controls" );
+
+            bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
             if ( bindingOptions.title!.show ) {
-                DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, controls );
+                DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, bindingOptions._currentView.titleBarButtons );
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
                 copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
@@ -171,10 +181,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAll.title = _configuration.text!.openAllButtonText!
 
-                const closeAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAll.title = _configuration.text!.closeAllButtonText!
 
                 openAll.onclick = () => {
@@ -187,7 +197,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
-                const back: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
                 back.title = _configuration.text!.backButtonText!
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
@@ -202,7 +212,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     back.disabled = true;
                 }
 
-                const next: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
                 next.title = _configuration.text!.nextButtonText!
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
@@ -218,7 +228,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
             } else {
-                bindingOptions.showArrayItemsAsSeparateObjects = false;
+
+                if ( Is.definedArray( data ) ) {
+                    bindingOptions.showArrayItemsAsSeparateObjects = false;
+                }
             }
         }
     }

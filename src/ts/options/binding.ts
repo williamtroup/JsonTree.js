@@ -28,6 +28,7 @@ export namespace Binding {
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            bindingOptions._currentView.titleBarButtons = null!;
 
             return bindingOptions;
         }

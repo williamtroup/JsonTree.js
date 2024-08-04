@@ -248,6 +248,7 @@ var Binding;
             r._currentView = {};
             r._currentView.element = n;
             r._currentView.dataArrayCurrentIndex = 0;
+            r._currentView.titleBarButtons = null;
             return r;
         }
         t.getForNewInstance = n;
@@ -360,6 +361,7 @@ var Config;
             e.text.nextButtonText = Default.getAnyString(e.text.nextButtonText, "Next");
             e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
             e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
+            e.text.noJsonToViewText = Default.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -449,7 +451,7 @@ var Trigger;
         renderControlTitleBar(e, t);
         const n = DomElement.create(e._currentView.element, "div", "contents");
         makeAreaDroppable(n, e);
-        if (e.showArrayItemsAsSeparateObjects) {
+        if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t)) {
             t = t[e._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedObject(t) && !Is.definedArray(t)) {
@@ -457,16 +459,22 @@ var Trigger;
         } else if (Is.definedArray(t)) {
             renderArray(n, e, t);
         }
+        if (n.innerHTML === "") {
+            DomElement.createWithHTML(n, "span", "no-json-text", _configuration.text.noJsonToViewText);
+            e._currentView.titleBarButtons.style.display = "none";
+        } else {
+            e._currentView.titleBarButtons.style.display = "block";
+        }
     }
     function renderControlTitleBar(e, t) {
         if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
             const n = DomElement.create(e._currentView.element, "div", "title-bar");
-            const r = DomElement.create(n, "div", "controls");
+            e._currentView.titleBarButtons = DomElement.create(n, "div", "controls");
             if (e.title.show) {
-                DomElement.createWithHTML(n, "div", "title", e.title.text, r);
+                DomElement.createWithHTML(n, "div", "title", e.title.text, e._currentView.titleBarButtons);
             }
             if (e.title.showCopyButton) {
-                const n = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
                 n.title = _configuration.text.copyAllButtonText;
                 n.onclick = () => {
                     let n = null;
@@ -480,9 +488,9 @@ var Trigger;
                 };
             }
             if (e.title.showTreeControls) {
-                const t = DomElement.createWithHTML(r, "button", "openAll", _configuration.text.openAllButtonSymbolText);
+                const t = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "openAll", _configuration.text.openAllButtonSymbolText);
                 t.title = _configuration.text.openAllButtonText;
-                const n = DomElement.createWithHTML(r, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
                 n.title = _configuration.text.closeAllButtonText;
                 t.onclick = () => {
                     openAllNodes(e);
@@ -492,7 +500,7 @@ var Trigger;
                 };
             }
             if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t) && t.length > 1) {
-                const n = DomElement.createWithHTML(r, "button", "back", _configuration.text.backButtonSymbolText);
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "back", _configuration.text.backButtonSymbolText);
                 n.title = _configuration.text.backButtonText;
                 if (e._currentView.dataArrayCurrentIndex > 0) {
                     n.onclick = () => {
@@ -503,19 +511,21 @@ var Trigger;
                 } else {
                     n.disabled = true;
                 }
-                const o = DomElement.createWithHTML(r, "button", "next", _configuration.text.nextButtonSymbolText);
-                o.title = _configuration.text.nextButtonText;
+                const r = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "next", _configuration.text.nextButtonSymbolText);
+                r.title = _configuration.text.nextButtonText;
                 if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
-                    o.onclick = () => {
+                    r.onclick = () => {
                         e._currentView.dataArrayCurrentIndex++;
                         renderControlContainer(e);
                         Trigger.customEvent(e.events.onNextPage, e._currentView.element);
                     };
                 } else {
-                    o.disabled = true;
+                    r.disabled = true;
                 }
             } else {
-                e.showArrayItemsAsSeparateObjects = false;
+                if (Is.definedArray(t)) {
+                    e.showArrayItemsAsSeparateObjects = false;
+                }
             }
         }
     }

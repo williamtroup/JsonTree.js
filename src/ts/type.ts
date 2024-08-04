@@ -42,6 +42,7 @@ export type ConfigurationText = {
 	nextButtonText?: string;
 	backButtonSymbolText?: string;
 	nextButtonSymbolText?: string;
+	noJsonToViewText?: string;
 };
 
 export type BindingOptions = {
@@ -75,6 +76,7 @@ export type BindingOptions = {
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
 	dataArrayCurrentIndex: number;
+	titleBarButtons: HTMLElement;
 };
 
 export type BindingOptionsTitle = {
