@@ -151,6 +151,7 @@ div.json-tree-js div.title-bar div.controls {
   margin-left: calc(var(--json-tree-js-spacing) * 6);
   flex-grow: 1;
   text-align: right;
+  white-space: nowrap;
 }
 @media (min-width: 768px) {
   div.json-tree-js div.title-bar div.controls {

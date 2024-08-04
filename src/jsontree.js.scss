@@ -181,6 +181,7 @@ div.json-tree-js {
             margin-left: calc( var(--json-tree-js-spacing) * 6 );
             flex-grow: 1;
             text-align: right;
+            white-space: nowrap;
 
             @media (min-width: $minimum-width) { 
                 margin-left: calc( var(--json-tree-js-spacing) * 12 );
