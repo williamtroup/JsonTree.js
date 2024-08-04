@@ -39,14 +39,14 @@ var init_is = __esm({
                 return t(e) && typeof e === "string";
             }
             e.definedString = o;
-            function l(e) {
+            function a(e) {
                 return t(e) && typeof e === "function";
             }
-            e.definedFunction = l;
-            function a(e) {
+            e.definedFunction = a;
+            function l(e) {
                 return t(e) && typeof e === "number";
             }
-            e.definedNumber = a;
+            e.definedNumber = l;
             function i(e) {
                 return n(e) && e instanceof Array;
             }
@@ -99,14 +99,14 @@ var init_default = __esm({
                 return Is.definedNumber(e) ? e : t;
             }
             e.getNumber = o;
-            function l(e, t) {
+            function a(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
-            e.getFunction = l;
-            function a(e, t) {
+            e.getFunction = a;
+            function l(e, t) {
                 return Is.definedArray(e) ? e : t;
             }
-            e.getArray = a;
+            e.getArray = l;
             function i(e, t) {
                 return Is.definedObject(e) ? e : t;
             }
@@ -121,7 +121,7 @@ var init_default = __esm({
                         n = r;
                     }
                 } else {
-                    n = a(e, t);
+                    n = l(e, t);
                 }
                 return n;
             }
@@ -159,23 +159,23 @@ var init_dom = __esm({
         (e => {
             function t(e, t, n = "", r = null) {
                 const o = t.toLowerCase();
-                const l = o === "text";
-                let a = l ? document.createTextNode("") : document.createElement(o);
+                const a = o === "text";
+                let l = a ? document.createTextNode("") : document.createElement(o);
                 if (Is.defined(n)) {
-                    a.className = n;
+                    l.className = n;
                 }
                 if (Is.defined(r)) {
-                    e.insertBefore(a, r);
+                    e.insertBefore(l, r);
                 } else {
-                    e.appendChild(a);
+                    e.appendChild(l);
                 }
-                return a;
+                return l;
             }
             e.create = t;
-            function n(e, n, r, o, l = null) {
-                const a = t(e, n, r, l);
-                a.innerHTML = o;
-                return a;
+            function n(e, n, r, o, a = null) {
+                const l = t(e, n, r, a);
+                l.innerHTML = o;
+                return l;
             }
             e.createWithHTML = n;
             function r(e, t) {
@@ -248,30 +248,34 @@ var init_datetime = __esm({
             }
             e.getDayOrdinal = n;
             function r(e, r, o) {
-                let l = o;
-                const a = t(r);
-                l = l.replace("{hh}", Str.padNumber(r.getHours(), 2));
-                l = l.replace("{h}", r.getHours().toString());
-                l = l.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
-                l = l.replace("{M}", r.getMinutes().toString());
-                l = l.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
-                l = l.replace("{s}", r.getSeconds().toString());
-                l = l.replace("{dddd}", e.text.dayNames[a]);
-                l = l.replace("{ddd}", e.text.dayNamesAbbreviated[a]);
-                l = l.replace("{dd}", Str.padNumber(r.getDate()));
-                l = l.replace("{d}", r.getDate().toString());
-                l = l.replace("{o}", n(e, r.getDate()));
-                l = l.replace("{mmmm}", e.text.monthNames[r.getMonth()]);
-                l = l.replace("{mmm}", e.text.monthNamesAbbreviated[r.getMonth()]);
-                l = l.replace("{mm}", Str.padNumber(r.getMonth() + 1));
-                l = l.replace("{m}", (r.getMonth() + 1).toString());
-                l = l.replace("{yyyy}", r.getFullYear().toString());
-                l = l.replace("{yyy}", r.getFullYear().toString().substring(1));
-                l = l.replace("{yy}", r.getFullYear().toString().substring(2));
-                l = l.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
-                return l;
+                let a = o;
+                const l = t(r);
+                a = a.replace("{hh}", Str.padNumber(r.getHours(), 2));
+                a = a.replace("{h}", r.getHours().toString());
+                a = a.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
+                a = a.replace("{M}", r.getMinutes().toString());
+                a = a.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
+                a = a.replace("{s}", r.getSeconds().toString());
+                a = a.replace("{dddd}", e.text.dayNames[l]);
+                a = a.replace("{ddd}", e.text.dayNamesAbbreviated[l]);
+                a = a.replace("{dd}", Str.padNumber(r.getDate()));
+                a = a.replace("{d}", r.getDate().toString());
+                a = a.replace("{o}", n(e, r.getDate()));
+                a = a.replace("{mmmm}", e.text.monthNames[r.getMonth()]);
+                a = a.replace("{mmm}", e.text.monthNamesAbbreviated[r.getMonth()]);
+                a = a.replace("{mm}", Str.padNumber(r.getMonth() + 1));
+                a = a.replace("{m}", (r.getMonth() + 1).toString());
+                a = a.replace("{yyyy}", r.getFullYear().toString());
+                a = a.replace("{yyy}", r.getFullYear().toString().substring(1));
+                a = a.replace("{yy}", r.getFullYear().toString().substring(2));
+                a = a.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+                return a;
             }
             e.getCustomFormattedDateText = r;
+            function o(e) {
+                return !isNaN(+new Date(e));
+            }
+            e.isDateValid = o;
         })(DateTime || (DateTime = {}));
     }
 });
@@ -325,9 +329,10 @@ var init_binding = __esm({
                     t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
                     t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
                     t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
+                    t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
                     t = o(t);
-                    t = l(t);
                     t = a(t);
+                    t = l(t);
                     return t;
                 }
                 t.get = r;
@@ -339,7 +344,7 @@ var init_binding = __esm({
                     e.title.showCopyButton = Default.getBoolean(e.title.showCopyButton, true);
                     return e;
                 }
-                function l(e) {
+                function a(e) {
                     e.ignore = Default.getObject(e.ignore, {});
                     e.ignore.nullValues = Default.getBoolean(e.ignore.nullValues, false);
                     e.ignore.functionValues = Default.getBoolean(e.ignore.functionValues, false);
@@ -353,7 +358,7 @@ var init_binding = __esm({
                     e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
                     return e;
                 }
-                function a(e) {
+                function l(e) {
                     e.events = Default.getObject(e.events, {});
                     e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
                     e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -607,9 +612,9 @@ var require_jsontree = __commonJS({
             }
             function renderObject(e, t, n, r = false) {
                 const o = DomElement.create(e, "div", "object-type-title");
-                const l = DomElement.create(e, "div", "object-type-contents");
-                const a = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-                const i = renderObjectValues(a, l, t, n);
+                const a = DomElement.create(e, "div", "object-type-contents");
+                const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
+                const i = renderObjectValues(l, a, t, n);
                 const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                 if (r && t.showArrayItemsAsSeparateObjects) {
                     let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
@@ -622,32 +627,32 @@ var require_jsontree = __commonJS({
             function renderArray(e, t, n) {
                 const r = DomElement.create(e, "div", "object-type-title");
                 const o = DomElement.create(e, "div", "object-type-contents");
-                const l = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+                const a = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
                 DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
-                renderArrayValues(l, o, t, n);
+                renderArrayValues(a, o, t, n);
                 if (t.showCounts) {
                     DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
                 }
             }
             function renderObjectValues(e, t, n, r) {
                 let o = 0;
-                let l = [];
+                let a = [];
                 for (let e in r) {
                     if (r.hasOwnProperty(e)) {
-                        l.push(e);
+                        a.push(e);
                     }
                 }
                 if (n.sortPropertyNames) {
-                    l = l.sort();
+                    a = a.sort();
                     if (!n.sortPropertyNamesInAlphabeticalOrder) {
-                        l = l.reverse();
+                        a = a.reverse();
                     }
                 }
-                const a = l.length;
-                for (let e = 0; e < a; e++) {
-                    const i = l[e];
+                const l = a.length;
+                for (let e = 0; e < l; e++) {
+                    const i = a[e];
                     if (r.hasOwnProperty(i)) {
-                        renderValue(t, n, i, r[i], e === a - 1);
+                        renderValue(t, n, i, r[i], e === l - 1);
                         o++;
                     }
                 }
@@ -668,48 +673,48 @@ var require_jsontree = __commonJS({
                 addArrowEvent(n, e, t);
             }
             function renderValue(e, t, n, r, o) {
-                const l = DomElement.create(e, "div", "object-type-value");
-                const a = t.showArrowToggles ? DomElement.create(l, "div", "no-arrow") : null;
+                const a = DomElement.create(e, "div", "object-type-value");
+                const l = t.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
                 let i = null;
                 let s = null;
                 let u = false;
                 let c = null;
                 let d = true;
-                DomElement.createWithHTML(l, "span", "title", n);
-                DomElement.createWithHTML(l, "span", "split", ":");
+                DomElement.createWithHTML(a, "span", "title", n);
+                DomElement.createWithHTML(a, "span", "split", ":");
                 if (!Is.defined(r)) {
                     if (!t.ignore.nullValues) {
                         i = t.showValueColors ? "null" : "";
-                        s = DomElement.createWithHTML(l, "span", i, "null");
+                        s = DomElement.createWithHTML(a, "span", i, "null");
                         d = false;
                         if (Is.definedFunction(t.events.onNullRender)) {
                             Trigger.customEvent(t.events.onNullRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedFunction(r)) {
                     if (!t.ignore.functionValues) {
                         i = t.showValueColors ? "function" : "";
-                        s = DomElement.createWithHTML(l, "span", i, Default.getFunctionName(r));
+                        s = DomElement.createWithHTML(a, "span", i, Default.getFunctionName(r));
                         c = "function";
                         if (Is.definedFunction(t.events.onFunctionRender)) {
                             Trigger.customEvent(t.events.onFunctionRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedBoolean(r)) {
                     if (!t.ignore.booleanValues) {
                         i = t.showValueColors ? "boolean" : "";
-                        s = DomElement.createWithHTML(l, "span", i, r);
+                        s = DomElement.createWithHTML(a, "span", i, r);
                         c = "boolean";
                         if (Is.definedFunction(t.events.onBooleanRender)) {
                             Trigger.customEvent(t.events.onBooleanRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
@@ -717,68 +722,73 @@ var require_jsontree = __commonJS({
                     if (!t.ignore.decimalValues) {
                         const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
                         i = t.showValueColors ? "decimal" : "";
-                        s = DomElement.createWithHTML(l, "span", i, e);
+                        s = DomElement.createWithHTML(a, "span", i, e);
                         c = "decimal";
                         if (Is.definedFunction(t.events.onDecimalRender)) {
                             Trigger.customEvent(t.events.onDecimalRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedNumber(r)) {
                     if (!t.ignore.numberValues) {
                         i = t.showValueColors ? "number" : "";
-                        s = DomElement.createWithHTML(l, "span", i, r);
+                        s = DomElement.createWithHTML(a, "span", i, r);
                         c = "number";
                         if (Is.definedFunction(t.events.onNumberRender)) {
                             Trigger.customEvent(t.events.onNumberRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
-                        let e = null;
-                        if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
-                            e = r;
+                        if (t.parseStringsToDates && DateTime.isDateValid(r)) {
+                            renderValue(e, t, n, new Date(r), o);
+                            u = true;
                         } else {
-                            if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
-                                r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                            let e = null;
+                            if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                                e = r;
+                            } else {
+                                if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                                    r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                                }
                             }
+                            const n = t.showStringQuotes ? `"${r}"` : r;
+                            i = t.showValueColors ? "string" : "";
+                            s = DomElement.createWithHTML(a, "span", i, n);
+                            c = "string";
+                            if (Is.definedString(e)) {
+                                s.style.color = e;
+                            }
+                            if (Is.definedFunction(t.events.onStringRender)) {
+                                Trigger.customEvent(t.events.onStringRender, s);
+                            }
+                            createComma(t, a, o);
                         }
-                        const n = t.showStringQuotes ? `"${r}"` : r;
-                        i = t.showValueColors ? "string" : "";
-                        s = DomElement.createWithHTML(l, "span", i, n);
-                        c = "string";
-                        if (Is.definedString(e)) {
-                            s.style.color = e;
-                        }
-                        if (Is.definedFunction(t.events.onStringRender)) {
-                            Trigger.customEvent(t.events.onStringRender, s);
-                        }
-                        createComma(t, l, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedDate(r)) {
                     if (!t.ignore.dateValues) {
                         i = t.showValueColors ? "date" : "";
-                        s = DomElement.createWithHTML(l, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                        s = DomElement.createWithHTML(a, "span", i, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
                         c = "date";
                         if (Is.definedFunction(t.events.onDateRender)) {
                             Trigger.customEvent(t.events.onDateRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 } else if (Is.definedObject(r) && !Is.definedArray(r)) {
                     if (!t.ignore.objectValues) {
-                        const e = DomElement.create(l, "span", t.showValueColors ? "object" : "");
-                        const n = DomElement.create(l, "div", "object-type-contents");
-                        const i = renderObjectValues(a, n, t, r);
+                        const e = DomElement.create(a, "span", t.showValueColors ? "object" : "");
+                        const n = DomElement.create(a, "div", "object-type-contents");
+                        const i = renderObjectValues(l, n, t, r);
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
                         if (t.showCounts && i > 0) {
                             DomElement.createWithHTML(e, "span", "count", `{${i}}`);
@@ -790,14 +800,14 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedArray(r)) {
                     if (!t.ignore.arrayValues) {
-                        const e = DomElement.create(l, "span", t.showValueColors ? "array" : "");
-                        const n = DomElement.create(l, "div", "object-type-contents");
+                        const e = DomElement.create(a, "span", t.showValueColors ? "array" : "");
+                        const n = DomElement.create(a, "div", "object-type-contents");
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                         if (t.showCounts) {
                             DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
                         }
                         createComma(t, e, o);
-                        renderArrayValues(a, n, t, r);
+                        renderArrayValues(l, n, t, r);
                         c = "array";
                     } else {
                         u = true;
@@ -805,18 +815,18 @@ var require_jsontree = __commonJS({
                 } else {
                     if (!t.ignore.unknownValues) {
                         i = t.showValueColors ? "unknown" : "";
-                        s = DomElement.createWithHTML(l, "span", i, r.toString());
+                        s = DomElement.createWithHTML(a, "span", i, r.toString());
                         c = "unknown";
                         if (Is.definedFunction(t.events.onUnknownRender)) {
                             Trigger.customEvent(t.events.onUnknownRender, s);
                         }
-                        createComma(t, l, o);
+                        createComma(t, a, o);
                     } else {
                         u = true;
                     }
                 }
                 if (u) {
-                    e.removeChild(l);
+                    e.removeChild(a);
                 } else {
                     if (Is.defined(s)) {
                         addValueClickEvent(t, s, r, c, d);

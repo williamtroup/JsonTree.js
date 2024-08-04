@@ -65,6 +65,7 @@ export type BindingOptions = {
 	showArrayItemsAsSeparateObjects: boolean;
 	copyOnlyCurrentPage: boolean;
 	fileDroppingEnabled: boolean;
+	parseStringsToDates: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;

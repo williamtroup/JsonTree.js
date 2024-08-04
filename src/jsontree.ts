@@ -422,32 +422,38 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                let color: string = null!;
-
-                if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
-                    color = value;
+                if ( bindingOptions.parseStringsToDates && DateTime.isDateValid( value ) ) {
+                    renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
+                    ignored = true;
 
                 } else {
-                    if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                    let color: string = null!;
+
+                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
+                        color = value;
+    
+                    } else {
+                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
+                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                        }
                     }
-                }
-
-                const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
     
-                valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                type = "string";
-
-                if ( Is.definedString( color ) ) {
-                    valueElement.style.color = color;
-                }
+                    const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
+        
+                    valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
+                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                    type = "string";
     
-                if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    if ( Is.definedString( color ) ) {
+                        valueElement.style.color = color;
+                    }
+        
+                    if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
+                        Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    }
+                    
+                    createComma( bindingOptions, objectTypeValue, isLastItem );
                 }
-                
-                createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
                 ignored = true;

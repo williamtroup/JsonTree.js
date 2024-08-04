@@ -53,6 +53,7 @@ export namespace Binding {
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
+            options.parseStringsToDates = Default.getBoolean( options.parseStringsToDates, false );
             
             options = getTitle( options );
             options = getIgnore( options );

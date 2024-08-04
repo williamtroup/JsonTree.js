@@ -226,6 +226,10 @@ var DateTime;
         return l;
     }
     e.getCustomFormattedDateText = r;
+    function o(e) {
+        return !isNaN(+new Date(e));
+    }
+    e.isDateValid = o;
 })(DateTime || (DateTime = {}));
 
 var Constants;
@@ -268,6 +272,7 @@ var Binding;
             t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
+            t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
             t = o(t);
             t = l(t);
             t = a(t);
@@ -656,25 +661,30 @@ var Trigger;
             }
         } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
-                let e = null;
-                if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
-                    e = r;
+                if (t.parseStringsToDates && DateTime.isDateValid(r)) {
+                    renderValue(e, t, n, new Date(r), o);
+                    u = true;
                 } else {
-                    if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
-                        r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                    let e = null;
+                    if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                        e = r;
+                    } else {
+                        if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                            r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                        }
                     }
+                    const n = t.showStringQuotes ? `"${r}"` : r;
+                    i = t.showValueColors ? "string" : "";
+                    s = DomElement.createWithHTML(l, "span", i, n);
+                    c = "string";
+                    if (Is.definedString(e)) {
+                        s.style.color = e;
+                    }
+                    if (Is.definedFunction(t.events.onStringRender)) {
+                        Trigger.customEvent(t.events.onStringRender, s);
+                    }
+                    createComma(t, l, o);
                 }
-                const n = t.showStringQuotes ? `"${r}"` : r;
-                i = t.showValueColors ? "string" : "";
-                s = DomElement.createWithHTML(l, "span", i, n);
-                c = "string";
-                if (Is.definedString(e)) {
-                    s.style.color = e;
-                }
-                if (Is.definedFunction(t.events.onStringRender)) {
-                    Trigger.customEvent(t.events.onStringRender, s);
-                }
-                createComma(t, l, o);
             } else {
                 u = true;
             }
