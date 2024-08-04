@@ -148,6 +148,11 @@ var DomElement;
         e.classList.add(t);
     }
     e.addClass = r;
+    function o(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    e.cancelBubble = o;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -221,6 +226,10 @@ var DateTime;
         return l;
     }
     e.getCustomFormattedDateText = r;
+    function o(e) {
+        return !isNaN(+new Date(e));
+    }
+    e.isDateValid = o;
 })(DateTime || (DateTime = {}));
 
 var Constants;
@@ -239,6 +248,7 @@ var Binding;
             r._currentView = {};
             r._currentView.element = n;
             r._currentView.dataArrayCurrentIndex = 0;
+            r._currentView.titleBarButtons = null;
             return r;
         }
         t.getForNewInstance = n;
@@ -262,6 +272,9 @@ var Binding;
             t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
             t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
+            t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
+            t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
+            t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
             t = o(t);
             t = l(t);
             t = a(t);
@@ -348,6 +361,7 @@ var Config;
             e.text.nextButtonText = Default.getAnyString(e.text.nextButtonText, "Next");
             e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
             e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
+            e.text.noJsonToViewText = Default.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -435,40 +449,48 @@ var Trigger;
         let t = _elements_Data[e._currentView.element.id].data;
         e._currentView.element.innerHTML = "";
         renderControlTitleBar(e, t);
-        if (e.showArrayItemsAsSeparateObjects) {
+        const n = DomElement.create(e._currentView.element, "div", "contents");
+        makeAreaDroppable(n, e);
+        if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t)) {
             t = t[e._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedObject(t) && !Is.definedArray(t)) {
-            renderObject(e._currentView.element, e, t, true);
+            renderObject(n, e, t, true);
         } else if (Is.definedArray(t)) {
-            renderArray(e._currentView.element, e, t);
+            renderArray(n, e, t);
+        }
+        if (n.innerHTML === "") {
+            DomElement.createWithHTML(n, "span", "no-json-text", _configuration.text.noJsonToViewText);
+            e._currentView.titleBarButtons.style.display = "none";
+        } else {
+            e._currentView.titleBarButtons.style.display = "block";
         }
     }
     function renderControlTitleBar(e, t) {
         if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
             const n = DomElement.create(e._currentView.element, "div", "title-bar");
-            const r = DomElement.create(n, "div", "controls");
+            e._currentView.titleBarButtons = DomElement.create(n, "div", "controls");
             if (e.title.show) {
-                DomElement.createWithHTML(n, "div", "title", e.title.text, r);
+                DomElement.createWithHTML(n, "div", "title", e.title.text, e._currentView.titleBarButtons);
             }
             if (e.title.showCopyButton) {
-                const t = DomElement.createWithHTML(r, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
-                t.title = _configuration.text.copyAllButtonText;
-                t.onclick = () => {
-                    let t = null;
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
+                n.title = _configuration.text.copyAllButtonText;
+                n.onclick = () => {
+                    let n = null;
                     if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data[e._currentView.dataArrayCurrentIndex], null, 2);
+                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], null, e.copyIndentSpaces);
                     } else {
-                        t = JSON.stringify(_elements_Data[e._currentView.element.id].data, null, 2);
+                        n = JSON.stringify(t, null, e.copyIndentSpaces);
                     }
-                    navigator.clipboard.writeText(t);
-                    Trigger.customEvent(e.events.onCopyAll, t);
+                    navigator.clipboard.writeText(n);
+                    Trigger.customEvent(e.events.onCopyAll, n);
                 };
             }
             if (e.title.showTreeControls) {
-                const t = DomElement.createWithHTML(r, "button", "openAll", _configuration.text.openAllButtonSymbolText);
+                const t = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "openAll", _configuration.text.openAllButtonSymbolText);
                 t.title = _configuration.text.openAllButtonText;
-                const n = DomElement.createWithHTML(r, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
                 n.title = _configuration.text.closeAllButtonText;
                 t.onclick = () => {
                     openAllNodes(e);
@@ -478,28 +500,32 @@ var Trigger;
                 };
             }
             if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t) && t.length > 1) {
-                const n = DomElement.createWithHTML(r, "button", "back", _configuration.text.backButtonSymbolText);
+                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "back", _configuration.text.backButtonSymbolText);
                 n.title = _configuration.text.backButtonText;
                 if (e._currentView.dataArrayCurrentIndex > 0) {
                     n.onclick = () => {
                         e._currentView.dataArrayCurrentIndex--;
                         renderControlContainer(e);
+                        Trigger.customEvent(e.events.onBackPage, e._currentView.element);
                     };
                 } else {
                     n.disabled = true;
                 }
-                const o = DomElement.createWithHTML(r, "button", "next", _configuration.text.nextButtonSymbolText);
-                o.title = _configuration.text.nextButtonText;
+                const r = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "next", _configuration.text.nextButtonSymbolText);
+                r.title = _configuration.text.nextButtonText;
                 if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
-                    o.onclick = () => {
+                    r.onclick = () => {
                         e._currentView.dataArrayCurrentIndex++;
                         renderControlContainer(e);
+                        Trigger.customEvent(e.events.onNextPage, e._currentView.element);
                     };
                 } else {
-                    o.disabled = true;
+                    r.disabled = true;
                 }
             } else {
-                e.showArrayItemsAsSeparateObjects = false;
+                if (Is.definedArray(t)) {
+                    e.showArrayItemsAsSeparateObjects = false;
+                }
             }
         }
     }
@@ -648,25 +674,30 @@ var Trigger;
             }
         } else if (Is.definedString(r)) {
             if (!t.ignore.stringValues) {
-                let e = null;
-                if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
-                    e = r;
+                if (t.parseStringsToDates && DateTime.isDateValid(r)) {
+                    renderValue(e, t, n, new Date(r), o);
+                    u = true;
                 } else {
-                    if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
-                        r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                    let e = null;
+                    if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                        e = r;
+                    } else {
+                        if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
+                            r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                        }
                     }
+                    const n = t.showStringQuotes ? `"${r}"` : r;
+                    i = t.showValueColors ? "string" : "";
+                    s = DomElement.createWithHTML(l, "span", i, n);
+                    c = "string";
+                    if (Is.definedString(e)) {
+                        s.style.color = e;
+                    }
+                    if (Is.definedFunction(t.events.onStringRender)) {
+                        Trigger.customEvent(t.events.onStringRender, s);
+                    }
+                    createComma(t, l, o);
                 }
-                const n = t.showStringQuotes ? `"${r}"` : r;
-                i = t.showValueColors ? "string" : "";
-                s = DomElement.createWithHTML(l, "span", i, n);
-                c = "string";
-                if (Is.definedString(e)) {
-                    s.style.color = e;
-                }
-                if (Is.definedFunction(t.events.onStringRender)) {
-                    Trigger.customEvent(t.events.onStringRender, s);
-                }
-                createComma(t, l, o);
             } else {
                 u = true;
             }
@@ -771,6 +802,46 @@ var Trigger;
         }
         return `[${r}]`;
     }
+    function makeAreaDroppable(e, t) {
+        if (t.fileDroppingEnabled) {
+            e.ondragover = DomElement.cancelBubble;
+            e.ondragenter = DomElement.cancelBubble;
+            e.ondragleave = DomElement.cancelBubble;
+            e.ondrop = e => {
+                DomElement.cancelBubble(e);
+                if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
+                    importFromFiles(e.dataTransfer.files, t);
+                }
+            };
+        }
+    }
+    function importFromFiles(e, t) {
+        const n = e.length;
+        for (let r = 0; r < n; r++) {
+            const n = e[r];
+            const o = n.name.split(".").pop().toLowerCase();
+            if (o === "json") {
+                importFromJson(n, t);
+            }
+        }
+    }
+    function importFromJson(e, t) {
+        const n = new FileReader;
+        let r = null;
+        n.onloadend = () => {
+            t._currentView.dataArrayCurrentIndex = 0;
+            t.data = r;
+            renderControlContainer(t);
+            Trigger.customEvent(t.events.onSetJson, t._currentView.element);
+        };
+        n.onload = e => {
+            const t = getObjectFromString(e.target.result);
+            if (t.parsed && Is.definedObject(t.object)) {
+                r = t.object;
+            }
+        };
+        n.readAsText(e);
+    }
     function getObjectFromString(objectString) {
         const result = {
             parsed: true,
@@ -842,6 +913,32 @@ var Trigger;
             }
             return _public;
         },
+        setJson: function(e, t) {
+            if (Is.definedString(e) && Is.defined(t) && _elements_Data.hasOwnProperty(e)) {
+                let n = null;
+                if (Is.definedString(t)) {
+                    const e = getObjectFromString(t);
+                    if (e.parsed) {
+                        n = e.object;
+                    }
+                } else {
+                    n = t;
+                }
+                const r = _elements_Data[e];
+                r._currentView.dataArrayCurrentIndex = 0;
+                r.data = n;
+                renderControlContainer(r);
+                Trigger.customEvent(r.events.onSetJson, r._currentView.element);
+            }
+            return _public;
+        },
+        getJson: function(e) {
+            let t = null;
+            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
+                t = _elements_Data[e].data;
+            }
+            return t;
+        },
         destroy: function(e) {
             if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
                 destroyElement(_elements_Data[e]);
@@ -884,7 +981,7 @@ var Trigger;
             return e;
         },
         getVersion: function() {
-            return "2.1.0";
+            return "2.2.0";
         }
     };
     (() => {

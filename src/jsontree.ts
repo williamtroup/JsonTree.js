@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -119,14 +119,27 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderControlTitleBar( bindingOptions, data );
 
-        if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
+        const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
+
+        makeAreaDroppable( contents, bindingOptions );
+
+        if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( bindingOptions._currentView.element, bindingOptions, data, true );
+            renderObject( contents, bindingOptions, data, true );
         } else if ( Is.definedArray( data ) ) {
-            renderArray( bindingOptions._currentView.element, bindingOptions, data );
+            renderArray( contents, bindingOptions, data );
+        }
+
+        if ( contents.innerHTML === Char.empty ) {
+            DomElement.createWithHTML( contents, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
+
+            bindingOptions._currentView.titleBarButtons.style.display = "none";
+
+        } else {
+            bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
     }
 
@@ -140,24 +153,25 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
-            const controls: HTMLElement = DomElement.create( titleBar, "div", "controls" );
+
+            bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
             if ( bindingOptions.title!.show ) {
-                DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, controls );
+                DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, bindingOptions._currentView.titleBarButtons );
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
                 copy.title = _configuration.text!.copyAllButtonText!
 
                 copy.onclick = () => {
                     let copyData: string = null!;
 
                     if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, 2 );
+                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, bindingOptions.copyIndentSpaces );
                     }
                     else {
-                        copyData = JSON.stringify( _elements_Data[ bindingOptions._currentView.element.id ].data, null, 2 );
+                        copyData = JSON.stringify( data, null, bindingOptions.copyIndentSpaces );
                     }
 
                     navigator.clipboard.writeText( copyData );
@@ -167,10 +181,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAll.title = _configuration.text!.openAllButtonText!
 
-                const closeAll: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAll.title = _configuration.text!.closeAllButtonText!
 
                 openAll.onclick = () => {
@@ -183,7 +197,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
-                const back: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
                 back.title = _configuration.text!.backButtonText!
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
@@ -191,13 +205,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                         bindingOptions._currentView.dataArrayCurrentIndex--;
     
                         renderControlContainer( bindingOptions );
+                        Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
                     };
 
                 } else {
                     back.disabled = true;
                 }
 
-                const next: HTMLButtonElement = DomElement.createWithHTML( controls, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
                 next.title = _configuration.text!.nextButtonText!
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
@@ -205,6 +220,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         bindingOptions._currentView.dataArrayCurrentIndex++;
                         
                         renderControlContainer( bindingOptions );
+                        Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
                     };
 
                 } else {
@@ -212,7 +228,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
             } else {
-                bindingOptions.showArrayItemsAsSeparateObjects = false;
+
+                if ( Is.definedArray( data ) ) {
+                    bindingOptions.showArrayItemsAsSeparateObjects = false;
+                }
             }
         }
     }
@@ -418,32 +437,38 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                let color: string = null!;
-
-                if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
-                    color = value;
+                if ( bindingOptions.parseStringsToDates && DateTime.isDateValid( value ) ) {
+                    renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
+                    ignored = true;
 
                 } else {
-                    if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                    let color: string = null!;
+
+                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
+                        color = value;
+    
+                    } else {
+                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
+                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                        }
                     }
-                }
-
-                const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
     
-                valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                type = "string";
-
-                if ( Is.definedString( color ) ) {
-                    valueElement.style.color = color;
-                }
+                    const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
+        
+                    valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
+                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                    type = "string";
     
-                if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    if ( Is.definedString( color ) ) {
+                        valueElement.style.color = color;
+                    }
+        
+                    if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
+                        Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
+                    }
+                    
+                    createComma( bindingOptions, objectTypeValue, isLastItem );
                 }
-                
-                createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
                 ignored = true;
@@ -584,6 +609,65 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Drop Files
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function makeAreaDroppable( element: HTMLElement, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.fileDroppingEnabled ) {
+            element.ondragover = DomElement.cancelBubble;
+            element.ondragenter = DomElement.cancelBubble;
+            element.ondragleave = DomElement.cancelBubble;
+    
+            element.ondrop = ( e: DragEvent ) => {
+                DomElement.cancelBubble( e );
+    
+                if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
+                    importFromFiles( e.dataTransfer!.files, bindingOptions );
+                }
+            };
+        }
+    }
+
+    function importFromFiles( files: FileList, bindingOptions: BindingOptions ) : void {
+        const filesLength: number = files.length;
+
+        for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
+            const file: File = files[ fileIndex ];
+            const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
+
+            if ( fileExtension === "json" ) {
+                importFromJson( file, bindingOptions );
+            }
+        }
+    }
+
+    function importFromJson( file: File, bindingOptions: BindingOptions ) : void {
+        const reader: FileReader = new FileReader();
+        let renderData: any = null as any;
+
+        reader.onloadend = () => {
+            bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            bindingOptions.data = renderData;
+
+            renderControlContainer( bindingOptions );
+            Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+        };
+    
+        reader.onload = ( e: ProgressEvent<FileReader> ) => {
+            const json: StringToJson = getObjectFromString( e.target!.result );
+
+            if ( json.parsed && Is.definedObject( json.object ) ) {
+                renderData = json.object;
+            }
+        };
+
+        reader.readAsText( file );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Default Parameter/Option Handling
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -705,6 +789,50 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * Public API Functions:  Manage Data
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
+
+        setJson: function ( elementId: string, json: any ) : PublicApi {
+            if ( Is.definedString( elementId ) && Is.defined( json ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                let jsonObject: any = null;
+
+                if ( Is.definedString( json ) ) {
+                    const jsonResult: StringToJson = getObjectFromString( json );
+
+                    if ( jsonResult.parsed ) {
+                        jsonObject = jsonResult.object;
+                    }
+
+                } else {
+                    jsonObject = json;
+                }
+
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+    
+                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions.data = jsonObject;
+
+                renderControlContainer( bindingOptions );
+                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+            }
+    
+            return _public;
+        },
+
+        getJson: function ( elementId: string ) : any {
+            let result: any = null;
+
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                result = _elements_Data[ elementId ].data;
+            }
+
+            return result;
+        },
+
+
+        /*
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          * Public API Functions:  Destroying
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
@@ -778,7 +906,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "2.1.0";
+            return "2.2.0";
         }
     };
 

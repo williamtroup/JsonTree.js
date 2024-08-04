@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        config.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -50,7 +50,8 @@ export namespace Config {
             configuration.text!.nextButtonText = Default.getAnyString( configuration.text!.nextButtonText, "Next" );
             configuration.text!.backButtonSymbolText = Default.getAnyString( configuration.text!.backButtonSymbolText, "←" );
             configuration.text!.nextButtonSymbolText = Default.getAnyString( configuration.text!.nextButtonSymbolText, "→" );
-    
+            configuration.text!.noJsonToViewText = Default.getAnyString( configuration.text!.noJsonToViewText, "There is currently no JSON to view." );
+
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
                     "Monday",

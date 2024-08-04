@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        api.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -96,6 +96,41 @@ export type PublicApi = {
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
 	closeAll: ( elementId: string ) => PublicApi;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Manage Data
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+	/**
+	 * setJson().
+	 *
+	 * Sets the JSON data currently being displayed.
+	 *
+	 * @public
+	 * @fires       onSetJson
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 * @param       {any}    	json                                   		The JSON that should be shown in the display (can be a string, or object).
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	setJson: ( elementId: string, json: any ) => PublicApi;
+
+	/**
+	 * getJson().
+	 *
+	 * Returns the JSON data currently being displayed.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 *
+	 * @returns     {any}                                                	The JSON that is being displayed.
+	 */
+	getJson: ( elementId: string ) => any;
 
 
     /*

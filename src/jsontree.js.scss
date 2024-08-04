@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.1.0
+ * JsonTree.js Library v2.2.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -61,7 +61,6 @@
 
     // Borders
     --json-tree-js-border-radius: 0.5rem;
-    --json-tree-js-border-style-scrollbar: inset 0 0 6px var(--json-tree-js-color-dark-gray);
     --json-tree-js-border-size: 0.5px;
 
     // Sizes
@@ -92,9 +91,10 @@ div.json-tree-js {
     padding: var(--json-tree-js-spacing);
     font-size: var(--json-tree-js-spacing-font-size);
     font-weight: var(--json-tree-js-text-bold-weight);
-    width: auto;
+    width: 100%;
     overflow: hidden;
     margin: 0 !important;
+    max-width: 500px;
 
     button {
         font-family: var(--heat-js-default-font);
@@ -180,6 +180,7 @@ div.json-tree-js {
             margin-left: calc( var(--json-tree-js-spacing) * 6 );
             flex-grow: 1;
             text-align: right;
+            white-space: nowrap;
 
             @media (min-width: $minimum-width) { 
                 margin-left: calc( var(--json-tree-js-spacing) * 12 );
@@ -189,10 +190,6 @@ div.json-tree-js {
 
             button {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
-            }
-
-            button.back {
-                margin-left: calc( var(--json-tree-js-spacing) * 2 ) !important;
             }
 
             button.copy-all {
@@ -209,6 +206,27 @@ div.json-tree-js {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Contents
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.contents {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        span.no-json-text {
+            font-style: italic;
+            color: var(--json-tree-js-color-snow-white);
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - Object Type Title
     -------------------------------------------------------------------------
 */
@@ -217,6 +235,7 @@ div.json-tree-js {
     div.object-type-title {
         font-weight: var(--json-tree-js-header-bold-weight);
         text-align: left !important;
+        width: fit-content;
 
         span.array {
             color: var(--json-tree-js-color-array);
@@ -238,6 +257,7 @@ div.json-tree-js {
     }
 }
 
+
 /*
     -------------------------------------------------------------------------
     JsonTree.js - Object Type Contents
@@ -247,6 +267,7 @@ div.json-tree-js {
 div.json-tree-js {
     div.object-type-contents {
         margin-top: calc( var(--json-tree-js-spacing) / 2 );
+        width: fit-content;
     }
 }
 
@@ -261,6 +282,7 @@ div.json-tree-js {
     div.object-type-contents {
         margin-left: calc( var(--json-tree-js-spacing) * 2 );
         text-align: left !important;
+        width: fit-content;
         
         div.object-type-value {
             white-space: nowrap;
@@ -344,38 +366,6 @@ div.json-tree-js {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
-        }
-    }
-}
-
-
-/*
-    -------------------------------------------------------------------------
-    JsonTree.js - Custom Scroll Bar
-    -------------------------------------------------------------------------
-*/
-
-.custom-scroll-bars {
-    &::-webkit-scrollbar {
-        width: 12px;
-    }
-    
-    &::-webkit-scrollbar-track {
-        -webkit-box-shadow: var(--json-tree-js-border-style-scrollbar);
-        box-shadow: var(--json-tree-js-border-style-scrollbar);
-    }
-    
-    &::-webkit-scrollbar-thumb {
-        -webkit-box-shadow: var(--json-tree-js-border-style-scrollbar);
-        box-shadow: var(--json-tree-js-border-style-scrollbar);
-        background: var(--json-tree-js-color-white);
-
-        &:hover {
-            background-color: var(--json-tree-js-color-white);
-        }
-
-        &:active {
-            background-color: var(--json-tree-js-color-lighter-gray);
         }
     }
 }

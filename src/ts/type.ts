@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        type.ts
- * @version     v2.1.0
+ * @version     v2.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -42,6 +42,7 @@ export type ConfigurationText = {
 	nextButtonText?: string;
 	backButtonSymbolText?: string;
 	nextButtonSymbolText?: string;
+	noJsonToViewText?: string;
 };
 
 export type BindingOptions = {
@@ -62,8 +63,11 @@ export type BindingOptions = {
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
-	showArrayItemsAsSeparateObjects: boolean;
-	copyOnlyCurrentPage: boolean;
+	showArrayItemsAsSeparateObjects?: boolean;
+	copyOnlyCurrentPage?: boolean;
+	fileDroppingEnabled?: boolean;
+	parseStringsToDates?: boolean;
+	copyIndentSpaces?: number;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;
@@ -72,6 +76,7 @@ export type BindingOptions = {
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
 	dataArrayCurrentIndex: number;
+	titleBarButtons: HTMLElement;
 };
 
 export type BindingOptionsTitle = {
@@ -111,4 +116,7 @@ export type BindingOptionsEvents = {
     onNullRender?: ( element: HTMLElement ) => void;
     onStringRender?: ( element: HTMLElement ) => void;
     onUnknownRender?: ( element: HTMLElement ) => void;
+	onBackPage?: ( element: HTMLElement ) => void;
+	onNextPage?: ( element: HTMLElement ) => void;
+	onSetJson?: ( element: HTMLElement ) => void;
 };

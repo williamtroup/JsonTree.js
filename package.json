@@ -2,7 +2,7 @@
   "name": "jjsontree.js",
   "title": "JsonTree.js",
   "description": "A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "homepage": "https://www.william-troup.com/jsontree-js/",
   "author": {
     "name": "Bunoon"
@@ -39,10 +39,10 @@
     "build-sass-minimized": "sass src/jsontree.js.scss dist/jsontree.js.min.css --style=compressed --no-source-map"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.0",
+    "@swc/core": "^1.7.5",
     "sass": "^1.77.8",
     "terser": "^5.31.3",
-    "tsup": "^8.2.0",
-    "typescript": "^5.5.3"
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   }
 }
