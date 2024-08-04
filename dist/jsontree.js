@@ -273,6 +273,7 @@ var Binding;
             t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
             t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
+            t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
             t = o(t);
             t = l(t);
             t = a(t);
@@ -470,9 +471,9 @@ var Trigger;
                 n.onclick = () => {
                     let n = null;
                     if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], null, 2);
+                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], null, e.copyIndentSpaces);
                     } else {
-                        n = JSON.stringify(t, null, 2);
+                        n = JSON.stringify(t, null, e.copyIndentSpaces);
                     }
                     navigator.clipboard.writeText(n);
                     Trigger.customEvent(e.events.onCopyAll, n);

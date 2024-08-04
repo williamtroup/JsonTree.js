@@ -62,10 +62,11 @@ export type BindingOptions = {
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
 	showStringHexColors?: boolean;
-	showArrayItemsAsSeparateObjects: boolean;
-	copyOnlyCurrentPage: boolean;
-	fileDroppingEnabled: boolean;
-	parseStringsToDates: boolean;
+	showArrayItemsAsSeparateObjects?: boolean;
+	copyOnlyCurrentPage?: boolean;
+	fileDroppingEnabled?: boolean;
+	parseStringsToDates?: boolean;
+	copyIndentSpaces?: number;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;

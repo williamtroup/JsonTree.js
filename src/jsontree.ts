@@ -158,10 +158,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let copyData: string = null!;
 
                     if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, 2 );
+                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, bindingOptions.copyIndentSpaces );
                     }
                     else {
-                        copyData = JSON.stringify( data, null, 2 );
+                        copyData = JSON.stringify( data, null, bindingOptions.copyIndentSpaces );
                     }
 
                     navigator.clipboard.writeText( copyData );
