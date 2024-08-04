@@ -148,6 +148,11 @@ var DomElement;
         e.classList.add(t);
     }
     e.addClass = r;
+    function o(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    e.cancelBubble = o;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -262,6 +267,7 @@ var Binding;
             t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
             t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
+            t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
             t = o(t);
             t = l(t);
             t = a(t);
@@ -436,6 +442,7 @@ var Trigger;
         e._currentView.element.innerHTML = "";
         renderControlTitleBar(e, t);
         const n = DomElement.create(e._currentView.element, "div", "contents");
+        makeAreaDroppable(n, e);
         if (e.showArrayItemsAsSeparateObjects) {
             t = t[e._currentView.dataArrayCurrentIndex];
         }
@@ -771,6 +778,45 @@ var Trigger;
             r = Str.padNumber(parseInt(r), n.toString().length);
         }
         return `[${r}]`;
+    }
+    function makeAreaDroppable(e, t) {
+        if (t.fileDroppingEnabled) {
+            e.ondragover = DomElement.cancelBubble;
+            e.ondragenter = DomElement.cancelBubble;
+            e.ondragleave = DomElement.cancelBubble;
+            e.ondrop = e => {
+                DomElement.cancelBubble(e);
+                if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
+                    importFromFiles(e.dataTransfer.files, t);
+                }
+            };
+        }
+    }
+    function importFromFiles(e, t) {
+        const n = e.length;
+        for (let r = 0; r < n; r++) {
+            const n = e[r];
+            const o = n.name.split(".").pop().toLowerCase();
+            if (o === "json") {
+                importFromJson(n, t);
+            }
+        }
+    }
+    function importFromJson(e, t) {
+        const n = new FileReader;
+        let r = null;
+        n.onloadend = () => {
+            t._currentView.dataArrayCurrentIndex = 0;
+            t.data = r;
+            renderControlContainer(t);
+        };
+        n.onload = e => {
+            const t = getObjectFromString(e.target.result);
+            if (t.parsed && Is.definedObject(t.object)) {
+                r = t.object;
+            }
+        };
+        n.readAsText(e);
     }
     function getObjectFromString(objectString) {
         const result = {

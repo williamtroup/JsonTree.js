@@ -64,6 +64,7 @@ export type BindingOptions = {
 	showStringHexColors?: boolean;
 	showArrayItemsAsSeparateObjects: boolean;
 	copyOnlyCurrentPage: boolean;
+	fileDroppingEnabled: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	events?: BindingOptionsEvents;

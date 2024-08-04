@@ -45,4 +45,9 @@ export namespace DomElement {
     export function addClass( element: HTMLElement, className: string ) : void {
         element.classList.add( className );
     }
+
+    export function cancelBubble( e: Event ) : void {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 }

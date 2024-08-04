@@ -121,6 +121,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
 
+        makeAreaDroppable( contents, bindingOptions );
+
         if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
@@ -581,6 +583,64 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     
         return `[${result}]`;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Drop Files
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function makeAreaDroppable( element: HTMLElement, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.fileDroppingEnabled ) {
+            element.ondragover = DomElement.cancelBubble;
+            element.ondragenter = DomElement.cancelBubble;
+            element.ondragleave = DomElement.cancelBubble;
+    
+            element.ondrop = ( e: DragEvent ) => {
+                DomElement.cancelBubble( e );
+    
+                if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
+                    importFromFiles( e.dataTransfer!.files, bindingOptions );
+                }
+            };
+        }
+    }
+
+    function importFromFiles( files: FileList, bindingOptions: BindingOptions ) : void {
+        const filesLength: number = files.length;
+
+        for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
+            const file: File = files[ fileIndex ];
+            const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
+
+            if ( fileExtension === "json" ) {
+                importFromJson( file, bindingOptions );
+            }
+        }
+    }
+
+    function importFromJson( file: File, bindingOptions: BindingOptions ) : void {
+        const reader: FileReader = new FileReader();
+        let renderData: any = null as any;
+
+        reader.onloadend = () => {
+            bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            bindingOptions.data = renderData;
+
+            renderControlContainer( bindingOptions );
+        };
+    
+        reader.onload = ( e: ProgressEvent<FileReader> ) => {
+            const json: StringToJson = getObjectFromString( e.target!.result );
+
+            if ( json.parsed && Is.definedObject( json.object ) ) {
+                renderData = json.object;
+            }
+        };
+
+        reader.readAsText( file );
     }
 
 
