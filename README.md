@@ -25,10 +25,11 @@ JsonTree.js
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables).
 - Fully configurable per DOM element!
-- Close/Open all.
-- Clickable values!
+- Close/Open all nodes.
+- Clickable values via custom triggers!
 - Custom value rendering.
 - Array paging support (show array objects on different pages)!
+- Drag & Drop JSON files support!
 <br />
 <br />
 
