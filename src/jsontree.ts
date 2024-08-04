@@ -780,19 +780,28 @@ type JsonTreeData = Record<string, BindingOptions>;
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          */
 
-        setJson: function ( elementId: string, json: string ) : PublicApi {
-            if ( Is.definedString( elementId ) && Is.definedString( json ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                const jsonResult: StringToJson = getObjectFromString( json );
+        setJson: function ( elementId: string, json: any ) : PublicApi {
+            if ( Is.definedString( elementId ) && Is.defined( json ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                let jsonObject: any = null;
 
-                if ( jsonResult.parsed ) {
-                    const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+                if ( Is.definedString( json ) ) {
+                    const jsonResult: StringToJson = getObjectFromString( json );
 
-                    bindingOptions._currentView.dataArrayCurrentIndex = 0;
-                    bindingOptions.data = jsonResult.object;
+                    if ( jsonResult.parsed ) {
+                        jsonObject = jsonResult.object;
+                    }
 
-                    renderControlContainer( bindingOptions );
-                    Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+                } else {
+                    jsonObject = json;
                 }
+
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+    
+                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions.data = jsonObject;
+
+                renderControlContainer( bindingOptions );
+                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
             }
     
             return _public;

@@ -112,11 +112,11 @@ export type PublicApi = {
 	 * @public
 	 *
 	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
-	 * @param       {string}    json                                   		The JSON that should be shown in the display.
+	 * @param       {any}    	json                                   		The JSON that should be shown in the display (can be a string, or object).
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	setJson: ( elementId: string, json: string ) => PublicApi;
+	setJson: ( elementId: string, json: any ) => PublicApi;
 
 	/**
 	 * getJson().
