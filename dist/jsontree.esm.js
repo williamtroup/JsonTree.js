@@ -686,9 +686,9 @@ var require_jsontree = __commonJS({
                         n.onclick = () => {
                             let n = null;
                             if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], null, e.copyIndentSpaces);
+                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], jsonStringifyReplacer, e.copyIndentSpaces);
                             } else {
-                                n = JSON.stringify(t, null, e.copyIndentSpaces);
+                                n = JSON.stringify(t, jsonStringifyReplacer, e.copyIndentSpaces);
                             }
                             navigator.clipboard.writeText(n);
                             Trigger.customEvent(e.events.onCopyAll, n);
@@ -735,6 +735,12 @@ var require_jsontree = __commonJS({
                         }
                     }
                 }
+            }
+            function jsonStringifyReplacer(e, t) {
+                if (Is.definedBigInt(t)) {
+                    t = t.toString();
+                }
+                return t;
             }
             function openAllNodes(e) {
                 e.showAllAsClosed = false;

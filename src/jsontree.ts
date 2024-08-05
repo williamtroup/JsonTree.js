@@ -173,10 +173,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let copyData: string = null!;
 
                     if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
                     }
                     else {
-                        copyData = JSON.stringify( data, null, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
                     }
 
                     navigator.clipboard.writeText( copyData );
@@ -243,6 +243,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
         }
+    }
+
+    function jsonStringifyReplacer( _: string, value: any ) : void {
+        if ( Is.definedBigInt( value ) ) {
+            value = value.toString();
+        }
+
+        return value;
     }
 
     function openAllNodes( bindingOptions: BindingOptions ) : void {
