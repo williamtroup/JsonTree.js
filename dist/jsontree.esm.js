@@ -403,6 +403,7 @@ var init_binding = __esm({
                     e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
                     e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
                     e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
+                    e.ignore.emptyObjects = Default.getBoolean(e.ignore.emptyObjects, true);
                     return e;
                 }
                 function l(e) {
@@ -744,13 +745,18 @@ var require_jsontree = __commonJS({
                 const i = DomElement.create(e, "div", "object-type-contents");
                 const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
                 const a = renderObjectValues(l, i, t, n);
-                const s = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
-                if (r && t.showArrayItemsAsSeparateObjects) {
-                    let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
-                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
-                }
-                if (t.showCounts && a > 0) {
-                    DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
+                if (a === 0 && t.ignore.emptyObjects) {
+                    e.removeChild(o);
+                    e.removeChild(i);
+                } else {
+                    const e = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
+                    if (r && t.showArrayItemsAsSeparateObjects) {
+                        let n = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
+                        DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${n}]:`, e);
+                    }
+                    if (t.showCounts && a > 0) {
+                        DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
+                    }
                 }
             }
             function renderArray(e, t, n) {
@@ -945,12 +951,16 @@ var require_jsontree = __commonJS({
                         const e = DomElement.create(i, "span", t.showValueColors ? "object" : "");
                         const n = DomElement.create(i, "div", "object-type-contents");
                         const a = renderObjectValues(l, n, t, r);
-                        DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
-                        if (t.showCounts && a > 0) {
-                            DomElement.createWithHTML(e, "span", "count", `{${a}}`);
+                        if (a === 0 && t.ignore.emptyObjects) {
+                            u = true;
+                        } else {
+                            DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
+                            if (t.showCounts && a > 0) {
+                                DomElement.createWithHTML(e, "span", "count", `{${a}}`);
+                            }
+                            createComma(t, e, o);
+                            c = "object";
                         }
-                        createComma(t, e, o);
-                        c = "object";
                     } else {
                         u = true;
                     }

@@ -107,6 +107,7 @@ export type BindingOptionsIgnore = {
     numberValues?: boolean;
 	bigIntValues?: boolean;
 	symbolValues?: boolean;
+	emptyObjects?: boolean;
 };
 
 export type BindingOptionsTooltip = {

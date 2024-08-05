@@ -90,6 +90,7 @@ export namespace Binding {
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
             options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
+            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
 
             return options;
         }

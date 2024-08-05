@@ -272,16 +272,22 @@ type JsonTreeData = Record<string, BindingOptions>;
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
+        if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+            container.removeChild( objectTypeTitle );
+            container.removeChild( objectTypeContents );
+        } else {
 
-        if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
-            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
 
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
-        }
-
-        if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+            if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
+                let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+    
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
+            }
+    
+            if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+            }
         }
     }
 
@@ -541,15 +547,20 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
 
-                if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+    
+                    createComma( bindingOptions, objectTitle, isLastItem );
+    
+                    type = DataType.object;
                 }
-
-                createComma( bindingOptions, objectTitle, isLastItem );
-
-                type = DataType.object;
 
             } else {
                 ignored = true;

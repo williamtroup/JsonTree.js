@@ -346,6 +346,7 @@ var Binding;
             e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
             e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
             e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
+            e.ignore.emptyObjects = Default.getBoolean(e.ignore.emptyObjects, true);
             return e;
         }
         function i(e) {
@@ -652,13 +653,18 @@ var ToolTip;
         const l = DomElement.create(e, "div", "object-type-contents");
         const i = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
         const a = renderObjectValues(i, l, t, n);
-        const s = DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
-        if (o && t.showArrayItemsAsSeparateObjects) {
-            let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
-            DomElement.createWithHTML(r, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${e}]:`, s);
-        }
-        if (t.showCounts && a > 0) {
-            DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
+        if (a === 0 && t.ignore.emptyObjects) {
+            e.removeChild(r);
+            e.removeChild(l);
+        } else {
+            const e = DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
+            if (o && t.showArrayItemsAsSeparateObjects) {
+                let n = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
+                DomElement.createWithHTML(r, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${n}]:`, e);
+            }
+            if (t.showCounts && a > 0) {
+                DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
+            }
         }
     }
     function renderArray(e, t, n) {
@@ -853,12 +859,16 @@ var ToolTip;
                 const e = DomElement.create(l, "span", t.showValueColors ? "object" : "");
                 const n = DomElement.create(l, "div", "object-type-contents");
                 const a = renderObjectValues(i, n, t, o);
-                DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
-                if (t.showCounts && a > 0) {
-                    DomElement.createWithHTML(e, "span", "count", `{${a}}`);
+                if (a === 0 && t.ignore.emptyObjects) {
+                    u = true;
+                } else {
+                    DomElement.createWithHTML(e, "span", "title", _configuration.text.objectText);
+                    if (t.showCounts && a > 0) {
+                        DomElement.createWithHTML(e, "span", "count", `{${a}}`);
+                    }
+                    createComma(t, e, r);
+                    c = "object";
                 }
-                createComma(t, e, r);
-                c = "object";
             } else {
                 u = true;
             }
