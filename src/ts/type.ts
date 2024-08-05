@@ -71,12 +71,12 @@ export type BindingOptions = {
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
-	parseStringsToDates?: boolean;
 	copyIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
+	parse?: BindingOptionsParse;
 	events?: BindingOptionsEvents;
 };
 
@@ -86,6 +86,10 @@ export type BindingOptionsCurrentView = {
 	titleBarButtons: HTMLElement;
 	tooltip: HTMLElement;
 	tooltipTimerId: number;
+};
+
+export type BindingOptionsParse = {
+    stringsToDates?: boolean;
 };
 
 export type BindingOptionsTitle = {

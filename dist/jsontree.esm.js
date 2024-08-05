@@ -372,13 +372,13 @@ var init_binding = __esm({
                     t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
                     t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
                     t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
-                    t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
                     t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
                     t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
                     t = o(t);
                     t = i(t);
                     t = l(t);
                     t = a(t);
+                    t = s(t);
                     return t;
                 }
                 t.get = r;
@@ -413,6 +413,11 @@ var init_binding = __esm({
                     return e;
                 }
                 function a(e) {
+                    e.parse = Default.getObject(e.parse, {});
+                    e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
+                    return e;
+                }
+                function s(e) {
                     e.events = Default.getObject(e.events, {});
                     e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
                     e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -899,7 +904,7 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
-                        if (t.parseStringsToDates && DateTime.isDateValid(r)) {
+                        if (t.parse.stringsToDates && DateTime.isDateValid(r)) {
                             renderValue(e, t, n, new Date(r), o);
                             u = true;
                         } else {

@@ -476,7 +476,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                if ( bindingOptions.parseStringsToDates && DateTime.isDateValid( value ) ) {
+                if ( bindingOptions.parse!.stringsToDates && DateTime.isDateValid( value ) ) {
                     renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
                     ignored = true;
 

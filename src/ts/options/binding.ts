@@ -13,6 +13,7 @@
 
 import {
     BindingOptionsCurrentView,
+    BindingOptionsParse,
     BindingOptionsTooltip,
     type BindingOptions,
     type BindingOptionsEvents,
@@ -55,13 +56,13 @@ export namespace Binding {
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
-            options.parseStringsToDates = Default.getBoolean( options.parseStringsToDates, false );
             options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
+            options = getParse( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -99,6 +100,13 @@ export namespace Binding {
         function getToolTip( options: BindingOptions ) : BindingOptions {
             options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
             options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
+    
+            return options;
+        }
+
+        function getParse( options: BindingOptions ) : BindingOptions {
+            options.parse = Default.getObject( options.parse, {} as BindingOptionsParse );
+            options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
     
             return options;
         }

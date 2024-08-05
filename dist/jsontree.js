@@ -315,13 +315,13 @@ var Binding;
             t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
-            t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
             t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
             t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
             t = r(t);
             t = l(t);
             t = i(t);
             t = a(t);
+            t = s(t);
             return t;
         }
         t.get = o;
@@ -356,6 +356,11 @@ var Binding;
             return e;
         }
         function a(e) {
+            e.parse = Default.getObject(e.parse, {});
+            e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
+            return e;
+        }
+        function s(e) {
             e.events = Default.getObject(e.events, {});
             e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
             e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -807,7 +812,7 @@ var ToolTip;
             }
         } else if (Is.definedString(o)) {
             if (!t.ignore.stringValues) {
-                if (t.parseStringsToDates && DateTime.isDateValid(o)) {
+                if (t.parse.stringsToDates && DateTime.isDateValid(o)) {
                     renderValue(e, t, n, new Date(o), r);
                     u = true;
                 } else {
