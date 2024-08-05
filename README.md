@@ -48,6 +48,24 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 <br>
 
 
+<h1>What types are supported?</h1>
+
+- `boolean` Booleans
+- `number` Numbers
+- `bigint` Big Integers
+- `string` Strings
+- `object` Objects
+- `object Array` Arrays
+- `object Date` Dates
+- `number` Decimals
+- `null` Nulls
+- `symbol` Symbols
+- `function` Functions
+- `any` Unknown
+<br>
+<br>
+
+
 <h1>What are the most recent changes?</h1>
 
 To see a list of all the most recent changes, click [here](https://www.william-troup.com/jsontree-js/documentation/recent-changes.html).

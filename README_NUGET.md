@@ -35,6 +35,22 @@ All the documentation can be found [here](https://www.william-troup.com/jsontree
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
 
 
+## What types are supported?
+
+- `boolean` Booleans
+- `number` Numbers
+- `bigint` Big Integers
+- `string` Strings
+- `object` Objects
+- `object Array` Arrays
+- `object Date` Dates
+- `number` Decimals
+- `null` Nulls
+- `symbol` Symbols
+- `function` Functions
+- `any` Unknown
+
+
 ## What are the most recent changes?
 
 To see a list of all the most recent changes, click [here](https://www.william-troup.com/jsontree-js/documentation/recent-changes.html).
