@@ -981,7 +981,7 @@ var Trigger;
             return e;
         },
         getVersion: function() {
-            return "2.2.0";
+            return "2.3.0";
         }
     };
     (() => {
