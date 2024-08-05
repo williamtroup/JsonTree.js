@@ -90,6 +90,8 @@ export type BindingOptionsCurrentView = {
 
 export type BindingOptionsParse = {
     stringsToDates?: boolean;
+	stringsToBooleans?: boolean;
+	stringsToNumbers?: boolean;
 };
 
 export type BindingOptionsTitle = {

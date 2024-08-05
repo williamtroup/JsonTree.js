@@ -107,7 +107,9 @@ export namespace Binding {
         function getParse( options: BindingOptions ) : BindingOptions {
             options.parse = Default.getObject( options.parse, {} as BindingOptionsParse );
             options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
-    
+            options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
+            options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
+
             return options;
         }
     

@@ -66,8 +66,4 @@ export namespace DateTime {
 
         return result;
     }
-
-    export function isDateValid( dateTimeString: string ) {
-        return !isNaN( +new Date( dateTimeString ) );
-    }
 }

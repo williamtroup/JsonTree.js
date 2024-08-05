@@ -72,4 +72,12 @@ export namespace Is {
     
         return valid;
     }
+
+    export function stringValueBoolean( object: string ) : boolean {
+        return object.toString().toLowerCase().trim() === "true" || object.toString().toLowerCase().trim() === "false";
+    }
+
+    export function stringValueDate( dateTimeString: string ) {
+        return !isNaN( +new Date( dateTimeString ) );
+    }
 }

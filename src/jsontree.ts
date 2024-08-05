@@ -488,7 +488,15 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                if ( bindingOptions.parse!.stringsToDates && DateTime.isDateValid( value ) ) {
+                if ( bindingOptions.parse!.stringsToBooleans && Is.stringValueBoolean( value ) ) {
+                    renderValue( container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem );
+                    ignored = true;
+
+                } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
+                    renderValue( container, bindingOptions, name, parseFloat( value ), isLastItem );
+                    ignored = true;
+
+                } else if ( bindingOptions.parse!.stringsToDates && Is.stringValueDate( value ) ) {
                     renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
                     ignored = true;
 

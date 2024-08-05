@@ -71,14 +71,22 @@ var init_is = __esm({
                 return !s(e) || e.length < t;
             }
             e.invalidOptionArray = f;
-            function m(e) {
+            function g(e) {
                 let t = e.length >= 2 && e.length <= 7;
                 if (t && e[0] === "#") {
                     t = isNaN(+e.substring(1, e.length - 1));
                 }
                 return t;
             }
-            e.hexColor = m;
+            e.hexColor = g;
+            function m(e) {
+                return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
+            }
+            e.stringValueBoolean = m;
+            function p(e) {
+                return !isNaN(+new Date(e));
+            }
+            e.stringValueDate = p;
         })(Is || (Is = {}));
     }
 });
@@ -314,10 +322,6 @@ var init_datetime = __esm({
                 return i;
             }
             e.getCustomFormattedDateText = r;
-            function o(e) {
-                return !isNaN(+new Date(e));
-            }
-            e.isDateValid = o;
         })(DateTime || (DateTime = {}));
     }
 });
@@ -415,6 +419,8 @@ var init_binding = __esm({
                 function a(e) {
                     e.parse = Default.getObject(e.parse, {});
                     e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
+                    e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
+                    e.parse.stringsToNumbers = Default.getBoolean(e.parse.stringsToNumbers, false);
                     return e;
                 }
                 function s(e) {
@@ -914,7 +920,13 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
-                        if (t.parse.stringsToDates && DateTime.isDateValid(r)) {
+                        if (t.parse.stringsToBooleans && Is.stringValueBoolean(r)) {
+                            renderValue(e, t, n, r.toString().toLowerCase().trim() === "true", o);
+                            u = true;
+                        } else if (t.parse.stringsToNumbers && !isNaN(r)) {
+                            renderValue(e, t, n, parseFloat(r), o);
+                            u = true;
+                        } else if (t.parse.stringsToDates && Is.stringValueDate(r)) {
                             renderValue(e, t, n, new Date(r), o);
                             u = true;
                         } else {
