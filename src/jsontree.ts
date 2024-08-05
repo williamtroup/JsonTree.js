@@ -23,6 +23,7 @@ import { Str } from "./ts/data/str";
 import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
+import { ToolTip } from "./ts/area/tooltip";
 
 
 type StringToJson = {
@@ -96,6 +97,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControl( bindingOptions: BindingOptions ) : void {
         Trigger.customEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
+        ToolTip.renderControl( bindingOptions );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
             bindingOptions._currentView.element.id = Str.newGuid();
@@ -114,6 +116,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContainer( bindingOptions: BindingOptions ) : void {
         let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+
+        ToolTip.hide( bindingOptions );
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
 
@@ -162,7 +166,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
-                copy.title = _configuration.text!.copyAllButtonText!
+
+                ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
 
                 copy.onclick = () => {
                     let copyData: string = null!;
@@ -182,10 +187,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-                openAll.title = _configuration.text!.openAllButtonText!
+
+                ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-                closeAll.title = _configuration.text!.closeAllButtonText!
+
+                ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
 
                 openAll.onclick = () => {
                     openAllNodes( bindingOptions );
@@ -198,7 +205,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
                 const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
-                back.title = _configuration.text!.backButtonText!
+
+                ToolTip.add( back, bindingOptions, _configuration.text!.backButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
                     back.onclick = () => {
@@ -213,7 +221,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
-                next.title = _configuration.text!.nextButtonText!
+
+                ToolTip.add( next, bindingOptions, _configuration.text!.nextButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
                     next.onclick = () => {
@@ -715,6 +724,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.className = Char.empty;
 
+        ToolTip.assignToEvents( bindingOptions, false );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 

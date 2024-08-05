@@ -35,6 +35,9 @@
   --json-tree-js-color-null: #BBBBBB;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+  --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
+  --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
+  --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
   --json-tree-js-button-background-color: #2d333b;
@@ -49,6 +52,7 @@
   --json-tree-js-spacing: 10px;
   --json-tree-js-spacing-font-size: 0.85rem;
   --json-tree-js-transition: all .3s;
+  --json-tree-js-animation-length: 0.5s;
 }
 
 /*
@@ -328,6 +332,35 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
 div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - ToolTip
+    -------------------------------------------------------------------------
+*/
+div.jsontree-js-tooltip {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+  box-sizing: border-box;
+  line-height: normal;
+  font-family: var(--json-tree-js-default-font);
+  animation: fade-in-animation var(--json-tree-js-animation-length);
+  position: absolute;
+  background-color: var(--json-tree-js-tooltip-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
+  color: var(--json-tree-js-tooltip-text-color);
+  border-radius: var(--json-tree-js-border-radius);
+  z-index: 2000;
+  max-width: 300px;
+  padding: var(--json-tree-js-spacing);
+  font-size: var(--json-tree-js-spacing-font-size);
+  font-weight: var(--json-tree-js-text-bold-weight);
+  display: none;
 }
 
 /*# sourceMappingURL=jsontree.js.css.map */

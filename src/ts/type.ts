@@ -11,6 +11,11 @@
  */
 
 
+export type Position = {
+    left: number;
+    top: number;
+};
+
 export type Configuration = {
 	safeMode?: boolean;
 	domElementTypes?: string[] | string;
@@ -70,6 +75,7 @@ export type BindingOptions = {
 	copyIndentSpaces?: number;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
+	tooltip?: BindingOptionsTooltip;
 	events?: BindingOptionsEvents;
 };
 
@@ -77,6 +83,8 @@ export type BindingOptionsCurrentView = {
     element: HTMLElement;
 	dataArrayCurrentIndex: number;
 	titleBarButtons: HTMLElement;
+	tooltip: HTMLElement;
+	tooltipTimerId: number;
 };
 
 export type BindingOptionsTitle = {
@@ -97,6 +105,10 @@ export type BindingOptionsIgnore = {
     objectValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
+};
+
+export type BindingOptionsTooltip = {
+    delay?: number;
 };
 
 export type BindingOptionsEvents = {

@@ -46,6 +46,11 @@
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
 
+    // ToolTip
+    --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
+    --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+
     // Containers
     --json-tree-js-container-background-color: #22272e;
     --json-tree-js-container-border-color: #454c56;
@@ -69,6 +74,7 @@
 
     // Transitions
     --json-tree-js-transition: all .3s;
+    --json-tree-js-animation-length: 0.5s;
 }
 
 
@@ -368,4 +374,29 @@ div.json-tree-js {
             }
         }
     }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - ToolTip
+    -------------------------------------------------------------------------
+*/
+
+div.jsontree-js-tooltip {
+    @include no-selection-allowed;
+    @include box-sizing;
+    font-family: var(--json-tree-js-default-font);
+    animation: fade-in-animation var(--json-tree-js-animation-length);
+    position: absolute;
+    background-color: var(--json-tree-js-tooltip-background-color);
+    border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
+    color: var(--json-tree-js-tooltip-text-color);
+    border-radius: var(--json-tree-js-border-radius);
+    z-index: 2000;
+    max-width: 300px;
+    padding: var(--json-tree-js-spacing);
+    font-size: var(--json-tree-js-spacing-font-size);
+    font-weight: var(--json-tree-js-text-bold-weight);
+    display: none;
 }

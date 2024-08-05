@@ -13,6 +13,7 @@
 
 import {
     BindingOptionsCurrentView,
+    BindingOptionsTooltip,
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
@@ -59,6 +60,7 @@ export namespace Binding {
 
             options = getTitle( options );
             options = getIgnore( options );
+            options = getToolTip( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -86,6 +88,13 @@ export namespace Binding {
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
+    
+            return options;
+        }
+
+        function getToolTip( options: BindingOptions ) : BindingOptions {
+            options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
+            options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
     
             return options;
         }
