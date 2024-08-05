@@ -89,6 +89,7 @@ export namespace Binding {
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
             options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
+            options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
 
             return options;
         }
@@ -119,7 +120,8 @@ export namespace Binding {
             options.events!.onFunctionRender = Default.getFunction( options.events!.onFunctionRender, null! );
             options.events!.onNullRender = Default.getFunction( options.events!.onNullRender, null! );
             options.events!.onUnknownRender = Default.getFunction( options.events!.onUnknownRender, null! );
-    
+            options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
+
             return options;
         }
     }

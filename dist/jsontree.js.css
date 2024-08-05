@@ -34,6 +34,7 @@
   --json-tree-js-color-array: #F28C28;
   --json-tree-js-color-object: #C0C0C0;
   --json-tree-js-color-null: #BBBBBB;
+  --json-tree-js-color-symbol: #DAA06D;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
@@ -277,6 +278,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.string,
 div.json-tree-js div.object-type-contents div.object-type-value span.date,
 div.json-tree-js div.object-type-contents div.object-type-value span.null,
 div.json-tree-js div.object-type-contents div.object-type-value span.function,
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol,
 div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
@@ -289,6 +291,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.string:not(
 div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.unknown:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
@@ -326,6 +329,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.object {
 div.json-tree-js div.object-type-contents div.object-type-value span.null {
   color: var(--json-tree-js-color-null);
   font-style: italic;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol {
+  color: var(--json-tree-js-color-symbol);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.function {
   color: var(--json-tree-js-color-function);

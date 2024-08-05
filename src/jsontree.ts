@@ -515,6 +515,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedSymbol( value ) ) {
+            if ( !bindingOptions.ignore!.symbolValues ) {
+                valueClass = bindingOptions.showValueColors ? "symbol" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                type = "symbol";
+
+                if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedObject( value ) && !Is.definedArray( value ) ) {
             if ( !bindingOptions.ignore!.objectValues ) {
                 const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "object" : Char.empty );

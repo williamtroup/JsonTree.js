@@ -106,6 +106,7 @@ export type BindingOptionsIgnore = {
     dateValues?: boolean;
     numberValues?: boolean;
 	bigIntValues?: boolean;
+	symbolValues?: boolean;
 };
 
 export type BindingOptionsTooltip = {
@@ -130,6 +131,7 @@ export type BindingOptionsEvents = {
     onStringRender?: ( element: HTMLElement ) => void;
     onUnknownRender?: ( element: HTMLElement ) => void;
 	onBigIntRender?: ( element: HTMLElement ) => void;
+	onSymbolRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

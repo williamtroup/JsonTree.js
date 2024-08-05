@@ -63,18 +63,22 @@ var init_is = __esm({
                 return t(e) && typeof e === "number" && e % 1 !== 0;
             }
             e.definedDecimal = c;
-            function d(e, t = 1) {
+            function d(e) {
+                return t(e) && typeof e === "symbol";
+            }
+            e.definedSymbol = d;
+            function f(e, t = 1) {
                 return !s(e) || e.length < t;
             }
-            e.invalidOptionArray = d;
-            function f(e) {
+            e.invalidOptionArray = f;
+            function m(e) {
                 let t = e.length >= 2 && e.length <= 7;
                 if (t && e[0] === "#") {
                     t = isNaN(+e.substring(1, e.length - 1));
                 }
                 return t;
             }
-            e.hexColor = f;
+            e.hexColor = m;
         })(Is || (Is = {}));
     }
 });
@@ -398,6 +402,7 @@ var init_binding = __esm({
                     e.ignore.objectValues = Default.getBoolean(e.ignore.objectValues, false);
                     e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
                     e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
+                    e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
                     return e;
                 }
                 function l(e) {
@@ -424,6 +429,7 @@ var init_binding = __esm({
                     e.events.onFunctionRender = Default.getFunction(e.events.onFunctionRender, null);
                     e.events.onNullRender = Default.getFunction(e.events.onNullRender, null);
                     e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
+                    e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
                     return e;
                 }
             })(t = e.Options || (e.Options = {}));
@@ -914,6 +920,18 @@ var require_jsontree = __commonJS({
                         c = "date";
                         if (Is.definedFunction(t.events.onDateRender)) {
                             Trigger.customEvent(t.events.onDateRender, s);
+                        }
+                        createComma(t, i, o);
+                    } else {
+                        u = true;
+                    }
+                } else if (Is.definedSymbol(r)) {
+                    if (!t.ignore.symbolValues) {
+                        a = t.showValueColors ? "symbol" : "";
+                        s = DomElement.createWithHTML(i, "span", a, r.toString());
+                        c = "symbol";
+                        if (Is.definedFunction(t.events.onSymbolRender)) {
+                            Trigger.customEvent(t.events.onSymbolRender, s);
                         }
                         createComma(t, i, o);
                     } else {

@@ -55,6 +55,10 @@ export namespace Is {
         return defined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 
+    export function definedSymbol( object: any ) : boolean {
+        return defined( object ) && typeof object === "symbol";
+    }
+
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
     }
