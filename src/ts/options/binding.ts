@@ -57,6 +57,7 @@ export namespace Binding {
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
             options.parseStringsToDates = Default.getBoolean( options.parseStringsToDates, false );
             options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
+            options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
 
             options = getTitle( options );
             options = getIgnore( options );

@@ -317,6 +317,7 @@ var Binding;
             t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
             t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
             t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
+            t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -660,7 +661,10 @@ var ToolTip;
             const e = DomElement.createWithHTML(r, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
             if (o && t.showArrayItemsAsSeparateObjects) {
                 let n = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
-                DomElement.createWithHTML(r, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${n}]:`, e);
+                if (t.showArrayIndexBrackets) {
+                    n = `[${n}]:`;
+                }
+                DomElement.createWithHTML(r, "span", t.showValueColors ? "object data-array-index" : "data-array-index", n, e);
             }
             if (t.showCounts && a > 0) {
                 DomElement.createWithHTML(r, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
@@ -945,7 +949,10 @@ var ToolTip;
         if (!e.addArrayIndexPadding) {
             o = Str.padNumber(parseInt(o), n.toString().length);
         }
-        return `[${o}]`;
+        if (e.showArrayIndexBrackets) {
+            o = `[${o}]`;
+        }
+        return o;
     }
     function makeAreaDroppable(e, t) {
         if (t.fileDroppingEnabled) {

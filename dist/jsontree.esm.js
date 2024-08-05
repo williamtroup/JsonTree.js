@@ -374,6 +374,7 @@ var init_binding = __esm({
                     t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
                     t.parseStringsToDates = Default.getBoolean(t.parseStringsToDates, false);
                     t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
+                    t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
                     t = o(t);
                     t = i(t);
                     t = l(t);
@@ -752,7 +753,10 @@ var require_jsontree = __commonJS({
                     const e = DomElement.createWithHTML(o, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                     if (r && t.showArrayItemsAsSeparateObjects) {
                         let n = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
-                        DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", `[${n}]:`, e);
+                        if (t.showArrayIndexBrackets) {
+                            n = `[${n}]:`;
+                        }
+                        DomElement.createWithHTML(o, "span", t.showValueColors ? "object data-array-index" : "data-array-index", n, e);
                     }
                     if (t.showCounts && a > 0) {
                         DomElement.createWithHTML(o, "span", t.showValueColors ? "object count" : "count", `{${a}}`);
@@ -1037,7 +1041,10 @@ var require_jsontree = __commonJS({
                 if (!e.addArrayIndexPadding) {
                     r = Str.padNumber(parseInt(r), n.toString().length);
                 }
-                return `[${r}]`;
+                if (e.showArrayIndexBrackets) {
+                    r = `[${r}]`;
+                }
+                return r;
             }
             function makeAreaDroppable(e, t) {
                 if (t.fileDroppingEnabled) {

@@ -282,7 +282,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
     
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
+                if ( bindingOptions.showArrayIndexBrackets ) {
+                    dataArrayIndex = `[${dataArrayIndex}]:`;
+                }
+
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", dataArrayIndex, titleText );
             }
     
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
@@ -658,8 +662,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( !bindingOptions.addArrayIndexPadding ) {
             result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
+
+        if ( bindingOptions.showArrayIndexBrackets ) {
+            result = `[${result}]`;
+        }
     
-        return `[${result}]`;
+        return result;
     }
 
 
