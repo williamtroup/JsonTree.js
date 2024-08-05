@@ -739,6 +739,10 @@ var require_jsontree = __commonJS({
             function jsonStringifyReplacer(e, t) {
                 if (Is.definedBigInt(t)) {
                     t = t.toString();
+                } else if (Is.definedSymbol(t)) {
+                    t = t.toString();
+                } else if (Is.definedFunction(t)) {
+                    t = Default.getFunctionName(t);
                 }
                 return t;
             }

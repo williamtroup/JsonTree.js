@@ -248,6 +248,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     function jsonStringifyReplacer( _: string, value: any ) : void {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
+        } else if ( Is.definedSymbol( value ) ) {
+            value = value.toString();
+        } else if ( Is.definedFunction( value ) ) {
+            value = Default.getFunctionName( value );
         }
 
         return value;
