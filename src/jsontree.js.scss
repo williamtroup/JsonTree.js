@@ -33,6 +33,7 @@
     --json-tree-js-color-black: #3b3a3a;
     --json-tree-js-color-white: #F5F5F5;
     --json-tree-js-color-snow-white: #F5F5F5;
+    --json-tree-js-color-light-gray: #BBBBBB;
 
     // Colors - Types
     --json-tree-js-color-boolean: #FF0000;
@@ -43,7 +44,7 @@
     --json-tree-js-color-date: #a656f5;
     --json-tree-js-color-array: #F28C28;
     --json-tree-js-color-object: #C0C0C0;
-    --json-tree-js-color-null: #BBBBBB;
+    --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
     --json-tree-js-color-symbol: #DAA06D;
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
@@ -227,7 +228,7 @@ div.json-tree-js {
 
         span.no-json-text {
             font-style: italic;
-            color: var(--json-tree-js-color-snow-white);
+            color: var(--json-tree-js-color-light-gray) !important;
         }
     }
 }
