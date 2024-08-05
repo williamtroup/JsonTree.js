@@ -88,7 +88,8 @@ export namespace Binding {
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
-    
+            options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
+
             return options;
         }
 
@@ -111,7 +112,8 @@ export namespace Binding {
             options.events!.onDestroy = Default.getFunction( options.events!.onDestroy, null! );
             options.events!.onBooleanRender = Default.getFunction( options.events!.onBooleanRender, null! );
             options.events!.onDecimalRender = Default.getFunction( options.events!.onDecimalRender, null! );
-            options.events!.onNumberRender =Default.getFunction( options.events!.onNumberRender, null! );
+            options.events!.onNumberRender = Default.getFunction( options.events!.onNumberRender, null! );
+            options.events!.onBigIntRender = Default.getFunction( options.events!.onBigIntRender, null! );
             options.events!.onStringRender = Default.getFunction( options.events!.onStringRender, null! );
             options.events!.onDateRender = Default.getFunction( options.events!.onDateRender, null! );
             options.events!.onFunctionRender = Default.getFunction( options.events!.onFunctionRender, null! );

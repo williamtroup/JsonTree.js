@@ -28,6 +28,7 @@
   --json-tree-js-color-boolean: #FF0000;
   --json-tree-js-color-decimal: #e3c868;
   --json-tree-js-color-number: #666bf9;
+  --json-tree-js-color-bigint: #6495ED;
   --json-tree-js-color-string: #78b13f;
   --json-tree-js-color-date: #a656f5;
   --json-tree-js-color-array: #F28C28;
@@ -271,6 +272,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean,
 div.json-tree-js div.object-type-contents div.object-type-value span.decimal,
 div.json-tree-js div.object-type-contents div.object-type-value span.number,
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint,
 div.json-tree-js div.object-type-contents div.object-type-value span.string,
 div.json-tree-js div.object-type-contents div.object-type-value span.date,
 div.json-tree-js div.object-type-contents div.object-type-value span.null,
@@ -282,6 +284,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.decimal:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.number:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.string:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
@@ -302,6 +305,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.decimal {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.number {
   color: var(--json-tree-js-color-number);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint {
+  color: var(--json-tree-js-color-bigint);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.string {
   color: var(--json-tree-js-color-string);

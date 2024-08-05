@@ -444,6 +444,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedBigInt( value ) ) {
+            if ( !bindingOptions.ignore!.bigIntValues ) {
+                valueClass = bindingOptions.showValueColors ? "bigint" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = "bigint";
+
+                if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parseStringsToDates && DateTime.isDateValid( value ) ) {

@@ -39,6 +39,10 @@ export namespace Is {
         return defined( object ) && typeof object === "number";
     }
 
+    export function definedBigInt( object: any ) : boolean {
+        return defined( object ) && typeof object === "bigint";
+    }
+
     export function definedArray( object: any ) : boolean {
         return definedObject( object ) && object instanceof Array;
     }

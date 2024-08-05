@@ -28,29 +28,33 @@ var Is;
     }
     e.definedNumber = i;
     function a(e) {
+        return t(e) && typeof e === "bigint";
+    }
+    e.definedBigInt = a;
+    function s(e) {
         return n(e) && e instanceof Array;
     }
-    e.definedArray = a;
-    function s(e) {
+    e.definedArray = s;
+    function u(e) {
         return n(e) && e instanceof Date;
     }
-    e.definedDate = s;
-    function u(e) {
+    e.definedDate = u;
+    function c(e) {
         return t(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedDecimal = u;
-    function c(e, t = 1) {
-        return !a(e) || e.length < t;
+    e.definedDecimal = c;
+    function d(e, t = 1) {
+        return !s(e) || e.length < t;
     }
-    e.invalidOptionArray = c;
-    function d(e) {
+    e.invalidOptionArray = d;
+    function f(e) {
         let t = e.length >= 2 && e.length <= 7;
         if (t && e[0] === "#") {
             t = isNaN(+e.substring(1, e.length - 1));
         }
         return t;
     }
-    e.hexColor = d;
+    e.hexColor = f;
 })(Is || (Is = {}));
 
 var Default;
@@ -336,6 +340,7 @@ var Binding;
             e.ignore.dateValues = Default.getBoolean(e.ignore.dateValues, false);
             e.ignore.objectValues = Default.getBoolean(e.ignore.objectValues, false);
             e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
+            e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
             return e;
         }
         function i(e) {
@@ -356,6 +361,7 @@ var Binding;
             e.events.onBooleanRender = Default.getFunction(e.events.onBooleanRender, null);
             e.events.onDecimalRender = Default.getFunction(e.events.onDecimalRender, null);
             e.events.onNumberRender = Default.getFunction(e.events.onNumberRender, null);
+            e.events.onBigIntRender = Default.getFunction(e.events.onBigIntRender, null);
             e.events.onStringRender = Default.getFunction(e.events.onStringRender, null);
             e.events.onDateRender = Default.getFunction(e.events.onDateRender, null);
             e.events.onFunctionRender = Default.getFunction(e.events.onFunctionRender, null);
@@ -763,6 +769,18 @@ var ToolTip;
                 c = "number";
                 if (Is.definedFunction(t.events.onNumberRender)) {
                     Trigger.customEvent(t.events.onNumberRender, s);
+                }
+                createComma(t, l, o);
+            } else {
+                u = true;
+            }
+        } else if (Is.definedBigInt(r)) {
+            if (!t.ignore.bigIntValues) {
+                a = t.showValueColors ? "bigint" : "";
+                s = DomElement.createWithHTML(l, "span", a, r);
+                c = "bigint";
+                if (Is.definedFunction(t.events.onBigIntRender)) {
+                    Trigger.customEvent(t.events.onBigIntRender, s);
                 }
                 createComma(t, l, o);
             } else {

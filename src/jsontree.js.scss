@@ -38,6 +38,7 @@
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
+    --json-tree-js-color-bigint: #6495ED;
     --json-tree-js-color-string: #78b13f;
     --json-tree-js-color-date: #a656f5;
     --json-tree-js-color-array: #F28C28;
@@ -304,6 +305,7 @@ div.json-tree-js {
             span.boolean,
             span.decimal,
             span.number,
+            span.bigint,
             span.string,
             span.date,
             span.null,
@@ -333,6 +335,10 @@ div.json-tree-js {
 
             span.number {
                 color: var(--json-tree-js-color-number);
+            }
+
+            span.bigint {
+                color: var(--json-tree-js-color-bigint);
             }
 
             span.string {
