@@ -72,7 +72,7 @@
         }
 
         function onValueClickEvent( value, type ) {
-            console.log( "Type: " + type + ", Value: " + value.toString() );
+            console.log( "Type: " + type + ", Value: " + ( value !== null ? value.toString() : "null" ) );
         }
     </script>
 </html>

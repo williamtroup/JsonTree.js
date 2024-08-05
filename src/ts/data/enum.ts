@@ -18,3 +18,18 @@ export const enum Char {
     zero = "0",
     hash = "#",
 }
+
+export const enum DataType {
+    null = "null",
+    function = "function",
+    boolean = "boolean",
+    decimal = "decimal",
+    number = "number",
+    bigint = "bigint",
+    string = "string",
+    date = "date",
+    symbol = "symbol",
+    object = "object",
+    array = "array",
+    unknown = "unknown",
+}

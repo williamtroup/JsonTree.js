@@ -812,14 +812,13 @@ var require_jsontree = __commonJS({
                 let s = null;
                 let u = false;
                 let c = null;
-                let d = true;
                 DomElement.createWithHTML(i, "span", "title", n);
                 DomElement.createWithHTML(i, "span", "split", ":");
                 if (!Is.defined(r)) {
                     if (!t.ignore.nullValues) {
                         a = t.showValueColors ? "null" : "";
                         s = DomElement.createWithHTML(i, "span", a, "null");
-                        d = false;
+                        c = "null";
                         if (Is.definedFunction(t.events.onNullRender)) {
                             Trigger.customEvent(t.events.onNullRender, s);
                         }
@@ -986,12 +985,12 @@ var require_jsontree = __commonJS({
                     e.removeChild(i);
                 } else {
                     if (Is.defined(s)) {
-                        addValueClickEvent(t, s, r, c, d);
+                        addValueClickEvent(t, s, r, c);
                     }
                 }
             }
-            function addValueClickEvent(e, t, n, r, o) {
-                if (o && Is.definedFunction(e.events.onValueClick)) {
+            function addValueClickEvent(e, t, n, r) {
+                if (Is.definedFunction(e.events.onValueClick)) {
                     t.onclick = () => {
                         Trigger.customEvent(e.events.onValueClick, n, r);
                     };

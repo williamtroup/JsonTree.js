@@ -720,14 +720,13 @@ var ToolTip;
         let s = null;
         let u = false;
         let c = null;
-        let d = true;
         DomElement.createWithHTML(l, "span", "title", n);
         DomElement.createWithHTML(l, "span", "split", ":");
         if (!Is.defined(o)) {
             if (!t.ignore.nullValues) {
                 a = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(l, "span", a, "null");
-                d = false;
+                c = "null";
                 if (Is.definedFunction(t.events.onNullRender)) {
                     Trigger.customEvent(t.events.onNullRender, s);
                 }
@@ -894,12 +893,12 @@ var ToolTip;
             e.removeChild(l);
         } else {
             if (Is.defined(s)) {
-                addValueClickEvent(t, s, o, c, d);
+                addValueClickEvent(t, s, o, c);
             }
         }
     }
-    function addValueClickEvent(e, t, n, o, r) {
-        if (r && Is.definedFunction(e.events.onValueClick)) {
+    function addValueClickEvent(e, t, n, o) {
+        if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 Trigger.customEvent(e.events.onValueClick, n, o);
             };

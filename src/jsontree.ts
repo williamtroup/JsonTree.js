@@ -16,7 +16,7 @@ import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Char } from "./ts/data/enum";
+import { Char, DataType } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
@@ -362,7 +362,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let type: string = null!;
-        let addClickEvent: boolean = true;
 
         DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
@@ -371,7 +370,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.nullValues ) {
                 valueClass = bindingOptions.showValueColors ? "null" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
-                addClickEvent = false;
+                type = DataType.null;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
@@ -387,7 +386,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.functionValues ) {
                 valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value ) );
-                type = "function";
+                type = DataType.function;
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
@@ -403,7 +402,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.booleanValues ) {
                 valueClass = bindingOptions.showValueColors ? "boolean" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = "boolean";
+                type = DataType.boolean;
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
@@ -421,7 +420,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
-                type = "decimal";
+                type = DataType.decimal;
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
@@ -437,7 +436,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.numberValues ) {
                 valueClass = bindingOptions.showValueColors ? "number" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = "number";
+                type = DataType.number;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
@@ -453,7 +452,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.bigIntValues ) {
                 valueClass = bindingOptions.showValueColors ? "bigint" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = "bigint";
+                type = DataType.bigint;
 
                 if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
@@ -487,7 +486,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                     valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                    type = "string";
+                    type = DataType.string;
     
                     if ( Is.definedString( color ) ) {
                         valueElement.style.color = color;
@@ -508,7 +507,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? "date" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
-                type = "date";
+                type = DataType.date;
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
@@ -524,7 +523,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.symbolValues ) {
                 valueClass = bindingOptions.showValueColors ? "symbol" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
-                type = "symbol";
+                type = DataType.symbol;
 
                 if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
@@ -550,7 +549,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 createComma( bindingOptions, objectTitle, isLastItem );
 
-                type = "object";
+                type = DataType.object;
 
             } else {
                 ignored = true;
@@ -571,7 +570,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 createComma( bindingOptions, arrayTitle, isLastItem );
                 renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
 
-                type = "array";
+                type = DataType.array;
                 
             } else {
                 ignored = true;
@@ -581,7 +580,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.unknownValues ) {
                 valueClass = bindingOptions.showValueColors ? "unknown" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
-                type = "unknown";
+                type = DataType.unknown;
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
@@ -599,13 +598,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addValueClickEvent( bindingOptions, valueElement, value, type, addClickEvent );
+                addValueClickEvent( bindingOptions, valueElement, value, type );
             }
         }
     }
 
-    function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
-        if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
+    function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string ) : void {
+        if ( Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
                 Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
             };
