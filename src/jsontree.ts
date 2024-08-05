@@ -310,7 +310,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.sortPropertyNames ) {
-            properties = properties.sort();
+            let collator: Intl.Collator = new Intl.Collator( undefined, {
+                numeric: true,
+                sensitivity: "base"
+            } );
+
+            properties = properties.sort( collator.compare );
 
             if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
                 properties = properties.reverse();

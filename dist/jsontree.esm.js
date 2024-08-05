@@ -772,7 +772,11 @@ var require_jsontree = __commonJS({
                     }
                 }
                 if (n.sortPropertyNames) {
-                    i = i.sort();
+                    let e = new Intl.Collator(void 0, {
+                        numeric: true,
+                        sensitivity: "base"
+                    });
+                    i = i.sort(e.compare);
                     if (!n.sortPropertyNamesInAlphabeticalOrder) {
                         i = i.reverse();
                     }

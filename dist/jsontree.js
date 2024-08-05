@@ -680,7 +680,11 @@ var ToolTip;
             }
         }
         if (n.sortPropertyNames) {
-            l = l.sort();
+            let e = new Intl.Collator(void 0, {
+                numeric: true,
+                sensitivity: "base"
+            });
+            l = l.sort(e.compare);
             if (!n.sortPropertyNamesInAlphabeticalOrder) {
                 l = l.reverse();
             }
