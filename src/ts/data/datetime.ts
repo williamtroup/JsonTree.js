@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        datetime.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
