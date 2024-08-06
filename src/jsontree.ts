@@ -353,31 +353,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         addArrowEvent( bindingOptions, arrow, objectTypeContents, openingBrace );
     }
 
-    function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
-        let properties: string[] = [];
-
-        for ( let key in data ) {
-            if ( data.hasOwnProperty( key ) ) {
-                properties.push( key );
-            }
-        }
-
-        if ( bindingOptions.sortPropertyNames ) {
-            let collator: Intl.Collator = new Intl.Collator( undefined, {
-                numeric: true,
-                sensitivity: "base"
-            } );
-
-            properties = properties.sort( collator.compare );
-
-            if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
-                properties = properties.reverse();
-            }
-        }
-
-        return properties;
-    }
-
     function renderArrayValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement ) : void {
         const dataLength: number = data.length;
 
@@ -735,6 +710,31 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     
         return result;
+    }
+
+    function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
+        let properties: string[] = [];
+
+        for ( let key in data ) {
+            if ( data.hasOwnProperty( key ) ) {
+                properties.push( key );
+            }
+        }
+
+        if ( bindingOptions.sortPropertyNames ) {
+            let collator: Intl.Collator = new Intl.Collator( undefined, {
+                numeric: true,
+                sensitivity: "base"
+            } );
+
+            properties = properties.sort( collator.compare );
+
+            if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
+                properties = properties.reverse();
+            }
+        }
+
+        return properties;
     }
 
 

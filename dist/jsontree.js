@@ -732,25 +732,6 @@ var ToolTip;
         }
         addArrowEvent(n, e, t, l);
     }
-    function getObjectPropertyNames(e, t) {
-        let n = [];
-        for (let t in e) {
-            if (e.hasOwnProperty(t)) {
-                n.push(t);
-            }
-        }
-        if (t.sortPropertyNames) {
-            let e = new Intl.Collator(void 0, {
-                numeric: true,
-                sensitivity: "base"
-            });
-            n = n.sort(e.compare);
-            if (!t.sortPropertyNamesInAlphabeticalOrder) {
-                n = n.reverse();
-            }
-        }
-        return n;
-    }
     function renderArrayValues(e, t, n, o, r) {
         const l = o.length;
         if (!n.reverseArrayValues) {
@@ -1022,6 +1003,25 @@ var ToolTip;
             o = `[${o}]`;
         }
         return o;
+    }
+    function getObjectPropertyNames(e, t) {
+        let n = [];
+        for (let t in e) {
+            if (e.hasOwnProperty(t)) {
+                n.push(t);
+            }
+        }
+        if (t.sortPropertyNames) {
+            let e = new Intl.Collator(void 0, {
+                numeric: true,
+                sensitivity: "base"
+            });
+            n = n.sort(e.compare);
+            if (!t.sortPropertyNamesInAlphabeticalOrder) {
+                n = n.reverse();
+            }
+        }
+        return n;
     }
     function makeAreaDroppable(e, t) {
         if (t.fileDroppingEnabled) {
