@@ -23,70 +23,73 @@ var init_is = __esm({
         "use strict";
         init_enum();
         (e => {
-            function t(e) {
+            let t;
+            (e => {
+                function t(e) {
+                    let t = e.length >= 2 && e.length <= 7;
+                    if (t && e[0] === "#") {
+                        t = isNaN(+e.substring(1, e.length - 1));
+                    }
+                    return t;
+                }
+                e.hexColor = t;
+                function n(e) {
+                    return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
+                }
+                e.boolean = n;
+                function r(e) {
+                    return !isNaN(+new Date(e));
+                }
+                e.date = r;
+            })(t = e.String || (e.String = {}));
+            function n(e) {
                 return e !== null && e !== void 0 && e.toString() !== "";
             }
-            e.defined = t;
-            function n(e) {
-                return t(e) && typeof e === "object";
-            }
-            e.definedObject = n;
+            e.defined = n;
             function r(e) {
-                return t(e) && typeof e === "boolean";
+                return n(e) && typeof e === "object";
             }
-            e.definedBoolean = r;
+            e.definedObject = r;
             function o(e) {
-                return t(e) && typeof e === "string";
+                return n(e) && typeof e === "boolean";
             }
-            e.definedString = o;
+            e.definedBoolean = o;
             function i(e) {
-                return t(e) && typeof e === "function";
+                return n(e) && typeof e === "string";
             }
-            e.definedFunction = i;
+            e.definedString = i;
             function l(e) {
-                return t(e) && typeof e === "number";
+                return n(e) && typeof e === "function";
             }
-            e.definedNumber = l;
+            e.definedFunction = l;
             function s(e) {
-                return t(e) && typeof e === "bigint";
+                return n(e) && typeof e === "number";
             }
-            e.definedBigInt = s;
+            e.definedNumber = s;
             function a(e) {
-                return n(e) && e instanceof Array;
+                return n(e) && typeof e === "bigint";
             }
-            e.definedArray = a;
+            e.definedBigInt = a;
             function u(e) {
-                return n(e) && e instanceof Date;
+                return r(e) && e instanceof Array;
             }
-            e.definedDate = u;
+            e.definedArray = u;
             function c(e) {
-                return t(e) && typeof e === "number" && e % 1 !== 0;
+                return r(e) && e instanceof Date;
             }
-            e.definedDecimal = c;
+            e.definedDate = c;
             function d(e) {
-                return t(e) && typeof e === "symbol";
+                return n(e) && typeof e === "number" && e % 1 !== 0;
             }
-            e.definedSymbol = d;
-            function f(e, t = 1) {
-                return !a(e) || e.length < t;
+            e.definedDecimal = d;
+            function f(e) {
+                return n(e) && typeof e === "symbol";
             }
-            e.invalidOptionArray = f;
-            function g(e) {
-                let t = e.length >= 2 && e.length <= 7;
-                if (t && e[0] === "#") {
-                    t = isNaN(+e.substring(1, e.length - 1));
-                }
-                return t;
+            e.definedSymbol = f;
+            function g(e, t = 1) {
+                return !u(e) || e.length < t;
             }
-            e.hexColor = g;
-            function m(e) {
-                return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
-            }
-            e.stringValueBoolean = m;
-            function p(e) {
-                return !isNaN(+new Date(e));
-            }
-            e.stringValueDate = p;
+            e.invalidOptionArray = g;
         })(Is || (Is = {}));
     }
 });
@@ -940,18 +943,18 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedString(r)) {
                     if (!t.ignore.stringValues) {
-                        if (t.parse.stringsToBooleans && Is.stringValueBoolean(r)) {
+                        if (t.parse.stringsToBooleans && Is.String.boolean(r)) {
                             renderValue(e, t, n, r.toString().toLowerCase().trim() === "true", o);
                             u = true;
                         } else if (t.parse.stringsToNumbers && !isNaN(r)) {
                             renderValue(e, t, n, parseFloat(r), o);
                             u = true;
-                        } else if (t.parse.stringsToDates && Is.stringValueDate(r)) {
+                        } else if (t.parse.stringsToDates && Is.String.date(r)) {
                             renderValue(e, t, n, new Date(r), o);
                             u = true;
                         } else {
                             let e = null;
-                            if (t.showValueColors && t.showStringHexColors && Is.hexColor(r)) {
+                            if (t.showValueColors && t.showStringHexColors && Is.String.hexColor(r)) {
                                 e = r;
                             } else {
                                 if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {

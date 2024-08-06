@@ -3,70 +3,73 @@
 var Is;
 
 (e => {
-    function t(e) {
+    let t;
+    (e => {
+        function t(e) {
+            let t = e.length >= 2 && e.length <= 7;
+            if (t && e[0] === "#") {
+                t = isNaN(+e.substring(1, e.length - 1));
+            }
+            return t;
+        }
+        e.hexColor = t;
+        function n(e) {
+            return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
+        }
+        e.boolean = n;
+        function o(e) {
+            return !isNaN(+new Date(e));
+        }
+        e.date = o;
+    })(t = e.String || (e.String = {}));
+    function n(e) {
         return e !== null && e !== void 0 && e.toString() !== "";
     }
-    e.defined = t;
-    function n(e) {
-        return t(e) && typeof e === "object";
-    }
-    e.definedObject = n;
+    e.defined = n;
     function o(e) {
-        return t(e) && typeof e === "boolean";
+        return n(e) && typeof e === "object";
     }
-    e.definedBoolean = o;
+    e.definedObject = o;
     function r(e) {
-        return t(e) && typeof e === "string";
+        return n(e) && typeof e === "boolean";
     }
-    e.definedString = r;
+    e.definedBoolean = r;
     function l(e) {
-        return t(e) && typeof e === "function";
+        return n(e) && typeof e === "string";
     }
-    e.definedFunction = l;
+    e.definedString = l;
     function i(e) {
-        return t(e) && typeof e === "number";
+        return n(e) && typeof e === "function";
     }
-    e.definedNumber = i;
+    e.definedFunction = i;
     function a(e) {
-        return t(e) && typeof e === "bigint";
+        return n(e) && typeof e === "number";
     }
-    e.definedBigInt = a;
+    e.definedNumber = a;
     function s(e) {
-        return n(e) && e instanceof Array;
+        return n(e) && typeof e === "bigint";
     }
-    e.definedArray = s;
+    e.definedBigInt = s;
     function u(e) {
-        return n(e) && e instanceof Date;
+        return o(e) && e instanceof Array;
     }
-    e.definedDate = u;
+    e.definedArray = u;
     function c(e) {
-        return t(e) && typeof e === "number" && e % 1 !== 0;
+        return o(e) && e instanceof Date;
     }
-    e.definedDecimal = c;
+    e.definedDate = c;
     function d(e) {
-        return t(e) && typeof e === "symbol";
+        return n(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedSymbol = d;
-    function f(e, t = 1) {
-        return !s(e) || e.length < t;
+    e.definedDecimal = d;
+    function f(e) {
+        return n(e) && typeof e === "symbol";
     }
-    e.invalidOptionArray = f;
-    function g(e) {
-        let t = e.length >= 2 && e.length <= 7;
-        if (t && e[0] === "#") {
-            t = isNaN(+e.substring(1, e.length - 1));
-        }
-        return t;
+    e.definedSymbol = f;
+    function g(e, t = 1) {
+        return !u(e) || e.length < t;
     }
-    e.hexColor = g;
-    function m(e) {
-        return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
-    }
-    e.stringValueBoolean = m;
-    function p(e) {
-        return !isNaN(+new Date(e));
-    }
-    e.stringValueDate = p;
+    e.invalidOptionArray = g;
 })(Is || (Is = {}));
 
 var Default;
@@ -848,18 +851,18 @@ var ToolTip;
             }
         } else if (Is.definedString(o)) {
             if (!t.ignore.stringValues) {
-                if (t.parse.stringsToBooleans && Is.stringValueBoolean(o)) {
+                if (t.parse.stringsToBooleans && Is.String.boolean(o)) {
                     renderValue(e, t, n, o.toString().toLowerCase().trim() === "true", r);
                     u = true;
                 } else if (t.parse.stringsToNumbers && !isNaN(o)) {
                     renderValue(e, t, n, parseFloat(o), r);
                     u = true;
-                } else if (t.parse.stringsToDates && Is.stringValueDate(o)) {
+                } else if (t.parse.stringsToDates && Is.String.date(o)) {
                     renderValue(e, t, n, new Date(o), r);
                     u = true;
                 } else {
                     let e = null;
-                    if (t.showValueColors && t.showStringHexColors && Is.hexColor(o)) {
+                    if (t.showValueColors && t.showStringHexColors && Is.String.hexColor(o)) {
                         e = o;
                     } else {
                         if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {

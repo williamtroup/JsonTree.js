@@ -510,7 +510,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                if ( bindingOptions.parse!.stringsToBooleans && Is.stringValueBoolean( value ) ) {
+                if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
                     renderValue( container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem );
                     ignored = true;
 
@@ -518,14 +518,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                     renderValue( container, bindingOptions, name, parseFloat( value ), isLastItem );
                     ignored = true;
 
-                } else if ( bindingOptions.parse!.stringsToDates && Is.stringValueDate( value ) ) {
+                } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
                     renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
                     ignored = true;
 
                 } else {
                     let color: string = null!;
 
-                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.hexColor( value ) ) {
+                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.String.hexColor( value ) ) {
                         color = value;
     
                     } else {
