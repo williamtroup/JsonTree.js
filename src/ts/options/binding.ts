@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        binding.ts
- * @version     v2.2.0
+ * @version     v2.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -13,6 +13,8 @@
 
 import {
     BindingOptionsCurrentView,
+    BindingOptionsParse,
+    BindingOptionsTooltip,
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
@@ -54,11 +56,13 @@ export namespace Binding {
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
-            options.parseStringsToDates = Default.getBoolean( options.parseStringsToDates, false );
             options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
+            options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
 
             options = getTitle( options );
             options = getIgnore( options );
+            options = getToolTip( options );
+            options = getParse( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -86,7 +90,26 @@ export namespace Binding {
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
+            options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
+            options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
+            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
+
+            return options;
+        }
+
+        function getToolTip( options: BindingOptions ) : BindingOptions {
+            options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
+            options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
     
+            return options;
+        }
+
+        function getParse( options: BindingOptions ) : BindingOptions {
+            options.parse = Default.getObject( options.parse, {} as BindingOptionsParse );
+            options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
+            options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
+            options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
+
             return options;
         }
     
@@ -102,13 +125,15 @@ export namespace Binding {
             options.events!.onDestroy = Default.getFunction( options.events!.onDestroy, null! );
             options.events!.onBooleanRender = Default.getFunction( options.events!.onBooleanRender, null! );
             options.events!.onDecimalRender = Default.getFunction( options.events!.onDecimalRender, null! );
-            options.events!.onNumberRender =Default.getFunction( options.events!.onNumberRender, null! );
+            options.events!.onNumberRender = Default.getFunction( options.events!.onNumberRender, null! );
+            options.events!.onBigIntRender = Default.getFunction( options.events!.onBigIntRender, null! );
             options.events!.onStringRender = Default.getFunction( options.events!.onStringRender, null! );
             options.events!.onDateRender = Default.getFunction( options.events!.onDateRender, null! );
             options.events!.onFunctionRender = Default.getFunction( options.events!.onFunctionRender, null! );
             options.events!.onNullRender = Default.getFunction( options.events!.onNullRender, null! );
             options.events!.onUnknownRender = Default.getFunction( options.events!.onUnknownRender, null! );
-    
+            options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
+
             return options;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.2.0
+ * JsonTree.js Library v2.3.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -25,16 +25,22 @@
   --json-tree-js-color-black: #3b3a3a;
   --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
+  --json-tree-js-color-light-gray: #BBBBBB;
   --json-tree-js-color-boolean: #FF0000;
   --json-tree-js-color-decimal: #e3c868;
   --json-tree-js-color-number: #666bf9;
+  --json-tree-js-color-bigint: #6495ED;
   --json-tree-js-color-string: #78b13f;
   --json-tree-js-color-date: #a656f5;
   --json-tree-js-color-array: #F28C28;
   --json-tree-js-color-object: #C0C0C0;
-  --json-tree-js-color-null: #BBBBBB;
+  --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
+  --json-tree-js-color-symbol: #DAA06D;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+  --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
+  --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
+  --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
   --json-tree-js-button-background-color: #2d333b;
@@ -49,6 +55,7 @@
   --json-tree-js-spacing: 10px;
   --json-tree-js-spacing-font-size: 0.85rem;
   --json-tree-js-transition: all .3s;
+  --json-tree-js-animation-length: 0.5s;
 }
 
 /*
@@ -206,7 +213,7 @@ div.json-tree-js div.contents {
 }
 div.json-tree-js div.contents span.no-json-text {
   font-style: italic;
-  color: var(--json-tree-js-color-snow-white);
+  color: var(--json-tree-js-color-light-gray) !important;
 }
 
 /*
@@ -267,10 +274,12 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean,
 div.json-tree-js div.object-type-contents div.object-type-value span.decimal,
 div.json-tree-js div.object-type-contents div.object-type-value span.number,
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint,
 div.json-tree-js div.object-type-contents div.object-type-value span.string,
 div.json-tree-js div.object-type-contents div.object-type-value span.date,
 div.json-tree-js div.object-type-contents div.object-type-value span.null,
 div.json-tree-js div.object-type-contents div.object-type-value span.function,
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol,
 div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
@@ -278,10 +287,12 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.decimal:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.number:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.string:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.unknown:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
@@ -298,6 +309,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.decimal {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.number {
   color: var(--json-tree-js-color-number);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.bigint {
+  color: var(--json-tree-js-color-bigint);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.string {
   color: var(--json-tree-js-color-string);
@@ -317,6 +331,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.null {
   color: var(--json-tree-js-color-null);
   font-style: italic;
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.symbol {
+  color: var(--json-tree-js-color-symbol);
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.function {
   color: var(--json-tree-js-color-function);
   font-style: italic;
@@ -328,6 +345,35 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
 div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - ToolTip
+    -------------------------------------------------------------------------
+*/
+div.jsontree-js-tooltip {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+  box-sizing: border-box;
+  line-height: normal;
+  font-family: var(--json-tree-js-default-font);
+  animation: fade-in-animation var(--json-tree-js-animation-length);
+  position: absolute;
+  background-color: var(--json-tree-js-tooltip-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
+  color: var(--json-tree-js-tooltip-text-color);
+  border-radius: var(--json-tree-js-border-radius);
+  z-index: 2000;
+  max-width: 300px;
+  padding: var(--json-tree-js-spacing);
+  font-size: var(--json-tree-js-spacing-font-size);
+  font-weight: var(--json-tree-js-text-bold-weight);
+  display: none;
 }
 
 /*# sourceMappingURL=jsontree.js.css.map */

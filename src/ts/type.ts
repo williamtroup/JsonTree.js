@@ -4,12 +4,17 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        type.ts
- * @version     v2.2.0
+ * @version     v2.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
+
+export type Position = {
+    left: number;
+    top: number;
+};
 
 export type Configuration = {
 	safeMode?: boolean;
@@ -66,10 +71,12 @@ export type BindingOptions = {
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
-	parseStringsToDates?: boolean;
 	copyIndentSpaces?: number;
+	showArrayIndexBrackets?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
+	tooltip?: BindingOptionsTooltip;
+	parse?: BindingOptionsParse;
 	events?: BindingOptionsEvents;
 };
 
@@ -77,6 +84,14 @@ export type BindingOptionsCurrentView = {
     element: HTMLElement;
 	dataArrayCurrentIndex: number;
 	titleBarButtons: HTMLElement;
+	tooltip: HTMLElement;
+	tooltipTimerId: number;
+};
+
+export type BindingOptionsParse = {
+    stringsToDates?: boolean;
+	stringsToBooleans?: boolean;
+	stringsToNumbers?: boolean;
 };
 
 export type BindingOptionsTitle = {
@@ -97,6 +112,13 @@ export type BindingOptionsIgnore = {
     objectValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
+	bigIntValues?: boolean;
+	symbolValues?: boolean;
+	emptyObjects?: boolean;
+};
+
+export type BindingOptionsTooltip = {
+    delay?: number;
 };
 
 export type BindingOptionsEvents = {
@@ -116,6 +138,8 @@ export type BindingOptionsEvents = {
     onNullRender?: ( element: HTMLElement ) => void;
     onStringRender?: ( element: HTMLElement ) => void;
     onUnknownRender?: ( element: HTMLElement ) => void;
+	onBigIntRender?: ( element: HTMLElement ) => void;
+	onSymbolRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

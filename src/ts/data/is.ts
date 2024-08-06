@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        is.ts
- * @version     v2.2.0
+ * @version     v2.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -39,6 +39,10 @@ export namespace Is {
         return defined( object ) && typeof object === "number";
     }
 
+    export function definedBigInt( object: any ) : boolean {
+        return defined( object ) && typeof object === "bigint";
+    }
+
     export function definedArray( object: any ) : boolean {
         return definedObject( object ) && object instanceof Array;
     }
@@ -49,6 +53,10 @@ export namespace Is {
 
     export function definedDecimal( object: any ) : boolean {
         return defined( object ) && typeof object === "number" && object % 1 !== 0;
+    }
+
+    export function definedSymbol( object: any ) : boolean {
+        return defined( object ) && typeof object === "symbol";
     }
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
@@ -63,5 +71,13 @@ export namespace Is {
         }
     
         return valid;
+    }
+
+    export function stringValueBoolean( object: string ) : boolean {
+        return object.toString().toLowerCase().trim() === "true" || object.toString().toLowerCase().trim() === "false";
+    }
+
+    export function stringValueDate( dateTimeString: string ) {
+        return !isNaN( +new Date( dateTimeString ) );
     }
 }

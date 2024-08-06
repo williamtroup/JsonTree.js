@@ -36,6 +36,10 @@
                         // Does nothing
                     },
                     value9: 3.1415926535,
+                    value10: 9007199254740991n,
+                    value11: Symbol( "id" ),
+                    value12: {},
+                    value13: undefined,
                     value5: [
                         true,
                         "This is another string",
@@ -59,16 +63,20 @@
                         objectValue4: "This is an example of a very long string that should force scrolling to kick in.",
                     }
                 },
+                parse: {
+                    stringsToDates: false,
+                },
                 events: {
                     onValueClick: onValueClickEvent,
                 },
                 showStringHexColors: true,
-                parseStringsToDates: false,
+                sortPropertyNames: true,
+                showArrayIndexBrackets: true,
             }
         }
 
         function onValueClickEvent( value, type ) {
-            console.log( "Type: " + type + ", Value: " + value.toString() );
+            console.log( "Type: " + type + ", Value: " + ( value !== undefined && value !== null ? value.toString() : "null" ) );
         }
     </script>
 </html>

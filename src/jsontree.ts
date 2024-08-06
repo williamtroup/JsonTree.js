@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        jsontree.ts
- * @version     v2.2.0
+ * @version     v2.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -16,13 +16,14 @@ import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Char } from "./ts/data/enum";
+import { Char, DataType } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
 import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
+import { ToolTip } from "./ts/area/tooltip";
 
 
 type StringToJson = {
@@ -96,6 +97,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControl( bindingOptions: BindingOptions ) : void {
         Trigger.customEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
+        ToolTip.renderControl( bindingOptions );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
             bindingOptions._currentView.element.id = Str.newGuid();
@@ -114,6 +116,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContainer( bindingOptions: BindingOptions ) : void {
         let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+
+        ToolTip.hide( bindingOptions );
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
 
@@ -162,16 +166,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
-                copy.title = _configuration.text!.copyAllButtonText!
+
+                ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
 
                 copy.onclick = () => {
                     let copyData: string = null!;
 
                     if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], null, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
                     }
                     else {
-                        copyData = JSON.stringify( data, null, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
                     }
 
                     navigator.clipboard.writeText( copyData );
@@ -182,10 +187,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-                openAll.title = _configuration.text!.openAllButtonText!
+
+                ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-                closeAll.title = _configuration.text!.closeAllButtonText!
+
+                ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
 
                 openAll.onclick = () => {
                     openAllNodes( bindingOptions );
@@ -198,7 +205,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
                 const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
-                back.title = _configuration.text!.backButtonText!
+
+                ToolTip.add( back, bindingOptions, _configuration.text!.backButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
                     back.onclick = () => {
@@ -213,7 +221,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
-                next.title = _configuration.text!.nextButtonText!
+
+                ToolTip.add( next, bindingOptions, _configuration.text!.nextButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
                     next.onclick = () => {
@@ -234,6 +243,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
         }
+    }
+
+    function jsonStringifyReplacer( _: string, value: any ) : void {
+        if ( Is.definedBigInt( value ) ) {
+            value = value.toString();
+        } else if ( Is.definedSymbol( value ) ) {
+            value = value.toString();
+        } else if ( Is.definedFunction( value ) ) {
+            value = Default.getFunctionName( value );
+        }
+
+        return value;
     }
 
     function openAllNodes( bindingOptions: BindingOptions ) : void {
@@ -263,16 +284,26 @@ type JsonTreeData = Record<string, BindingOptions>;
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, data );
 
-        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
+        if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+            container.removeChild( objectTypeTitle );
+            container.removeChild( objectTypeContents );
+        } else {
 
-        if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
-            let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object" : Char.empty, _configuration.text!.objectText! ) as HTMLSpanElement;
 
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", `[${dataArrayIndex}]:`, titleText );
-        }
+            if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
+                let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+    
+                if ( bindingOptions.showArrayIndexBrackets ) {
+                    dataArrayIndex = `[${dataArrayIndex}]:`;
+                }
 
-        if ( bindingOptions.showCounts && propertyCount > 0 ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", dataArrayIndex, titleText );
+            }
+    
+            if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+            }
         }
     }
 
@@ -301,7 +332,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.sortPropertyNames ) {
-            properties = properties.sort();
+            let collator: Intl.Collator = new Intl.Collator( undefined, {
+                numeric: true,
+                sensitivity: "base"
+            } );
+
+            properties = properties.sort( collator.compare );
 
             if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
                 properties = properties.reverse();
@@ -348,7 +384,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let type: string = null!;
-        let addClickEvent: boolean = true;
 
         DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
@@ -357,7 +392,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.nullValues ) {
                 valueClass = bindingOptions.showValueColors ? "null" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
-                addClickEvent = false;
+                type = DataType.null;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
@@ -373,7 +408,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.functionValues ) {
                 valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value ) );
-                type = "function";
+                type = DataType.function;
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
@@ -389,7 +424,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.booleanValues ) {
                 valueClass = bindingOptions.showValueColors ? "boolean" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = "boolean";
+                type = DataType.boolean;
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
@@ -407,7 +442,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 valueClass = bindingOptions.showValueColors ? "decimal" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
-                type = "decimal";
+                type = DataType.decimal;
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
@@ -423,7 +458,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.numberValues ) {
                 valueClass = bindingOptions.showValueColors ? "number" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = "number";
+                type = DataType.number;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
@@ -435,9 +470,33 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedBigInt( value ) ) {
+            if ( !bindingOptions.ignore!.bigIntValues ) {
+                valueClass = bindingOptions.showValueColors ? "bigint" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.bigint;
+
+                if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
-                if ( bindingOptions.parseStringsToDates && DateTime.isDateValid( value ) ) {
+                if ( bindingOptions.parse!.stringsToBooleans && Is.stringValueBoolean( value ) ) {
+                    renderValue( container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem );
+                    ignored = true;
+
+                } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
+                    renderValue( container, bindingOptions, name, parseFloat( value ), isLastItem );
+                    ignored = true;
+
+                } else if ( bindingOptions.parse!.stringsToDates && Is.stringValueDate( value ) ) {
                     renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
                     ignored = true;
 
@@ -457,7 +516,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                     valueClass = bindingOptions.showValueColors ? "string" : Char.empty;
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                    type = "string";
+                    type = DataType.string;
     
                     if ( Is.definedString( color ) ) {
                         valueElement.style.color = color;
@@ -478,12 +537,28 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? "date" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
-                type = "date";
+                type = DataType.date;
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
                 }
     
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedSymbol( value ) ) {
+            if ( !bindingOptions.ignore!.symbolValues ) {
+                valueClass = bindingOptions.showValueColors ? "symbol" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                type = DataType.symbol;
+
+                if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
+                }
+                
                 createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
@@ -496,15 +571,20 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 const propertyCount: number = renderObjectValues( arrow, objectTypeContents, bindingOptions, value );
 
-                DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
 
-                if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    DomElement.createWithHTML( objectTitle, "span", "title", _configuration.text!.objectText! );
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+    
+                    createComma( bindingOptions, objectTitle, isLastItem );
+    
+                    type = DataType.object;
                 }
-
-                createComma( bindingOptions, objectTitle, isLastItem );
-
-                type = "object";
 
             } else {
                 ignored = true;
@@ -525,7 +605,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 createComma( bindingOptions, arrayTitle, isLastItem );
                 renderArrayValues( arrow, arrayTypeContents, bindingOptions, value );
 
-                type = "array";
+                type = DataType.array;
                 
             } else {
                 ignored = true;
@@ -535,7 +615,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.unknownValues ) {
                 valueClass = bindingOptions.showValueColors ? "unknown" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
-                type = "unknown";
+                type = DataType.unknown;
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
@@ -553,13 +633,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addValueClickEvent( bindingOptions, valueElement, value, type, addClickEvent );
+                addValueClickEvent( bindingOptions, valueElement, value, type );
             }
         }
     }
 
-    function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, addClickEvent: boolean ) : void {
-        if ( addClickEvent && Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
+    function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string ) : void {
+        if ( Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
                 Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
             };
@@ -602,8 +682,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( !bindingOptions.addArrayIndexPadding ) {
             result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
+
+        if ( bindingOptions.showArrayIndexBrackets ) {
+            result = `[${result}]`;
+        }
     
-        return `[${result}]`;
+        return result;
     }
 
 
@@ -715,6 +799,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.className = Char.empty;
 
+        ToolTip.assignToEvents( bindingOptions, false );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 
@@ -906,7 +991,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "2.2.0";
+            return "2.3.0";
         }
     };
 

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        datetime.ts
- * @version     v2.2.0
+ * @version     v2.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -65,9 +65,5 @@ export namespace DateTime {
         result = result.replace( "{y}", Number.parseInt( date.getFullYear().toString().substring( 2 ) ).toString() );
 
         return result;
-    }
-
-    export function isDateValid( dateTimeString: string ) {
-        return !isNaN( +new Date( dateTimeString ) );
     }
 }

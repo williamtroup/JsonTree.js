@@ -80,6 +80,10 @@
                             // Does nothing
                         },
                         value9: 3.1415926535,
+                        value10: 9007199254740991n,
+                        value11: Symbol( "id" ),
+                        value12: {},
+                        value13: undefined,
                         value5: [
                             true,
                             "This is another string",
@@ -108,21 +112,40 @@
                         value2: "This is a string",
                         value3: new Date(),
                         value4: 5,
-                        value7: null
+                        value5: null,
+                        parsing: {
+                            booleans: {
+                                value1: "true",
+                                value2: "false",
+                            },
+                            dates: {
+                                value1: "2024-08-05T21:17:32.720Z",
+                            },
+                            numbers: {
+                                value1: "123",
+                                value2: "9.876",
+                            },
+                        }
                     }
                 ],
+                parse: {
+                    stringsToDates: true,
+                    stringsToBooleans: true,
+                    stringsToNumbers: true,
+                },
                 events: {
                     onValueClick: onValueClickEvent,
                 },
                 showStringHexColors: true,
                 showArrayItemsAsSeparateObjects: true,
                 copyOnlyCurrentPage: false,
-                parseStringsToDates: true,
+                sortPropertyNames: true,
+                showArrayIndexBrackets: true,
             }
         }
 
         function onValueClickEvent( value, type ) {
-            console.log( "Type: " + type + ", Value: " + value.toString() );
+            console.log( "Type: " + type + ", Value: " + ( value !== undefined && value !== null ? value.toString() : "null" ) );
         }
 
         function setJson() {
