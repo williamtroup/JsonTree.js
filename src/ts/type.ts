@@ -145,4 +145,5 @@ export type BindingOptionsEvents = {
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;
+	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 };

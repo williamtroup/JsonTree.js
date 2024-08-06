@@ -135,6 +135,7 @@ export namespace Binding {
             options.events!.onNullRender = Default.getFunction( options.events!.onNullRender, null! );
             options.events!.onUnknownRender = Default.getFunction( options.events!.onUnknownRender, null! );
             options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
+            options.events!.onCopyJsonReplacer = Default.getFunction( options.events!.onCopyJsonReplacer, null! );
 
             return options;
         }

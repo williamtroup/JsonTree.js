@@ -171,12 +171,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 copy.onclick = () => {
                     let copyData: string = null!;
+                    let replaceFunction: any = jsonStringifyReplacer;
+
+                    if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
+                        replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
+                    }
 
                     if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.copyIndentSpaces );
                     }
                     else {
-                        copyData = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
+                        copyData = JSON.stringify( data, replaceFunction, bindingOptions.copyIndentSpaces );
                     }
 
                     navigator.clipboard.writeText( copyData );

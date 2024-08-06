@@ -445,6 +445,7 @@ var init_binding = __esm({
                     e.events.onNullRender = Default.getFunction(e.events.onNullRender, null);
                     e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
                     e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
+                    e.events.onCopyJsonReplacer = Default.getFunction(e.events.onCopyJsonReplacer, null);
                     return e;
                 }
             })(t = e.Options || (e.Options = {}));
@@ -693,10 +694,14 @@ var require_jsontree = __commonJS({
                         ToolTip.add(n, e, _configuration.text.copyAllButtonText);
                         n.onclick = () => {
                             let n = null;
+                            let r = jsonStringifyReplacer;
+                            if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
+                                r = e.events.onCopyJsonReplacer;
+                            }
                             if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], jsonStringifyReplacer, e.copyIndentSpaces);
+                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], r, e.copyIndentSpaces);
                             } else {
-                                n = JSON.stringify(t, jsonStringifyReplacer, e.copyIndentSpaces);
+                                n = JSON.stringify(t, r, e.copyIndentSpaces);
                             }
                             navigator.clipboard.writeText(n);
                             Trigger.customEvent(e.events.onCopyAll, n);

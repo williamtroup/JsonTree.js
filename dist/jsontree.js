@@ -388,6 +388,7 @@ var Binding;
             e.events.onNullRender = Default.getFunction(e.events.onNullRender, null);
             e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
             e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
+            e.events.onCopyJsonReplacer = Default.getFunction(e.events.onCopyJsonReplacer, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -601,10 +602,14 @@ var ToolTip;
                 ToolTip.add(n, e, _configuration.text.copyAllButtonText);
                 n.onclick = () => {
                     let n = null;
+                    let o = jsonStringifyReplacer;
+                    if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
+                        o = e.events.onCopyJsonReplacer;
+                    }
                     if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], jsonStringifyReplacer, e.copyIndentSpaces);
+                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.copyIndentSpaces);
                     } else {
-                        n = JSON.stringify(t, jsonStringifyReplacer, e.copyIndentSpaces);
+                        n = JSON.stringify(t, o, e.copyIndentSpaces);
                     }
                     navigator.clipboard.writeText(n);
                     Trigger.customEvent(e.events.onCopyAll, n);
