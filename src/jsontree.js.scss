@@ -263,6 +263,14 @@ div.json-tree-js {
             margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
         }
+
+        span.opening-brace,
+        span.opening-bracket {
+            margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            margin-right: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-text-bold-weight);
+            color: var(--json-tree-js-color-snow-white) !important;
+        }
     }
 }
 
@@ -289,15 +297,19 @@ div.json-tree-js {
 
 div.json-tree-js {
     div.object-type-contents {
-        margin-left: calc( var(--json-tree-js-spacing) * 2 );
         text-align: left !important;
         width: fit-content;
+
+        div.object-type-end {
+            font-weight: var(--json-tree-js-text-bold-weight);
+        }
         
         div.object-type-value {
             white-space: nowrap;
             overflow: hidden;
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
+            margin-left: calc( var(--json-tree-js-spacing) * 2 );
 
             span.split {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
@@ -384,6 +396,14 @@ div.json-tree-js {
             span.count {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 font-weight: var(--json-tree-js-text-bold-weight);
+            }
+
+            span.opening-brace,
+            span.opening-bracket {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                margin-right: calc( var(--json-tree-js-spacing) / 2 );
+                font-weight: var(--json-tree-js-text-bold-weight);
+                color: var(--json-tree-js-color-snow-white) !important;
             }
         }
     }

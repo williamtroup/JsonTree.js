@@ -73,6 +73,8 @@ export type BindingOptions = {
 	fileDroppingEnabled?: boolean;
 	copyIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
+	showOpeningClosingCurlyBraces?: boolean;
+	showOpeningClosingSquaredBrackets?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
