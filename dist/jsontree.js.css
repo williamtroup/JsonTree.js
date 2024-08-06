@@ -190,6 +190,7 @@ div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):h
 }
 div.json-tree-js div.title-bar div.controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+  font-weight: var(--json-tree-js-header-bold-weight);
 }
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;
