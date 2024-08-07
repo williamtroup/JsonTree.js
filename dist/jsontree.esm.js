@@ -798,7 +798,7 @@ var require_jsontree = __commonJS({
                     if (t.showOpeningClosingCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "opening-brace", "{");
                     }
-                    renderObjectValues(a, s, t, n, o, c, false);
+                    renderObjectValues(a, null, s, t, n, o, c, false, true);
                 }
             }
             function renderArray(e, t, n) {
@@ -813,36 +813,36 @@ var require_jsontree = __commonJS({
                 if (t.showOpeningClosingCurlyBraces) {
                     l = DomElement.createWithHTML(r, "span", "opening-bracket", "[");
                 }
-                renderArrayValues(i, o, t, n, l, false);
+                renderArrayValues(i, null, o, t, n, l, false, true);
             }
-            function renderObjectValues(e, t, n, r, o, i, l = true) {
-                const s = o.length;
-                for (let e = 0; e < s; e++) {
-                    const i = o[e];
-                    if (r.hasOwnProperty(i)) {
-                        renderValue(t, n, i, r[i], e === s - 1);
+            function renderObjectValues(e, t, n, r, o, i, l, s, a) {
+                const u = i.length;
+                for (let e = 0; e < u; e++) {
+                    const t = i[e];
+                    if (o.hasOwnProperty(t)) {
+                        renderValue(n, r, t, o[t], e === u - 1);
                     }
                 }
-                if (n.showOpeningClosingCurlyBraces) {
-                    createClosingSymbol(t, "}", l);
+                if (r.showOpeningClosingCurlyBraces) {
+                    createClosingSymbol(r, n, "}", s, a);
                 }
-                addArrowEvent(n, e, t, i);
+                addArrowEvent(r, e, t, n, l);
             }
-            function renderArrayValues(e, t, n, r, o, i = true) {
-                const l = r.length;
-                if (!n.reverseArrayValues) {
-                    for (let e = 0; e < l; e++) {
-                        renderValue(t, n, getIndexName(n, e, l), r[e], e === l - 1);
+            function renderArrayValues(e, t, n, r, o, i, l, s) {
+                const a = o.length;
+                if (!r.reverseArrayValues) {
+                    for (let e = 0; e < a; e++) {
+                        renderValue(n, r, getIndexName(r, e, a), o[e], e === a - 1);
                     }
                 } else {
-                    for (let e = l; e--; ) {
-                        renderValue(t, n, getIndexName(n, e, l), r[e], e === 0);
+                    for (let e = a; e--; ) {
+                        renderValue(n, r, getIndexName(r, e, a), o[e], e === 0);
                     }
                 }
-                if (n.showOpeningClosingCurlyBraces) {
-                    createClosingSymbol(t, "]", i);
+                if (r.showOpeningClosingCurlyBraces) {
+                    createClosingSymbol(r, n, "]", l, s);
                 }
-                addArrowEvent(n, e, t, o);
+                addArrowEvent(r, e, t, n, i);
             }
             function renderValue(e, t, n, r, o) {
                 const i = DomElement.create(e, "div", "object-type-value");
@@ -1014,8 +1014,8 @@ var require_jsontree = __commonJS({
                             if (t.showOpeningClosingCurlyBraces) {
                                 u = DomElement.createWithHTML(s, "span", "opening-brace", "{");
                             }
-                            createComma(t, s, o);
-                            renderObjectValues(l, a, t, r, e, u);
+                            let d = createComma(t, s, o);
+                            renderObjectValues(l, d, a, t, r, e, u, true, o);
                             c = "object";
                         }
                     } else {
@@ -1033,8 +1033,8 @@ var require_jsontree = __commonJS({
                         if (t.showOpeningClosingCurlyBraces) {
                             s = DomElement.createWithHTML(e, "span", "opening-bracket", "[");
                         }
-                        createComma(t, e, o);
-                        renderArrayValues(l, n, t, r, s);
+                        let a = createComma(t, e, o);
+                        renderArrayValues(l, a, n, t, r, s, true, o);
                         c = "array";
                     } else {
                         u = true;
@@ -1069,38 +1069,52 @@ var require_jsontree = __commonJS({
                     DomElement.addClass(t, "no-hover");
                 }
             }
-            function addArrowEvent(e, t, n, r) {
+            function addArrowEvent(e, t, n, r, o) {
                 if (Is.defined(t)) {
                     t.onclick = () => {
                         if (t.className === "down-arrow") {
-                            n.style.display = "none";
+                            r.style.display = "none";
                             t.className = "right-arrow";
-                            if (Is.defined(r)) {
-                                r.style.display = "none";
+                            if (Is.defined(o)) {
+                                o.style.display = "none";
+                            }
+                            if (Is.defined(n)) {
+                                n.style.display = "inline-block";
                             }
                         } else {
-                            n.style.display = "block";
+                            r.style.display = "block";
                             t.className = "down-arrow";
-                            if (Is.defined(r)) {
-                                r.style.display = "inline-block";
+                            if (Is.defined(o)) {
+                                o.style.display = "inline-block";
+                            }
+                            if (Is.defined(n)) {
+                                n.style.display = "none";
                             }
                         }
                     };
                     if (e.showAllAsClosed) {
-                        n.style.display = "none";
+                        r.style.display = "none";
                         t.className = "right-arrow";
-                        if (Is.defined(r)) {
-                            r.style.display = "none";
+                        if (Is.defined(o)) {
+                            o.style.display = "none";
+                        }
+                        if (Is.defined(n)) {
+                            n.style.display = "inline-block";
                         }
                     } else {
                         t.className = "down-arrow";
+                        if (Is.defined(n)) {
+                            n.style.display = "none";
+                        }
                     }
                 }
             }
             function createComma(e, t, n) {
+                let r = null;
                 if (e.showCommas && !n) {
-                    DomElement.createWithHTML(t, "span", "comma", ",");
+                    r = DomElement.createWithHTML(t, "span", "comma", ",");
                 }
+                return r;
             }
             function getIndexName(e, t, n) {
                 let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
@@ -1131,12 +1145,13 @@ var require_jsontree = __commonJS({
                 }
                 return n;
             }
-            function createClosingSymbol(e, t, n = true) {
-                let r = DomElement.create(e, "div", "closing-symbol");
-                if (n) {
-                    DomElement.create(r, "div", "no-arrow");
+            function createClosingSymbol(e, t, n, r, o) {
+                let i = DomElement.create(t, "div", "closing-symbol");
+                if (r) {
+                    DomElement.create(i, "div", "no-arrow");
                 }
-                DomElement.createWithHTML(r, "div", "object-type-end", t);
+                DomElement.createWithHTML(i, "div", "object-type-end", n);
+                createComma(e, i, o);
             }
             function makeAreaDroppable(e, t) {
                 if (t.fileDroppingEnabled) {

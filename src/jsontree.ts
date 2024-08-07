@@ -312,7 +312,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-brace", "{" ) as HTMLSpanElement
             }
 
-            renderObjectValues( arrow, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false );
+            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true );
         }
     }
 
@@ -332,10 +332,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-bracket", "[" ) as HTMLSpanElement
         }
 
-        renderArrayValues( arrow, objectTypeContents, bindingOptions, data, openingBracket, false );
+        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true );
     }
 
-    function renderObjectValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean = true ) : void {
+    function renderObjectValues( arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
         const propertiesLength: number = propertyNames.length;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
@@ -347,13 +347,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-            createClosingSymbol( objectTypeContents, "}", addNoArrowToClosingSymbol );
+            createClosingSymbol( bindingOptions, objectTypeContents, "}", addNoArrowToClosingSymbol, isLastItem );
         }
 
-        addArrowEvent( bindingOptions, arrow, objectTypeContents, openingBrace );
+        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace );
     }
 
-    function renderArrayValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean = true ) : void {
+    function renderArrayValues( arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
         const dataLength: number = data.length;
 
         if ( !bindingOptions.reverseArrayValues ) {
@@ -368,10 +368,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-            createClosingSymbol( objectTypeContents, "]", addNoArrowToClosingSymbol );
+            createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
         }
 
-        addArrowEvent( bindingOptions, arrow, objectTypeContents, openingBracket );
+        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket );
     }
 
     function renderValue( container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean ) : void {
@@ -601,8 +601,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                         openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-brace", "{" ) as HTMLSpanElement
                     }
     
-                    createComma( bindingOptions, objectTitle, isLastItem );
-                    renderObjectValues( arrow, objectTypeContents, bindingOptions, value, propertyNames, openingBrace );
+                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem );
     
                     type = DataType.object;
                 }
@@ -628,8 +629,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                     openingBracket = DomElement.createWithHTML( arrayTitle, "span", "opening-bracket", "[" ) as HTMLSpanElement
                 }
 
-                createComma( bindingOptions, arrayTitle, isLastItem );
-                renderArrayValues( arrow, arrayTypeContents, bindingOptions, value, openingBracket );
+                let coma: HTMLSpanElement = createComma( bindingOptions, arrayTitle, isLastItem );
+                
+                renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem );
 
                 type = DataType.array;
                 
@@ -675,7 +677,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
+    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
         if ( Is.defined( arrow ) ) {
             arrow.onclick = () => {
                 if ( arrow.className === "down-arrow" ) {
@@ -685,6 +687,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     if ( Is.defined( openingSymbol ) ) {
                         openingSymbol.style.display = "none";
                     }
+
+                    if ( Is.defined( coma ) ) {
+                        coma.style.display = "inline-block";
+                    }
                     
                 } else {
                     objectTypeContents.style.display = "block";
@@ -692,6 +698,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( Is.defined( openingSymbol ) ) {
                         openingSymbol.style.display = "inline-block";
+                    }
+
+                    if ( Is.defined( coma ) ) {
+                        coma.style.display = "none";
                     }
                 }
             };
@@ -703,16 +713,28 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( Is.defined( openingSymbol ) ) {
                     openingSymbol.style.display = "none";
                 }
+
+                if ( Is.defined( coma ) ) {
+                    coma.style.display = "inline-block";
+                }
             } else {
                 arrow.className = "down-arrow";
+
+                if ( Is.defined( coma ) ) {
+                    coma.style.display = "none";
+                }
             }
         }
     }
 
-    function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : void {
+    function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : HTMLSpanElement {
+        let result: HTMLSpanElement = null!;
+
         if ( bindingOptions.showCommas && !isLastItem ) {
-            DomElement.createWithHTML( objectTypeValue, "span", "comma", "," );
+            result = DomElement.createWithHTML( objectTypeValue, "span", "comma", "," ) as HTMLSpanElement;
         }
+
+        return result;
     }
     
     function getIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
@@ -754,7 +776,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         return properties;
     }
 
-    function createClosingSymbol( container: HTMLElement, symbol: string, addNoArrow: boolean = true ) : void {
+    function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
         let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
         if ( addNoArrow ) {
@@ -762,6 +784,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
         
         DomElement.createWithHTML( symbolContainer, "div", "object-type-end", symbol );
+
+        createComma( bindingOptions, symbolContainer, isLastItem )
     }
 
 

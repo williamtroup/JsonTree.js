@@ -272,7 +272,7 @@ div.json-tree-js div.object-type-contents {
 div.json-tree-js div.object-type-contents div.closing-symbol div {
   display: inline-block !important;
 }
-div.json-tree-js div.object-type-contents div.closing-symbol div div.object-type-end {
+div.json-tree-js div.object-type-contents div.closing-symbol div.object-type-end {
   font-weight: var(--json-tree-js-text-bold-weight);
 }
 div.json-tree-js div.object-type-contents div.object-type-value {

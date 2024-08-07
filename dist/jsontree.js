@@ -706,7 +706,7 @@ var ToolTip;
             if (t.showOpeningClosingCurlyBraces) {
                 c = DomElement.createWithHTML(i, "span", "opening-brace", "{");
             }
-            renderObjectValues(s, a, t, n, r, c, false);
+            renderObjectValues(s, null, a, t, n, r, c, false, true);
         }
     }
     function renderArray(e, t, n) {
@@ -721,36 +721,36 @@ var ToolTip;
         if (t.showOpeningClosingCurlyBraces) {
             i = DomElement.createWithHTML(o, "span", "opening-bracket", "[");
         }
-        renderArrayValues(l, r, t, n, i, false);
+        renderArrayValues(l, null, r, t, n, i, false, true);
     }
-    function renderObjectValues(e, t, n, o, r, l, i = true) {
-        const a = r.length;
-        for (let e = 0; e < a; e++) {
-            const l = r[e];
-            if (o.hasOwnProperty(l)) {
-                renderValue(t, n, l, o[l], e === a - 1);
+    function renderObjectValues(e, t, n, o, r, l, i, a, s) {
+        const u = l.length;
+        for (let e = 0; e < u; e++) {
+            const t = l[e];
+            if (r.hasOwnProperty(t)) {
+                renderValue(n, o, t, r[t], e === u - 1);
             }
         }
-        if (n.showOpeningClosingCurlyBraces) {
-            createClosingSymbol(t, "}", i);
+        if (o.showOpeningClosingCurlyBraces) {
+            createClosingSymbol(o, n, "}", a, s);
         }
-        addArrowEvent(n, e, t, l);
+        addArrowEvent(o, e, t, n, i);
     }
-    function renderArrayValues(e, t, n, o, r, l = true) {
-        const i = o.length;
-        if (!n.reverseArrayValues) {
-            for (let e = 0; e < i; e++) {
-                renderValue(t, n, getIndexName(n, e, i), o[e], e === i - 1);
+    function renderArrayValues(e, t, n, o, r, l, i, a) {
+        const s = r.length;
+        if (!o.reverseArrayValues) {
+            for (let e = 0; e < s; e++) {
+                renderValue(n, o, getIndexName(o, e, s), r[e], e === s - 1);
             }
         } else {
-            for (let e = i; e--; ) {
-                renderValue(t, n, getIndexName(n, e, i), o[e], e === 0);
+            for (let e = s; e--; ) {
+                renderValue(n, o, getIndexName(o, e, s), r[e], e === 0);
             }
         }
-        if (n.showOpeningClosingCurlyBraces) {
-            createClosingSymbol(t, "]", l);
+        if (o.showOpeningClosingCurlyBraces) {
+            createClosingSymbol(o, n, "]", i, a);
         }
-        addArrowEvent(n, e, t, r);
+        addArrowEvent(o, e, t, n, l);
     }
     function renderValue(e, t, n, o, r) {
         const l = DomElement.create(e, "div", "object-type-value");
@@ -922,8 +922,8 @@ var ToolTip;
                     if (t.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(a, "span", "opening-brace", "{");
                     }
-                    createComma(t, a, r);
-                    renderObjectValues(i, s, t, o, e, u);
+                    let d = createComma(t, a, r);
+                    renderObjectValues(i, d, s, t, o, e, u, true, r);
                     c = "object";
                 }
             } else {
@@ -941,8 +941,8 @@ var ToolTip;
                 if (t.showOpeningClosingCurlyBraces) {
                     a = DomElement.createWithHTML(e, "span", "opening-bracket", "[");
                 }
-                createComma(t, e, r);
-                renderArrayValues(i, n, t, o, a);
+                let s = createComma(t, e, r);
+                renderArrayValues(i, s, n, t, o, a, true, r);
                 c = "array";
             } else {
                 u = true;
@@ -977,38 +977,52 @@ var ToolTip;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function addArrowEvent(e, t, n, o) {
+    function addArrowEvent(e, t, n, o, r) {
         if (Is.defined(t)) {
             t.onclick = () => {
                 if (t.className === "down-arrow") {
-                    n.style.display = "none";
+                    o.style.display = "none";
                     t.className = "right-arrow";
-                    if (Is.defined(o)) {
-                        o.style.display = "none";
+                    if (Is.defined(r)) {
+                        r.style.display = "none";
+                    }
+                    if (Is.defined(n)) {
+                        n.style.display = "inline-block";
                     }
                 } else {
-                    n.style.display = "block";
+                    o.style.display = "block";
                     t.className = "down-arrow";
-                    if (Is.defined(o)) {
-                        o.style.display = "inline-block";
+                    if (Is.defined(r)) {
+                        r.style.display = "inline-block";
+                    }
+                    if (Is.defined(n)) {
+                        n.style.display = "none";
                     }
                 }
             };
             if (e.showAllAsClosed) {
-                n.style.display = "none";
+                o.style.display = "none";
                 t.className = "right-arrow";
-                if (Is.defined(o)) {
-                    o.style.display = "none";
+                if (Is.defined(r)) {
+                    r.style.display = "none";
+                }
+                if (Is.defined(n)) {
+                    n.style.display = "inline-block";
                 }
             } else {
                 t.className = "down-arrow";
+                if (Is.defined(n)) {
+                    n.style.display = "none";
+                }
             }
         }
     }
     function createComma(e, t, n) {
+        let o = null;
         if (e.showCommas && !n) {
-            DomElement.createWithHTML(t, "span", "comma", ",");
+            o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
+        return o;
     }
     function getIndexName(e, t, n) {
         let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
@@ -1039,12 +1053,13 @@ var ToolTip;
         }
         return n;
     }
-    function createClosingSymbol(e, t, n = true) {
-        let o = DomElement.create(e, "div", "closing-symbol");
-        if (n) {
-            DomElement.create(o, "div", "no-arrow");
+    function createClosingSymbol(e, t, n, o, r) {
+        let l = DomElement.create(t, "div", "closing-symbol");
+        if (o) {
+            DomElement.create(l, "div", "no-arrow");
         }
-        DomElement.createWithHTML(o, "div", "object-type-end", t);
+        DomElement.createWithHTML(l, "div", "object-type-end", n);
+        createComma(e, l, r);
     }
     function makeAreaDroppable(e, t) {
         if (t.fileDroppingEnabled) {
