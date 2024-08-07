@@ -94,5 +94,5 @@ function onValueClickEvent( value, type ) {
         value = "undefined";
     }
 
-    console.log( "Type: " + type + ", Value: " + value.toString() );
+    console.log( `Type: ${type}, Value: ${value.toString()}` );
 }
