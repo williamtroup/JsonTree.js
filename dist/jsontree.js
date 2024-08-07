@@ -263,6 +263,8 @@ var DateTime;
         l = l.replace("{M}", o.getMinutes().toString());
         l = l.replace("{ss}", Str.padNumber(o.getSeconds(), 2));
         l = l.replace("{s}", o.getSeconds().toString());
+        l = l.replace("{mms}", Str.padNumber(o.getMilliseconds(), 3));
+        l = l.replace("{ms}", o.getMilliseconds().toString());
         l = l.replace("{dddd}", e.text.dayNames[i]);
         l = l.replace("{ddd}", e.text.dayNamesAbbreviated[i]);
         l = l.replace("{dd}", Str.padNumber(o.getDate()));
