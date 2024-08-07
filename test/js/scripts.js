@@ -84,7 +84,7 @@ function bindingOptions( showValueColors = true ) {
         showOpeningClosingSquaredBrackets: false,
         showCommas: false,
         showArrowToggles: true
-    }
+    };
 }
 
 function onValueClickEvent( value, type ) {
