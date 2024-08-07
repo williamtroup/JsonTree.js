@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        type.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -73,6 +73,8 @@ export type BindingOptions = {
 	fileDroppingEnabled?: boolean;
 	copyIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
+	showOpeningClosingCurlyBraces?: boolean;
+	showOpeningClosingSquaredBrackets?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
@@ -115,6 +117,7 @@ export type BindingOptionsIgnore = {
 	bigIntValues?: boolean;
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
+	undefinedValues?: boolean;
 };
 
 export type BindingOptionsTooltip = {
@@ -140,7 +143,9 @@ export type BindingOptionsEvents = {
     onUnknownRender?: ( element: HTMLElement ) => void;
 	onBigIntRender?: ( element: HTMLElement ) => void;
 	onSymbolRender?: ( element: HTMLElement ) => void;
+	onUndefinedRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;
+	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 };

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        binding.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -12,9 +12,9 @@
 
 
 import {
-    BindingOptionsCurrentView,
-    BindingOptionsParse,
-    BindingOptionsTooltip,
+    type BindingOptionsCurrentView,
+    type BindingOptionsParse,
+    type BindingOptionsTooltip,
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
@@ -58,6 +58,8 @@ export namespace Binding {
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
             options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
+            options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
+            options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
 
             options = getTitle( options );
             options = getIgnore( options );
@@ -93,6 +95,7 @@ export namespace Binding {
             options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
+            options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
 
             return options;
         }
@@ -133,6 +136,8 @@ export namespace Binding {
             options.events!.onNullRender = Default.getFunction( options.events!.onNullRender, null! );
             options.events!.onUnknownRender = Default.getFunction( options.events!.onUnknownRender, null! );
             options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
+            options.events!.onCopyJsonReplacer = Default.getFunction( options.events!.onCopyJsonReplacer, null! );
+            options.events!.onUndefinedRender = Default.getFunction( options.events!.onUndefinedRender, null! );
 
             return options;
         }

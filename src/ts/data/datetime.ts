@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        datetime.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -46,6 +46,9 @@ export namespace DateTime {
     
         result = result.replace( "{ss}", Str.padNumber( date.getSeconds(), 2 ) );
         result = result.replace( "{s}", date.getSeconds().toString() );
+
+        result = result.replace( "{ff}", Str.padNumber( date.getMilliseconds(), 3 ) );
+        result = result.replace( "{f}", date.getMilliseconds().toString() );
     
         result = result.replace( "{dddd}", configuration.text!.dayNames![ weekDayNumber ] );
         result = result.replace( "{ddd}", configuration.text!.dayNamesAbbreviated![ weekDayNumber ] );

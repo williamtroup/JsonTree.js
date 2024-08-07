@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        is.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -15,6 +15,26 @@ import { Char } from "./enum";
 
 
 export namespace Is {
+    export namespace String {
+        export function hexColor( value: string ) : boolean {
+            let valid: boolean = value.length >= 2 && value.length <= 7;
+        
+            if ( valid && value[ 0 ] === Char.hash ) {
+                valid = isNaN( +value.substring( 1, value.length - 1 ) );
+            }
+        
+            return valid;
+        }
+    
+        export function boolean( object: string ) : boolean {
+            return object.toString().toLowerCase().trim() === "true" || object.toString().toLowerCase().trim() === "false";
+        }
+    
+        export function date( dateTimeString: string ) {
+            return !isNaN( +new Date( dateTimeString ) );
+        }
+    }
+
     export function defined( value: any ) : boolean {
         return value !== null && value !== undefined && value.toString() !== Char.empty;
     }
@@ -61,23 +81,5 @@ export namespace Is {
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
-    }
-
-    export function hexColor( value: string ) : boolean {
-        let valid: boolean = value.length >= 2 && value.length <= 7;
-    
-        if ( valid && value[ 0 ] === Char.hash ) {
-            valid = isNaN( +value.substring( 1, value.length - 1 ) );
-        }
-    
-        return valid;
-    }
-
-    export function stringValueBoolean( object: string ) : boolean {
-        return object.toString().toLowerCase().trim() === "true" || object.toString().toLowerCase().trim() === "false";
-    }
-
-    export function stringValueDate( dateTimeString: string ) {
-        return !isNaN( +new Date( dateTimeString ) );
     }
 }

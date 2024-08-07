@@ -4,14 +4,14 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
  * 
  * @file        config.ts
- * @version     v2.3.0
+ * @version     v2.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { ConfigurationText, type Configuration } from "../type";
+import { type ConfigurationText, type Configuration } from "../type";
 import { Default } from "../data/default";
 import { Is } from "../data/is";
 
