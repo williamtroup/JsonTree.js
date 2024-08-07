@@ -335,7 +335,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true );
     }
 
-    function renderObjectValues( arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
+    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
         const propertiesLength: number = propertyNames.length;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
@@ -353,7 +353,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace );
     }
 
-    function renderArrayValues( arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
+    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
         const dataLength: number = data.length;
 
         if ( !bindingOptions.reverseArrayValues ) {
@@ -677,7 +677,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
+    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
         if ( Is.defined( arrow ) ) {
             const hideFunc: Function = () => {
                 objectTypeContents.style.display = "none";
