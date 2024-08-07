@@ -309,7 +309,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-brace", "{" ) as HTMLSpanElement
+                openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
             }
 
             renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true );
@@ -329,7 +329,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-            openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-bracket", "[" ) as HTMLSpanElement
+            openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement
         }
 
         renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true );
@@ -598,7 +598,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-brace", "{" ) as HTMLSpanElement
+                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
                     }
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
@@ -626,7 +626,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                    openingBracket = DomElement.createWithHTML( arrayTitle, "span", "opening-bracket", "[" ) as HTMLSpanElement
+                    openingBracket = DomElement.createWithHTML( arrayTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement
                 }
 
                 let coma: HTMLSpanElement = createComma( bindingOptions, arrayTitle, isLastItem );

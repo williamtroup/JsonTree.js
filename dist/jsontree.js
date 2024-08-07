@@ -704,7 +704,7 @@ var ToolTip;
                 DomElement.createWithHTML(i, "span", t.showValueColors ? "object count" : "count", `{${l}}`);
             }
             if (t.showOpeningClosingCurlyBraces) {
-                c = DomElement.createWithHTML(i, "span", "opening-brace", "{");
+                c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
             }
             renderObjectValues(s, null, a, t, n, r, c, false, true);
         }
@@ -719,7 +719,7 @@ var ToolTip;
             DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
         }
         if (t.showOpeningClosingCurlyBraces) {
-            i = DomElement.createWithHTML(o, "span", "opening-bracket", "[");
+            i = DomElement.createWithHTML(o, "span", "opening-symbol", "[");
         }
         renderArrayValues(l, null, r, t, n, i, false, true);
     }
@@ -920,7 +920,7 @@ var ToolTip;
                         DomElement.createWithHTML(a, "span", "count", `{${n}}`);
                     }
                     if (t.showOpeningClosingCurlyBraces) {
-                        u = DomElement.createWithHTML(a, "span", "opening-brace", "{");
+                        u = DomElement.createWithHTML(a, "span", "opening-symbol", "{");
                     }
                     let d = createComma(t, a, r);
                     renderObjectValues(i, d, s, t, o, e, u, true, r);
@@ -939,7 +939,7 @@ var ToolTip;
                     DomElement.createWithHTML(e, "span", "count", `[${o.length}]`);
                 }
                 if (t.showOpeningClosingCurlyBraces) {
-                    a = DomElement.createWithHTML(e, "span", "opening-bracket", "[");
+                    a = DomElement.createWithHTML(e, "span", "opening-symbol", "[");
                 }
                 let s = createComma(t, e, r);
                 renderArrayValues(i, s, n, t, o, a, true, r);

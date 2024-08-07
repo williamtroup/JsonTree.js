@@ -37,23 +37,23 @@ var init_is = __esm({
                     return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
                 }
                 e.boolean = n;
-                function r(e) {
+                function o(e) {
                     return !isNaN(+new Date(e));
                 }
-                e.date = r;
+                e.date = o;
             })(t = e.String || (e.String = {}));
             function n(e) {
                 return e !== null && e !== void 0 && e.toString() !== "";
             }
             e.defined = n;
-            function r(e) {
+            function o(e) {
                 return n(e) && typeof e === "object";
             }
-            e.definedObject = r;
-            function o(e) {
+            e.definedObject = o;
+            function r(e) {
                 return n(e) && typeof e === "boolean";
             }
-            e.definedBoolean = o;
+            e.definedBoolean = r;
             function i(e) {
                 return n(e) && typeof e === "string";
             }
@@ -71,11 +71,11 @@ var init_is = __esm({
             }
             e.definedBigInt = a;
             function u(e) {
-                return r(e) && e instanceof Array;
+                return o(e) && e instanceof Array;
             }
             e.definedArray = u;
             function c(e) {
-                return r(e) && e instanceof Date;
+                return o(e) && e instanceof Date;
             }
             e.definedDate = c;
             function d(e) {
@@ -110,14 +110,14 @@ var init_default = __esm({
                 return Is.definedString(e) ? e : t;
             }
             e.getString = n;
-            function r(e, t) {
+            function o(e, t) {
                 return Is.definedBoolean(e) ? e : t;
             }
-            e.getBoolean = r;
-            function o(e, t) {
+            e.getBoolean = o;
+            function r(e, t) {
                 return Is.definedNumber(e) ? e : t;
             }
-            e.getNumber = o;
+            e.getNumber = r;
             function i(e, t) {
                 return Is.definedFunction(e) ? e : t;
             }
@@ -133,11 +133,11 @@ var init_default = __esm({
             function a(e, t) {
                 let n = t;
                 if (Is.definedString(e)) {
-                    const r = e.toString().split(" ");
-                    if (r.length === 0) {
+                    const o = e.toString().split(" ");
+                    if (o.length === 0) {
                         e = t;
                     } else {
-                        n = r;
+                        n = o;
                     }
                 } else {
                     n = l(e, t);
@@ -147,18 +147,18 @@ var init_default = __esm({
             e.getStringOrArray = a;
             function u(e, t) {
                 var n;
-                const r = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
-                return ((n = e.toString().match(r)) == null ? void 0 : n[0]) || "";
+                const o = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
+                return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
             }
             e.getFixedDecimalPlacesValue = u;
             function c(e) {
                 let t;
                 const n = e.toString().split("(");
-                const r = n[0].split(" ");
-                if (r.length === 2) {
-                    t = r[1];
+                const o = n[0].split(" ");
+                if (o.length === 2) {
+                    t = o[1];
                 } else {
-                    t = r[0];
+                    t = o[0];
                 }
                 t += "()";
                 return t;
@@ -176,36 +176,36 @@ var init_dom = __esm({
         init_enum();
         init_is();
         (e => {
-            function t(e, t, n = "", r = null) {
-                const o = t.toLowerCase();
-                const i = o === "text";
-                let l = i ? document.createTextNode("") : document.createElement(o);
+            function t(e, t, n = "", o = null) {
+                const r = t.toLowerCase();
+                const i = r === "text";
+                let l = i ? document.createTextNode("") : document.createElement(r);
                 if (Is.defined(n)) {
                     l.className = n;
                 }
-                if (Is.defined(r)) {
-                    e.insertBefore(l, r);
+                if (Is.defined(o)) {
+                    e.insertBefore(l, o);
                 } else {
                     e.appendChild(l);
                 }
                 return l;
             }
             e.create = t;
-            function n(e, n, r, o, i = null) {
-                const l = t(e, n, r, i);
-                l.innerHTML = o;
+            function n(e, n, o, r, i = null) {
+                const l = t(e, n, o, i);
+                l.innerHTML = r;
                 return l;
             }
             e.createWithHTML = n;
-            function r(e, t) {
+            function o(e, t) {
                 e.classList.add(t);
             }
-            e.addClass = r;
-            function o(e) {
+            e.addClass = o;
+            function r(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            e.cancelBubble = o;
+            e.cancelBubble = r;
             function i() {
                 const e = document.documentElement;
                 const t = {
@@ -217,27 +217,27 @@ var init_dom = __esm({
             e.getScrollPosition = i;
             function l(e, t) {
                 let n = e.pageX;
-                let r = e.pageY;
-                const o = i();
+                let o = e.pageY;
+                const r = i();
                 t.style.display = "block";
                 if (n + t.offsetWidth > window.innerWidth) {
                     n -= t.offsetWidth;
                 } else {
                     n++;
                 }
-                if (r + t.offsetHeight > window.innerHeight) {
-                    r -= t.offsetHeight;
+                if (o + t.offsetHeight > window.innerHeight) {
+                    o -= t.offsetHeight;
                 } else {
-                    r++;
+                    o++;
                 }
-                if (n < o.left) {
+                if (n < r.left) {
                     n = e.pageX + 1;
                 }
-                if (r < o.top) {
-                    r = e.pageY + 1;
+                if (o < r.top) {
+                    o = e.pageY + 1;
                 }
                 t.style.left = `${n}px`;
-                t.style.top = `${r}px`;
+                t.style.top = `${o}px`;
             }
             e.showElementAtMousePosition = l;
         })(DomElement || (DomElement = {}));
@@ -265,12 +265,12 @@ var init_str = __esm({
             e.newGuid = t;
             function n(e, t = 1) {
                 const n = e.toString();
-                let r = n;
+                let o = n;
                 if (n.length < t) {
                     const e = t - n.length + 1;
-                    r = Array(e).join("0") + n;
+                    o = Array(e).join("0") + n;
                 }
-                return r;
+                return o;
             }
             e.padNumber = n;
         })(Str || (Str = {}));
@@ -300,33 +300,33 @@ var init_datetime = __esm({
                 return n;
             }
             e.getDayOrdinal = n;
-            function r(e, r, o) {
-                let i = o;
-                const l = t(r);
-                i = i.replace("{hh}", Str.padNumber(r.getHours(), 2));
-                i = i.replace("{h}", r.getHours().toString());
-                i = i.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
-                i = i.replace("{M}", r.getMinutes().toString());
-                i = i.replace("{ss}", Str.padNumber(r.getSeconds(), 2));
-                i = i.replace("{s}", r.getSeconds().toString());
-                i = i.replace("{ff}", Str.padNumber(r.getMilliseconds(), 3));
-                i = i.replace("{f}", r.getMilliseconds().toString());
+            function o(e, o, r) {
+                let i = r;
+                const l = t(o);
+                i = i.replace("{hh}", Str.padNumber(o.getHours(), 2));
+                i = i.replace("{h}", o.getHours().toString());
+                i = i.replace("{MM}", Str.padNumber(o.getMinutes(), 2));
+                i = i.replace("{M}", o.getMinutes().toString());
+                i = i.replace("{ss}", Str.padNumber(o.getSeconds(), 2));
+                i = i.replace("{s}", o.getSeconds().toString());
+                i = i.replace("{ff}", Str.padNumber(o.getMilliseconds(), 3));
+                i = i.replace("{f}", o.getMilliseconds().toString());
                 i = i.replace("{dddd}", e.text.dayNames[l]);
                 i = i.replace("{ddd}", e.text.dayNamesAbbreviated[l]);
-                i = i.replace("{dd}", Str.padNumber(r.getDate()));
-                i = i.replace("{d}", r.getDate().toString());
-                i = i.replace("{o}", n(e, r.getDate()));
-                i = i.replace("{mmmm}", e.text.monthNames[r.getMonth()]);
-                i = i.replace("{mmm}", e.text.monthNamesAbbreviated[r.getMonth()]);
-                i = i.replace("{mm}", Str.padNumber(r.getMonth() + 1));
-                i = i.replace("{m}", (r.getMonth() + 1).toString());
-                i = i.replace("{yyyy}", r.getFullYear().toString());
-                i = i.replace("{yyy}", r.getFullYear().toString().substring(1));
-                i = i.replace("{yy}", r.getFullYear().toString().substring(2));
-                i = i.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+                i = i.replace("{dd}", Str.padNumber(o.getDate()));
+                i = i.replace("{d}", o.getDate().toString());
+                i = i.replace("{o}", n(e, o.getDate()));
+                i = i.replace("{mmmm}", e.text.monthNames[o.getMonth()]);
+                i = i.replace("{mmm}", e.text.monthNamesAbbreviated[o.getMonth()]);
+                i = i.replace("{mm}", Str.padNumber(o.getMonth() + 1));
+                i = i.replace("{m}", (o.getMonth() + 1).toString());
+                i = i.replace("{yyyy}", o.getFullYear().toString());
+                i = i.replace("{yyy}", o.getFullYear().toString().substring(1));
+                i = i.replace("{yy}", o.getFullYear().toString().substring(2));
+                i = i.replace("{y}", Number.parseInt(o.getFullYear().toString().substring(2)).toString());
                 return i;
             }
-            e.getCustomFormattedDateText = r;
+            e.getCustomFormattedDateText = o;
         })(DateTime || (DateTime = {}));
     }
 });
@@ -352,15 +352,15 @@ var init_binding = __esm({
             let t;
             (t => {
                 function n(t, n) {
-                    const r = e.Options.get(t);
-                    r._currentView = {};
-                    r._currentView.element = n;
-                    r._currentView.dataArrayCurrentIndex = 0;
-                    r._currentView.titleBarButtons = null;
-                    return r;
+                    const o = e.Options.get(t);
+                    o._currentView = {};
+                    o._currentView.element = n;
+                    o._currentView.dataArrayCurrentIndex = 0;
+                    o._currentView.titleBarButtons = null;
+                    return o;
                 }
                 t.getForNewInstance = n;
-                function r(e) {
+                function o(e) {
                     let t = Default.getObject(e, {});
                     t.data = Default.getObject(t.data, null);
                     t.showCounts = Default.getBoolean(t.showCounts, true);
@@ -385,15 +385,15 @@ var init_binding = __esm({
                     t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
                     t.showOpeningClosingCurlyBraces = Default.getBoolean(t.showOpeningClosingCurlyBraces, false);
                     t.showOpeningClosingSquaredBrackets = Default.getBoolean(t.showOpeningClosingSquaredBrackets, false);
-                    t = o(t);
+                    t = r(t);
                     t = i(t);
                     t = l(t);
                     t = s(t);
                     t = a(t);
                     return t;
                 }
-                t.get = r;
-                function o(e) {
+                t.get = o;
+                function r(e) {
                     e.title = Default.getObject(e.title, {});
                     e.title.text = Default.getString(e.title.text, "JsonTree.js");
                     e.title.show = Default.getBoolean(e.title.show, true);
@@ -557,24 +557,24 @@ var init_tooltip = __esm({
             e.renderControl = t;
             function n(e, t = true) {
                 let n = t ? window.addEventListener : window.removeEventListener;
-                let r = t ? document.addEventListener : document.removeEventListener;
+                let o = t ? document.addEventListener : document.removeEventListener;
                 n("mousemove", (() => {
                     i(e);
                 }));
-                r("scroll", (() => {
+                o("scroll", (() => {
                     i(e);
                 }));
             }
             e.assignToEvents = n;
-            function r(e, t, n) {
+            function o(e, t, n) {
                 if (e !== null) {
                     e.onmousemove = e => {
-                        o(e, t, n);
+                        r(e, t, n);
                     };
                 }
             }
-            e.add = r;
-            function o(e, t, n) {
+            e.add = o;
+            function r(e, t, n) {
                 DomElement.cancelBubble(e);
                 i(t);
                 t._currentView.tooltipTimerId = setTimeout((() => {
@@ -583,7 +583,7 @@ var init_tooltip = __esm({
                     DomElement.showElementAtMousePosition(e, t._currentView.tooltip);
                 }), t.tooltip.delay);
             }
-            e.show = o;
+            e.show = r;
             function i(e) {
                 if (Is.defined(e._currentView.tooltip)) {
                     if (e._currentView.tooltipTimerId !== 0) {
@@ -621,10 +621,10 @@ var require_jsontree = __commonJS({
                 const t = e.length;
                 for (let n = 0; n < t; n++) {
                     const t = document.getElementsByTagName(e[n]);
-                    const r = [].slice.call(t);
-                    const o = r.length;
-                    for (let e = 0; e < o; e++) {
-                        if (!renderElement(r[e])) {
+                    const o = [].slice.call(t);
+                    const r = o.length;
+                    for (let e = 0; e < r; e++) {
+                        if (!renderElement(o[e])) {
                             break;
                         }
                     }
@@ -635,9 +635,9 @@ var require_jsontree = __commonJS({
                 if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
                     const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
                     if (Is.definedString(n)) {
-                        const r = getObjectFromString(n);
-                        if (r.parsed && Is.definedObject(r.object)) {
-                            renderControl(Binding.Options.getForNewInstance(r.object, e));
+                        const o = getObjectFromString(n);
+                        if (o.parsed && Is.definedObject(o.object)) {
+                            renderControl(Binding.Options.getForNewInstance(o.object, e));
                         } else {
                             if (!_configuration.safeMode) {
                                 console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -701,14 +701,14 @@ var require_jsontree = __commonJS({
                         ToolTip.add(n, e, _configuration.text.copyAllButtonText);
                         n.onclick = () => {
                             let n = null;
-                            let r = jsonStringifyReplacer;
+                            let o = jsonStringifyReplacer;
                             if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
-                                r = e.events.onCopyJsonReplacer;
+                                o = e.events.onCopyJsonReplacer;
                             }
                             if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], r, e.copyIndentSpaces);
+                                n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.copyIndentSpaces);
                             } else {
-                                n = JSON.stringify(t, r, e.copyIndentSpaces);
+                                n = JSON.stringify(t, o, e.copyIndentSpaces);
                             }
                             navigator.clipboard.writeText(n);
                             Trigger.customEvent(e.events.onCopyAll, n);
@@ -738,16 +738,16 @@ var require_jsontree = __commonJS({
                         } else {
                             n.disabled = true;
                         }
-                        const r = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "next", _configuration.text.nextButtonSymbolText);
-                        ToolTip.add(r, e, _configuration.text.nextButtonText);
+                        const o = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "next", _configuration.text.nextButtonSymbolText);
+                        ToolTip.add(o, e, _configuration.text.nextButtonText);
                         if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
-                            r.onclick = () => {
+                            o.onclick = () => {
                                 e._currentView.dataArrayCurrentIndex++;
                                 renderControlContainer(e);
                                 Trigger.customEvent(e.events.onNextPage, e._currentView.element);
                             };
                         } else {
-                            r.disabled = true;
+                            o.disabled = true;
                         }
                     } else {
                         if (Is.definedArray(t)) {
@@ -776,16 +776,16 @@ var require_jsontree = __commonJS({
                 renderControlContainer(e);
                 Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
             }
-            function renderObject(e, t, n, r = false) {
-                const o = getObjectPropertyNames(n, t);
-                const i = o.length;
+            function renderObject(e, t, n, o = false) {
+                const r = getObjectPropertyNames(n, t);
+                const i = r.length;
                 if (i !== 0 || !t.ignore.emptyObjects) {
                     const l = DomElement.create(e, "div", "object-type-title");
                     const s = DomElement.create(e, "div", "object-type-contents");
                     const a = t.showArrowToggles ? DomElement.create(l, "div", "down-arrow") : null;
                     const u = DomElement.createWithHTML(l, "span", t.showValueColors ? "object" : "", _configuration.text.objectText);
                     let c = null;
-                    if (r && t.showArrayItemsAsSeparateObjects) {
+                    if (o && t.showArrayItemsAsSeparateObjects) {
                         let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
                         if (t.showArrayIndexBrackets) {
                             e = `[${e}]:`;
@@ -796,55 +796,55 @@ var require_jsontree = __commonJS({
                         DomElement.createWithHTML(l, "span", t.showValueColors ? "object count" : "count", `{${i}}`);
                     }
                     if (t.showOpeningClosingCurlyBraces) {
-                        c = DomElement.createWithHTML(l, "span", "opening-brace", "{");
+                        c = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
-                    renderObjectValues(a, null, s, t, n, o, c, false, true);
+                    renderObjectValues(a, null, s, t, n, r, c, false, true);
                 }
             }
             function renderArray(e, t, n) {
-                const r = DomElement.create(e, "div", "object-type-title");
-                const o = DomElement.create(e, "div", "object-type-contents");
-                const i = t.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+                const o = DomElement.create(e, "div", "object-type-title");
+                const r = DomElement.create(e, "div", "object-type-contents");
+                const i = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
                 let l = null;
-                DomElement.createWithHTML(r, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
+                DomElement.createWithHTML(o, "span", t.showValueColors ? "array" : "", _configuration.text.arrayText);
                 if (t.showCounts) {
-                    DomElement.createWithHTML(r, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
+                    DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
                 }
                 if (t.showOpeningClosingCurlyBraces) {
-                    l = DomElement.createWithHTML(r, "span", "opening-bracket", "[");
+                    l = DomElement.createWithHTML(o, "span", "opening-symbol", "[");
                 }
-                renderArrayValues(i, null, o, t, n, l, false, true);
+                renderArrayValues(i, null, r, t, n, l, false, true);
             }
-            function renderObjectValues(e, t, n, r, o, i, l, s, a) {
+            function renderObjectValues(e, t, n, o, r, i, l, s, a) {
                 const u = i.length;
                 for (let e = 0; e < u; e++) {
                     const t = i[e];
-                    if (o.hasOwnProperty(t)) {
-                        renderValue(n, r, t, o[t], e === u - 1);
+                    if (r.hasOwnProperty(t)) {
+                        renderValue(n, o, t, r[t], e === u - 1);
                     }
                 }
-                if (r.showOpeningClosingCurlyBraces) {
-                    createClosingSymbol(r, n, "}", s, a);
+                if (o.showOpeningClosingCurlyBraces) {
+                    createClosingSymbol(o, n, "}", s, a);
                 }
-                addArrowEvent(r, e, t, n, l);
+                addArrowEvent(o, e, t, n, l);
             }
-            function renderArrayValues(e, t, n, r, o, i, l, s) {
-                const a = o.length;
-                if (!r.reverseArrayValues) {
+            function renderArrayValues(e, t, n, o, r, i, l, s) {
+                const a = r.length;
+                if (!o.reverseArrayValues) {
                     for (let e = 0; e < a; e++) {
-                        renderValue(n, r, getIndexName(r, e, a), o[e], e === a - 1);
+                        renderValue(n, o, getIndexName(o, e, a), r[e], e === a - 1);
                     }
                 } else {
                     for (let e = a; e--; ) {
-                        renderValue(n, r, getIndexName(r, e, a), o[e], e === 0);
+                        renderValue(n, o, getIndexName(o, e, a), r[e], e === 0);
                     }
                 }
-                if (r.showOpeningClosingCurlyBraces) {
-                    createClosingSymbol(r, n, "]", l, s);
+                if (o.showOpeningClosingCurlyBraces) {
+                    createClosingSymbol(o, n, "]", l, s);
                 }
-                addArrowEvent(r, e, t, n, i);
+                addArrowEvent(o, e, t, n, i);
             }
-            function renderValue(e, t, n, r, o) {
+            function renderValue(e, t, n, o, r) {
                 const i = DomElement.create(e, "div", "object-type-value");
                 const l = t.showArrowToggles ? DomElement.create(i, "div", "no-arrow") : null;
                 let s = null;
@@ -853,7 +853,7 @@ var require_jsontree = __commonJS({
                 let c = null;
                 DomElement.createWithHTML(i, "span", "title", n);
                 DomElement.createWithHTML(i, "span", "split", ":");
-                if (r === null) {
+                if (o === null) {
                     if (!t.ignore.nullValues) {
                         s = t.showValueColors ? "null" : "";
                         a = DomElement.createWithHTML(i, "span", s, "null");
@@ -861,11 +861,11 @@ var require_jsontree = __commonJS({
                         if (Is.definedFunction(t.events.onNullRender)) {
                             Trigger.customEvent(t.events.onNullRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (r === void 0) {
+                } else if (o === void 0) {
                     if (!t.ignore.undefinedValues) {
                         s = t.showValueColors ? "undefined" : "";
                         a = DomElement.createWithHTML(i, "span", s, "undefined");
@@ -873,92 +873,92 @@ var require_jsontree = __commonJS({
                         if (Is.definedFunction(t.events.onUndefinedRender)) {
                             Trigger.customEvent(t.events.onUndefinedRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedFunction(r)) {
+                } else if (Is.definedFunction(o)) {
                     if (!t.ignore.functionValues) {
                         s = t.showValueColors ? "function" : "";
-                        a = DomElement.createWithHTML(i, "span", s, Default.getFunctionName(r));
+                        a = DomElement.createWithHTML(i, "span", s, Default.getFunctionName(o));
                         c = "function";
                         if (Is.definedFunction(t.events.onFunctionRender)) {
                             Trigger.customEvent(t.events.onFunctionRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedBoolean(r)) {
+                } else if (Is.definedBoolean(o)) {
                     if (!t.ignore.booleanValues) {
                         s = t.showValueColors ? "boolean" : "";
-                        a = DomElement.createWithHTML(i, "span", s, r);
+                        a = DomElement.createWithHTML(i, "span", s, o);
                         c = "boolean";
                         if (Is.definedFunction(t.events.onBooleanRender)) {
                             Trigger.customEvent(t.events.onBooleanRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedDecimal(r)) {
+                } else if (Is.definedDecimal(o)) {
                     if (!t.ignore.decimalValues) {
-                        const e = Default.getFixedDecimalPlacesValue(r, t.maximumDecimalPlaces);
+                        const e = Default.getFixedDecimalPlacesValue(o, t.maximumDecimalPlaces);
                         s = t.showValueColors ? "decimal" : "";
                         a = DomElement.createWithHTML(i, "span", s, e);
                         c = "decimal";
                         if (Is.definedFunction(t.events.onDecimalRender)) {
                             Trigger.customEvent(t.events.onDecimalRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedNumber(r)) {
+                } else if (Is.definedNumber(o)) {
                     if (!t.ignore.numberValues) {
                         s = t.showValueColors ? "number" : "";
-                        a = DomElement.createWithHTML(i, "span", s, r);
+                        a = DomElement.createWithHTML(i, "span", s, o);
                         c = "number";
                         if (Is.definedFunction(t.events.onNumberRender)) {
                             Trigger.customEvent(t.events.onNumberRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedBigInt(r)) {
+                } else if (Is.definedBigInt(o)) {
                     if (!t.ignore.bigIntValues) {
                         s = t.showValueColors ? "bigint" : "";
-                        a = DomElement.createWithHTML(i, "span", s, r);
+                        a = DomElement.createWithHTML(i, "span", s, o);
                         c = "bigint";
                         if (Is.definedFunction(t.events.onBigIntRender)) {
                             Trigger.customEvent(t.events.onBigIntRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedString(r)) {
+                } else if (Is.definedString(o)) {
                     if (!t.ignore.stringValues) {
-                        if (t.parse.stringsToBooleans && Is.String.boolean(r)) {
-                            renderValue(e, t, n, r.toString().toLowerCase().trim() === "true", o);
+                        if (t.parse.stringsToBooleans && Is.String.boolean(o)) {
+                            renderValue(e, t, n, o.toString().toLowerCase().trim() === "true", r);
                             u = true;
-                        } else if (t.parse.stringsToNumbers && !isNaN(r)) {
-                            renderValue(e, t, n, parseFloat(r), o);
+                        } else if (t.parse.stringsToNumbers && !isNaN(o)) {
+                            renderValue(e, t, n, parseFloat(o), r);
                             u = true;
-                        } else if (t.parse.stringsToDates && Is.String.date(r)) {
-                            renderValue(e, t, n, new Date(r), o);
+                        } else if (t.parse.stringsToDates && Is.String.date(o)) {
+                            renderValue(e, t, n, new Date(o), r);
                             u = true;
                         } else {
                             let e = null;
-                            if (t.showValueColors && t.showStringHexColors && Is.String.hexColor(r)) {
-                                e = r;
+                            if (t.showValueColors && t.showStringHexColors && Is.String.hexColor(o)) {
+                                e = o;
                             } else {
-                                if (t.maximumStringLength > 0 && r.length > t.maximumStringLength) {
-                                    r = r.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
+                                if (t.maximumStringLength > 0 && o.length > t.maximumStringLength) {
+                                    o = o.substring(0, t.maximumStringLength) + _configuration.text.ellipsisText;
                                 }
                             }
-                            const n = t.showStringQuotes ? `"${r}"` : r;
+                            const n = t.showStringQuotes ? `"${o}"` : o;
                             s = t.showValueColors ? "string" : "";
                             a = DomElement.createWithHTML(i, "span", s, n);
                             c = "string";
@@ -968,38 +968,38 @@ var require_jsontree = __commonJS({
                             if (Is.definedFunction(t.events.onStringRender)) {
                                 Trigger.customEvent(t.events.onStringRender, a);
                             }
-                            createComma(t, i, o);
+                            createComma(t, i, r);
                         }
                     } else {
                         u = true;
                     }
-                } else if (Is.definedDate(r)) {
+                } else if (Is.definedDate(o)) {
                     if (!t.ignore.dateValues) {
                         s = t.showValueColors ? "date" : "";
-                        a = DomElement.createWithHTML(i, "span", s, DateTime.getCustomFormattedDateText(_configuration, r, t.dateTimeFormat));
+                        a = DomElement.createWithHTML(i, "span", s, DateTime.getCustomFormattedDateText(_configuration, o, t.dateTimeFormat));
                         c = "date";
                         if (Is.definedFunction(t.events.onDateRender)) {
                             Trigger.customEvent(t.events.onDateRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedSymbol(r)) {
+                } else if (Is.definedSymbol(o)) {
                     if (!t.ignore.symbolValues) {
                         s = t.showValueColors ? "symbol" : "";
-                        a = DomElement.createWithHTML(i, "span", s, r.toString());
+                        a = DomElement.createWithHTML(i, "span", s, o.toString());
                         c = "symbol";
                         if (Is.definedFunction(t.events.onSymbolRender)) {
                             Trigger.customEvent(t.events.onSymbolRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
-                } else if (Is.definedObject(r) && !Is.definedArray(r)) {
+                } else if (Is.definedObject(o) && !Is.definedArray(o)) {
                     if (!t.ignore.objectValues) {
-                        const e = getObjectPropertyNames(r, t);
+                        const e = getObjectPropertyNames(o, t);
                         const n = e.length;
                         if (n === 0 && t.ignore.emptyObjects) {
                             u = true;
@@ -1012,29 +1012,29 @@ var require_jsontree = __commonJS({
                                 DomElement.createWithHTML(s, "span", "count", `{${n}}`);
                             }
                             if (t.showOpeningClosingCurlyBraces) {
-                                u = DomElement.createWithHTML(s, "span", "opening-brace", "{");
+                                u = DomElement.createWithHTML(s, "span", "opening-symbol", "{");
                             }
-                            let d = createComma(t, s, o);
-                            renderObjectValues(l, d, a, t, r, e, u, true, o);
+                            let d = createComma(t, s, r);
+                            renderObjectValues(l, d, a, t, o, e, u, true, r);
                             c = "object";
                         }
                     } else {
                         u = true;
                     }
-                } else if (Is.definedArray(r)) {
+                } else if (Is.definedArray(o)) {
                     if (!t.ignore.arrayValues) {
                         const e = DomElement.create(i, "span", t.showValueColors ? "array" : "");
                         const n = DomElement.create(i, "div", "object-type-contents");
                         let s = null;
                         DomElement.createWithHTML(e, "span", "title", _configuration.text.arrayText);
                         if (t.showCounts) {
-                            DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
+                            DomElement.createWithHTML(e, "span", "count", `[${o.length}]`);
                         }
                         if (t.showOpeningClosingCurlyBraces) {
-                            s = DomElement.createWithHTML(e, "span", "opening-bracket", "[");
+                            s = DomElement.createWithHTML(e, "span", "opening-symbol", "[");
                         }
-                        let a = createComma(t, e, o);
-                        renderArrayValues(l, a, n, t, r, s, true, o);
+                        let a = createComma(t, e, r);
+                        renderArrayValues(l, a, n, t, o, s, true, r);
                         c = "array";
                     } else {
                         u = true;
@@ -1042,12 +1042,12 @@ var require_jsontree = __commonJS({
                 } else {
                     if (!t.ignore.unknownValues) {
                         s = t.showValueColors ? "unknown" : "";
-                        a = DomElement.createWithHTML(i, "span", s, r.toString());
+                        a = DomElement.createWithHTML(i, "span", s, o.toString());
                         c = "unknown";
                         if (Is.definedFunction(t.events.onUnknownRender)) {
                             Trigger.customEvent(t.events.onUnknownRender, a);
                         }
-                        createComma(t, i, o);
+                        createComma(t, i, r);
                     } else {
                         u = true;
                     }
@@ -1056,36 +1056,36 @@ var require_jsontree = __commonJS({
                     e.removeChild(i);
                 } else {
                     if (Is.defined(a)) {
-                        addValueClickEvent(t, a, r, c);
+                        addValueClickEvent(t, a, o, c);
                     }
                 }
             }
-            function addValueClickEvent(e, t, n, r) {
+            function addValueClickEvent(e, t, n, o) {
                 if (Is.definedFunction(e.events.onValueClick)) {
                     t.onclick = () => {
-                        Trigger.customEvent(e.events.onValueClick, n, r);
+                        Trigger.customEvent(e.events.onValueClick, n, o);
                     };
                 } else {
                     DomElement.addClass(t, "no-hover");
                 }
             }
-            function addArrowEvent(e, t, n, r, o) {
+            function addArrowEvent(e, t, n, o, r) {
                 if (Is.defined(t)) {
                     t.onclick = () => {
                         if (t.className === "down-arrow") {
-                            r.style.display = "none";
+                            o.style.display = "none";
                             t.className = "right-arrow";
-                            if (Is.defined(o)) {
-                                o.style.display = "none";
+                            if (Is.defined(r)) {
+                                r.style.display = "none";
                             }
                             if (Is.defined(n)) {
                                 n.style.display = "inline-block";
                             }
                         } else {
-                            r.style.display = "block";
+                            o.style.display = "block";
                             t.className = "down-arrow";
-                            if (Is.defined(o)) {
-                                o.style.display = "inline-block";
+                            if (Is.defined(r)) {
+                                r.style.display = "inline-block";
                             }
                             if (Is.defined(n)) {
                                 n.style.display = "none";
@@ -1093,10 +1093,10 @@ var require_jsontree = __commonJS({
                         }
                     };
                     if (e.showAllAsClosed) {
-                        r.style.display = "none";
+                        o.style.display = "none";
                         t.className = "right-arrow";
-                        if (Is.defined(o)) {
-                            o.style.display = "none";
+                        if (Is.defined(r)) {
+                            r.style.display = "none";
                         }
                         if (Is.defined(n)) {
                             n.style.display = "inline-block";
@@ -1110,21 +1110,21 @@ var require_jsontree = __commonJS({
                 }
             }
             function createComma(e, t, n) {
-                let r = null;
+                let o = null;
                 if (e.showCommas && !n) {
-                    r = DomElement.createWithHTML(t, "span", "comma", ",");
+                    o = DomElement.createWithHTML(t, "span", "comma", ",");
                 }
-                return r;
+                return o;
             }
             function getIndexName(e, t, n) {
-                let r = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
+                let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
                 if (!e.addArrayIndexPadding) {
-                    r = Str.padNumber(parseInt(r), n.toString().length);
+                    o = Str.padNumber(parseInt(o), n.toString().length);
                 }
                 if (e.showArrayIndexBrackets) {
-                    r = `[${r}]`;
+                    o = `[${o}]`;
                 }
-                return r;
+                return o;
             }
             function getObjectPropertyNames(e, t) {
                 let n = [];
@@ -1145,13 +1145,13 @@ var require_jsontree = __commonJS({
                 }
                 return n;
             }
-            function createClosingSymbol(e, t, n, r, o) {
+            function createClosingSymbol(e, t, n, o, r) {
                 let i = DomElement.create(t, "div", "closing-symbol");
-                if (r) {
+                if (o) {
                     DomElement.create(i, "div", "no-arrow");
                 }
                 DomElement.createWithHTML(i, "div", "object-type-end", n);
-                createComma(e, i, o);
+                createComma(e, i, r);
             }
             function makeAreaDroppable(e, t) {
                 if (t.fileDroppingEnabled) {
@@ -1168,27 +1168,27 @@ var require_jsontree = __commonJS({
             }
             function importFromFiles(e, t) {
                 const n = e.length;
-                for (let r = 0; r < n; r++) {
-                    const n = e[r];
-                    const o = n.name.split(".").pop().toLowerCase();
-                    if (o === "json") {
+                for (let o = 0; o < n; o++) {
+                    const n = e[o];
+                    const r = n.name.split(".").pop().toLowerCase();
+                    if (r === "json") {
                         importFromJson(n, t);
                     }
                 }
             }
             function importFromJson(e, t) {
                 const n = new FileReader;
-                let r = null;
+                let o = null;
                 n.onloadend = () => {
                     t._currentView.dataArrayCurrentIndex = 0;
-                    t.data = r;
+                    t.data = o;
                     renderControlContainer(t);
                     Trigger.customEvent(t.events.onSetJson, t._currentView.element);
                 };
                 n.onload = e => {
                     const t = getObjectFromString(e.target.result);
                     if (t.parsed && Is.definedObject(t.object)) {
-                        r = t.object;
+                        o = t.object;
                     }
                 };
                 n.readAsText(e);
@@ -1276,11 +1276,11 @@ var require_jsontree = __commonJS({
                         } else {
                             n = t;
                         }
-                        const r = _elements_Data[e];
-                        r._currentView.dataArrayCurrentIndex = 0;
-                        r.data = n;
-                        renderControlContainer(r);
-                        Trigger.customEvent(r.events.onSetJson, r._currentView.element);
+                        const o = _elements_Data[e];
+                        o._currentView.dataArrayCurrentIndex = 0;
+                        o.data = n;
+                        renderControlContainer(o);
+                        Trigger.customEvent(o.events.onSetJson, o._currentView.element);
                     }
                     return _public;
                 },
@@ -1311,9 +1311,9 @@ var require_jsontree = __commonJS({
                     if (Is.definedObject(e)) {
                         let t = false;
                         const n = _configuration;
-                        for (let r in e) {
-                            if (e.hasOwnProperty(r) && _configuration.hasOwnProperty(r) && n[r] !== e[r]) {
-                                n[r] = e[r];
+                        for (let o in e) {
+                            if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && n[o] !== e[o]) {
+                                n[o] = e[o];
                                 t = true;
                             }
                         }

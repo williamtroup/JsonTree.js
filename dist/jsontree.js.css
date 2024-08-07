@@ -242,8 +242,7 @@ div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
 }
-div.json-tree-js div.object-type-title span.opening-brace,
-div.json-tree-js div.object-type-title span.opening-bracket {
+div.json-tree-js div.object-type-title span.opening-symbol {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
@@ -268,6 +267,12 @@ div.json-tree-js div.object-type-contents {
 div.json-tree-js div.object-type-contents {
   text-align: left !important;
   width: fit-content;
+}
+div.json-tree-js div.object-type-contents span.opening-symbol {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+  margin-right: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-text-bold-weight);
+  color: var(--json-tree-js-color-snow-white) !important;
 }
 div.json-tree-js div.object-type-contents div.closing-symbol div {
   display: inline-block !important;
@@ -366,13 +371,6 @@ div.json-tree-js div.object-type-contents div.object-type-value span.undefined {
 div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.opening-brace,
-div.json-tree-js div.object-type-contents div.object-type-value span.opening-bracket {
-  margin-left: calc(var(--json-tree-js-spacing) / 2);
-  margin-right: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
-  color: var(--json-tree-js-color-snow-white) !important;
 }
 
 /*
