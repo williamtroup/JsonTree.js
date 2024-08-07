@@ -32,4 +32,5 @@ export const enum DataType {
     object = "object",
     array = "array",
     unknown = "unknown",
+    undefined = "undefined",
 }

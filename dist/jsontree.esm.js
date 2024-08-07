@@ -416,6 +416,7 @@ var init_binding = __esm({
                     e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
                     e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
                     e.ignore.emptyObjects = Default.getBoolean(e.ignore.emptyObjects, true);
+                    e.ignore.undefinedValues = Default.getBoolean(e.ignore.undefinedValues, false);
                     return e;
                 }
                 function l(e) {
@@ -451,6 +452,7 @@ var init_binding = __esm({
                     e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
                     e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
                     e.events.onCopyJsonReplacer = Default.getFunction(e.events.onCopyJsonReplacer, null);
+                    e.events.onUndefinedRender = Default.getFunction(e.events.onUndefinedRender, null);
                     return e;
                 }
             })(t = e.Options || (e.Options = {}));
@@ -851,13 +853,25 @@ var require_jsontree = __commonJS({
                 let c = null;
                 DomElement.createWithHTML(i, "span", "title", n);
                 DomElement.createWithHTML(i, "span", "split", ":");
-                if (!Is.defined(r)) {
+                if (r === null) {
                     if (!t.ignore.nullValues) {
                         s = t.showValueColors ? "null" : "";
                         a = DomElement.createWithHTML(i, "span", s, "null");
                         c = "null";
                         if (Is.definedFunction(t.events.onNullRender)) {
                             Trigger.customEvent(t.events.onNullRender, a);
+                        }
+                        createComma(t, i, o);
+                    } else {
+                        u = true;
+                    }
+                } else if (r === void 0) {
+                    if (!t.ignore.undefinedValues) {
+                        s = t.showValueColors ? "undefined" : "";
+                        a = DomElement.createWithHTML(i, "span", s, "undefined");
+                        c = "undefined";
+                        if (Is.definedFunction(t.events.onUndefinedRender)) {
+                            Trigger.customEvent(t.events.onUndefinedRender, a);
                         }
                         createComma(t, i, o);
                     } else {

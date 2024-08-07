@@ -385,7 +385,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
-        if ( !Is.defined( value ) ) {
+        if ( value === null ) {
             if ( !bindingOptions.ignore!.nullValues ) {
                 valueClass = bindingOptions.showValueColors ? "null" : Char.empty;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
@@ -393,6 +393,22 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
+                }
+
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( value === undefined ) {
+            if ( !bindingOptions.ignore!.undefinedValues ) {
+                valueClass = bindingOptions.showValueColors ? "undefined" : Char.empty;
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
+                type = DataType.undefined;
+
+                if ( Is.definedFunction( bindingOptions.events!.onUndefinedRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );

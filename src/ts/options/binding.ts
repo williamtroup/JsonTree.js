@@ -95,6 +95,7 @@ export namespace Binding {
             options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
+            options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
 
             return options;
         }
@@ -136,6 +137,7 @@ export namespace Binding {
             options.events!.onUnknownRender = Default.getFunction( options.events!.onUnknownRender, null! );
             options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
             options.events!.onCopyJsonReplacer = Default.getFunction( options.events!.onCopyJsonReplacer, null! );
+            options.events!.onUndefinedRender = Default.getFunction( options.events!.onUndefinedRender, null! );
 
             return options;
         }

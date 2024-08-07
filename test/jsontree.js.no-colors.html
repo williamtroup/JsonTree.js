@@ -83,7 +83,13 @@
         }
 
         function onValueClickEvent( value, type ) {
-            console.log( "Type: " + type + ", Value: " + ( value !== undefined && value !== null ? value.toString() : "null" ) );
+            if ( value === null ) {
+                value = "null";
+            } else if ( value === undefined ) {
+                value = "undefined";
+            }
+
+            console.log( "Type: " + type + ", Value: " + value.toString() );
         }
     </script>
 </html>

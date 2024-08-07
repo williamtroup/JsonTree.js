@@ -62,6 +62,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `null` Nulls
 - `symbol` Symbols
 - `function` Functions
+- `undefined` Undefined
 - `any` Unknown
 <br>
 <br>

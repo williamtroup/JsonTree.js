@@ -35,6 +35,7 @@
   --json-tree-js-color-array: #F28C28;
   --json-tree-js-color-object: #C0C0C0;
   --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
+  --json-tree-js-color-undefined: var(--json-tree-js-color-null);
   --json-tree-js-color-symbol: #DAA06D;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
@@ -291,7 +292,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.date,
 div.json-tree-js div.object-type-contents div.object-type-value span.null,
 div.json-tree-js div.object-type-contents div.object-type-value span.function,
 div.json-tree-js div.object-type-contents div.object-type-value span.symbol,
-div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
+div.json-tree-js div.object-type-contents div.object-type-value span.unknown,
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
@@ -304,7 +306,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.date:not(.n
 div.json-tree-js div.object-type-contents div.object-type-value span.null:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.function:not(.no-hover):hover,
 div.json-tree-js div.object-type-contents div.object-type-value span.symbol:not(.no-hover):hover,
-div.json-tree-js div.object-type-contents div.object-type-value span.unknown:not(.no-hover):hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.unknown:not(.no-hover):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
 }
@@ -351,6 +354,10 @@ div.json-tree-js div.object-type-contents div.object-type-value span.function {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
   color: var(--json-tree-js-color-unknown);
+  font-style: italic;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined {
+  color: var(--json-tree-js-color-null);
   font-style: italic;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.count {

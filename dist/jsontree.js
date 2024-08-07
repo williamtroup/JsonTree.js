@@ -359,6 +359,7 @@ var Binding;
             e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
             e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
             e.ignore.emptyObjects = Default.getBoolean(e.ignore.emptyObjects, true);
+            e.ignore.undefinedValues = Default.getBoolean(e.ignore.undefinedValues, false);
             return e;
         }
         function i(e) {
@@ -394,6 +395,7 @@ var Binding;
             e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
             e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
             e.events.onCopyJsonReplacer = Default.getFunction(e.events.onCopyJsonReplacer, null);
+            e.events.onUndefinedRender = Default.getFunction(e.events.onUndefinedRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -759,13 +761,25 @@ var ToolTip;
         let c = null;
         DomElement.createWithHTML(l, "span", "title", n);
         DomElement.createWithHTML(l, "span", "split", ":");
-        if (!Is.defined(o)) {
+        if (o === null) {
             if (!t.ignore.nullValues) {
                 a = t.showValueColors ? "null" : "";
                 s = DomElement.createWithHTML(l, "span", a, "null");
                 c = "null";
                 if (Is.definedFunction(t.events.onNullRender)) {
                     Trigger.customEvent(t.events.onNullRender, s);
+                }
+                createComma(t, l, r);
+            } else {
+                u = true;
+            }
+        } else if (o === void 0) {
+            if (!t.ignore.undefinedValues) {
+                a = t.showValueColors ? "undefined" : "";
+                s = DomElement.createWithHTML(l, "span", a, "undefined");
+                c = "undefined";
+                if (Is.definedFunction(t.events.onUndefinedRender)) {
+                    Trigger.customEvent(t.events.onUndefinedRender, s);
                 }
                 createComma(t, l, r);
             } else {
