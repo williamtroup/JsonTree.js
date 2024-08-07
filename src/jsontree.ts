@@ -685,6 +685,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     if ( Is.defined( openingSymbol ) ) {
                         openingSymbol.style.display = "none";
                     }
+                    
                 } else {
                     objectTypeContents.style.display = "block";
                     arrow.className = "down-arrow";
