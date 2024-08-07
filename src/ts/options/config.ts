@@ -11,7 +11,7 @@
  */
 
 
-import { ConfigurationText, type Configuration } from "../type";
+import { type ConfigurationText, type Configuration } from "../type";
 import { Default } from "../data/default";
 import { Is } from "../data/is";
 

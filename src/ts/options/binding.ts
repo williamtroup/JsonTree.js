@@ -12,9 +12,9 @@
 
 
 import {
-    BindingOptionsCurrentView,
-    BindingOptionsParse,
-    BindingOptionsTooltip,
+    type BindingOptionsCurrentView,
+    type BindingOptionsParse,
+    type BindingOptionsTooltip,
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
