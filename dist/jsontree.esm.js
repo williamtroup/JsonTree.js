@@ -1071,28 +1071,7 @@ var require_jsontree = __commonJS({
             }
             function addArrowEvent(e, t, n, o, r) {
                 if (Is.defined(t)) {
-                    t.onclick = () => {
-                        if (t.className === "down-arrow") {
-                            o.style.display = "none";
-                            t.className = "right-arrow";
-                            if (Is.defined(r)) {
-                                r.style.display = "none";
-                            }
-                            if (Is.defined(n)) {
-                                n.style.display = "inline-block";
-                            }
-                        } else {
-                            o.style.display = "block";
-                            t.className = "down-arrow";
-                            if (Is.defined(r)) {
-                                r.style.display = "inline-block";
-                            }
-                            if (Is.defined(n)) {
-                                n.style.display = "none";
-                            }
-                        }
-                    };
-                    if (e.showAllAsClosed) {
+                    const i = () => {
                         o.style.display = "none";
                         t.className = "right-arrow";
                         if (Is.defined(r)) {
@@ -1101,11 +1080,28 @@ var require_jsontree = __commonJS({
                         if (Is.defined(n)) {
                             n.style.display = "inline-block";
                         }
-                    } else {
+                    };
+                    const l = () => {
+                        o.style.display = "block";
                         t.className = "down-arrow";
+                        if (Is.defined(r)) {
+                            r.style.display = "inline-block";
+                        }
                         if (Is.defined(n)) {
                             n.style.display = "none";
                         }
+                    };
+                    t.onclick = () => {
+                        if (t.className === "down-arrow") {
+                            i();
+                        } else {
+                            l();
+                        }
+                    };
+                    if (e.showAllAsClosed) {
+                        i();
+                    } else {
+                        l();
                     }
                 }
             }

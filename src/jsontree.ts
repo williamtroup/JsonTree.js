@@ -679,34 +679,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = () => {
-                if ( arrow.className === "down-arrow" ) {
-                    objectTypeContents.style.display = "none";
-                    arrow.className = "right-arrow";
-
-                    if ( Is.defined( openingSymbol ) ) {
-                        openingSymbol.style.display = "none";
-                    }
-
-                    if ( Is.defined( coma ) ) {
-                        coma.style.display = "inline-block";
-                    }
-                    
-                } else {
-                    objectTypeContents.style.display = "block";
-                    arrow.className = "down-arrow";
-
-                    if ( Is.defined( openingSymbol ) ) {
-                        openingSymbol.style.display = "inline-block";
-                    }
-
-                    if ( Is.defined( coma ) ) {
-                        coma.style.display = "none";
-                    }
-                }
-            };
-
-            if ( bindingOptions.showAllAsClosed ) {
+            const hideFunc: Function = () => {
                 objectTypeContents.style.display = "none";
                 arrow.className = "right-arrow";
 
@@ -717,12 +690,33 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( Is.defined( coma ) ) {
                     coma.style.display = "inline-block";
                 }
-            } else {
+            };
+
+            const showFunc: Function = () => {
+                objectTypeContents.style.display = "block";
                 arrow.className = "down-arrow";
+
+                if ( Is.defined( openingSymbol ) ) {
+                    openingSymbol.style.display = "inline-block";
+                }
 
                 if ( Is.defined( coma ) ) {
                     coma.style.display = "none";
                 }
+            };
+
+            arrow.onclick = () => {
+                if ( arrow.className === "down-arrow" ) {
+                    hideFunc();
+                } else {
+                    showFunc();
+                }
+            };
+
+            if ( bindingOptions.showAllAsClosed ) {
+                hideFunc();
+            } else {
+                showFunc();
             }
         }
     }
