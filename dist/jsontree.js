@@ -706,7 +706,7 @@ var ToolTip;
             if (t.showOpeningClosingCurlyBraces) {
                 c = DomElement.createWithHTML(i, "span", "opening-brace", "{");
             }
-            renderObjectValues(s, a, t, n, r, c);
+            renderObjectValues(s, a, t, n, r, c, false);
         }
     }
     function renderArray(e, t, n) {
@@ -721,34 +721,34 @@ var ToolTip;
         if (t.showOpeningClosingCurlyBraces) {
             i = DomElement.createWithHTML(o, "span", "opening-bracket", "[");
         }
-        renderArrayValues(l, r, t, n, i);
+        renderArrayValues(l, r, t, n, i, false);
     }
-    function renderObjectValues(e, t, n, o, r, l) {
-        const i = r.length;
-        for (let e = 0; e < i; e++) {
+    function renderObjectValues(e, t, n, o, r, l, i = true) {
+        const a = r.length;
+        for (let e = 0; e < a; e++) {
             const l = r[e];
             if (o.hasOwnProperty(l)) {
-                renderValue(t, n, l, o[l], e === i - 1);
+                renderValue(t, n, l, o[l], e === a - 1);
             }
         }
         if (n.showOpeningClosingCurlyBraces) {
-            DomElement.createWithHTML(t, "div", "object-type-end", "}");
+            createClosingSymbol(t, "}", i);
         }
         addArrowEvent(n, e, t, l);
     }
-    function renderArrayValues(e, t, n, o, r) {
-        const l = o.length;
+    function renderArrayValues(e, t, n, o, r, l = true) {
+        const i = o.length;
         if (!n.reverseArrayValues) {
-            for (let e = 0; e < l; e++) {
-                renderValue(t, n, getIndexName(n, e, l), o[e], e === l - 1);
+            for (let e = 0; e < i; e++) {
+                renderValue(t, n, getIndexName(n, e, i), o[e], e === i - 1);
             }
         } else {
-            for (let e = l; e--; ) {
-                renderValue(t, n, getIndexName(n, e, l), o[e], e === 0);
+            for (let e = i; e--; ) {
+                renderValue(t, n, getIndexName(n, e, i), o[e], e === 0);
             }
         }
         if (n.showOpeningClosingCurlyBraces) {
-            DomElement.createWithHTML(t, "div", "object-type-end", "]");
+            createClosingSymbol(t, "]", l);
         }
         addArrowEvent(n, e, t, r);
     }
@@ -1038,6 +1038,13 @@ var ToolTip;
             }
         }
         return n;
+    }
+    function createClosingSymbol(e, t, n = true) {
+        let o = DomElement.create(e, "div", "closing-symbol");
+        if (n) {
+            DomElement.create(o, "div", "no-arrow");
+        }
+        DomElement.createWithHTML(o, "div", "object-type-end", t);
     }
     function makeAreaDroppable(e, t) {
         if (t.fileDroppingEnabled) {

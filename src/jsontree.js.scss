@@ -302,8 +302,12 @@ div.json-tree-js {
         text-align: left !important;
         width: fit-content;
 
-        div.object-type-end {
-            font-weight: var(--json-tree-js-text-bold-weight);
+        div.closing-symbol div {
+            display: inline-block !important;
+
+            div.object-type-end {
+                font-weight: var(--json-tree-js-text-bold-weight);
+            }
         }
         
         div.object-type-value {

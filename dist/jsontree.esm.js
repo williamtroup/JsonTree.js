@@ -798,7 +798,7 @@ var require_jsontree = __commonJS({
                     if (t.showOpeningClosingCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "opening-brace", "{");
                     }
-                    renderObjectValues(a, s, t, n, o, c);
+                    renderObjectValues(a, s, t, n, o, c, false);
                 }
             }
             function renderArray(e, t, n) {
@@ -813,34 +813,34 @@ var require_jsontree = __commonJS({
                 if (t.showOpeningClosingCurlyBraces) {
                     l = DomElement.createWithHTML(r, "span", "opening-bracket", "[");
                 }
-                renderArrayValues(i, o, t, n, l);
+                renderArrayValues(i, o, t, n, l, false);
             }
-            function renderObjectValues(e, t, n, r, o, i) {
-                const l = o.length;
-                for (let e = 0; e < l; e++) {
+            function renderObjectValues(e, t, n, r, o, i, l = true) {
+                const s = o.length;
+                for (let e = 0; e < s; e++) {
                     const i = o[e];
                     if (r.hasOwnProperty(i)) {
-                        renderValue(t, n, i, r[i], e === l - 1);
+                        renderValue(t, n, i, r[i], e === s - 1);
                     }
                 }
                 if (n.showOpeningClosingCurlyBraces) {
-                    DomElement.createWithHTML(t, "div", "object-type-end", "}");
+                    createClosingSymbol(t, "}", l);
                 }
                 addArrowEvent(n, e, t, i);
             }
-            function renderArrayValues(e, t, n, r, o) {
-                const i = r.length;
+            function renderArrayValues(e, t, n, r, o, i = true) {
+                const l = r.length;
                 if (!n.reverseArrayValues) {
-                    for (let e = 0; e < i; e++) {
-                        renderValue(t, n, getIndexName(n, e, i), r[e], e === i - 1);
+                    for (let e = 0; e < l; e++) {
+                        renderValue(t, n, getIndexName(n, e, l), r[e], e === l - 1);
                     }
                 } else {
-                    for (let e = i; e--; ) {
-                        renderValue(t, n, getIndexName(n, e, i), r[e], e === 0);
+                    for (let e = l; e--; ) {
+                        renderValue(t, n, getIndexName(n, e, l), r[e], e === 0);
                     }
                 }
                 if (n.showOpeningClosingCurlyBraces) {
-                    DomElement.createWithHTML(t, "div", "object-type-end", "]");
+                    createClosingSymbol(t, "]", i);
                 }
                 addArrowEvent(n, e, t, o);
             }
@@ -1130,6 +1130,13 @@ var require_jsontree = __commonJS({
                     }
                 }
                 return n;
+            }
+            function createClosingSymbol(e, t, n = true) {
+                let r = DomElement.create(e, "div", "closing-symbol");
+                if (n) {
+                    DomElement.create(r, "div", "no-arrow");
+                }
+                DomElement.createWithHTML(r, "div", "object-type-end", t);
             }
             function makeAreaDroppable(e, t) {
                 if (t.fileDroppingEnabled) {

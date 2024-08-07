@@ -312,7 +312,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-brace", "{" ) as HTMLSpanElement
             }
 
-            renderObjectValues( arrow, objectTypeContents, bindingOptions, data, propertyNames, openingBrace );
+            renderObjectValues( arrow, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false );
         }
     }
 
@@ -332,10 +332,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-bracket", "[" ) as HTMLSpanElement
         }
 
-        renderArrayValues( arrow, objectTypeContents, bindingOptions, data, openingBracket );
+        renderArrayValues( arrow, objectTypeContents, bindingOptions, data, openingBracket, false );
     }
 
-    function renderObjectValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement ) : void {
+    function renderObjectValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean = true ) : void {
         const propertiesLength: number = propertyNames.length;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
@@ -347,13 +347,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-            DomElement.createWithHTML( objectTypeContents, "div", "object-type-end", "}" ) as HTMLSpanElement
+            createClosingSymbol( objectTypeContents, "}", addNoArrowToClosingSymbol );
         }
 
         addArrowEvent( bindingOptions, arrow, objectTypeContents, openingBrace );
     }
 
-    function renderArrayValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement ) : void {
+    function renderArrayValues( arrow: HTMLElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean = true ) : void {
         const dataLength: number = data.length;
 
         if ( !bindingOptions.reverseArrayValues ) {
@@ -368,7 +368,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-            DomElement.createWithHTML( objectTypeContents, "div", "object-type-end", "]" ) as HTMLSpanElement
+            createClosingSymbol( objectTypeContents, "]", addNoArrowToClosingSymbol );
         }
 
         addArrowEvent( bindingOptions, arrow, objectTypeContents, openingBracket );
@@ -752,6 +752,16 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return properties;
+    }
+
+    function createClosingSymbol( container: HTMLElement, symbol: string, addNoArrow: boolean = true ) : void {
+        let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
+        
+        if ( addNoArrow ) {
+            DomElement.create( symbolContainer, "div", "no-arrow" );
+        }
+        
+        DomElement.createWithHTML( symbolContainer, "div", "object-type-end", symbol );
     }
 
 

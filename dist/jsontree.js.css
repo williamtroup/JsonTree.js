@@ -269,7 +269,10 @@ div.json-tree-js div.object-type-contents {
   text-align: left !important;
   width: fit-content;
 }
-div.json-tree-js div.object-type-contents div.object-type-end {
+div.json-tree-js div.object-type-contents div.closing-symbol div {
+  display: inline-block !important;
+}
+div.json-tree-js div.object-type-contents div.closing-symbol div div.object-type-end {
   font-weight: var(--json-tree-js-text-bold-weight);
 }
 div.json-tree-js div.object-type-contents div.object-type-value {
