@@ -580,23 +580,26 @@ var ToolTip;
         renderControlContainer(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
-    function renderControlContainer(e) {
-        let t = _elements_Data[e._currentView.element.id].data;
+    function renderControlContainer(e, t = false) {
+        let n = _elements_Data[e._currentView.element.id].data;
         ToolTip.hide(e);
         e._currentView.element.innerHTML = "";
-        renderControlTitleBar(e, t);
-        const n = DomElement.create(e._currentView.element, "div", "contents");
-        makeAreaDroppable(n, e);
-        if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t)) {
-            t = t[e._currentView.dataArrayCurrentIndex];
+        renderControlTitleBar(e, n);
+        const o = DomElement.create(e._currentView.element, "div", "contents");
+        if (t) {
+            DomElement.addClass(o, "page-switch");
         }
-        if (Is.definedObject(t) && !Is.definedArray(t)) {
-            renderObject(n, e, t, true);
-        } else if (Is.definedArray(t)) {
-            renderArray(n, e, t);
+        makeAreaDroppable(o, e);
+        if (e.showArrayItemsAsSeparateObjects && Is.definedArray(n)) {
+            n = n[e._currentView.dataArrayCurrentIndex];
         }
-        if (n.innerHTML === "") {
-            DomElement.createWithHTML(n, "span", "no-json-text", _configuration.text.noJsonToViewText);
+        if (Is.definedObject(n) && !Is.definedArray(n)) {
+            renderObject(o, e, n, true);
+        } else if (Is.definedArray(n)) {
+            renderArray(o, e, n);
+        }
+        if (o.innerHTML === "") {
+            DomElement.createWithHTML(o, "span", "no-json-text", _configuration.text.noJsonToViewText);
             e._currentView.titleBarButtons.style.display = "none";
         } else {
             e._currentView.titleBarButtons.style.display = "block";
@@ -634,7 +637,7 @@ var ToolTip;
                 if (e._currentView.dataArrayCurrentIndex > 0) {
                     n.onclick = () => {
                         e._currentView.dataArrayCurrentIndex--;
-                        renderControlContainer(e);
+                        renderControlContainer(e, true);
                         Trigger.customEvent(e.events.onBackPage, e._currentView.element);
                     };
                 } else {
@@ -645,7 +648,7 @@ var ToolTip;
                 if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
                     o.onclick = () => {
                         e._currentView.dataArrayCurrentIndex++;
-                        renderControlContainer(e);
+                        renderControlContainer(e, true);
                         Trigger.customEvent(e.events.onNextPage, e._currentView.element);
                     };
                 } else {

@@ -114,7 +114,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
     }
 
-    function renderControlContainer( bindingOptions: BindingOptions ) : void {
+    function renderControlContainer( bindingOptions: BindingOptions, isForPageSwitch: boolean = false ) : void {
         let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
 
         ToolTip.hide( bindingOptions );
@@ -124,6 +124,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         renderControlTitleBar( bindingOptions, data );
 
         const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
+
+        if ( isForPageSwitch ) {
+            DomElement.addClass( contents, "page-switch" );
+        }
 
         makeAreaDroppable( contents, bindingOptions );
 
@@ -201,7 +205,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     back.onclick = () => {
                         bindingOptions._currentView.dataArrayCurrentIndex--;
     
-                        renderControlContainer( bindingOptions );
+                        renderControlContainer( bindingOptions, true );
                         Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
                     };
 
@@ -217,7 +221,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     next.onclick = () => {
                         bindingOptions._currentView.dataArrayCurrentIndex++;
                         
-                        renderControlContainer( bindingOptions );
+                        renderControlContainer( bindingOptions, true );
                         Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
                     };
 

@@ -94,6 +94,9 @@ div.json-tree-js button {
 div.json-tree-js div.no-click {
   pointer-events: none !important;
 }
+div.json-tree-js div.page-switch {
+  animation: fade-in-animation var(--json-tree-js-animation-length);
+}
 div.json-tree-js * {
   box-sizing: border-box;
   line-height: normal;
@@ -400,6 +403,20 @@ div.jsontree-js-tooltip {
   font-size: var(--json-tree-js-spacing-font-size);
   font-weight: var(--json-tree-js-text-bold-weight);
   display: none;
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Animations
+    -------------------------------------------------------------------------
+*/
+@keyframes fade-in-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /*# sourceMappingURL=jsontree.js.css.map */

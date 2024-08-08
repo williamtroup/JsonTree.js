@@ -114,6 +114,10 @@ div.json-tree-js {
         pointer-events: none !important;
     }
 
+    div.page-switch {
+        animation: fade-in-animation var(--json-tree-js-animation-length);
+    }
+
     * {
         @include box-sizing;
 
@@ -444,4 +448,20 @@ div.jsontree-js-tooltip {
     font-size: var(--json-tree-js-spacing-font-size);
     font-weight: var(--json-tree-js-text-bold-weight);
     display: none;
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Animations
+    -------------------------------------------------------------------------
+*/
+
+@keyframes fade-in-animation {
+    0% { 
+        opacity: 0;
+    }
+    100% { 
+        opacity: 1;
+    }
 }
