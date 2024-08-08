@@ -170,23 +170,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
 
                 copy.onclick = () => {
-                    let copyData: string = null!;
-                    let replaceFunction: any = jsonStringifyReplacer;
-
-                    if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
-                        replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
-                    }
-
-                    if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-                        copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.copyIndentSpaces );
-                    }
-                    else {
-                        copyData = JSON.stringify( data, replaceFunction, bindingOptions.copyIndentSpaces );
-                    }
-
-                    navigator.clipboard.writeText( copyData );
-
-                    Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
+                    onTitleBarCopyClick( bindingOptions, data );
                 };
             }
 
@@ -248,6 +232,26 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
         }
+    }
+
+    function onTitleBarCopyClick( bindingOptions: BindingOptions, data: any ) : void {
+        let copyData: string = null!;
+        let replaceFunction: any = jsonStringifyReplacer;
+
+        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
+            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
+        }
+
+        if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
+            copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.copyIndentSpaces );
+        }
+        else {
+            copyData = JSON.stringify( data, replaceFunction, bindingOptions.copyIndentSpaces );
+        }
+
+        navigator.clipboard.writeText( copyData );
+
+        Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
     }
 
     function jsonStringifyReplacer( _: string, value: any ) : void {

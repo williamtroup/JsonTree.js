@@ -613,18 +613,7 @@ var ToolTip;
                 const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
                 ToolTip.add(n, e, _configuration.text.copyAllButtonText);
                 n.onclick = () => {
-                    let n = null;
-                    let o = jsonStringifyReplacer;
-                    if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
-                        o = e.events.onCopyJsonReplacer;
-                    }
-                    if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-                        n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.copyIndentSpaces);
-                    } else {
-                        n = JSON.stringify(t, o, e.copyIndentSpaces);
-                    }
-                    navigator.clipboard.writeText(n);
-                    Trigger.customEvent(e.events.onCopyAll, n);
+                    onTitleBarCopyClick(e, t);
                 };
             }
             if (e.title.showTreeControls) {
@@ -668,6 +657,20 @@ var ToolTip;
                 }
             }
         }
+    }
+    function onTitleBarCopyClick(e, t) {
+        let n = null;
+        let o = jsonStringifyReplacer;
+        if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
+            o = e.events.onCopyJsonReplacer;
+        }
+        if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
+            n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.copyIndentSpaces);
+        } else {
+            n = JSON.stringify(t, o, e.copyIndentSpaces);
+        }
+        navigator.clipboard.writeText(n);
+        Trigger.customEvent(e.events.onCopyAll, n);
     }
     function jsonStringifyReplacer(e, t) {
         if (Is.definedBigInt(t)) {
