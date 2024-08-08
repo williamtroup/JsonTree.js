@@ -11,7 +11,7 @@
  */
 
 
-import { Configuration, type BindingOptions } from "../type";
+import { type Configuration } from "../type";
 import { Char } from "./enum";
 import { Is } from "./is";
 
