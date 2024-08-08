@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "dec"
         ],
+        "objectText": "voorwerp",
+        "arrayText": "reeks",
+        "closeAllButtonText": "Sluit alles",
+        "openAllButtonText": "Maak alles open",
+        "copyAllButtonText": "Kopieer alles",
+        "objectErrorText": "Fouten in object: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Het attribuut '{{attribute_name}}' is geen geldig object.",
+        "attributeNotSetErrorText": "Het attribuut '{{attribute_name}}' is niet correct ingesteld.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Rug",
+        "nextButtonText": "Volgende",
+        "noJsonToViewText": "Er is momenteel geen JSON om te bekijken.",
+        "functionText": "functie"
     }
 } );

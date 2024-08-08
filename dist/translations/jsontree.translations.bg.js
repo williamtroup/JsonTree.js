@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "ноем",
             "дек"
         ],
+        "objectText": "обект",
+        "arrayText": "масив",
+        "closeAllButtonText": "Затвори всички",
+        "openAllButtonText": "Отворете всички",
+        "copyAllButtonText": "Копиране на всички",
+        "objectErrorText": "Грешки в обекта: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Атрибутът \"{{attribute_name}}' не е валиден обект.",
+        "attributeNotSetErrorText": "Атрибутът \"{{attribute_name}}' не е зададен правилно.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "обратно",
+        "nextButtonText": "Следващия",
+        "noJsonToViewText": "В момента няма JSON за преглед.",
+        "functionText": "функция"
     }
 } );

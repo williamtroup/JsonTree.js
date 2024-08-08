@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "నవంబర్",
             "డిసెంబర్"
         ],
+        "objectText": "వస్తువు",
+        "arrayText": "అమరిక",
+        "closeAllButtonText": "అన్నీ మూసివేయి",
+        "openAllButtonText": "అన్నీ తెరవండి",
+        "copyAllButtonText": "అన్నీ కాపీ చేయండి",
+        "objectErrorText": "వస్తువులో లోపాలు: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "లక్షణం'{{attribute_name}}' చెల్లుబాటు అయ్యే వస్తువు కాదు.",
+        "attributeNotSetErrorText": "లక్షణం'{{attribute_name}}' సరిగ్గా సెట్ చేయబడలేదు.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "వెనుకకు",
+        "nextButtonText": "తరువాత",
+        "noJsonToViewText": "వీక్షించడానికి ప్రస్తుతం JSON లేదు.",
+        "functionText": "ఫంక్షన్"
     }
 } );

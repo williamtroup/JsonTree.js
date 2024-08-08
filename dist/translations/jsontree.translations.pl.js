@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Lis",
             "Gru"
         ],
+        "objectText": "obiekt",
+        "arrayText": "szyk",
+        "closeAllButtonText": "Zamknij wszystko",
+        "openAllButtonText": "Otwórz wszystko",
+        "copyAllButtonText": "Skopiuj wszystko",
+        "objectErrorText": "Błędy w obiekcie: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Atrybut '{{attribute_name}}' nie jest prawidłowym obiektem.",
+        "attributeNotSetErrorText": "Atrybut '{{attribute_name}}' nie został ustawiony prawidłowo.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Z powrotem",
+        "nextButtonText": "Następny",
+        "noJsonToViewText": "Obecnie nie ma żadnego pliku JSON do wyświetlenia.",
+        "functionText": "funkcjonować"
     }
 } );

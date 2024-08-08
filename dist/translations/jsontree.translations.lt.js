@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Lapkričio mėn",
             "gruod"
         ],
+        "objectText": "objektas",
+        "arrayText": "masyvas",
+        "closeAllButtonText": "Uždaryti viską",
+        "openAllButtonText": "Atidaryti viską",
+        "copyAllButtonText": "Kopijuoti viską",
+        "objectErrorText": "Klaidos objekte: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atributas '{{attribute_name}}“ nėra tinkamas objektas.",
+        "attributeNotSetErrorText": "atributas '{{attribute_name}}“ nebuvo nustatytas teisingai.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Atgal",
+        "nextButtonText": "Kitas",
+        "noJsonToViewText": "Šiuo metu nėra JSON, kurį būtų galima peržiūrėti.",
+        "functionText": "funkcija"
     }
 } );

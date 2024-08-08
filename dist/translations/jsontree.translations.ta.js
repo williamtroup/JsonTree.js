@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "நவ",
             "டிச"
         ],
+        "objectText": "பொருள்",
+        "arrayText": "வரிசை",
+        "closeAllButtonText": "அனைத்தையும் மூடு",
+        "openAllButtonText": "அனைத்தையும் திற",
+        "copyAllButtonText": "அனைத்தையும் நகலெடுக்கவும்",
+        "objectErrorText": "பொருளில் பிழைகள்: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "பண்பு'{{attribute_name}}' என்பது செல்லுபடியாகும் பொருள் அல்ல.",
+        "attributeNotSetErrorText": "பண்பு'{{attribute_name}}' சரியாக அமைக்கப்படவில்லை.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "மீண்டும்",
+        "nextButtonText": "அடுத்தது",
+        "noJsonToViewText": "பார்க்க தற்போது JSON இல்லை.",
+        "functionText": "செயல்பாடு"
     }
 } );

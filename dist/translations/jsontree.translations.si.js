@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "නොවැම්බර්",
             "දෙසැ"
         ],
+        "objectText": "වස්තුව",
+        "arrayText": "අරාව",
+        "closeAllButtonText": "සියල්ල වසන්න",
+        "openAllButtonText": "සියල්ල විවෘත කරන්න",
+        "copyAllButtonText": "සියල්ල පිටපත් කරන්න",
+        "objectErrorText": "වස්තුවේ දෝෂ: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "ගුණාංගය'{{attribute_name}}' වලංගු වස්තුවක් නොවේ.",
+        "attributeNotSetErrorText": "ගුණාංගය'{{attribute_name}}' නිවැරදිව සකසා නැත.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "ආපසු",
+        "nextButtonText": "ඊළඟ",
+        "noJsonToViewText": "බැලීම සඳහා දැනට JSON නොමැත.",
+        "functionText": "කාර්යය"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "नोभेम्बर",
             "डिसेम्बर"
         ],
+        "objectText": "वस्तु",
+        "arrayText": "array",
+        "closeAllButtonText": "सबै बन्द गर्नुहोस्",
+        "openAllButtonText": "सबै खोल्नुहोस्",
+        "copyAllButtonText": "सबै प्रतिलिपि गर्नुहोस्",
+        "objectErrorText": "वस्तुमा त्रुटिहरू: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "विशेषता'{{attribute_name}}' मान्य वस्तु होइन।",
+        "attributeNotSetErrorText": "विशेषता'{{attribute_name}}' ठीकसँग सेट गरिएको छैन।",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "पछाडि",
+        "nextButtonText": "अर्को",
+        "noJsonToViewText": "हेर्नको लागि हाल कुनै JSON छैन।",
+        "functionText": "समारोह"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "marraskuu",
             "joulukuuta"
         ],
+        "objectText": "esine",
+        "arrayText": "joukko",
+        "closeAllButtonText": "Sulje kaikki",
+        "openAllButtonText": "Avaa kaikki",
+        "copyAllButtonText": "Kopioi kaikki",
+        "objectErrorText": "Virheet objektissa: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "attribuutti '{{attribute_name}}' ei ole kelvollinen objekti.",
+        "attributeNotSetErrorText": "attribuutti '{{attribute_name}}' ei ole asetettu oikein.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Takaisin",
+        "nextButtonText": "Seuraava",
+        "noJsonToViewText": "Tällä hetkellä ei ole katsottavaa JSON-tiedostoa.",
+        "functionText": "toiminto"
     }
 } );

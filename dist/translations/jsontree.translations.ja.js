@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "11月",
             "12月"
         ],
+        "objectText": "物体",
+        "arrayText": "配列",
+        "closeAllButtonText": "すべて閉じる",
+        "openAllButtonText": "すべて開く",
+        "copyAllButtonText": "すべてコピー",
+        "objectErrorText": "オブジェクト内のエラー: {{error_1}}、 {{error_2}}",
+        "attributeNotValidErrorText": "属性「{{attribute_name}}' は有効なオブジェクトではありません。",
+        "attributeNotSetErrorText": "属性「{{attribute_name}}'が正しく設定されていません。",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "戻る",
+        "nextButtonText": "次",
+        "noJsonToViewText": "現在、表示できる JSON はありません。",
+        "functionText": "関数"
     }
 } );

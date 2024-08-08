@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Листопад",
             "груд"
         ],
+        "objectText": "об'єкт",
+        "arrayText": "масив",
+        "closeAllButtonText": "Закрити всі",
+        "openAllButtonText": "Відкрити все",
+        "copyAllButtonText": "Копіювати все",
+        "objectErrorText": "Помилки в об'єкті: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Атрибут '{{attribute_name}}' не є дійсним об'єктом.",
+        "attributeNotSetErrorText": "Атрибут '{{attribute_name}}' не встановлено правильно.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Назад",
+        "nextButtonText": "Далі",
+        "noJsonToViewText": "Наразі немає JSON для перегляду.",
+        "functionText": "функція"
     }
 } );

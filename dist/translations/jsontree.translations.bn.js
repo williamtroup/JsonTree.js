@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "নভেম্বর",
             "ডিসেম্বর"
         ],
+        "objectText": "বস্তু",
+        "arrayText": "অ্যারে",
+        "closeAllButtonText": "সব বন্ধ করা",
+        "openAllButtonText": "সব খোলো",
+        "copyAllButtonText": "সব কপি করুন",
+        "objectErrorText": "বস্তুর ত্রুটি: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "বৈশিষ্ট্য '{{attribute_name}}' একটি বৈধ বস্তু নয়।",
+        "attributeNotSetErrorText": "বৈশিষ্ট্য '{{attribute_name}}' সঠিকভাবে সেট করা হয়নি।",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "পেছনে",
+        "nextButtonText": "পরবর্তী",
+        "noJsonToViewText": "দেখার জন্য বর্তমানে কোন JSON নেই।",
+        "functionText": "ফাংশন"
     }
 } );

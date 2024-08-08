@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Nov",
             "Dez"
         ],
+        "objectText": "Objet",
+        "arrayText": "Array",
+        "closeAllButtonText": "Zoumaachen All",
+        "openAllButtonText": "All opmaachen",
+        "copyAllButtonText": "Alles kopéieren",
+        "objectErrorText": "Feeler am Objet: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Den Attribut'{{attribute_name}}' ass kee gëlteg Objet.",
+        "attributeNotSetErrorText": "Den Attribut'{{attribute_name}}' ass net richteg agestallt ginn.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Zréck",
+        "nextButtonText": "Nächst",
+        "noJsonToViewText": "Et gëtt momentan keen JSON fir ze kucken.",
+        "functionText": "Funktioun"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Kasım",
             "Aralık"
         ],
+        "objectText": "nesne",
+        "arrayText": "sıralamak",
+        "closeAllButtonText": "Hepsini kapat",
+        "openAllButtonText": "Hepsini aç",
+        "copyAllButtonText": "Hepsini kopyala",
+        "objectErrorText": "Nesnedeki hatalar: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Özellik '{{attribute_name}}' geçerli bir nesne değil.",
+        "attributeNotSetErrorText": "Özellik '{{attribute_name}}' doğru şekilde ayarlanmadı.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Geri",
+        "nextButtonText": "Sonraki",
+        "noJsonToViewText": "Şu anda görüntülenecek JSON yok.",
+        "functionText": "işlev"
     }
 } );

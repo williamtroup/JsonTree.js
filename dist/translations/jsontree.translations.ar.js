@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "نوفمبر",
             "ديسمبر"
         ],
+        "objectText": "هدف",
+        "arrayText": "مجموعة مصفوفة",
+        "closeAllButtonText": "إغلاق الكل",
+        "openAllButtonText": "افتح الكل",
+        "copyAllButtonText": "نسخ جميع",
+        "objectErrorText": "أخطاء في الكائن: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "السمة '{{attribute_name}}' ليس كائنًا صالحًا.",
+        "attributeNotSetErrorText": "السمة '{{attribute_name}}\"لم يتم ضبطه بشكل صحيح.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "خلف",
+        "nextButtonText": "التالي",
+        "noJsonToViewText": "لا يوجد حاليا أي JSON لعرضه.",
+        "functionText": "وظيفة"
     }
 } );

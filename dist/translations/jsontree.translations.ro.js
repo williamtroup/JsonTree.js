@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "Dec"
         ],
+        "objectText": "obiect",
+        "arrayText": "matrice",
+        "closeAllButtonText": "Inchide tot",
+        "openAllButtonText": "Deschideți toate",
+        "copyAllButtonText": "Copiați tot",
+        "objectErrorText": "Erori la obiect: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Atributul '{{attribute_name}}' nu este un obiect valid.",
+        "attributeNotSetErrorText": "Atributul '{{attribute_name}}' nu a fost setat corect.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Înapoi",
+        "nextButtonText": "Următorul",
+        "noJsonToViewText": "În prezent, nu există niciun JSON de vizualizat.",
+        "functionText": "funcţie"
     }
 } );

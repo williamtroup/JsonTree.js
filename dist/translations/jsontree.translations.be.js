@@ -56,5 +56,21 @@ $jsontree.setConfiguration( {
             "лістапада",
             "снежань"
         ],
+        "objectText": "аб'ект",
+        "arrayText": "масіў",
+        "closeAllButtonText": "Зачыніць усе",
+        "openAllButtonText": "Адкрыць усе",
+        "copyAllButtonText": "Скапіраваць усё",
+        "objectErrorText": "Памылкі ў аб'екце: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Атрыбут '{{attribute_name}}' не з'яўляецца дапушчальным аб'ектам.",
+        "attributeNotSetErrorText": "Атрыбут '{{attribute_name}}' не быў усталяваны правільна.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Назад",
+        "nextButtonText": "Далей",
+        "noJsonToViewText": "Зараз няма JSON для прагляду.",
+        "functionText": "функцыя"
     }
 } );

@@ -47,5 +47,20 @@ $jsontree.setConfiguration( {
             "Nov",
             "Dec"
         ],
+        "arrayText": "array",
+        "closeAllButtonText": "Alles slute",
+        "openAllButtonText": "Iepenje Alles",
+        "copyAllButtonText": "Alles kopiearje",
+        "objectErrorText": "Flaters yn objekt: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "It attribút '{{attribute_name}}' is gjin jildich objekt.",
+        "attributeNotSetErrorText": "It attribút '{{attribute_name}}' is net goed ynsteld.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Efter",
+        "nextButtonText": "Folgjende",
+        "noJsonToViewText": "D'r is op it stuit gjin JSON om te besjen.",
+        "functionText": "funksje"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "十一月",
             "十二月"
         ],
+        "objectText": "目的",
+        "arrayText": "大批",
+        "closeAllButtonText": "關閉所有",
+        "openAllButtonText": "打開全部",
+        "copyAllButtonText": "全部複製",
+        "objectErrorText": "物件中的錯誤： {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "屬性 '{{attribute_name}}' 不是一個有效的物件。",
+        "attributeNotSetErrorText": "屬性 '{{attribute_name}}' 尚未正確設定。",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "後退",
+        "nextButtonText": "下一個",
+        "noJsonToViewText": "目前沒有可查看的 JSON。",
+        "functionText": "功能"
     }
 } );

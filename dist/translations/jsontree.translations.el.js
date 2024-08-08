@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Νοε",
             "Δεκ"
         ],
+        "objectText": "αντικείμενο",
+        "arrayText": "πίνακας",
+        "closeAllButtonText": "Κλείσ'τα όλα",
+        "openAllButtonText": "Άνοιγμα όλων",
+        "copyAllButtonText": "Αντιγραφή όλων",
+        "objectErrorText": "Σφάλματα στο αντικείμενο: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Η ιδιότητα '{{attribute_name}}' δεν είναι έγκυρο αντικείμενο.",
+        "attributeNotSetErrorText": "Η ιδιότητα '{{attribute_name}}' δεν έχει ρυθμιστεί σωστά.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Πίσω",
+        "nextButtonText": "Επόμενο",
+        "noJsonToViewText": "Αυτήν τη στιγμή δεν υπάρχει JSON για προβολή.",
+        "functionText": "λειτουργία"
     }
 } );

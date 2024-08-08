@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "ნოემ",
             "დეკ"
         ],
+        "objectText": "ობიექტი",
+        "arrayText": "მასივი",
+        "closeAllButtonText": "Დახურე ყველა",
+        "openAllButtonText": "გახსენი ყველა",
+        "copyAllButtonText": "დააკოპირეთ ყველა",
+        "objectErrorText": "შეცდომები ობიექტში: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "ატრიბუტი '{{attribute_name}}' არ არის სწორი ობიექტი.",
+        "attributeNotSetErrorText": "ატრიბუტი '{{attribute_name}}' არ არის სწორად დაყენებული.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "უკან",
+        "nextButtonText": "შემდეგი",
+        "noJsonToViewText": "ამჟამად არ არის JSON სანახავი.",
+        "functionText": "ფუნქცია"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "dec"
         ],
+        "objectText": "objekt",
+        "arrayText": "array",
+        "closeAllButtonText": "Luk alle",
+        "openAllButtonText": "Åbn alle",
+        "copyAllButtonText": "Kopier alle",
+        "objectErrorText": "Fejl i objektet: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Attributten '{{attribute_name}}' er ikke et gyldigt objekt.",
+        "attributeNotSetErrorText": "Attributten '{{attribute_name}}' er ikke indstillet korrekt.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Tilbage",
+        "nextButtonText": "Næste",
+        "noJsonToViewText": "Der er i øjeblikket ingen JSON at se.",
+        "functionText": "fungere"
     }
 } );

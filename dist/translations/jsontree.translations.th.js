@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "พ.ย",
             "ธ.ค"
         ],
+        "objectText": "วัตถุ",
+        "arrayText": "อาร์เรย์",
+        "closeAllButtonText": "ปิดทั้งหมด",
+        "openAllButtonText": "เปิดทั้งหมด",
+        "copyAllButtonText": "คัดลอกทั้งหมด",
+        "objectErrorText": "ข้อผิดพลาดในวัตถุ: {{error_1}}- {{error_2}}",
+        "attributeNotValidErrorText": "คุณลักษณะ '{{attribute_name}}' ไม่ใช่วัตถุที่ถูกต้อง",
+        "attributeNotSetErrorText": "คุณลักษณะ '{{attribute_name}}' ไม่ได้ตั้งค่าอย่างถูกต้อง",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "กลับ",
+        "nextButtonText": "ต่อไป",
+        "noJsonToViewText": "ขณะนี้ไม่มี JSON ให้ดู",
+        "functionText": "การทำงาน"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "decembris"
         ],
+        "objectText": "objektu",
+        "arrayText": "masīvs",
+        "closeAllButtonText": "Aizvērt visu",
+        "openAllButtonText": "Atvērt visu",
+        "copyAllButtonText": "Kopēt visu",
+        "objectErrorText": "Kļūdas objektā: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atribūts '{{attribute_name}}' nav derīgs objekts.",
+        "attributeNotSetErrorText": "atribūts '{{attribute_name}}' nav pareizi iestatīts.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Atpakaļ",
+        "nextButtonText": "Nākamais",
+        "noJsonToViewText": "Pašlaik nav neviena JSON, ko skatīt.",
+        "functionText": "funkciju"
     }
 } );

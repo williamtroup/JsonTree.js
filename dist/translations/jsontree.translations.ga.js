@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Samhain",
             "Dec"
         ],
+        "objectText": "réad",
+        "arrayText": "eagar",
+        "closeAllButtonText": "Dún Uile",
+        "openAllButtonText": "Oscail Uile",
+        "copyAllButtonText": "Cóipeáil Uile",
+        "objectErrorText": "Earráidí san oibiacht: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "an tréith '{{attribute_name}}Ní réad bailí é '.",
+        "attributeNotSetErrorText": "an tréith '{{attribute_name}}' nach bhfuil socraithe i gceart.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Ar ais",
+        "nextButtonText": "Ar aghaidh",
+        "noJsonToViewText": "Níl aon JSON le féachaint air faoi láthair.",
+        "functionText": "feidhm"
     }
 } );

@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "dec"
         ],
+        "objectText": "predmet",
+        "arrayText": "niz",
+        "closeAllButtonText": "Zapri vse",
+        "openAllButtonText": "Odpri vse",
+        "copyAllButtonText": "Kopiraj vse",
+        "objectErrorText": "Napake v objektu: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Atribut '{{attribute_name}}' ni veljaven predmet.",
+        "attributeNotSetErrorText": "Atribut '{{attribute_name}}' ni pravilno nastavljen.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Nazaj",
+        "nextButtonText": "Naslednji",
+        "noJsonToViewText": "Trenutno ni JSON za ogled.",
+        "functionText": "funkcijo"
     }
 } );

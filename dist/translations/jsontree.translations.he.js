@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "נובמבר",
             "דצמבר"
         ],
+        "objectText": "לְהִתְנַגֵד",
+        "arrayText": "מַעֲרָך",
+        "closeAllButtonText": "סגור הכל",
+        "openAllButtonText": "תפתח הכל",
+        "copyAllButtonText": "העתק הכל",
+        "objectErrorText": "שגיאות באובייקט: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "התכונה'{{attribute_name}}' אינו אובייקט חוקי.",
+        "attributeNotSetErrorText": "התכונה'{{attribute_name}}' לא הוגדר כהלכה.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "חזור",
+        "nextButtonText": "הַבָּא",
+        "noJsonToViewText": "כרגע אין JSON לצפייה.",
+        "functionText": "פוּנקצִיָה"
     }
 } );

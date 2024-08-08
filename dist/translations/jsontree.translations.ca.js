@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "des"
         ],
+        "objectText": "objecte",
+        "arrayText": "matriu",
+        "closeAllButtonText": "Tanca-ho tot",
+        "openAllButtonText": "Obre Tot",
+        "copyAllButtonText": "Copia-ho tot",
+        "objectErrorText": "Errors a l'objecte: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "L'atribut '{{attribute_name}}' no és un objecte vàlid.",
+        "attributeNotSetErrorText": "L'atribut '{{attribute_name}}' no s'ha configurat correctament.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "esquena",
+        "nextButtonText": "Pròxim",
+        "noJsonToViewText": "Actualment no hi ha cap JSON per veure.",
+        "functionText": "funció"
     }
 } );

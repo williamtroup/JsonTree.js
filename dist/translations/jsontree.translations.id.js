@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "November",
             "Desember"
         ],
+        "objectText": "obyek",
+        "arrayText": "Himpunan",
+        "closeAllButtonText": "Tutup semua",
+        "openAllButtonText": "Buka semua",
+        "copyAllButtonText": "Salin Semua",
+        "objectErrorText": "Kesalahan pada objek: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "Atribut '{{attribute_name}}' bukan objek yang valid.",
+        "attributeNotSetErrorText": "Atribut '{{attribute_name}}' belum diatur dengan benar.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Kembali",
+        "nextButtonText": "Berikutnya",
+        "noJsonToViewText": "Saat ini tidak ada JSON untuk dilihat.",
+        "functionText": "fungsi"
     }
 } );

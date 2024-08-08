@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "nov",
             "dets"
         ],
+        "objectText": "objektiks",
+        "arrayText": "massiivi",
+        "closeAllButtonText": "Sule kõik",
+        "openAllButtonText": "Ava kõik",
+        "copyAllButtonText": "Kopeeri kõik",
+        "objectErrorText": "Vead objektil: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atribuut '{{attribute_name}}' ei ole kehtiv objekt.",
+        "attributeNotSetErrorText": "atribuut '{{attribute_name}}' pole õigesti seadistatud.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "tagasi",
+        "nextButtonText": "Edasi",
+        "noJsonToViewText": "Praegu pole vaatamiseks ühtegi JSON-i.",
+        "functionText": "funktsiooni"
     }
 } );

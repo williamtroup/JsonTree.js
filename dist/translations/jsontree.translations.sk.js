@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "Nov",
             "dec"
         ],
+        "objectText": "objekt",
+        "arrayText": "pole",
+        "closeAllButtonText": "Zavrieť všetko",
+        "openAllButtonText": "Otvoriť všetko",
+        "copyAllButtonText": "Kopírovať všetko",
+        "objectErrorText": "Chyby v objekte: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "atribút '{{attribute_name}}' nie je platný objekt.",
+        "attributeNotSetErrorText": "atribút '{{attribute_name}}“ nie je správne nastavené.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "späť",
+        "nextButtonText": "Ďalšie",
+        "noJsonToViewText": "Momentálne nie je k dispozícii žiadny JSON na zobrazenie.",
+        "functionText": "funkciu"
     }
 } );

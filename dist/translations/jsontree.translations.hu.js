@@ -47,5 +47,21 @@ $jsontree.setConfiguration( {
             "November",
             "December"
         ],
+        "objectText": "tárgy",
+        "arrayText": "sor",
+        "closeAllButtonText": "Összes bezárása",
+        "openAllButtonText": "Nyissa meg az összeset",
+        "copyAllButtonText": "Összes másolása",
+        "objectErrorText": "Hibák az objektumban: {{error_1}}, {{error_2}}",
+        "attributeNotValidErrorText": "attribútum{{attribute_name}}' nem érvényes objektum.",
+        "attributeNotSetErrorText": "attribútum{{attribute_name}}' nincs megfelelően beállítva.",
+        "stText": "",
+        "ndText": "",
+        "rdText": "",
+        "thText": "",
+        "backButtonText": "Vissza",
+        "nextButtonText": "Következő",
+        "noJsonToViewText": "Jelenleg nincs megtekinthető JSON.",
+        "functionText": "funkció"
     }
 } );
