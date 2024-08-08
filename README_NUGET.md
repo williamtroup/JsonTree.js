@@ -53,6 +53,61 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `any` Unknown
 
 
+## What languages are supported?
+
+- `af` Afrikaans
+- `ar` Arabic
+- `hy` Armenian
+- `be` Belarusian
+- `bn` Bengali
+- `bg` Bulgarian
+- `ca` Catalan
+- `zh` Chinese (simplified)
+- `da` Danish
+- `nl` Dutch
+- `en` English (default)
+- `eo` Esperanto
+- `et` Estonian
+- `fa` Farsi
+- `fi` Finnish
+- `fr` French
+- `fy` Frisian
+- `gl` Galician
+- `ka` Georgian
+- `de` German
+- `el` Greek
+- `he` Hebrew
+- `hi` Hindi
+- `hu` Hungarian
+- `is` Icelandic
+- `id` Indonesian
+- `ga` Irish
+- `it` Italian
+- `ja` Japanese
+- `ko` Korean
+- `lv` Latvian
+- `lt` Lithuanian
+- `lb` Luxembourgish
+- `ms` Malay
+- `ne` Nepali
+- `no` Norwegian
+- `pl` Polish
+- `pt` Portuguese
+- `ro` Romanian
+- `si` Sinhalese
+- `sk` Slovak
+- `sl` Slovenian
+- `es` Spanish
+- `sv` Swedish
+- `tl` Tagalog
+- `ta` Tamil
+- `zh-tw` Taiwanese
+- `te` Telugu
+- `th` Thai
+- `tr` Turkish
+- `uk` Ukrainian
+
+
 ## What are the most recent changes?
 
 To see a list of all the most recent changes, click [here](https://www.william-troup.com/jsontree-js/documentation/recent-changes.html).
