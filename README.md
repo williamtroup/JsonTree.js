@@ -61,7 +61,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `number` Decimals
 - `null` Nulls
 - `symbol` Symbols
-- `function` Functions
+- `function` Functions and Lambdas
 - `undefined` Undefined
 - `any` Unknown
 <br>
