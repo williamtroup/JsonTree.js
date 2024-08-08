@@ -1,5 +1,6 @@
 /*! JsonTree.js v2.5.0 - Tagalog | (c) Bunoon 2024 | MIT License */
-var __TRANSLATION_OPTIONS = {
+$jsontree.setConfiguration( {
+    "text": {
     "dayHeaderNames": [
         "Mon",
         "Tue",
@@ -235,4 +236,5 @@ var __TRANSLATION_OPTIONS = {
     "previousPropertyTooltipText": "Nakaraang Ari-arian",
     "jumpToDateTitle": "Tumalon sa Petsa",
     "goText": "Pumunta ka"
-};
+    }
+} );
