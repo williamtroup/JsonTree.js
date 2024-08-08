@@ -11,6 +11,7 @@
  */
 
 
+import { Configuration, type BindingOptions } from "../type";
 import { Char } from "./enum";
 import { Is } from "./is";
 
@@ -69,10 +70,11 @@ export namespace Default {
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
 
-    export function getFunctionName( value: any ) : string {
+    export function getFunctionName( value: any, configuration: Configuration ) : string {
         let result: string;
         const valueParts: string[] = value.toString().split( "(" );
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
+        const functionBrackets: string = "()";
 
         if ( valueNameParts.length === 2 ) {
             result = valueNameParts[ 1 ];
@@ -80,7 +82,11 @@ export namespace Default {
             result = valueNameParts[ 0 ];
         }
 
-        result += "()";
+        result += functionBrackets;
+
+        if ( result.trim() === functionBrackets ) {
+            result = `${configuration.text!.functionText!}${functionBrackets}`;
+        }
 
         return result;
     }

@@ -48,6 +48,7 @@ export type ConfigurationText = {
 	backButtonSymbolText?: string;
 	nextButtonSymbolText?: string;
 	noJsonToViewText?: string;
+	functionText?: string;
 };
 
 export type BindingOptions = {

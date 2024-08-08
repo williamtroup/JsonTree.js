@@ -51,6 +51,7 @@ export namespace Config {
             configuration.text!.backButtonSymbolText = Default.getAnyString( configuration.text!.backButtonSymbolText, "←" );
             configuration.text!.nextButtonSymbolText = Default.getAnyString( configuration.text!.nextButtonSymbolText, "→" );
             configuration.text!.noJsonToViewText = Default.getAnyString( configuration.text!.noJsonToViewText, "There is currently no JSON to view." );
+            configuration.text!.functionText = Default.getAnyString( configuration.text!.functionText, "function" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

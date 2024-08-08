@@ -256,7 +256,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedSymbol( value ) ) {
             value = value.toString();
         } else if ( Is.definedFunction( value ) ) {
-            value = Default.getFunctionName( value );
+            value = Default.getFunctionName( value, _configuration );
         }
 
         return value;
@@ -420,7 +420,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedFunction( value ) ) {
             if ( !bindingOptions.ignore!.functionValues ) {
                 valueClass = bindingOptions.showValueColors ? "function" : Char.empty;
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value ) );
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value, _configuration ) );
                 type = DataType.function;
 
                 if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {

@@ -14,14 +14,17 @@ function bindingOptions( showValueColors = true ) {
                 value3: new Date(),
                 value4: 5,
                 value7: null,
-                value8: function() {
-                    // Does nothing
+                value8: function( message ) {
+                    alert( message );
                 },
                 value9: 3.1415926535,
                 value10: 9007199254740991n,
                 value11: Symbol( "id" ),
                 value12: {},
                 value13: undefined,
+                value14: ( message ) => {
+                    alert( message );
+                },
                 value5: [
                     true,
                     "This is another string",

@@ -124,17 +124,21 @@ var Default;
         return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
     }
     e.getFixedDecimalPlacesValue = u;
-    function c(e) {
-        let t;
-        const n = e.toString().split("(");
-        const o = n[0].split(" ");
-        if (o.length === 2) {
-            t = o[1];
+    function c(e, t) {
+        let n;
+        const o = e.toString().split("(");
+        const r = o[0].split(" ");
+        const l = "()";
+        if (r.length === 2) {
+            n = r[1];
         } else {
-            t = o[0];
+            n = r[0];
         }
-        t += "()";
-        return t;
+        n += l;
+        if (n.trim() === l) {
+            n = `${t.text.functionText}${l}`;
+        }
+        return n;
     }
     e.getFunctionName = c;
 })(Default || (Default = {}));
@@ -437,6 +441,7 @@ var Config;
             e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
             e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
             e.text.noJsonToViewText = Default.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
+            e.text.functionText = Default.getAnyString(e.text.functionText, "function");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -670,7 +675,7 @@ var ToolTip;
         } else if (Is.definedSymbol(t)) {
             t = t.toString();
         } else if (Is.definedFunction(t)) {
-            t = Default.getFunctionName(t);
+            t = Default.getFunctionName(t, _configuration);
         }
         return t;
     }
@@ -788,7 +793,7 @@ var ToolTip;
         } else if (Is.definedFunction(o)) {
             if (!t.ignore.functionValues) {
                 a = t.showValueColors ? "function" : "";
-                s = DomElement.createWithHTML(l, "span", a, Default.getFunctionName(o));
+                s = DomElement.createWithHTML(l, "span", a, Default.getFunctionName(o, _configuration));
                 c = "function";
                 if (Is.definedFunction(t.events.onFunctionRender)) {
                     Trigger.customEvent(t.events.onFunctionRender, s);

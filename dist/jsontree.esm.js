@@ -151,17 +151,21 @@ var init_default = __esm({
                 return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
             }
             e.getFixedDecimalPlacesValue = u;
-            function c(e) {
-                let t;
-                const n = e.toString().split("(");
-                const o = n[0].split(" ");
-                if (o.length === 2) {
-                    t = o[1];
+            function c(e, t) {
+                let n;
+                const o = e.toString().split("(");
+                const r = o[0].split(" ");
+                const i = "()";
+                if (r.length === 2) {
+                    n = r[1];
                 } else {
-                    t = o[0];
+                    n = r[0];
                 }
-                t += "()";
-                return t;
+                n += i;
+                if (n.trim() === i) {
+                    n = `${t.text.functionText}${i}`;
+                }
+                return n;
             }
             e.getFunctionName = c;
         })(Default || (Default = {}));
@@ -501,6 +505,7 @@ var init_config = __esm({
                     e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
                     e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
                     e.text.noJsonToViewText = Default.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
+                    e.text.functionText = Default.getAnyString(e.text.functionText, "function");
                     if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                         e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
                     }
@@ -762,7 +767,7 @@ var require_jsontree = __commonJS({
                 } else if (Is.definedSymbol(t)) {
                     t = t.toString();
                 } else if (Is.definedFunction(t)) {
-                    t = Default.getFunctionName(t);
+                    t = Default.getFunctionName(t, _configuration);
                 }
                 return t;
             }
@@ -880,7 +885,7 @@ var require_jsontree = __commonJS({
                 } else if (Is.definedFunction(o)) {
                     if (!t.ignore.functionValues) {
                         s = t.showValueColors ? "function" : "";
-                        a = DomElement.createWithHTML(i, "span", s, Default.getFunctionName(o));
+                        a = DomElement.createWithHTML(i, "span", s, Default.getFunctionName(o, _configuration));
                         c = "function";
                         if (Is.definedFunction(t.events.onFunctionRender)) {
                             Trigger.customEvent(t.events.onFunctionRender, a);
