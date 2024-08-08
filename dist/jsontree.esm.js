@@ -1329,7 +1329,7 @@ var require_jsontree = __commonJS({
                     return e;
                 },
                 getVersion: function() {
-                    return "2.4.0";
+                    return "2.5.0";
                 }
             };
             (() => {
