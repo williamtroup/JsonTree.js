@@ -91,11 +91,21 @@ function bindingOptions( showValueColors = true ) {
 }
 
 function onValueClickEvent( value, type ) {
-    if ( value === null ) {
+    if ( typeof value === "function" ) {
+        value = "function";
+    } else if ( value === null ) {
         value = "null";
     } else if ( value === undefined ) {
         value = "undefined";
     }
 
-    console.log( `Type: ${type}, Value: ${value.toString()}` );
+    console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );
+}
+
+function onValueClickJsonReplacer( _, value ) {
+    if ( typeof value === "bigint" ) {
+        value = value.toString();
+    }
+
+    return value;
 }
