@@ -2,15 +2,15 @@
 JsonTree.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v2.4.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v2.4.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v2.5.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v2.5.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</p>
-> <p align="center">v2.4.0</p>
+> <p align="center">v2.5.0</p>
 <br />
 
 ![JsonTree.js](docs/images/main.png)
@@ -61,9 +61,66 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `number` Decimals
 - `null` Nulls
 - `symbol` Symbols
-- `function` Functions
+- `function` Functions and Lambdas
 - `undefined` Undefined
 - `any` Unknown
+<br>
+<br>
+
+
+<h1>What languages are supported?</h1>
+
+- `af` Afrikaans
+- `ar` Arabic
+- `hy` Armenian
+- `be` Belarusian
+- `bn` Bengali
+- `bg` Bulgarian
+- `ca` Catalan
+- `zh` Chinese (simplified)
+- `da` Danish
+- `nl` Dutch
+- `en` English (default)
+- `eo` Esperanto
+- `et` Estonian
+- `fa` Farsi
+- `fi` Finnish
+- `fr` French
+- `fy` Frisian
+- `gl` Galician
+- `ka` Georgian
+- `de` German
+- `el` Greek
+- `he` Hebrew
+- `hi` Hindi
+- `hu` Hungarian
+- `is` Icelandic
+- `id` Indonesian
+- `ga` Irish
+- `it` Italian
+- `ja` Japanese
+- `ko` Korean
+- `lv` Latvian
+- `lt` Lithuanian
+- `lb` Luxembourgish
+- `ms` Malay
+- `ne` Nepali
+- `no` Norwegian
+- `pl` Polish
+- `pt` Portuguese
+- `ro` Romanian
+- `si` Sinhalese
+- `sk` Slovak
+- `sl` Slovenian
+- `es` Spanish
+- `sv` Swedish
+- `tl` Tagalog
+- `ta` Tamil
+- `zh-tw` Taiwanese
+- `te` Telugu
+- `th` Thai
+- `tr` Turkish
+- `uk` Ukrainian
 <br>
 <br>
 
@@ -86,8 +143,8 @@ npm install jjsontree.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.4.0/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.4.0/dist/jsontree.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.5.0/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.5.0/dist/jsontree.js.min.css
 ```
 <br>
 <br>
