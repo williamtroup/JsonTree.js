@@ -243,6 +243,15 @@ var init_dom = __esm({
                 t.style.top = `${o}px`;
             }
             e.showElementAtMousePosition = l;
+            function a(e) {
+                const t = document.createRange();
+                const n = window.getSelection();
+                t.setStart(e.childNodes[0], e.innerHTML.length);
+                t.collapse(true);
+                n.removeAllRanges();
+                n.addRange(t);
+            }
+            e.setTextCursorToEnd = a;
         })(DomElement || (DomElement = {}));
     }
 });
@@ -1088,6 +1097,7 @@ var require_jsontree = __commonJS({
                         DomElement.addClass(o, "editable");
                         o.setAttribute("contenteditable", "true");
                         o.focus();
+                        DomElement.setTextCursorToEnd(o);
                         o.onblur = () => {
                             renderControlContainer(e, false);
                         };
@@ -1120,6 +1130,7 @@ var require_jsontree = __commonJS({
                         r.setAttribute("contenteditable", "true");
                         r.innerText = o.toString();
                         r.focus();
+                        DomElement.setTextCursorToEnd(r);
                         r.onblur = () => {
                             renderControlContainer(e, false);
                         };

@@ -93,4 +93,15 @@ export namespace DomElement {
         element.style.left = `${left}px`;
         element.style.top = `${top}px`;
     }
+
+    export function setTextCursorToEnd( element: HTMLElement ) : void {
+        const range: Range = document.createRange();
+        const selection: Selection = window.getSelection()!;
+        
+        range.setStart( element.childNodes[ 0 ], element.innerHTML.length );
+        range.collapse( true );
+        
+        selection.removeAllRanges();
+        selection.addRange( range );
+    }
 }

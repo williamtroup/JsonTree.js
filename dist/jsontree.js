@@ -209,6 +209,15 @@ var DomElement;
         t.style.top = `${o}px`;
     }
     e.showElementAtMousePosition = i;
+    function a(e) {
+        const t = document.createRange();
+        const n = window.getSelection();
+        t.setStart(e.childNodes[0], e.innerHTML.length);
+        t.collapse(true);
+        n.removeAllRanges();
+        n.addRange(t);
+    }
+    e.setTextCursorToEnd = a;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -996,6 +1005,7 @@ var ToolTip;
                 DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
                 o.focus();
+                DomElement.setTextCursorToEnd(o);
                 o.onblur = () => {
                     renderControlContainer(e, false);
                 };
@@ -1028,6 +1038,7 @@ var ToolTip;
                 r.setAttribute("contenteditable", "true");
                 r.innerText = o.toString();
                 r.focus();
+                DomElement.setTextCursorToEnd(r);
                 r.onblur = () => {
                     renderControlContainer(e, false);
                 };
