@@ -886,7 +886,7 @@ var ToolTip;
                             r = r.substring(0, n.maximumStringLength) + _configuration.text.ellipsisText;
                         }
                     }
-                    const s = n.showStringQuotes ? `"${r}"` : r;
+                    const s = n.showStringQuotes && t === null ? `"${r}"` : r;
                     u = n.showValueColors ? "string value" : "value";
                     c = DomElement.createWithHTML(a, "span", u, s);
                     f = "string";

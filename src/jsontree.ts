@@ -546,7 +546,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         }
                     }
     
-                    const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
+                    const newStringValue: string = bindingOptions.showStringQuotes && color === null ? `\"${value}\"` : value;
         
                     valueClass = bindingOptions.showValueColors ? "string value" : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
