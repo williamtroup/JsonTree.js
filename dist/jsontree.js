@@ -994,9 +994,6 @@ var ToolTip;
         if (e.allowEditing) {
             o.ondblclick = () => {
                 o.setAttribute("contenteditable", "true");
-                const r = document.createRange();
-                r.setStart(o, 0);
-                r.setEnd(o, 1);
                 o.focus();
                 o.onblur = () => {
                     renderControlContainer(e, false);
@@ -1028,9 +1025,6 @@ var ToolTip;
             r.ondblclick = () => {
                 r.setAttribute("contenteditable", "true");
                 r.innerText = o.toString();
-                const i = document.createRange();
-                i.setStart(r, 0);
-                i.setEnd(r, 1);
                 r.focus();
                 r.onblur = () => {
                     renderControlContainer(e, false);

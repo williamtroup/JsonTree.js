@@ -695,11 +695,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.allowEditing ) {
             propertyName.ondblclick = () => {
                 propertyName.setAttribute( "contenteditable", "true" );
-    
-                const range: Range = document.createRange();
-                range.setStart( propertyName, 0 );
-                range.setEnd( propertyName, 1 );
-
                 propertyName.focus();
 
                 propertyName.onblur = () => {
@@ -741,11 +736,6 @@ type JsonTreeData = Record<string, BindingOptions>;
             propertyValue.ondblclick = () => {
                 propertyValue.setAttribute( "contenteditable", "true" );
                 propertyValue.innerText = originalPropertyValue.toString();
-    
-                const range: Range = document.createRange();
-                range.setStart( propertyValue, 0 );
-                range.setEnd( propertyValue, 1 );
-
                 propertyValue.focus();
 
                 propertyValue.onblur = () => {

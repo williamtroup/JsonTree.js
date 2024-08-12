@@ -1086,9 +1086,6 @@ var require_jsontree = __commonJS({
                 if (e.allowEditing) {
                     r.ondblclick = () => {
                         r.setAttribute("contenteditable", "true");
-                        const o = document.createRange();
-                        o.setStart(r, 0);
-                        o.setEnd(r, 1);
                         r.focus();
                         r.onblur = () => {
                             renderControlContainer(e, false);
@@ -1120,9 +1117,6 @@ var require_jsontree = __commonJS({
                     o.ondblclick = () => {
                         o.setAttribute("contenteditable", "true");
                         o.innerText = r.toString();
-                        const l = document.createRange();
-                        l.setStart(o, 0);
-                        l.setEnd(o, 1);
                         o.focus();
                         o.onblur = () => {
                             renderControlContainer(e, false);
