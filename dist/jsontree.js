@@ -998,27 +998,26 @@ var ToolTip;
                 r.setStart(o, 0);
                 r.setEnd(o, 1);
                 o.focus();
+                o.onblur = () => {
+                    renderControlContainer(e, false);
+                };
                 o.onkeydown = r => {
                     if (r.code == "Escape") {
                         r.preventDefault();
-                        o.setAttribute("contenteditable", "false");
+                        renderControlContainer(e, false);
                     } else if (r.code == "Enter") {
                         r.preventDefault();
-                        o.setAttribute("contenteditable", "false");
                         const l = o.innerText;
                         if (l.trim() === "") {
                             delete t[n];
-                            renderControlContainer(e, false);
                         } else {
                             if (!t.hasOwnProperty(l)) {
-                                const o = t[n];
+                                const e = t[n];
                                 delete t[n];
-                                t[l] = o;
-                                renderControlContainer(e, false);
-                            } else {
-                                o.innerText = n;
+                                t[l] = e;
                             }
                         }
+                        renderControlContainer(e, false);
                     }
                 };
             };
@@ -1033,14 +1032,15 @@ var ToolTip;
                 i.setStart(r, 0);
                 i.setEnd(r, 1);
                 r.focus();
+                r.onblur = () => {
+                    renderControlContainer(e, false);
+                };
                 r.onkeydown = i => {
                     if (i.code == "Escape") {
                         i.preventDefault();
-                        r.setAttribute("contenteditable", "false");
                         renderControlContainer(e, false);
                     } else if (i.code == "Enter") {
                         i.preventDefault();
-                        r.setAttribute("contenteditable", "false");
                         const a = r.innerText;
                         if (a.trim() === "") {
                             if (l) {

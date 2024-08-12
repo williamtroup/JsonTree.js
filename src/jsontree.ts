@@ -701,22 +701,23 @@ type JsonTreeData = Record<string, BindingOptions>;
                 range.setEnd( propertyName, 1 );
 
                 propertyName.focus();
+
+                propertyName.onblur = () => {
+                    renderControlContainer( bindingOptions, false );
+                };
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
                         e.preventDefault();
-                        propertyName.setAttribute( "contenteditable", "false" );
-                        
+                        renderControlContainer( bindingOptions, false );
+
                     } else if ( e.code == KeyCode.enter ) {
                         e.preventDefault();
-                        propertyName.setAttribute( "contenteditable", "false" );
     
                         const newPropertyName: string = propertyName.innerText;
     
                         if ( newPropertyName.trim() === Char.empty ) {
                             delete data[ originalPropertyName ];
-
-                            renderControlContainer( bindingOptions, false );
     
                         } else {
                             if ( !data.hasOwnProperty( newPropertyName ) ) {
@@ -725,13 +726,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 delete data[ originalPropertyName ];
         
                                 data[ newPropertyName ] = originalValue;
-        
-                                renderControlContainer( bindingOptions, false );
-
-                            } else {
-                                propertyName.innerText = originalPropertyName;
                             }
                         }
+
+                        renderControlContainer( bindingOptions, false );
                     }
                 };
             };
@@ -749,17 +747,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 range.setEnd( propertyValue, 1 );
 
                 propertyValue.focus();
+
+                propertyValue.onblur = () => {
+                    renderControlContainer( bindingOptions, false );
+                };
     
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
                         e.preventDefault();
-                        propertyValue.setAttribute( "contenteditable", "false" );
-
                         renderControlContainer( bindingOptions, false );
                         
                     } else if ( e.code == KeyCode.enter ) {
                         e.preventDefault();
-                        propertyValue.setAttribute( "contenteditable", "false" );
     
                         const newPropertyValue: string = propertyValue.innerText;
     
