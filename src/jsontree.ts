@@ -1004,7 +1004,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function destroyElement( bindingOptions: BindingOptions ) : void {
         bindingOptions._currentView.element.innerHTML = Char.empty;
-        bindingOptions._currentView.element.className = Char.empty;
+
+        DomElement.removeClass( bindingOptions._currentView.element, "json-tree-js" );
+
+        if ( bindingOptions._currentView.element.className.trim() === Char.empty ) {
+            bindingOptions._currentView.element.removeAttribute( "class" );
+        }
 
         if ( bindingOptions._currentView.idSet ) {
             bindingOptions._currentView.element.removeAttribute( "id" );

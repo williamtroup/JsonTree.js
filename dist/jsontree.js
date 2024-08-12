@@ -200,12 +200,16 @@ var DomElement;
         e.classList.add(t);
     }
     e.addClass = o;
-    function r(e) {
+    function r(e, t) {
+        e.classList.remove(t);
+    }
+    e.removeClass = r;
+    function l(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    e.cancelBubble = r;
-    function l() {
+    e.cancelBubble = l;
+    function i() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -213,11 +217,11 @@ var DomElement;
         };
         return t;
     }
-    e.getScrollPosition = l;
-    function i(e, t) {
+    e.getScrollPosition = i;
+    function s(e, t) {
         let n = e.pageX;
         let o = e.pageY;
-        const r = l();
+        const r = i();
         t.style.display = "block";
         if (n + t.offsetWidth > window.innerWidth) {
             n -= t.offsetWidth;
@@ -238,8 +242,8 @@ var DomElement;
         t.style.left = `${n}px`;
         t.style.top = `${o}px`;
     }
-    e.showElementAtMousePosition = i;
-    function s(e) {
+    e.showElementAtMousePosition = s;
+    function a(e) {
         const t = document.createRange();
         const n = window.getSelection();
         t.setStart(e.childNodes[0], e.innerHTML.length);
@@ -247,7 +251,7 @@ var DomElement;
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.setTextCursorToEnd = s;
+    e.setTextCursorToEnd = a;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -1268,7 +1272,10 @@ var ToolTip;
     }
     function B(e) {
         e._currentView.element.innerHTML = "";
-        e._currentView.element.className = "";
+        DomElement.removeClass(e._currentView.element, "json-tree-js");
+        if (e._currentView.element.className.trim() === "") {
+            e._currentView.element.removeAttribute("class");
+        }
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }

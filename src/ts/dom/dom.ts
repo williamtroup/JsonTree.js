@@ -47,6 +47,10 @@ export namespace DomElement {
         element.classList.add( className );
     }
 
+    export function removeClass( element: HTMLElement, className: string ) : void {
+        element.classList.remove( className );
+    }
+
     export function cancelBubble( e: Event ) : void {
         e.preventDefault();
         e.stopPropagation();
