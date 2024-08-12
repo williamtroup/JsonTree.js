@@ -11,7 +11,7 @@
  */
 
 
-import { StringToJson, type BindingOptions, type Configuration } from "./ts/type";
+import { type StringToJson, type BindingOptions, type Configuration } from "./ts/type";
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";

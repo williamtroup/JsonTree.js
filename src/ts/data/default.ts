@@ -11,7 +11,7 @@
  */
 
 
-import { StringToJson, type Configuration } from "../type";
+import { type StringToJson, type Configuration } from "../type";
 import { Char } from "./enum";
 import { Is } from "./is";
 

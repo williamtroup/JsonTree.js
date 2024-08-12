@@ -11,7 +11,7 @@
  */
 
 
-import { Char, Value } from "./enum";
+import { Char } from "./enum";
 
 
 export namespace Is {
