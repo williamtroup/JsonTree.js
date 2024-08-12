@@ -702,7 +702,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyName.setAttribute( "contenteditable", "true" );
                 propertyName.focus();
 
-                DomElement.setTextCursorToEnd( propertyName );
+                DomElement.selectAllText( propertyName );
 
                 propertyName.onblur = () => {
                     renderControlContainer( bindingOptions, false );
@@ -751,7 +751,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyValue.innerText = originalPropertyValue.toString();
                 propertyValue.focus();
 
-                DomElement.setTextCursorToEnd( propertyValue );
+                DomElement.selectAllText( propertyValue );
 
                 propertyValue.onblur = () => {
                     renderControlContainer( bindingOptions, false );

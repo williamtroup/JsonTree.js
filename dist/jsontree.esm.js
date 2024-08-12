@@ -243,13 +243,12 @@ var DomElement;
     e.showElementAtMousePosition = s;
     function a(e) {
         const t = document.createRange();
+        t.selectNodeContents(e);
         const n = window.getSelection();
-        t.setStart(e.childNodes[0], e.innerHTML.length);
-        t.collapse(true);
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.setTextCursorToEnd = a;
+    e.selectAllText = a;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -799,11 +798,11 @@ var ToolTip;
         const a = r.length;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < a; e++) {
-                p(r, n, o, v(o, e, a), r[e], e === a - 1, true);
+                p(r, n, o, h(o, e, a), r[e], e === a - 1, true);
             }
         } else {
             for (let e = a; e--; ) {
-                p(r, n, o, v(o, e, a), r[e], e === 0, true);
+                p(r, n, o, h(o, e, a), r[e], e === 0, true);
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
@@ -831,7 +830,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onNullRender)) {
                     Trigger.customEvent(o.events.onNullRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -843,7 +842,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onUndefinedRender)) {
                     Trigger.customEvent(o.events.onUndefinedRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -855,7 +854,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onFunctionRender)) {
                     Trigger.customEvent(o.events.onFunctionRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -868,7 +867,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -882,7 +881,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -895,7 +894,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -908,7 +907,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -944,7 +943,7 @@ var ToolTip;
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
-                    h(o, a, i);
+                    v(o, a, i);
                 }
             } else {
                 d = true;
@@ -958,7 +957,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -970,7 +969,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -991,7 +990,7 @@ var ToolTip;
                     if (o.showOpeningClosingCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
-                    let d = h(o, r, i);
+                    let d = v(o, r, i);
                     g(u, d, s, o, l, t, c, true, i);
                     T = "object";
                 }
@@ -1010,7 +1009,7 @@ var ToolTip;
                 if (o.showOpeningClosingCurlyBraces) {
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
-                let s = h(o, t, i);
+                let s = v(o, t, i);
                 m(u, s, n, o, l, r, true, i);
                 T = "array";
             } else {
@@ -1024,7 +1023,7 @@ var ToolTip;
                 if (Is.definedFunction(o.events.onUnknownRender)) {
                     Trigger.customEvent(o.events.onUnknownRender, f);
                 }
-                h(o, a, i);
+                v(o, a, i);
             } else {
                 d = true;
             }
@@ -1046,7 +1045,7 @@ var ToolTip;
                 DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
                 o.focus();
-                DomElement.setTextCursorToEnd(o);
+                DomElement.selectAllText(o);
                 o.onblur = () => {
                     l(e, false);
                 };
@@ -1082,7 +1081,7 @@ var ToolTip;
                 r.setAttribute("contenteditable", "true");
                 r.innerText = o.toString();
                 r.focus();
-                DomElement.setTextCursorToEnd(r);
+                DomElement.selectAllText(r);
                 r.onblur = () => {
                     l(e, false);
                 };
@@ -1184,14 +1183,14 @@ var ToolTip;
             }
         }
     }
-    function h(e, t, n) {
+    function v(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function v(e, t, n) {
+    function h(e, t, n) {
         let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
             o = Str.padNumber(parseInt(o), n.toString().length);
@@ -1226,7 +1225,7 @@ var ToolTip;
             DomElement.create(l, "div", "no-arrow");
         }
         DomElement.createWithHTML(l, "div", "object-type-end", n);
-        h(e, l, r);
+        v(e, l, r);
     }
     function A(e, t) {
         if (t.fileDroppingEnabled) {

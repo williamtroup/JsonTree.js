@@ -98,13 +98,12 @@ export namespace DomElement {
         element.style.top = `${top}px`;
     }
 
-    export function setTextCursorToEnd( element: HTMLElement ) : void {
+    export function selectAllText( element: HTMLElement ) : void {
         const range: Range = document.createRange();
+        range.selectNodeContents( element );
+
         const selection: Selection = window.getSelection()!;
-        
-        range.setStart( element.childNodes[ 0 ], element.innerHTML.length );
-        range.collapse( true );
-        
+
         selection.removeAllRanges();
         selection.addRange( range );
     }
