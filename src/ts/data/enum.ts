@@ -37,6 +37,7 @@ export const enum DataType {
     array = "array",
     unknown = "unknown",
     undefined = "undefined",
+    color = "color",
 }
 
 export const enum KeyCode {

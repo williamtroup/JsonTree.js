@@ -539,18 +539,20 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && ( Is.String.hexColor( value ) || Is.String.rgbColor( value ) ) ) {
                         color = value;
+                        type = DataType.color;
     
                     } else {
                         if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
                             value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                         }
+
+                        type = DataType.string;
                     }
     
                     const newStringValue: string = bindingOptions.showStringQuotes && color === null ? `\"${value}\"` : value;
         
                     valueClass = bindingOptions.showValueColors ? "string value" : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                    type = DataType.string;
 
                     makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
     

@@ -894,15 +894,16 @@ var ToolTip;
                     let t = null;
                     if (n.showValueColors && n.showStringHexColors && (Is.String.hexColor(r) || Is.String.rgbColor(r))) {
                         t = r;
+                        f = "color";
                     } else {
                         if (n.maximumStringLength > 0 && r.length > n.maximumStringLength) {
                             r = r.substring(0, n.maximumStringLength) + _configuration.text.ellipsisText;
                         }
+                        f = "string";
                     }
                     const s = n.showStringQuotes && t === null ? `"${r}"` : r;
                     u = n.showValueColors ? "string value" : "value";
                     c = DomElement.createWithHTML(a, "span", u, s);
-                    f = "string";
                     makePropertyValueEditable(n, e, o, r, c, i);
                     if (Is.definedString(t)) {
                         c.style.color = t;
