@@ -9,7 +9,7 @@ JsonTree.js
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
-> <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</p>
+> <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.</p>
 > <p align="center">v2.6.0</p>
 <br />
 

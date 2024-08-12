@@ -1,7 +1,7 @@
 {
   "name": "jjsontree.js",
   "title": "JsonTree.js",
-  "description": "A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.",
+  "description": "A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.",
   "version": "2.6.0",
   "homepage": "https://www.william-troup.com/jsontree-js/",
   "author": {

@@ -4,13 +4,13 @@
         <id>jJsonTree.js</id>
         <version>2.6.0</version>
         <title>JsonTree.js</title>
-        <description>A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.</description>
+        <description>A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.</description>
         <authors>William Troup</authors>
         <projectUrl>https://www.william-troup.com/jsontree-js/</projectUrl>
         <repository type="git" url="https://github.com/williamtroup/JsonTree.js" branch="main" />
         <readme>README_NUGET.md</readme>
         <license type="expression">MIT</license>
-        <tags>javascript css html5 JsonTree.js treeview json visualize tree array</tags>
+        <tags>javascript css html5 JsonTree.js treeview json visualize tree array editing</tags>
         <icon>docs\images\icon.png</icon>
         <copyright>William Troup</copyright>
     </metadata>

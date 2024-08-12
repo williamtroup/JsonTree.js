@@ -1,7 +1,7 @@
 /**
  * JsonTree.js
  * 
- * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        constant.ts
  * @version     v2.6.0
