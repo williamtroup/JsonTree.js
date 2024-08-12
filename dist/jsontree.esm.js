@@ -146,9 +146,8 @@ var init_default = __esm({
             }
             e.getStringOrArray = s;
             function u(e, t) {
-                var n;
-                const o = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
-                return ((n = e.toString().match(o)) == null ? void 0 : n[0]) || "";
+                const n = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
+                return e.toString().match(n)?.[0] || "";
             }
             e.getFixedDecimalPlacesValue = u;
             function c(e, t) {
@@ -911,6 +910,7 @@ var require_jsontree = __commonJS({
                         u = n.showValueColors ? "boolean value" : "value";
                         c = DomElement.createWithHTML(a, "span", u, r);
                         f = "boolean";
+                        makePropertyValueEditable(n, e, o, r, c, l);
                         if (Is.definedFunction(n.events.onBooleanRender)) {
                             Trigger.customEvent(n.events.onBooleanRender, c);
                         }
@@ -920,10 +920,11 @@ var require_jsontree = __commonJS({
                     }
                 } else if (Is.definedDecimal(r)) {
                     if (!n.ignore.decimalValues) {
-                        const e = Default.getFixedDecimalPlacesValue(r, n.maximumDecimalPlaces);
+                        const t = Default.getFixedDecimalPlacesValue(r, n.maximumDecimalPlaces);
                         u = n.showValueColors ? "decimal value" : "value";
-                        c = DomElement.createWithHTML(a, "span", u, e);
+                        c = DomElement.createWithHTML(a, "span", u, t);
                         f = "decimal";
+                        makePropertyValueEditable(n, e, o, r, c, l);
                         if (Is.definedFunction(n.events.onDecimalRender)) {
                             Trigger.customEvent(n.events.onDecimalRender, c);
                         }
@@ -936,6 +937,7 @@ var require_jsontree = __commonJS({
                         u = n.showValueColors ? "number value" : "value";
                         c = DomElement.createWithHTML(a, "span", u, r);
                         f = "number";
+                        makePropertyValueEditable(n, e, o, r, c, l);
                         if (Is.definedFunction(n.events.onNumberRender)) {
                             Trigger.customEvent(n.events.onNumberRender, c);
                         }
@@ -948,6 +950,7 @@ var require_jsontree = __commonJS({
                         u = n.showValueColors ? "bigint value" : "value";
                         c = DomElement.createWithHTML(a, "span", u, r);
                         f = "bigint";
+                        makePropertyValueEditable(n, e, o, r, c, l);
                         if (Is.definedFunction(n.events.onBigIntRender)) {
                             Trigger.customEvent(n.events.onBigIntRender, c);
                         }
@@ -967,20 +970,21 @@ var require_jsontree = __commonJS({
                             renderValue(e, t, n, o, new Date(r), i, l);
                             d = true;
                         } else {
-                            let e = null;
+                            let t = null;
                             if (n.showValueColors && n.showStringHexColors && Is.String.hexColor(r)) {
-                                e = r;
+                                t = r;
                             } else {
                                 if (n.maximumStringLength > 0 && r.length > n.maximumStringLength) {
                                     r = r.substring(0, n.maximumStringLength) + _configuration.text.ellipsisText;
                                 }
                             }
-                            const t = n.showStringQuotes ? `"${r}"` : r;
+                            const s = n.showStringQuotes ? `"${r}"` : r;
                             u = n.showValueColors ? "string value" : "value";
-                            c = DomElement.createWithHTML(a, "span", u, t);
+                            c = DomElement.createWithHTML(a, "span", u, s);
                             f = "string";
-                            if (Is.definedString(e)) {
-                                c.style.color = e;
+                            makePropertyValueEditable(n, e, o, r, c, l);
+                            if (Is.definedString(t)) {
+                                c.style.color = t;
                             }
                             if (Is.definedFunction(n.events.onStringRender)) {
                                 Trigger.customEvent(n.events.onStringRender, c);
@@ -995,6 +999,7 @@ var require_jsontree = __commonJS({
                         u = n.showValueColors ? "date value" : "value";
                         c = DomElement.createWithHTML(a, "span", u, DateTime.getCustomFormattedDateText(_configuration, r, n.dateTimeFormat));
                         f = "date";
+                        makePropertyValueEditable(n, e, o, r, c, l);
                         if (Is.definedFunction(n.events.onDateRender)) {
                             Trigger.customEvent(n.events.onDateRender, c);
                         }
@@ -1084,6 +1089,7 @@ var require_jsontree = __commonJS({
                         const r = document.createRange();
                         r.setStart(o, 0);
                         r.setEnd(o, 1);
+                        o.focus();
                         o.onkeydown = r => {
                             if (r.code == "Escape") {
                                 r.preventDefault();
@@ -1094,6 +1100,7 @@ var require_jsontree = __commonJS({
                                 const i = o.innerText;
                                 if (i.trim() === "") {
                                     delete t[n];
+                                    renderControlContainer(e, false);
                                 } else {
                                     if (!t.hasOwnProperty(i)) {
                                         const o = t[n];
@@ -1108,6 +1115,62 @@ var require_jsontree = __commonJS({
                         };
                     };
                 }
+            }
+            function makePropertyValueEditable(e, t, n, o, r, i) {
+                if (e.allowEditing) {
+                    r.ondblclick = () => {
+                        r.setAttribute("contenteditable", "true");
+                        r.innerText = o.toString();
+                        const l = document.createRange();
+                        l.setStart(r, 0);
+                        l.setEnd(r, 1);
+                        r.focus();
+                        r.onkeydown = l => {
+                            if (l.code == "Escape") {
+                                l.preventDefault();
+                                r.setAttribute("contenteditable", "false");
+                                renderControlContainer(e, false);
+                            } else if (l.code == "Enter") {
+                                l.preventDefault();
+                                r.setAttribute("contenteditable", "false");
+                                const a = r.innerText;
+                                if (a.trim() === "") {
+                                    if (i) {
+                                        t.splice(getArrayIndex(n), 1);
+                                    } else {
+                                        delete t[n];
+                                    }
+                                } else {
+                                    let e = null;
+                                    if (Is.definedBoolean(o)) {
+                                        e = a.toLowerCase() === "true";
+                                    } else if (Is.definedNumber(o) && isNaN(+a)) {
+                                        e = a;
+                                    } else if (Is.definedDecimal(o) && isNaN(+a)) {
+                                        e = a;
+                                    } else if (Is.definedString(o)) {
+                                        e = a;
+                                    } else if (Is.definedDate(o)) {
+                                        e = new Date(a);
+                                    } else if (Is.definedBigInt(o)) {
+                                        e = BigInt(o);
+                                    }
+                                    if (e !== null) {
+                                        if (i) {
+                                            t[getArrayIndex(n)] = e;
+                                        } else {
+                                            t[n] = e;
+                                        }
+                                    }
+                                }
+                                renderControlContainer(e, false);
+                            }
+                        };
+                    };
+                }
+            }
+            function getArrayIndex(e) {
+                return parseInt(e.replace("[", "").replace("]", ""));
             }
             function addValueClickEvent(e, t, n, o) {
                 if (Is.definedFunction(e.events.onValueClick)) {

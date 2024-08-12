@@ -452,6 +452,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.boolean;
 
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
                 }
@@ -470,6 +472,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
                 type = DataType.decimal;
 
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
                 }
@@ -486,6 +490,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.number;
 
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
                 }
@@ -501,6 +507,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueClass = bindingOptions.showValueColors ? "bigint value" : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.bigint;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
@@ -543,6 +551,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueClass = bindingOptions.showValueColors ? "string value" : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
                     type = DataType.string;
+
+                    makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
     
                     if ( Is.definedString( color ) ) {
                         valueElement.style.color = color;
@@ -564,6 +574,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueClass = bindingOptions.showValueColors ? "date value" : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
                 type = DataType.date;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
@@ -687,6 +699,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const range: Range = document.createRange();
                 range.setStart( propertyName, 0 );
                 range.setEnd( propertyName, 1 );
+
+                propertyName.focus();
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -701,6 +715,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                         if ( newPropertyName.trim() === Char.empty ) {
                             delete data[ originalPropertyName ];
+
+                            renderControlContainer( bindingOptions, false );
     
                         } else {
                             if ( !data.hasOwnProperty( newPropertyName ) ) {
@@ -720,6 +736,75 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
             };
         }
+    }
+
+    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean ) : void {
+        if ( bindingOptions.allowEditing ) {
+            propertyValue.ondblclick = () => {
+                propertyValue.setAttribute( "contenteditable", "true" );
+                propertyValue.innerText = originalPropertyValue.toString();
+    
+                const range: Range = document.createRange();
+                range.setStart( propertyValue, 0 );
+                range.setEnd( propertyValue, 1 );
+
+                propertyValue.focus();
+    
+                propertyValue.onkeydown = ( e: KeyboardEvent ) => {
+                    if ( e.code == KeyCode.escape ) {
+                        e.preventDefault();
+                        propertyValue.setAttribute( "contenteditable", "false" );
+
+                        renderControlContainer( bindingOptions, false );
+                        
+                    } else if ( e.code == KeyCode.enter ) {
+                        e.preventDefault();
+                        propertyValue.setAttribute( "contenteditable", "false" );
+    
+                        const newPropertyValue: string = propertyValue.innerText;
+    
+                        if ( newPropertyValue.trim() === Char.empty ) {
+                            if ( isArrayItem ) {
+                                data.splice( getArrayIndex( originalPropertyName ), 1 );
+                            } else {
+                                delete data[ originalPropertyName ];
+                            }
+    
+                        } else {
+                            let newDataPropertyValue: any = null;
+
+                            if ( Is.definedBoolean( originalPropertyValue ) ) {
+                                newDataPropertyValue = newPropertyValue.toLowerCase() === "true";
+                            } else if ( Is.definedNumber( originalPropertyValue ) && isNaN( +newPropertyValue ) ) {
+                                newDataPropertyValue = newPropertyValue;
+                            } else if ( Is.definedDecimal( originalPropertyValue ) && isNaN( +newPropertyValue ) ) {
+                                newDataPropertyValue = newPropertyValue;
+                            } else if ( Is.definedString( originalPropertyValue ) ) {
+                                newDataPropertyValue = newPropertyValue;
+                            } else if ( Is.definedDate( originalPropertyValue ) ) {
+                                newDataPropertyValue = new Date( newPropertyValue );
+                            } else if ( Is.definedBigInt( originalPropertyValue ) ) {
+                                newDataPropertyValue = BigInt( originalPropertyValue );
+                            }
+
+                            if ( newDataPropertyValue !== null ) {
+                                if ( isArrayItem ) {
+                                    data[ getArrayIndex( originalPropertyName ) ] = newDataPropertyValue;
+                                } else {
+                                    data[ originalPropertyName ] = newDataPropertyValue;
+                                }
+                            }
+                        }
+
+                        renderControlContainer( bindingOptions, false );
+                    }
+                };
+            };
+        }
+    }
+
+    function getArrayIndex( propertyName: string ) : number {
+        return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
     }
 
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string ) : void {
