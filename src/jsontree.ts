@@ -775,16 +775,16 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                             if ( Is.definedBoolean( originalPropertyValue ) ) {
                                 newDataPropertyValue = newPropertyValue.toLowerCase() === "true";
-                            } else if ( Is.definedNumber( originalPropertyValue ) && isNaN( +newPropertyValue ) ) {
-                                newDataPropertyValue = newPropertyValue;
-                            } else if ( Is.definedDecimal( originalPropertyValue ) && isNaN( +newPropertyValue ) ) {
-                                newDataPropertyValue = newPropertyValue;
+                            } else if ( Is.definedDecimal( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
+                                newDataPropertyValue = parseFloat( newPropertyValue );
+                            } else if ( Is.definedNumber( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
+                                newDataPropertyValue = parseInt( newPropertyValue );
                             } else if ( Is.definedString( originalPropertyValue ) ) {
                                 newDataPropertyValue = newPropertyValue;
                             } else if ( Is.definedDate( originalPropertyValue ) ) {
                                 newDataPropertyValue = new Date( newPropertyValue );
                             } else if ( Is.definedBigInt( originalPropertyValue ) ) {
-                                newDataPropertyValue = BigInt( originalPropertyValue );
+                                newDataPropertyValue = BigInt( newPropertyValue );
                             }
 
                             if ( newDataPropertyValue !== null ) {

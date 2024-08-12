@@ -1052,16 +1052,16 @@ var ToolTip;
                             let e = null;
                             if (Is.definedBoolean(o)) {
                                 e = a.toLowerCase() === "true";
-                            } else if (Is.definedNumber(o) && isNaN(+a)) {
-                                e = a;
-                            } else if (Is.definedDecimal(o) && isNaN(+a)) {
-                                e = a;
+                            } else if (Is.definedDecimal(o) && !isNaN(+a)) {
+                                e = parseFloat(a);
+                            } else if (Is.definedNumber(o) && !isNaN(+a)) {
+                                e = parseInt(a);
                             } else if (Is.definedString(o)) {
                                 e = a;
                             } else if (Is.definedDate(o)) {
                                 e = new Date(a);
                             } else if (Is.definedBigInt(o)) {
-                                e = BigInt(o);
+                                e = BigInt(a);
                             }
                             if (e !== null) {
                                 if (l) {
