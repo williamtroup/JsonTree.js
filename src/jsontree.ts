@@ -537,7 +537,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 } else {
                     let color: string = null!;
 
-                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && Is.String.hexColor( value ) ) {
+                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && ( Is.String.hexColor( value ) || Is.String.rgbColor( value ) ) ) {
                         color = value;
     
                     } else {

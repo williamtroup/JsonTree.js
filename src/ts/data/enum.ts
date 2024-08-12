@@ -19,6 +19,10 @@ export const enum Char {
     hash = "#",
 }
 
+export const enum Value {
+    notFound = -1,
+}
+
 export const enum DataType {
     null = "null",
     function = "function",

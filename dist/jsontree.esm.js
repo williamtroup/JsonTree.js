@@ -34,13 +34,17 @@ var init_is = __esm({
                 }
                 e.hexColor = t;
                 function n(e) {
+                    return (e.startsWith("rgb(") || e.startsWith("rgba(")) && e.endsWith(")");
+                }
+                e.rgbColor = n;
+                function o(e) {
                     return e.toString().toLowerCase().trim() === "true" || e.toString().toLowerCase().trim() === "false";
                 }
-                e.boolean = n;
-                function o(e) {
+                e.boolean = o;
+                function r(e) {
                     return !isNaN(+new Date(e));
                 }
-                e.date = o;
+                e.date = r;
             })(t = e.String || (e.String = {}));
             function n(e) {
                 return e !== null && e !== void 0 && e.toString() !== "";
@@ -980,7 +984,7 @@ var require_jsontree = __commonJS({
                             d = true;
                         } else {
                             let t = null;
-                            if (n.showValueColors && n.showStringHexColors && Is.String.hexColor(r)) {
+                            if (n.showValueColors && n.showStringHexColors && (Is.String.hexColor(r) || Is.String.rgbColor(r))) {
                                 t = r;
                             } else {
                                 if (n.maximumStringLength > 0 && r.length > n.maximumStringLength) {

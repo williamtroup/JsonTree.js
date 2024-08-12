@@ -25,6 +25,7 @@ function bindingOptions( showValueColors = true ) {
                 value14: ( message ) => {
                     alert( message );
                 },
+                value15: "rgb(144, 238, 144)",
                 value5: [
                     true,
                     "This is another string",

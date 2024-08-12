@@ -11,7 +11,7 @@
  */
 
 
-import { Char } from "./enum";
+import { Char, Value } from "./enum";
 
 
 export namespace Is {
@@ -24,6 +24,10 @@ export namespace Is {
             }
         
             return valid;
+        }
+
+        export function rgbColor( value: string ) : boolean {
+            return ( value.startsWith( "rgb(" ) || value.startsWith( "rgba(" ) ) && value.endsWith( ")" );
         }
     
         export function boolean( object: string ) : boolean {
