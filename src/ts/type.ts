@@ -97,6 +97,7 @@ export type BindingOptionsCurrentView = {
 	tooltipTimerId: number;
 	valueClickTimerId: number;
 	editMode: boolean;
+	idSet: boolean;
 };
 
 export type BindingOptionsParse = {

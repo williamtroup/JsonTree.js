@@ -96,6 +96,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
             bindingOptions._currentView.element.id = Str.newGuid();
+            bindingOptions._currentView.idSet = true;
         }
 
         bindingOptions._currentView.element.className = "json-tree-js";
@@ -1004,6 +1005,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     function destroyElement( bindingOptions: BindingOptions ) : void {
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.className = Char.empty;
+
+        if ( bindingOptions._currentView.idSet ) {
+            bindingOptions._currentView.element.removeAttribute( "id" );
+        }
 
         ToolTip.assignToEvents( bindingOptions, false );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );

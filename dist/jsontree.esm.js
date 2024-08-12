@@ -342,6 +342,7 @@ var Binding;
             o._currentView.titleBarButtons = null;
             o._currentView.valueClickTimerId = 0;
             o._currentView.editMode = false;
+            o._currentView.idSet = false;
             return o;
         }
         t.getForNewInstance = n;
@@ -610,6 +611,7 @@ var ToolTip;
         ToolTip.renderControl(e);
         if (!Is.definedString(e._currentView.element.id)) {
             e._currentView.element.id = Str.newGuid();
+            e._currentView.idSet = true;
         }
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
@@ -758,7 +760,7 @@ var ToolTip;
                 c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
             }
             g(a, null, s, n, o, r, c, false, true);
-            D(n, u, o, "object");
+            w(n, u, o, "object");
         }
     }
     function d(t, n, o) {
@@ -774,7 +776,7 @@ var ToolTip;
             a = DomElement.createWithHTML(r, "span", "opening-symbol", "[");
         }
         m(i, null, l, n, o, a, false, true);
-        D(n, s, o, "object");
+        w(n, s, o, "object");
     }
     function g(e, t, n, o, r, l, i, s, a) {
         const u = l.length;
@@ -787,7 +789,7 @@ var ToolTip;
         if (o.showOpeningClosingCurlyBraces) {
             S(o, n, "}", s, a);
         }
-        w(o, e, t, n, i);
+        D(o, e, t, n, i);
     }
     function m(e, t, n, o, r, l, i, s) {
         const a = r.length;
@@ -803,7 +805,7 @@ var ToolTip;
         if (o.showOpeningClosingCurlyBraces) {
             S(o, n, "]", i, s);
         }
-        w(o, e, t, n, l);
+        D(o, e, t, n, l);
     }
     function p(t, n, o, r, l, i, s) {
         const a = DomElement.create(n, "div", "object-type-value");
@@ -812,10 +814,10 @@ var ToolTip;
         let f = null;
         let d = false;
         let T = null;
-        const w = DomElement.createWithHTML(a, "span", "title", r);
+        const D = DomElement.createWithHTML(a, "span", "title", r);
         DomElement.createWithHTML(a, "span", "split", ":");
         if (!s) {
-            y(o, t, r, w);
+            y(o, t, r, D);
         }
         if (l === null) {
             if (!o.ignore.nullValues) {
@@ -1027,7 +1029,7 @@ var ToolTip;
             n.removeChild(a);
         } else {
             if (Is.defined(f)) {
-                D(o, f, l, T);
+                w(o, f, l, T);
             }
         }
     }
@@ -1125,7 +1127,7 @@ var ToolTip;
     function T(e) {
         return parseInt(e.replace("[", "").replace("]", ""));
     }
-    function D(e, t, n, o) {
+    function w(e, t, n, o) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (e.allowEditing) {
@@ -1142,7 +1144,7 @@ var ToolTip;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function w(e, t, n, o, r) {
+    function D(e, t, n, o, r) {
         if (Is.defined(t)) {
             const l = () => {
                 o.style.display = "none";
@@ -1265,6 +1267,9 @@ var ToolTip;
     function B(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.className = "";
+        if (e._currentView.idSet) {
+            e._currentView.element.removeAttribute("id");
+        }
         ToolTip.assignToEvents(e, false);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }

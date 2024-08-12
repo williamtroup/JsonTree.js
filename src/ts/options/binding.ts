@@ -33,6 +33,7 @@ export namespace Binding {
             bindingOptions._currentView.titleBarButtons = null!;
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
+            bindingOptions._currentView.idSet = false;
 
             return bindingOptions;
         }
