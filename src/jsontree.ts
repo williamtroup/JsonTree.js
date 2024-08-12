@@ -11,7 +11,7 @@
  */
 
 
-import { type BindingOptions, type Configuration } from "./ts/type";
+import { StringToJson, type BindingOptions, type Configuration } from "./ts/type";
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
@@ -25,11 +25,6 @@ import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
 import { ToolTip } from "./ts/area/tooltip";
 
-
-type StringToJson = {
-    parsed: boolean;
-    object: any;
-};
 
 type JsonTreeData = Record<string, BindingOptions>;
 
@@ -72,7 +67,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const bindingOptionsData: string = element.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME )!;
 
             if ( Is.definedString( bindingOptionsData ) ) {
-                const bindingOptions: StringToJson = getObjectFromString( bindingOptionsData );
+                const bindingOptions: StringToJson = Default.getObjectFromString( bindingOptionsData, _configuration );
 
                 if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
                     renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
@@ -989,7 +984,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
     
         reader.onload = ( e: ProgressEvent<FileReader> ) => {
-            const json: StringToJson = getObjectFromString( e.target!.result );
+            const json: StringToJson = Default.getObjectFromString( e.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
                 renderData = json.object;
@@ -997,45 +992,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         reader.readAsText( file );
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Default Parameter/Option Handling
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function getObjectFromString( objectString: any ) : StringToJson {
-        const result: StringToJson = {
-            parsed: true,
-            object: null
-        } as StringToJson;
-
-        try {
-            if ( Is.definedString( objectString ) ) {
-                result.object = JSON.parse( objectString );
-            }
-
-        } catch ( e1: any ) {
-            try {
-                result.object = eval( `(${objectString})` );
-
-                if ( Is.definedFunction( result.object ) ) {
-                    result.object = result.object();
-                }
-                
-            } catch ( e2: any ) {
-                if ( !_configuration.safeMode ) {
-                    console.error( _configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
-                    result.parsed = false;
-                }
-                
-                result.object = null;
-            }
-        }
-
-        return result;
     }
 
 
@@ -1133,7 +1089,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let jsonObject: any = null;
 
                 if ( Is.definedString( json ) ) {
-                    const jsonResult: StringToJson = getObjectFromString( json );
+                    const jsonResult: StringToJson = Default.getObjectFromString( json, _configuration );
 
                     if ( jsonResult.parsed ) {
                         jsonObject = jsonResult.object;

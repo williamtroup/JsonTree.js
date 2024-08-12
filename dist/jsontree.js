@@ -46,14 +46,14 @@ var Is;
         return n(e) && typeof e === "function";
     }
     e.definedFunction = i;
-    function a(e) {
+    function s(e) {
         return n(e) && typeof e === "number";
     }
-    e.definedNumber = a;
-    function s(e) {
+    e.definedNumber = s;
+    function a(e) {
         return n(e) && typeof e === "bigint";
     }
-    e.definedBigInt = s;
+    e.definedBigInt = a;
     function u(e) {
         return o(e) && e instanceof Array;
     }
@@ -62,52 +62,52 @@ var Is;
         return o(e) && e instanceof Date;
     }
     e.definedDate = c;
-    function d(e) {
+    function f(e) {
         return n(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedDecimal = d;
-    function f(e) {
+    e.definedDecimal = f;
+    function d(e) {
         return n(e) && typeof e === "symbol";
     }
-    e.definedSymbol = f;
+    e.definedSymbol = d;
     function g(e, t = 1) {
         return !u(e) || e.length < t;
     }
     e.invalidOptionArray = g;
 })(Is || (Is = {}));
 
-var Default;
+var Default2;
 
-(e => {
-    function t(e, t) {
+(Default => {
+    function getAnyString(e, t) {
         return typeof e === "string" ? e : t;
     }
-    e.getAnyString = t;
-    function n(e, t) {
+    Default.getAnyString = getAnyString;
+    function getString(e, t) {
         return Is.definedString(e) ? e : t;
     }
-    e.getString = n;
-    function o(e, t) {
+    Default.getString = getString;
+    function getBoolean(e, t) {
         return Is.definedBoolean(e) ? e : t;
     }
-    e.getBoolean = o;
-    function r(e, t) {
+    Default.getBoolean = getBoolean;
+    function getNumber(e, t) {
         return Is.definedNumber(e) ? e : t;
     }
-    e.getNumber = r;
-    function l(e, t) {
+    Default.getNumber = getNumber;
+    function getFunction(e, t) {
         return Is.definedFunction(e) ? e : t;
     }
-    e.getFunction = l;
-    function i(e, t) {
+    Default.getFunction = getFunction;
+    function getArray(e, t) {
         return Is.definedArray(e) ? e : t;
     }
-    e.getArray = i;
-    function a(e, t) {
+    Default.getArray = getArray;
+    function getObject(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getObject = a;
-    function s(e, t) {
+    Default.getObject = getObject;
+    function getStringOrArray(e, t) {
         let n = t;
         if (Is.definedString(e)) {
             const o = e.toString().split(" ");
@@ -117,17 +117,17 @@ var Default;
                 n = o;
             }
         } else {
-            n = i(e, t);
+            n = getArray(e, t);
         }
         return n;
     }
-    e.getStringOrArray = s;
-    function u(e, t) {
+    Default.getStringOrArray = getStringOrArray;
+    function getFixedDecimalPlacesValue(e, t) {
         const n = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
         return e.toString().match(n)?.[0] || "";
     }
-    e.getFixedDecimalPlacesValue = u;
-    function c(e, t) {
+    Default.getFixedDecimalPlacesValue = getFixedDecimalPlacesValue;
+    function getFunctionName(e, t) {
         let n;
         const o = e.toString().split("(");
         const r = o[0].split(" ");
@@ -143,8 +143,34 @@ var Default;
         }
         return n;
     }
-    e.getFunctionName = c;
-})(Default || (Default = {}));
+    Default.getFunctionName = getFunctionName;
+    function getObjectFromString(objectString, configuration) {
+        const result = {
+            parsed: true,
+            object: null
+        };
+        try {
+            if (Is.definedString(objectString)) {
+                result.object = JSON.parse(objectString);
+            }
+        } catch (e1) {
+            try {
+                result.object = eval(`(${objectString})`);
+                if (Is.definedFunction(result.object)) {
+                    result.object = result.object();
+                }
+            } catch (e) {
+                if (!configuration.safeMode) {
+                    console.error(configuration.text.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
+                    result.parsed = false;
+                }
+                result.object = null;
+            }
+        }
+        return result;
+    }
+    Default.getObjectFromString = getObjectFromString;
+})(Default2 || (Default2 = {}));
 
 var DomElement;
 
@@ -213,7 +239,7 @@ var DomElement;
         t.style.top = `${o}px`;
     }
     e.showElementAtMousePosition = i;
-    function a(e) {
+    function s(e) {
         const t = document.createRange();
         const n = window.getSelection();
         t.setStart(e.childNodes[0], e.innerHTML.length);
@@ -221,7 +247,7 @@ var DomElement;
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.setTextCursorToEnd = a;
+    e.setTextCursorToEnd = s;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -322,99 +348,99 @@ var Binding;
         }
         t.getForNewInstance = n;
         function o(e) {
-            let t = Default.getObject(e, {});
-            t.data = Default.getObject(t.data, null);
-            t.showCounts = Default.getBoolean(t.showCounts, true);
-            t.useZeroIndexingForArrays = Default.getBoolean(t.useZeroIndexingForArrays, true);
-            t.dateTimeFormat = Default.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-            t.showArrowToggles = Default.getBoolean(t.showArrowToggles, true);
-            t.showStringQuotes = Default.getBoolean(t.showStringQuotes, true);
-            t.showAllAsClosed = Default.getBoolean(t.showAllAsClosed, false);
-            t.sortPropertyNames = Default.getBoolean(t.sortPropertyNames, true);
-            t.sortPropertyNamesInAlphabeticalOrder = Default.getBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
-            t.showCommas = Default.getBoolean(t.showCommas, false);
-            t.reverseArrayValues = Default.getBoolean(t.reverseArrayValues, false);
-            t.addArrayIndexPadding = Default.getBoolean(t.addArrayIndexPadding, false);
-            t.showValueColors = Default.getBoolean(t.showValueColors, true);
-            t.maximumDecimalPlaces = Default.getNumber(t.maximumDecimalPlaces, 2);
-            t.maximumStringLength = Default.getNumber(t.maximumStringLength, 0);
-            t.showStringHexColors = Default.getBoolean(t.showStringHexColors, false);
-            t.showArrayItemsAsSeparateObjects = Default.getBoolean(t.showArrayItemsAsSeparateObjects, false);
-            t.copyOnlyCurrentPage = Default.getBoolean(t.copyOnlyCurrentPage, false);
-            t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
-            t.copyIndentSpaces = Default.getNumber(t.copyIndentSpaces, 2);
-            t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
-            t.showOpeningClosingCurlyBraces = Default.getBoolean(t.showOpeningClosingCurlyBraces, false);
-            t.showOpeningClosingSquaredBrackets = Default.getBoolean(t.showOpeningClosingSquaredBrackets, false);
-            t.allowEditing = Default.getBoolean(t.allowEditing, true);
+            let t = Default2.getObject(e, {});
+            t.data = Default2.getObject(t.data, null);
+            t.showCounts = Default2.getBoolean(t.showCounts, true);
+            t.useZeroIndexingForArrays = Default2.getBoolean(t.useZeroIndexingForArrays, true);
+            t.dateTimeFormat = Default2.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
+            t.showArrowToggles = Default2.getBoolean(t.showArrowToggles, true);
+            t.showStringQuotes = Default2.getBoolean(t.showStringQuotes, true);
+            t.showAllAsClosed = Default2.getBoolean(t.showAllAsClosed, false);
+            t.sortPropertyNames = Default2.getBoolean(t.sortPropertyNames, true);
+            t.sortPropertyNamesInAlphabeticalOrder = Default2.getBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
+            t.showCommas = Default2.getBoolean(t.showCommas, false);
+            t.reverseArrayValues = Default2.getBoolean(t.reverseArrayValues, false);
+            t.addArrayIndexPadding = Default2.getBoolean(t.addArrayIndexPadding, false);
+            t.showValueColors = Default2.getBoolean(t.showValueColors, true);
+            t.maximumDecimalPlaces = Default2.getNumber(t.maximumDecimalPlaces, 2);
+            t.maximumStringLength = Default2.getNumber(t.maximumStringLength, 0);
+            t.showStringHexColors = Default2.getBoolean(t.showStringHexColors, false);
+            t.showArrayItemsAsSeparateObjects = Default2.getBoolean(t.showArrayItemsAsSeparateObjects, false);
+            t.copyOnlyCurrentPage = Default2.getBoolean(t.copyOnlyCurrentPage, false);
+            t.fileDroppingEnabled = Default2.getBoolean(t.fileDroppingEnabled, true);
+            t.copyIndentSpaces = Default2.getNumber(t.copyIndentSpaces, 2);
+            t.showArrayIndexBrackets = Default2.getBoolean(t.showArrayIndexBrackets, true);
+            t.showOpeningClosingCurlyBraces = Default2.getBoolean(t.showOpeningClosingCurlyBraces, false);
+            t.showOpeningClosingSquaredBrackets = Default2.getBoolean(t.showOpeningClosingSquaredBrackets, false);
+            t.allowEditing = Default2.getBoolean(t.allowEditing, true);
             t = r(t);
             t = l(t);
             t = i(t);
-            t = a(t);
             t = s(t);
+            t = a(t);
             return t;
         }
         t.get = o;
         function r(e) {
-            e.title = Default.getObject(e.title, {});
-            e.title.text = Default.getString(e.title.text, "JsonTree.js");
-            e.title.show = Default.getBoolean(e.title.show, true);
-            e.title.showTreeControls = Default.getBoolean(e.title.showTreeControls, true);
-            e.title.showCopyButton = Default.getBoolean(e.title.showCopyButton, true);
+            e.title = Default2.getObject(e.title, {});
+            e.title.text = Default2.getString(e.title.text, "JsonTree.js");
+            e.title.show = Default2.getBoolean(e.title.show, true);
+            e.title.showTreeControls = Default2.getBoolean(e.title.showTreeControls, true);
+            e.title.showCopyButton = Default2.getBoolean(e.title.showCopyButton, true);
             return e;
         }
         function l(e) {
-            e.ignore = Default.getObject(e.ignore, {});
-            e.ignore.nullValues = Default.getBoolean(e.ignore.nullValues, false);
-            e.ignore.functionValues = Default.getBoolean(e.ignore.functionValues, false);
-            e.ignore.unknownValues = Default.getBoolean(e.ignore.unknownValues, false);
-            e.ignore.booleanValues = Default.getBoolean(e.ignore.booleanValues, false);
-            e.ignore.decimalValues = Default.getBoolean(e.ignore.decimalValues, false);
-            e.ignore.numberValues = Default.getBoolean(e.ignore.numberValues, false);
-            e.ignore.stringValues = Default.getBoolean(e.ignore.stringValues, false);
-            e.ignore.dateValues = Default.getBoolean(e.ignore.dateValues, false);
-            e.ignore.objectValues = Default.getBoolean(e.ignore.objectValues, false);
-            e.ignore.arrayValues = Default.getBoolean(e.ignore.arrayValues, false);
-            e.ignore.bigIntValues = Default.getBoolean(e.ignore.bigIntValues, false);
-            e.ignore.symbolValues = Default.getBoolean(e.ignore.symbolValues, false);
-            e.ignore.emptyObjects = Default.getBoolean(e.ignore.emptyObjects, true);
-            e.ignore.undefinedValues = Default.getBoolean(e.ignore.undefinedValues, false);
+            e.ignore = Default2.getObject(e.ignore, {});
+            e.ignore.nullValues = Default2.getBoolean(e.ignore.nullValues, false);
+            e.ignore.functionValues = Default2.getBoolean(e.ignore.functionValues, false);
+            e.ignore.unknownValues = Default2.getBoolean(e.ignore.unknownValues, false);
+            e.ignore.booleanValues = Default2.getBoolean(e.ignore.booleanValues, false);
+            e.ignore.decimalValues = Default2.getBoolean(e.ignore.decimalValues, false);
+            e.ignore.numberValues = Default2.getBoolean(e.ignore.numberValues, false);
+            e.ignore.stringValues = Default2.getBoolean(e.ignore.stringValues, false);
+            e.ignore.dateValues = Default2.getBoolean(e.ignore.dateValues, false);
+            e.ignore.objectValues = Default2.getBoolean(e.ignore.objectValues, false);
+            e.ignore.arrayValues = Default2.getBoolean(e.ignore.arrayValues, false);
+            e.ignore.bigIntValues = Default2.getBoolean(e.ignore.bigIntValues, false);
+            e.ignore.symbolValues = Default2.getBoolean(e.ignore.symbolValues, false);
+            e.ignore.emptyObjects = Default2.getBoolean(e.ignore.emptyObjects, true);
+            e.ignore.undefinedValues = Default2.getBoolean(e.ignore.undefinedValues, false);
             return e;
         }
         function i(e) {
-            e.tooltip = Default.getObject(e.tooltip, {});
-            e.tooltip.delay = Default.getNumber(e.tooltip.delay, 750);
-            return e;
-        }
-        function a(e) {
-            e.parse = Default.getObject(e.parse, {});
-            e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
-            e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
-            e.parse.stringsToNumbers = Default.getBoolean(e.parse.stringsToNumbers, false);
+            e.tooltip = Default2.getObject(e.tooltip, {});
+            e.tooltip.delay = Default2.getNumber(e.tooltip.delay, 750);
             return e;
         }
         function s(e) {
-            e.events = Default.getObject(e.events, {});
-            e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
-            e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
-            e.events.onValueClick = Default.getFunction(e.events.onValueClick, null);
-            e.events.onRefresh = Default.getFunction(e.events.onRefresh, null);
-            e.events.onCopyAll = Default.getFunction(e.events.onCopyAll, null);
-            e.events.onOpenAll = Default.getFunction(e.events.onOpenAll, null);
-            e.events.onCloseAll = Default.getFunction(e.events.onCloseAll, null);
-            e.events.onDestroy = Default.getFunction(e.events.onDestroy, null);
-            e.events.onBooleanRender = Default.getFunction(e.events.onBooleanRender, null);
-            e.events.onDecimalRender = Default.getFunction(e.events.onDecimalRender, null);
-            e.events.onNumberRender = Default.getFunction(e.events.onNumberRender, null);
-            e.events.onBigIntRender = Default.getFunction(e.events.onBigIntRender, null);
-            e.events.onStringRender = Default.getFunction(e.events.onStringRender, null);
-            e.events.onDateRender = Default.getFunction(e.events.onDateRender, null);
-            e.events.onFunctionRender = Default.getFunction(e.events.onFunctionRender, null);
-            e.events.onNullRender = Default.getFunction(e.events.onNullRender, null);
-            e.events.onUnknownRender = Default.getFunction(e.events.onUnknownRender, null);
-            e.events.onSymbolRender = Default.getFunction(e.events.onSymbolRender, null);
-            e.events.onCopyJsonReplacer = Default.getFunction(e.events.onCopyJsonReplacer, null);
-            e.events.onUndefinedRender = Default.getFunction(e.events.onUndefinedRender, null);
+            e.parse = Default2.getObject(e.parse, {});
+            e.parse.stringsToDates = Default2.getBoolean(e.parse.stringsToDates, false);
+            e.parse.stringsToBooleans = Default2.getBoolean(e.parse.stringsToBooleans, false);
+            e.parse.stringsToNumbers = Default2.getBoolean(e.parse.stringsToNumbers, false);
+            return e;
+        }
+        function a(e) {
+            e.events = Default2.getObject(e.events, {});
+            e.events.onBeforeRender = Default2.getFunction(e.events.onBeforeRender, null);
+            e.events.onRenderComplete = Default2.getFunction(e.events.onRenderComplete, null);
+            e.events.onValueClick = Default2.getFunction(e.events.onValueClick, null);
+            e.events.onRefresh = Default2.getFunction(e.events.onRefresh, null);
+            e.events.onCopyAll = Default2.getFunction(e.events.onCopyAll, null);
+            e.events.onOpenAll = Default2.getFunction(e.events.onOpenAll, null);
+            e.events.onCloseAll = Default2.getFunction(e.events.onCloseAll, null);
+            e.events.onDestroy = Default2.getFunction(e.events.onDestroy, null);
+            e.events.onBooleanRender = Default2.getFunction(e.events.onBooleanRender, null);
+            e.events.onDecimalRender = Default2.getFunction(e.events.onDecimalRender, null);
+            e.events.onNumberRender = Default2.getFunction(e.events.onNumberRender, null);
+            e.events.onBigIntRender = Default2.getFunction(e.events.onBigIntRender, null);
+            e.events.onStringRender = Default2.getFunction(e.events.onStringRender, null);
+            e.events.onDateRender = Default2.getFunction(e.events.onDateRender, null);
+            e.events.onFunctionRender = Default2.getFunction(e.events.onFunctionRender, null);
+            e.events.onNullRender = Default2.getFunction(e.events.onNullRender, null);
+            e.events.onUnknownRender = Default2.getFunction(e.events.onUnknownRender, null);
+            e.events.onSymbolRender = Default2.getFunction(e.events.onSymbolRender, null);
+            e.events.onCopyJsonReplacer = Default2.getFunction(e.events.onCopyJsonReplacer, null);
+            e.events.onUndefinedRender = Default2.getFunction(e.events.onUndefinedRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -426,37 +452,37 @@ var Config;
     let t;
     (e => {
         function t(e = null) {
-            let t = Default.getObject(e, {});
-            t.safeMode = Default.getBoolean(t.safeMode, true);
-            t.domElementTypes = Default.getStringOrArray(t.domElementTypes, [ "*" ]);
+            let t = Default2.getObject(e, {});
+            t.safeMode = Default2.getBoolean(t.safeMode, true);
+            t.domElementTypes = Default2.getStringOrArray(t.domElementTypes, [ "*" ]);
             t = n(t);
             return t;
         }
         e.get = t;
         function n(e) {
-            e.text = Default.getObject(e.text, {});
-            e.text.objectText = Default.getAnyString(e.text.objectText, "object");
-            e.text.arrayText = Default.getAnyString(e.text.arrayText, "array");
-            e.text.closeAllButtonText = Default.getAnyString(e.text.closeAllButtonText, "Close All");
-            e.text.openAllButtonText = Default.getAnyString(e.text.openAllButtonText, "Open All");
-            e.text.copyAllButtonText = Default.getAnyString(e.text.copyAllButtonText, "Copy All");
-            e.text.objectErrorText = Default.getAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
-            e.text.attributeNotValidErrorText = Default.getAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
-            e.text.attributeNotSetErrorText = Default.getAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
-            e.text.stText = Default.getAnyString(e.text.stText, "st");
-            e.text.ndText = Default.getAnyString(e.text.ndText, "nd");
-            e.text.rdText = Default.getAnyString(e.text.rdText, "rd");
-            e.text.thText = Default.getAnyString(e.text.thText, "th");
-            e.text.ellipsisText = Default.getAnyString(e.text.ellipsisText, "...");
-            e.text.closeAllButtonSymbolText = Default.getAnyString(e.text.closeAllButtonSymbolText, "↑");
-            e.text.openAllButtonSymbolText = Default.getAnyString(e.text.openAllButtonSymbolText, "↓");
-            e.text.copyAllButtonSymbolText = Default.getAnyString(e.text.copyAllButtonSymbolText, "❐");
-            e.text.backButtonText = Default.getAnyString(e.text.backButtonText, "Back");
-            e.text.nextButtonText = Default.getAnyString(e.text.nextButtonText, "Next");
-            e.text.backButtonSymbolText = Default.getAnyString(e.text.backButtonSymbolText, "←");
-            e.text.nextButtonSymbolText = Default.getAnyString(e.text.nextButtonSymbolText, "→");
-            e.text.noJsonToViewText = Default.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
-            e.text.functionText = Default.getAnyString(e.text.functionText, "function");
+            e.text = Default2.getObject(e.text, {});
+            e.text.objectText = Default2.getAnyString(e.text.objectText, "object");
+            e.text.arrayText = Default2.getAnyString(e.text.arrayText, "array");
+            e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close All");
+            e.text.openAllButtonText = Default2.getAnyString(e.text.openAllButtonText, "Open All");
+            e.text.copyAllButtonText = Default2.getAnyString(e.text.copyAllButtonText, "Copy All");
+            e.text.objectErrorText = Default2.getAnyString(e.text.objectErrorText, "Errors in object: {{error_1}}, {{error_2}}");
+            e.text.attributeNotValidErrorText = Default2.getAnyString(e.text.attributeNotValidErrorText, "The attribute '{{attribute_name}}' is not a valid object.");
+            e.text.attributeNotSetErrorText = Default2.getAnyString(e.text.attributeNotSetErrorText, "The attribute '{{attribute_name}}' has not been set correctly.");
+            e.text.stText = Default2.getAnyString(e.text.stText, "st");
+            e.text.ndText = Default2.getAnyString(e.text.ndText, "nd");
+            e.text.rdText = Default2.getAnyString(e.text.rdText, "rd");
+            e.text.thText = Default2.getAnyString(e.text.thText, "th");
+            e.text.ellipsisText = Default2.getAnyString(e.text.ellipsisText, "...");
+            e.text.closeAllButtonSymbolText = Default2.getAnyString(e.text.closeAllButtonSymbolText, "↑");
+            e.text.openAllButtonSymbolText = Default2.getAnyString(e.text.openAllButtonSymbolText, "↓");
+            e.text.copyAllButtonSymbolText = Default2.getAnyString(e.text.copyAllButtonSymbolText, "❐");
+            e.text.backButtonText = Default2.getAnyString(e.text.backButtonText, "Back");
+            e.text.nextButtonText = Default2.getAnyString(e.text.nextButtonText, "Next");
+            e.text.backButtonSymbolText = Default2.getAnyString(e.text.backButtonSymbolText, "←");
+            e.text.nextButtonSymbolText = Default2.getAnyString(e.text.nextButtonSymbolText, "→");
+            e.text.noJsonToViewText = Default2.getAnyString(e.text.noJsonToViewText, "There is currently no JSON to view.");
+            e.text.functionText = Default2.getAnyString(e.text.functionText, "function");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -542,46 +568,46 @@ var ToolTip;
 })(ToolTip || (ToolTip = {}));
 
 (() => {
-    let _configuration = {};
-    let _elements_Data = {};
-    function render() {
-        const e = _configuration.domElementTypes;
-        const t = e.length;
-        for (let n = 0; n < t; n++) {
-            const t = document.getElementsByTagName(e[n]);
-            const o = [].slice.call(t);
-            const r = o.length;
-            for (let e = 0; e < r; e++) {
-                if (!renderElement(o[e])) {
+    let e = {};
+    let t = {};
+    function n() {
+        const t = e.domElementTypes;
+        const n = t.length;
+        for (let e = 0; e < n; e++) {
+            const n = document.getElementsByTagName(t[e]);
+            const r = [].slice.call(n);
+            const l = r.length;
+            for (let e = 0; e < l; e++) {
+                if (!o(r[e])) {
                     break;
                 }
             }
         }
     }
-    function renderElement(e) {
-        let t = true;
-        if (Is.defined(e) && e.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
-            const n = e.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
-            if (Is.definedString(n)) {
-                const o = getObjectFromString(n);
-                if (o.parsed && Is.definedObject(o.object)) {
-                    renderControl(Binding.Options.getForNewInstance(o.object, e));
+    function o(t) {
+        let n = true;
+        if (Is.defined(t) && t.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
+            const o = t.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+            if (Is.definedString(o)) {
+                const l = Default2.getObjectFromString(o, e);
+                if (l.parsed && Is.definedObject(l.object)) {
+                    r(Binding.Options.getForNewInstance(l.object, t));
                 } else {
-                    if (!_configuration.safeMode) {
-                        console.error(_configuration.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
-                        t = false;
+                    if (!e.safeMode) {
+                        console.error(e.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                        n = false;
                     }
                 }
             } else {
-                if (!_configuration.safeMode) {
-                    console.error(_configuration.text.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
-                    t = false;
+                if (!e.safeMode) {
+                    console.error(e.text.attributeNotSetErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
+                    n = false;
                 }
             }
         }
-        return t;
+        return n;
     }
-    function renderControl(e) {
+    function r(e) {
         Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
         ToolTip.renderControl(e);
         if (!Is.definedString(e._currentView.element.id)) {
@@ -589,97 +615,97 @@ var ToolTip;
         }
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
-        if (!_elements_Data.hasOwnProperty(e._currentView.element.id)) {
-            _elements_Data[e._currentView.element.id] = e;
+        if (!t.hasOwnProperty(e._currentView.element.id)) {
+            t[e._currentView.element.id] = e;
         }
-        renderControlContainer(e);
+        l(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
-    function renderControlContainer(e, t = false) {
-        let n = _elements_Data[e._currentView.element.id].data;
-        ToolTip.hide(e);
-        e._currentView.element.innerHTML = "";
-        e._currentView.editMode = false;
-        renderControlTitleBar(e, n);
-        const o = DomElement.create(e._currentView.element, "div", "contents");
-        if (t) {
-            DomElement.addClass(o, "page-switch");
+    function l(n, o = false) {
+        let r = t[n._currentView.element.id].data;
+        ToolTip.hide(n);
+        n._currentView.element.innerHTML = "";
+        n._currentView.editMode = false;
+        i(n, r);
+        const l = DomElement.create(n._currentView.element, "div", "contents");
+        if (o) {
+            DomElement.addClass(l, "page-switch");
         }
-        makeAreaDroppable(o, e);
-        if (e.showArrayItemsAsSeparateObjects && Is.definedArray(n)) {
-            n = n[e._currentView.dataArrayCurrentIndex];
+        A(l, n);
+        if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
+            r = r[n._currentView.dataArrayCurrentIndex];
         }
-        if (Is.definedObject(n) && !Is.definedArray(n)) {
-            renderObject(o, e, n);
-        } else if (Is.definedArray(n)) {
-            renderArray(o, e, n);
+        if (Is.definedObject(r) && !Is.definedArray(r)) {
+            f(l, n, r);
+        } else if (Is.definedArray(r)) {
+            d(l, n, r);
         }
-        if (o.innerHTML === "") {
-            DomElement.createWithHTML(o, "span", "no-json-text", _configuration.text.noJsonToViewText);
-            e._currentView.titleBarButtons.style.display = "none";
+        if (l.innerHTML === "") {
+            DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
+            n._currentView.titleBarButtons.style.display = "none";
         } else {
-            e._currentView.titleBarButtons.style.display = "block";
+            n._currentView.titleBarButtons.style.display = "block";
         }
     }
-    function renderControlTitleBar(e, t) {
-        if (e.title.show || e.title.showTreeControls || e.title.showCopyButton) {
-            const n = DomElement.create(e._currentView.element, "div", "title-bar");
-            e._currentView.titleBarButtons = DomElement.create(n, "div", "controls");
-            if (e.title.show) {
-                DomElement.createWithHTML(n, "div", "title", e.title.text, e._currentView.titleBarButtons);
+    function i(t, n) {
+        if (t.title.show || t.title.showTreeControls || t.title.showCopyButton) {
+            const o = DomElement.create(t._currentView.element, "div", "title-bar");
+            t._currentView.titleBarButtons = DomElement.create(o, "div", "controls");
+            if (t.title.show) {
+                DomElement.createWithHTML(o, "div", "title", t.title.text, t._currentView.titleBarButtons);
             }
-            if (e.title.showCopyButton) {
-                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "copy-all", _configuration.text.copyAllButtonSymbolText);
-                ToolTip.add(n, e, _configuration.text.copyAllButtonText);
+            if (t.title.showCopyButton) {
+                const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
+                ToolTip.add(o, t, e.text.copyAllButtonText);
+                o.onclick = () => {
+                    s(t, n);
+                };
+            }
+            if (t.title.showTreeControls) {
+                const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
+                ToolTip.add(n, t, e.text.openAllButtonText);
+                const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "closeAll", e.text.closeAllButtonSymbolText);
+                ToolTip.add(o, t, e.text.closeAllButtonText);
                 n.onclick = () => {
-                    onTitleBarCopyClick(e, t);
+                    u(t);
+                };
+                o.onclick = () => {
+                    c(t);
                 };
             }
-            if (e.title.showTreeControls) {
-                const t = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "openAll", _configuration.text.openAllButtonSymbolText);
-                ToolTip.add(t, e, _configuration.text.openAllButtonText);
-                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "closeAll", _configuration.text.closeAllButtonSymbolText);
-                ToolTip.add(n, e, _configuration.text.closeAllButtonText);
-                t.onclick = () => {
-                    openAllNodes(e);
-                };
-                n.onclick = () => {
-                    closeAllNodes(e);
-                };
-            }
-            if (e.showArrayItemsAsSeparateObjects && Is.definedArray(t) && t.length > 1) {
-                const n = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "back", _configuration.text.backButtonSymbolText);
-                ToolTip.add(n, e, _configuration.text.backButtonText);
-                if (e._currentView.dataArrayCurrentIndex > 0) {
-                    n.onclick = () => {
-                        e._currentView.dataArrayCurrentIndex--;
-                        renderControlContainer(e, true);
-                        Trigger.customEvent(e.events.onBackPage, e._currentView.element);
-                    };
-                } else {
-                    n.disabled = true;
-                }
-                const o = DomElement.createWithHTML(e._currentView.titleBarButtons, "button", "next", _configuration.text.nextButtonSymbolText);
-                ToolTip.add(o, e, _configuration.text.nextButtonText);
-                if (e._currentView.dataArrayCurrentIndex < t.length - 1) {
+            if (t.showArrayItemsAsSeparateObjects && Is.definedArray(n) && n.length > 1) {
+                const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "back", e.text.backButtonSymbolText);
+                ToolTip.add(o, t, e.text.backButtonText);
+                if (t._currentView.dataArrayCurrentIndex > 0) {
                     o.onclick = () => {
-                        e._currentView.dataArrayCurrentIndex++;
-                        renderControlContainer(e, true);
-                        Trigger.customEvent(e.events.onNextPage, e._currentView.element);
+                        t._currentView.dataArrayCurrentIndex--;
+                        l(t, true);
+                        Trigger.customEvent(t.events.onBackPage, t._currentView.element);
                     };
                 } else {
                     o.disabled = true;
                 }
+                const r = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "next", e.text.nextButtonSymbolText);
+                ToolTip.add(r, t, e.text.nextButtonText);
+                if (t._currentView.dataArrayCurrentIndex < n.length - 1) {
+                    r.onclick = () => {
+                        t._currentView.dataArrayCurrentIndex++;
+                        l(t, true);
+                        Trigger.customEvent(t.events.onNextPage, t._currentView.element);
+                    };
+                } else {
+                    r.disabled = true;
+                }
             } else {
-                if (Is.definedArray(t)) {
-                    e.showArrayItemsAsSeparateObjects = false;
+                if (Is.definedArray(n)) {
+                    t.showArrayItemsAsSeparateObjects = false;
                 }
             }
         }
     }
-    function onTitleBarCopyClick(e, t) {
+    function s(e, t) {
         let n = null;
-        let o = jsonStringifyReplacer;
+        let o = a;
         if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
             o = e.events.onCopyJsonReplacer;
         }
@@ -691,323 +717,323 @@ var ToolTip;
         navigator.clipboard.writeText(n);
         Trigger.customEvent(e.events.onCopyAll, n);
     }
-    function jsonStringifyReplacer(e, t) {
-        if (Is.definedBigInt(t)) {
-            t = t.toString();
-        } else if (Is.definedSymbol(t)) {
-            t = t.toString();
-        } else if (Is.definedFunction(t)) {
-            t = Default.getFunctionName(t, _configuration);
+    function a(t, n) {
+        if (Is.definedBigInt(n)) {
+            n = n.toString();
+        } else if (Is.definedSymbol(n)) {
+            n = n.toString();
+        } else if (Is.definedFunction(n)) {
+            n = Default2.getFunctionName(n, e);
         }
-        return t;
+        return n;
     }
-    function openAllNodes(e) {
+    function u(e) {
         e.showAllAsClosed = false;
-        renderControlContainer(e);
+        l(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function closeAllNodes(e) {
+    function c(e) {
         e.showAllAsClosed = true;
-        renderControlContainer(e);
+        l(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function renderObject(e, t, n) {
-        const o = getObjectPropertyNames(n, t);
-        const r = o.length;
-        if (r !== 0 || !t.ignore.emptyObjects) {
-            const l = DomElement.create(e, "div", "object-type-title");
-            const i = DomElement.create(e, "div", "object-type-contents object-type-contents-parent");
-            const a = t.showArrowToggles ? DomElement.create(l, "div", "down-arrow") : null;
-            const s = DomElement.createWithHTML(l, "span", t.showValueColors ? "object main-title" : "main-title", _configuration.text.objectText);
-            let u = null;
-            if (t.showArrayItemsAsSeparateObjects) {
-                let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
-                if (t.showArrayIndexBrackets) {
+    function f(t, n, o) {
+        const r = x(o, n);
+        const l = r.length;
+        if (l !== 0 || !n.ignore.emptyObjects) {
+            const i = DomElement.create(t, "div", "object-type-title");
+            const s = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
+            const a = n.showArrowToggles ? DomElement.create(i, "div", "down-arrow") : null;
+            const u = DomElement.createWithHTML(i, "span", n.showValueColors ? "object main-title" : "main-title", e.text.objectText);
+            let c = null;
+            if (n.showArrayItemsAsSeparateObjects) {
+                let e = n.useZeroIndexingForArrays ? n._currentView.dataArrayCurrentIndex.toString() : (n._currentView.dataArrayCurrentIndex + 1).toString();
+                if (n.showArrayIndexBrackets) {
                     e = `[${e}]:`;
                 }
-                DomElement.createWithHTML(l, "span", t.showValueColors ? "object data-array-index" : "data-array-index", e, s);
+                DomElement.createWithHTML(i, "span", n.showValueColors ? "object data-array-index" : "data-array-index", e, u);
             }
-            if (t.showCounts && r > 0) {
-                DomElement.createWithHTML(l, "span", t.showValueColors ? "object count" : "count", `{${r}}`);
+            if (n.showCounts && l > 0) {
+                DomElement.createWithHTML(i, "span", n.showValueColors ? "object count" : "count", `{${l}}`);
             }
-            if (t.showOpeningClosingCurlyBraces) {
-                u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+            if (n.showOpeningClosingCurlyBraces) {
+                c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
             }
-            renderObjectValues(a, null, i, t, n, o, u, false, true);
-            addValueClickEvent(t, s, n, "object");
+            g(a, null, s, n, o, r, c, false, true);
+            D(n, u, o, "object");
         }
     }
-    function renderArray(e, t, n) {
-        const o = DomElement.create(e, "div", "object-type-title");
-        const r = DomElement.create(e, "div", "object-type-contents object-type-contents-parent");
-        const l = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
-        const i = DomElement.createWithHTML(o, "span", t.showValueColors ? "array main-title" : "main-title", _configuration.text.arrayText);
+    function d(t, n, o) {
+        const r = DomElement.create(t, "div", "object-type-title");
+        const l = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
+        const i = n.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
+        const s = DomElement.createWithHTML(r, "span", n.showValueColors ? "array main-title" : "main-title", e.text.arrayText);
         let a = null;
-        if (t.showCounts) {
-            DomElement.createWithHTML(o, "span", t.showValueColors ? "array count" : "count", `[${n.length}]`);
+        if (n.showCounts) {
+            DomElement.createWithHTML(r, "span", n.showValueColors ? "array count" : "count", `[${o.length}]`);
         }
-        if (t.showOpeningClosingCurlyBraces) {
-            a = DomElement.createWithHTML(o, "span", "opening-symbol", "[");
+        if (n.showOpeningClosingCurlyBraces) {
+            a = DomElement.createWithHTML(r, "span", "opening-symbol", "[");
         }
-        renderArrayValues(l, null, r, t, n, a, false, true);
-        addValueClickEvent(t, i, n, "object");
+        m(i, null, l, n, o, a, false, true);
+        D(n, s, o, "object");
     }
-    function renderObjectValues(e, t, n, o, r, l, i, a, s) {
+    function g(e, t, n, o, r, l, i, s, a) {
         const u = l.length;
         for (let e = 0; e < u; e++) {
             const t = l[e];
             if (r.hasOwnProperty(t)) {
-                renderValue(r, n, o, t, r[t], e === u - 1, false);
+                p(r, n, o, t, r[t], e === u - 1, false);
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            createClosingSymbol(o, n, "}", a, s);
+            S(o, n, "}", s, a);
         }
-        addArrowEvent(o, e, t, n, i);
+        w(o, e, t, n, i);
     }
-    function renderArrayValues(e, t, n, o, r, l, i, a) {
-        const s = r.length;
+    function m(e, t, n, o, r, l, i, s) {
+        const a = r.length;
         if (!o.reverseArrayValues) {
-            for (let e = 0; e < s; e++) {
-                renderValue(r, n, o, getIndexName(o, e, s), r[e], e === s - 1, true);
+            for (let e = 0; e < a; e++) {
+                p(r, n, o, v(o, e, a), r[e], e === a - 1, true);
             }
         } else {
-            for (let e = s; e--; ) {
-                renderValue(r, n, o, getIndexName(o, e, s), r[e], e === 0, true);
+            for (let e = a; e--; ) {
+                p(r, n, o, v(o, e, a), r[e], e === 0, true);
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            createClosingSymbol(o, n, "]", i, a);
+            S(o, n, "]", i, s);
         }
-        addArrowEvent(o, e, t, n, l);
+        w(o, e, t, n, l);
     }
-    function renderValue(e, t, n, o, r, l, i) {
-        const a = DomElement.create(t, "div", "object-type-value");
-        const s = n.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
-        let u = null;
+    function p(t, n, o, r, l, i, s) {
+        const a = DomElement.create(n, "div", "object-type-value");
+        const u = o.showArrowToggles ? DomElement.create(a, "div", "no-arrow") : null;
         let c = null;
-        let d = false;
         let f = null;
-        const g = DomElement.createWithHTML(a, "span", "title", o);
+        let d = false;
+        let T = null;
+        const w = DomElement.createWithHTML(a, "span", "title", r);
         DomElement.createWithHTML(a, "span", "split", ":");
-        if (!i) {
-            makePropertyNameEditable(n, e, o, g);
+        if (!s) {
+            y(o, t, r, w);
         }
-        if (r === null) {
-            if (!n.ignore.nullValues) {
-                u = n.showValueColors ? "null value non-value" : "value non-value";
-                c = DomElement.createWithHTML(a, "span", u, "null");
-                f = "null";
-                if (Is.definedFunction(n.events.onNullRender)) {
-                    Trigger.customEvent(n.events.onNullRender, c);
+        if (l === null) {
+            if (!o.ignore.nullValues) {
+                c = o.showValueColors ? "null value non-value" : "value non-value";
+                f = DomElement.createWithHTML(a, "span", c, "null");
+                T = "null";
+                if (Is.definedFunction(o.events.onNullRender)) {
+                    Trigger.customEvent(o.events.onNullRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (r === void 0) {
-            if (!n.ignore.undefinedValues) {
-                u = n.showValueColors ? "undefined value non-value" : "value non-value";
-                c = DomElement.createWithHTML(a, "span", u, "undefined");
-                f = "undefined";
-                if (Is.definedFunction(n.events.onUndefinedRender)) {
-                    Trigger.customEvent(n.events.onUndefinedRender, c);
+        } else if (l === void 0) {
+            if (!o.ignore.undefinedValues) {
+                c = o.showValueColors ? "undefined value non-value" : "value non-value";
+                f = DomElement.createWithHTML(a, "span", c, "undefined");
+                T = "undefined";
+                if (Is.definedFunction(o.events.onUndefinedRender)) {
+                    Trigger.customEvent(o.events.onUndefinedRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedFunction(r)) {
-            if (!n.ignore.functionValues) {
-                u = n.showValueColors ? "function value non-value" : "value non-value";
-                c = DomElement.createWithHTML(a, "span", u, Default.getFunctionName(r, _configuration));
-                f = "function";
-                if (Is.definedFunction(n.events.onFunctionRender)) {
-                    Trigger.customEvent(n.events.onFunctionRender, c);
+        } else if (Is.definedFunction(l)) {
+            if (!o.ignore.functionValues) {
+                c = o.showValueColors ? "function value non-value" : "value non-value";
+                f = DomElement.createWithHTML(a, "span", c, Default2.getFunctionName(l, e));
+                T = "function";
+                if (Is.definedFunction(o.events.onFunctionRender)) {
+                    Trigger.customEvent(o.events.onFunctionRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedBoolean(r)) {
-            if (!n.ignore.booleanValues) {
-                u = n.showValueColors ? "boolean value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, r);
-                f = "boolean";
-                makePropertyValueEditable(n, e, o, r, c, i);
-                if (Is.definedFunction(n.events.onBooleanRender)) {
-                    Trigger.customEvent(n.events.onBooleanRender, c);
+        } else if (Is.definedBoolean(l)) {
+            if (!o.ignore.booleanValues) {
+                c = o.showValueColors ? "boolean value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, l);
+                T = "boolean";
+                b(o, t, r, l, f, s);
+                if (Is.definedFunction(o.events.onBooleanRender)) {
+                    Trigger.customEvent(o.events.onBooleanRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedDecimal(r)) {
-            if (!n.ignore.decimalValues) {
-                const t = Default.getFixedDecimalPlacesValue(r, n.maximumDecimalPlaces);
-                u = n.showValueColors ? "decimal value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, t);
-                f = "decimal";
-                makePropertyValueEditable(n, e, o, r, c, i);
-                if (Is.definedFunction(n.events.onDecimalRender)) {
-                    Trigger.customEvent(n.events.onDecimalRender, c);
+        } else if (Is.definedDecimal(l)) {
+            if (!o.ignore.decimalValues) {
+                const e = Default2.getFixedDecimalPlacesValue(l, o.maximumDecimalPlaces);
+                c = o.showValueColors ? "decimal value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, e);
+                T = "decimal";
+                b(o, t, r, l, f, s);
+                if (Is.definedFunction(o.events.onDecimalRender)) {
+                    Trigger.customEvent(o.events.onDecimalRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedNumber(r)) {
-            if (!n.ignore.numberValues) {
-                u = n.showValueColors ? "number value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, r);
-                f = "number";
-                makePropertyValueEditable(n, e, o, r, c, i);
-                if (Is.definedFunction(n.events.onNumberRender)) {
-                    Trigger.customEvent(n.events.onNumberRender, c);
+        } else if (Is.definedNumber(l)) {
+            if (!o.ignore.numberValues) {
+                c = o.showValueColors ? "number value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, l);
+                T = "number";
+                b(o, t, r, l, f, s);
+                if (Is.definedFunction(o.events.onNumberRender)) {
+                    Trigger.customEvent(o.events.onNumberRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedBigInt(r)) {
-            if (!n.ignore.bigIntValues) {
-                u = n.showValueColors ? "bigint value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, r);
-                f = "bigint";
-                makePropertyValueEditable(n, e, o, r, c, i);
-                if (Is.definedFunction(n.events.onBigIntRender)) {
-                    Trigger.customEvent(n.events.onBigIntRender, c);
+        } else if (Is.definedBigInt(l)) {
+            if (!o.ignore.bigIntValues) {
+                c = o.showValueColors ? "bigint value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, l);
+                T = "bigint";
+                b(o, t, r, l, f, s);
+                if (Is.definedFunction(o.events.onBigIntRender)) {
+                    Trigger.customEvent(o.events.onBigIntRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedString(r)) {
-            if (!n.ignore.stringValues) {
-                if (n.parse.stringsToBooleans && Is.String.boolean(r)) {
-                    renderValue(e, t, n, o, r.toString().toLowerCase().trim() === "true", l, i);
+        } else if (Is.definedString(l)) {
+            if (!o.ignore.stringValues) {
+                if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
+                    p(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, s);
                     d = true;
-                } else if (n.parse.stringsToNumbers && !isNaN(r)) {
-                    renderValue(e, t, n, o, parseFloat(r), l, i);
+                } else if (o.parse.stringsToNumbers && !isNaN(l)) {
+                    p(t, n, o, r, parseFloat(l), i, s);
                     d = true;
-                } else if (n.parse.stringsToDates && Is.String.date(r)) {
-                    renderValue(e, t, n, o, new Date(r), l, i);
+                } else if (o.parse.stringsToDates && Is.String.date(l)) {
+                    p(t, n, o, r, new Date(l), i, s);
                     d = true;
                 } else {
-                    let t = null;
-                    if (n.showValueColors && n.showStringHexColors && (Is.String.hexColor(r) || Is.String.rgbColor(r))) {
-                        t = r;
-                        f = "color";
+                    let n = null;
+                    if (o.showValueColors && o.showStringHexColors && (Is.String.hexColor(l) || Is.String.rgbColor(l))) {
+                        n = l;
+                        T = "color";
                     } else {
-                        if (n.maximumStringLength > 0 && r.length > n.maximumStringLength) {
-                            r = r.substring(0, n.maximumStringLength) + _configuration.text.ellipsisText;
+                        if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
+                            l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
-                        f = "string";
+                        T = "string";
                     }
-                    const s = n.showStringQuotes && t === null ? `"${r}"` : r;
-                    u = n.showValueColors ? "string value" : "value";
-                    c = DomElement.createWithHTML(a, "span", u, s);
-                    makePropertyValueEditable(n, e, o, r, c, i);
-                    if (Is.definedString(t)) {
-                        c.style.color = t;
+                    const u = o.showStringQuotes && n === null ? `"${l}"` : l;
+                    c = o.showValueColors ? "string value" : "value";
+                    f = DomElement.createWithHTML(a, "span", c, u);
+                    b(o, t, r, l, f, s);
+                    if (Is.definedString(n)) {
+                        f.style.color = n;
                     }
-                    if (Is.definedFunction(n.events.onStringRender)) {
-                        Trigger.customEvent(n.events.onStringRender, c);
+                    if (Is.definedFunction(o.events.onStringRender)) {
+                        Trigger.customEvent(o.events.onStringRender, f);
                     }
-                    createComma(n, a, l);
+                    h(o, a, i);
                 }
             } else {
                 d = true;
             }
-        } else if (Is.definedDate(r)) {
-            if (!n.ignore.dateValues) {
-                u = n.showValueColors ? "date value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, DateTime.getCustomFormattedDateText(_configuration, r, n.dateTimeFormat));
-                f = "date";
-                makePropertyValueEditable(n, e, o, r, c, i);
-                if (Is.definedFunction(n.events.onDateRender)) {
-                    Trigger.customEvent(n.events.onDateRender, c);
+        } else if (Is.definedDate(l)) {
+            if (!o.ignore.dateValues) {
+                c = o.showValueColors ? "date value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
+                T = "date";
+                b(o, t, r, l, f, s);
+                if (Is.definedFunction(o.events.onDateRender)) {
+                    Trigger.customEvent(o.events.onDateRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedSymbol(r)) {
-            if (!n.ignore.symbolValues) {
-                u = n.showValueColors ? "symbol value" : "value";
-                c = DomElement.createWithHTML(a, "span", u, r.toString());
-                f = "symbol";
-                if (Is.definedFunction(n.events.onSymbolRender)) {
-                    Trigger.customEvent(n.events.onSymbolRender, c);
+        } else if (Is.definedSymbol(l)) {
+            if (!o.ignore.symbolValues) {
+                c = o.showValueColors ? "symbol value" : "value";
+                f = DomElement.createWithHTML(a, "span", c, l.toString());
+                T = "symbol";
+                if (Is.definedFunction(o.events.onSymbolRender)) {
+                    Trigger.customEvent(o.events.onSymbolRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
-        } else if (Is.definedObject(r) && !Is.definedArray(r)) {
-            if (!n.ignore.objectValues) {
-                const e = getObjectPropertyNames(r, n);
-                const t = e.length;
-                if (t === 0 && n.ignore.emptyObjects) {
+        } else if (Is.definedObject(l) && !Is.definedArray(l)) {
+            if (!o.ignore.objectValues) {
+                const t = x(l, o);
+                const n = t.length;
+                if (n === 0 && o.ignore.emptyObjects) {
                     d = true;
                 } else {
-                    const o = DomElement.create(a, "span", n.showValueColors ? "object" : "");
-                    const i = DomElement.create(a, "div", "object-type-contents");
-                    let u = null;
-                    c = DomElement.createWithHTML(o, "span", "main-title", _configuration.text.objectText);
-                    if (n.showCounts && t > 0) {
-                        DomElement.createWithHTML(o, "span", "count", `{${t}}`);
+                    const r = DomElement.create(a, "span", o.showValueColors ? "object" : "");
+                    const s = DomElement.create(a, "div", "object-type-contents");
+                    let c = null;
+                    f = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
+                    if (o.showCounts && n > 0) {
+                        DomElement.createWithHTML(r, "span", "count", `{${n}}`);
                     }
-                    if (n.showOpeningClosingCurlyBraces) {
-                        u = DomElement.createWithHTML(o, "span", "opening-symbol", "{");
+                    if (o.showOpeningClosingCurlyBraces) {
+                        c = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
-                    let d = createComma(n, o, l);
-                    renderObjectValues(s, d, i, n, r, e, u, true, l);
-                    f = "object";
+                    let d = h(o, r, i);
+                    g(u, d, s, o, l, t, c, true, i);
+                    T = "object";
                 }
             } else {
                 d = true;
             }
-        } else if (Is.definedArray(r)) {
-            if (!n.ignore.arrayValues) {
-                const e = DomElement.create(a, "span", n.showValueColors ? "array" : "");
-                const t = DomElement.create(a, "div", "object-type-contents");
-                let o = null;
-                c = DomElement.createWithHTML(e, "span", "main-title", _configuration.text.arrayText);
-                if (n.showCounts) {
-                    DomElement.createWithHTML(e, "span", "count", `[${r.length}]`);
+        } else if (Is.definedArray(l)) {
+            if (!o.ignore.arrayValues) {
+                const t = DomElement.create(a, "span", o.showValueColors ? "array" : "");
+                const n = DomElement.create(a, "div", "object-type-contents");
+                let r = null;
+                f = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
+                if (o.showCounts) {
+                    DomElement.createWithHTML(t, "span", "count", `[${l.length}]`);
                 }
-                if (n.showOpeningClosingCurlyBraces) {
-                    o = DomElement.createWithHTML(e, "span", "opening-symbol", "[");
+                if (o.showOpeningClosingCurlyBraces) {
+                    r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
-                let i = createComma(n, e, l);
-                renderArrayValues(s, i, t, n, r, o, true, l);
-                f = "array";
+                let s = h(o, t, i);
+                m(u, s, n, o, l, r, true, i);
+                T = "array";
             } else {
                 d = true;
             }
         } else {
-            if (!n.ignore.unknownValues) {
-                u = n.showValueColors ? "unknown value non-value" : "value non-value";
-                c = DomElement.createWithHTML(a, "span", u, r.toString());
-                f = "unknown";
-                if (Is.definedFunction(n.events.onUnknownRender)) {
-                    Trigger.customEvent(n.events.onUnknownRender, c);
+            if (!o.ignore.unknownValues) {
+                c = o.showValueColors ? "unknown value non-value" : "value non-value";
+                f = DomElement.createWithHTML(a, "span", c, l.toString());
+                T = "unknown";
+                if (Is.definedFunction(o.events.onUnknownRender)) {
+                    Trigger.customEvent(o.events.onUnknownRender, f);
                 }
-                createComma(n, a, l);
+                h(o, a, i);
             } else {
                 d = true;
             }
         }
         if (d) {
-            t.removeChild(a);
+            n.removeChild(a);
         } else {
-            if (Is.defined(c)) {
-                addValueClickEvent(n, c, r, f);
+            if (Is.defined(f)) {
+                D(o, f, l, T);
             }
         }
     }
-    function makePropertyNameEditable(e, t, n, o) {
+    function y(e, t, n, o) {
         if (e.allowEditing) {
             o.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1018,31 +1044,31 @@ var ToolTip;
                 o.focus();
                 DomElement.setTextCursorToEnd(o);
                 o.onblur = () => {
-                    renderControlContainer(e, false);
+                    l(e, false);
                 };
                 o.onkeydown = r => {
                     if (r.code == "Escape") {
                         r.preventDefault();
-                        renderControlContainer(e, false);
+                        l(e, false);
                     } else if (r.code == "Enter") {
                         r.preventDefault();
-                        const l = o.innerText;
-                        if (l.trim() === "") {
+                        const i = o.innerText;
+                        if (i.trim() === "") {
                             delete t[n];
                         } else {
-                            if (!t.hasOwnProperty(l)) {
+                            if (!t.hasOwnProperty(i)) {
                                 const e = t[n];
                                 delete t[n];
-                                t[l] = e;
+                                t[i] = e;
                             }
                         }
-                        renderControlContainer(e, false);
+                        l(e, false);
                     }
                 };
             };
         }
     }
-    function makePropertyValueEditable(e, t, n, o, r, l) {
+    function b(e, t, n, o, r, i) {
         if (e.allowEditing) {
             r.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1054,18 +1080,18 @@ var ToolTip;
                 r.focus();
                 DomElement.setTextCursorToEnd(r);
                 r.onblur = () => {
-                    renderControlContainer(e, false);
+                    l(e, false);
                 };
-                r.onkeydown = i => {
-                    if (i.code == "Escape") {
-                        i.preventDefault();
-                        renderControlContainer(e, false);
-                    } else if (i.code == "Enter") {
-                        i.preventDefault();
+                r.onkeydown = s => {
+                    if (s.code == "Escape") {
+                        s.preventDefault();
+                        l(e, false);
+                    } else if (s.code == "Enter") {
+                        s.preventDefault();
                         const a = r.innerText;
                         if (a.trim() === "") {
-                            if (l) {
-                                t.splice(getArrayIndex(n), 1);
+                            if (i) {
+                                t.splice(T(n), 1);
                             } else {
                                 delete t[n];
                             }
@@ -1085,23 +1111,23 @@ var ToolTip;
                                 e = BigInt(a);
                             }
                             if (e !== null) {
-                                if (l) {
-                                    t[getArrayIndex(n)] = e;
+                                if (i) {
+                                    t[T(n)] = e;
                                 } else {
                                     t[n] = e;
                                 }
                             }
                         }
-                        renderControlContainer(e, false);
+                        l(e, false);
                     }
                 };
             };
         }
     }
-    function getArrayIndex(e) {
+    function T(e) {
         return parseInt(e.replace("[", "").replace("]", ""));
     }
-    function addValueClickEvent(e, t, n, o) {
+    function D(e, t, n, o) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (e.allowEditing) {
@@ -1118,7 +1144,7 @@ var ToolTip;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function addArrowEvent(e, t, n, o, r) {
+    function w(e, t, n, o, r) {
         if (Is.defined(t)) {
             const l = () => {
                 o.style.display = "none";
@@ -1154,14 +1180,14 @@ var ToolTip;
             }
         }
     }
-    function createComma(e, t, n) {
+    function h(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function getIndexName(e, t, n) {
+    function v(e, t, n) {
         let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
             o = Str.padNumber(parseInt(o), n.toString().length);
@@ -1171,7 +1197,7 @@ var ToolTip;
         }
         return o;
     }
-    function getObjectPropertyNames(e, t) {
+    function x(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -1190,15 +1216,15 @@ var ToolTip;
         }
         return n;
     }
-    function createClosingSymbol(e, t, n, o, r) {
+    function S(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
         if (o) {
             DomElement.create(l, "div", "no-arrow");
         }
         DomElement.createWithHTML(l, "div", "object-type-end", n);
-        createComma(e, l, r);
+        h(e, l, r);
     }
-    function makeAreaDroppable(e, t) {
+    function A(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1206,173 +1232,148 @@ var ToolTip;
             e.ondrop = e => {
                 DomElement.cancelBubble(e);
                 if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-                    importFromFiles(e.dataTransfer.files, t);
+                    I(e.dataTransfer.files, t);
                 }
             };
         }
     }
-    function importFromFiles(e, t) {
+    function I(e, t) {
         const n = e.length;
         for (let o = 0; o < n; o++) {
             const n = e[o];
             const r = n.name.split(".").pop().toLowerCase();
             if (r === "json") {
-                importFromJson(n, t);
+                E(n, t);
             }
         }
     }
-    function importFromJson(e, t) {
-        const n = new FileReader;
-        let o = null;
-        n.onloadend = () => {
-            t._currentView.dataArrayCurrentIndex = 0;
-            t.data = o;
-            renderControlContainer(t);
-            Trigger.customEvent(t.events.onSetJson, t._currentView.element);
+    function E(t, n) {
+        const o = new FileReader;
+        let r = null;
+        o.onloadend = () => {
+            n._currentView.dataArrayCurrentIndex = 0;
+            n.data = r;
+            l(n);
+            Trigger.customEvent(n.events.onSetJson, n._currentView.element);
         };
-        n.onload = e => {
-            const t = getObjectFromString(e.target.result);
-            if (t.parsed && Is.definedObject(t.object)) {
-                o = t.object;
+        o.onload = t => {
+            const n = Default2.getObjectFromString(t.target.result, e);
+            if (n.parsed && Is.definedObject(n.object)) {
+                r = n.object;
             }
         };
-        n.readAsText(e);
+        o.readAsText(t);
     }
-    function getObjectFromString(objectString) {
-        const result = {
-            parsed: true,
-            object: null
-        };
-        try {
-            if (Is.definedString(objectString)) {
-                result.object = JSON.parse(objectString);
-            }
-        } catch (e1) {
-            try {
-                result.object = eval(`(${objectString})`);
-                if (Is.definedFunction(result.object)) {
-                    result.object = result.object();
-                }
-            } catch (e) {
-                if (!_configuration.safeMode) {
-                    console.error(_configuration.text.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
-                    result.parsed = false;
-                }
-                result.object = null;
-            }
-        }
-        return result;
-    }
-    function destroyElement(e) {
+    function B(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.className = "";
         ToolTip.assignToEvents(e, false);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const _public = {
+    const V = {
         refresh: function(e) {
-            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                const t = _elements_Data[e];
-                renderControlContainer(t);
-                Trigger.customEvent(t.events.onRefresh, t._currentView.element);
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const n = t[e];
+                l(n);
+                Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return _public;
+            return V;
         },
         refreshAll: function() {
-            for (let e in _elements_Data) {
-                if (_elements_Data.hasOwnProperty(e)) {
-                    const t = _elements_Data[e];
-                    renderControlContainer(t);
-                    Trigger.customEvent(t.events.onRefresh, t._currentView.element);
+            for (let e in t) {
+                if (t.hasOwnProperty(e)) {
+                    const n = t[e];
+                    l(n);
+                    Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return _public;
+            return V;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
-                renderControl(Binding.Options.getForNewInstance(t, e));
+                r(Binding.Options.getForNewInstance(t, e));
             }
-            return _public;
+            return V;
         },
         renderAll: function() {
-            render();
-            return _public;
+            n();
+            return V;
         },
         openAll: function(e) {
-            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                openAllNodes(_elements_Data[e]);
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                u(t[e]);
             }
-            return _public;
+            return V;
         },
         closeAll: function(e) {
-            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                closeAllNodes(_elements_Data[e]);
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                c(t[e]);
             }
-            return _public;
+            return V;
         },
-        setJson: function(e, t) {
-            if (Is.definedString(e) && Is.defined(t) && _elements_Data.hasOwnProperty(e)) {
-                let n = null;
-                if (Is.definedString(t)) {
-                    const e = getObjectFromString(t);
-                    if (e.parsed) {
-                        n = e.object;
+        setJson: function(n, o) {
+            if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
+                let r = null;
+                if (Is.definedString(o)) {
+                    const t = Default2.getObjectFromString(o, e);
+                    if (t.parsed) {
+                        r = t.object;
                     }
                 } else {
-                    n = t;
+                    r = o;
                 }
-                const o = _elements_Data[e];
-                o._currentView.dataArrayCurrentIndex = 0;
-                o.data = n;
-                renderControlContainer(o);
-                Trigger.customEvent(o.events.onSetJson, o._currentView.element);
+                const i = t[n];
+                i._currentView.dataArrayCurrentIndex = 0;
+                i.data = r;
+                l(i);
+                Trigger.customEvent(i.events.onSetJson, i._currentView.element);
             }
-            return _public;
+            return V;
         },
         getJson: function(e) {
-            let t = null;
-            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                t = _elements_Data[e].data;
+            let n = null;
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                n = t[e].data;
             }
-            return t;
+            return n;
         },
         destroy: function(e) {
-            if (Is.definedString(e) && _elements_Data.hasOwnProperty(e)) {
-                destroyElement(_elements_Data[e]);
-                delete _elements_Data[e];
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                B(t[e]);
+                delete t[e];
             }
-            return _public;
+            return V;
         },
         destroyAll: function() {
-            for (let e in _elements_Data) {
-                if (_elements_Data.hasOwnProperty(e)) {
-                    destroyElement(_elements_Data[e]);
+            for (let e in t) {
+                if (t.hasOwnProperty(e)) {
+                    B(t[e]);
                 }
             }
-            _elements_Data = {};
-            return _public;
+            t = {};
+            return V;
         },
-        setConfiguration: function(e) {
-            if (Is.definedObject(e)) {
-                let t = false;
-                const n = _configuration;
-                for (let o in e) {
-                    if (e.hasOwnProperty(o) && _configuration.hasOwnProperty(o) && n[o] !== e[o]) {
-                        n[o] = e[o];
-                        t = true;
+        setConfiguration: function(t) {
+            if (Is.definedObject(t)) {
+                let n = false;
+                const o = e;
+                for (let r in t) {
+                    if (t.hasOwnProperty(r) && e.hasOwnProperty(r) && o[r] !== t[r]) {
+                        o[r] = t[r];
+                        n = true;
                     }
                 }
-                if (t) {
-                    _configuration = Config.Options.get(n);
+                if (n) {
+                    e = Config.Options.get(o);
                 }
             }
-            return _public;
+            return V;
         },
         getIds: function() {
             const e = [];
-            for (let t in _elements_Data) {
-                if (_elements_Data.hasOwnProperty(t)) {
-                    e.push(t);
+            for (let n in t) {
+                if (t.hasOwnProperty(n)) {
+                    e.push(n);
                 }
             }
             return e;
@@ -1382,12 +1383,12 @@ var ToolTip;
         }
     };
     (() => {
-        _configuration = Config.Options.get();
+        e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (function() {
-            render();
+            n();
         }));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = _public;
+            window.$jsontree = V;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map
