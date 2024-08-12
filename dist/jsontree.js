@@ -316,6 +316,8 @@ var Binding;
             o._currentView.element = n;
             o._currentView.dataArrayCurrentIndex = 0;
             o._currentView.titleBarButtons = null;
+            o._currentView.valueClickTimerId = 0;
+            o._currentView.editMode = false;
             return o;
         }
         t.getForNewInstance = n;
@@ -597,6 +599,7 @@ var ToolTip;
         let n = _elements_Data[e._currentView.element.id].data;
         ToolTip.hide(e);
         e._currentView.element.innerHTML = "";
+        e._currentView.editMode = false;
         renderControlTitleBar(e, n);
         const o = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
@@ -1007,6 +1010,9 @@ var ToolTip;
     function makePropertyNameEditable(e, t, n, o) {
         if (e.allowEditing) {
             o.ondblclick = () => {
+                clearTimeout(e._currentView.valueClickTimerId);
+                e._currentView.valueClickTimerId = 0;
+                e._currentView.editMode = true;
                 DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
                 o.focus();
@@ -1039,6 +1045,9 @@ var ToolTip;
     function makePropertyValueEditable(e, t, n, o, r, l) {
         if (e.allowEditing) {
             r.ondblclick = () => {
+                clearTimeout(e._currentView.valueClickTimerId);
+                e._currentView.valueClickTimerId = 0;
+                e._currentView.editMode = true;
                 DomElement.addClass(r, "editable");
                 r.setAttribute("contenteditable", "true");
                 r.innerText = o.toString();
@@ -1095,7 +1104,15 @@ var ToolTip;
     function addValueClickEvent(e, t, n, o) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
-                Trigger.customEvent(e.events.onValueClick, n, o);
+                if (e.allowEditing) {
+                    e._currentView.valueClickTimerId = setTimeout((() => {
+                        if (!e._currentView.editMode) {
+                            Trigger.customEvent(e.events.onValueClick, n, o);
+                        }
+                    }), 500);
+                } else {
+                    Trigger.customEvent(e.events.onValueClick, n, o);
+                }
             };
         } else {
             DomElement.addClass(t, "no-hover");

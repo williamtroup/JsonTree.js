@@ -120,6 +120,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         ToolTip.hide( bindingOptions );
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
+        bindingOptions._currentView.editMode = false;
 
         renderControlTitleBar( bindingOptions, data );
 
@@ -696,6 +697,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
         if ( bindingOptions.allowEditing ) {
             propertyName.ondblclick = () => {
+                clearTimeout( bindingOptions._currentView.valueClickTimerId );
+                bindingOptions._currentView.valueClickTimerId = 0;
+                bindingOptions._currentView.editMode = true;
+
                 DomElement.addClass( propertyName, "editable" );
 
                 propertyName.setAttribute( "contenteditable", "true" );
@@ -740,6 +745,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing ) {
             propertyValue.ondblclick = () => {
+                clearTimeout( bindingOptions._currentView.valueClickTimerId );
+                bindingOptions._currentView.valueClickTimerId = 0;
+                bindingOptions._currentView.editMode = true;
+
                 DomElement.addClass( propertyValue, "editable" );
 
                 propertyValue.setAttribute( "contenteditable", "true" );
@@ -809,7 +818,16 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string ) : void {
         if ( Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
-                Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
+                if ( bindingOptions.allowEditing ) {
+                    bindingOptions._currentView.valueClickTimerId = setTimeout( () => {
+                        if ( !bindingOptions._currentView.editMode ) {
+                            Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
+                        }
+                    }, 500 );
+
+                } else {
+                    Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
+                }
             };
 
         } else {

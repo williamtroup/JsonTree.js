@@ -90,6 +90,8 @@ export type BindingOptionsCurrentView = {
 	titleBarButtons: HTMLElement;
 	tooltip: HTMLElement;
 	tooltipTimerId: number;
+	valueClickTimerId: number;
+	editMode: boolean;
 };
 
 export type BindingOptionsParse = {

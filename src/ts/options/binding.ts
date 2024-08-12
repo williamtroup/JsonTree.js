@@ -31,6 +31,8 @@ export namespace Binding {
             bindingOptions._currentView.element = element;
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
             bindingOptions._currentView.titleBarButtons = null!;
+            bindingOptions._currentView.valueClickTimerId = 0;
+            bindingOptions._currentView.editMode = false;
 
             return bindingOptions;
         }
