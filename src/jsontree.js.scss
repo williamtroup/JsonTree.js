@@ -371,6 +371,7 @@ div.json-tree-js {
                 box-shadow: none !important;
                 padding: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 border-radius: var(--json-tree-js-border-radius-editable) !important;
+                cursor: text !important;
             }
 
             span.main-title {
