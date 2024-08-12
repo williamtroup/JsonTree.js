@@ -52,7 +52,8 @@
 
     // Colors - Editable Fields
     --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
-    --json-tree-js-editable-background-color: #363e4a;
+    --json-tree-js-editable-background-color: #2d333b;
+    --json-tree-js-editable-border-color: #454c56;
 
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
@@ -304,7 +305,13 @@ div.json-tree-js {
 div.json-tree-js {
     div.object-type-contents {
         margin-top: calc( var(--json-tree-js-spacing) / 2 );
+        text-align: left !important;
         width: fit-content;
+        margin-bottom: var(--json-tree-js-spacing);
+    }
+
+    div.object-type-contents-parent {
+        margin-bottom: 0 !important;
     }
 }
 
@@ -317,9 +324,6 @@ div.json-tree-js {
 
 div.json-tree-js {
     div.object-type-contents {
-        text-align: left !important;
-        width: fit-content;
-
         span.opening-symbol {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             margin-right: calc( var(--json-tree-js-spacing) / 2 );
@@ -339,7 +343,6 @@ div.json-tree-js {
         
         div.object-type-value {
             white-space: nowrap;
-            overflow: hidden;
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
             margin-left: calc( var(--json-tree-js-spacing) * 2 );
@@ -363,10 +366,10 @@ div.json-tree-js {
             span.editable {
                 background-color: var(--json-tree-js-editable-background-color) !important;
                 color: var(--json-tree-js-editable-text-color) !important;
+                border: var(--json-tree-js-border-size) solid var(--json-tree-js-editable-border-color);
                 outline: none !important;
                 box-shadow: none !important;
-                padding-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
-                padding-right: calc( var(--json-tree-js-spacing) / 2 ) !important;
+                padding: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 border-radius: var(--json-tree-js-border-radius-editable) !important;
             }
 

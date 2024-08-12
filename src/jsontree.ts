@@ -136,7 +136,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( contents, bindingOptions, data, true );
+            renderObject( contents, bindingOptions, data );
         } else if ( Is.definedArray( data ) ) {
             renderArray( contents, bindingOptions, data );
         }
@@ -291,18 +291,18 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, showPagingIndex: boolean = false ) : void {
+    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
         const propertyNames: string[] = getObjectPropertyNames( data, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
+            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
             const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
             const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object main-title" : "main-title", _configuration.text!.objectText! ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
 
-            if ( showPagingIndex && bindingOptions.showArrayItemsAsSeparateObjects ) {
+            if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
@@ -325,9 +325,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any) : void {
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents" );
+        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array main-title" : "main-title", _configuration.text!.arrayText! );
         let openingBracket: HTMLSpanElement = null!;

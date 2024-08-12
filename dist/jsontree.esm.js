@@ -695,7 +695,7 @@ var require_jsontree = __commonJS({
                     n = n[e._currentView.dataArrayCurrentIndex];
                 }
                 if (Is.definedObject(n) && !Is.definedArray(n)) {
-                    renderObject(o, e, n, true);
+                    renderObject(o, e, n);
                 } else if (Is.definedArray(n)) {
                     renderArray(o, e, n);
                 }
@@ -796,35 +796,35 @@ var require_jsontree = __commonJS({
                 renderControlContainer(e);
                 Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
             }
-            function renderObject(e, t, n, o = false) {
-                const r = getObjectPropertyNames(n, t);
-                const i = r.length;
-                if (i !== 0 || !t.ignore.emptyObjects) {
-                    const l = DomElement.create(e, "div", "object-type-title");
-                    const a = DomElement.create(e, "div", "object-type-contents");
-                    const s = t.showArrowToggles ? DomElement.create(l, "div", "down-arrow") : null;
-                    const u = DomElement.createWithHTML(l, "span", t.showValueColors ? "object main-title" : "main-title", _configuration.text.objectText);
-                    let c = null;
-                    if (o && t.showArrayItemsAsSeparateObjects) {
+            function renderObject(e, t, n) {
+                const o = getObjectPropertyNames(n, t);
+                const r = o.length;
+                if (r !== 0 || !t.ignore.emptyObjects) {
+                    const i = DomElement.create(e, "div", "object-type-title");
+                    const l = DomElement.create(e, "div", "object-type-contents object-type-contents-parent");
+                    const a = t.showArrowToggles ? DomElement.create(i, "div", "down-arrow") : null;
+                    const s = DomElement.createWithHTML(i, "span", t.showValueColors ? "object main-title" : "main-title", _configuration.text.objectText);
+                    let u = null;
+                    if (t.showArrayItemsAsSeparateObjects) {
                         let e = t.useZeroIndexingForArrays ? t._currentView.dataArrayCurrentIndex.toString() : (t._currentView.dataArrayCurrentIndex + 1).toString();
                         if (t.showArrayIndexBrackets) {
                             e = `[${e}]:`;
                         }
-                        DomElement.createWithHTML(l, "span", t.showValueColors ? "object data-array-index" : "data-array-index", e, u);
+                        DomElement.createWithHTML(i, "span", t.showValueColors ? "object data-array-index" : "data-array-index", e, s);
                     }
-                    if (t.showCounts && i > 0) {
-                        DomElement.createWithHTML(l, "span", t.showValueColors ? "object count" : "count", `{${i}}`);
+                    if (t.showCounts && r > 0) {
+                        DomElement.createWithHTML(i, "span", t.showValueColors ? "object count" : "count", `{${r}}`);
                     }
                     if (t.showOpeningClosingCurlyBraces) {
-                        c = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                        u = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
                     }
-                    renderObjectValues(s, null, a, t, n, r, c, false, true);
-                    addValueClickEvent(t, u, n, "object");
+                    renderObjectValues(a, null, l, t, n, o, u, false, true);
+                    addValueClickEvent(t, s, n, "object");
                 }
             }
             function renderArray(e, t, n) {
                 const o = DomElement.create(e, "div", "object-type-title");
-                const r = DomElement.create(e, "div", "object-type-contents");
+                const r = DomElement.create(e, "div", "object-type-contents object-type-contents-parent");
                 const i = t.showArrowToggles ? DomElement.create(o, "div", "down-arrow") : null;
                 const l = DomElement.createWithHTML(o, "span", t.showValueColors ? "array main-title" : "main-title", _configuration.text.arrayText);
                 let a = null;
