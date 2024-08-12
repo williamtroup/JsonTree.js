@@ -694,6 +694,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.allowEditing ) {
             propertyName.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
+                
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
@@ -742,6 +743,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.allowEditing ) {
             propertyValue.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
+
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
