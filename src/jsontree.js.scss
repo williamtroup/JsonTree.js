@@ -361,6 +361,8 @@ div.json-tree-js {
                 outline: none !important;
                 box-shadow: none !important;;
                 color: var(--json-tree-js-color-editable) !important;
+                padding-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
+                padding-right: calc( var(--json-tree-js-spacing) / 2 ) !important;
             }
 
             span.main-title {

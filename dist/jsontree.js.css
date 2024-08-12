@@ -318,6 +318,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.editable {
   outline: none !important;
   box-shadow: none !important;
   color: var(--json-tree-js-color-editable) !important;
+  padding-left: calc(var(--json-tree-js-spacing) / 2) !important;
+  padding-right: calc(var(--json-tree-js-spacing) / 2) !important;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
   font-weight: var(--json-tree-js-header-bold-weight);
