@@ -36,7 +36,6 @@
     --json-tree-js-color-light-gray: #BBBBBB;
 
     // Colors - Types
-    --json-tree-js-color-editable: #3b3a3a;
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
@@ -50,6 +49,10 @@
     --json-tree-js-color-symbol: #DAA06D;
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+
+    // Colors - Editable Fields
+    --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
+    --json-tree-js-editable-background-color: #363e4a;
 
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
@@ -358,10 +361,10 @@ div.json-tree-js {
             }
 
             span.editable {
-                background-color: var(--json-tree-js-color-snow-white) !important;;
+                background-color: var(--json-tree-js-editable-background-color) !important;
+                color: var(--json-tree-js-editable-text-color) !important;
                 outline: none !important;
                 box-shadow: none !important;;
-                color: var(--json-tree-js-color-editable) !important;
                 padding-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 padding-right: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 border-radius: var(--json-tree-js-border-radius-editable) !important;
