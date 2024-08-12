@@ -26,6 +26,7 @@
   --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
   --json-tree-js-color-light-gray: #BBBBBB;
+  --json-tree-js-color-editable: #3b3a3a;
   --json-tree-js-color-boolean: #FF0000;
   --json-tree-js-color-decimal: #e3c868;
   --json-tree-js-color-number: #666bf9;
@@ -307,10 +308,16 @@ div.json-tree-js div.object-type-contents div.object-type-value span.main-title 
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.value:not(.no-hover):hover,
-div.json-tree-js div.object-type-contents div.object-type-value span.main-title:not(.no-hover):hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.value:not(.no-hover):not(.editable):hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.main-title:not(.no-hover):not(.editable):hover {
   cursor: pointer;
   opacity: 0.7;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.editable {
+  background-color: var(--json-tree-js-color-snow-white) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: var(--json-tree-js-color-editable) !important;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
   font-weight: var(--json-tree-js-header-bold-weight);

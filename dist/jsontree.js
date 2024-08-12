@@ -993,6 +993,7 @@ var ToolTip;
     function makePropertyNameEditable(e, t, n, o) {
         if (e.allowEditing) {
             o.ondblclick = () => {
+                DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
                 o.focus();
                 o.onblur = () => {
@@ -1023,6 +1024,7 @@ var ToolTip;
     function makePropertyValueEditable(e, t, n, o, r, l) {
         if (e.allowEditing) {
             r.ondblclick = () => {
+                DomElement.addClass(r, "editable");
                 r.setAttribute("contenteditable", "true");
                 r.innerText = o.toString();
                 r.focus();

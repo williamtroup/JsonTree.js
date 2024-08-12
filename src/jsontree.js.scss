@@ -36,6 +36,7 @@
     --json-tree-js-color-light-gray: #BBBBBB;
 
     // Colors - Types
+    --json-tree-js-color-editable: #3b3a3a;
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
@@ -349,10 +350,17 @@ div.json-tree-js {
                 transition: var(--json-tree-js-transition);
                 transition-property: opacity;
 
-                &:not(.no-hover):hover {
+                &:not(.no-hover):not(.editable):hover {
                     cursor: pointer;
                     opacity: 0.7;
                 }
+            }
+
+            span.editable {
+                background-color: var(--json-tree-js-color-snow-white) !important;;
+                outline: none !important;
+                box-shadow: none !important;;
+                color: var(--json-tree-js-color-editable) !important;
             }
 
             span.main-title {

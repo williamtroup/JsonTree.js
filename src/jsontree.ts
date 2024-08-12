@@ -694,6 +694,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
         if ( bindingOptions.allowEditing ) {
             propertyName.ondblclick = () => {
+                DomElement.addClass( propertyName, "editable" );
+
                 propertyName.setAttribute( "contenteditable", "true" );
                 propertyName.focus();
 
@@ -734,6 +736,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing ) {
             propertyValue.ondblclick = () => {
+                DomElement.addClass( propertyValue, "editable" );
+
                 propertyValue.setAttribute( "contenteditable", "true" );
                 propertyValue.innerText = originalPropertyValue.toString();
                 propertyValue.focus();
