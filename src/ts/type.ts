@@ -76,6 +76,7 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
+	allowEditing?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;

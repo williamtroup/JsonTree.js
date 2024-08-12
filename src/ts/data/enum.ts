@@ -34,3 +34,8 @@ export const enum DataType {
     unknown = "unknown",
     undefined = "undefined",
 }
+
+export const enum KeyCode {
+    escape = "Escape",
+    enter = "Enter",
+}

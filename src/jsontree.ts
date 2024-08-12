@@ -16,7 +16,7 @@ import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Char, DataType } from "./ts/data/enum";
+import { Char, DataType, KeyCode } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
@@ -351,7 +351,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const propertyName: string = propertyNames[ propertyIndex ];
 
             if ( data.hasOwnProperty( propertyName ) ) {
-                renderValue( objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1 );
+                renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false );
             }
         }
 
@@ -367,12 +367,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1 );
+                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true );
             }
 
         } else {
             for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
-                renderValue( objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0 );
+                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true );
             }
         }
 
@@ -383,16 +383,20 @@ type JsonTreeData = Record<string, BindingOptions>;
         addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket );
     }
 
-    function renderValue( container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean ) : void {
+    function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValue, "div", "no-arrow" ) : null!;
         let valueClass: string = null!;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let type: string = null!;
+        const propertyName: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
 
-        DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
+
+        if ( !isArrayItem ) {
+            makePropertyNameEditable( bindingOptions, data, name, propertyName );
+        }
 
         if ( value === null ) {
             if ( !bindingOptions.ignore!.nullValues ) {
@@ -511,15 +515,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
-                    renderValue( container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem );
+                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem );
                     ignored = true;
 
                 } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
-                    renderValue( container, bindingOptions, name, parseFloat( value ), isLastItem );
+                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem );
                     ignored = true;
 
                 } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
-                    renderValue( container, bindingOptions, name, new Date( value ), isLastItem );
+                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem );
                     ignored = true;
 
                 } else {
@@ -672,6 +676,49 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.defined( valueElement ) ) {
                 addValueClickEvent( bindingOptions, valueElement, value, type );
             }
+        }
+    }
+
+    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
+        if ( bindingOptions.allowEditing ) {
+            propertyName.ondblclick = () => {
+                propertyName.setAttribute( "contenteditable", "true" );
+    
+                const range: Range = document.createRange();
+                range.setStart( propertyName, 0 );
+                range.setEnd( propertyName, 1 );
+    
+                propertyName.onkeydown = ( e: KeyboardEvent ) => {
+                    if ( e.code == KeyCode.escape ) {
+                        e.preventDefault();
+                        propertyName.setAttribute( "contenteditable", "false" );
+                        
+                    } else if ( e.code == KeyCode.enter ) {
+                        e.preventDefault();
+                        propertyName.setAttribute( "contenteditable", "false" );
+    
+                        const newPropertyName: string = propertyName.innerText;
+    
+                        if ( newPropertyName.trim() === Char.empty ) {
+                            delete data[ originalPropertyName ];
+    
+                        } else {
+                            if ( !data.hasOwnProperty( newPropertyName ) ) {
+                                const originalValue: any = data[ originalPropertyName ];
+        
+                                delete data[ originalPropertyName ];
+        
+                                data[ newPropertyName ] = originalValue;
+        
+                                renderControlContainer( bindingOptions, false );
+
+                            } else {
+                                propertyName.innerText = originalPropertyName;
+                            }
+                        }
+                    }
+                };
+            };
         }
     }
 
