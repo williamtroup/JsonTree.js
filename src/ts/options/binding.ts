@@ -1,10 +1,10 @@
 /**
  * JsonTree.js
  * 
- * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v2.5.0
+ * @version     v2.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -18,7 +18,8 @@ import {
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
-    type BindingOptionsTitle } from "../type";
+    type BindingOptionsTitle, 
+    type ContentPanelsForArrayIndex } from "../type";
 
 import { Default } from "../data/default";
 
@@ -31,6 +32,11 @@ export namespace Binding {
             bindingOptions._currentView.element = element;
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
             bindingOptions._currentView.titleBarButtons = null!;
+            bindingOptions._currentView.valueClickTimerId = 0;
+            bindingOptions._currentView.editMode = false;
+            bindingOptions._currentView.idSet = false;
+            bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+            bindingOptions._currentView.contentPanelsIndex = 0;
 
             return bindingOptions;
         }
@@ -60,6 +66,7 @@ export namespace Binding {
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
+            options.allowEditing = Default.getBoolean( options.allowEditing, true );
 
             options = getTitle( options );
             options = getIgnore( options );

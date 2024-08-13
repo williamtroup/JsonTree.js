@@ -1,15 +1,23 @@
 /**
  * JsonTree.js
  * 
- * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v2.5.0
+ * @version     v2.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
+
+export type ContentPanels = Record<number, boolean>;
+export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
+export type StringToJson = {
+    parsed: boolean;
+    object: any;
+};
 
 export type Position = {
     left: number;
@@ -76,6 +84,7 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
+	allowEditing?: boolean;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
@@ -89,6 +98,11 @@ export type BindingOptionsCurrentView = {
 	titleBarButtons: HTMLElement;
 	tooltip: HTMLElement;
 	tooltipTimerId: number;
+	valueClickTimerId: number;
+	editMode: boolean;
+	idSet: boolean;
+	contentPanelsOpen: ContentPanelsForArrayIndex;
+	contentPanelsIndex: number;
 };
 
 export type BindingOptionsParse = {

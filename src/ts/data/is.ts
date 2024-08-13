@@ -1,10 +1,10 @@
 /**
  * JsonTree.js
  * 
- * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v2.5.0
+ * @version     v2.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -24,6 +24,10 @@ export namespace Is {
             }
         
             return valid;
+        }
+
+        export function rgbColor( value: string ) : boolean {
+            return ( value.startsWith( "rgb(" ) || value.startsWith( "rgba(" ) ) && value.endsWith( ")" );
         }
     
         export function boolean( object: string ) : boolean {

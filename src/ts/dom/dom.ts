@@ -1,10 +1,10 @@
 /**
  * JsonTree.js
  * 
- * A lightweight JavaScript library that generates customizable tree views to better visualize JSON data.
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v2.5.0
+ * @version     v2.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -45,6 +45,10 @@ export namespace DomElement {
 
     export function addClass( element: HTMLElement, className: string ) : void {
         element.classList.add( className );
+    }
+
+    export function removeClass( element: HTMLElement, className: string ) : void {
+        element.classList.remove( className );
     }
 
     export function cancelBubble( e: Event ) : void {
@@ -92,5 +96,15 @@ export namespace DomElement {
         
         element.style.left = `${left}px`;
         element.style.top = `${top}px`;
+    }
+
+    export function selectAllText( element: HTMLElement ) : void {
+        const range: Range = document.createRange();
+        range.selectNodeContents( element );
+
+        const selection: Selection = window.getSelection()!;
+
+        selection.removeAllRanges();
+        selection.addRange( range );
     }
 }
