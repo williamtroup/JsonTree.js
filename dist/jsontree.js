@@ -1051,23 +1051,23 @@ var ToolTip;
                 o.onblur = () => {
                     l(e, false);
                 };
-                o.onkeydown = r => {
-                    if (r.code == "Escape") {
-                        r.preventDefault();
-                        l(e, false);
-                    } else if (r.code == "Enter") {
-                        r.preventDefault();
-                        const i = o.innerText;
-                        if (i.trim() === "") {
+                o.onkeydown = e => {
+                    if (e.code == "Escape") {
+                        e.preventDefault();
+                        o.setAttribute("contenteditable", "false");
+                    } else if (e.code == "Enter") {
+                        e.preventDefault();
+                        const r = o.innerText;
+                        if (r.trim() === "") {
                             delete t[n];
                         } else {
-                            if (!t.hasOwnProperty(i)) {
+                            if (!t.hasOwnProperty(r)) {
                                 const e = t[n];
                                 delete t[n];
-                                t[i] = e;
+                                t[r] = e;
                             }
                         }
-                        l(e, false);
+                        o.setAttribute("contenteditable", "false");
                     }
                 };
             };
@@ -1087,14 +1087,14 @@ var ToolTip;
                 r.onblur = () => {
                     l(e, false);
                 };
-                r.onkeydown = s => {
-                    if (s.code == "Escape") {
-                        s.preventDefault();
-                        l(e, false);
-                    } else if (s.code == "Enter") {
-                        s.preventDefault();
-                        const a = r.innerText;
-                        if (a.trim() === "") {
+                r.onkeydown = e => {
+                    if (e.code == "Escape") {
+                        e.preventDefault();
+                        r.setAttribute("contenteditable", "false");
+                    } else if (e.code == "Enter") {
+                        e.preventDefault();
+                        const l = r.innerText;
+                        if (l.trim() === "") {
                             if (i) {
                                 t.splice(T(n), 1);
                             } else {
@@ -1103,17 +1103,17 @@ var ToolTip;
                         } else {
                             let e = null;
                             if (Is.definedBoolean(o)) {
-                                e = a.toLowerCase() === "true";
-                            } else if (Is.definedDecimal(o) && !isNaN(+a)) {
-                                e = parseFloat(a);
-                            } else if (Is.definedNumber(o) && !isNaN(+a)) {
-                                e = parseInt(a);
+                                e = l.toLowerCase() === "true";
+                            } else if (Is.definedDecimal(o) && !isNaN(+l)) {
+                                e = parseFloat(l);
+                            } else if (Is.definedNumber(o) && !isNaN(+l)) {
+                                e = parseInt(l);
                             } else if (Is.definedString(o)) {
-                                e = a;
+                                e = l;
                             } else if (Is.definedDate(o)) {
-                                e = new Date(a);
+                                e = new Date(l);
                             } else if (Is.definedBigInt(o)) {
-                                e = BigInt(a);
+                                e = BigInt(l);
                             }
                             if (e !== null) {
                                 if (i) {
@@ -1123,7 +1123,7 @@ var ToolTip;
                                 }
                             }
                         }
-                        l(e, false);
+                        r.setAttribute("contenteditable", "false");
                     }
                 };
             };

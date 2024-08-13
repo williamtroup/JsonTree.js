@@ -712,7 +712,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
                         e.preventDefault();
-                        renderControlContainer( bindingOptions, false );
+                        propertyName.setAttribute( "contenteditable", "false" );
 
                     } else if ( e.code == KeyCode.enter ) {
                         e.preventDefault();
@@ -732,7 +732,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             }
                         }
 
-                        renderControlContainer( bindingOptions, false );
+                        propertyName.setAttribute( "contenteditable", "false" );
                     }
                 };
             };
@@ -762,7 +762,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
                         e.preventDefault();
-                        renderControlContainer( bindingOptions, false );
+                        propertyValue.setAttribute( "contenteditable", "false" );
                         
                     } else if ( e.code == KeyCode.enter ) {
                         e.preventDefault();
@@ -802,7 +802,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             }
                         }
 
-                        renderControlContainer( bindingOptions, false );
+                        propertyValue.setAttribute( "contenteditable", "false" );
                     }
                 };
             };
