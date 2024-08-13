@@ -18,7 +18,8 @@ import {
     type BindingOptions,
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
-    type BindingOptionsTitle } from "../type";
+    type BindingOptionsTitle, 
+    type ContentPanelsForArrayIndex } from "../type";
 
 import { Default } from "../data/default";
 
@@ -34,7 +35,7 @@ export namespace Binding {
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
             bindingOptions._currentView.idSet = false;
-            bindingOptions._currentView.contentPanelsOpen = {} as Record<number, Record<number, boolean>>;
+            bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
 
             return bindingOptions;
