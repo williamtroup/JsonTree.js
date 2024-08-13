@@ -835,7 +835,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
         if ( Is.defined( arrow ) ) {
-            const hideFunc: Function = () => {
+            const hideFunc: Function = () : void => {
                 objectTypeContents.style.display = "none";
                 arrow.className = "right-arrow";
 
@@ -848,7 +848,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             };
 
-            const showFunc: Function = () => {
+            const showFunc: Function = () : void => {
                 objectTypeContents.style.display = "block";
                 arrow.className = "down-arrow";
 
@@ -861,7 +861,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             };
 
-            const conditionFunc: Function = ( condition: boolean ) => {
+            const conditionFunc: Function = ( condition: boolean ) : void => {
                 if ( condition ) {
                     hideFunc();
                 } else {
