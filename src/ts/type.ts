@@ -11,6 +11,9 @@
  */
 
 
+export type ContentPanels = Record<number, boolean>;
+export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
 export type StringToJson = {
     parsed: boolean;
     object: any;
@@ -98,6 +101,8 @@ export type BindingOptionsCurrentView = {
 	valueClickTimerId: number;
 	editMode: boolean;
 	idSet: boolean;
+	contentPanelsOpen: ContentPanelsForArrayIndex;
+	contentPanelsIndex: number;
 };
 
 export type BindingOptionsParse = {

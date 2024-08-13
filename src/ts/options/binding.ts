@@ -34,6 +34,8 @@ export namespace Binding {
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
             bindingOptions._currentView.idSet = false;
+            bindingOptions._currentView.contentPanelsOpen = {} as Record<number, Record<number, boolean>>;
+            bindingOptions._currentView.contentPanelsIndex = 0;
 
             return bindingOptions;
         }

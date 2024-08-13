@@ -11,7 +11,13 @@
  */
 
 
-import { type StringToJson, type BindingOptions, type Configuration } from "./ts/type";
+import {
+    type StringToJson,
+    type BindingOptions,
+    type Configuration,
+    type ContentPanelsForArrayIndex,
+    type ContentPanels } from "./ts/type";
+    
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
@@ -117,6 +123,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.editMode = false;
+        bindingOptions._currentView.contentPanelsIndex = 0;
 
         renderControlTitleBar( bindingOptions, data );
 
@@ -269,6 +276,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function openAllNodes( bindingOptions: BindingOptions ) : void {
         bindingOptions.showAllAsClosed = false;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
 
         renderControlContainer( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
@@ -276,6 +284,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function closeAllNodes( bindingOptions: BindingOptions ) : void {
         bindingOptions.showAllAsClosed = true;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
 
         renderControlContainer( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
@@ -835,9 +844,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
         if ( Is.defined( arrow ) ) {
+            const panelId: number = bindingOptions._currentView.contentPanelsIndex;
+            const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
+
+            if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
+                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
+            }
+
             const hideFunc: Function = () : void => {
                 objectTypeContents.style.display = "none";
                 arrow.className = "right-arrow";
+                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
 
                 if ( Is.defined( openingSymbol ) ) {
                     openingSymbol.style.display = "none";
@@ -851,6 +868,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const showFunc: Function = () : void => {
                 objectTypeContents.style.display = "block";
                 arrow.className = "down-arrow";
+                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
                 if ( Is.defined( openingSymbol ) ) {
                     openingSymbol.style.display = "inline-block";
@@ -869,11 +887,21 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
 
+            let isClosed: boolean = bindingOptions.showAllAsClosed!;
+
+            if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
+                isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
+            } else {
+                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
+            }
+
             arrow.onclick = () => {
                 conditionFunc( arrow.className === "down-arrow" );
             };
 
-            conditionFunc( bindingOptions.showAllAsClosed );
+            conditionFunc( isClosed );
+
+            bindingOptions._currentView.contentPanelsIndex++;
         }
     }
 
@@ -980,6 +1008,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         reader.onloadend = () => {
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions.data = renderData;
 
             renderControlContainer( bindingOptions );
@@ -1114,6 +1143,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
                 bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
                 bindingOptions.data = jsonObject;
 
                 renderControlContainer( bindingOptions );
