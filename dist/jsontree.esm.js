@@ -1169,18 +1169,17 @@ var ToolTip;
                     n.style.display = "none";
                 }
             };
-            t.onclick = () => {
-                if (t.className === "down-arrow") {
+            const s = e => {
+                if (e) {
                     l();
                 } else {
                     i();
                 }
             };
-            if (e.showAllAsClosed) {
-                l();
-            } else {
-                i();
-            }
+            t.onclick = () => {
+                s(t.className === "down-arrow");
+            };
+            s(e.showAllAsClosed);
         }
     }
     function v(e, t, n) {

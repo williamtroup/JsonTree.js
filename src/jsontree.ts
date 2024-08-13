@@ -861,19 +861,19 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             };
 
-            arrow.onclick = () => {
-                if ( arrow.className === "down-arrow" ) {
+            const conditionFunc: Function = ( condition: boolean ) => {
+                if ( condition ) {
                     hideFunc();
                 } else {
                     showFunc();
                 }
+            }
+
+            arrow.onclick = () => {
+                conditionFunc( arrow.className === "down-arrow" );
             };
 
-            if ( bindingOptions.showAllAsClosed ) {
-                hideFunc();
-            } else {
-                showFunc();
-            }
+            conditionFunc( bindingOptions.showAllAsClosed );
         }
     }
 
