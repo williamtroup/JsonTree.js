@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v2.6.0
+ * @version     v2.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -19,7 +19,8 @@ import {
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
     type BindingOptionsTitle, 
-    type ContentPanelsForArrayIndex } from "../type";
+    type ContentPanelsForArrayIndex, 
+    type BindingOptionsAllowEditing } from "../type";
 
 import { Default } from "../data/default";
 
@@ -37,6 +38,8 @@ export namespace Binding {
             bindingOptions._currentView.idSet = false;
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
+            bindingOptions._currentView.backButton = null!;
+            bindingOptions._currentView.nextButton = null!;
 
             return bindingOptions;
         }
@@ -58,7 +61,6 @@ export namespace Binding {
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
             options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
-            options.showStringHexColors = Default.getBoolean( options.showStringHexColors, false );
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
@@ -66,12 +68,16 @@ export namespace Binding {
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
-            options.allowEditing = Default.getBoolean( options.allowEditing, true );
+            options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
+            options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
+            options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
+            options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
+            options = getAllowEditing( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -103,6 +109,8 @@ export namespace Binding {
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
+            options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
+            options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
 
             return options;
         }
@@ -119,6 +127,20 @@ export namespace Binding {
             options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
+
+            return options;
+        }
+
+        function getAllowEditing( options: BindingOptions ) : BindingOptions {
+            options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
+            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, true );
+            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, true );
+            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, true );
+            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, true );
+            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, true );
+            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, true );
+            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, true );
+            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, true );
 
             return options;
         }
@@ -145,6 +167,8 @@ export namespace Binding {
             options.events!.onSymbolRender = Default.getFunction( options.events!.onSymbolRender, null! );
             options.events!.onCopyJsonReplacer = Default.getFunction( options.events!.onCopyJsonReplacer, null! );
             options.events!.onUndefinedRender = Default.getFunction( options.events!.onUndefinedRender, null! );
+            options.events!.onGuidRender = Default.getFunction( options.events!.onGuidRender, null! );
+            options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
 
             return options;
         }

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v2.6.0
+ * @version     v2.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -76,7 +76,6 @@ export type BindingOptions = {
 	showValueColors?: boolean;
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
-	showStringHexColors?: boolean;
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
@@ -84,7 +83,11 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
-	allowEditing?: boolean;
+	includeTimeZoneInDateTimeEditing?: boolean;
+	shortcutKeysEnabled?: boolean;
+	openInFullScreenMode?: boolean;
+	enableFullScreenToggling?: boolean;
+	allowEditing?: BindingOptionsAllowEditing;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
@@ -103,6 +106,8 @@ export type BindingOptionsCurrentView = {
 	idSet: boolean;
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
+	backButton: HTMLButtonElement;
+	nextButton: HTMLButtonElement;
 };
 
 export type BindingOptionsParse = {
@@ -133,6 +138,19 @@ export type BindingOptionsIgnore = {
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
+	guidValues?: boolean;
+	colorValues?: boolean;
+};
+
+export type BindingOptionsAllowEditing = {
+    booleanValues?: boolean;
+    decimalValues?: boolean;
+    stringValues?: boolean;
+    dateValues?: boolean;
+    numberValues?: boolean;
+	bigIntValues?: boolean;
+	guidValues?: boolean;
+	colorValues?: boolean;
 };
 
 export type BindingOptionsTooltip = {
@@ -159,6 +177,8 @@ export type BindingOptionsEvents = {
 	onBigIntRender?: ( element: HTMLElement ) => void;
 	onSymbolRender?: ( element: HTMLElement ) => void;
 	onUndefinedRender?: ( element: HTMLElement ) => void;
+	onGuidRender?: ( element: HTMLElement ) => void;
+	onColorRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

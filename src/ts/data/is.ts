@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v2.6.0
+ * @version     v2.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -36,6 +36,12 @@ export namespace Is {
     
         export function date( dateTimeString: string ) {
             return !isNaN( +new Date( dateTimeString ) );
+        }
+
+        export function guid( value: string ) : boolean {
+            const regex: RegExp = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+
+            return regex.test( value );
         }
     }
 

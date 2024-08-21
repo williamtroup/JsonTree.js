@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v2.6.0
+ * @version     v2.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -41,6 +41,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     // Variables: Data
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
+    let _elements_Data_Count: number = 0;
 
 
     /*
@@ -101,18 +102,24 @@ type JsonTreeData = Record<string, BindingOptions>;
         ToolTip.renderControl( bindingOptions );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
-            bindingOptions._currentView.element.id = Str.newGuid();
+            bindingOptions._currentView.element.id = crypto.randomUUID();
             bindingOptions._currentView.idSet = true;
         }
 
         bindingOptions._currentView.element.className = "json-tree-js";
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
+        if ( bindingOptions.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
+            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+        }
+
         if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
             _elements_Data[ bindingOptions._currentView.element.id ] = bindingOptions;
+            _elements_Data_Count++;
         }
 
         renderControlContainer( bindingOptions );
+        buildDocumentEvents( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
     }
 
@@ -166,6 +173,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
+            if ( bindingOptions.enableFullScreenToggling ) {
+                titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
+            }
+
             bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
             if ( bindingOptions.title!.show ) {
@@ -174,71 +185,62 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                copy.onclick = () => onTitleBarCopyClick( bindingOptions, data );
+                copy.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
-
-                copy.onclick = () => {
-                    onTitleBarCopyClick( bindingOptions, data );
-                };
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAll.onclick = () => onOpenAll( bindingOptions );
+                openAll.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAll.onclick = () => onCloseAll( bindingOptions );
+                closeAll.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
-
-                openAll.onclick = () => {
-                    openAllNodes( bindingOptions );
-                };
-
-                closeAll.onclick = () => {
-                    closeAllNodes( bindingOptions );
-                };
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
-                const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.backButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.backButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( back, bindingOptions, _configuration.text!.backButtonText! );
+                ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                    back.onclick = () => {
-                        bindingOptions._currentView.dataArrayCurrentIndex--;
-    
-                        renderControlContainer( bindingOptions, true );
-                        Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
-                    };
-
+                    bindingOptions._currentView.backButton.onclick = () => onBackPage( bindingOptions );
                 } else {
-                    back.disabled = true;
+                    bindingOptions._currentView.backButton.disabled = true;
                 }
 
-                const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.nextButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.nextButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( next, bindingOptions, _configuration.text!.nextButtonText! );
+                ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
-                    next.onclick = () => {
-                        bindingOptions._currentView.dataArrayCurrentIndex++;
-                        
-                        renderControlContainer( bindingOptions, true );
-                        Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
-                    };
-
+                    bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
                 } else {
-                    next.disabled = true;
+                    bindingOptions._currentView.nextButton.disabled = true;
                 }
 
             } else {
-
                 if ( Is.definedArray( data ) ) {
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
             }
+        }
+    }
+
+    function onTitleBarDblClick( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
+            DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
+        } else {
+            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
         }
     }
 
@@ -262,6 +264,40 @@ type JsonTreeData = Record<string, BindingOptions>;
         Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
     }
 
+    function onOpenAll( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = false;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        renderControlContainer( bindingOptions );
+        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+    }
+
+    function onCloseAll( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = true;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        renderControlContainer( bindingOptions );
+        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+    }
+
+    function onBackPage( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
+            bindingOptions._currentView.dataArrayCurrentIndex--;
+    
+            renderControlContainer( bindingOptions, true );
+            Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
+        }
+    }
+
+    function onNextPage( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
+            bindingOptions._currentView.dataArrayCurrentIndex++;
+                        
+            renderControlContainer( bindingOptions, true );
+            Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
+        }
+    }
+
     function jsonStringifyReplacer( _: string, value: any ) : void {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
@@ -274,20 +310,38 @@ type JsonTreeData = Record<string, BindingOptions>;
         return value;
     }
 
-    function openAllNodes( bindingOptions: BindingOptions ) : void {
-        bindingOptions.showAllAsClosed = false;
-        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
 
-        renderControlContainer( bindingOptions );
-        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Document Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
+        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+
+        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
     }
 
-    function closeAllNodes( bindingOptions: BindingOptions ) : void {
-        bindingOptions.showAllAsClosed = true;
-        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+            if ( e.code === KeyCode.left ) {
+                e.preventDefault();
+                onBackPage( bindingOptions );
 
-        renderControlContainer( bindingOptions );
-        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+            } else if ( e.code === KeyCode.right ) {
+                e.preventDefault();
+                onNextPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.up ) {
+                e.preventDefault();
+                onCloseAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.down ) {
+                e.preventDefault();
+                onOpenAll( bindingOptions );
+            }
+        }
     }
 
 
@@ -315,11 +369,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     dataArrayIndex = `[${dataArrayIndex}]:`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", dataArrayIndex, titleText );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} data-array-index` : "data-array-index", dataArrayIndex, titleText );
             }
     
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} count` : "count", `{${propertyCount}}` );
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -339,7 +393,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let openingBracket: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", `[${data.length}]` );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.array} count` : "count", `[${data.length}]` );
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -406,7 +460,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( value === null ) {
             if ( !bindingOptions.ignore!.nullValues ) {
-                valueClass = bindingOptions.showValueColors ? "null value non-value" : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.null} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
                 type = DataType.null;
 
@@ -422,7 +476,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( value === undefined ) {
             if ( !bindingOptions.ignore!.undefinedValues ) {
-                valueClass = bindingOptions.showValueColors ? "undefined value non-value" : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.undefined} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
                 type = DataType.undefined;
 
@@ -438,7 +492,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedFunction( value ) ) {
             if ( !bindingOptions.ignore!.functionValues ) {
-                valueClass = bindingOptions.showValueColors ? "function value non-value" : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.function} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value, _configuration ) );
                 type = DataType.function;
 
@@ -454,11 +508,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedBoolean( value ) ) {
             if ( !bindingOptions.ignore!.booleanValues ) {
-                valueClass = bindingOptions.showValueColors ? "boolean value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.boolean} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.boolean;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.booleanValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
@@ -474,11 +528,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.decimalValues ) {
                 const newValue: string = Default.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
 
-                valueClass = bindingOptions.showValueColors ? "decimal value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.decimal} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
                 type = DataType.decimal;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.decimalValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
@@ -492,11 +546,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedNumber( value ) ) {
             if ( !bindingOptions.ignore!.numberValues ) {
-                valueClass = bindingOptions.showValueColors ? "number value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.number} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.number;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.numberValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
@@ -510,14 +564,54 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedBigInt( value ) ) {
             if ( !bindingOptions.ignore!.bigIntValues ) {
-                valueClass = bindingOptions.showValueColors ? "bigint value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.bigint} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.bigint;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.bigIntValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedString( value ) && Is.String.guid( value ) ) {
+            if ( !bindingOptions.ignore!.guidValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.guid} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.guid;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.guidValues! );
+
+                if ( Is.definedFunction( bindingOptions.events!.onGuidRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onGuidRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedString( value ) && ( Is.String.hexColor( value )|| Is.String.rgbColor( value ) ) ) {
+            if ( !bindingOptions.ignore!.colorValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.color} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.color;
+
+                if ( bindingOptions.showValueColors ) {
+                    valueElement.style.color = value;
+                }
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.colorValues! );
+
+                if ( Is.definedFunction( bindingOptions.events!.onColorRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onColorRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -541,30 +635,17 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
 
                 } else {
-                    let color: string = null!;
-
-                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && ( Is.String.hexColor( value ) || Is.String.rgbColor( value ) ) ) {
-                        color = value;
-                        type = DataType.color;
-    
-                    } else {
-                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
-                        }
-
-                        type = DataType.string;
+                    if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
+                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                     }
     
-                    const newStringValue: string = bindingOptions.showStringQuotes && color === null ? `\"${value}\"` : value;
+                    const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
         
-                    valueClass = bindingOptions.showValueColors ? "string value" : "value";
+                    valueClass = bindingOptions.showValueColors ? `${DataType.string} value` : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                    type = DataType.string;
 
-                    makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
-    
-                    if ( Is.definedString( color ) ) {
-                        valueElement.style.color = color;
-                    }
+                    makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.stringValues! );
         
                     if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
@@ -579,11 +660,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedDate( value ) ) {
             if ( !bindingOptions.ignore!.dateValues ) {
-                valueClass = bindingOptions.showValueColors ? "date value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.date} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
                 type = DataType.date;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.dateValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
@@ -597,7 +678,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedSymbol( value ) ) {
             if ( !bindingOptions.ignore!.symbolValues ) {
-                valueClass = bindingOptions.showValueColors ? "symbol value" : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.symbol} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
                 type = DataType.symbol;
 
@@ -620,7 +701,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                 } else {
 
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "object" : Char.empty );
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
 
@@ -648,7 +729,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedArray( value ) ) {
             if ( !bindingOptions.ignore!.arrayValues ) {
-                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? "array" : Char.empty );
+                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.array : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
 
@@ -674,7 +755,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else {
             if ( !bindingOptions.ignore!.unknownValues ) {
-                valueClass = bindingOptions.showValueColors ? "unknown value non-value" : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.unknown} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
                 type = DataType.unknown;
 
@@ -714,9 +795,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( propertyName );
 
-                propertyName.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-                };
+                propertyName.onblur = () => renderControlContainer( bindingOptions, false );
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -748,8 +827,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean ) : void {
-        if ( bindingOptions.allowEditing ) {
+    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean ) : void {
+        if ( allowEditing ) {
             propertyValue.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
 
@@ -759,14 +838,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( propertyValue, "editable" );
 
                 propertyValue.setAttribute( "contenteditable", "true" );
-                propertyValue.innerText = originalPropertyValue.toString();
+
+                if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
+                    propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
+                } else {
+                    propertyValue.innerText = originalPropertyValue.toString();
+                }
+                
                 propertyValue.focus();
 
                 DomElement.selectAllText( propertyValue );
 
-                propertyValue.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-                };
+                propertyValue.onblur = () => renderControlContainer( bindingOptions, false );
     
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -895,9 +978,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
             }
 
-            arrow.onclick = () => {
-                conditionFunc( arrow.className === "down-arrow" );
-            };
+            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
 
             conditionFunc( isClosed );
 
@@ -1046,6 +1127,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.element.removeAttribute( "id" );
         }
 
+        buildDocumentEvents( bindingOptions, false );
+
         ToolTip.assignToEvents( bindingOptions, false );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
@@ -1104,7 +1187,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         openAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                openAllNodes( _elements_Data[ elementId ] );
+                onOpenAll( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -1112,7 +1195,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         closeAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                closeAllNodes( _elements_Data[ elementId ] );
+                onCloseAll( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -1175,6 +1258,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 destroyElement( _elements_Data[ elementId ] );
     
                 delete _elements_Data[ elementId ];
+                _elements_Data_Count--;
             }
     
             return _public;
@@ -1188,6 +1272,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             _elements_Data = {} as JsonTreeData;
+            _elements_Data_Count = 0;
 
             return _public;
         },
@@ -1239,7 +1324,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "2.6.0";
+            return "2.7.0";
         }
     };
 
@@ -1253,9 +1338,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     ( () => {
         _configuration = Config.Options.get();
 
-        document.addEventListener( "DOMContentLoaded", function() {
-            render();
-        } );
+        document.addEventListener( "DOMContentLoaded", () => render() );
 
         if ( !Is.defined( window.$jsontree ) ) {
             window.$jsontree = _public;

@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.6.0
+ * JsonTree.js Library v2.7.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -22,6 +22,7 @@
   --json-tree-js-header-bold-weight: 900;
   --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
   --json-tree-js-text-bold-weight-active: var(--json-tree-js-header-bold-weight);
+  --json-tree-js-color-dark-black: #1c2128;
   --json-tree-js-color-black: #3b3a3a;
   --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
@@ -39,6 +40,7 @@
   --json-tree-js-color-symbol: #DAA06D;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
+  --json-tree-js-color-guid: #c45600;
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
@@ -84,7 +86,6 @@ div.json-tree-js {
   background-color: var(--json-tree-js-container-background-color);
   color: var(--json-tree-js-color-white);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
-  padding: var(--json-tree-js-spacing);
   font-size: var(--json-tree-js-spacing-font-size);
   font-weight: var(--json-tree-js-text-bold-weight);
   width: 100%;
@@ -108,6 +109,25 @@ div.json-tree-js * {
 div.json-tree-js *::before, div.json-tree-js *::after {
   box-sizing: border-box;
   line-height: normal;
+}
+
+div.full-screen {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  z-index: 1000;
+}
+div.full-screen div.title-bar {
+  border-radius: 0 !important;
+}
+div.full-screen div.contents {
+  flex-grow: 1;
 }
 
 /*
@@ -153,13 +173,20 @@ div.json-tree-js div.right-arrow {
 */
 div.json-tree-js div.title-bar {
   display: flex;
+  padding: calc(var(--json-tree-js-spacing) / 2);
   margin-bottom: var(--json-tree-js-spacing);
+  background-color: var(--json-tree-js-color-dark-black);
+  border-radius: var(--json-tree-js-border-radius);
+  border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
+  justify-content: center;
+  align-items: center;
 }
 div.json-tree-js div.title-bar div.title {
   text-align: left;
   width: auto;
   font-weight: var(--json-tree-js-title-bold-weight);
   font-size: 1.2rem;
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.title-bar div.controls {
   margin-left: calc(var(--json-tree-js-spacing) * 6);
@@ -215,10 +242,11 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
     -------------------------------------------------------------------------
 */
 div.json-tree-js div.contents {
-  padding: 0 !important;
+  padding: var(--json-tree-js-spacing);
+  padding-top: 0;
   margin: 0 !important;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 div.json-tree-js div.contents span.no-json-text {
   font-style: italic;
@@ -374,6 +402,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.undefined {
   color: var(--json-tree-js-color-null);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.guid {
+  color: var(--json-tree-js-color-guid);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

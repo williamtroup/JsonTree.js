@@ -26,6 +26,7 @@ function bindingOptions( showValueColors = true ) {
                     alert( message );
                 },
                 value15: "rgb(144, 238, 144)",
+                value16: crypto.randomUUID(),
                 value5: [
                     true,
                     "This is another string",
@@ -79,7 +80,6 @@ function bindingOptions( showValueColors = true ) {
             onValueClick: onValueClickEvent,
         },
         showValueColors: showValueColors,
-        showStringHexColors: true,
         showArrayItemsAsSeparateObjects: true,
         copyOnlyCurrentPage: false,
         sortPropertyNames: true,
@@ -87,7 +87,9 @@ function bindingOptions( showValueColors = true ) {
         showOpeningClosingCurlyBraces: false,
         showOpeningClosingSquaredBrackets: false,
         showCommas: false,
-        showArrowToggles: true
+        showArrowToggles: true,
+        openInFullScreenMode: false,
+        enableFullScreenToggling: true,
     };
 }
 

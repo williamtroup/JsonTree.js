@@ -1,8 +1,8 @@
-# JsonTree.js v2.6.0
+# JsonTree.js v2.7.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v2.6.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v2.6.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v2.7.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v2.7.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -17,7 +17,7 @@
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables), with dark and light themes.
-- 12 types supported by default (with unknown type support).
+- 14 types supported by default (with unknown type support).
 - Fully configurable per DOM element!
 - Close/Open all nodes.
 - Clickable values via custom triggers!
@@ -25,6 +25,8 @@
 - Array paging support (show array objects on different pages)!
 - Drag & Drop JSON files support!
 - Full property/value editing support (double click the property name/value).
+- Keyboard navigation keys support!
+- Toggle between regular and full-screen views.
 
 
 ## Where can I find the documentation?
@@ -51,6 +53,8 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `symbol` Symbols
 - `function` Functions and Lambdas
 - `undefined` Undefined
+- `color` Colors
+- `guid` GUIDs
 - `any` Unknown
 
 
@@ -125,8 +129,8 @@ npm install jjsontree.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.6.0/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.6.0/dist/jsontree.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.7.0/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@2.7.0/dist/jsontree.js.min.css
 ```
 
 
