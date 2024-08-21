@@ -22,6 +22,7 @@
   --json-tree-js-header-bold-weight: 900;
   --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
   --json-tree-js-text-bold-weight-active: var(--json-tree-js-header-bold-weight);
+  --json-tree-js-color-dark-black: #1c2128;
   --json-tree-js-color-black: #3b3a3a;
   --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
@@ -85,7 +86,6 @@ div.json-tree-js {
   background-color: var(--json-tree-js-container-background-color);
   color: var(--json-tree-js-color-white);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
-  padding: var(--json-tree-js-spacing);
   font-size: var(--json-tree-js-spacing-font-size);
   font-weight: var(--json-tree-js-text-bold-weight);
   width: 100%;
@@ -120,6 +120,9 @@ div.full-screen {
   max-width: none;
   border-radius: 0;
   z-index: 1000;
+}
+div.full-screen div.title-bar {
+  border-radius: 0 !important;
 }
 
 /*
@@ -165,13 +168,20 @@ div.json-tree-js div.right-arrow {
 */
 div.json-tree-js div.title-bar {
   display: flex;
+  padding: calc(var(--json-tree-js-spacing) / 2);
   margin-bottom: var(--json-tree-js-spacing);
+  background-color: var(--json-tree-js-color-dark-black);
+  border-radius: var(--json-tree-js-border-radius);
+  border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
+  justify-content: center;
+  align-items: center;
 }
 div.json-tree-js div.title-bar div.title {
   text-align: left;
   width: auto;
   font-weight: var(--json-tree-js-title-bold-weight);
   font-size: 1.2rem;
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.title-bar div.controls {
   margin-left: calc(var(--json-tree-js-spacing) * 6);
@@ -227,7 +237,8 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
     -------------------------------------------------------------------------
 */
 div.json-tree-js div.contents {
-  padding: 0 !important;
+  padding: var(--json-tree-js-spacing);
+  padding-top: 0;
   margin: 0 !important;
   overflow-x: auto;
   overflow-y: hidden;
