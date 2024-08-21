@@ -39,4 +39,8 @@ export const enum DataType {
 export const enum KeyCode {
     escape = "Escape",
     enter = "Enter",
+    left = "ArrowLeft",
+    up = "ArrowUp",
+    right = "ArrowRight",
+    down = "ArrowDown",
 }

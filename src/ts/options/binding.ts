@@ -38,6 +38,8 @@ export namespace Binding {
             bindingOptions._currentView.idSet = false;
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
+            bindingOptions._currentView.backButton = null!;
+            bindingOptions._currentView.nextButton = null!;
 
             return bindingOptions;
         }
@@ -67,6 +69,7 @@ export namespace Binding {
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
             options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
+            options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
 
             options = getTitle( options );
             options = getIgnore( options );

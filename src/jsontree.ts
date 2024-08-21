@@ -41,6 +41,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     // Variables: Data
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
+    let _elements_Data_Count: number = 0;
 
 
     /*
@@ -110,9 +111,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
             _elements_Data[ bindingOptions._currentView.element.id ] = bindingOptions;
+            _elements_Data_Count++;
         }
 
         renderControlContainer( bindingOptions );
+        buildDocumentEvents( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
     }
 
@@ -181,51 +184,38 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-                openAll.onclick = () => openAllNodes( bindingOptions );
+                openAll.onclick = () => onOpenAll( bindingOptions );
 
                 ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-                closeAll.onclick = () => closeAllNodes( bindingOptions );
+                closeAll.onclick = () => onCloseAll( bindingOptions );
 
                 ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
-                const back: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.backButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
 
-                ToolTip.add( back, bindingOptions, _configuration.text!.backButtonText! );
+                ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                    back.onclick = () => {
-                        bindingOptions._currentView.dataArrayCurrentIndex--;
-    
-                        renderControlContainer( bindingOptions, true );
-                        Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
-                    };
-
+                    bindingOptions._currentView.backButton.onclick = () => onBackPage( bindingOptions );
                 } else {
-                    back.disabled = true;
+                    bindingOptions._currentView.backButton.disabled = true;
                 }
 
-                const next: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.nextButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
 
-                ToolTip.add( next, bindingOptions, _configuration.text!.nextButtonText! );
+                ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 
                 if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
-                    next.onclick = () => {
-                        bindingOptions._currentView.dataArrayCurrentIndex++;
-                        
-                        renderControlContainer( bindingOptions, true );
-                        Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
-                    };
-
+                    bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
                 } else {
-                    next.disabled = true;
+                    bindingOptions._currentView.nextButton.disabled = true;
                 }
 
             } else {
-
                 if ( Is.definedArray( data ) ) {
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
@@ -253,6 +243,40 @@ type JsonTreeData = Record<string, BindingOptions>;
         Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
     }
 
+    function onOpenAll( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = false;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        renderControlContainer( bindingOptions );
+        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+    }
+
+    function onCloseAll( bindingOptions: BindingOptions ) : void {
+        bindingOptions.showAllAsClosed = true;
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        renderControlContainer( bindingOptions );
+        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+    }
+
+    function onBackPage( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
+            bindingOptions._currentView.dataArrayCurrentIndex--;
+    
+            renderControlContainer( bindingOptions, true );
+            Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
+        }
+    }
+
+    function onNextPage( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
+            bindingOptions._currentView.dataArrayCurrentIndex++;
+                        
+            renderControlContainer( bindingOptions, true );
+            Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
+        }
+    }
+
     function jsonStringifyReplacer( _: string, value: any ) : void {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
@@ -265,20 +289,38 @@ type JsonTreeData = Record<string, BindingOptions>;
         return value;
     }
 
-    function openAllNodes( bindingOptions: BindingOptions ) : void {
-        bindingOptions.showAllAsClosed = false;
-        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
 
-        renderControlContainer( bindingOptions );
-        Trigger.customEvent( bindingOptions.events!.onOpenAll!, bindingOptions._currentView.element );
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Document Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
+        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+
+        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
     }
 
-    function closeAllNodes( bindingOptions: BindingOptions ) : void {
-        bindingOptions.showAllAsClosed = true;
-        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+            if ( e.code === KeyCode.left ) {
+                e.preventDefault();
+                onBackPage( bindingOptions );
 
-        renderControlContainer( bindingOptions );
-        Trigger.customEvent( bindingOptions.events!.onCloseAll!, bindingOptions._currentView.element );
+            } else if ( e.code === KeyCode.right ) {
+                e.preventDefault();
+                onNextPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.up ) {
+                e.preventDefault();
+                onCloseAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.down ) {
+                e.preventDefault();
+                onOpenAll( bindingOptions );
+            }
+        }
     }
 
 
@@ -1064,6 +1106,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.element.removeAttribute( "id" );
         }
 
+        buildDocumentEvents( bindingOptions, false );
+
         ToolTip.assignToEvents( bindingOptions, false );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
@@ -1122,7 +1166,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         openAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                openAllNodes( _elements_Data[ elementId ] );
+                onOpenAll( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -1130,7 +1174,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         closeAll: function ( elementId: string ) : PublicApi {
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
-                closeAllNodes( _elements_Data[ elementId ] );
+                onCloseAll( _elements_Data[ elementId ] );
             }
     
             return _public;
@@ -1193,6 +1237,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 destroyElement( _elements_Data[ elementId ] );
     
                 delete _elements_Data[ elementId ];
+                _elements_Data_Count--;
             }
     
             return _public;
@@ -1206,6 +1251,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             _elements_Data = {} as JsonTreeData;
+            _elements_Data_Count = 0;
 
             return _public;
         },

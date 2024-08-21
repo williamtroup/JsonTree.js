@@ -84,6 +84,7 @@ export type BindingOptions = {
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
 	includeTimeZoneInDateTimeEditing?: boolean;
+	shortcutKeysEnabled?: boolean;
 	allowEditing?: BindingOptionsAllowEditing;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
@@ -103,6 +104,8 @@ export type BindingOptionsCurrentView = {
 	idSet: boolean;
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
+	backButton: HTMLButtonElement;
+	nextButton: HTMLButtonElement;
 };
 
 export type BindingOptionsParse = {
