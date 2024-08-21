@@ -777,7 +777,13 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( propertyValue, "editable" );
 
                 propertyValue.setAttribute( "contenteditable", "true" );
-                propertyValue.innerText = originalPropertyValue.toString();
+
+                if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
+                    propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
+                } else {
+                    propertyValue.innerText = originalPropertyValue.toString();
+                }
+                
                 propertyValue.focus();
 
                 DomElement.selectAllText( propertyValue );

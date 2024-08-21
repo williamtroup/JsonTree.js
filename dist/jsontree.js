@@ -370,6 +370,7 @@ var Binding;
             t.showArrayIndexBrackets = Default2.getBoolean(t.showArrayIndexBrackets, true);
             t.showOpeningClosingCurlyBraces = Default2.getBoolean(t.showOpeningClosingCurlyBraces, false);
             t.showOpeningClosingSquaredBrackets = Default2.getBoolean(t.showOpeningClosingSquaredBrackets, false);
+            t.includeTimeZoneInDateTimeEditing = Default2.getBoolean(t.includeTimeZoneInDateTimeEditing, true);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -1104,7 +1105,11 @@ var ToolTip;
                 e._currentView.editMode = true;
                 DomElement.addClass(r, "editable");
                 r.setAttribute("contenteditable", "true");
-                r.innerText = o.toString();
+                if (Is.definedDate(o) && !e.includeTimeZoneInDateTimeEditing) {
+                    r.innerText = JSON.stringify(o).replace(/['"]+/g, "");
+                } else {
+                    r.innerText = o.toString();
+                }
                 r.focus();
                 DomElement.selectAllText(r);
                 r.onblur = () => {
