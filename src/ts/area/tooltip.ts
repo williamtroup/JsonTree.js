@@ -36,9 +36,7 @@ export namespace ToolTip {
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => {
-                show( e, bindingOptions, text );
-            };
+            element.onmousemove = ( e: MouseEvent ) => show( e, bindingOptions, text );
         }
     }
 

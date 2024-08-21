@@ -546,9 +546,7 @@ var ToolTip;
     e.assignToEvents = n;
     function o(e, t, n) {
         if (e !== null) {
-            e.onmousemove = e => {
-                r(e, t, n);
-            };
+            e.onmousemove = e => r(e, t, n);
         }
     }
     e.add = o;
@@ -1070,9 +1068,7 @@ var ToolTip;
                 o.setAttribute("contenteditable", "true");
                 o.focus();
                 DomElement.selectAllText(o);
-                o.onblur = () => {
-                    l(e, false);
-                };
+                o.onblur = () => l(e, false);
                 o.onkeydown = e => {
                     if (e.code == "Escape") {
                         e.preventDefault();
@@ -1110,9 +1106,7 @@ var ToolTip;
                 }
                 r.focus();
                 DomElement.selectAllText(r);
-                r.onblur = () => {
-                    l(e, false);
-                };
+                r.onblur = () => l(e, false);
                 r.onkeydown = e => {
                     if (e.code == "Escape") {
                         e.preventDefault();

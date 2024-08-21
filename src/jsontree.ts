@@ -732,9 +732,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( propertyName );
 
-                propertyName.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-                };
+                propertyName.onblur = () => renderControlContainer( bindingOptions, false );
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -788,9 +786,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( propertyValue );
 
-                propertyValue.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-                };
+                propertyValue.onblur = () => renderControlContainer( bindingOptions, false );
     
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
