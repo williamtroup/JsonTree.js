@@ -136,7 +136,9 @@ div.json-tree-js {
 }
 
 div.full-screen {
-    position: fixed !important;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
     top: 0;
     left: 0;
     height: 100%;
@@ -147,6 +149,10 @@ div.full-screen {
 
     div.title-bar {
         border-radius: 0 !important;
+    }
+
+    div.contents {
+        flex-grow: 1;
     }
 }
 
@@ -260,7 +266,7 @@ div.json-tree-js {
         padding-top: 0;
         margin: 0 !important;
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: auto;
 
         span.no-json-text {
             font-style: italic;
