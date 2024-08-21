@@ -66,8 +66,8 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `symbol` Symbols
 - `function` Functions and Lambdas
 - `undefined` Undefined
-- `color` color
-- `guid` guid
+- `color` Colors
+- `guid` GUIDs
 - `any` Unknown
 <br>
 <br>
