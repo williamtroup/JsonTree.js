@@ -26,6 +26,7 @@
 - Drag & Drop JSON files support!
 - Full property/value editing support (double click the property name/value).
 - Keyboard navigation keys support!
+- Toggle between regular and full-screen views.
 
 
 ## Where can I find the documentation?
