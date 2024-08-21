@@ -25,6 +25,7 @@
 - Array paging support (show array objects on different pages)!
 - Drag & Drop JSON files support!
 - Full property/value editing support (double click the property name/value).
+- Keyboard navigation keys support!
 
 
 ## Where can I find the documentation?
