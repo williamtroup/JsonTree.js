@@ -14,7 +14,6 @@
 export const enum Char {
     empty = "",
     space = " ",
-    dash = "-",
     zero = "0",
     hash = "#",
 }
@@ -34,6 +33,7 @@ export const enum DataType {
     unknown = "unknown",
     undefined = "undefined",
     color = "color",
+    guid = "guid",
 }
 
 export const enum KeyCode {

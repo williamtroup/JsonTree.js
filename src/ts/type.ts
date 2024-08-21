@@ -133,6 +133,7 @@ export type BindingOptionsIgnore = {
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
+	guidValues?: boolean;
 };
 
 export type BindingOptionsTooltip = {
@@ -159,6 +160,7 @@ export type BindingOptionsEvents = {
 	onBigIntRender?: ( element: HTMLElement ) => void;
 	onSymbolRender?: ( element: HTMLElement ) => void;
 	onUndefinedRender?: ( element: HTMLElement ) => void;
+	onGuidRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;
