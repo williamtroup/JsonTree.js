@@ -109,6 +109,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.className = "json-tree-js";
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
+        if ( bindingOptions.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
+            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+        }
+
         if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
             _elements_Data[ bindingOptions._currentView.element.id ] = bindingOptions;
             _elements_Data_Count++;
@@ -169,6 +173,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
+            if ( bindingOptions.enableFullScreenToggling ) {
+                titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
+            }
+
             bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
             if ( bindingOptions.title!.show ) {
@@ -220,6 +228,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
             }
+        }
+    }
+
+    function onTitleBarDblClick( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
+            DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
+        } else {
+            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
         }
     }
 

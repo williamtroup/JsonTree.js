@@ -87,7 +87,9 @@ function bindingOptions( showValueColors = true ) {
         showOpeningClosingCurlyBraces: false,
         showOpeningClosingSquaredBrackets: false,
         showCommas: false,
-        showArrowToggles: true
+        showArrowToggles: true,
+        openInFullScreenMode: false,
+        enableFullScreenToggling: true,
     };
 }
 

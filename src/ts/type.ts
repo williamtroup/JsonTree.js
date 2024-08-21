@@ -85,6 +85,8 @@ export type BindingOptions = {
 	showOpeningClosingSquaredBrackets?: boolean;
 	includeTimeZoneInDateTimeEditing?: boolean;
 	shortcutKeysEnabled?: boolean;
+	openInFullScreenMode?: boolean;
+	enableFullScreenToggling?: boolean;
 	allowEditing?: BindingOptionsAllowEditing;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

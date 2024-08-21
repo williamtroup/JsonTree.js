@@ -111,6 +111,17 @@ div.json-tree-js *::before, div.json-tree-js *::after {
   line-height: normal;
 }
 
+div.full-screen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  z-index: 1000;
+}
+
 /*
     -------------------------------------------------------------------------
     JsonTree.js - Arrows

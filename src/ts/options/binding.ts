@@ -70,6 +70,8 @@ export namespace Binding {
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
             options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
+            options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
+            options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
 
             options = getTitle( options );
             options = getIgnore( options );
