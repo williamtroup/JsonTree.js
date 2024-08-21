@@ -19,7 +19,8 @@ import {
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
     type BindingOptionsTitle, 
-    type ContentPanelsForArrayIndex } from "../type";
+    type ContentPanelsForArrayIndex, 
+    type BindingOptionsAllowEditing } from "../type";
 
 import { Default } from "../data/default";
 
@@ -65,12 +66,12 @@ export namespace Binding {
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
-            options.allowEditing = Default.getBoolean( options.allowEditing, true );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
+            options = getAllowEditing( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -120,6 +121,20 @@ export namespace Binding {
             options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
+
+            return options;
+        }
+
+        function getAllowEditing( options: BindingOptions ) : BindingOptions {
+            options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
+            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, true );
+            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, true );
+            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, true );
+            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, true );
+            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, true );
+            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, true );
+            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, true );
+            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, true );
 
             return options;
         }

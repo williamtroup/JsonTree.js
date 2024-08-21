@@ -458,7 +458,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.boolean;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.booleanValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
@@ -478,7 +478,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
                 type = DataType.decimal;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.decimalValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
@@ -496,7 +496,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.number;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.numberValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
@@ -514,7 +514,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.bigint;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.bigIntValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
@@ -532,7 +532,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.guid;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.guidValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onGuidRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onGuidRender!, valueElement );
@@ -554,7 +554,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement.style.color = value;
                 }
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.colorValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onColorRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onColorRender!, valueElement );
@@ -591,7 +591,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
                     type = DataType.string;
 
-                    makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                    makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.stringValues! );
         
                     if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
@@ -610,7 +610,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
                 type = DataType.date;
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, bindingOptions.allowEditing!.dateValues! );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
@@ -775,8 +775,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean ) : void {
-        if ( bindingOptions.allowEditing ) {
+    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean ) : void {
+        if ( allowEditing ) {
             propertyValue.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
 

@@ -83,7 +83,7 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
-	allowEditing?: boolean;
+	allowEditing?: BindingOptionsAllowEditing;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
@@ -132,6 +132,17 @@ export type BindingOptionsIgnore = {
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
+	guidValues?: boolean;
+	colorValues?: boolean;
+};
+
+export type BindingOptionsAllowEditing = {
+    booleanValues?: boolean;
+    decimalValues?: boolean;
+    stringValues?: boolean;
+    dateValues?: boolean;
+    numberValues?: boolean;
+	bigIntValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
 };
