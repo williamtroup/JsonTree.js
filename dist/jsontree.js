@@ -363,7 +363,6 @@ var Binding;
             t.showValueColors = Default2.getBoolean(t.showValueColors, true);
             t.maximumDecimalPlaces = Default2.getNumber(t.maximumDecimalPlaces, 2);
             t.maximumStringLength = Default2.getNumber(t.maximumStringLength, 0);
-            t.showStringHexColors = Default2.getBoolean(t.showStringHexColors, false);
             t.showArrayItemsAsSeparateObjects = Default2.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default2.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default2.getBoolean(t.fileDroppingEnabled, true);
@@ -405,6 +404,7 @@ var Binding;
             e.ignore.emptyObjects = Default2.getBoolean(e.ignore.emptyObjects, true);
             e.ignore.undefinedValues = Default2.getBoolean(e.ignore.undefinedValues, false);
             e.ignore.guidValues = Default2.getBoolean(e.ignore.guidValues, false);
+            e.ignore.colorValues = Default2.getBoolean(e.ignore.colorValues, false);
             return e;
         }
         function i(e) {
@@ -442,6 +442,7 @@ var Binding;
             e.events.onCopyJsonReplacer = Default2.getFunction(e.events.onCopyJsonReplacer, null);
             e.events.onUndefinedRender = Default2.getFunction(e.events.onUndefinedRender, null);
             e.events.onGuidRender = Default2.getFunction(e.events.onGuidRender, null);
+            e.events.onColorRender = Default2.getFunction(e.events.onColorRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -634,7 +635,7 @@ var ToolTip;
         if (o) {
             DomElement.addClass(l, "page-switch");
         }
-        A(l, n);
+        S(l, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
@@ -743,7 +744,7 @@ var ToolTip;
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
     function d(t, n, o) {
-        const r = h(o, n);
+        const r = x(o, n);
         const l = r.length;
         if (l !== 0 || !n.ignore.emptyObjects) {
             const i = DomElement.create(t, "div", "object-type-title");
@@ -792,7 +793,7 @@ var ToolTip;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            S(o, n, "}", s, a);
+            A(o, n, "}", s, a);
         }
         D(o, e, t, n, i);
     }
@@ -800,15 +801,15 @@ var ToolTip;
         const a = r.length;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < a; e++) {
-                p(r, n, o, x(o, e, a), r[e], e === a - 1, true);
+                p(r, n, o, h(o, e, a), r[e], e === a - 1, true);
             }
         } else {
             for (let e = a; e--; ) {
-                p(r, n, o, x(o, e, a), r[e], e === 0, true);
+                p(r, n, o, h(o, e, a), r[e], e === 0, true);
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            S(o, n, "]", i, s);
+            A(o, n, "]", i, s);
         }
         D(o, e, t, n, l);
     }
@@ -926,6 +927,22 @@ var ToolTip;
             } else {
                 f = true;
             }
+        } else if (Is.definedString(l) && (Is.String.hexColor(l) || Is.String.rgbColor(l))) {
+            if (!o.ignore.colorValues) {
+                c = o.showValueColors ? `${"color"} value` : "value";
+                d = DomElement.createWithHTML(a, "span", c, l);
+                w = "color";
+                if (o.showValueColors) {
+                    d.style.color = l;
+                }
+                b(o, t, r, l, d, s);
+                if (Is.definedFunction(o.events.onColorRender)) {
+                    Trigger.customEvent(o.events.onColorRender, d);
+                }
+                v(o, a, i);
+            } else {
+                f = true;
+            }
         } else if (Is.definedString(l)) {
             if (!o.ignore.stringValues) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
@@ -938,23 +955,14 @@ var ToolTip;
                     p(t, n, o, r, new Date(l), i, s);
                     f = true;
                 } else {
-                    let n = null;
-                    if (o.showValueColors && o.showStringHexColors && (Is.String.hexColor(l) || Is.String.rgbColor(l))) {
-                        n = l;
-                        w = "color";
-                    } else {
-                        if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
-                            l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
-                        }
-                        w = "string";
+                    if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
+                        l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                     }
-                    const u = o.showStringQuotes && n === null ? `"${l}"` : l;
+                    const n = o.showStringQuotes ? `"${l}"` : l;
                     c = o.showValueColors ? `${"string"} value` : "value";
-                    d = DomElement.createWithHTML(a, "span", c, u);
+                    d = DomElement.createWithHTML(a, "span", c, n);
+                    w = "string";
                     b(o, t, r, l, d, s);
-                    if (Is.definedString(n)) {
-                        d.style.color = n;
-                    }
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, d);
                     }
@@ -990,7 +998,7 @@ var ToolTip;
             }
         } else if (Is.definedObject(l) && !Is.definedArray(l)) {
             if (!o.ignore.objectValues) {
-                const t = h(l, o);
+                const t = x(l, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     f = true;
@@ -1218,7 +1226,7 @@ var ToolTip;
         }
         return o;
     }
-    function x(e, t, n) {
+    function h(e, t, n) {
         let o = e.useZeroIndexingForArrays ? t.toString() : (t + 1).toString();
         if (!e.addArrayIndexPadding) {
             o = Str.padNumber(parseInt(o), n.toString().length);
@@ -1228,7 +1236,7 @@ var ToolTip;
         }
         return o;
     }
-    function h(e, t) {
+    function x(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -1247,7 +1255,7 @@ var ToolTip;
         }
         return n;
     }
-    function S(e, t, n, o, r) {
+    function A(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
         if (o) {
             DomElement.create(l, "div", "no-arrow");
@@ -1255,7 +1263,7 @@ var ToolTip;
         DomElement.createWithHTML(l, "div", "object-type-end", n);
         v(e, l, r);
     }
-    function A(e, t) {
+    function S(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;

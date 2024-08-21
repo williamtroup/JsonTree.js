@@ -76,7 +76,6 @@ export type BindingOptions = {
 	showValueColors?: boolean;
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
-	showStringHexColors?: boolean;
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
@@ -134,6 +133,7 @@ export type BindingOptionsIgnore = {
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
 	guidValues?: boolean;
+	colorValues?: boolean;
 };
 
 export type BindingOptionsTooltip = {
@@ -161,6 +161,7 @@ export type BindingOptionsEvents = {
 	onSymbolRender?: ( element: HTMLElement ) => void;
 	onUndefinedRender?: ( element: HTMLElement ) => void;
 	onGuidRender?: ( element: HTMLElement ) => void;
+	onColorRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

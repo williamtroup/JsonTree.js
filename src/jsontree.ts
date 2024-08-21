@@ -544,6 +544,28 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedString( value ) && ( Is.String.hexColor( value )|| Is.String.rgbColor( value ) ) ) {
+            if ( !bindingOptions.ignore!.colorValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.color} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.color;
+
+                if ( bindingOptions.showValueColors ) {
+                    valueElement.style.color = value;
+                }
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
+
+                if ( Is.definedFunction( bindingOptions.events!.onColorRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onColorRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
@@ -559,30 +581,17 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
 
                 } else {
-                    let color: string = null!;
-
-                    if ( bindingOptions.showValueColors && bindingOptions.showStringHexColors && ( Is.String.hexColor( value ) || Is.String.rgbColor( value ) ) ) {
-                        color = value;
-                        type = DataType.color;
-    
-                    } else {
-                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
-                        }
-
-                        type = DataType.string;
+                    if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
+                        value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                     }
     
-                    const newStringValue: string = bindingOptions.showStringQuotes && color === null ? `\"${value}\"` : value;
+                    const newStringValue: string = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
         
                     valueClass = bindingOptions.showValueColors ? `${DataType.string} value` : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                    type = DataType.string;
 
                     makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem );
-    
-                    if ( Is.definedString( color ) ) {
-                        valueElement.style.color = color;
-                    }
         
                     if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );

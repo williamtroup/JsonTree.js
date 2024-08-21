@@ -58,7 +58,6 @@ export namespace Binding {
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
             options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
-            options.showStringHexColors = Default.getBoolean( options.showStringHexColors, false );
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
@@ -104,6 +103,7 @@ export namespace Binding {
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
+            options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
 
             return options;
         }
@@ -147,6 +147,7 @@ export namespace Binding {
             options.events!.onCopyJsonReplacer = Default.getFunction( options.events!.onCopyJsonReplacer, null! );
             options.events!.onUndefinedRender = Default.getFunction( options.events!.onUndefinedRender, null! );
             options.events!.onGuidRender = Default.getFunction( options.events!.onGuidRender, null! );
+            options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
 
             return options;
         }

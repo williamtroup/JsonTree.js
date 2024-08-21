@@ -80,7 +80,6 @@ function bindingOptions( showValueColors = true ) {
             onValueClick: onValueClickEvent,
         },
         showValueColors: showValueColors,
-        showStringHexColors: true,
         showArrayItemsAsSeparateObjects: true,
         copyOnlyCurrentPage: false,
         sortPropertyNames: true,
