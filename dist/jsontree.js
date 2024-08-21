@@ -759,10 +759,10 @@ var ToolTip;
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]:`;
                 }
-                DomElement.createWithHTML(i, "span", n.showValueColors ? "object data-array-index" : "data-array-index", e, u);
+                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} data-array-index` : "data-array-index", e, u);
             }
             if (n.showCounts && l > 0) {
-                DomElement.createWithHTML(i, "span", n.showValueColors ? "object count" : "count", `{${l}}`);
+                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} count` : "count", `{${l}}`);
             }
             if (n.showOpeningClosingCurlyBraces) {
                 c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
@@ -778,7 +778,7 @@ var ToolTip;
         const a = DomElement.createWithHTML(r, "span", n.showValueColors ? "array main-title" : "main-title", e.text.arrayText);
         let s = null;
         if (n.showCounts) {
-            DomElement.createWithHTML(r, "span", n.showValueColors ? "array count" : "count", `[${o.length}]`);
+            DomElement.createWithHTML(r, "span", n.showValueColors ? `${"array"} count` : "count", `[${o.length}]`);
         }
         if (n.showOpeningClosingCurlyBraces) {
             s = DomElement.createWithHTML(r, "span", "opening-symbol", "[");

@@ -306,11 +306,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     dataArrayIndex = `[${dataArrayIndex}]:`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object data-array-index" : "data-array-index", dataArrayIndex, titleText );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} data-array-index` : "data-array-index", dataArrayIndex, titleText );
             }
     
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object count" : "count", `{${propertyCount}}` );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} count` : "count", `{${propertyCount}}` );
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -330,7 +330,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let openingBracket: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array count" : "count", `[${data.length}]` );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.array} count` : "count", `[${data.length}]` );
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
