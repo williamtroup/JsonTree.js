@@ -30,13 +30,8 @@ export namespace ToolTip {
         let addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
         let addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
 
-        addEventListener_Window( "mousemove", () => {
-            hide( bindingOptions );
-        } );
-
-        addEventListener_Document( "scroll", () => {
-            hide( bindingOptions );
-        } );
+        addEventListener_Window( "mousemove", () => hide( bindingOptions ) );
+        addEventListener_Document( "scroll", () => hide( bindingOptions ) );
     }
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string ) : void {

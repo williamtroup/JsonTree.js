@@ -541,12 +541,8 @@ var ToolTip;
     function n(e, t = true) {
         let n = t ? window.addEventListener : window.removeEventListener;
         let o = t ? document.addEventListener : document.removeEventListener;
-        n("mousemove", (() => {
-            l(e);
-        }));
-        o("scroll", (() => {
-            l(e);
-        }));
+        n("mousemove", (() => l(e)));
+        o("scroll", (() => l(e)));
     }
     e.assignToEvents = n;
     function o(e, t, n) {
@@ -672,22 +668,16 @@ var ToolTip;
             }
             if (t.title.showCopyButton) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
+                o.onclick = () => a(t, n);
                 ToolTip.add(o, t, e.text.copyAllButtonText);
-                o.onclick = () => {
-                    a(t, n);
-                };
             }
             if (t.title.showTreeControls) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
+                n.onclick = () => u(t);
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "closeAll", e.text.closeAllButtonSymbolText);
+                o.onclick = () => c(t);
                 ToolTip.add(o, t, e.text.closeAllButtonText);
-                n.onclick = () => {
-                    u(t);
-                };
-                o.onclick = () => {
-                    c(t);
-                };
             }
             if (t.showArrayItemsAsSeparateObjects && Is.definedArray(n) && n.length > 1) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "back", e.text.backButtonSymbolText);
@@ -1224,9 +1214,7 @@ var ToolTip;
             } else {
                 e._currentView.contentPanelsOpen[i][l] = c;
             }
-            t.onclick = () => {
-                u(t.className === "down-arrow");
-            };
+            t.onclick = () => u(t.className === "down-arrow");
             u(c);
             e._currentView.contentPanelsIndex++;
         }
@@ -1443,9 +1431,7 @@ var ToolTip;
     };
     (() => {
         e = Config.Options.get();
-        document.addEventListener("DOMContentLoaded", (function() {
-            n();
-        }));
+        document.addEventListener("DOMContentLoaded", (() => n()));
         if (!Is.defined(window.$jsontree)) {
             window.$jsontree = B;
         }

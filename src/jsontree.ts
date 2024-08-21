@@ -174,30 +174,21 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                copy.onclick = () => onTitleBarCopyClick( bindingOptions, data );
 
                 ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
-
-                copy.onclick = () => {
-                    onTitleBarCopyClick( bindingOptions, data );
-                };
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAll.onclick = () => openAllNodes( bindingOptions );
 
                 ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAll.onclick = () => closeAllNodes( bindingOptions );
 
                 ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
-
-                openAll.onclick = () => {
-                    openAllNodes( bindingOptions );
-                };
-
-                closeAll.onclick = () => {
-                    closeAllNodes( bindingOptions );
-                };
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
@@ -922,9 +913,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
             }
 
-            arrow.onclick = () => {
-                conditionFunc( arrow.className === "down-arrow" );
-            };
+            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
 
             conditionFunc( isClosed );
 
@@ -1280,9 +1269,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     ( () => {
         _configuration = Config.Options.get();
 
-        document.addEventListener( "DOMContentLoaded", function() {
-            render();
-        } );
+        document.addEventListener( "DOMContentLoaded", () => render() );
 
         if ( !Is.defined( window.$jsontree ) ) {
             window.$jsontree = _public;
