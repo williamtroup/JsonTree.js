@@ -186,6 +186,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( bindingOptions.title!.showCopyButton ) {
                 const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
                 copy.onclick = () => onTitleBarCopyClick( bindingOptions, data );
+                copy.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
             }
@@ -193,17 +194,20 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( bindingOptions.title!.showTreeControls ) {
                 const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAll.onclick = () => onOpenAll( bindingOptions );
+                openAll.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
 
                 const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAll.onclick = () => onCloseAll( bindingOptions );
+                closeAll.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
                 bindingOptions._currentView.backButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.backButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
 
@@ -214,6 +218,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 bindingOptions._currentView.nextButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.nextButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 

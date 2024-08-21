@@ -658,9 +658,9 @@ var ToolTip;
             r = r[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedObject(r) && !Is.definedArray(r)) {
-            y(l, n, r);
+            w(l, n, r);
         } else if (Is.definedArray(r)) {
-            b(l, n, r);
+            y(l, n, r);
         }
         if (l.innerHTML === "") {
             DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
@@ -682,18 +682,22 @@ var ToolTip;
             if (t.title.showCopyButton) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
                 o.onclick = () => u(t, n);
+                o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
             if (t.title.showTreeControls) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
                 n.onclick = () => c(t);
+                n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "closeAll", e.text.closeAllButtonSymbolText);
                 o.onclick = () => d(t);
+                o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
             if (t.showArrayItemsAsSeparateObjects && Is.definedArray(n) && n.length > 1) {
                 t._currentView.backButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "back", e.text.backButtonSymbolText);
+                t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
                     t._currentView.backButton.onclick = () => f(t);
@@ -701,6 +705,7 @@ var ToolTip;
                     t._currentView.backButton.disabled = true;
                 }
                 t._currentView.nextButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "next", e.text.nextButtonSymbolText);
+                t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
                 if (t._currentView.dataArrayCurrentIndex < n.length - 1) {
                     t._currentView.nextButton.onclick = () => g(t);
@@ -773,9 +778,9 @@ var ToolTip;
     }
     function p(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => w(t, e)));
+        n("keydown", (t => b(t, e)));
     }
-    function w(e, o) {
+    function b(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
             if (e.code === "ArrowLeft") {
                 e.preventDefault();
@@ -792,7 +797,7 @@ var ToolTip;
             }
         }
     }
-    function y(t, n, o) {
+    function w(t, n, o) {
         const r = I(o, n);
         const l = r.length;
         if (l !== 0 || !n.ignore.emptyObjects) {
@@ -815,10 +820,10 @@ var ToolTip;
                 c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
             }
             D(s, null, a, n, o, r, c, false, true);
-            S(n, u, o, "object");
+            E(n, u, o, "object");
         }
     }
-    function b(t, n, o) {
+    function y(t, n, o) {
         const r = DomElement.create(t, "div", "object-type-title");
         const l = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
         const i = n.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
@@ -831,7 +836,7 @@ var ToolTip;
             s = DomElement.createWithHTML(r, "span", "opening-symbol", "[");
         }
         T(i, null, l, n, o, s, false, true);
-        S(n, a, o, "object");
+        E(n, a, o, "object");
     }
     function D(e, t, n, o, r, l, i, a, s) {
         const u = l.length;
@@ -844,7 +849,7 @@ var ToolTip;
         if (o.showOpeningClosingCurlyBraces) {
             C(o, n, "}", a, s);
         }
-        E(o, e, t, n, i);
+        S(o, e, t, n, i);
     }
     function T(e, t, n, o, r, l, i, a) {
         const s = r.length;
@@ -860,7 +865,7 @@ var ToolTip;
         if (o.showOpeningClosingCurlyBraces) {
             C(o, n, "]", i, a);
         }
-        E(o, e, t, n, l);
+        S(o, e, t, n, l);
     }
     function v(t, n, o, r, l, i, a) {
         const s = DomElement.create(n, "div", "object-type-value");
@@ -1104,7 +1109,7 @@ var ToolTip;
             n.removeChild(s);
         } else {
             if (Is.defined(d)) {
-                S(o, d, l, g);
+                E(o, d, l, g);
             }
         }
     }
@@ -1202,7 +1207,7 @@ var ToolTip;
     function V(e) {
         return parseInt(e.replace("[", "").replace("]", ""));
     }
-    function S(e, t, n, o) {
+    function E(e, t, n, o) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (e.allowEditing) {
@@ -1219,7 +1224,7 @@ var ToolTip;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function E(e, t, n, o, r) {
+    function S(e, t, n, o, r) {
         if (Is.defined(t)) {
             const l = e._currentView.contentPanelsIndex;
             const i = e._currentView.dataArrayCurrentIndex;
