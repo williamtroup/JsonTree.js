@@ -428,16 +428,18 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                const newJsonPath: string = jsonPath === Char.empty ? dataIndex1.toString() : `${jsonPath}\\${dataIndex1}`;
+                const actualIndex: number = getArrayIndex( dataIndex1, bindingOptions );
+                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}\\${actualIndex}`;
 
-                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
+                renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
             }
 
         } else {
             for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
-                const newJsonPath: string = jsonPath === Char.empty ? dataIndex2.toString() : `${jsonPath}\\${dataIndex2}`;
+                const actualIndex: number = getArrayIndex( dataIndex2, bindingOptions );
+                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}\\${actualIndex}`;
 
-                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
+                renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
             }
         }
 
@@ -888,7 +890,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                         if ( newPropertyValue.trim() === Char.empty ) {
                             if ( isArrayItem ) {
-                                data.splice( getArrayIndex( originalPropertyName ), 1 );
+                                data.splice( getArrayIndexFromBrackets( originalPropertyName ), 1 );
                             } else {
                                 delete data[ originalPropertyName ];
                             }
@@ -912,7 +914,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                             if ( newDataPropertyValue !== null ) {
                                 if ( isArrayItem ) {
-                                    data[ getArrayIndex( originalPropertyName ) ] = newDataPropertyValue;
+                                    data[ getArrayIndexFromBrackets( originalPropertyName ) ] = newDataPropertyValue;
                                 } else {
                                     data[ originalPropertyName ] = newDataPropertyValue;
                                 }
@@ -926,10 +928,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
             };
         }
-    }
-
-    function getArrayIndex( propertyName: string ) : number {
-        return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
     }
 
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, allowEditing: boolean ) : void {
@@ -1022,9 +1020,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         return result;
     }
+
+    function getArrayIndex( index: number, bindingOptions: BindingOptions ) : number {
+        return bindingOptions.useZeroIndexingForArrays ? index : index + 1;
+    }
     
-    function getIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
-        let result: string = bindingOptions.useZeroIndexingForArrays ? index.toString() : ( index + 1 ).toString();
+    function getArrayIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
+        let result: string = index.toString();
     
         if ( !bindingOptions.addArrayIndexPadding ) {
             result = Str.padNumber( parseInt( result ), largestValue.toString().length );
@@ -1035,6 +1037,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     
         return result;
+    }
+
+    function getArrayIndexFromBrackets( propertyName: string ) : number {
+        return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
     }
 
     function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
