@@ -34,6 +34,10 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
                         arrayValue1: true,
                         arrayValue2: 10
                     },
+                    {
+                        arrayValue1: false,
+                        arrayValue2: 20
+                    },
                     [
                         false,
                         true,
