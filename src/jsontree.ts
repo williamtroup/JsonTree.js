@@ -827,18 +827,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                         e.preventDefault();
     
                         const newPropertyName: string = propertyName.innerText;
-    
-                        if ( newPropertyName.trim() === Char.empty ) {
-                            delete data[ originalPropertyName ];
-    
-                        } else {
-                            if ( !data.hasOwnProperty( newPropertyName ) ) {
-                                const originalValue: any = data[ originalPropertyName ];
-        
+
+                        if ( newPropertyName !== originalPropertyName ) {
+                            if ( newPropertyName.trim() === Char.empty ) {
                                 delete data[ originalPropertyName ];
         
-                                data[ newPropertyName ] = originalValue;
+                            } else {
+                                if ( !data.hasOwnProperty( newPropertyName ) ) {
+                                    const originalValue: any = data[ originalPropertyName ];
+            
+                                    delete data[ originalPropertyName ];
+            
+                                    data[ newPropertyName ] = originalValue;
+                                }
                             }
+    
+                            Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                         }
 
                         propertyName.setAttribute( "contenteditable", "false" );
@@ -912,6 +916,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 } else {
                                     data[ originalPropertyName ] = newDataPropertyValue;
                                 }
+
+                                Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                             }
                         }
 

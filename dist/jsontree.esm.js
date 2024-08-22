@@ -466,6 +466,7 @@ var Binding;
             e.events.onUndefinedRender = Default2.getFunction(e.events.onUndefinedRender, null);
             e.events.onGuidRender = Default2.getFunction(e.events.onGuidRender, null);
             e.events.onColorRender = Default2.getFunction(e.events.onColorRender, null);
+            e.events.onJsonEdit = Default2.getFunction(e.events.onJsonEdit, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -1147,21 +1148,24 @@ var ToolTip;
                 o.focus();
                 DomElement.selectAllText(o);
                 o.onblur = () => i(e, false);
-                o.onkeydown = e => {
-                    if (e.code == "Escape") {
-                        e.preventDefault();
+                o.onkeydown = r => {
+                    if (r.code == "Escape") {
+                        r.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (e.code == "Enter") {
-                        e.preventDefault();
-                        const r = o.innerText;
-                        if (r.trim() === "") {
-                            delete t[n];
-                        } else {
-                            if (!t.hasOwnProperty(r)) {
-                                const e = t[n];
+                    } else if (r.code == "Enter") {
+                        r.preventDefault();
+                        const l = o.innerText;
+                        if (l !== n) {
+                            if (l.trim() === "") {
                                 delete t[n];
-                                t[r] = e;
+                            } else {
+                                if (!t.hasOwnProperty(l)) {
+                                    const e = t[n];
+                                    delete t[n];
+                                    t[l] = e;
+                                }
                             }
+                            Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
                         }
                         o.setAttribute("contenteditable", "false");
                     }
@@ -1185,40 +1189,41 @@ var ToolTip;
                 r.focus();
                 DomElement.selectAllText(r);
                 r.onblur = () => i(e, false);
-                r.onkeydown = e => {
-                    if (e.code == "Escape") {
-                        e.preventDefault();
+                r.onkeydown = i => {
+                    if (i.code == "Escape") {
+                        i.preventDefault();
                         r.setAttribute("contenteditable", "false");
-                    } else if (e.code == "Enter") {
-                        e.preventDefault();
-                        const i = r.innerText;
-                        if (i.trim() === "") {
+                    } else if (i.code == "Enter") {
+                        i.preventDefault();
+                        const a = r.innerText;
+                        if (a.trim() === "") {
                             if (l) {
                                 t.splice(E(n), 1);
                             } else {
                                 delete t[n];
                             }
                         } else {
-                            let e = null;
+                            let r = null;
                             if (Is.definedBoolean(o)) {
-                                e = i.toLowerCase() === "true";
-                            } else if (Is.definedDecimal(o) && !isNaN(+i)) {
-                                e = parseFloat(i);
-                            } else if (Is.definedNumber(o) && !isNaN(+i)) {
-                                e = parseInt(i);
+                                r = a.toLowerCase() === "true";
+                            } else if (Is.definedDecimal(o) && !isNaN(+a)) {
+                                r = parseFloat(a);
+                            } else if (Is.definedNumber(o) && !isNaN(+a)) {
+                                r = parseInt(a);
                             } else if (Is.definedString(o)) {
-                                e = i;
+                                r = a;
                             } else if (Is.definedDate(o)) {
-                                e = new Date(i);
+                                r = new Date(a);
                             } else if (Is.definedBigInt(o)) {
-                                e = BigInt(i);
+                                r = BigInt(a);
                             }
-                            if (e !== null) {
+                            if (r !== null) {
                                 if (l) {
-                                    t[E(n)] = e;
+                                    t[E(n)] = r;
                                 } else {
-                                    t[n] = e;
+                                    t[n] = r;
                                 }
+                                Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
                             }
                         }
                         r.setAttribute("contenteditable", "false");

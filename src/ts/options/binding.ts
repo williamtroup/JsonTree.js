@@ -176,6 +176,7 @@ export namespace Binding {
             options.events!.onUndefinedRender = Default.getFunction( options.events!.onUndefinedRender, null! );
             options.events!.onGuidRender = Default.getFunction( options.events!.onGuidRender, null! );
             options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
+            options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
 
             return options;
         }
