@@ -416,7 +416,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.count {
     JsonTree.js - ToolTip
     -------------------------------------------------------------------------
 */
-div.jsontree-js-tooltip {
+div.jsontree-js-tooltip,
+div.jsontree-js-tooltip-value {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;

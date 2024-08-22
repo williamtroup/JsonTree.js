@@ -34,17 +34,18 @@ export namespace ToolTip {
         addEventListener_Document( "scroll", () => hide( bindingOptions ) );
     }
 
-    export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string ) : void {
+    export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string, tooltipClass: string = "jsontree-js-tooltip" ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => show( e, bindingOptions, text );
+            element.onmousemove = ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass );
         }
     }
 
-    export function show( e: MouseEvent, bindingOptions: BindingOptions, text: string ) : void {
+    export function show( e: MouseEvent, bindingOptions: BindingOptions, text: string, tooltipClass: string ) : void {
         DomElement.cancelBubble( e );
         hide( bindingOptions );
 
         bindingOptions._currentView.tooltipTimerId = setTimeout( () => {
+            bindingOptions._currentView.tooltip.className = tooltipClass;
             bindingOptions._currentView.tooltip.innerHTML = text;
             bindingOptions._currentView.tooltip.style.display = "block";
 

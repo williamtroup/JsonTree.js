@@ -488,7 +488,8 @@ div.json-tree-js {
     -------------------------------------------------------------------------
 */
 
-div.jsontree-js-tooltip {
+div.jsontree-js-tooltip,
+div.jsontree-js-tooltip-value {
     @include no-selection-allowed;
     @include box-sizing;
     font-family: var(--json-tree-js-default-font);

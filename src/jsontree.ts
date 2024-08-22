@@ -800,7 +800,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, valueElement: HTMLElement ) : void {
         if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
             if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
             } else {
 
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
@@ -813,7 +813,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 jsonPath = jsonPathParts.join( Char.backslash );
 
                 if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                    ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+                    ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
                 }
             }
         }
