@@ -225,29 +225,31 @@ var DomElement;
         return t;
     }
     e.getScrollPosition = i;
-    function a(e, t) {
-        let n = e.pageX;
-        let o = e.pageY;
-        const r = i();
+    function a(e, t, n) {
+        let o = e.pageX;
+        let r = e.pageY;
+        const l = i();
         t.style.display = "block";
-        if (n + t.offsetWidth > window.innerWidth) {
-            n -= t.offsetWidth;
-        } else {
-            n++;
-        }
-        if (o + t.offsetHeight > window.innerHeight) {
-            o -= t.offsetHeight;
+        if (o + t.offsetWidth > window.innerWidth) {
+            o -= t.offsetWidth + n;
         } else {
             o++;
+            o += n;
         }
-        if (n < r.left) {
-            n = e.pageX + 1;
+        if (r + t.offsetHeight > window.innerHeight) {
+            r -= t.offsetHeight + n;
+        } else {
+            r++;
+            r += n;
         }
-        if (o < r.top) {
-            o = e.pageY + 1;
+        if (o < l.left) {
+            o = e.pageX + 1;
         }
-        t.style.left = `${n}px`;
-        t.style.top = `${o}px`;
+        if (r < l.top) {
+            r = e.pageY + 1;
+        }
+        t.style.left = `${o}px`;
+        t.style.top = `${r}px`;
     }
     e.showElementAtMousePosition = a;
     function s(e) {
@@ -419,6 +421,7 @@ var Binding;
         function i(e) {
             e.tooltip = Default2.getObject(e.tooltip, {});
             e.tooltip.delay = Default2.getNumber(e.tooltip.delay, 750);
+            e.tooltip.offset = Default2.getNumber(e.tooltip.offset, 0);
             return e;
         }
         function a(e) {
@@ -571,7 +574,7 @@ var ToolTip;
         t._currentView.tooltipTimerId = setTimeout((() => {
             t._currentView.tooltip.innerHTML = n;
             t._currentView.tooltip.style.display = "block";
-            DomElement.showElementAtMousePosition(e, t._currentView.tooltip);
+            DomElement.showElementAtMousePosition(e, t._currentView.tooltip, t.tooltip.offset);
         }), t.tooltip.delay);
     }
     e.show = r;

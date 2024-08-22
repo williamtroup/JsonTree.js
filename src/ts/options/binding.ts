@@ -120,7 +120,8 @@ export namespace Binding {
         function getToolTip( options: BindingOptions ) : BindingOptions {
             options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
             options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
-    
+            options.tooltip!.offset = Default.getNumber( options.tooltip!.offset, 0 );
+
             return options;
         }
 

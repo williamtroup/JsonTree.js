@@ -157,6 +157,7 @@ export type BindingOptionsAllowEditing = {
 
 export type BindingOptionsTooltip = {
     delay?: number;
+	offset?: number;
 };
 
 export type BindingOptionsEvents = {

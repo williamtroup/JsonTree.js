@@ -48,7 +48,7 @@ export namespace ToolTip {
             bindingOptions._currentView.tooltip.innerHTML = text;
             bindingOptions._currentView.tooltip.style.display = "block";
 
-            DomElement.showElementAtMousePosition( e, bindingOptions._currentView.tooltip );
+            DomElement.showElementAtMousePosition( e, bindingOptions._currentView.tooltip, bindingOptions.tooltip!.offset! );
         }, bindingOptions.tooltip!.delay );
     }
 
