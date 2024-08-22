@@ -152,6 +152,7 @@ export type BindingOptionsAllowEditing = {
 	bigIntValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
+	propertyNames?: boolean;
 };
 
 export type BindingOptionsTooltip = {

@@ -23,6 +23,7 @@ import {
     type BindingOptionsAllowEditing } from "../type";
 
 import { Default } from "../data/default";
+import { Is } from "../data/is";
 
 
 export namespace Binding {
@@ -72,13 +73,13 @@ export namespace Binding {
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
             options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
-            options.valueToolTips = Default.getObject( options.valueToolTips, {} as Record<string, string> );
+            options.valueToolTips = Default.getObject( options.valueToolTips, null! );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
-            options = getAllowEditing( options );
+            options = getAllowEditing( options, Is.definedObject( options.valueToolTips ) );
             options = getCustomTriggers( options );
     
             return options;
@@ -132,7 +133,7 @@ export namespace Binding {
             return options;
         }
 
-        function getAllowEditing( options: BindingOptions ) : BindingOptions {
+        function getAllowEditing( options: BindingOptions, valueToolTipsSet: boolean ) : BindingOptions {
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
             options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, true );
             options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, true );
@@ -142,6 +143,11 @@ export namespace Binding {
             options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, true );
             options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, true );
             options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, true );
+            options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, true );
+
+            if ( valueToolTipsSet ) {
+                options.allowEditing!.propertyNames = false;
+            }
 
             return options;
         }

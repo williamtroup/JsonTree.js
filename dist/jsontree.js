@@ -378,12 +378,12 @@ var Binding;
             t.shortcutKeysEnabled = Default2.getBoolean(t.shortcutKeysEnabled, true);
             t.openInFullScreenMode = Default2.getBoolean(t.openInFullScreenMode, false);
             t.enableFullScreenToggling = Default2.getBoolean(t.enableFullScreenToggling, true);
-            t.valueToolTips = Default2.getObject(t.valueToolTips, {});
+            t.valueToolTips = Default2.getObject(t.valueToolTips, null);
             t = r(t);
             t = l(t);
             t = i(t);
             t = a(t);
-            t = s(t);
+            t = s(t, Is.definedObject(t.valueToolTips));
             t = u(t);
             return t;
         }
@@ -428,7 +428,7 @@ var Binding;
             e.parse.stringsToNumbers = Default2.getBoolean(e.parse.stringsToNumbers, false);
             return e;
         }
-        function s(e) {
+        function s(e, t) {
             e.allowEditing = Default2.getObject(e.allowEditing, {});
             e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, true);
             e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, true);
@@ -438,6 +438,10 @@ var Binding;
             e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, true);
             e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, true);
             e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, true);
+            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, true);
+            if (t) {
+                e.allowEditing.propertyNames = false;
+            }
             return e;
         }
         function u(e) {
@@ -823,7 +827,7 @@ var ToolTip;
                 c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
             }
             T(s, null, a, n, o, r, c, false, true, "");
-            S(n, u, o, "object");
+            S(n, u, o, "object", false);
         }
     }
     function y(t, n, o) {
@@ -839,7 +843,7 @@ var ToolTip;
             s = DomElement.createWithHTML(r, "span", "opening-symbol", "[");
         }
         D(i, null, l, n, o, s, false, true, "");
-        S(n, a, o, "object");
+        S(n, a, o, "object", false);
     }
     function T(e, t, n, o, r, l, i, a, s, u) {
         const c = l.length;
@@ -881,9 +885,10 @@ var ToolTip;
         let g = false;
         let m = null;
         const p = DomElement.createWithHTML(u, "span", "title", r);
+        let b = false;
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
-            x(o, t, r, p, s);
+            h(o, t, r, p, s);
         }
         if (l === null) {
             if (!o.ignore.nullValues) {
@@ -926,7 +931,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"boolean"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
-                V(o, t, r, l, f, a, o.allowEditing.booleanValues);
+                b = o.allowEditing.booleanValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -940,7 +946,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"decimal"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
-                V(o, t, r, l, f, a, o.allowEditing.decimalValues);
+                b = o.allowEditing.decimalValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -953,7 +960,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"number"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
-                V(o, t, r, l, f, a, o.allowEditing.numberValues);
+                b = o.allowEditing.numberValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -966,7 +974,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"bigint"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
-                V(o, t, r, l, f, a, o.allowEditing.bigIntValues);
+                b = o.allowEditing.bigIntValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -979,7 +988,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"guid"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
-                V(o, t, r, l, f, a, o.allowEditing.guidValues);
+                b = o.allowEditing.guidValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -992,10 +1002,11 @@ var ToolTip;
                 d = o.showValueColors ? `${"color"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "color";
+                b = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                V(o, t, r, l, f, a, o.allowEditing.colorValues);
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1022,7 +1033,8 @@ var ToolTip;
                     d = o.showValueColors ? `${"string"} value` : "value";
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
-                    V(o, t, r, l, f, a, o.allowEditing.stringValues);
+                    b = o.allowEditing.stringValues;
+                    V(o, t, r, l, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1036,7 +1048,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"date"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
-                V(o, t, r, l, f, a, o.allowEditing.dateValues);
+                b = o.allowEditing.dateValues;
+                V(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1115,18 +1128,18 @@ var ToolTip;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                h(o, s, f);
-                S(o, f, l, m);
+                x(o, s, f);
+                S(o, f, l, m, b);
             }
         }
     }
-    function h(e, t, n) {
-        if (e.valueToolTips.hasOwnProperty(t)) {
+    function x(e, t, n) {
+        if (Is.definedObject(e.valueToolTips) && e.valueToolTips.hasOwnProperty(t)) {
             ToolTip.add(n, e, e.valueToolTips[t]);
         }
     }
-    function x(e, t, n, o, r) {
-        if (e.allowEditing) {
+    function h(e, t, n, o, r) {
+        if (e.allowEditing.propertyNames) {
             o.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
                 e._currentView.valueClickTimerId = 0;
@@ -1136,27 +1149,20 @@ var ToolTip;
                 o.focus();
                 DomElement.selectAllText(o);
                 o.onblur = () => i(e, false);
-                o.onkeydown = l => {
-                    if (l.code == "Escape") {
-                        l.preventDefault();
+                o.onkeydown = e => {
+                    if (e.code == "Escape") {
+                        e.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (l.code == "Enter") {
-                        l.preventDefault();
-                        const i = o.innerText;
-                        if (i.trim() === "") {
+                    } else if (e.code == "Enter") {
+                        e.preventDefault();
+                        const r = o.innerText;
+                        if (r.trim() === "") {
                             delete t[n];
                         } else {
-                            if (!t.hasOwnProperty(i)) {
-                                const o = t[n];
+                            if (!t.hasOwnProperty(r)) {
+                                const e = t[n];
                                 delete t[n];
-                                t[i] = o;
-                                if (e.valueToolTips.hasOwnProperty(r)) {
-                                    let t = r.substring(0, r.length - n.length);
-                                    t += i;
-                                    const o = e.valueToolTips[r];
-                                    delete e.valueToolTips[r];
-                                    e.valueToolTips[t] = o;
-                                }
+                                t[r] = e;
                             }
                         }
                         o.setAttribute("contenteditable", "false");
@@ -1226,10 +1232,10 @@ var ToolTip;
     function E(e) {
         return parseInt(e.replace("[", "").replace("]", ""));
     }
-    function S(e, t, n, o) {
+    function S(e, t, n, o, r) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
-                if (e.allowEditing) {
+                if (r) {
                     e._currentView.valueClickTimerId = setTimeout((() => {
                         if (!e._currentView.editMode) {
                             Trigger.customEvent(e.events.onValueClick, n, o);
