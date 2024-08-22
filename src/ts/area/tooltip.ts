@@ -65,4 +65,10 @@ export namespace ToolTip {
             }
         }
     }
+
+    export function remove( bindingOptions: BindingOptions ) : void {
+        if ( Is.defined( bindingOptions._currentView.tooltip ) ) {
+            bindingOptions._currentView.tooltip.parentNode!.removeChild( bindingOptions._currentView.tooltip )
+        }
+    }
 }

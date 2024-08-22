@@ -1176,13 +1176,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.element.removeAttribute( "id" );
         }
 
-        if ( Is.defined( bindingOptions._currentView.tooltip ) ) {
-            bindingOptions._currentView.tooltip.parentNode!.removeChild( bindingOptions._currentView.tooltip )
-        }
-
         buildDocumentEvents( bindingOptions, false );
 
         ToolTip.assignToEvents( bindingOptions, false );
+        ToolTip.remove( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 

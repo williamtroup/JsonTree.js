@@ -592,6 +592,12 @@ var ToolTip;
         }
     }
     e.hide = l;
+    function i(e) {
+        if (Is.defined(e._currentView.tooltip)) {
+            e._currentView.tooltip.parentNode.removeChild(e._currentView.tooltip);
+        }
+    }
+    e.remove = i;
 })(ToolTip || (ToolTip = {}));
 
 (() => {
@@ -1417,11 +1423,9 @@ var ToolTip;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        if (Is.defined(e._currentView.tooltip)) {
-            e._currentView.tooltip.parentNode.removeChild(e._currentView.tooltip);
-        }
         p(e, false);
         ToolTip.assignToEvents(e, false);
+        ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
     const M = {
