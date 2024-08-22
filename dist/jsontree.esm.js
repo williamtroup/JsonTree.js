@@ -1509,7 +1509,7 @@ var ToolTip;
             return e;
         },
         getVersion: function() {
-            return "2.8.0";
+            return "2.9.0";
         }
     };
     (() => {
