@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v2.7.0
+ * @version     v2.8.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -21,6 +21,8 @@ export namespace Is {
         
             if ( valid && value[ 0 ] === Char.hash ) {
                 valid = isNaN( +value.substring( 1, value.length - 1 ) );
+            } else {
+                valid = false;
             }
         
             return valid;
