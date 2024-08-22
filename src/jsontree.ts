@@ -940,7 +940,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         if ( !bindingOptions._currentView.editMode ) {
                             Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
                         }
-                    }, 500 );
+                    }, bindingOptions.editingValueClickDelay );
 
                 } else {
                     Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );

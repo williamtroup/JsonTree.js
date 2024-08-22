@@ -379,6 +379,7 @@ var Binding;
             t.openInFullScreenMode = Default2.getBoolean(t.openInFullScreenMode, false);
             t.enableFullScreenToggling = Default2.getBoolean(t.enableFullScreenToggling, true);
             t.valueToolTips = Default2.getObject(t.valueToolTips, null);
+            t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -890,7 +891,7 @@ var ToolTip;
         let b = false;
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
-            h(o, t, r, p);
+            V(o, t, r, p);
         }
         if (l === null) {
             if (!o.ignore.nullValues) {
@@ -934,7 +935,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
                 b = o.allowEditing.booleanValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -949,7 +950,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
                 b = o.allowEditing.decimalValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -963,7 +964,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
                 b = o.allowEditing.numberValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -977,7 +978,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
                 b = o.allowEditing.bigIntValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -991,7 +992,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
                 b = o.allowEditing.guidValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1008,7 +1009,7 @@ var ToolTip;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1036,7 +1037,7 @@ var ToolTip;
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
                     b = o.allowEditing.stringValues;
-                    V(o, t, r, l, f, a, b);
+                    h(o, t, r, l, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1051,7 +1052,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
                 b = o.allowEditing.dateValues;
-                V(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1140,7 +1141,7 @@ var ToolTip;
             ToolTip.add(n, e, e.valueToolTips[t]);
         }
     }
-    function h(e, t, n, o) {
+    function V(e, t, n, o) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1176,7 +1177,7 @@ var ToolTip;
             };
         }
     }
-    function V(e, t, n, o, r, l, a) {
+    function h(e, t, n, o, r, l, a) {
         if (a) {
             r.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1246,7 +1247,7 @@ var ToolTip;
                         if (!e._currentView.editMode) {
                             Trigger.customEvent(e.events.onValueClick, n, o);
                         }
-                    }), 500);
+                    }), e.editingValueClickDelay);
                 } else {
                     Trigger.customEvent(e.events.onValueClick, n, o);
                 }
