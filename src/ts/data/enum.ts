@@ -16,6 +16,7 @@ export const enum Char {
     space = " ",
     zero = "0",
     hash = "#",
+    backslash = "\\",
 }
 
 export const enum DataType {

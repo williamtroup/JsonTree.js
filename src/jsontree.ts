@@ -409,7 +409,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
             const propertyName: string = propertyNames[ propertyIndex ];
-            const newJsonPath: string = jsonPath === Char.empty ? propertyName : `${jsonPath}\\${propertyName}`;
+            const newJsonPath: string = jsonPath === Char.empty ? propertyName : `${jsonPath}${Char.backslash}${propertyName}`;
 
             if ( data.hasOwnProperty( propertyName ) ) {
                 renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false, newJsonPath );
@@ -429,7 +429,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
                 const actualIndex: number = getArrayIndex( dataIndex1, bindingOptions );
-                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}\\${actualIndex}`;
+                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
 
                 renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
             }
@@ -437,7 +437,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
                 const actualIndex: number = getArrayIndex( dataIndex2, bindingOptions );
-                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}\\${actualIndex}`;
+                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
 
                 renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
             }
@@ -803,14 +803,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
             } else {
 
-                const jsonPathParts: string[] = jsonPath.split( "\\" );
+                const jsonPathParts: string[] = jsonPath.split( Char.backslash );
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;
 
                 for ( let jsonPathPartIndex = 0; jsonPathPartIndex < jsonPathPartsLength; jsonPathPartIndex++ ) {
                     jsonPathParts[ jsonPathPartIndex ] = "..";
                 }
 
-                jsonPath = jsonPathParts.join( "\\" );
+                jsonPath = jsonPathParts.join( Char.backslash );
 
                 if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
                     ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
