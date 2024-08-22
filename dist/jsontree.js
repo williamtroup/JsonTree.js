@@ -1417,6 +1417,9 @@ var ToolTip;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
+        if (Is.defined(e._currentView.tooltip)) {
+            e._currentView.tooltip.parentNode.removeChild(e._currentView.tooltip);
+        }
         p(e, false);
         ToolTip.assignToEvents(e, false);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
