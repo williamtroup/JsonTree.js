@@ -798,8 +798,24 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, valueElement: HTMLElement ) : void {
-        if ( Is.definedObject( bindingOptions.valueToolTips ) && bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-            ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+        if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
+            if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+            } else {
+
+                const jsonPathParts: string[] = jsonPath.split( "\\" );
+                const jsonPathPartsLength: number = jsonPathParts.length - 1;
+
+                for ( let jsonPathPartIndex = 0; jsonPathPartIndex < jsonPathPartsLength; jsonPathPartIndex++ ) {
+                    jsonPathParts[ jsonPathPartIndex ] = "..";
+                }
+
+                jsonPath = jsonPathParts.join( "\\" );
+
+                if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+                    ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+                }
+            }
         }
     }
 

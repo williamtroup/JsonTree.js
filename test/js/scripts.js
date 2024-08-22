@@ -100,6 +100,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
             "value6\\objectValue3": "This is a number tooltip for objectValue3",
             "parsing\\booleans\\value1": "This is a boolean tooltip for Value 1 on Page 2",
+            "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
         } : null
     };
 }
