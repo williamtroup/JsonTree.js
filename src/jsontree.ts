@@ -461,7 +461,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isArrayItem ) {
-            makePropertyNameEditable( bindingOptions, data, name, propertyName, jsonPath );
+            makePropertyNameEditable( bindingOptions, data, name, propertyName );
         }
 
         if ( value === null ) {
@@ -801,7 +801,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, jsonPath: string ) : void {
+    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
         if ( bindingOptions.allowEditing!.propertyNames ) {
             propertyName.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );

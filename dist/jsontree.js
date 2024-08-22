@@ -889,7 +889,7 @@ var ToolTip;
         let b = false;
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
-            h(o, t, r, p, s);
+            h(o, t, r, p);
         }
         if (l === null) {
             if (!o.ignore.nullValues) {
@@ -1139,7 +1139,7 @@ var ToolTip;
             ToolTip.add(n, e, e.valueToolTips[t]);
         }
     }
-    function h(e, t, n, o, r) {
+    function h(e, t, n, o) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
