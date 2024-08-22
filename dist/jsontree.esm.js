@@ -7,6 +7,8 @@ var Is;
             let t = e.length >= 2 && e.length <= 7;
             if (t && e[0] === "#") {
                 t = isNaN(+e.substring(1, e.length - 1));
+            } else {
+                t = false;
             }
             return t;
         }

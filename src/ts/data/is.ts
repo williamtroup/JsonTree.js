@@ -21,6 +21,8 @@ export namespace Is {
         
             if ( valid && value[ 0 ] === Char.hash ) {
                 valid = isNaN( +value.substring( 1, value.length - 1 ) );
+            } else {
+                valid = false;
             }
         
             return valid;
