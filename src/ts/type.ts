@@ -87,6 +87,7 @@ export type BindingOptions = {
 	shortcutKeysEnabled?: boolean;
 	openInFullScreenMode?: boolean;
 	enableFullScreenToggling?: boolean;
+	valueToolTips?: Record<string, string>;
 	allowEditing?: BindingOptionsAllowEditing;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

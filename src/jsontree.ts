@@ -380,7 +380,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
             }
 
-            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true );
+            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true, Char.empty );
             addValueClickEvent( bindingOptions, titleText, data, DataType.object );
         }
     }
@@ -400,18 +400,19 @@ type JsonTreeData = Record<string, BindingOptions>;
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement
         }
 
-        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true );
+        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true, Char.empty );
         addValueClickEvent( bindingOptions, titleText, data, DataType.object );
     }
 
-    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
+    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string ) : void {
         const propertiesLength: number = propertyNames.length;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
             const propertyName: string = propertyNames[ propertyIndex ];
+            const newJsonPath: string = jsonPath === Char.empty ? propertyName : `${jsonPath}\\${propertyName}`;
 
             if ( data.hasOwnProperty( propertyName ) ) {
-                renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false );
+                renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false, newJsonPath );
             }
         }
 
@@ -422,17 +423,21 @@ type JsonTreeData = Record<string, BindingOptions>;
         addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace );
     }
 
-    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean ) : void {
+    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string ) : void {
         const dataLength: number = data.length;
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true );
+                const newJsonPath: string = jsonPath === Char.empty ? dataIndex1.toString() : `${jsonPath}\\${dataIndex1}`;
+
+                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex1, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
             }
 
         } else {
             for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
-                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true );
+                const newJsonPath: string = jsonPath === Char.empty ? dataIndex2.toString() : `${jsonPath}\\${dataIndex2}`;
+
+                renderValue( data, objectTypeContents, bindingOptions, getIndexName( bindingOptions, dataIndex2, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
             }
         }
 
@@ -443,7 +448,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket );
     }
 
-    function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean ) : void {
+    function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValue, "div", "no-arrow" ) : null!;
         let valueClass: string = null!;
@@ -455,7 +460,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isArrayItem ) {
-            makePropertyNameEditable( bindingOptions, data, name, propertyName );
+            makePropertyNameEditable( bindingOptions, data, name, propertyName, jsonPath );
         }
 
         if ( value === null ) {
@@ -623,15 +628,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
-                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem );
+                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath );
                     ignored = true;
 
                 } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
-                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem );
+                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath );
                     ignored = true;
 
                 } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
-                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem );
+                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem, jsonPath );
                     ignored = true;
 
                 } else {
@@ -717,7 +722,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
 
-                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem );
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath );
     
                     type = DataType.object;
                 }
@@ -745,7 +750,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 
-                renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem );
+                renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem, jsonPath );
 
                 type = DataType.array;
                 
@@ -775,12 +780,19 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
+                addValueElementToolTip( bindingOptions, jsonPath, valueElement );
                 addValueClickEvent( bindingOptions, valueElement, value, type );
             }
         }
     }
 
-    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
+    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, valueElement: HTMLElement ) : void {
+        if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+            ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ] );
+        }
+    }
+
+    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, jsonPath: string ) : void {
         if ( bindingOptions.allowEditing ) {
             propertyName.ondblclick = () => {
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -817,6 +829,17 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 delete data[ originalPropertyName ];
         
                                 data[ newPropertyName ] = originalValue;
+
+                                if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+                                    let newJsonPath = jsonPath.substring( 0, jsonPath.length - originalPropertyName.length );
+                                    newJsonPath += newPropertyName;
+
+                                    const originalToolTip: string = bindingOptions.valueToolTips![ jsonPath ];
+
+                                    delete bindingOptions.valueToolTips![ jsonPath ];
+
+                                    bindingOptions.valueToolTips![ newJsonPath ] = originalToolTip;
+                                }
                             }
                         }
 

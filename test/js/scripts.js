@@ -90,6 +90,11 @@ function bindingOptions( showValueColors = true ) {
         showArrowToggles: true,
         openInFullScreenMode: false,
         enableFullScreenToggling: true,
+        valueToolTips: {
+            "value1": "This is a boolean tooltip for Value 1",
+            "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
+            "value6\\objectValue3": "This is a number tooltip for objectValue3",
+        }
     };
 }
 

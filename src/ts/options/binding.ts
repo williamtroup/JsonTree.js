@@ -72,6 +72,7 @@ export namespace Binding {
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
             options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
+            options.valueToolTips = Default.getObject( options.valueToolTips, {} as Record<string, string> );
 
             options = getTitle( options );
             options = getIgnore( options );
