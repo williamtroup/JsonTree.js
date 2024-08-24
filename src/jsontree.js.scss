@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.8.0
+ * JsonTree.js Library v2.8.1
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -488,7 +488,8 @@ div.json-tree-js {
     -------------------------------------------------------------------------
 */
 
-div.jsontree-js-tooltip {
+div.jsontree-js-tooltip,
+div.jsontree-js-tooltip-value {
     @include no-selection-allowed;
     @include box-sizing;
     font-family: var(--json-tree-js-default-font);

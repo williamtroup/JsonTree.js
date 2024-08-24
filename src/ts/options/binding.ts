@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v2.8.0
+ * @version     v2.8.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -74,6 +74,7 @@ export namespace Binding {
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
             options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
+            options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
 
             options = getTitle( options );
             options = getIgnore( options );
@@ -120,7 +121,8 @@ export namespace Binding {
         function getToolTip( options: BindingOptions ) : BindingOptions {
             options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
             options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
-    
+            options.tooltip!.offset = Default.getNumber( options.tooltip!.offset, 0 );
+
             return options;
         }
 

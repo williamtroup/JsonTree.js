@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v2.8.0
+ * @version     v2.8.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -67,7 +67,7 @@ export namespace DomElement {
         return result;
     }
 
-    export function showElementAtMousePosition( e: any, element: HTMLElement ) : void {
+    export function showElementAtMousePosition( e: any, element: HTMLElement, offset: number ) : void {
         let left: number = e.pageX;
         let top: number = e.pageY;
         const scrollPosition: Position = getScrollPosition();
@@ -75,15 +75,17 @@ export namespace DomElement {
         element.style.display = "block";
 
         if ( left + element.offsetWidth > window.innerWidth ) {
-            left -= element.offsetWidth;
+            left -= ( element.offsetWidth + offset );
         } else {
             left++;
+            left += offset;
         }
 
         if ( top + element.offsetHeight > window.innerHeight ) {
-            top -= element.offsetHeight;
+            top -= ( element.offsetHeight + offset );
         } else {
             top++;
+            top += offset;
         }
 
         if ( left < scrollPosition.left ) {

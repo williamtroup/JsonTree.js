@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.8.0
+ * JsonTree.js Library v2.8.1
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -416,7 +416,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.count {
     JsonTree.js - ToolTip
     -------------------------------------------------------------------------
 */
-div.jsontree-js-tooltip {
+div.jsontree-js-tooltip,
+div.jsontree-js-tooltip-value {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
