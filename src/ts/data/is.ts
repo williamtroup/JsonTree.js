@@ -96,11 +96,11 @@ export namespace Is {
     }
 
     export function definedMap( object: any ) : boolean {
-        return defined( object ) && object instanceof Map;
+        return defined( object ) && ( object instanceof Map || object instanceof WeakMap );
     }
 
     export function definedSet( object: any ) : boolean {
-        return defined( object ) && object instanceof Set;
+        return defined( object ) && ( object instanceof Set || object instanceof WeakSet );
     }
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
