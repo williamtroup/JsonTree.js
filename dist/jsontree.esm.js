@@ -1556,7 +1556,7 @@ var ToolTip;
             return e;
         },
         getVersion: function() {
-            return "2.8.2";
+            return "2.9.0";
         }
     };
     (() => {
