@@ -1540,7 +1540,7 @@ var ToolTip;
             return e;
         },
         getVersion: function() {
-            return "2.8.1";
+            return "2.8.2";
         }
     };
     (() => {
