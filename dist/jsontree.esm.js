@@ -680,10 +680,10 @@ var ToolTip;
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
-        if (Is.definedObject(r) && !Is.definedArray(r)) {
-            w(l, n, r);
-        } else if (Is.definedArray(r)) {
+        if (Is.definedArray(r)) {
             y(l, n, r);
+        } else if (Is.definedObject(r)) {
+            w(l, n, r);
         }
         if (l.innerHTML === "") {
             DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1099,30 +1099,6 @@ var ToolTip;
             } else {
                 g = true;
             }
-        } else if (Is.definedObject(l) && !Is.definedArray(l)) {
-            if (!o.ignore.objectValues) {
-                const t = _(l, o);
-                const n = t.length;
-                if (n === 0 && o.ignore.emptyObjects) {
-                    g = true;
-                } else {
-                    const r = DomElement.create(u, "span", o.showValueColors ? "object" : "");
-                    const a = DomElement.create(u, "div", "object-type-contents");
-                    let d = null;
-                    f = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
-                    if (o.showCounts && n > 0) {
-                        DomElement.createWithHTML(r, "span", "count", `{${n}}`);
-                    }
-                    if (o.showOpeningClosingCurlyBraces) {
-                        d = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
-                    }
-                    let g = A(o, r, i);
-                    T(c, g, a, o, l, t, d, true, i, s);
-                    m = "object";
-                }
-            } else {
-                g = true;
-            }
         } else if (Is.definedArray(l)) {
             if (!o.ignore.arrayValues) {
                 const t = DomElement.create(u, "span", o.showValueColors ? "array" : "");
@@ -1138,6 +1114,30 @@ var ToolTip;
                 let a = A(o, t, i);
                 D(c, a, n, o, l, r, true, i, s);
                 m = "array";
+            } else {
+                g = true;
+            }
+        } else if (Is.definedObject(l)) {
+            if (!o.ignore.objectValues) {
+                const t = _(l, o);
+                const n = t.length;
+                if (n === 0 && o.ignore.emptyObjects) {
+                    g = true;
+                } else {
+                    const r = DomElement.create(u, "span", o.showValueColors ? "object" : "");
+                    const a = DomElement.create(u, "div", "object-type-contents");
+                    let d = null;
+                    f = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
+                    m = "object";
+                    if (o.showCounts && n > 0) {
+                        DomElement.createWithHTML(r, "span", "count", `{${n}}`);
+                    }
+                    if (o.showOpeningClosingCurlyBraces) {
+                        d = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
+                    }
+                    let g = A(o, r, i);
+                    T(c, g, a, o, l, t, d, true, i, s);
+                }
             } else {
                 g = true;
             }

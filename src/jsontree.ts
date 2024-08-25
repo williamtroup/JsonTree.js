@@ -146,10 +146,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
-        if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( contents, bindingOptions, data );
-        } else if ( Is.definedArray( data ) ) {
+        if ( Is.definedArray( data ) ) {
             renderArray( contents, bindingOptions, data );
+        } else if ( Is.definedObject( data ) ) {
+            renderObject( contents, bindingOptions, data );
         }
 
         if ( contents.innerHTML === Char.empty ) {
@@ -724,41 +724,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
-        } else if ( Is.definedObject( value ) && !Is.definedArray( value ) ) {
-            if ( !bindingOptions.ignore!.objectValues ) {
-                const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );
-                const propertyCount: number = propertyNames.length;
-
-                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
-                    ignored = true;
-                } else {
-
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
-                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
-                    let openingBrace: HTMLSpanElement = null!;
-
-                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
-
-                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
-                    }
-
-                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
-                    }
-    
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
-                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath );
-    
-                    type = DataType.object;
-                }
-
-            } else {
-                ignored = true;
-            }
-
-
         } else if ( Is.definedArray( value ) ) {
             if ( !bindingOptions.ignore!.arrayValues ) {
                 const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.array : Char.empty );
@@ -781,6 +746,39 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 type = DataType.array;
                 
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedObject( value ) ) {
+            if ( !bindingOptions.ignore!.objectValues ) {
+                const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );
+                const propertyCount: number = propertyNames.length;
+
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
+
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
+                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                    let openingBrace: HTMLSpanElement = null!;
+
+                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
+                    type = DataType.object;
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+
+                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
+                    }
+    
+                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath );
+                }
+
             } else {
                 ignored = true;
             }
