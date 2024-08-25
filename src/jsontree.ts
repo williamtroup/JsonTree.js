@@ -708,6 +708,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedRegExp( value ) ) {
+            if ( !bindingOptions.ignore!.regExpValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.regexp} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
+                type = DataType.regexp;
+
+                if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onRegExpRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedObject( value ) && !Is.definedArray( value ) ) {
             if ( !bindingOptions.ignore!.objectValues ) {
                 const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );

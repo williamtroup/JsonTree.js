@@ -91,6 +91,10 @@ export namespace Is {
         return defined( object ) && typeof object === "symbol";
     }
 
+    export function definedRegExp( object: any ) : boolean {
+        return defined( object ) && object instanceof RegExp;
+    }
+
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
     }

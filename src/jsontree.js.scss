@@ -51,6 +51,7 @@
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
     --json-tree-js-color-guid: #c45600;
+    --json-tree-js-color-regexp: #AA336A;
 
     // Colors - Editable Fields
     --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
@@ -471,6 +472,10 @@ div.json-tree-js {
 
             span.guid {
                 color: var(--json-tree-js-color-guid);
+            }
+
+            span.regexp {
+                color: var(--json-tree-js-color-regexp);
             }
 
             span.count {

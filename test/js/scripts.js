@@ -27,6 +27,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
                 },
                 value15: "rgb(144, 238, 144)",
                 value16: crypto.randomUUID(),
+                value17: new RegExp( "ab+c" ),
                 value5: [
                     true,
                     "This is another string",

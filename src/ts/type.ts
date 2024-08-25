@@ -142,6 +142,7 @@ export type BindingOptionsIgnore = {
 	undefinedValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
+	regExpValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -183,6 +184,7 @@ export type BindingOptionsEvents = {
 	onUndefinedRender?: ( element: HTMLElement ) => void;
 	onGuidRender?: ( element: HTMLElement ) => void;
 	onColorRender?: ( element: HTMLElement ) => void;
+	onRegExpRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

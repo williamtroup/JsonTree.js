@@ -35,6 +35,7 @@ export const enum DataType {
     undefined = "undefined",
     color = "color",
     guid = "guid",
+    regexp = "regexp",
 }
 
 export const enum KeyCode {

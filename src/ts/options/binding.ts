@@ -114,6 +114,7 @@ export namespace Binding {
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
+            options.ignore!.regExpValues = Default.getBoolean( options.ignore!.regExpValues, false );
 
             return options;
         }
@@ -179,6 +180,7 @@ export namespace Binding {
             options.events!.onGuidRender = Default.getFunction( options.events!.onGuidRender, null! );
             options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
             options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
+            options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
 
             return options;
         }

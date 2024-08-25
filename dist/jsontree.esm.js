@@ -75,10 +75,14 @@ var Is;
         return n(e) && typeof e === "symbol";
     }
     e.definedSymbol = f;
-    function g(e, t = 1) {
+    function g(e) {
+        return n(e) && e instanceof RegExp;
+    }
+    e.definedRegExp = g;
+    function m(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = g;
+    e.invalidOptionArray = m;
 })(Is || (Is = {}));
 
 var Default2;
@@ -415,6 +419,7 @@ var Binding;
             e.ignore.undefinedValues = Default2.getBoolean(e.ignore.undefinedValues, false);
             e.ignore.guidValues = Default2.getBoolean(e.ignore.guidValues, false);
             e.ignore.colorValues = Default2.getBoolean(e.ignore.colorValues, false);
+            e.ignore.regExpValues = Default2.getBoolean(e.ignore.regExpValues, false);
             return e;
         }
         function i(e) {
@@ -471,6 +476,7 @@ var Binding;
             e.events.onGuidRender = Default2.getFunction(e.events.onGuidRender, null);
             e.events.onColorRender = Default2.getFunction(e.events.onColorRender, null);
             e.events.onJsonEdit = Default2.getFunction(e.events.onJsonEdit, null);
+            e.events.onRegExpRender = Default2.getFunction(e.events.onRegExpRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -900,7 +906,7 @@ var ToolTip;
         let b = false;
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
-            h(o, t, r, p);
+            V(o, t, r, p);
         }
         if (l === null) {
             if (!o.ignore.nullValues) {
@@ -944,7 +950,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
                 b = o.allowEditing.booleanValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -959,7 +965,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
                 b = o.allowEditing.decimalValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -973,7 +979,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
                 b = o.allowEditing.numberValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -987,7 +993,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
                 b = o.allowEditing.bigIntValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -1001,7 +1007,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
                 b = o.allowEditing.guidValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1018,7 +1024,7 @@ var ToolTip;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1046,7 +1052,7 @@ var ToolTip;
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
                     b = o.allowEditing.stringValues;
-                    x(o, t, r, l, f, a, b);
+                    h(o, t, r, l, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1061,7 +1067,7 @@ var ToolTip;
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
                 b = o.allowEditing.dateValues;
-                x(o, t, r, l, f, a, b);
+                h(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1076,6 +1082,18 @@ var ToolTip;
                 m = "symbol";
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, f);
+                }
+                A(o, u, i);
+            } else {
+                g = true;
+            }
+        } else if (Is.definedRegExp(l)) {
+            if (!o.ignore.regExpValues) {
+                d = o.showValueColors ? `${"regexp"} value` : "value";
+                f = DomElement.createWithHTML(u, "span", d, l.source.toString());
+                m = "regexp";
+                if (Is.definedFunction(o.events.onRegExpRender)) {
+                    Trigger.customEvent(o.events.onRegExpRender, f);
                 }
                 A(o, u, i);
             } else {
@@ -1140,12 +1158,12 @@ var ToolTip;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                V(o, s, f);
+                x(o, s, f);
                 E(o, f, l, m, b);
             }
         }
     }
-    function V(e, t, n) {
+    function x(e, t, n) {
         if (Is.definedObject(e.valueToolTips)) {
             if (e.valueToolTips.hasOwnProperty(t)) {
                 ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
@@ -1162,7 +1180,7 @@ var ToolTip;
             }
         }
     }
-    function h(e, t, n, o) {
+    function V(e, t, n, o) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1198,7 +1216,7 @@ var ToolTip;
             };
         }
     }
-    function x(e, t, n, o, r, l, a) {
+    function h(e, t, n, o, r, l, a) {
         if (a) {
             r.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);

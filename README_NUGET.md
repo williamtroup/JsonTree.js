@@ -17,7 +17,7 @@
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables), with dark and light themes.
-- 14 types supported by default (with unknown type support).
+- 15 types supported by default (with unknown type support).
 - Fully configurable per DOM element!
 - Close/Open all nodes.
 - Clickable values via custom triggers!
@@ -56,6 +56,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `undefined` Undefined
 - `color` Colors
 - `guid` GUIDs
+- `regexp` RegExps
 - `any` Unknown
 
 
