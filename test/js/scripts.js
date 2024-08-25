@@ -113,6 +113,8 @@ function onValueClickEvent( value, type ) {
         value = "null";
     } else if ( value === undefined ) {
         value = "undefined";
+    } else if ( value instanceof RegExp ) {
+        value = value.source;
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );
