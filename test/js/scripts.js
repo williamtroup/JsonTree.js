@@ -12,7 +12,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
     map.set( "key3", "This is a string in a map" );
     map.set( "key4", { value1: true, value2: 10 } );
 
-    var set = new Set( [ true, false, "This is a string in a set" ] );
+    var set = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
 
     return {
         data: [
