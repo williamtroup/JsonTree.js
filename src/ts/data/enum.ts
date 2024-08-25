@@ -37,6 +37,7 @@ export const enum DataType {
     guid = "guid",
     regexp = "regexp",
     map = "map",
+    set = "set",
 }
 
 export const enum KeyCode {

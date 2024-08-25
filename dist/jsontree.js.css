@@ -30,6 +30,7 @@
   --json-tree-js-color-array: #F28C28;
   --json-tree-js-color-object: #C0C0C0;
   --json-tree-js-color-map: #BDB5D5;
+  --json-tree-js-color-set: #e4e400;
   --json-tree-js-color-boolean: #FF0000;
   --json-tree-js-color-decimal: #e3c868;
   --json-tree-js-color-number: #666bf9;
@@ -282,6 +283,9 @@ div.json-tree-js div.object-type-title span.object {
 div.json-tree-js div.object-type-title span.map {
   color: var(--json-tree-js-color-map);
 }
+div.json-tree-js div.object-type-title span.set {
+  color: var(--json-tree-js-color-set);
+}
 div.json-tree-js div.object-type-title span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
@@ -377,6 +381,9 @@ div.json-tree-js div.object-type-contents div.object-type-value span.object {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.map {
   color: var(--json-tree-js-color-map);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.set {
+  color: var(--json-tree-js-color-set);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
   color: var(--json-tree-js-color-boolean);

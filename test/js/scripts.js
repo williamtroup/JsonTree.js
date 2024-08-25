@@ -12,6 +12,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
     map.set( "key3", "This is a string in a map" );
     map.set( "key4", { value1: true, value2: 10 } );
 
+    var set = new Set( [ true, false, "This is a string in a set" ] );
+
     return {
         data: [
             {
@@ -35,6 +37,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
                 value16: crypto.randomUUID(),
                 value17: new RegExp( "ab+c" ),
                 value18: map,
+                value19: set,
                 value5: [
                     true,
                     "This is another string",
@@ -124,6 +127,8 @@ function onValueClickEvent( value, type ) {
         value = value.source;
     } else if ( value instanceof Map ) {
         value = Array.from( value.keys() );
+    } else if ( value instanceof Set ) {
+        value = Array.from( value.values() );
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );

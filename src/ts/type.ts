@@ -34,6 +34,7 @@ export type ConfigurationText = {
 	objectText?: string;
 	arrayText?: string;
 	mapText?: string;
+	setText?: string;
 	closeAllButtonText?: string;
 	openAllButtonText?: string;
 	copyAllButtonText?: string;
@@ -145,6 +146,7 @@ export type BindingOptionsIgnore = {
 	colorValues?: boolean;
 	regExpValues?: boolean;
 	mapValues?: boolean;
+	setValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {

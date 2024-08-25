@@ -24,7 +24,7 @@ JsonTree.js
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables), with dark and light themes.
-- 16 types supported by default (with unknown type support).
+- 17 types supported by default (with unknown type support).
 - Fully configurable per DOM element!
 - Close/Open all nodes.
 - Clickable values via custom triggers!
@@ -71,6 +71,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `guid` GUIDs
 - `regexp` RegExps
 - `map` Maps
+- `set` Sets
 - `any` Unknown
 <br>
 <br>

@@ -123,8 +123,14 @@ export namespace Default {
         return result;
     }
 
-    export function getObjectFromMap( inputMap: Map<any, any> ) : object {
-        const result = Object.fromEntries( inputMap.entries() );
+    export function getObjectFromMap( map: Map<any, any> ) : object {
+        const result: object = Object.fromEntries( map.entries() );
+    
+        return result;
+    }
+
+    export function getArrayFromSet( set: Set<any> ) : any[] {
+        const result: any[] = Array.from( set.values() );
     
         return result;
     }
