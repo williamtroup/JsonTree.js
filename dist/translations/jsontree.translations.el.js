@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "αντικείμενο",
         "arrayText": "πίνακας",
         "mapText": "χάρτης",
+        "setText": "σειρά",
         "closeAllButtonText": "Κλείσ'τα όλα",
         "openAllButtonText": "Άνοιγμα όλων",
         "copyAllButtonText": "Αντιγραφή όλων",

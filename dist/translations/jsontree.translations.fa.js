@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "هدف - شی",
         "arrayText": "آرایه",
         "mapText": "نقشه",
+        "setText": "مجموعه",
         "closeAllButtonText": "بستن همه",
         "openAllButtonText": "همه را باز کنید",
         "copyAllButtonText": "کپی همه",

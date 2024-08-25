@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "ობიექტი",
         "arrayText": "მასივი",
         "mapText": "რუკა",
+        "setText": "კომპლექტი",
         "closeAllButtonText": "Დახურე ყველა",
         "openAllButtonText": "გახსენი ყველა",
         "copyAllButtonText": "დააკოპირეთ ყველა",

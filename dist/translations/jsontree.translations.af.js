@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "voorwerp",
         "arrayText": "skikking",
         "mapText": "kaart",
+        "setText": "stel",
         "closeAllButtonText": "Maak alles toe",
         "openAllButtonText": "Maak Alles oop",
         "copyAllButtonText": "Kopieer Alles",

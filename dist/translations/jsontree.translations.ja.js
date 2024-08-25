@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "物体",
         "arrayText": "配列",
         "mapText": "地図",
+        "setText": "セット",
         "closeAllButtonText": "すべて閉じる",
         "openAllButtonText": "すべて開く",
         "copyAllButtonText": "すべてコピー",

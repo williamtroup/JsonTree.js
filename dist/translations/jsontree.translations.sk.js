@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "objekt",
         "arrayText": "pole",
         "mapText": "mapa",
+        "setText": "nastaviť",
         "closeAllButtonText": "Zavrieť všetko",
         "openAllButtonText": "Otvoriť všetko",
         "copyAllButtonText": "Kopírovať všetko",

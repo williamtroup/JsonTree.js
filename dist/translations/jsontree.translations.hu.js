@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "tárgy",
         "arrayText": "sor",
         "mapText": "térkép",
+        "setText": "készlet",
         "closeAllButtonText": "Összes bezárása",
         "openAllButtonText": "Nyissa meg az összeset",
         "copyAllButtonText": "Összes másolása",

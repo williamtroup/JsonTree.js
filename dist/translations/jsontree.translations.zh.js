@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "目的",
         "arrayText": "大批",
         "mapText": "地图",
+        "setText": "放",
         "closeAllButtonText": "关闭所有",
         "openAllButtonText": "打开全部",
         "copyAllButtonText": "全部复制",

@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "obyek",
         "arrayText": "Himpunan",
         "mapText": "peta",
+        "setText": "mengatur",
         "closeAllButtonText": "Tutup semua",
         "openAllButtonText": "Buka semua",
         "copyAllButtonText": "Salin Semua",

@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "օբյեկտ",
         "arrayText": "զանգված",
         "mapText": "քարտեզ",
+        "setText": "հավաքածու",
         "closeAllButtonText": "Փակել բոլորը",
         "openAllButtonText": "Բացեք բոլորը",
         "copyAllButtonText": "Պատճենել բոլորը",

@@ -50,6 +50,7 @@ $jsontree.setConfiguration( {
         "objectText": "esine",
         "arrayText": "joukko",
         "mapText": "kartta",
+        "setText": "sarja",
         "closeAllButtonText": "Sulje kaikki",
         "openAllButtonText": "Avaa kaikki",
         "copyAllButtonText": "Kopioi kaikki",
