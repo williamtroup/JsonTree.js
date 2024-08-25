@@ -39,9 +39,9 @@
     "build-sass-minimized": "sass src/jsontree.js.scss dist/jsontree.js.min.css --style=compressed --no-source-map"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.6",
+    "@swc/core": "^1.7.18",
     "sass": "^1.77.8",
-    "terser": "^5.31.4",
+    "terser": "^5.31.6",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   }
