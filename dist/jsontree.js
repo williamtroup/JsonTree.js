@@ -458,16 +458,17 @@ var Binding;
             return e;
         }
         function s(e, t) {
+            let n = Default2.getBoolean(e.allowEditing, true);
             e.allowEditing = Default2.getObject(e.allowEditing, {});
-            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, true);
-            e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, true);
-            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, true);
-            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, true);
-            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, true);
-            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, true);
-            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, true);
-            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, true);
-            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, true);
+            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, n);
+            e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, n);
+            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, n);
+            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, n);
+            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, n);
+            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, n);
+            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, n);
+            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, n);
+            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, n);
             if (t) {
                 e.allowEditing.propertyNames = false;
             }

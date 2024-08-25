@@ -139,16 +139,18 @@ export namespace Binding {
         }
 
         function getAllowEditing( options: BindingOptions, valueToolTipsSet: boolean ) : BindingOptions {
+            let defaultFlag: boolean = Default.getBoolean( options.allowEditing, true );
+
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
-            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, true );
-            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, true );
-            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, true );
-            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, true );
-            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, true );
-            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, true );
-            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, true );
-            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, true );
-            options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, true );
+            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, defaultFlag );
+            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, defaultFlag );
+            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, defaultFlag );
+            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, defaultFlag );
+            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, defaultFlag );
+            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, defaultFlag );
+            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, defaultFlag );
+            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, defaultFlag );
+            options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
 
             if ( valueToolTipsSet ) {
                 options.allowEditing!.propertyNames = false;

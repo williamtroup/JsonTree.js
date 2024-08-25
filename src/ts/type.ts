@@ -91,7 +91,7 @@ export type BindingOptions = {
 	enableFullScreenToggling?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
-	allowEditing?: BindingOptionsAllowEditing;
+	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
