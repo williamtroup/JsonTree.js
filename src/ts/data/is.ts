@@ -95,6 +95,10 @@ export namespace Is {
         return defined( object ) && object instanceof RegExp;
     }
 
+    export function definedMap( object: any ) : boolean {
+        return defined( object ) && object instanceof Map;
+    }
+
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
     }

@@ -33,6 +33,7 @@ export type Configuration = {
 export type ConfigurationText = {
 	objectText?: string;
 	arrayText?: string;
+	mapText?: string;
 	closeAllButtonText?: string;
 	openAllButtonText?: string;
 	copyAllButtonText?: string;
@@ -143,6 +144,7 @@ export type BindingOptionsIgnore = {
 	guidValues?: boolean;
 	colorValues?: boolean;
 	regExpValues?: boolean;
+	mapValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {

@@ -122,4 +122,10 @@ export namespace Default {
 
         return result;
     }
+
+    export function getObjectFromMap( inputMap: Map<any, any> ) : object {
+        const result = Object.fromEntries( inputMap.entries() );
+    
+        return result;
+    }
 }

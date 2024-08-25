@@ -115,6 +115,7 @@ export namespace Binding {
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
             options.ignore!.regExpValues = Default.getBoolean( options.ignore!.regExpValues, false );
+            options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
 
             return options;
         }

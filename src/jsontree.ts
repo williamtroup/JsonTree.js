@@ -352,14 +352,17 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
-        const propertyNames: string[] = getObjectPropertyNames( data, bindingOptions );
+        const isMap: boolean = Is.definedMap( data );
+        const type: string = isMap ? DataType.map : DataType.object;
+        const objectData: object = isMap ? Default.getObjectFromMap( data ) : data;
+        const propertyNames: string[] = getObjectPropertyNames( objectData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
             const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
-            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object main-title" : "main-title", _configuration.text!.objectText! ) as HTMLSpanElement;
+            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isMap ? _configuration.text!.mapText! : _configuration.text!.objectText! ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
@@ -369,19 +372,19 @@ type JsonTreeData = Record<string, BindingOptions>;
                     dataArrayIndex = `[${dataArrayIndex}]:`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} data-array-index` : "data-array-index", dataArrayIndex, titleText );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} data-array-index` : "data-array-index", dataArrayIndex, titleText );
             }
     
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} count` : "count", `{${propertyCount}}` );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `{${propertyCount}}` );
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
             }
 
-            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true, Char.empty );
-            addValueClickEvent( bindingOptions, titleText, data, DataType.object, false );
+            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, objectData, propertyNames, openingBrace, false, true, Char.empty );
+            addValueClickEvent( bindingOptions, titleText, data, type, false );
         }
     }
 
@@ -389,7 +392,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
-        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array main-title" : "main-title", _configuration.text!.arrayText! );
+        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.array} main-title` : "main-title", _configuration.text!.arrayText! );
         let openingBracket: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCounts ) {
@@ -746,6 +749,40 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 type = DataType.array;
                 
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedMap( value ) ) {
+            if ( !bindingOptions.ignore!.mapValues ) {
+                const valueObject: object = Default.getObjectFromMap( value );
+                const propertyNames: string[] = getObjectPropertyNames( valueObject, bindingOptions );
+                const propertyCount: number = propertyNames.length;
+
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
+
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.map : Char.empty );
+                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                    let openingBrace: HTMLSpanElement = null!;
+
+                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
+                    type = DataType.map;
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+
+                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
+                    }
+    
+                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath );
+                }
+
             } else {
                 ignored = true;
             }

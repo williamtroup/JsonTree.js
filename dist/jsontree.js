@@ -81,10 +81,14 @@ var Is;
         return n(e) && e instanceof RegExp;
     }
     e.definedRegExp = g;
-    function m(e, t = 1) {
+    function m(e) {
+        return n(e) && e instanceof Map;
+    }
+    e.definedMap = m;
+    function p(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = m;
+    e.invalidOptionArray = p;
 })(Is || (Is = {}));
 
 var Default2;
@@ -181,6 +185,11 @@ var Default2;
         return result;
     }
     Default.getObjectFromString = getObjectFromString;
+    function getObjectFromMap(e) {
+        const t = Object.fromEntries(e.entries());
+        return t;
+    }
+    Default.getObjectFromMap = getObjectFromMap;
 })(Default2 || (Default2 = {}));
 
 var DomElement;
@@ -422,6 +431,7 @@ var Binding;
             e.ignore.guidValues = Default2.getBoolean(e.ignore.guidValues, false);
             e.ignore.colorValues = Default2.getBoolean(e.ignore.colorValues, false);
             e.ignore.regExpValues = Default2.getBoolean(e.ignore.regExpValues, false);
+            e.ignore.mapValues = Default2.getBoolean(e.ignore.mapValues, false);
             return e;
         }
         function i(e) {
@@ -501,6 +511,7 @@ var Config;
             e.text = Default2.getObject(e.text, {});
             e.text.objectText = Default2.getAnyString(e.text.objectText, "object");
             e.text.arrayText = Default2.getAnyString(e.text.arrayText, "array");
+            e.text.mapText = Default2.getAnyString(e.text.mapText, "map");
             e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close All");
             e.text.openAllButtonText = Default2.getAnyString(e.text.openAllButtonText, "Open All");
             e.text.copyAllButtonText = Default2.getAnyString(e.text.copyAllButtonText, "Copy All");
@@ -678,7 +689,7 @@ var ToolTip;
         if (o) {
             DomElement.addClass(l, "page-switch");
         }
-        N(l, n);
+        j(l, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
@@ -823,36 +834,39 @@ var ToolTip;
         }
     }
     function w(t, n, o) {
-        const r = _(o, n);
-        const l = r.length;
-        if (l !== 0 || !n.ignore.emptyObjects) {
-            const i = DomElement.create(t, "div", "object-type-title");
-            const a = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
-            const s = n.showArrowToggles ? DomElement.create(i, "div", "down-arrow") : null;
-            const u = DomElement.createWithHTML(i, "span", n.showValueColors ? "object main-title" : "main-title", e.text.objectText);
-            let c = null;
+        const r = Is.definedMap(o);
+        const l = r ? "map" : "object";
+        const i = r ? Default2.getObjectFromMap(o) : o;
+        const a = _(i, n);
+        const s = a.length;
+        if (s !== 0 || !n.ignore.emptyObjects) {
+            const u = DomElement.create(t, "div", "object-type-title");
+            const c = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
+            const d = n.showArrowToggles ? DomElement.create(u, "div", "down-arrow") : null;
+            const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.mapText : e.text.objectText);
+            let g = null;
             if (n.showArrayItemsAsSeparateObjects) {
                 let e = n.useZeroIndexingForArrays ? n._currentView.dataArrayCurrentIndex.toString() : (n._currentView.dataArrayCurrentIndex + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]:`;
                 }
-                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} data-array-index` : "data-array-index", e, u);
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} data-array-index` : "data-array-index", e, f);
             }
-            if (n.showCounts && l > 0) {
-                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} count` : "count", `{${l}}`);
+            if (n.showCounts && s > 0) {
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} count` : "count", `{${s}}`);
             }
             if (n.showOpeningClosingCurlyBraces) {
-                c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
+                g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            T(s, null, a, n, o, r, c, false, true, "");
-            E(n, u, o, "object", false);
+            T(d, null, c, n, i, a, g, false, true, "");
+            E(n, f, o, l, false);
         }
     }
     function y(t, n, o) {
         const r = DomElement.create(t, "div", "object-type-title");
         const l = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
         const i = n.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
-        const a = DomElement.createWithHTML(r, "span", n.showValueColors ? "array main-title" : "main-title", e.text.arrayText);
+        const a = DomElement.createWithHTML(r, "span", n.showValueColors ? `${"array"} main-title` : "main-title", e.text.arrayText);
         let s = null;
         if (n.showCounts) {
             DomElement.createWithHTML(r, "span", n.showValueColors ? `${"array"} count` : "count", `[${o.length}]`);
@@ -1116,6 +1130,31 @@ var ToolTip;
                 let a = A(o, t, i);
                 D(c, a, n, o, l, r, true, i, s);
                 m = "array";
+            } else {
+                g = true;
+            }
+        } else if (Is.definedMap(l)) {
+            if (!o.ignore.mapValues) {
+                const t = Default2.getObjectFromMap(l);
+                const n = _(t, o);
+                const r = n.length;
+                if (r === 0 && o.ignore.emptyObjects) {
+                    g = true;
+                } else {
+                    const l = DomElement.create(u, "span", o.showValueColors ? "map" : "");
+                    const a = DomElement.create(u, "div", "object-type-contents");
+                    let d = null;
+                    f = DomElement.createWithHTML(l, "span", "main-title", e.text.mapText);
+                    m = "map";
+                    if (o.showCounts && r > 0) {
+                        DomElement.createWithHTML(l, "span", "count", `{${r}}`);
+                    }
+                    if (o.showOpeningClosingCurlyBraces) {
+                        d = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                    }
+                    let g = A(o, l, i);
+                    T(c, g, a, o, t, n, d, true, i, s);
+                }
             } else {
                 g = true;
             }
@@ -1391,7 +1430,7 @@ var ToolTip;
         DomElement.createWithHTML(l, "div", "object-type-end", n);
         A(e, l, r);
     }
-    function N(e, t) {
+    function j(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1399,12 +1438,12 @@ var ToolTip;
             e.ondrop = e => {
                 DomElement.cancelBubble(e);
                 if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-                    j(e.dataTransfer.files, t);
+                    N(e.dataTransfer.files, t);
                 }
             };
         }
     }
-    function j(e, t) {
+    function N(e, t) {
         const n = e.length;
         for (let o = 0; o < n; o++) {
             const n = e[o];
@@ -1432,7 +1471,7 @@ var ToolTip;
         };
         o.readAsText(t);
     }
-    function R(e) {
+    function M(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1446,14 +1485,14 @@ var ToolTip;
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const M = {
+    const R = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return M;
+            return R;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1463,29 +1502,29 @@ var ToolTip;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return M;
+            return R;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 l(Binding.Options.getForNewInstance(t, e));
             }
-            return M;
+            return R;
         },
         renderAll: function() {
             o();
-            return M;
+            return R;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 c(t[e]);
             }
-            return M;
+            return R;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return M;
+            return R;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -1505,7 +1544,7 @@ var ToolTip;
                 i(l);
                 Trigger.customEvent(l.events.onSetJson, l._currentView.element);
             }
-            return M;
+            return R;
         },
         getJson: function(e) {
             let n = null;
@@ -1516,21 +1555,21 @@ var ToolTip;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                R(t[e]);
+                M(t[e]);
                 delete t[e];
                 n--;
             }
-            return M;
+            return R;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    R(t[e]);
+                    M(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return M;
+            return R;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -1546,7 +1585,7 @@ var ToolTip;
                     e = Config.Options.get(o);
                 }
             }
-            return M;
+            return R;
         },
         getIds: function() {
             const e = [];
@@ -1565,7 +1604,7 @@ var ToolTip;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = M;
+            window.$jsontree = R;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map

@@ -37,14 +37,15 @@
     --json-tree-js-color-light-gray: #BBBBBB;
 
     // Colors - Types
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: #C0C0C0;
+    --json-tree-js-color-map: #BDB5D5;
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
     --json-tree-js-color-bigint: #6495ED;
     --json-tree-js-color-string: #78b13f;
     --json-tree-js-color-date: #a656f5;
-    --json-tree-js-color-array: #F28C28;
-    --json-tree-js-color-object: #C0C0C0;
     --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
     --json-tree-js-color-undefined: var(--json-tree-js-color-null);
     --json-tree-js-color-symbol: #DAA06D;
@@ -307,6 +308,10 @@ div.json-tree-js {
             color: var(--json-tree-js-color-object);
         }
 
+        span.map {
+            color: var(--json-tree-js-color-map);
+        }
+
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
@@ -418,6 +423,18 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
 
+            span.array {
+                color: var(--json-tree-js-color-array);
+            }
+
+            span.object {
+                color: var(--json-tree-js-color-object);
+            }
+
+            span.map {
+                color: var(--json-tree-js-color-map);
+            }
+
             span.boolean {
                 color: var(--json-tree-js-color-boolean);
             }
@@ -440,14 +457,6 @@ div.json-tree-js {
 
             span.date {
                 color: var(--json-tree-js-color-date)
-            }
-
-            span.array {
-                color: var(--json-tree-js-color-array);
-            }
-
-            span.object {
-                color: var(--json-tree-js-color-object);
             }
 
             span.null {

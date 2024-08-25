@@ -6,6 +6,12 @@
 } )();
 
 function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
+    var map = new Map();
+    map.set( "key1", true );
+    map.set( "key2", 10 );
+    map.set( "key3", "This is a string in a map" );
+    map.set( "key4", { value1: true, value2: 10 } );
+
     return {
         data: [
             {
@@ -28,6 +34,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
                 value15: "rgb(144, 238, 144)",
                 value16: crypto.randomUUID(),
                 value17: new RegExp( "ab+c" ),
+                value18: map,
                 value5: [
                     true,
                     "This is another string",
@@ -115,6 +122,8 @@ function onValueClickEvent( value, type ) {
         value = "undefined";
     } else if ( value instanceof RegExp ) {
         value = value.source;
+    } else if ( value instanceof Map ) {
+        value = Array.from( value.keys() );
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );
