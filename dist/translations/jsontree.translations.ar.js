@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "هدف",
         "arrayText": "مجموعة مصفوفة",
+        "mapText": "رسم خريطة",
         "closeAllButtonText": "إغلاق الكل",
         "openAllButtonText": "افتح الكل",
         "copyAllButtonText": "نسخ جميع",

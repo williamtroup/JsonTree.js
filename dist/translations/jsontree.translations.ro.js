@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "obiect",
         "arrayText": "matrice",
+        "mapText": "hartă",
         "closeAllButtonText": "Inchide tot",
         "openAllButtonText": "Deschideți toate",
         "copyAllButtonText": "Copiați tot",

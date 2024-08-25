@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "วัตถุ",
         "arrayText": "อาร์เรย์",
+        "mapText": "แผนที่",
         "closeAllButtonText": "ปิดทั้งหมด",
         "openAllButtonText": "เปิดทั้งหมด",
         "copyAllButtonText": "คัดลอกทั้งหมด",

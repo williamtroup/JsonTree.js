@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "වස්තුව",
         "arrayText": "අරාව",
+        "mapText": "සිතියම",
         "closeAllButtonText": "සියල්ල වසන්න",
         "openAllButtonText": "සියල්ල විවෘත කරන්න",
         "copyAllButtonText": "සියල්ල පිටපත් කරන්න",

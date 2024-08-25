@@ -58,6 +58,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "аб'ект",
         "arrayText": "масіў",
+        "mapText": "карта",
         "closeAllButtonText": "Зачыніць усе",
         "openAllButtonText": "Адкрыць усе",
         "copyAllButtonText": "Скапіраваць усё",

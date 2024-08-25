@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "वस्तु",
         "arrayText": "सरणी",
+        "mapText": "नक्शा",
         "closeAllButtonText": "सब बंद करें",
         "openAllButtonText": "सभी खुले",
         "copyAllButtonText": "सभी को कॉपी करें",

@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "nesne",
         "arrayText": "sıralamak",
+        "mapText": "harita",
         "closeAllButtonText": "Hepsini kapat",
         "openAllButtonText": "Hepsini aç",
         "copyAllButtonText": "Hepsini kopyala",

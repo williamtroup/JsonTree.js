@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objektas",
         "arrayText": "masyvas",
+        "mapText": "žemėlapį",
         "closeAllButtonText": "Uždaryti viską",
         "openAllButtonText": "Atidaryti viską",
         "copyAllButtonText": "Kopijuoti viską",

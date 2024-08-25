@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "mótmæla",
         "arrayText": "fylki",
+        "mapText": "kort",
         "closeAllButtonText": "Lokaðu öllum",
         "openAllButtonText": "Opna allt",
         "copyAllButtonText": "Afritaðu allt",

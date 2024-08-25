@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "réad",
         "arrayText": "eagar",
+        "mapText": "léarscáil",
         "closeAllButtonText": "Dún Uile",
         "openAllButtonText": "Oscail Uile",
         "copyAllButtonText": "Cóipeáil Uile",

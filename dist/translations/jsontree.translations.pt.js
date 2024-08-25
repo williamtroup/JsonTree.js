@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objeto",
         "arrayText": "variedade",
+        "mapText": "mapa",
         "closeAllButtonText": "Feche tudo",
         "openAllButtonText": "Abra tudo",
         "copyAllButtonText": "Copiar tudo",

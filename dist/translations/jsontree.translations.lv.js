@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objektu",
         "arrayText": "masīvs",
+        "mapText": "karte",
         "closeAllButtonText": "Aizvērt visu",
         "openAllButtonText": "Atvērt visu",
         "copyAllButtonText": "Kopēt visu",

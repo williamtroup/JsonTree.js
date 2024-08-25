@@ -47,7 +47,9 @@ $jsontree.setConfiguration( {
             "Nov",
             "Dec"
         ],
+        "objectText": "objekt",
         "arrayText": "array",
+        "mapText": "map",
         "closeAllButtonText": "Alles slute",
         "openAllButtonText": "Iepenje Alles",
         "copyAllButtonText": "Alles kopiearje",

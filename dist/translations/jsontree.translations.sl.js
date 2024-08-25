@@ -49,6 +49,7 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "predmet",
         "arrayText": "niz",
+        "mapText": "zemljevid",
         "closeAllButtonText": "Zapri vse",
         "openAllButtonText": "Odpri vse",
         "copyAllButtonText": "Kopiraj vse",
