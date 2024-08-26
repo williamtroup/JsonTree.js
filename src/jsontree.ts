@@ -870,18 +870,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addValueElementToolTip( bindingOptions, jsonPath, valueElement );
+                addValueElementToolTip( bindingOptions, jsonPath, propertyName, valueElement );
                 addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
             }
         }
     }
 
-    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, valueElement: HTMLElement ) : void {
+    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, propertyName: HTMLSpanElement, valueElement: HTMLElement ) : void {
         if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
-            if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
-            } else {
-
+            if ( !bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;
 
@@ -890,10 +887,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 jsonPath = jsonPathParts.join( Char.backslash );
+            }
 
-                if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                    ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
-                }
+            if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+                ToolTip.add( propertyName, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
+                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
             }
         }
     }

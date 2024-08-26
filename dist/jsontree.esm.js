@@ -1231,25 +1231,24 @@ var ToolTip;
             n.removeChild(u);
         } else {
             if (Is.defined(d)) {
-                x(o, s, d);
+                x(o, s, p, d);
                 E(o, d, l, m, w);
             }
         }
     }
-    function x(e, t, n) {
+    function x(e, t, n, o) {
         if (Is.definedObject(e.valueToolTips)) {
+            if (!e.valueToolTips.hasOwnProperty(t)) {
+                const e = t.split("\\");
+                const n = e.length - 1;
+                for (let t = 0; t < n; t++) {
+                    e[t] = "..";
+                }
+                t = e.join("\\");
+            }
             if (e.valueToolTips.hasOwnProperty(t)) {
                 ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
-            } else {
-                const o = t.split("\\");
-                const r = o.length - 1;
-                for (let e = 0; e < r; e++) {
-                    o[e] = "..";
-                }
-                t = o.join("\\");
-                if (e.valueToolTips.hasOwnProperty(t)) {
-                    ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
-                }
+                ToolTip.add(o, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
             }
         }
     }
