@@ -1046,64 +1046,70 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
-        if ( Is.defined( arrow ) ) {
-            const panelId: number = bindingOptions._currentView.contentPanelsIndex;
-            const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
+        const panelId: number = bindingOptions._currentView.contentPanelsIndex;
+        const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
 
-            if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
-            }
-
-            const hideFunc: Function = () : void => {
-                objectTypeContents.style.display = "none";
-                arrow.className = "right-arrow";
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
-
-                if ( Is.defined( openingSymbol ) ) {
-                    openingSymbol.style.display = "none";
-                }
-
-                if ( Is.defined( coma ) ) {
-                    coma.style.display = "inline-block";
-                }
-            };
-
-            const showFunc: Function = () : void => {
-                objectTypeContents.style.display = "block";
-                arrow.className = "down-arrow";
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
-
-                if ( Is.defined( openingSymbol ) ) {
-                    openingSymbol.style.display = "inline-block";
-                }
-
-                if ( Is.defined( coma ) ) {
-                    coma.style.display = "none";
-                }
-            };
-
-            const conditionFunc: Function = ( condition: boolean ) : void => {
-                if ( condition ) {
-                    hideFunc();
-                } else {
-                    showFunc();
-                }
-            }
-
-            let isClosed: boolean = bindingOptions.showAllAsClosed!;
-
-            if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
-                isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
-            } else {
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
-            }
-
-            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
-
-            conditionFunc( isClosed );
-
-            bindingOptions._currentView.contentPanelsIndex++;
+        if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
         }
+
+        const hideFunc: Function = () : void => {
+            objectTypeContents.style.display = "none";
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
+
+            if ( Is.defined( arrow ) ) {
+                arrow.className = "right-arrow";
+            }
+
+            if ( Is.defined( openingSymbol ) ) {
+                openingSymbol.style.display = "none";
+            }
+
+            if ( Is.defined( coma ) ) {
+                coma.style.display = "inline-block";
+            }
+        };
+
+        const showFunc: Function = () : void => {
+            objectTypeContents.style.display = "block";
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
+
+            if ( Is.defined( arrow ) ) {
+                arrow.className = "down-arrow";
+            }
+
+            if ( Is.defined( openingSymbol ) ) {
+                openingSymbol.style.display = "inline-block";
+            }
+
+            if ( Is.defined( coma ) ) {
+                coma.style.display = "none";
+            }
+        };
+
+        const conditionFunc: Function = ( condition: boolean ) : void => {
+            if ( condition ) {
+                hideFunc();
+            } else {
+                showFunc();
+            }
+        }
+
+        let isClosed: boolean = bindingOptions.showAllAsClosed!;
+
+        if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
+            isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
+        } else {
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
+        }
+
+        if ( Is.defined( arrow ) ) {
+            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
+        }
+
+        conditionFunc( isClosed );
+
+        bindingOptions._currentView.contentPanelsIndex++;
     }
 
     function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : HTMLSpanElement {

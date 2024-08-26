@@ -1368,51 +1368,55 @@ var ToolTip;
         }
     }
     function S(e, t, n, o, r) {
-        if (Is.defined(t)) {
-            const l = e._currentView.contentPanelsIndex;
-            const i = e._currentView.dataArrayCurrentIndex;
-            if (!e._currentView.contentPanelsOpen.hasOwnProperty(i)) {
-                e._currentView.contentPanelsOpen[i] = {};
-            }
-            const a = () => {
-                o.style.display = "none";
-                t.className = "right-arrow";
-                e._currentView.contentPanelsOpen[i][l] = true;
-                if (Is.defined(r)) {
-                    r.style.display = "none";
-                }
-                if (Is.defined(n)) {
-                    n.style.display = "inline-block";
-                }
-            };
-            const s = () => {
-                o.style.display = "block";
-                t.className = "down-arrow";
-                e._currentView.contentPanelsOpen[i][l] = false;
-                if (Is.defined(r)) {
-                    r.style.display = "inline-block";
-                }
-                if (Is.defined(n)) {
-                    n.style.display = "none";
-                }
-            };
-            const u = e => {
-                if (e) {
-                    a();
-                } else {
-                    s();
-                }
-            };
-            let c = e.showAllAsClosed;
-            if (e._currentView.contentPanelsOpen[i].hasOwnProperty(l)) {
-                c = e._currentView.contentPanelsOpen[i][l];
-            } else {
-                e._currentView.contentPanelsOpen[i][l] = c;
-            }
-            t.onclick = () => u(t.className === "down-arrow");
-            u(c);
-            e._currentView.contentPanelsIndex++;
+        const l = e._currentView.contentPanelsIndex;
+        const i = e._currentView.dataArrayCurrentIndex;
+        if (!e._currentView.contentPanelsOpen.hasOwnProperty(i)) {
+            e._currentView.contentPanelsOpen[i] = {};
         }
+        const a = () => {
+            o.style.display = "none";
+            e._currentView.contentPanelsOpen[i][l] = true;
+            if (Is.defined(t)) {
+                t.className = "right-arrow";
+            }
+            if (Is.defined(r)) {
+                r.style.display = "none";
+            }
+            if (Is.defined(n)) {
+                n.style.display = "inline-block";
+            }
+        };
+        const s = () => {
+            o.style.display = "block";
+            e._currentView.contentPanelsOpen[i][l] = false;
+            if (Is.defined(t)) {
+                t.className = "down-arrow";
+            }
+            if (Is.defined(r)) {
+                r.style.display = "inline-block";
+            }
+            if (Is.defined(n)) {
+                n.style.display = "none";
+            }
+        };
+        const u = e => {
+            if (e) {
+                a();
+            } else {
+                s();
+            }
+        };
+        let c = e.showAllAsClosed;
+        if (e._currentView.contentPanelsOpen[i].hasOwnProperty(l)) {
+            c = e._currentView.contentPanelsOpen[i][l];
+        } else {
+            e._currentView.contentPanelsOpen[i][l] = c;
+        }
+        if (Is.defined(t)) {
+            t.onclick = () => u(t.className === "down-arrow");
+        }
+        u(c);
+        e._currentView.contentPanelsIndex++;
     }
     function A(e, t, n) {
         let o = null;
