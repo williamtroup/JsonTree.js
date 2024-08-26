@@ -112,7 +112,12 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             "value6\\objectValue3": "This is a number tooltip for objectValue3",
             "parsing\\booleans\\value1": "This is a boolean tooltip for Value 1 on Page 2",
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
-        } : null
+        } : null,
+        title: {
+            show: true,
+            showCopyButton: true,
+            showTreeControls: true
+        }
     };
 }
 

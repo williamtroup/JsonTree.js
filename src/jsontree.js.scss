@@ -213,7 +213,6 @@ div.json-tree-js {
     div.title-bar {
         display: flex;
         padding: calc( var(--json-tree-js-spacing) / 2 );
-        margin-bottom: var(--json-tree-js-spacing);
         background-color: var(--json-tree-js-color-dark-black);
         border-radius: var(--json-tree-js-border-radius);
         border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
@@ -266,7 +265,6 @@ div.json-tree-js {
 div.json-tree-js {
     div.contents {
         padding: var(--json-tree-js-spacing);
-        padding-top: 0;
         margin: 0 !important;
         overflow-x: auto;
         overflow-y: auto;
