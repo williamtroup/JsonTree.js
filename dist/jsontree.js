@@ -89,10 +89,10 @@ var Is;
         return n(e) && (e instanceof Set || e instanceof WeakSet);
     }
     e.definedSet = p;
-    function b(e, t = 1) {
+    function w(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = b;
+    e.invalidOptionArray = w;
 })(Is || (Is = {}));
 
 var Default2;
@@ -708,7 +708,7 @@ var ToolTip;
         if (Is.definedArray(r) || Is.definedSet(r)) {
             y(l, n, r);
         } else if (Is.definedObject(r)) {
-            w(l, n, r);
+            b(l, n, r);
         }
         if (l.innerHTML === "") {
             DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
@@ -826,9 +826,9 @@ var ToolTip;
     }
     function p(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => b(t, e)));
+        n("keydown", (t => w(t, e)));
     }
-    function b(e, o) {
+    function w(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
             if (e.code === "ArrowLeft") {
                 e.preventDefault();
@@ -845,7 +845,7 @@ var ToolTip;
             }
         }
     }
-    function w(t, n, o) {
+    function b(t, n, o) {
         const r = Is.definedMap(o);
         const l = r ? "map" : "object";
         const i = r ? Default2.getObjectFromMap(o) : o;
@@ -934,7 +934,7 @@ var ToolTip;
         let g = false;
         let m = null;
         const p = DomElement.createWithHTML(u, "span", "title", r);
-        let b = false;
+        let w = false;
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
             h(o, t, r, p);
@@ -980,8 +980,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"boolean"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, l);
                 m = "boolean";
-                b = o.allowEditing.booleanValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.booleanValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, d);
                 }
@@ -995,8 +995,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"decimal"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, e);
                 m = "decimal";
-                b = o.allowEditing.decimalValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.decimalValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, d);
                 }
@@ -1009,8 +1009,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"number"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, l);
                 m = "number";
-                b = o.allowEditing.numberValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.numberValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, d);
                 }
@@ -1023,8 +1023,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"bigint"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, l);
                 m = "bigint";
-                b = o.allowEditing.bigIntValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.bigIntValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, d);
                 }
@@ -1037,8 +1037,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"guid"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, l);
                 m = "guid";
-                b = o.allowEditing.guidValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.guidValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, d);
                 }
@@ -1051,11 +1051,11 @@ var ToolTip;
                 f = o.showValueColors ? `${"color"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, l);
                 m = "color";
-                b = o.allowEditing.colorValues;
+                w = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     d.style.color = l;
                 }
-                V(o, t, r, l, d, a, b);
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, d);
                 }
@@ -1082,8 +1082,8 @@ var ToolTip;
                     f = o.showValueColors ? `${"string"} value` : "value";
                     d = DomElement.createWithHTML(u, "span", f, n);
                     m = "string";
-                    b = o.allowEditing.stringValues;
-                    V(o, t, r, l, d, a, b);
+                    w = o.allowEditing.stringValues;
+                    V(o, t, r, l, d, a, w);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, d);
                     }
@@ -1097,8 +1097,8 @@ var ToolTip;
                 f = o.showValueColors ? `${"date"} value` : "value";
                 d = DomElement.createWithHTML(u, "span", f, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
-                b = o.allowEditing.dateValues;
-                V(o, t, r, l, d, a, b);
+                w = o.allowEditing.dateValues;
+                V(o, t, r, l, d, a, w);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, d);
                 }
@@ -1234,7 +1234,7 @@ var ToolTip;
         } else {
             if (Is.defined(d)) {
                 x(o, s, d);
-                E(o, d, l, m, b);
+                E(o, d, l, m, w);
             }
         }
     }
@@ -1458,7 +1458,7 @@ var ToolTip;
     }
     function O(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
-        if (o) {
+        if (o && e.showArrowToggles) {
             DomElement.create(l, "div", "no-arrow");
         }
         DomElement.createWithHTML(l, "div", "object-type-end", n);
