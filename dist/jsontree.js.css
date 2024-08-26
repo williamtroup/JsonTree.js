@@ -180,7 +180,7 @@ div.json-tree-js div.title-bar {
   background-color: var(--json-tree-js-color-dark-black);
   border-radius: var(--json-tree-js-border-radius);
   border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 div.json-tree-js div.title-bar div.title {
