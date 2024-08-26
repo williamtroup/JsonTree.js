@@ -188,6 +188,7 @@ div.json-tree-js div.title-bar div.title {
   width: auto;
   font-weight: var(--json-tree-js-title-bold-weight);
   font-size: 1.2rem;
+  margin: 3px;
   margin-left: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.title-bar div.controls {
