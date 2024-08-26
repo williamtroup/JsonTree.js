@@ -47,7 +47,8 @@ export namespace DateTime {
         result = result.replace( "{ss}", Str.padNumber( date.getSeconds(), 2 ) );
         result = result.replace( "{s}", date.getSeconds().toString() );
 
-        result = result.replace( "{ff}", Str.padNumber( date.getMilliseconds(), 3 ) );
+        result = result.replace( "{fff}", Str.padNumber( date.getMilliseconds(), 3 ) );
+        result = result.replace( "{ff}", Str.padNumber( date.getMilliseconds(), 2 ) );
         result = result.replace( "{f}", date.getMilliseconds().toString() );
     
         result = result.replace( "{dddd}", configuration.text!.dayNames![ weekDayNumber ] );
