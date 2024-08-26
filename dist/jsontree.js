@@ -1482,24 +1482,31 @@ var ToolTip;
     }
     function F(e, t) {
         const n = e.length;
-        for (let o = 0; o < n; o++) {
-            const n = e[o];
-            const r = n.name.split(".").pop().toLowerCase();
-            if (r === "json") {
-                N(n, t);
+        let o = 0;
+        let r = [];
+        const l = e => {
+            o++;
+            r.push(e);
+            if (o === n) {
+                t._currentView.dataArrayCurrentIndex = 0;
+                t._currentView.contentPanelsOpen = {};
+                t.data = r.length === 1 ? r[0] : r;
+                i(t);
+                Trigger.customEvent(t.events.onSetJson, t._currentView.element);
+            }
+        };
+        for (let t = 0; t < n; t++) {
+            const n = e[t];
+            const o = n.name.split(".").pop().toLowerCase();
+            if (o === "json") {
+                N(n, l);
             }
         }
     }
     function N(t, n) {
         const o = new FileReader;
         let r = null;
-        o.onloadend = () => {
-            n._currentView.dataArrayCurrentIndex = 0;
-            n._currentView.contentPanelsOpen = {};
-            n.data = r;
-            i(n);
-            Trigger.customEvent(n.events.onSetJson, n._currentView.element);
-        };
+        o.onloadend = () => n(r);
         o.onload = t => {
             const n = Default2.getObjectFromString(t.target.result, e);
             if (n.parsed && Is.definedObject(n.object)) {

@@ -1204,29 +1204,38 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function importFromFiles( files: FileList, bindingOptions: BindingOptions ) : void {
         const filesLength: number = files.length;
+        let filesRead: number = 0;
+        let filesData: any[] = [];
+
+        const onFileLoad: Function = ( data: any ) => {
+            filesRead++;
+            filesData.push( data );
+
+            if ( filesRead === filesLength ) {
+                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+                bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
+    
+                renderControlContainer( bindingOptions );
+                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+            }
+        };
 
         for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
             const file: File = files[ fileIndex ];
             const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
 
             if ( fileExtension === "json" ) {
-                importFromJson( file, bindingOptions );
+                importFromJson( file, onFileLoad );
             }
         }
     }
 
-    function importFromJson( file: File, bindingOptions: BindingOptions ) : void {
+    function importFromJson( file: File, onFileLoad: Function ) : void {
         const reader: FileReader = new FileReader();
         let renderData: any = null as any;
 
-        reader.onloadend = () => {
-            bindingOptions._currentView.dataArrayCurrentIndex = 0;
-            bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
-            bindingOptions.data = renderData;
-
-            renderControlContainer( bindingOptions );
-            Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
-        };
+        reader.onloadend = () => onFileLoad( renderData );
     
         reader.onload = ( e: ProgressEvent<FileReader> ) => {
             const json: StringToJson = Default.getObjectFromString( e.target!.result, _configuration );
