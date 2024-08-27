@@ -903,13 +903,13 @@ var ToolTip;
             ToolTip.add(l, t, e.text.closeAllButtonText);
             const r = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
             const i = DomElement.create(r, "div", "settings-panel");
-            DomElement.createWithHTML(i, "div", "settings-panel-title-text", "Ignore Types:");
+            DomElement.createWithHTML(i, "div", "settings-panel-title-text", "Show Types:");
             const s = DomElement.create(i, "div", "settings-panel-contents");
             const u = Object.keys(DataType);
             const c = t.ignore;
             u.sort();
             u.forEach(((e, n) => {
-                w(s, e, t, c[`${e}Values`]);
+                w(s, e, t, !c[`${e}Values`]);
             }));
         }
     }
@@ -917,7 +917,7 @@ var ToolTip;
         const l = DomElement.createCheckBox(e, t, t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
-            e[`${t}Values`] = l.checked;
+            e[`${t}Values`] = !l.checked;
             n.ignore = e;
             n._currentView.sideMenuChanged = true;
         };

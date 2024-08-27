@@ -363,7 +363,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
             const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );
 
-            DomElement.createWithHTML( ignoreTypes, "div", "settings-panel-title-text", "Ignore Types:" );
+            DomElement.createWithHTML( ignoreTypes, "div", "settings-panel-title-text", "Show Types:" );
 
             const ignoreTypesContent: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-contents" );
             const dataTypes: string[] = Object.keys( DataType );
@@ -372,7 +372,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataTypes.sort();
 
             dataTypes.forEach( ( key: string, _: any ) => {
-                createSideMenuIgnoreTypeCheckBox( ignoreTypesContent, key, bindingOptions, ignore[ `${key}Values` ] );
+                createSideMenuIgnoreTypeCheckBox( ignoreTypesContent, key, bindingOptions, !ignore[ `${key}Values` ] );
             } );
         }
     }
@@ -383,7 +383,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         input.onchange = () => {
             const ignoreTypes: any = bindingOptions.ignore;
 
-            ignoreTypes[ `${key}Values` ] = input.checked;
+            ignoreTypes[ `${key}Values` ] = !input.checked;
 
             bindingOptions.ignore = ignoreTypes;
             bindingOptions._currentView.sideMenuChanged = true;

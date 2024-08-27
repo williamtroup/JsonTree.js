@@ -86,7 +86,7 @@
     --json-tree-js-setting-panel-background-color: var(--json-tree-js-button-background-color);
 
     // CheckBox
-    --json-tree-js-checkbox-background-color-checked: rgba( 80, 200, 120, 1 );
+    --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-white);
     --json-tree-js-checkbox-background-color: var(--json-tree-js-setting-panel-background-color);
     --json-tree-js-checkbox-border-color-checked: --json-tree-js-checkbox-background-color-checked;
     --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
