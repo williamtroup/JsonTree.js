@@ -329,6 +329,10 @@ var Str;
         return o;
     }
     e.padNumber = t;
+    function n(e) {
+        return e.charAt(0).toUpperCase() + e.slice(1);
+    }
+    e.capitalizeFirstLetter = n;
 })(Str || (Str = {}));
 
 var DateTime;
@@ -919,7 +923,7 @@ var ToolTip;
         }
     }
     function w(e, t, n, o) {
-        const r = DomElement.createCheckBox(e, t, t, o, n.showValueColors ? t : "");
+        const r = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         r.onchange = () => {
             const e = n.ignore;
             e[`${t}Values`] = !r.checked;
