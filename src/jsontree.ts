@@ -133,6 +133,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.contentPanelsIndex = 0;
 
         renderControlTitleBar( bindingOptions, data );
+        renderControlSideMenu( bindingOptions );
 
         const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
 
@@ -179,7 +180,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showSideMenu ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
-                sideMenuButton.onclick = DomElement.cancelBubble;
+                sideMenuButton.onclick = () => onSideMenuClick( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( sideMenuButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
@@ -241,6 +242,16 @@ type JsonTreeData = Record<string, BindingOptions>;
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
             }
+        }
+    }
+
+    function onSideMenuClick( bindingOptions: BindingOptions ) : void {
+        if ( !bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
+            bindingOptions._currentView.sideMenu.classList.add( "side-menu-open" );
+            bindingOptions._currentView.disabledBackground.style.display = "block";
+        } else {
+            bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
+            bindingOptions._currentView.disabledBackground.style.display = "none";
         }
     }
 
@@ -316,6 +327,20 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return value;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Side Menu
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlSideMenu( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.title!.showSideMenu ) {
+            bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
+            bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
+        }
     }
 
 

@@ -115,6 +115,8 @@ export type BindingOptionsCurrentView = {
 	contentPanelsIndex: number;
 	backButton: HTMLButtonElement;
 	nextButton: HTMLButtonElement;
+	disabledBackground: HTMLElement;
+	sideMenu: HTMLElement;
 };
 
 export type BindingOptionsParse = {

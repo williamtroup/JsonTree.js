@@ -41,6 +41,8 @@ export namespace Binding {
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.backButton = null!;
             bindingOptions._currentView.nextButton = null!;
+            bindingOptions._currentView.disabledBackground = null!;
+            bindingOptions._currentView.sideMenu = null!;
 
             return bindingOptions;
         }

@@ -50,6 +50,8 @@
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+  --json-tree-js-side-menu-width: 320px;
+  --json-tree-js-side-menu-right-border-width: calc( var(--json-tree-js-border-size) * 12 );
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
   --json-tree-js-button-background-color: #2d333b;
@@ -253,6 +255,41 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
   div.json-tree-js div.title-bar div.controls button.copy-all {
     display: inline-block;
   }
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Side Menu
+    -------------------------------------------------------------------------
+*/
+div.json-tree-js div.side-menu-disabled-background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+}
+div.json-tree-js div.side-menu {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 1500;
+  transition: var(--json-tree-js-transition);
+  background-color: var(--json-tree-js-color-dark-black);
+  border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
+  border-radius: var(--json-tree-js-border-radius);
+  width: var(--json-tree-js-side-menu-width);
+  left: calc(0px - (var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width)));
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+div.json-tree-js div.side-menu-open {
+  left: 0 !important;
+  transition: var(--json-tree-js-transition);
+  box-shadow: 0 0 10px 10px var(--json-tree-js-color-black);
 }
 
 /*
