@@ -56,6 +56,8 @@ export namespace Config {
             configuration.text!.functionText = Default.getAnyString( configuration.text!.functionText, "function" );
             configuration.text!.sideMenuButtonSymbolText = Default.getAnyString( configuration.text!.sideMenuButtonSymbolText, "☰" );
             configuration.text!.sideMenuButtonText = Default.getAnyString( configuration.text!.sideMenuButtonText, "Show Menu" );
+            configuration.text!.closeButtonSymbolText = Default.getAnyString( configuration.text!.closeButtonSymbolText, "✕" );
+            configuration.text!.closeAllButtonText = Default.getAnyString( configuration.text!.closeAllButtonText, "Close" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

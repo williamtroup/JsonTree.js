@@ -303,13 +303,49 @@ div.json-tree-js {
         top: 0;
         z-index: 1500;
         transition: var(--json-tree-js-transition); 
-        background-color: var(--json-tree-js-color-dark-black);
+        background-color: var(--json-tree-js-container-background-color);
         border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
         border-radius: var(--json-tree-js-border-radius);
         width: var(--json-tree-js-side-menu-width);
         left: calc( 0px - ( var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width) ) );
         overflow-x: hidden;
         overflow-y: auto;
+
+        div.side-menu-title-bar {
+            display: flex;
+            padding: calc( var(--json-tree-js-spacing) / 2 );
+            background-color: var(--json-tree-js-color-dark-black);
+            border-radius: var(--json-tree-js-border-radius);
+            border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
+            justify-content: left;
+            align-items: center;
+            
+            div.side-menu-title-bar-text {
+                text-align: left;
+                width: auto;
+                font-weight: var(--json-tree-js-title-bold-weight);
+                font-size: 1.2rem;
+                margin: 3px;
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            }
+
+            div.side-menu-title-controls {
+                margin-left: calc( var(--json-tree-js-spacing) * 6 );
+                flex-grow: 1;
+                text-align: right;
+                white-space: nowrap;
+
+                @include buttons;
+    
+                button {
+                    margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
+                    font-weight: var(--json-tree-js-header-bold-weight);
+                    min-width: 30px;
+                    min-height: 30px;
+                    text-align: center;
+                }
+            }
+        }
     }
 
     div.side-menu-open {

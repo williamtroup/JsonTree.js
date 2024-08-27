@@ -178,7 +178,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
             }
 
-            if ( bindingOptions.title!.showSideMenu ) {
+            if ( bindingOptions.title!.showSideMenu && Is.definedObject( data ) ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
                 sideMenuButton.onclick = () => onSideMenuClick( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
@@ -340,6 +340,20 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.title!.showSideMenu ) {
             bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
             bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
+
+            const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-title-bar" );
+
+            if ( bindingOptions.title!.show ) {
+                const titleBarText: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-bar-text" );
+                titleBarText.innerHTML = bindingOptions.title!.text!;
+            }
+            
+            const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
+
+            const close: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.closeButtonSymbolText! ) as HTMLButtonElement;
+            close.onclick = () => onSideMenuClick( bindingOptions );
+
+            ToolTip.add( close, bindingOptions, _configuration.text!.closeAllButtonText! );
         }
     }
 

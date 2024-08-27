@@ -278,13 +278,68 @@ div.json-tree-js div.side-menu {
   top: 0;
   z-index: 1500;
   transition: var(--json-tree-js-transition);
-  background-color: var(--json-tree-js-color-dark-black);
+  background-color: var(--json-tree-js-container-background-color);
   border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
   border-radius: var(--json-tree-js-border-radius);
   width: var(--json-tree-js-side-menu-width);
   left: calc(0px - (var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width)));
   overflow-x: hidden;
   overflow-y: auto;
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar {
+  display: flex;
+  padding: calc(var(--json-tree-js-spacing) / 2);
+  background-color: var(--json-tree-js-color-dark-black);
+  border-radius: var(--json-tree-js-border-radius);
+  border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
+  justify-content: left;
+  align-items: center;
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-bar-text {
+  text-align: left;
+  width: auto;
+  font-weight: var(--json-tree-js-title-bold-weight);
+  font-size: 1.2rem;
+  margin: 3px;
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls {
+  margin-left: calc(var(--json-tree-js-spacing) * 6);
+  flex-grow: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button {
+  background-color: var(--json-tree-js-button-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-text-color);
+  border-radius: var(--json-tree-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  margin: 3px;
+  outline: none;
+  transition: var(--json-tree-js-transition);
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button:disabled {
+  color: var(--json-tree-js-button-border-color);
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button:not(.active):not(:disabled):active {
+  background: var(--json-tree-js-button-background-color-active) !important;
+  color: var(--json-tree-js-button-text-color-active) !important;
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--json-tree-js-button-background-color-hover);
+  color: var(--json-tree-js-button-text-color-hover);
+}
+div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button {
+  margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+  font-weight: var(--json-tree-js-header-bold-weight);
+  min-width: 30px;
+  min-height: 30px;
+  text-align: center;
 }
 div.json-tree-js div.side-menu-open {
   left: 0 !important;

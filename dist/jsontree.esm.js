@@ -549,6 +549,8 @@ var Config;
             e.text.functionText = Default2.getAnyString(e.text.functionText, "function");
             e.text.sideMenuButtonSymbolText = Default2.getAnyString(e.text.sideMenuButtonSymbolText, "☰");
             e.text.sideMenuButtonText = Default2.getAnyString(e.text.sideMenuButtonText, "Show Menu");
+            e.text.closeButtonSymbolText = Default2.getAnyString(e.text.closeButtonSymbolText, "✕");
+            e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -729,7 +731,7 @@ var ToolTip;
             if (t.enableFullScreenToggling) {
                 o.ondblclick = () => u(t);
             }
-            if (t.title.showSideMenu) {
+            if (t.title.showSideMenu && Is.definedObject(n)) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
                 n.onclick = () => a(t);
                 n.ondblclick = DomElement.cancelBubble;
@@ -845,10 +847,19 @@ var ToolTip;
         }
         return n;
     }
-    function w(e) {
-        if (e.title.showSideMenu) {
-            e._currentView.disabledBackground = DomElement.create(e._currentView.element, "div", "side-menu-disabled-background");
-            e._currentView.sideMenu = DomElement.create(e._currentView.element, "div", "side-menu");
+    function w(t) {
+        if (t.title.showSideMenu) {
+            t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
+            t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
+            const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
+            if (t.title.show) {
+                const e = DomElement.create(n, "div", "side-menu-title-bar-text");
+                e.innerHTML = t.title.text;
+            }
+            const o = DomElement.create(n, "div", "side-menu-title-controls");
+            const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
+            l.onclick = () => a(t);
+            ToolTip.add(l, t, e.text.closeAllButtonText);
         }
     }
     function b(e, t = true) {

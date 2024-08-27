@@ -61,6 +61,8 @@ export type ConfigurationText = {
 	functionText?: string;
 	sideMenuButtonSymbolText?: string;
 	sideMenuButtonText?: string;
+	closeButtonSymbolText?: string;
+	closeButtonText?: string;
 };
 
 export type BindingOptions = {
