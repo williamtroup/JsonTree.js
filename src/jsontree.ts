@@ -109,7 +109,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.className = "json-tree-js";
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
-        if ( bindingOptions.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
+        if ( bindingOptions.title!.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
             DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
             bindingOptions._currentView.fullScreenOn = true;
         }
@@ -173,10 +173,10 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( !Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects || bindingOptions.enableFullScreenToggling ) {
+        if ( Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects || bindingOptions.title!.enableFullScreenToggling ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
-            if ( bindingOptions.enableFullScreenToggling ) {
+            if ( bindingOptions.title!.enableFullScreenToggling ) {
                 titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
             }
 
@@ -245,7 +245,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
 
-            if ( bindingOptions.enableFullScreenToggling ) {
+            if ( bindingOptions.title!.enableFullScreenToggling ) {
                 const buttonText: string = !bindingOptions._currentView.fullScreenOn
                     ? _configuration.text!.fullScreenOnButtonSymbolText!
                     : _configuration.text!.fullScreenOffButtonSymbolText!

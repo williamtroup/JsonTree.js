@@ -26,7 +26,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         showCommas: false,
         showArrowToggles: true,
         openInFullScreenMode: false,
-        enableFullScreenToggling: true,
         useZeroIndexingForArrays: true,
         showCounts: true,
         showTypes: false,
@@ -41,6 +40,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         title: {
             showCopyButton: true,
             showTreeControls: true,
+            enableFullScreenToggling: true,
         },
         sideMenu: {
             enabled: true,

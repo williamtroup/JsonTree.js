@@ -450,7 +450,6 @@ var Binding;
             t.includeTimeZoneInDateTimeEditing = Default2.getBoolean(t.includeTimeZoneInDateTimeEditing, true);
             t.shortcutKeysEnabled = Default2.getBoolean(t.shortcutKeysEnabled, true);
             t.openInFullScreenMode = Default2.getBoolean(t.openInFullScreenMode, false);
-            t.enableFullScreenToggling = Default2.getBoolean(t.enableFullScreenToggling, true);
             t.valueToolTips = Default2.getObject(t.valueToolTips, null);
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
             t.showTypes = Default2.getBoolean(t.showTypes, false);
@@ -467,9 +466,10 @@ var Binding;
         t.get = o;
         function l(e) {
             e.title = Default2.getObject(e.title, {});
-            e.title.text = Default2.getString(e.title.text, "JsonTree.js");
+            e.title.text = Default2.getAnyString(e.title.text, "JsonTree.js");
             e.title.showTreeControls = Default2.getBoolean(e.title.showTreeControls, true);
             e.title.showCopyButton = Default2.getBoolean(e.title.showCopyButton, true);
+            e.title.enableFullScreenToggling = Default2.getBoolean(e.title.enableFullScreenToggling, true);
             return e;
         }
         function r(e) {
@@ -749,7 +749,7 @@ var ToolTip;
         }
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
-        if (e.enableFullScreenToggling && e.openInFullScreenMode) {
+        if (e.title.enableFullScreenToggling && e.openInFullScreenMode) {
             DomElement.addClass(e._currentView.element, "full-screen");
             e._currentView.fullScreenOn = true;
         }
@@ -791,9 +791,9 @@ var ToolTip;
         }
     }
     function s(t, n) {
-        if (!Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.showArrayItemsAsSeparateObjects || t.enableFullScreenToggling) {
+        if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.showArrayItemsAsSeparateObjects || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
-            if (t.enableFullScreenToggling) {
+            if (t.title.enableFullScreenToggling) {
                 o.ondblclick = () => a(t);
             }
             if (t.sideMenu.enabled && Is.definedObject(n)) {
@@ -844,7 +844,7 @@ var ToolTip;
                     t.showArrayItemsAsSeparateObjects = false;
                 }
             }
-            if (t.enableFullScreenToggling) {
+            if (t.title.enableFullScreenToggling) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
                 t._currentView.toggleFullScreenButton.onclick = () => a(t);

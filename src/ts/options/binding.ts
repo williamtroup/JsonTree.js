@@ -78,7 +78,6 @@ export namespace Binding {
             options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
-            options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
@@ -97,9 +96,10 @@ export namespace Binding {
     
         function getTitle( options: BindingOptions ) : BindingOptions {
             options.title = Default.getObject( options.title, {} as BindingOptionsTitle );
-            options.title!.text = Default.getString( options.title!.text, "JsonTree.js" );
+            options.title!.text = Default.getAnyString( options.title!.text, "JsonTree.js" );
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
+            options.title!.enableFullScreenToggling = Default.getBoolean( options.title!.enableFullScreenToggling, true );
 
             return options;
         }

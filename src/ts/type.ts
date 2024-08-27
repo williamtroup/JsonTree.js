@@ -100,7 +100,6 @@ export type BindingOptions = {
 	includeTimeZoneInDateTimeEditing?: boolean;
 	shortcutKeysEnabled?: boolean;
 	openInFullScreenMode?: boolean;
-	enableFullScreenToggling?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
@@ -144,6 +143,7 @@ export type BindingOptionsTitle = {
     text?: string;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
+	enableFullScreenToggling?: boolean;
 };
 
 export type BindingOptionsIgnore = {
