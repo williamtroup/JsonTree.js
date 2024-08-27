@@ -131,6 +131,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.editMode = false;
         bindingOptions._currentView.contentPanelsIndex = 0;
+        bindingOptions._currentView.sideMenuChanged = false;
 
         renderControlTitleBar( bindingOptions, data );
         renderControlSideMenu( bindingOptions );
@@ -252,6 +253,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "none";
+
+            if ( bindingOptions._currentView.sideMenuChanged ) {
+                renderControlContainer( bindingOptions );
+            }
         }
     }
 
@@ -356,7 +361,33 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( close, bindingOptions, _configuration.text!.closeAllButtonText! );
 
             const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
+            const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );
+
+            DomElement.createWithHTML( ignoreTypes, "div", "settings-panel-title-text", "Ignore Types:" );
+
+            const ignoreTypesContent: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-contents" );
+            const dataTypes: string[] = Object.keys( DataType );
+            const ignore: any = bindingOptions.ignore;
+
+            dataTypes.sort();
+
+            dataTypes.forEach( ( key: string, _: any ) => {
+                createSideMenuIgnoreTypeCheckBox( ignoreTypesContent, key, bindingOptions, ignore[ `${key}Values` ] );
+            } );
         }
+    }
+
+    function createSideMenuIgnoreTypeCheckBox( ignoreTypesContent: HTMLElement, key: string, bindingOptions: BindingOptions, checked: boolean ) : void {
+        const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, key, key, checked );
+
+        input.onchange = () => {
+            const ignoreTypes: any = bindingOptions.ignore;
+
+            ignoreTypes[ `${key}Values` ] = input.checked;
+
+            bindingOptions.ignore = ignoreTypes;
+            bindingOptions._currentView.sideMenuChanged = true;
+        };
     }
 
 

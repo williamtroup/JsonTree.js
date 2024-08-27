@@ -43,6 +43,7 @@ export namespace Binding {
             bindingOptions._currentView.nextButton = null!;
             bindingOptions._currentView.disabledBackground = null!;
             bindingOptions._currentView.sideMenu = null!;
+            bindingOptions._currentView.sideMenuChanged = false;
 
             return bindingOptions;
         }

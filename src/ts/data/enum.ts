@@ -11,7 +11,7 @@
  */
 
 
-export const enum Char {
+export enum Char {
     empty = "",
     space = " ",
     zero = "0",
@@ -19,7 +19,7 @@ export const enum Char {
     backslash = "\\",
 }
 
-export const enum DataType {
+export enum DataType {
     null = "null",
     function = "function",
     boolean = "boolean",
@@ -40,7 +40,7 @@ export const enum DataType {
     set = "set",
 }
 
-export const enum KeyCode {
+export enum KeyCode {
     escape = "Escape",
     enter = "Enter",
     left = "ArrowLeft",

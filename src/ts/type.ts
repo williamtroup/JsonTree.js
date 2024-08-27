@@ -119,6 +119,7 @@ export type BindingOptionsCurrentView = {
 	nextButton: HTMLButtonElement;
 	disabledBackground: HTMLElement;
 	sideMenu: HTMLElement;
+	sideMenuChanged: boolean;
 };
 
 export type BindingOptionsParse = {
