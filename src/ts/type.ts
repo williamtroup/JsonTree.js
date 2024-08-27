@@ -147,13 +147,13 @@ export type BindingOptionsIgnore = {
     objectValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
-	bigIntValues?: boolean;
+	bigintValues?: boolean;
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
-	regExpValues?: boolean;
+	regexpValues?: boolean;
 	mapValues?: boolean;
 	setValues?: boolean;
 };

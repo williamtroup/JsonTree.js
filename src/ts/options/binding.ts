@@ -113,13 +113,13 @@ export namespace Binding {
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
-            options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
+            options.ignore!.bigintValues = Default.getBoolean( options.ignore!.bigintValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
-            options.ignore!.regExpValues = Default.getBoolean( options.ignore!.regExpValues, false );
+            options.ignore!.regexpValues = Default.getBoolean( options.ignore!.regexpValues, false );
             options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
             options.ignore!.setValues = Default.getBoolean( options.ignore!.setValues, false );
 

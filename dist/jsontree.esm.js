@@ -471,13 +471,13 @@ var Binding;
             e.ignore.dateValues = Default2.getBoolean(e.ignore.dateValues, false);
             e.ignore.objectValues = Default2.getBoolean(e.ignore.objectValues, false);
             e.ignore.arrayValues = Default2.getBoolean(e.ignore.arrayValues, false);
-            e.ignore.bigIntValues = Default2.getBoolean(e.ignore.bigIntValues, false);
+            e.ignore.bigintValues = Default2.getBoolean(e.ignore.bigintValues, false);
             e.ignore.symbolValues = Default2.getBoolean(e.ignore.symbolValues, false);
             e.ignore.emptyObjects = Default2.getBoolean(e.ignore.emptyObjects, true);
             e.ignore.undefinedValues = Default2.getBoolean(e.ignore.undefinedValues, false);
             e.ignore.guidValues = Default2.getBoolean(e.ignore.guidValues, false);
             e.ignore.colorValues = Default2.getBoolean(e.ignore.colorValues, false);
-            e.ignore.regExpValues = Default2.getBoolean(e.ignore.regExpValues, false);
+            e.ignore.regexpValues = Default2.getBoolean(e.ignore.regexpValues, false);
             e.ignore.mapValues = Default2.getBoolean(e.ignore.mapValues, false);
             e.ignore.setValues = Default2.getBoolean(e.ignore.setValues, false);
             return e;
@@ -1122,7 +1122,7 @@ var ToolTip;
                 g = true;
             }
         } else if (Is.definedBigInt(r)) {
-            if (!o.ignore.bigIntValues) {
+            if (!o.ignore.bigintValues) {
                 d = o.showValueColors ? `${"bigint"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "bigint";
@@ -1222,7 +1222,7 @@ var ToolTip;
                 g = true;
             }
         } else if (Is.definedRegExp(r)) {
-            if (!o.ignore.regExpValues) {
+            if (!o.ignore.regexpValues) {
                 d = o.showValueColors ? `${"regexp"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r.source.toString());
                 m = "regexp";

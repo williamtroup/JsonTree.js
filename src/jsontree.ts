@@ -669,7 +669,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
         } else if ( Is.definedBigInt( value ) ) {
-            if ( !bindingOptions.ignore!.bigIntValues ) {
+            if ( !bindingOptions.ignore!.bigintValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.bigint} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.bigint;
@@ -804,7 +804,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
         } else if ( Is.definedRegExp( value ) ) {
-            if ( !bindingOptions.ignore!.regExpValues ) {
+            if ( !bindingOptions.ignore!.regexpValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.regexp} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
                 type = DataType.regexp;
