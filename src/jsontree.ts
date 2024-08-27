@@ -446,44 +446,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Document Events
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
-        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
-
-        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
-    }
-
-    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
-            if ( e.code === KeyCode.left ) {
-                e.preventDefault();
-                onBackPage( bindingOptions );
-
-            } else if ( e.code === KeyCode.right ) {
-                e.preventDefault();
-                onNextPage( bindingOptions );
-
-            } else if ( e.code === KeyCode.up ) {
-                e.preventDefault();
-                onCloseAll( bindingOptions );
-
-            } else if ( e.code === KeyCode.down ) {
-                e.preventDefault();
-                onOpenAll( bindingOptions );
-
-            } else if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
-                onSideMenuClose( bindingOptions );
-            }
-        }
-    }
-
-
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Render:  Tree
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -1353,6 +1315,44 @@ type JsonTreeData = Record<string, BindingOptions>;
         DomElement.createWithHTML( symbolContainer, "div", "object-type-end", symbol );
 
         createComma( bindingOptions, symbolContainer, isLastItem )
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Document Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
+        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+
+        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
+    }
+
+    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+            if ( e.code === KeyCode.left ) {
+                e.preventDefault();
+                onBackPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.right ) {
+                e.preventDefault();
+                onNextPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.up ) {
+                e.preventDefault();
+                onCloseAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.down ) {
+                e.preventDefault();
+                onOpenAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.escape ) {
+                e.preventDefault();
+                onSideMenuClose( bindingOptions );
+            }
+        }
     }
 
 
