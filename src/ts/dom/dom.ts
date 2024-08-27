@@ -111,7 +111,7 @@ export namespace DomElement {
     }
 
     export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean ) : HTMLInputElement {
-        const lineContainer: HTMLElement = create( container, "div" );
+        const lineContainer: HTMLElement = create( container, "div", "checkbox" );
         const label: HTMLElement = create( lineContainer, "label", "checkbox" );
         const input: HTMLInputElement = create( label, "input" ) as HTMLInputElement;
 

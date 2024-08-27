@@ -578,7 +578,10 @@ div.json-tree-js div.object-type-contents div.object-type-value span.count {
     JsonTree.js - Check Box
     -------------------------------------------------------------------------
 */
-div.json-tree-js label.checkbox {
+div.json-tree-js div.checkbox {
+  margin-bottom: calc(var(--json-tree-js-spacing) / 3);
+}
+div.json-tree-js div.checkbox label.checkbox {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -592,23 +595,23 @@ div.json-tree-js label.checkbox {
   padding-bottom: 2px;
   color: var(--json-tree-js-color-white);
 }
-div.json-tree-js label.checkbox input {
+div.json-tree-js div.checkbox label.checkbox input {
   display: none !important;
 }
-div.json-tree-js label.checkbox input:checked ~ span.check-mark {
+div.json-tree-js div.checkbox label.checkbox input:checked ~ span.check-mark {
   background-color: var(--json-tree-js-checkbox-background-color-checked);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-checkbox-border-color-checked);
 }
-div.json-tree-js label.checkbox input:checked ~ span.check-mark::before {
+div.json-tree-js div.checkbox label.checkbox input:checked ~ span.check-mark::before {
   display: block;
 }
-div.json-tree-js label.checkbox input:disabled ~ span.check-mark, div.json-tree-js label.checkbox input:disabled ~ span.text {
+div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.check-mark, div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.text {
   opacity: 0.5;
 }
-div.json-tree-js label.checkbox input:disabled ~ span.check-mark {
+div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.check-mark {
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-color-black) !important;
 }
-div.json-tree-js label.checkbox span.check-mark {
+div.json-tree-js div.checkbox label.checkbox span.check-mark {
   position: absolute;
   top: 1px;
   left: 0;
@@ -619,7 +622,7 @@ div.json-tree-js label.checkbox span.check-mark {
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-checkbox-border-color);
   transition: var(--json-tree-js-transition);
 }
-div.json-tree-js label.checkbox span.check-mark::before {
+div.json-tree-js div.checkbox label.checkbox span.check-mark::before {
   content: "";
   transform: rotate(45deg);
   position: absolute;

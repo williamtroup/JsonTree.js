@@ -303,7 +303,7 @@ var DomElement;
     }
     e.selectAllText = a;
     function u(e, o, l, r) {
-        const i = t(e, "div");
+        const i = t(e, "div", "checkbox");
         const s = t(i, "label", "checkbox");
         const a = t(s, "input");
         a.type = "checkbox";
