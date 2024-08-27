@@ -517,6 +517,10 @@ div.json-tree-js div.contents span.guid {
 div.json-tree-js div.contents span.regexp {
   color: var(--json-tree-js-color-regexp);
 }
+div.json-tree-js div.contents span.count {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-text-bold-weight);
+}
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
 }
@@ -542,10 +546,6 @@ div.json-tree-js div.object-type-title span.main-title {
 div.json-tree-js div.object-type-title span.main-title:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
-}
-div.json-tree-js div.object-type-title span.count {
-  margin-left: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
 }
 div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
@@ -634,10 +634,6 @@ div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
-  font-weight: var(--json-tree-js-text-bold-weight);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.count {
-  margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
 }
 

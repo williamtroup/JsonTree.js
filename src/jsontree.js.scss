@@ -443,6 +443,11 @@ div.json-tree-js {
 
         @include type-span-colors;
 
+        span.count {
+            margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-text-bold-weight);
+        }
+
         div.last-item {
             margin-bottom: 0 !important;
         }
@@ -477,10 +482,7 @@ div.json-tree-js {
             }
         }
 
-        span.count {
-            margin-left: calc( var(--json-tree-js-spacing) / 2 );
-            font-weight: var(--json-tree-js-text-bold-weight);
-        }
+
 
         span.data-array-index {
             margin-right: calc( var(--json-tree-js-spacing) / 2 );
@@ -592,11 +594,6 @@ div.json-tree-js {
 
             span.comma {
                 color: var(--json-tree-js-color-white);
-                font-weight: var(--json-tree-js-text-bold-weight);
-            }
-
-            span.count {
-                margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
         }
