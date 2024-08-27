@@ -131,6 +131,13 @@ div.full-screen div.title-bar {
 }
 div.full-screen div.contents {
   flex-grow: 1;
+  position: relative;
+}
+div.full-screen div.contents span.no-json-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /*
