@@ -181,7 +181,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.sideMenu!.enabled && Is.definedObject( data ) ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
-                sideMenuButton.onclick = () => onSideMenuCloseClick( bindingOptions );
+                sideMenuButton.onclick = () => onSideMenuOpen( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( sideMenuButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
@@ -242,20 +242,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( Is.definedArray( data ) ) {
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
-            }
-        }
-    }
-
-    function onSideMenuCloseClick( bindingOptions: BindingOptions ) : void {
-        if ( !bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
-            bindingOptions._currentView.sideMenu.classList.add( "side-menu-open" );
-            bindingOptions._currentView.disabledBackground.style.display = "block";
-        } else {
-            bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
-            bindingOptions._currentView.disabledBackground.style.display = "none";
-
-            if ( bindingOptions._currentView.sideMenuChanged ) {
-                renderControlContainer( bindingOptions );
             }
         }
     }
@@ -344,16 +330,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlSideMenu( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.sideMenu!.enabled ) {
             bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
+            bindingOptions._currentView.disabledBackground.onclick = () => onSideMenuClose( bindingOptions );
             bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
-
-            bindingOptions._currentView.disabledBackground.onclick = () => {
-                bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
-                bindingOptions._currentView.disabledBackground.style.display = "none";
-
-                if ( bindingOptions._currentView.sideMenuChanged ) {
-                    renderControlContainer( bindingOptions );
-                }
-            };
 
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-title-bar" );
 
@@ -372,7 +350,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             const closeButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.closeButtonSymbolText! ) as HTMLButtonElement;
-            closeButton.onclick = () => onSideMenuCloseClick( bindingOptions );
+            closeButton.onclick = () => onSideMenuClose( bindingOptions );
 
             ToolTip.add( closeButton, bindingOptions, _configuration.text!.closeButtonText! );
 
@@ -390,6 +368,24 @@ type JsonTreeData = Record<string, BindingOptions>;
         input.onchange = () => importFromFiles( input.files!, bindingOptions );
 
         input.click();
+    }
+
+    function onSideMenuOpen( bindingOptions: BindingOptions ) : void {
+        if ( !bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
+            bindingOptions._currentView.sideMenu.classList.add( "side-menu-open" );
+            bindingOptions._currentView.disabledBackground.style.display = "block";
+        }
+    }
+
+    function onSideMenuClose( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
+            bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
+            bindingOptions._currentView.disabledBackground.style.display = "none";
+    
+            if ( bindingOptions._currentView.sideMenuChanged ) {
+                renderControlContainer( bindingOptions );
+            }
+        }
     }
 
     function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {
@@ -477,6 +473,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             } else if ( e.code === KeyCode.down ) {
                 e.preventDefault();
                 onOpenAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.escape ) {
+                e.preventDefault();
+                onSideMenuClose( bindingOptions );
             }
         }
     }
