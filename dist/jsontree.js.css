@@ -466,6 +466,57 @@ div.json-tree-js div.contents {
   overflow-x: auto;
   overflow-y: auto;
 }
+div.json-tree-js div.contents span.array {
+  color: var(--json-tree-js-color-array);
+}
+div.json-tree-js div.contents span.object {
+  color: var(--json-tree-js-color-object);
+}
+div.json-tree-js div.contents span.map {
+  color: var(--json-tree-js-color-map);
+}
+div.json-tree-js div.contents span.set {
+  color: var(--json-tree-js-color-set);
+}
+div.json-tree-js div.contents span.boolean {
+  color: var(--json-tree-js-color-boolean);
+}
+div.json-tree-js div.contents span.decimal {
+  color: var(--json-tree-js-color-decimal);
+}
+div.json-tree-js div.contents span.number {
+  color: var(--json-tree-js-color-number);
+}
+div.json-tree-js div.contents span.bigint {
+  color: var(--json-tree-js-color-bigint);
+}
+div.json-tree-js div.contents span.string {
+  color: var(--json-tree-js-color-string);
+}
+div.json-tree-js div.contents span.date {
+  color: var(--json-tree-js-color-date);
+}
+div.json-tree-js div.contents span.null {
+  color: var(--json-tree-js-color-null);
+}
+div.json-tree-js div.contents span.symbol {
+  color: var(--json-tree-js-color-symbol);
+}
+div.json-tree-js div.contents span.function {
+  color: var(--json-tree-js-color-function);
+}
+div.json-tree-js div.contents span.unknown {
+  color: var(--json-tree-js-color-unknown);
+}
+div.json-tree-js div.contents span.undefined {
+  color: var(--json-tree-js-color-null);
+}
+div.json-tree-js div.contents span.guid {
+  color: var(--json-tree-js-color-guid);
+}
+div.json-tree-js div.contents span.regexp {
+  color: var(--json-tree-js-color-regexp);
+}
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
 }
@@ -491,57 +542,6 @@ div.json-tree-js div.object-type-title span.main-title {
 div.json-tree-js div.object-type-title span.main-title:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
-}
-div.json-tree-js div.object-type-title span.array {
-  color: var(--json-tree-js-color-array);
-}
-div.json-tree-js div.object-type-title span.object {
-  color: var(--json-tree-js-color-object);
-}
-div.json-tree-js div.object-type-title span.map {
-  color: var(--json-tree-js-color-map);
-}
-div.json-tree-js div.object-type-title span.set {
-  color: var(--json-tree-js-color-set);
-}
-div.json-tree-js div.object-type-title span.boolean {
-  color: var(--json-tree-js-color-boolean);
-}
-div.json-tree-js div.object-type-title span.decimal {
-  color: var(--json-tree-js-color-decimal);
-}
-div.json-tree-js div.object-type-title span.number {
-  color: var(--json-tree-js-color-number);
-}
-div.json-tree-js div.object-type-title span.bigint {
-  color: var(--json-tree-js-color-bigint);
-}
-div.json-tree-js div.object-type-title span.string {
-  color: var(--json-tree-js-color-string);
-}
-div.json-tree-js div.object-type-title span.date {
-  color: var(--json-tree-js-color-date);
-}
-div.json-tree-js div.object-type-title span.null {
-  color: var(--json-tree-js-color-null);
-}
-div.json-tree-js div.object-type-title span.symbol {
-  color: var(--json-tree-js-color-symbol);
-}
-div.json-tree-js div.object-type-title span.function {
-  color: var(--json-tree-js-color-function);
-}
-div.json-tree-js div.object-type-title span.unknown {
-  color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.object-type-title span.undefined {
-  color: var(--json-tree-js-color-null);
-}
-div.json-tree-js div.object-type-title span.guid {
-  color: var(--json-tree-js-color-guid);
-}
-div.json-tree-js div.object-type-title span.regexp {
-  color: var(--json-tree-js-color-regexp);
 }
 div.json-tree-js div.object-type-title span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
@@ -635,60 +635,6 @@ div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
   font-weight: var(--json-tree-js-text-bold-weight);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.array {
-  color: var(--json-tree-js-color-array);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.array {
-  color: var(--json-tree-js-color-array);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.object {
-  color: var(--json-tree-js-color-object);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.map {
-  color: var(--json-tree-js-color-map);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.set {
-  color: var(--json-tree-js-color-set);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.boolean {
-  color: var(--json-tree-js-color-boolean);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.decimal {
-  color: var(--json-tree-js-color-decimal);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.number {
-  color: var(--json-tree-js-color-number);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.bigint {
-  color: var(--json-tree-js-color-bigint);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.string {
-  color: var(--json-tree-js-color-string);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.date {
-  color: var(--json-tree-js-color-date);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.null {
-  color: var(--json-tree-js-color-null);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.symbol {
-  color: var(--json-tree-js-color-symbol);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.function {
-  color: var(--json-tree-js-color-function);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.unknown {
-  color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.undefined {
-  color: var(--json-tree-js-color-null);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.guid {
-  color: var(--json-tree-js-color-guid);
-}
-div.json-tree-js div.object-type-contents div.object-type-value span.regexp {
-  color: var(--json-tree-js-color-regexp);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

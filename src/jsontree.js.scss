@@ -441,6 +441,8 @@ div.json-tree-js {
         overflow-x: auto;
         overflow-y: auto;
 
+        @include type-span-colors;
+
         div.last-item {
             margin-bottom: 0 !important;
         }
@@ -474,8 +476,6 @@ div.json-tree-js {
                 opacity: 0.7;
             }
         }
-
-        @include type-span-colors;
 
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
@@ -594,12 +594,6 @@ div.json-tree-js {
                 color: var(--json-tree-js-color-white);
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
-
-                        span.array {
-                color: var(--json-tree-js-color-array);
-            }
-
-            @include type-span-colors;
 
             span.count {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
