@@ -281,6 +281,10 @@ div.json-tree-js {
         overflow-x: auto;
         overflow-y: auto;
 
+        div.last-item {
+            margin-bottom: 0 !important;
+        }
+
         span.no-json-text {
             font-style: italic;
             color: var(--json-tree-js-color-light-gray) !important;
@@ -359,10 +363,6 @@ div.json-tree-js {
         text-align: left !important;
         width: fit-content;
         margin-bottom: var(--json-tree-js-spacing);
-    }
-
-    div.object-type-contents-parent {
-        margin-bottom: 0 !important;
     }
 }
 

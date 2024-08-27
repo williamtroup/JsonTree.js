@@ -360,7 +360,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
+            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
             const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
             const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isMap ? _configuration.text!.mapText! : _configuration.text!.objectText! ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
@@ -388,12 +388,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any) : void {
+    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
         const isSet: boolean = Is.definedSet( data );
         const type: string = isSet ? DataType.set : DataType.array;
         const setData: any[] = isSet ? Default.getArrayFromSet( data ) : data;
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
+        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isSet ? _configuration.text!.setText! : _configuration.text!.arrayText! );
         let openingBracket: HTMLSpanElement = null!;
@@ -465,6 +465,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         let type: string = null!;
         const propertyName: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         let allowEditing: boolean = false;
+
+        if ( isLastItem ) {
+            DomElement.addClass( objectTypeValue, "last-item" );
+        }
 
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
@@ -737,6 +741,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
 
+                if ( isLastItem ) {
+                    DomElement.addClass( arrayTypeContents, "last-item" );
+                }
+
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.setText! );
                 type = DataType.set;
 
@@ -761,6 +769,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.array : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
+
+                if ( isLastItem ) {
+                    DomElement.addClass( arrayTypeContents, "last-item" );
+                }
 
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.arrayText! );
                 type = DataType.array;
@@ -795,6 +807,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
 
+                    if ( isLastItem ) {
+                        DomElement.addClass( objectTypeContents, "last-item" );
+                    }
+
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
                     type = DataType.map;
 
@@ -827,6 +843,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
+
+                    if ( isLastItem ) {
+                        DomElement.addClass( objectTypeContents, "last-item" );
+                    }
 
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
                     type = DataType.object;
