@@ -66,6 +66,8 @@ export type ConfigurationText = {
 	showTypesText?: string;
 	selectAllText?: string;
 	selectNoneText?: string;
+	importButtonSymbolText?: string;
+	importButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -100,6 +102,7 @@ export type BindingOptions = {
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
+	importFilesEnabled?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

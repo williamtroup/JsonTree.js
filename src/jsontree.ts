@@ -181,7 +181,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.title!.showSideMenu && Is.definedObject( data ) ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
-                sideMenuButton.onclick = () => onSideMenuClick( bindingOptions );
+                sideMenuButton.onclick = () => onSideMenuCloseClick( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( sideMenuButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
@@ -246,7 +246,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onSideMenuClick( bindingOptions: BindingOptions ) : void {
+    function onSideMenuCloseClick( bindingOptions: BindingOptions ) : void {
         if ( !bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
             bindingOptions._currentView.sideMenu.classList.add( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "block";
@@ -364,15 +364,32 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
 
-            const close: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.closeButtonSymbolText! ) as HTMLButtonElement;
-            close.onclick = () => onSideMenuClick( bindingOptions );
+            if ( bindingOptions.importFilesEnabled ) {
+                const importButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+                importButton.onclick = () => onSideMenuImportClick( bindingOptions );
+    
+                ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
+            }
 
-            ToolTip.add( close, bindingOptions, _configuration.text!.closeButtonText! );
+            const closeButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.closeButtonSymbolText! ) as HTMLButtonElement;
+            closeButton.onclick = () => onSideMenuCloseClick( bindingOptions );
+
+            ToolTip.add( closeButton, bindingOptions, _configuration.text!.closeButtonText! );
 
             const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
 
             addSideMenuIgnoreTypes( contents, bindingOptions );
         }
+    }
+
+    function onSideMenuImportClick( bindingOptions: BindingOptions ) : void {
+        const input: HTMLInputElement = DomElement.createWithNoContainer( "input" ) as HTMLInputElement;
+        input.type = "file";
+        input.accept = ".json";
+        input.multiple = true;
+        input.onchange = () => importFromFiles( input.files!, bindingOptions );
+
+        input.click();
     }
 
     function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {

@@ -61,6 +61,8 @@ export namespace Config {
             configuration.text!.showTypesText = Default.getAnyString( configuration.text!.showTypesText, "Show Types" );
             configuration.text!.selectAllText = Default.getAnyString( configuration.text!.selectAllText, "Select All" );
             configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
+            configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "⇪" );
+            configuration.text!.importButtonText = Default.getAnyString( configuration.text!.importButtonText, "Import" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

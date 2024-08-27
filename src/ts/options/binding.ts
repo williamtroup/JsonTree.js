@@ -80,6 +80,7 @@ export namespace Binding {
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
+            options.importFilesEnabled = Default.getBoolean( options.importFilesEnabled, true );
 
             options = getTitle( options );
             options = getIgnore( options );

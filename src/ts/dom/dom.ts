@@ -43,6 +43,15 @@ export namespace DomElement {
         return element;
     }
 
+    export function createWithNoContainer( type: string ) : HTMLElement {
+        const nodeType: string = type.toLowerCase();
+        const isText: boolean = nodeType === "text";
+
+        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+
+        return result;
+    }
+
     export function addClass( element: HTMLElement, className: string ) : void {
         element.classList.add( className );
     }
