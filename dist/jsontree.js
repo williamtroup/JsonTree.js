@@ -723,7 +723,7 @@ var ToolTip;
         }
     }
     function a(t, n) {
-        if (t.title.show || t.title.showTreeControls || t.title.showCopyButton) {
+        if (t.title.show || t.title.showTreeControls || t.title.showCopyButton || t.title.showSideMenu || t.showArrayItemsAsSeparateObjects) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.enableFullScreenToggling) {
                 o.ondblclick = () => s(t);

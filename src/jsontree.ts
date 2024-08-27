@@ -170,7 +170,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton ) {
+        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.title!.showSideMenu || bindingOptions.showArrayItemsAsSeparateObjects ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
             if ( bindingOptions.enableFullScreenToggling ) {
