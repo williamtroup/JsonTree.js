@@ -415,6 +415,10 @@ div.json-tree-js {
                     margin-left: var(--json-tree-js-spacing);
 
                     @include type-span-colors;
+
+                    div.checkbox:last-child {
+                        margin-bottom: 0;
+                    }
                 }
             }
         }

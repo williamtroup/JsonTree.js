@@ -449,6 +449,9 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.regexp {
   color: var(--json-tree-js-color-regexp);
 }
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
+  margin-bottom: 0;
+}
 div.json-tree-js div.side-menu-open {
   left: 0 !important;
   transition: var(--json-tree-js-transition);
