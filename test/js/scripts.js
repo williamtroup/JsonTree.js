@@ -41,7 +41,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             show: true,
             showCopyButton: true,
             showTreeControls: true,
-            showSideMenu: true
+            showSideMenu: true,
         }
     };
 }
