@@ -96,7 +96,6 @@ export namespace Binding {
         function getTitle( options: BindingOptions ) : BindingOptions {
             options.title = Default.getObject( options.title, {} as BindingOptionsTitle );
             options.title!.text = Default.getString( options.title!.text, "JsonTree.js" );
-            options.title!.show = Default.getBoolean( options.title!.show, true );
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
 
@@ -170,6 +169,7 @@ export namespace Binding {
             options.sideMenu = Default.getObject( options.sideMenu, {} as BindingOptionsSideMenu );
             options.sideMenu!.enabled = Default.getBoolean( options.sideMenu!.enabled, true );
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
+            options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
 
             return options;
         }

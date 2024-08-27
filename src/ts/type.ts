@@ -137,7 +137,6 @@ export type BindingOptionsParse = {
 
 export type BindingOptionsTitle = {
     text?: string;
-    show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
 };
@@ -184,6 +183,7 @@ export type BindingOptionsTooltip = {
 export type BindingOptionsSideMenu = {
     enabled?: boolean;
 	showImportButton?: boolean;
+	titleText?: string;
 };
 
 export type BindingOptionsEvents = {

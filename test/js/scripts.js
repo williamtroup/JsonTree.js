@@ -39,7 +39,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
         } : null,
         title: {
-            show: true,
             showCopyButton: true,
             showTreeControls: true,
         },

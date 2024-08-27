@@ -172,7 +172,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects ) {
+        if ( !Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
             if ( bindingOptions.enableFullScreenToggling ) {
@@ -189,7 +189,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
-            if ( bindingOptions.title!.show ) {
+            if ( Is.definedString( bindingOptions.title!.text ) ) {
                 DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, bindingOptions._currentView.titleBarButtons );
             }
 
@@ -335,9 +335,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-title-bar" );
 
-            if ( bindingOptions.title!.show ) {
+            if ( Is.definedString( bindingOptions.sideMenu!.titleText ) ) {
                 const titleBarText: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-bar-text" );
-                titleBarText.innerHTML = bindingOptions.title!.text!;
+                titleBarText.innerHTML = bindingOptions.sideMenu!.titleText!;
             }
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
