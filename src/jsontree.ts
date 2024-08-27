@@ -172,14 +172,14 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.title!.showSideMenu || bindingOptions.showArrayItemsAsSeparateObjects ) {
+        if ( bindingOptions.title!.show || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
             if ( bindingOptions.enableFullScreenToggling ) {
                 titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
             }
 
-            if ( bindingOptions.title!.showSideMenu && Is.definedObject( data ) ) {
+            if ( bindingOptions.sideMenu!.enabled && Is.definedObject( data ) ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
                 sideMenuButton.onclick = () => onSideMenuCloseClick( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
@@ -342,7 +342,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlSideMenu( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.title!.showSideMenu ) {
+        if ( bindingOptions.sideMenu!.enabled ) {
             bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
             bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
 
@@ -364,7 +364,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
 
-            if ( bindingOptions.importFilesEnabled ) {
+            if ( bindingOptions.sideMenu!.showImportButton ) {
                 const importButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
                 importButton.onclick = () => onSideMenuImportClick( bindingOptions );
     

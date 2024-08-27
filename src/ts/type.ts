@@ -102,12 +102,12 @@ export type BindingOptions = {
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
-	importFilesEnabled?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
 	parse?: BindingOptionsParse;
+	sideMenu?: BindingOptionsSideMenu;
 	events?: BindingOptionsEvents;
 };
 
@@ -140,7 +140,6 @@ export type BindingOptionsTitle = {
     show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
-	showSideMenu?: boolean;
 };
 
 export type BindingOptionsIgnore = {
@@ -180,6 +179,11 @@ export type BindingOptionsAllowEditing = {
 export type BindingOptionsTooltip = {
     delay?: number;
 	offset?: number;
+};
+
+export type BindingOptionsSideMenu = {
+    enabled?: boolean;
+	showImportButton?: boolean;
 };
 
 export type BindingOptionsEvents = {

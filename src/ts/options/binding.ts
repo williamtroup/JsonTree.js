@@ -20,7 +20,8 @@ import {
     type BindingOptionsIgnore,
     type BindingOptionsTitle, 
     type ContentPanelsForArrayIndex, 
-    type BindingOptionsAllowEditing } from "../type";
+    type BindingOptionsAllowEditing, 
+    BindingOptionsSideMenu} from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -80,13 +81,13 @@ export namespace Binding {
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
-            options.importFilesEnabled = Default.getBoolean( options.importFilesEnabled, true );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
             options = getAllowEditing( options, Is.definedObject( options.valueToolTips ) );
+            options = getSideMenu( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -98,7 +99,6 @@ export namespace Binding {
             options.title!.show = Default.getBoolean( options.title!.show, true );
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
-            options.title!.showSideMenu = Default.getBoolean( options.title!.showSideMenu, true );
 
             return options;
         }
@@ -162,6 +162,14 @@ export namespace Binding {
             if ( valueToolTipsSet ) {
                 options.allowEditing!.propertyNames = false;
             }
+
+            return options;
+        }
+
+        function getSideMenu( options: BindingOptions ) : BindingOptions {
+            options.sideMenu = Default.getObject( options.sideMenu, {} as BindingOptionsSideMenu );
+            options.sideMenu!.enabled = Default.getBoolean( options.sideMenu!.enabled, true );
+            options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
 
             return options;
         }
