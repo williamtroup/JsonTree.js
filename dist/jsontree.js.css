@@ -353,6 +353,15 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.type,
+div.json-tree-js div.object-type-contents div.object-type-value span.type-color {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+  font-style: italic;
+  font-size: smaller;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.type-color {
+  color: var(--json-tree-js-color-light-gray);
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.value,
 div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
   transition: var(--json-tree-js-transition);

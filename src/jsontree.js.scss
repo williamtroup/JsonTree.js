@@ -403,6 +403,17 @@ div.json-tree-js {
                 margin-right: calc( var(--json-tree-js-spacing) / 2 );
             }
 
+            span.type,
+            span.type-color {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+                font-style: italic;
+                font-size: smaller;
+            }
+
+            span.type-color {
+                color: var(--json-tree-js-color-light-gray);
+            }
+
             span.value,
             span.main-title {
                 transition: var(--json-tree-js-transition);

@@ -405,6 +405,7 @@ var Binding;
             t.enableFullScreenToggling = Default2.getBoolean(t.enableFullScreenToggling, true);
             t.valueToolTips = Default2.getObject(t.valueToolTips, null);
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
+            t.showTypes = Default2.getBoolean(t.showTypes, false);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -702,14 +703,14 @@ var ToolTip;
         if (o) {
             DomElement.addClass(l, "page-switch");
         }
-        F(l, n);
+        j(l, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedArray(r) || Is.definedSet(r)) {
-            y(l, n, r);
-        } else if (Is.definedObject(r)) {
             b(l, n, r);
+        } else if (Is.definedObject(r)) {
+            y(l, n, r);
         }
         if (l.innerHTML === "") {
             DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
@@ -846,7 +847,7 @@ var ToolTip;
             }
         }
     }
-    function b(t, n, o) {
+    function y(t, n, o) {
         const r = Is.definedMap(o);
         const l = r ? "map" : "object";
         const i = r ? Default2.getObjectFromMap(o) : o;
@@ -871,11 +872,11 @@ var ToolTip;
             if (n.showOpeningClosingCurlyBraces) {
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            D(d, null, c, n, i, a, g, false, true, "");
+            T(d, null, c, n, i, a, g, false, true, "");
             E(n, f, o, l, false);
         }
     }
-    function y(t, n, o) {
+    function b(t, n, o) {
         const r = Is.definedSet(o);
         const l = r ? "set" : "array";
         const i = r ? Default2.getArrayFromSet(o) : o;
@@ -890,10 +891,10 @@ var ToolTip;
         if (n.showOpeningClosingCurlyBraces) {
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
-        T(u, null, s, n, i, d, false, true, "");
+        D(u, null, s, n, i, d, false, true, "");
         E(n, c, o, l, false);
     }
-    function D(e, t, n, o, r, l, i, a, s, u) {
+    function T(e, t, n, o, r, l, i, a, s, u) {
         const c = l.length;
         for (let e = 0; e < c; e++) {
             const t = l[e];
@@ -907,7 +908,7 @@ var ToolTip;
         }
         S(o, e, t, n, i);
     }
-    function T(e, t, n, o, r, l, i, a, s) {
+    function D(e, t, n, o, r, l, i, a, s) {
         const u = r.length;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < u; e++) {
@@ -936,8 +937,12 @@ var ToolTip;
         let m = null;
         const p = DomElement.createWithHTML(u, "span", "title", r);
         let w = false;
+        let y = null;
         if (i) {
             DomElement.addClass(u, "last-item");
+        }
+        if (o.showTypes) {
+            y = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
         }
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
@@ -1152,7 +1157,7 @@ var ToolTip;
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
                 let d = A(o, n, i);
-                T(c, d, r, o, t, a, true, i, s);
+                D(c, d, r, o, t, a, true, i, s);
             } else {
                 g = true;
             }
@@ -1173,7 +1178,7 @@ var ToolTip;
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
                 let a = A(o, t, i);
-                T(c, a, n, o, l, r, true, i, s);
+                D(c, a, n, o, l, r, true, i, s);
             } else {
                 g = true;
             }
@@ -1200,7 +1205,7 @@ var ToolTip;
                         d = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let g = A(o, l, i);
-                    D(c, g, a, o, t, n, d, true, i, s);
+                    T(c, g, a, o, t, n, d, true, i, s);
                 }
             } else {
                 g = true;
@@ -1227,7 +1232,7 @@ var ToolTip;
                         d = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let g = A(o, r, i);
-                    D(c, g, a, o, l, t, d, true, i, s);
+                    T(c, g, a, o, l, t, d, true, i, s);
                 }
             } else {
                 g = true;
@@ -1249,12 +1254,20 @@ var ToolTip;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                x(o, s, p, f);
+                if (Is.defined(y)) {
+                    if (m !== "null" && m !== "undefined" && m !== "array" && m !== "object" && m !== "map" && m !== "set") {
+                        y.innerHTML = `(${m})`;
+                    } else {
+                        y.parentNode.removeChild(y);
+                        y = null;
+                    }
+                }
+                x(o, s, p, y, f);
                 E(o, f, l, m, w);
             }
         }
     }
-    function x(e, t, n, o) {
+    function x(e, t, n, o, r) {
         if (Is.definedObject(e.valueToolTips)) {
             if (!e.valueToolTips.hasOwnProperty(t)) {
                 const e = t.split("\\");
@@ -1267,6 +1280,7 @@ var ToolTip;
             if (e.valueToolTips.hasOwnProperty(t)) {
                 ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
                 ToolTip.add(o, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
+                ToolTip.add(r, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
             }
         }
     }
@@ -1483,7 +1497,7 @@ var ToolTip;
         DomElement.createWithHTML(l, "div", "object-type-end", n);
         A(e, l, r);
     }
-    function F(e, t) {
+    function j(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1491,12 +1505,12 @@ var ToolTip;
             e.ondrop = e => {
                 DomElement.cancelBubble(e);
                 if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-                    j(e.dataTransfer.files, t);
+                    F(e.dataTransfer.files, t);
                 }
             };
         }
     }
-    function j(e, t) {
+    function F(e, t) {
         const n = e.length;
         let o = 0;
         let r = [];

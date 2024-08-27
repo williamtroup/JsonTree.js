@@ -463,17 +463,22 @@ type JsonTreeData = Record<string, BindingOptions>;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let type: string = null!;
-        const propertyName: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
+        const nameElement: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         let allowEditing: boolean = false;
+        let typeElement: HTMLSpanElement = null!;
 
         if ( isLastItem ) {
             DomElement.addClass( objectTypeValue, "last-item" );
         }
 
+        if ( bindingOptions.showTypes ) {
+            typeElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "type-color" : "type", Char.empty ) as HTMLSpanElement;
+        }
+
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
         if ( !isArrayItem ) {
-            makePropertyNameEditable( bindingOptions, data, name, propertyName );
+            makePropertyNameEditable( bindingOptions, data, name, nameElement );
         }
 
         if ( value === null ) {
@@ -890,13 +895,22 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addValueElementToolTip( bindingOptions, jsonPath, propertyName, valueElement );
+                if ( Is.defined( typeElement ) ) {
+                    if ( type !== DataType.null && type !== DataType.undefined && type !== DataType.array && type !== DataType.object && type !== DataType.map && type !== DataType.set ) {
+                        typeElement.innerHTML = `(${type})`;
+                    } else {
+                        typeElement.parentNode!.removeChild( typeElement );
+                        typeElement = null!;
+                    }
+                }
+
+                addValueElementToolTip( bindingOptions, jsonPath, nameElement, typeElement, valueElement );
                 addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
             }
         }
     }
 
-    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, propertyName: HTMLSpanElement, valueElement: HTMLElement ) : void {
+    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, nameElement: HTMLSpanElement, typeElement: HTMLSpanElement, valueElement: HTMLElement ) : void {
         if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
             if ( !bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
@@ -910,7 +924,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                ToolTip.add( propertyName, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
+                ToolTip.add( nameElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
+                ToolTip.add( typeElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
                 ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
             }
         }

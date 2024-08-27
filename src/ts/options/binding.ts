@@ -75,6 +75,7 @@ export namespace Binding {
             options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
+            options.showTypes = Default.getBoolean( options.showTypes, false );
 
             options = getTitle( options );
             options = getIgnore( options );
