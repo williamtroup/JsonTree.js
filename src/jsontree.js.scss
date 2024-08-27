@@ -304,7 +304,7 @@ div.json-tree-js {
         z-index: 1500;
         transition: var(--json-tree-js-transition); 
         background-color: var(--json-tree-js-container-background-color);
-        border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
+        border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-white);
         border-radius: var(--json-tree-js-border-radius);
         width: var(--json-tree-js-side-menu-width);
         left: calc( 0px - ( var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width) ) );
