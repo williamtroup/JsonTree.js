@@ -369,7 +369,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
-                    dataArrayIndex = `[${dataArrayIndex}]:`;
+                    dataArrayIndex = `[${dataArrayIndex}]${Char.space}:`;
                 }
 
                 DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} data-array-index` : "data-array-index", dataArrayIndex, titleText );

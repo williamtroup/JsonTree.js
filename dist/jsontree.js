@@ -861,7 +861,7 @@ var ToolTip;
             if (n.showArrayItemsAsSeparateObjects) {
                 let e = n.useZeroIndexingForArrays ? n._currentView.dataArrayCurrentIndex.toString() : (n._currentView.dataArrayCurrentIndex + 1).toString();
                 if (n.showArrayIndexBrackets) {
-                    e = `[${e}]:`;
+                    e = `[${e}]${" "}:`;
                 }
                 DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} data-array-index` : "data-array-index", e, d);
             }
