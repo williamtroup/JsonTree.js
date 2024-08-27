@@ -243,6 +243,9 @@ div.json-tree-js {
             button {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 font-weight: var(--json-tree-js-header-bold-weight);
+                min-width: 30px;
+                min-height: 30px;
+                text-align: center;
             }
 
             button.copy-all {
