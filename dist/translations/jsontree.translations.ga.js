@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Irish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Irish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "réad",
         "arrayText": "eagar",
+        "mapText": "léarscáil",
+        "setText": "leagtha",
         "closeAllButtonText": "Dún Uile",
         "openAllButtonText": "Oscail Uile",
         "copyAllButtonText": "Cóipeáil Uile",

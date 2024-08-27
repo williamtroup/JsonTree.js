@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        default.ts
- * @version     v2.8.1
+ * @version     v2.9.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -120,6 +120,18 @@ export namespace Default {
             }
         }
 
+        return result;
+    }
+
+    export function getObjectFromMap( map: Map<any, any> ) : object {
+        const result: object = Object.fromEntries( map.entries() );
+    
+        return result;
+    }
+
+    export function getArrayFromSet( set: Set<any> ) : any[] {
+        const result: any[] = Array.from( set.values() );
+    
         return result;
     }
 }

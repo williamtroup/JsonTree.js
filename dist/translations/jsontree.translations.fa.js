@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Farsi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Farsi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "هدف - شی",
         "arrayText": "آرایه",
+        "mapText": "نقشه",
+        "setText": "مجموعه",
         "closeAllButtonText": "بستن همه",
         "openAllButtonText": "همه را باز کنید",
         "copyAllButtonText": "کپی همه",

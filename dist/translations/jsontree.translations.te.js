@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Telugu | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "వస్తువు",
         "arrayText": "అమరిక",
+        "mapText": "పటం",
+        "setText": "సెట్",
         "closeAllButtonText": "అన్నీ మూసివేయి",
         "openAllButtonText": "అన్నీ తెరవండి",
         "copyAllButtonText": "అన్నీ కాపీ చేయండి",

@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Thai | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Thai | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "วัตถุ",
         "arrayText": "อาร์เรย์",
+        "mapText": "แผนที่",
+        "setText": "ชุด",
         "closeAllButtonText": "ปิดทั้งหมด",
         "openAllButtonText": "เปิดทั้งหมด",
         "copyAllButtonText": "คัดลอกทั้งหมด",

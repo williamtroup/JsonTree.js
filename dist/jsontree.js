@@ -77,10 +77,22 @@ var Is;
         return n(e) && typeof e === "symbol";
     }
     e.definedSymbol = f;
-    function g(e, t = 1) {
+    function g(e) {
+        return n(e) && e instanceof RegExp;
+    }
+    e.definedRegExp = g;
+    function m(e) {
+        return n(e) && (e instanceof Map || e instanceof WeakMap);
+    }
+    e.definedMap = m;
+    function p(e) {
+        return n(e) && (e instanceof Set || e instanceof WeakSet);
+    }
+    e.definedSet = p;
+    function w(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = g;
+    e.invalidOptionArray = w;
 })(Is || (Is = {}));
 
 var Default2;
@@ -177,6 +189,16 @@ var Default2;
         return result;
     }
     Default.getObjectFromString = getObjectFromString;
+    function getObjectFromMap(e) {
+        const t = Object.fromEntries(e.entries());
+        return t;
+    }
+    Default.getObjectFromMap = getObjectFromMap;
+    function getArrayFromSet(e) {
+        const t = Array.from(e.values());
+        return t;
+    }
+    Default.getArrayFromSet = getArrayFromSet;
 })(Default2 || (Default2 = {}));
 
 var DomElement;
@@ -305,7 +327,8 @@ var DateTime;
         l = l.replace("{M}", o.getMinutes().toString());
         l = l.replace("{ss}", Str.padNumber(o.getSeconds(), 2));
         l = l.replace("{s}", o.getSeconds().toString());
-        l = l.replace("{ff}", Str.padNumber(o.getMilliseconds(), 3));
+        l = l.replace("{fff}", Str.padNumber(o.getMilliseconds(), 3));
+        l = l.replace("{ff}", Str.padNumber(o.getMilliseconds(), 2));
         l = l.replace("{f}", o.getMilliseconds().toString());
         l = l.replace("{dddd}", e.text.dayNames[i]);
         l = l.replace("{ddd}", e.text.dayNamesAbbreviated[i]);
@@ -417,6 +440,9 @@ var Binding;
             e.ignore.undefinedValues = Default2.getBoolean(e.ignore.undefinedValues, false);
             e.ignore.guidValues = Default2.getBoolean(e.ignore.guidValues, false);
             e.ignore.colorValues = Default2.getBoolean(e.ignore.colorValues, false);
+            e.ignore.regExpValues = Default2.getBoolean(e.ignore.regExpValues, false);
+            e.ignore.mapValues = Default2.getBoolean(e.ignore.mapValues, false);
+            e.ignore.setValues = Default2.getBoolean(e.ignore.setValues, false);
             return e;
         }
         function i(e) {
@@ -433,16 +459,17 @@ var Binding;
             return e;
         }
         function s(e, t) {
+            let n = Default2.getBoolean(e.allowEditing, true);
             e.allowEditing = Default2.getObject(e.allowEditing, {});
-            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, true);
-            e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, true);
-            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, true);
-            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, true);
-            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, true);
-            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, true);
-            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, true);
-            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, true);
-            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, true);
+            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, n);
+            e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, n);
+            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, n);
+            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, n);
+            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, n);
+            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, n);
+            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, n);
+            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, n);
+            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, n);
             if (t) {
                 e.allowEditing.propertyNames = false;
             }
@@ -473,6 +500,7 @@ var Binding;
             e.events.onGuidRender = Default2.getFunction(e.events.onGuidRender, null);
             e.events.onColorRender = Default2.getFunction(e.events.onColorRender, null);
             e.events.onJsonEdit = Default2.getFunction(e.events.onJsonEdit, null);
+            e.events.onRegExpRender = Default2.getFunction(e.events.onRegExpRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -495,6 +523,8 @@ var Config;
             e.text = Default2.getObject(e.text, {});
             e.text.objectText = Default2.getAnyString(e.text.objectText, "object");
             e.text.arrayText = Default2.getAnyString(e.text.arrayText, "array");
+            e.text.mapText = Default2.getAnyString(e.text.mapText, "map");
+            e.text.setText = Default2.getAnyString(e.text.setText, "set");
             e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close All");
             e.text.openAllButtonText = Default2.getAnyString(e.text.openAllButtonText, "Open All");
             e.text.copyAllButtonText = Default2.getAnyString(e.text.copyAllButtonText, "Copy All");
@@ -672,14 +702,14 @@ var ToolTip;
         if (o) {
             DomElement.addClass(l, "page-switch");
         }
-        N(l, n);
+        F(l, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
-        if (Is.definedObject(r) && !Is.definedArray(r)) {
-            w(l, n, r);
-        } else if (Is.definedArray(r)) {
+        if (Is.definedArray(r) || Is.definedSet(r)) {
             y(l, n, r);
+        } else if (Is.definedObject(r)) {
+            b(l, n, r);
         }
         if (l.innerHTML === "") {
             DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
@@ -797,9 +827,9 @@ var ToolTip;
     }
     function p(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => b(t, e)));
+        n("keydown", (t => w(t, e)));
     }
-    function b(e, o) {
+    function w(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
             if (e.code === "ArrowLeft") {
                 e.preventDefault();
@@ -816,48 +846,54 @@ var ToolTip;
             }
         }
     }
-    function w(t, n, o) {
-        const r = _(o, n);
-        const l = r.length;
-        if (l !== 0 || !n.ignore.emptyObjects) {
-            const i = DomElement.create(t, "div", "object-type-title");
-            const a = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
-            const s = n.showArrowToggles ? DomElement.create(i, "div", "down-arrow") : null;
-            const u = DomElement.createWithHTML(i, "span", n.showValueColors ? "object main-title" : "main-title", e.text.objectText);
-            let c = null;
+    function b(t, n, o) {
+        const r = Is.definedMap(o);
+        const l = r ? "map" : "object";
+        const i = r ? Default2.getObjectFromMap(o) : o;
+        const a = _(i, n);
+        const s = a.length;
+        if (s !== 0 || !n.ignore.emptyObjects) {
+            const u = DomElement.create(t, "div", "object-type-title");
+            const c = DomElement.create(t, "div", "object-type-contents last-item");
+            const d = n.showArrowToggles ? DomElement.create(u, "div", "down-arrow") : null;
+            const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.mapText : e.text.objectText);
+            let g = null;
             if (n.showArrayItemsAsSeparateObjects) {
                 let e = n.useZeroIndexingForArrays ? n._currentView.dataArrayCurrentIndex.toString() : (n._currentView.dataArrayCurrentIndex + 1).toString();
                 if (n.showArrayIndexBrackets) {
-                    e = `[${e}]:`;
+                    e = `[${e}]${" "}:`;
                 }
-                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} data-array-index` : "data-array-index", e, u);
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} data-array-index` : "data-array-index", e, f);
             }
-            if (n.showCounts && l > 0) {
-                DomElement.createWithHTML(i, "span", n.showValueColors ? `${"object"} count` : "count", `{${l}}`);
+            if (n.showCounts && s > 0) {
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} count` : "count", `{${s}}`);
             }
             if (n.showOpeningClosingCurlyBraces) {
-                c = DomElement.createWithHTML(i, "span", "opening-symbol", "{");
+                g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            T(s, null, a, n, o, r, c, false, true, "");
-            E(n, u, o, "object", false);
+            D(d, null, c, n, i, a, g, false, true, "");
+            E(n, f, o, l, false);
         }
     }
     function y(t, n, o) {
-        const r = DomElement.create(t, "div", "object-type-title");
-        const l = DomElement.create(t, "div", "object-type-contents object-type-contents-parent");
-        const i = n.showArrowToggles ? DomElement.create(r, "div", "down-arrow") : null;
-        const a = DomElement.createWithHTML(r, "span", n.showValueColors ? "array main-title" : "main-title", e.text.arrayText);
-        let s = null;
+        const r = Is.definedSet(o);
+        const l = r ? "set" : "array";
+        const i = r ? Default2.getArrayFromSet(o) : o;
+        const a = DomElement.create(t, "div", "object-type-title");
+        const s = DomElement.create(t, "div", "object-type-contents last-item");
+        const u = n.showArrowToggles ? DomElement.create(a, "div", "down-arrow") : null;
+        const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.setText : e.text.arrayText);
+        let d = null;
         if (n.showCounts) {
-            DomElement.createWithHTML(r, "span", n.showValueColors ? `${"array"} count` : "count", `[${o.length}]`);
+            DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} count` : "count", `[${i.length}]`);
         }
         if (n.showOpeningClosingCurlyBraces) {
-            s = DomElement.createWithHTML(r, "span", "opening-symbol", "[");
+            d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
-        D(i, null, l, n, o, s, false, true, "");
-        E(n, a, o, "object", false);
+        T(u, null, s, n, i, d, false, true, "");
+        E(n, c, o, l, false);
     }
-    function T(e, t, n, o, r, l, i, a, s, u) {
+    function D(e, t, n, o, r, l, i, a, s, u) {
         const c = l.length;
         for (let e = 0; e < c; e++) {
             const t = l[e];
@@ -871,7 +907,7 @@ var ToolTip;
         }
         S(o, e, t, n, i);
     }
-    function D(e, t, n, o, r, l, i, a, s) {
+    function T(e, t, n, o, r, l, i, a, s) {
         const u = r.length;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < u; e++) {
@@ -899,7 +935,10 @@ var ToolTip;
         let g = false;
         let m = null;
         const p = DomElement.createWithHTML(u, "span", "title", r);
-        let b = false;
+        let w = false;
+        if (i) {
+            DomElement.addClass(u, "last-item");
+        }
         DomElement.createWithHTML(u, "span", "split", ":");
         if (!a) {
             h(o, t, r, p);
@@ -945,8 +984,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"boolean"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
-                b = o.allowEditing.booleanValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.booleanValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -960,8 +999,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"decimal"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
-                b = o.allowEditing.decimalValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.decimalValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -974,8 +1013,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"number"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
-                b = o.allowEditing.numberValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.numberValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -988,8 +1027,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"bigint"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
-                b = o.allowEditing.bigIntValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.bigIntValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -1002,8 +1041,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"guid"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
-                b = o.allowEditing.guidValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.guidValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1016,11 +1055,11 @@ var ToolTip;
                 d = o.showValueColors ? `${"color"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "color";
-                b = o.allowEditing.colorValues;
+                w = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                x(o, t, r, l, f, a, b);
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1047,8 +1086,8 @@ var ToolTip;
                     d = o.showValueColors ? `${"string"} value` : "value";
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
-                    b = o.allowEditing.stringValues;
-                    x(o, t, r, l, f, a, b);
+                    w = o.allowEditing.stringValues;
+                    V(o, t, r, l, f, a, w);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1062,8 +1101,8 @@ var ToolTip;
                 d = o.showValueColors ? `${"date"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
-                b = o.allowEditing.dateValues;
-                x(o, t, r, l, f, a, b);
+                w = o.allowEditing.dateValues;
+                V(o, t, r, l, f, a, w);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1083,7 +1122,90 @@ var ToolTip;
             } else {
                 g = true;
             }
-        } else if (Is.definedObject(l) && !Is.definedArray(l)) {
+        } else if (Is.definedRegExp(l)) {
+            if (!o.ignore.regExpValues) {
+                d = o.showValueColors ? `${"regexp"} value` : "value";
+                f = DomElement.createWithHTML(u, "span", d, l.source.toString());
+                m = "regexp";
+                if (Is.definedFunction(o.events.onRegExpRender)) {
+                    Trigger.customEvent(o.events.onRegExpRender, f);
+                }
+                A(o, u, i);
+            } else {
+                g = true;
+            }
+        } else if (Is.definedSet(l)) {
+            if (!o.ignore.setValues) {
+                const t = Default2.getArrayFromSet(l);
+                const n = DomElement.create(u, "span", o.showValueColors ? "set" : "");
+                const r = DomElement.create(u, "div", "object-type-contents");
+                let a = null;
+                if (i) {
+                    DomElement.addClass(r, "last-item");
+                }
+                f = DomElement.createWithHTML(n, "span", "main-title", e.text.setText);
+                m = "set";
+                if (o.showCounts) {
+                    DomElement.createWithHTML(n, "span", "count", `[${t.length}]`);
+                }
+                if (o.showOpeningClosingCurlyBraces) {
+                    a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
+                }
+                let d = A(o, n, i);
+                T(c, d, r, o, t, a, true, i, s);
+            } else {
+                g = true;
+            }
+        } else if (Is.definedArray(l)) {
+            if (!o.ignore.arrayValues) {
+                const t = DomElement.create(u, "span", o.showValueColors ? "array" : "");
+                const n = DomElement.create(u, "div", "object-type-contents");
+                let r = null;
+                if (i) {
+                    DomElement.addClass(n, "last-item");
+                }
+                f = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
+                m = "array";
+                if (o.showCounts) {
+                    DomElement.createWithHTML(t, "span", "count", `[${l.length}]`);
+                }
+                if (o.showOpeningClosingCurlyBraces) {
+                    r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
+                }
+                let a = A(o, t, i);
+                T(c, a, n, o, l, r, true, i, s);
+            } else {
+                g = true;
+            }
+        } else if (Is.definedMap(l)) {
+            if (!o.ignore.mapValues) {
+                const t = Default2.getObjectFromMap(l);
+                const n = _(t, o);
+                const r = n.length;
+                if (r === 0 && o.ignore.emptyObjects) {
+                    g = true;
+                } else {
+                    const l = DomElement.create(u, "span", o.showValueColors ? "map" : "");
+                    const a = DomElement.create(u, "div", "object-type-contents");
+                    let d = null;
+                    if (i) {
+                        DomElement.addClass(a, "last-item");
+                    }
+                    f = DomElement.createWithHTML(l, "span", "main-title", e.text.mapText);
+                    m = "map";
+                    if (o.showCounts && r > 0) {
+                        DomElement.createWithHTML(l, "span", "count", `{${r}}`);
+                    }
+                    if (o.showOpeningClosingCurlyBraces) {
+                        d = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                    }
+                    let g = A(o, l, i);
+                    D(c, g, a, o, t, n, d, true, i, s);
+                }
+            } else {
+                g = true;
+            }
+        } else if (Is.definedObject(l)) {
             if (!o.ignore.objectValues) {
                 const t = _(l, o);
                 const n = t.length;
@@ -1093,7 +1215,11 @@ var ToolTip;
                     const r = DomElement.create(u, "span", o.showValueColors ? "object" : "");
                     const a = DomElement.create(u, "div", "object-type-contents");
                     let d = null;
+                    if (i) {
+                        DomElement.addClass(a, "last-item");
+                    }
                     f = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
+                    m = "object";
                     if (o.showCounts && n > 0) {
                         DomElement.createWithHTML(r, "span", "count", `{${n}}`);
                     }
@@ -1101,27 +1227,8 @@ var ToolTip;
                         d = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let g = A(o, r, i);
-                    T(c, g, a, o, l, t, d, true, i, s);
-                    m = "object";
+                    D(c, g, a, o, l, t, d, true, i, s);
                 }
-            } else {
-                g = true;
-            }
-        } else if (Is.definedArray(l)) {
-            if (!o.ignore.arrayValues) {
-                const t = DomElement.create(u, "span", o.showValueColors ? "array" : "");
-                const n = DomElement.create(u, "div", "object-type-contents");
-                let r = null;
-                f = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
-                if (o.showCounts) {
-                    DomElement.createWithHTML(t, "span", "count", `[${l.length}]`);
-                }
-                if (o.showOpeningClosingCurlyBraces) {
-                    r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
-                }
-                let a = A(o, t, i);
-                D(c, a, n, o, l, r, true, i, s);
-                m = "array";
             } else {
                 g = true;
             }
@@ -1142,25 +1249,24 @@ var ToolTip;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                V(o, s, f);
-                E(o, f, l, m, b);
+                x(o, s, p, f);
+                E(o, f, l, m, w);
             }
         }
     }
-    function V(e, t, n) {
+    function x(e, t, n, o) {
         if (Is.definedObject(e.valueToolTips)) {
+            if (!e.valueToolTips.hasOwnProperty(t)) {
+                const e = t.split("\\");
+                const n = e.length - 1;
+                for (let t = 0; t < n; t++) {
+                    e[t] = "..";
+                }
+                t = e.join("\\");
+            }
             if (e.valueToolTips.hasOwnProperty(t)) {
                 ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
-            } else {
-                const o = t.split("\\");
-                const r = o.length - 1;
-                for (let e = 0; e < r; e++) {
-                    o[e] = "..";
-                }
-                t = o.join("\\");
-                if (e.valueToolTips.hasOwnProperty(t)) {
-                    ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
-                }
+                ToolTip.add(o, e, e.valueToolTips[t], "jsontree-js-tooltip-value");
             }
         }
     }
@@ -1200,7 +1306,7 @@ var ToolTip;
             };
         }
     }
-    function x(e, t, n, o, r, l, a) {
+    function V(e, t, n, o, r, l, a) {
         if (a) {
             r.ondblclick = () => {
                 clearTimeout(e._currentView.valueClickTimerId);
@@ -1277,51 +1383,55 @@ var ToolTip;
         }
     }
     function S(e, t, n, o, r) {
-        if (Is.defined(t)) {
-            const l = e._currentView.contentPanelsIndex;
-            const i = e._currentView.dataArrayCurrentIndex;
-            if (!e._currentView.contentPanelsOpen.hasOwnProperty(i)) {
-                e._currentView.contentPanelsOpen[i] = {};
-            }
-            const a = () => {
-                o.style.display = "none";
-                t.className = "right-arrow";
-                e._currentView.contentPanelsOpen[i][l] = true;
-                if (Is.defined(r)) {
-                    r.style.display = "none";
-                }
-                if (Is.defined(n)) {
-                    n.style.display = "inline-block";
-                }
-            };
-            const s = () => {
-                o.style.display = "block";
-                t.className = "down-arrow";
-                e._currentView.contentPanelsOpen[i][l] = false;
-                if (Is.defined(r)) {
-                    r.style.display = "inline-block";
-                }
-                if (Is.defined(n)) {
-                    n.style.display = "none";
-                }
-            };
-            const u = e => {
-                if (e) {
-                    a();
-                } else {
-                    s();
-                }
-            };
-            let c = e.showAllAsClosed;
-            if (e._currentView.contentPanelsOpen[i].hasOwnProperty(l)) {
-                c = e._currentView.contentPanelsOpen[i][l];
-            } else {
-                e._currentView.contentPanelsOpen[i][l] = c;
-            }
-            t.onclick = () => u(t.className === "down-arrow");
-            u(c);
-            e._currentView.contentPanelsIndex++;
+        const l = e._currentView.contentPanelsIndex;
+        const i = e._currentView.dataArrayCurrentIndex;
+        if (!e._currentView.contentPanelsOpen.hasOwnProperty(i)) {
+            e._currentView.contentPanelsOpen[i] = {};
         }
+        const a = () => {
+            o.style.display = "none";
+            e._currentView.contentPanelsOpen[i][l] = true;
+            if (Is.defined(t)) {
+                t.className = "right-arrow";
+            }
+            if (Is.defined(r)) {
+                r.style.display = "none";
+            }
+            if (Is.defined(n)) {
+                n.style.display = "inline-block";
+            }
+        };
+        const s = () => {
+            o.style.display = "block";
+            e._currentView.contentPanelsOpen[i][l] = false;
+            if (Is.defined(t)) {
+                t.className = "down-arrow";
+            }
+            if (Is.defined(r)) {
+                r.style.display = "inline-block";
+            }
+            if (Is.defined(n)) {
+                n.style.display = "none";
+            }
+        };
+        const u = e => {
+            if (e) {
+                a();
+            } else {
+                s();
+            }
+        };
+        let c = e.showAllAsClosed;
+        if (e._currentView.contentPanelsOpen[i].hasOwnProperty(l)) {
+            c = e._currentView.contentPanelsOpen[i][l];
+        } else {
+            e._currentView.contentPanelsOpen[i][l] = c;
+        }
+        if (Is.defined(t)) {
+            t.onclick = () => u(t.className === "down-arrow");
+        }
+        u(c);
+        e._currentView.contentPanelsIndex++;
     }
     function A(e, t, n) {
         let o = null;
@@ -1367,13 +1477,13 @@ var ToolTip;
     }
     function O(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
-        if (o) {
+        if (o && e.showArrowToggles) {
             DomElement.create(l, "div", "no-arrow");
         }
         DomElement.createWithHTML(l, "div", "object-type-end", n);
         A(e, l, r);
     }
-    function N(e, t) {
+    function F(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1388,24 +1498,31 @@ var ToolTip;
     }
     function j(e, t) {
         const n = e.length;
-        for (let o = 0; o < n; o++) {
-            const n = e[o];
-            const r = n.name.split(".").pop().toLowerCase();
-            if (r === "json") {
-                F(n, t);
+        let o = 0;
+        let r = [];
+        const l = e => {
+            o++;
+            r.push(e);
+            if (o === n) {
+                t._currentView.dataArrayCurrentIndex = 0;
+                t._currentView.contentPanelsOpen = {};
+                t.data = r.length === 1 ? r[0] : r;
+                i(t);
+                Trigger.customEvent(t.events.onSetJson, t._currentView.element);
+            }
+        };
+        for (let t = 0; t < n; t++) {
+            const n = e[t];
+            const o = n.name.split(".").pop().toLowerCase();
+            if (o === "json") {
+                N(n, l);
             }
         }
     }
-    function F(t, n) {
+    function N(t, n) {
         const o = new FileReader;
         let r = null;
-        o.onloadend = () => {
-            n._currentView.dataArrayCurrentIndex = 0;
-            n._currentView.contentPanelsOpen = {};
-            n.data = r;
-            i(n);
-            Trigger.customEvent(n.events.onSetJson, n._currentView.element);
-        };
+        o.onloadend = () => n(r);
         o.onload = t => {
             const n = Default2.getObjectFromString(t.target.result, e);
             if (n.parsed && Is.definedObject(n.object)) {
@@ -1414,7 +1531,7 @@ var ToolTip;
         };
         o.readAsText(t);
     }
-    function R(e) {
+    function M(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1428,14 +1545,14 @@ var ToolTip;
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const M = {
+    const R = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return M;
+            return R;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1445,29 +1562,29 @@ var ToolTip;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return M;
+            return R;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 l(Binding.Options.getForNewInstance(t, e));
             }
-            return M;
+            return R;
         },
         renderAll: function() {
             o();
-            return M;
+            return R;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 c(t[e]);
             }
-            return M;
+            return R;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return M;
+            return R;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -1487,7 +1604,7 @@ var ToolTip;
                 i(l);
                 Trigger.customEvent(l.events.onSetJson, l._currentView.element);
             }
-            return M;
+            return R;
         },
         getJson: function(e) {
             let n = null;
@@ -1498,21 +1615,21 @@ var ToolTip;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                R(t[e]);
+                M(t[e]);
                 delete t[e];
                 n--;
             }
-            return M;
+            return R;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    R(t[e]);
+                    M(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return M;
+            return R;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -1528,7 +1645,7 @@ var ToolTip;
                     e = Config.Options.get(o);
                 }
             }
-            return M;
+            return R;
         },
         getIds: function() {
             const e = [];
@@ -1540,14 +1657,14 @@ var ToolTip;
             return e;
         },
         getVersion: function() {
-            return "2.8.1";
+            return "2.9.0";
         }
     };
     (() => {
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = M;
+            window.$jsontree = R;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map

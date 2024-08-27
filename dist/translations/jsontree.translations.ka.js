@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Georgian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Georgian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "ობიექტი",
         "arrayText": "მასივი",
+        "mapText": "რუკა",
+        "setText": "კომპლექტი",
         "closeAllButtonText": "Დახურე ყველა",
         "openAllButtonText": "გახსენი ყველა",
         "copyAllButtonText": "დააკოპირეთ ყველა",

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v2.8.1
+ * @version     v2.9.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -33,6 +33,8 @@ export type Configuration = {
 export type ConfigurationText = {
 	objectText?: string;
 	arrayText?: string;
+	mapText?: string;
+	setText?: string;
 	closeAllButtonText?: string;
 	openAllButtonText?: string;
 	copyAllButtonText?: string;
@@ -89,7 +91,7 @@ export type BindingOptions = {
 	enableFullScreenToggling?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
-	allowEditing?: BindingOptionsAllowEditing;
+	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
@@ -142,6 +144,9 @@ export type BindingOptionsIgnore = {
 	undefinedValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
+	regExpValues?: boolean;
+	mapValues?: boolean;
+	setValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -183,6 +188,7 @@ export type BindingOptionsEvents = {
 	onUndefinedRender?: ( element: HTMLElement ) => void;
 	onGuidRender?: ( element: HTMLElement ) => void;
 	onColorRender?: ( element: HTMLElement ) => void;
+	onRegExpRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

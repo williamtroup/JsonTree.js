@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Esperanto | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Esperanto | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objekto",
         "arrayText": "tabelo",
+        "mapText": "mapo",
+        "setText": "aro",
         "closeAllButtonText": "Fermu Ĉion",
         "openAllButtonText": "Malfermu Ĉion",
         "copyAllButtonText": "Kopiu Ĉion",

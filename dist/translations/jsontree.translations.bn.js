@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Bengali | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Bengali | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "বস্তু",
         "arrayText": "অ্যারে",
+        "mapText": "মানচিত্র",
+        "setText": "সেট",
         "closeAllButtonText": "সব বন্ধ করা",
         "openAllButtonText": "সব খোলো",
         "copyAllButtonText": "সব কপি করুন",

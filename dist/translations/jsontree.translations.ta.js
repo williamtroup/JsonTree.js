@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Tamil | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Tamil | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "பொருள்",
         "arrayText": "வரிசை",
+        "mapText": "வரைபடம்",
+        "setText": "அமைக்கப்பட்டது",
         "closeAllButtonText": "அனைத்தையும் மூடு",
         "openAllButtonText": "அனைத்தையும் திற",
         "copyAllButtonText": "அனைத்தையும் நகலெடுக்கவும்",

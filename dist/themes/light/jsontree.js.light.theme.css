@@ -7,20 +7,24 @@
     --json-tree-js-color-light-gray: #AAAAAA;
 
     /* Colors - Types */
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: #636363;
+    --json-tree-js-color-map: #BDB5D5;
+    --json-tree-js-color-set: #989800;
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #F4BB44;
     --json-tree-js-color-number: #666bf9;
     --json-tree-js-color-bigint: #6495ED;
     --json-tree-js-color-string: #097969;
     --json-tree-js-color-date: #a656f5;
-    --json-tree-js-color-array: #F28C28;
-    --json-tree-js-color-object: #636363;
     --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
     --json-tree-js-color-undefined: var(--json-tree-js-color-null);
     --json-tree-js-color-symbol: #DAA06D;
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
-
+    --json-tree-js-color-guid: #c45600;
+    --json-tree-js-color-regexp: #AA336A;
+    
     /* Colors - Editable Fields */
     --json-tree-js-editable-text-color: var(--json-tree-js-color-white);
     --json-tree-js-editable-background-color: var(--json-tree-js-color-snow-white);

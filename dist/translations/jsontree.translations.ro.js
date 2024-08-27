@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Romanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "obiect",
         "arrayText": "matrice",
+        "mapText": "hartă",
+        "setText": "set",
         "closeAllButtonText": "Inchide tot",
         "openAllButtonText": "Deschideți toate",
         "copyAllButtonText": "Copiați tot",

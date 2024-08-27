@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Malay | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Malay | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objek",
         "arrayText": "tatasusunan",
+        "mapText": "peta",
+        "setText": "ditetapkan",
         "closeAllButtonText": "Tutup semua",
         "openAllButtonText": "Buka Semua",
         "copyAllButtonText": "Salin Semua",

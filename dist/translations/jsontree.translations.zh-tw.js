@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Taiwanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Taiwanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "目的",
         "arrayText": "大批",
+        "mapText": "地圖",
+        "setText": "放",
         "closeAllButtonText": "關閉所有",
         "openAllButtonText": "打開全部",
         "copyAllButtonText": "全部複製",

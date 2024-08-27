@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "обект",
         "arrayText": "масив",
+        "mapText": "карта",
+        "setText": "комплект",
         "closeAllButtonText": "Затвори всички",
         "openAllButtonText": "Отворете всички",
         "copyAllButtonText": "Копиране на всички",

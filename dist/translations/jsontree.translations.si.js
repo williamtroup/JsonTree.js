@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Sinhalese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "වස්තුව",
         "arrayText": "අරාව",
+        "mapText": "සිතියම",
+        "setText": "කට්ටලය",
         "closeAllButtonText": "සියල්ල වසන්න",
         "openAllButtonText": "සියල්ල විවෘත කරන්න",
         "copyAllButtonText": "සියල්ල පිටපත් කරන්න",

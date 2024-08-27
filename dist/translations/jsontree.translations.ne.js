@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Nepali | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Nepali | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "वस्तु",
         "arrayText": "array",
+        "mapText": "नक्सा",
+        "setText": "सेट",
         "closeAllButtonText": "सबै बन्द गर्नुहोस्",
         "openAllButtonText": "सबै खोल्नुहोस्",
         "copyAllButtonText": "सबै प्रतिलिपि गर्नुहोस्",

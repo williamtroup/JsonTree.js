@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Greek | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Greek | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "αντικείμενο",
         "arrayText": "πίνακας",
+        "mapText": "χάρτης",
+        "setText": "σειρά",
         "closeAllButtonText": "Κλείσ'τα όλα",
         "openAllButtonText": "Άνοιγμα όλων",
         "copyAllButtonText": "Αντιγραφή όλων",

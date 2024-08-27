@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        config.ts
- * @version     v2.8.1
+ * @version     v2.9.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -32,6 +32,8 @@ export namespace Config {
             configuration.text = Default.getObject( configuration.text, {} as ConfigurationText );
             configuration.text!.objectText = Default.getAnyString( configuration.text!.objectText, "object" );
             configuration.text!.arrayText = Default.getAnyString( configuration.text!.arrayText, "array" );
+            configuration.text!.mapText = Default.getAnyString( configuration.text!.mapText, "map" );
+            configuration.text!.setText = Default.getAnyString( configuration.text!.setText, "set" );
             configuration.text!.closeAllButtonText = Default.getAnyString( configuration.text!.closeAllButtonText, "Close All" );
             configuration.text!.openAllButtonText = Default.getAnyString( configuration.text!.openAllButtonText, "Open All" );
             configuration.text!.copyAllButtonText = Default.getAnyString( configuration.text!.copyAllButtonText, "Copy All" );

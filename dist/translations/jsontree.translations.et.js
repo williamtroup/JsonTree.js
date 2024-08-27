@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Estonian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Estonian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objektiks",
         "arrayText": "massiivi",
+        "mapText": "kaart",
+        "setText": "seatud",
         "closeAllButtonText": "Sule kõik",
         "openAllButtonText": "Ava kõik",
         "copyAllButtonText": "Kopeeri kõik",

@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Korean | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Korean | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "물체",
         "arrayText": "정렬",
+        "mapText": "지도",
+        "setText": "세트",
         "closeAllButtonText": "모두 닫기",
         "openAllButtonText": "모두 열기",
         "copyAllButtonText": "모두 복사",

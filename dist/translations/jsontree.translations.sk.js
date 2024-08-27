@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Slovak | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Slovak | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objekt",
         "arrayText": "pole",
+        "mapText": "mapa",
+        "setText": "nastaviť",
         "closeAllButtonText": "Zavrieť všetko",
         "openAllButtonText": "Otvoriť všetko",
         "copyAllButtonText": "Kopírovať všetko",

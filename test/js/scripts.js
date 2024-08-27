@@ -7,74 +7,7 @@
 
 function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
     return {
-        data: [
-            {
-                value1: true,
-                value2: "This is a string",
-                value3: new Date(),
-                value4: 5,
-                value7: null,
-                value8: function( message ) {
-                    alert( message );
-                },
-                value9: 3.1415926535,
-                value10: 9007199254740991n,
-                value11: Symbol( "id" ),
-                value12: {},
-                value13: undefined,
-                value14: ( message ) => {
-                    alert( message );
-                },
-                value15: "rgb(144, 238, 144)",
-                value16: crypto.randomUUID(),
-                value5: [
-                    true,
-                    "This is another string",
-                    {
-                        arrayValue1: true,
-                        arrayValue2: 10
-                    },
-                    {
-                        arrayValue1: false,
-                        arrayValue2: 20
-                    },
-                    [
-                        false,
-                        true,
-                        5,
-                        10,
-                        new Date(),
-                        "#90ee90"
-                    ]
-                ],
-                value6: {
-                    objectValue1: false,
-                    objectValue2: "This is a new string.",
-                    objectValue3: 20,
-                    objectValue4: "This is an example of a very long string that should force scrolling to kick in.",
-                }
-            },
-            {
-                value1: true,
-                value2: "This is a string",
-                value3: new Date(),
-                value4: 5,
-                value5: null,
-                parsing: {
-                    booleans: {
-                        value1: "true",
-                        value2: "false",
-                    },
-                    dates: {
-                        value1: "2024-08-05T21:17:32.720Z",
-                    },
-                    numbers: {
-                        value1: "123",
-                        value2: "9.876",
-                    },
-                }
-            }
-        ],
+        data: getData(),
         parse: {
             stringsToDates: true,
             stringsToBooleans: true,
@@ -95,14 +28,102 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         openInFullScreenMode: false,
         enableFullScreenToggling: true,
         useZeroIndexingForArrays: true,
+        showCounts: true,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
             "value6\\objectValue3": "This is a number tooltip for objectValue3",
             "parsing\\booleans\\value1": "This is a boolean tooltip for Value 1 on Page 2",
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
-        } : null
+        } : null,
+        title: {
+            show: true,
+            showCopyButton: true,
+            showTreeControls: true,
+        }
     };
+}
+
+function getData() {
+    var map = new Map();
+    map.set( "key1", true );
+    map.set( "key2", 10 );
+    map.set( "key3", "This is a string in a map" );
+    map.set( "key4", { value1: true, value2: 10 } );
+
+    var set = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
+
+    return [
+        {
+            value1: true,
+            value2: "This is a string",
+            value3: new Date(),
+            value4: 5,
+            value7: null,
+            value8: function( message ) {
+                alert( message );
+            },
+            value9: 3.1415926535,
+            value10: 9007199254740991n,
+            value11: Symbol( "id" ),
+            value12: {},
+            value13: undefined,
+            value14: ( message ) => {
+                alert( message );
+            },
+            value15: "rgb(144, 238, 144)",
+            value16: crypto.randomUUID(),
+            value17: new RegExp( "ab+c" ),
+            value18: map,
+            value19: set,
+            value5: [
+                true,
+                "This is another string",
+                {
+                    arrayValue1: true,
+                    arrayValue2: 10
+                },
+                {
+                    arrayValue1: false,
+                    arrayValue2: 20
+                },
+                [
+                    false,
+                    true,
+                    5,
+                    10,
+                    new Date(),
+                    "#90ee90"
+                ]
+            ],
+            value6: {
+                objectValue1: false,
+                objectValue2: "This is a new string.",
+                objectValue3: 20,
+                objectValue4: "This is an example of a very long string that should force scrolling to kick in.",
+            }
+        },
+        {
+            value1: true,
+            value2: "This is a string",
+            value3: new Date(),
+            value4: 5,
+            value5: null,
+            parsing: {
+                booleans: {
+                    value1: "true",
+                    value2: "false",
+                },
+                dates: {
+                    value1: "2024-08-05T21:17:32.720Z",
+                },
+                numbers: {
+                    value1: "123",
+                    value2: "9.876",
+                },
+            }
+        }
+    ]
 }
 
 function onValueClickEvent( value, type ) {
@@ -112,6 +133,12 @@ function onValueClickEvent( value, type ) {
         value = "null";
     } else if ( value === undefined ) {
         value = "undefined";
+    } else if ( value instanceof RegExp ) {
+        value = value.source;
+    } else if ( value instanceof Map ) {
+        value = Array.from( value.keys() );
+    } else if ( value instanceof Set ) {
+        value = Array.from( value.values() );
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );

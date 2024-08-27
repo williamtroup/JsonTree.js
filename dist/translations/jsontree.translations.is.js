@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Icelandic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Icelandic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "mótmæla",
         "arrayText": "fylki",
+        "mapText": "kort",
+        "setText": "sett",
         "closeAllButtonText": "Lokaðu öllum",
         "openAllButtonText": "Opna allt",
         "copyAllButtonText": "Afritaðu allt",

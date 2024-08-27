@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Latvian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "objektu",
         "arrayText": "masīvs",
+        "mapText": "karte",
+        "setText": "komplekts",
         "closeAllButtonText": "Aizvērt visu",
         "openAllButtonText": "Atvērt visu",
         "copyAllButtonText": "Kopēt visu",

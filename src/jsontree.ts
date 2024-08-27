@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v2.8.1
+ * @version     v2.9.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -146,10 +146,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
 
-        if ( Is.definedObject( data ) && !Is.definedArray( data ) ) {
-            renderObject( contents, bindingOptions, data );
-        } else if ( Is.definedArray( data ) ) {
+        if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
             renderArray( contents, bindingOptions, data );
+        } else if ( Is.definedObject( data ) ) {
+            renderObject( contents, bindingOptions, data );
         }
 
         if ( contents.innerHTML === Char.empty ) {
@@ -352,56 +352,62 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
-        const propertyNames: string[] = getObjectPropertyNames( data, bindingOptions );
+        const isMap: boolean = Is.definedMap( data );
+        const type: string = isMap ? DataType.map : DataType.object;
+        const objectData: object = isMap ? Default.getObjectFromMap( data ) : data;
+        const propertyNames: string[] = getObjectPropertyNames( objectData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
+            const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
             const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
-            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "object main-title" : "main-title", _configuration.text!.objectText! ) as HTMLSpanElement;
+            const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isMap ? _configuration.text!.mapText! : _configuration.text!.objectText! ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
-                    dataArrayIndex = `[${dataArrayIndex}]:`;
+                    dataArrayIndex = `[${dataArrayIndex}]${Char.space}:`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} data-array-index` : "data-array-index", dataArrayIndex, titleText );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} data-array-index` : "data-array-index", dataArrayIndex, titleText );
             }
     
             if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.object} count` : "count", `{${propertyCount}}` );
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `{${propertyCount}}` );
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
             }
 
-            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, false, true, Char.empty );
-            addValueClickEvent( bindingOptions, titleText, data, DataType.object, false );
+            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, objectData, propertyNames, openingBrace, false, true, Char.empty );
+            addValueClickEvent( bindingOptions, titleText, data, type, false );
         }
     }
 
-    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any) : void {
+    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+        const isSet: boolean = Is.definedSet( data );
+        const type: string = isSet ? DataType.set : DataType.array;
+        const setData: any[] = isSet ? Default.getArrayFromSet( data ) : data;
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
-        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents object-type-contents-parent" );
+        const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
-        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? "array main-title" : "main-title", _configuration.text!.arrayText! );
+        const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isSet ? _configuration.text!.setText! : _configuration.text!.arrayText! );
         let openingBracket: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${DataType.array} count` : "count", `[${data.length}]` );
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `[${setData.length}]` );
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement
         }
 
-        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, false, true, Char.empty );
-        addValueClickEvent( bindingOptions, titleText, data, DataType.object, false );
+        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, setData, openingBracket, false, true, Char.empty );
+        addValueClickEvent( bindingOptions, titleText, data, type, false );
     }
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string ) : void {
@@ -459,6 +465,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         let type: string = null!;
         const propertyName: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
         let allowEditing: boolean = false;
+
+        if ( isLastItem ) {
+            DomElement.addClass( objectTypeValue, "last-item" );
+        }
 
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
@@ -708,40 +718,51 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
-        } else if ( Is.definedObject( value ) && !Is.definedArray( value ) ) {
-            if ( !bindingOptions.ignore!.objectValues ) {
-                const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );
-                const propertyCount: number = propertyNames.length;
+        } else if ( Is.definedRegExp( value ) ) {
+            if ( !bindingOptions.ignore!.regExpValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.regexp} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
+                type = DataType.regexp;
 
-                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
-                    ignored = true;
-                } else {
-
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
-                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
-                    let openingBrace: HTMLSpanElement = null!;
-
-                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
-
-                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
-                    }
-
-                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
-                    }
-    
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
-                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath );
-    
-                    type = DataType.object;
+                if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onRegExpRender!, valueElement );
                 }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
                 ignored = true;
             }
 
+        } else if ( Is.definedSet( value ) ) {
+            if ( !bindingOptions.ignore!.setValues ) {
+                const arrayValues: any[] = Default.getArrayFromSet( value );
+                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.set : Char.empty );
+                const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                let openingBracket: HTMLSpanElement = null!;
+
+                if ( isLastItem ) {
+                    DomElement.addClass( arrayTypeContents, "last-item" );
+                }
+
+                valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.setText! );
+                type = DataType.set;
+
+                if ( bindingOptions.showCounts ) {
+                    DomElement.createWithHTML( objectTitle, "span", "count", `[${arrayValues.length}]` );
+                }
+
+                if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                    openingBracket = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement
+                }
+
+                let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+                
+                renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, true, isLastItem, jsonPath );
+                
+            } else {
+                ignored = true;
+            }
 
         } else if ( Is.definedArray( value ) ) {
             if ( !bindingOptions.ignore!.arrayValues ) {
@@ -749,7 +770,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
 
+                if ( isLastItem ) {
+                    DomElement.addClass( arrayTypeContents, "last-item" );
+                }
+
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.arrayText! );
+                type = DataType.array;
 
                 if ( bindingOptions.showCounts ) {
                     DomElement.createWithHTML( objectTitle, "span", "count", `[${value.length}]` );
@@ -762,9 +788,82 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 
                 renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem, jsonPath );
-
-                type = DataType.array;
                 
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedMap( value ) ) {
+            if ( !bindingOptions.ignore!.mapValues ) {
+                const valueObject: object = Default.getObjectFromMap( value );
+                const propertyNames: string[] = getObjectPropertyNames( valueObject, bindingOptions );
+                const propertyCount: number = propertyNames.length;
+
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
+
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.map : Char.empty );
+                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                    let openingBrace: HTMLSpanElement = null!;
+
+                    if ( isLastItem ) {
+                        DomElement.addClass( objectTypeContents, "last-item" );
+                    }
+
+                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
+                    type = DataType.map;
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+
+                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
+                    }
+    
+                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath );
+                }
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( Is.definedObject( value ) ) {
+            if ( !bindingOptions.ignore!.objectValues ) {
+                const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );
+                const propertyCount: number = propertyNames.length;
+
+                if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                    ignored = true;
+                } else {
+
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
+                    const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                    let openingBrace: HTMLSpanElement = null!;
+
+                    if ( isLastItem ) {
+                        DomElement.addClass( objectTypeContents, "last-item" );
+                    }
+
+                    valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
+                    type = DataType.object;
+
+                    if ( bindingOptions.showCounts && propertyCount > 0 ) {
+                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    }
+
+                    if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                        openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
+                    }
+    
+                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+
+                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath );
+                }
+
             } else {
                 ignored = true;
             }
@@ -791,18 +890,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addValueElementToolTip( bindingOptions, jsonPath, valueElement );
+                addValueElementToolTip( bindingOptions, jsonPath, propertyName, valueElement );
                 addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
             }
         }
     }
 
-    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, valueElement: HTMLElement ) : void {
+    function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, propertyName: HTMLSpanElement, valueElement: HTMLElement ) : void {
         if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
-            if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
-            } else {
-
+            if ( !bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;
 
@@ -811,10 +907,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 jsonPath = jsonPathParts.join( Char.backslash );
+            }
 
-                if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
-                    ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
-                }
+            if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
+                ToolTip.add( propertyName, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
+                ToolTip.add( valueElement, bindingOptions, bindingOptions.valueToolTips![ jsonPath ], "jsontree-js-tooltip-value" );
             }
         }
     }
@@ -967,64 +1064,70 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
-        if ( Is.defined( arrow ) ) {
-            const panelId: number = bindingOptions._currentView.contentPanelsIndex;
-            const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
+        const panelId: number = bindingOptions._currentView.contentPanelsIndex;
+        const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
 
-            if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
-            }
-
-            const hideFunc: Function = () : void => {
-                objectTypeContents.style.display = "none";
-                arrow.className = "right-arrow";
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
-
-                if ( Is.defined( openingSymbol ) ) {
-                    openingSymbol.style.display = "none";
-                }
-
-                if ( Is.defined( coma ) ) {
-                    coma.style.display = "inline-block";
-                }
-            };
-
-            const showFunc: Function = () : void => {
-                objectTypeContents.style.display = "block";
-                arrow.className = "down-arrow";
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
-
-                if ( Is.defined( openingSymbol ) ) {
-                    openingSymbol.style.display = "inline-block";
-                }
-
-                if ( Is.defined( coma ) ) {
-                    coma.style.display = "none";
-                }
-            };
-
-            const conditionFunc: Function = ( condition: boolean ) : void => {
-                if ( condition ) {
-                    hideFunc();
-                } else {
-                    showFunc();
-                }
-            }
-
-            let isClosed: boolean = bindingOptions.showAllAsClosed!;
-
-            if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
-                isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
-            } else {
-                bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
-            }
-
-            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
-
-            conditionFunc( isClosed );
-
-            bindingOptions._currentView.contentPanelsIndex++;
+        if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
         }
+
+        const hideFunc: Function = () : void => {
+            objectTypeContents.style.display = "none";
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
+
+            if ( Is.defined( arrow ) ) {
+                arrow.className = "right-arrow";
+            }
+
+            if ( Is.defined( openingSymbol ) ) {
+                openingSymbol.style.display = "none";
+            }
+
+            if ( Is.defined( coma ) ) {
+                coma.style.display = "inline-block";
+            }
+        };
+
+        const showFunc: Function = () : void => {
+            objectTypeContents.style.display = "block";
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
+
+            if ( Is.defined( arrow ) ) {
+                arrow.className = "down-arrow";
+            }
+
+            if ( Is.defined( openingSymbol ) ) {
+                openingSymbol.style.display = "inline-block";
+            }
+
+            if ( Is.defined( coma ) ) {
+                coma.style.display = "none";
+            }
+        };
+
+        const conditionFunc: Function = ( condition: boolean ) : void => {
+            if ( condition ) {
+                hideFunc();
+            } else {
+                showFunc();
+            }
+        }
+
+        let isClosed: boolean = bindingOptions.showAllAsClosed!;
+
+        if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
+            isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
+        } else {
+            bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
+        }
+
+        if ( Is.defined( arrow ) ) {
+            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
+        }
+
+        conditionFunc( isClosed );
+
+        bindingOptions._currentView.contentPanelsIndex++;
     }
 
     function createComma( bindingOptions: BindingOptions, objectTypeValue: HTMLElement, isLastItem: boolean ) : HTMLSpanElement {
@@ -1087,7 +1190,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
         let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
-        if ( addNoArrow ) {
+        if ( addNoArrow && bindingOptions.showArrowToggles ) {
             DomElement.create( symbolContainer, "div", "no-arrow" );
         }
         
@@ -1121,29 +1224,38 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function importFromFiles( files: FileList, bindingOptions: BindingOptions ) : void {
         const filesLength: number = files.length;
+        let filesRead: number = 0;
+        let filesData: any[] = [];
+
+        const onFileLoad: Function = ( data: any ) => {
+            filesRead++;
+            filesData.push( data );
+
+            if ( filesRead === filesLength ) {
+                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+                bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
+    
+                renderControlContainer( bindingOptions );
+                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+            }
+        };
 
         for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
             const file: File = files[ fileIndex ];
             const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
 
             if ( fileExtension === "json" ) {
-                importFromJson( file, bindingOptions );
+                importFromJson( file, onFileLoad );
             }
         }
     }
 
-    function importFromJson( file: File, bindingOptions: BindingOptions ) : void {
+    function importFromJson( file: File, onFileLoad: Function ) : void {
         const reader: FileReader = new FileReader();
         let renderData: any = null as any;
 
-        reader.onloadend = () => {
-            bindingOptions._currentView.dataArrayCurrentIndex = 0;
-            bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
-            bindingOptions.data = renderData;
-
-            renderControlContainer( bindingOptions );
-            Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
-        };
+        reader.onloadend = () => onFileLoad( renderData );
     
         reader.onload = ( e: ProgressEvent<FileReader> ) => {
             const json: StringToJson = Default.getObjectFromString( e.target!.result, _configuration );
@@ -1374,7 +1486,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "2.8.1";
+            return "2.9.0";
         }
     };
 

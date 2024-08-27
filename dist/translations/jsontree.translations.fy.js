@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Frisian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -47,7 +47,10 @@ $jsontree.setConfiguration( {
             "Nov",
             "Dec"
         ],
+        "objectText": "objekt",
         "arrayText": "array",
+        "mapText": "map",
+        "setText": "set",
         "closeAllButtonText": "Alles slute",
         "openAllButtonText": "Iepenje Alles",
         "copyAllButtonText": "Alles kopiearje",

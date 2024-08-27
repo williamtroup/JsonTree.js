@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v2.8.1
+ * JsonTree.js Library v2.9.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -37,20 +37,23 @@
     --json-tree-js-color-light-gray: #BBBBBB;
 
     // Colors - Types
+    --json-tree-js-color-array: #F28C28;
+    --json-tree-js-color-object: #C0C0C0;
+    --json-tree-js-color-map: #BDB5D5;
+    --json-tree-js-color-set: #FFD700;
     --json-tree-js-color-boolean: #FF0000;
     --json-tree-js-color-decimal: #e3c868;
     --json-tree-js-color-number: #666bf9;
     --json-tree-js-color-bigint: #6495ED;
     --json-tree-js-color-string: #78b13f;
     --json-tree-js-color-date: #a656f5;
-    --json-tree-js-color-array: #F28C28;
-    --json-tree-js-color-object: #C0C0C0;
     --json-tree-js-color-null: var(--json-tree-js-color-light-gray);
     --json-tree-js-color-undefined: var(--json-tree-js-color-null);
     --json-tree-js-color-symbol: #DAA06D;
     --json-tree-js-color-function: var(--json-tree-js-color-null);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
     --json-tree-js-color-guid: #c45600;
+    --json-tree-js-color-regexp: #AA336A;
 
     // Colors - Editable Fields
     --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
@@ -153,6 +156,14 @@ div.full-screen {
 
     div.contents {
         flex-grow: 1;
+        position: relative;
+
+        span.no-json-text {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate( -50%, -50% );
+        }
     }
 }
 
@@ -210,11 +221,10 @@ div.json-tree-js {
     div.title-bar {
         display: flex;
         padding: calc( var(--json-tree-js-spacing) / 2 );
-        margin-bottom: var(--json-tree-js-spacing);
         background-color: var(--json-tree-js-color-dark-black);
         border-radius: var(--json-tree-js-border-radius);
         border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
-        justify-content: center;
+        justify-content: left;
         align-items: center;
 
         div.title {
@@ -222,6 +232,7 @@ div.json-tree-js {
             width: auto;
             font-weight: var(--json-tree-js-title-bold-weight);
             font-size: 1.2rem;
+            margin: 3px;
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
         }
 
@@ -240,6 +251,9 @@ div.json-tree-js {
             button {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 font-weight: var(--json-tree-js-header-bold-weight);
+                min-width: 30px;
+                min-height: 30px;
+                text-align: center;
             }
 
             button.copy-all {
@@ -263,10 +277,13 @@ div.json-tree-js {
 div.json-tree-js {
     div.contents {
         padding: var(--json-tree-js-spacing);
-        padding-top: 0;
         margin: 0 !important;
         overflow-x: auto;
         overflow-y: auto;
+
+        div.last-item {
+            margin-bottom: 0 !important;
+        }
 
         span.no-json-text {
             font-style: italic;
@@ -306,6 +323,14 @@ div.json-tree-js {
             color: var(--json-tree-js-color-object);
         }
 
+        span.map {
+            color: var(--json-tree-js-color-map);
+        }
+
+        span.set {
+            color: var(--json-tree-js-color-set);
+        }
+
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
@@ -338,10 +363,6 @@ div.json-tree-js {
         text-align: left !important;
         width: fit-content;
         margin-bottom: var(--json-tree-js-spacing);
-    }
-
-    div.object-type-contents-parent {
-        margin-bottom: 0 !important;
     }
 }
 
@@ -417,6 +438,22 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
 
+            span.array {
+                color: var(--json-tree-js-color-array);
+            }
+
+            span.object {
+                color: var(--json-tree-js-color-object);
+            }
+
+            span.map {
+                color: var(--json-tree-js-color-map);
+            }
+
+            span.set {
+                color: var(--json-tree-js-color-set);
+            }
+
             span.boolean {
                 color: var(--json-tree-js-color-boolean);
             }
@@ -441,14 +478,6 @@ div.json-tree-js {
                 color: var(--json-tree-js-color-date)
             }
 
-            span.array {
-                color: var(--json-tree-js-color-array);
-            }
-
-            span.object {
-                color: var(--json-tree-js-color-object);
-            }
-
             span.null {
                 color: var(--json-tree-js-color-null);
             }
@@ -471,6 +500,10 @@ div.json-tree-js {
 
             span.guid {
                 color: var(--json-tree-js-color-guid);
+            }
+
+            span.regexp {
+                color: var(--json-tree-js-color-regexp);
             }
 
             span.count {

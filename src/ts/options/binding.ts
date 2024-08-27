@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v2.8.1
+ * @version     v2.9.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -114,6 +114,9 @@ export namespace Binding {
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
+            options.ignore!.regExpValues = Default.getBoolean( options.ignore!.regExpValues, false );
+            options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
+            options.ignore!.setValues = Default.getBoolean( options.ignore!.setValues, false );
 
             return options;
         }
@@ -136,16 +139,18 @@ export namespace Binding {
         }
 
         function getAllowEditing( options: BindingOptions, valueToolTipsSet: boolean ) : BindingOptions {
+            let defaultFlag: boolean = Default.getBoolean( options.allowEditing, true );
+
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
-            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, true );
-            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, true );
-            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, true );
-            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, true );
-            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, true );
-            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, true );
-            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, true );
-            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, true );
-            options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, true );
+            options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, defaultFlag );
+            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, defaultFlag );
+            options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, defaultFlag );
+            options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, defaultFlag );
+            options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, defaultFlag );
+            options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, defaultFlag );
+            options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, defaultFlag );
+            options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, defaultFlag );
+            options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
 
             if ( valueToolTipsSet ) {
                 options.allowEditing!.propertyNames = false;
@@ -179,6 +184,7 @@ export namespace Binding {
             options.events!.onGuidRender = Default.getFunction( options.events!.onGuidRender, null! );
             options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
             options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
+            options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
 
             return options;
         }

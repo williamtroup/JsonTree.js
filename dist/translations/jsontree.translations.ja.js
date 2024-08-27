@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.8.1 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v2.9.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -49,6 +49,8 @@ $jsontree.setConfiguration( {
         ],
         "objectText": "物体",
         "arrayText": "配列",
+        "mapText": "地図",
+        "setText": "セット",
         "closeAllButtonText": "すべて閉じる",
         "openAllButtonText": "すべて開く",
         "copyAllButtonText": "すべてコピー",
