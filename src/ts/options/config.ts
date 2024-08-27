@@ -63,6 +63,9 @@ export namespace Config {
             configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
             configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "⇪" );
             configuration.text!.importButtonText = Default.getAnyString( configuration.text!.importButtonText, "Import" );
+            configuration.text!.fullScreenOnButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOnButtonSymbolText, "↗" );
+            configuration.text!.fullScreenOffButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOffButtonSymbolText, "↙" );
+            configuration.text!.fullScreenButtonText = Default.getAnyString( configuration.text!.fullScreenButtonText, "Toggle Full-Screen" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

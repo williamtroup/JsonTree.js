@@ -68,6 +68,9 @@ export type ConfigurationText = {
 	selectNoneText?: string;
 	importButtonSymbolText?: string;
 	importButtonText?: string;
+	fullScreenOnButtonSymbolText?: string;
+	fullScreenOffButtonSymbolText?: string;
+	fullScreenButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -127,6 +130,8 @@ export type BindingOptionsCurrentView = {
 	disabledBackground: HTMLElement;
 	sideMenu: HTMLElement;
 	sideMenuChanged: boolean;
+	toggleFullScreenButton: HTMLButtonElement;
+	fullScreenOn: boolean;
 };
 
 export type BindingOptionsParse = {

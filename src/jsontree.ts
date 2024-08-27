@@ -111,6 +111,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( bindingOptions.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
             DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+            bindingOptions._currentView.fullScreenOn = true;
         }
 
         if ( !_elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
@@ -172,7 +173,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( !Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects ) {
+        if ( !Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.showArrayItemsAsSeparateObjects || bindingOptions.enableFullScreenToggling ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
             if ( bindingOptions.enableFullScreenToggling ) {
@@ -243,14 +244,30 @@ type JsonTreeData = Record<string, BindingOptions>;
                     bindingOptions.showArrayItemsAsSeparateObjects = false;
                 }
             }
+
+            if ( bindingOptions.enableFullScreenToggling ) {
+                const buttonText: string = !bindingOptions._currentView.fullScreenOn
+                    ? _configuration.text!.fullScreenOnButtonSymbolText!
+                    : _configuration.text!.fullScreenOffButtonSymbolText!
+
+                bindingOptions._currentView.toggleFullScreenButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "toggle-full-screen", buttonText ) as HTMLButtonElement;
+                bindingOptions._currentView.toggleFullScreenButton.onclick = () => onTitleBarDblClick( bindingOptions );
+                bindingOptions._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( bindingOptions._currentView.toggleFullScreenButton, bindingOptions, _configuration.text!.fullScreenButtonText! );
+            }
         }
     }
 
     function onTitleBarDblClick( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
             DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
+            bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOnButtonSymbolText!
+            bindingOptions._currentView.fullScreenOn = false;
         } else {
             DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+            bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOffButtonSymbolText!
+            bindingOptions._currentView.fullScreenOn = true;
         }
     }
 

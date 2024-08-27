@@ -45,6 +45,8 @@ export namespace Binding {
             bindingOptions._currentView.disabledBackground = null!;
             bindingOptions._currentView.sideMenu = null!;
             bindingOptions._currentView.sideMenuChanged = false;
+            bindingOptions._currentView.toggleFullScreenButton = null!;
+            bindingOptions._currentView.fullScreenOn = false;
 
             return bindingOptions;
         }

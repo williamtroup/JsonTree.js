@@ -240,15 +240,10 @@ div.json-tree-js div.title-bar div.title {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.title-bar div.controls {
-  margin-left: calc(var(--json-tree-js-spacing) * 6);
+  margin-left: calc(var(--json-tree-js-spacing) * 2);
   flex-grow: 1;
   text-align: right;
   white-space: nowrap;
-}
-@media (min-width: 768px) {
-  div.json-tree-js div.title-bar div.controls {
-    margin-left: calc(var(--json-tree-js-spacing) * 12);
-  }
 }
 div.json-tree-js div.title-bar div.controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
