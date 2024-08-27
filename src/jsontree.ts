@@ -381,10 +381,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         const titleBar: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-title-bar" );
 
         DomElement.createWithHTML( titleBar, "div", "settings-panel-title-text", `${_configuration.text!.showTypesText!}:` );
-        const controlButtons: HTMLElement = DomElement.create( titleBar, "div", "control-buttons" );
+        const controlButtons: HTMLElement = DomElement.create( titleBar, "div", "settings-panel-control-buttons" );
 
-        const selectAll: HTMLElement = DomElement.create( controlButtons, "div", "control-button fill" );
-        const selectNone: HTMLElement = DomElement.create( controlButtons, "div", "control-button" );
+        const selectAll: HTMLElement = DomElement.create( controlButtons, "div", "settings-panel-control-button settings-panel-fill" );
+        const selectNone: HTMLElement = DomElement.create( controlButtons, "div", "settings-panel-control-button" );
 
         selectAll.onclick = () => changeSidePanelCheckboxSelection( bindingOptions, checkboxes, true );
         selectNone.onclick = () => changeSidePanelCheckboxSelection( bindingOptions, checkboxes, false );

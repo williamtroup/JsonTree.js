@@ -373,11 +373,11 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
   margin: 3px;
   color: var(--json-tree-js-color-white);
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons {
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons {
   flex-grow: 1;
   text-align: right;
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.control-button {
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons div.settings-panel-control-button {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   border: 4px solid var(--json-tree-js-color-white);
   height: 15px;
@@ -387,11 +387,11 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.control-button:not(.no-hover):hover {
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons div.settings-panel-control-button:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.fill {
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons div.settings-panel-fill {
   background-color: var(--json-tree-js-color-white);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents {
