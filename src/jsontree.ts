@@ -195,25 +195,25 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copy: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
-                copy.onclick = () => onTitleBarCopyClick( bindingOptions, data );
-                copy.ondblclick = DomElement.cancelBubble;
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
+                copyButton.onclick = () => onTitleBarCopyClick( bindingOptions, data );
+                copyButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( copy, bindingOptions, _configuration.text!.copyAllButtonText! );
+                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
-                const openAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-                openAll.onclick = () => onOpenAll( bindingOptions );
-                openAll.ondblclick = DomElement.cancelBubble;
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAllButton.onclick = () => onOpenAll( bindingOptions );
+                openAllButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( openAll, bindingOptions, _configuration.text!.openAllButtonText! );
+                ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
 
-                const closeAll: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-                closeAll.onclick = () => onCloseAll( bindingOptions );
-                closeAll.ondblclick = DomElement.cancelBubble;
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAllButton.onclick = () => onCloseAll( bindingOptions );
+                closeAllButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( closeAll, bindingOptions, _configuration.text!.closeAllButtonText! );
+                ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
             }
 
             if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) && data.length > 1 ) {
