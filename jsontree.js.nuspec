@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>jJsonTree.js</id>
-        <version>2.9.0</version>
+        <version>3.0.0</version>
         <title>JsonTree.js</title>
         <description>A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.</description>
         <authors>William Troup</authors>
