@@ -82,9 +82,12 @@
     --json-tree-js-button-background-color-active: #616b79;
     --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
 
+    // Button
+    --json-tree-js-setting-panel-background-color: var(--json-tree-js-button-background-color);
+
     // CheckBox
     --json-tree-js-checkbox-background-color-checked: rgba( 80, 200, 120, 1 );
-    --json-tree-js-checkbox-background-color: var(--json-tree-js-color-dark-black);
+    --json-tree-js-checkbox-background-color: var(--json-tree-js-setting-panel-background-color);
     --json-tree-js-checkbox-border-color-checked: --json-tree-js-checkbox-background-color-checked;
     --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
 
@@ -363,7 +366,7 @@ div.json-tree-js {
 
             div.settings-panel {
                 padding: var(--json-tree-js-spacing);
-                background-color: var(--json-tree-js-color-dark-black);
+                background-color: var(--json-tree-js-setting-panel-background-color);
                 color: var(--json-tree-js-color-snow-white);
                 border-radius: var(--json-tree-js-border-radius);
                 border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);

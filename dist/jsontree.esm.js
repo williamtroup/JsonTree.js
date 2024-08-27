@@ -912,7 +912,7 @@ var ToolTip;
         }
     }
     function w(e, t, n, o) {
-        const l = DomElement.createCheckBox(e, t, t, o, t);
+        const l = DomElement.createCheckBox(e, t, t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
             e[`${t}Values`] = l.checked;

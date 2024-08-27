@@ -378,7 +378,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function createSideMenuIgnoreTypeCheckBox( ignoreTypesContent: HTMLElement, key: string, bindingOptions: BindingOptions, checked: boolean ) : void {
-        const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, key, key, checked, key );
+        const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, key, key, checked, bindingOptions.showValueColors ? key : Char.empty );
 
         input.onchange = () => {
             const ignoreTypes: any = bindingOptions.ignore;
