@@ -619,6 +619,10 @@ div.json-tree-js {
                     border: var(--json-tree-js-border-size) solid var(--json-tree-js-color-black) !important;
                 }
             }
+
+            span.text {
+                margin-left: calc( var(--json-tree-js-spacing) / 3 );
+            }
     
             span.check-mark {
                 position: absolute;

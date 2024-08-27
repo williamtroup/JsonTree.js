@@ -346,6 +346,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
             bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
 
+            bindingOptions._currentView.disabledBackground.onclick = () => {
+                bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
+                bindingOptions._currentView.disabledBackground.style.display = "none";
+
+                if ( bindingOptions._currentView.sideMenuChanged ) {
+                    renderControlContainer( bindingOptions );
+                }
+            };
+
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-title-bar" );
 
             if ( bindingOptions.title!.show ) {

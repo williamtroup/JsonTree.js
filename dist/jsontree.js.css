@@ -707,6 +707,9 @@ div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.check-mark, d
 div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.check-mark {
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-color-black) !important;
 }
+div.json-tree-js div.checkbox label.checkbox span.text {
+  margin-left: calc(var(--json-tree-js-spacing) / 3);
+}
 div.json-tree-js div.checkbox label.checkbox span.check-mark {
   position: absolute;
   top: 1px;
