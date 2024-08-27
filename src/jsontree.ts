@@ -1032,6 +1032,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addValueElementToolTip( bindingOptions: BindingOptions, jsonPath: string, nameElement: HTMLSpanElement, typeElement: HTMLSpanElement, valueElement: HTMLElement ) : void {
         if ( Is.definedObject( bindingOptions.valueToolTips ) ) {
+            if ( bindingOptions.logJsonValueToolTipPaths ) {
+                console.log( jsonPath );
+            }
+
             if ( !bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;

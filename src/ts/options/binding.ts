@@ -79,6 +79,7 @@ export namespace Binding {
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
+            options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
 
             options = getTitle( options );
             options = getIgnore( options );

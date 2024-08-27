@@ -447,6 +447,7 @@ var Binding;
             t.valueToolTips = Default2.getObject(t.valueToolTips, null);
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
             t.showTypes = Default2.getBoolean(t.showTypes, false);
+            t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -759,9 +760,9 @@ var ToolTip;
             l = l[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedArray(l) || Is.definedSet(l)) {
-            h(r, n, l);
-        } else if (Is.definedObject(l)) {
             v(r, n, l);
+        } else if (Is.definedObject(l)) {
+            h(r, n, l);
         }
         if (r.innerHTML === "") {
             DomElement.createWithHTML(r, "span", "no-json-text", e.text.noJsonToViewText);
@@ -927,8 +928,8 @@ var ToolTip;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => y(n, o, true);
-        a.onclick = () => y(n, o, false);
+        s.onclick = () => T(n, o, true);
+        a.onclick = () => T(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -936,10 +937,10 @@ var ToolTip;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            o.push(T(u, e, n, !d[`${e}Values`]));
+            o.push(y(u, e, n, !d[`${e}Values`]));
         }));
     }
-    function y(e, t, n) {
+    function T(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -948,7 +949,7 @@ var ToolTip;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function T(e, t, n, o) {
+    function y(e, t, n, o) {
         const l = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
@@ -979,7 +980,7 @@ var ToolTip;
             }
         }
     }
-    function v(t, n, o) {
+    function h(t, n, o) {
         const l = Is.definedMap(o);
         const r = l ? "map" : "object";
         const i = l ? Default2.getObjectFromMap(o) : o;
@@ -1008,7 +1009,7 @@ var ToolTip;
             C(n, f, o, r, false);
         }
     }
-    function h(t, n, o) {
+    function v(t, n, o) {
         const l = Is.definedSet(o);
         const r = l ? "set" : "array";
         const i = l ? Default2.getArrayFromSet(o) : o;
@@ -1401,6 +1402,9 @@ var ToolTip;
     }
     function B(e, t, n, o, l) {
         if (Is.definedObject(e.valueToolTips)) {
+            if (e.logJsonValueToolTipPaths) {
+                console.log(t);
+            }
             if (!e.valueToolTips.hasOwnProperty(t)) {
                 const e = t.split("\\");
                 const n = e.length - 1;
@@ -1661,11 +1665,11 @@ var ToolTip;
             const n = e[t];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                H(n, r);
+                P(n, r);
             }
         }
     }
-    function H(t, n) {
+    function P(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
@@ -1677,7 +1681,7 @@ var ToolTip;
         };
         o.readAsText(t);
     }
-    function P(e) {
+    function H(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1761,7 +1765,7 @@ var ToolTip;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                P(t[e]);
+                H(t[e]);
                 delete t[e];
                 n--;
             }
@@ -1770,7 +1774,7 @@ var ToolTip;
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    P(t[e]);
+                    H(t[e]);
                 }
             }
             t = {};

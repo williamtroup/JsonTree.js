@@ -99,6 +99,7 @@ export type BindingOptions = {
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
+	logJsonValueToolTipPaths?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
