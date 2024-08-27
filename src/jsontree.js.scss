@@ -84,7 +84,7 @@
 
     // CheckBox
     --json-tree-js-checkbox-background-color-checked: rgba( 80, 200, 120, 1 );
-    --json-tree-js-checkbox-background-color: var(--json-tree-js-color-black);
+    --json-tree-js-checkbox-background-color: var(--json-tree-js-color-dark-black);
     --json-tree-js-checkbox-border-color-checked: --json-tree-js-checkbox-background-color-checked;
     --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
 
@@ -363,20 +363,24 @@ div.json-tree-js {
 
             div.settings-panel {
                 padding: var(--json-tree-js-spacing);
-                background-color: var(--json-tree-js-color-black);
+                background-color: var(--json-tree-js-color-dark-black);
                 color: var(--json-tree-js-color-snow-white);
                 border-radius: var(--json-tree-js-border-radius);
+                border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
 
                 div.settings-panel-title-text {
                     text-align: left;
                     font-weight: var(--json-tree-js-title-bold-weight);
                     font-size: 0.9rem;
                     margin: 3px;
+                    color: var(--json-tree-js-color-white);
                 }
 
                 div.settings-panel-contents {
                     margin-top: var(--json-tree-js-spacing);
                     margin-left: var(--json-tree-js-spacing);
+
+                    @include type-span-colors;
                 }
             }
         }
@@ -437,21 +441,7 @@ div.json-tree-js {
             }
         }
 
-        span.array {
-            color: var(--json-tree-js-color-array);
-        }
-
-        span.object {
-            color: var(--json-tree-js-color-object);
-        }
-
-        span.map {
-            color: var(--json-tree-js-color-map);
-        }
-
-        span.set {
-            color: var(--json-tree-js-color-set);
-        }
+        @include type-span-colors;
 
         span.count {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
@@ -571,73 +561,11 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
 
-            span.array {
+                        span.array {
                 color: var(--json-tree-js-color-array);
             }
 
-            span.object {
-                color: var(--json-tree-js-color-object);
-            }
-
-            span.map {
-                color: var(--json-tree-js-color-map);
-            }
-
-            span.set {
-                color: var(--json-tree-js-color-set);
-            }
-
-            span.boolean {
-                color: var(--json-tree-js-color-boolean);
-            }
-
-            span.decimal {
-                color: var(--json-tree-js-color-decimal);
-            }
-
-            span.number {
-                color: var(--json-tree-js-color-number);
-            }
-
-            span.bigint {
-                color: var(--json-tree-js-color-bigint);
-            }
-
-            span.string {
-                color: var(--json-tree-js-color-string)
-            }
-
-            span.date {
-                color: var(--json-tree-js-color-date)
-            }
-
-            span.null {
-                color: var(--json-tree-js-color-null);
-            }
-
-            span.symbol {
-                color: var(--json-tree-js-color-symbol);
-            }
-
-            span.function {
-                color: var(--json-tree-js-color-function);
-            }
-
-            span.unknown {
-                color: var(--json-tree-js-color-unknown);
-            }
-
-            span.undefined {
-                color: var(--json-tree-js-color-null);
-            }
-
-            span.guid {
-                color: var(--json-tree-js-color-guid);
-            }
-
-            span.regexp {
-                color: var(--json-tree-js-color-regexp);
-            }
+            @include type-span-colors;
 
             span.count {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );

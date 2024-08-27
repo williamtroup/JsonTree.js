@@ -302,16 +302,16 @@ var DomElement;
         n.addRange(t);
     }
     e.selectAllText = a;
-    function u(e, o, l, r) {
-        const i = t(e, "div", "checkbox");
-        const s = t(i, "label", "checkbox");
-        const a = t(s, "input");
-        a.type = "checkbox";
-        a.name = l;
-        a.checked = r;
-        t(s, "span", "check-mark");
-        n(s, "span", "text", o);
-        return a;
+    function u(e, o, l, r, i) {
+        const s = t(e, "div", "checkbox");
+        const a = t(s, "label", "checkbox");
+        const u = t(a, "input");
+        u.type = "checkbox";
+        u.name = l;
+        u.checked = r;
+        t(a, "span", "check-mark");
+        n(a, "span", `text ${i}`, o);
+        return u;
     }
     e.createCheckBox = u;
 })(DomElement || (DomElement = {}));
@@ -912,7 +912,7 @@ var ToolTip;
         }
     }
     function w(e, t, n, o) {
-        const l = DomElement.createCheckBox(e, t, t, o);
+        const l = DomElement.createCheckBox(e, t, t, o, t);
         l.onchange = () => {
             const e = n.ignore;
             e[`${t}Values`] = l.checked;
