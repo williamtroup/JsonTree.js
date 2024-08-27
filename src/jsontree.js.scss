@@ -170,6 +170,7 @@ div.full-screen {
     div.contents {
         flex-grow: 1;
         position: relative;
+        max-height: none !important;
 
         span.no-json-text {
             position: absolute;
@@ -438,8 +439,7 @@ div.json-tree-js {
     div.contents {
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
-        overflow-x: auto;
-        overflow-y: auto;
+        overflow: auto;
 
         @include type-span-colors;
 
