@@ -862,6 +862,7 @@ var ToolTip;
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
             l.onclick = () => a(t);
             ToolTip.add(l, t, e.text.closeAllButtonText);
+            const r = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
         }
     }
     function b(e, t = true) {

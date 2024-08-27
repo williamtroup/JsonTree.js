@@ -354,6 +354,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             close.onclick = () => onSideMenuClick( bindingOptions );
 
             ToolTip.add( close, bindingOptions, _configuration.text!.closeAllButtonText! );
+
+            const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
         }
     }
 
