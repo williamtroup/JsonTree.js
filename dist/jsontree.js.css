@@ -190,6 +190,40 @@ div.json-tree-js div.title-bar {
   justify-content: left;
   align-items: center;
 }
+div.json-tree-js div.title-bar button {
+  background-color: var(--json-tree-js-button-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-text-color);
+  border-radius: var(--json-tree-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  margin: 3px;
+  outline: none;
+  transition: var(--json-tree-js-transition);
+}
+div.json-tree-js div.title-bar button:disabled {
+  color: var(--json-tree-js-button-border-color);
+}
+div.json-tree-js div.title-bar button:not(.active):not(:disabled):active {
+  background: var(--json-tree-js-button-background-color-active) !important;
+  color: var(--json-tree-js-button-text-color-active) !important;
+}
+div.json-tree-js div.title-bar button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--json-tree-js-button-background-color-hover);
+  color: var(--json-tree-js-button-text-color-hover);
+}
+div.json-tree-js div.title-bar button {
+  font-weight: var(--json-tree-js-header-bold-weight);
+  min-width: 30px;
+  min-height: 30px;
+  text-align: center;
+}
+div.json-tree-js div.title-bar button.side-menu {
+  margin-right: calc(var(--json-tree-js-spacing) / 2) !important;
+}
 div.json-tree-js div.title-bar div.title {
   text-align: left;
   width: auto;
@@ -210,36 +244,7 @@ div.json-tree-js div.title-bar div.controls {
   }
 }
 div.json-tree-js div.title-bar div.controls button {
-  background-color: var(--json-tree-js-button-background-color);
-  border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
-  color: var(--json-tree-js-button-text-color);
-  border-radius: var(--json-tree-js-border-radius);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 9px;
-  padding-right: 9px;
-  margin: 3px;
-  outline: none;
-  transition: var(--json-tree-js-transition);
-}
-div.json-tree-js div.title-bar div.controls button:disabled {
-  color: var(--json-tree-js-button-border-color);
-}
-div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):active {
-  background: var(--json-tree-js-button-background-color-active) !important;
-  color: var(--json-tree-js-button-text-color-active) !important;
-}
-div.json-tree-js div.title-bar div.controls button:not(.active):not(:disabled):hover {
-  cursor: pointer;
-  background: var(--json-tree-js-button-background-color-hover);
-  color: var(--json-tree-js-button-text-color-hover);
-}
-div.json-tree-js div.title-bar div.controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
-  font-weight: var(--json-tree-js-header-bold-weight);
-  min-width: 30px;
-  min-height: 30px;
-  text-align: center;
 }
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;

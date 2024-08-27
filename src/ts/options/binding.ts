@@ -93,7 +93,8 @@ export namespace Binding {
             options.title!.show = Default.getBoolean( options.title!.show, true );
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
-    
+            options.title!.showSideMenu = Default.getBoolean( options.title!.showSideMenu, true );
+
             return options;
         }
     

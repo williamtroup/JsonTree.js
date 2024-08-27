@@ -59,6 +59,8 @@ export type ConfigurationText = {
 	nextButtonSymbolText?: string;
 	noJsonToViewText?: string;
 	functionText?: string;
+	sideMenuButtonSymbolText?: string;
+	sideMenuButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -126,6 +128,7 @@ export type BindingOptionsTitle = {
     show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
+	showSideMenu?: boolean;
 };
 
 export type BindingOptionsIgnore = {

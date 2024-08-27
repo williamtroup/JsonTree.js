@@ -227,6 +227,19 @@ div.json-tree-js {
         justify-content: left;
         align-items: center;
 
+        @include buttons;
+
+        button {
+            font-weight: var(--json-tree-js-header-bold-weight);
+            min-width: 30px;
+            min-height: 30px;
+            text-align: center;
+        }
+
+        button.side-menu {
+            margin-right: calc( var(--json-tree-js-spacing) / 2 ) !important;
+        }
+
         div.title {
             text-align: left;
             width: auto;
@@ -246,14 +259,8 @@ div.json-tree-js {
                 margin-left: calc( var(--json-tree-js-spacing) * 12 );
             }
 
-            @include buttons;
-
             button {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
-                font-weight: var(--json-tree-js-header-bold-weight);
-                min-width: 30px;
-                min-height: 30px;
-                text-align: center;
             }
 
             button.copy-all {

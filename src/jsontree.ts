@@ -177,6 +177,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                 titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
             }
 
+            if ( bindingOptions.title!.showSideMenu ) {
+                const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
+                sideMenuButton.onclick = DomElement.cancelBubble;
+                sideMenuButton.ondblclick = DomElement.cancelBubble;
+
+                ToolTip.add( sideMenuButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
+            }
+
             bindingOptions._currentView.titleBarButtons = DomElement.create( titleBar, "div", "controls" );
         
             if ( bindingOptions.title!.show ) {
