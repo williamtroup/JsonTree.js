@@ -358,7 +358,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const close: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.closeButtonSymbolText! ) as HTMLButtonElement;
             close.onclick = () => onSideMenuClick( bindingOptions );
 
-            ToolTip.add( close, bindingOptions, _configuration.text!.closeAllButtonText! );
+            ToolTip.add( close, bindingOptions, _configuration.text!.closeButtonText! );
 
             const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
             const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );

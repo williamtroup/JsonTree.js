@@ -57,7 +57,7 @@ export namespace Config {
             configuration.text!.sideMenuButtonSymbolText = Default.getAnyString( configuration.text!.sideMenuButtonSymbolText, "☰" );
             configuration.text!.sideMenuButtonText = Default.getAnyString( configuration.text!.sideMenuButtonText, "Show Menu" );
             configuration.text!.closeButtonSymbolText = Default.getAnyString( configuration.text!.closeButtonSymbolText, "✕" );
-            configuration.text!.closeAllButtonText = Default.getAnyString( configuration.text!.closeAllButtonText, "Close" );
+            configuration.text!.closeButtonText = Default.getAnyString( configuration.text!.closeButtonText, "Close" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

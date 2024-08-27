@@ -587,7 +587,7 @@ var Config;
             e.text.sideMenuButtonSymbolText = Default2.getAnyString(e.text.sideMenuButtonSymbolText, "☰");
             e.text.sideMenuButtonText = Default2.getAnyString(e.text.sideMenuButtonText, "Show Menu");
             e.text.closeButtonSymbolText = Default2.getAnyString(e.text.closeButtonSymbolText, "✕");
-            e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close");
+            e.text.closeButtonText = Default2.getAnyString(e.text.closeButtonText, "Close");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -900,7 +900,7 @@ var ToolTip;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
             l.onclick = () => a(t);
-            ToolTip.add(l, t, e.text.closeAllButtonText);
+            ToolTip.add(l, t, e.text.closeButtonText);
             const r = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
             const i = DomElement.create(r, "div", "settings-panel");
             DomElement.createWithHTML(i, "div", "settings-panel-title-text", "Show Types:");
