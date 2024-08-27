@@ -370,23 +370,52 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( close, bindingOptions, _configuration.text!.closeButtonText! );
 
             const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
-            const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );
 
-            DomElement.createWithHTML( ignoreTypes, "div", "settings-panel-title-text", "Show Types:" );
-
-            const ignoreTypesContent: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-contents" );
-            const dataTypes: string[] = Object.keys( DataType );
-            const ignore: any = bindingOptions.ignore;
-
-            dataTypes.sort();
-
-            dataTypes.forEach( ( key: string, _: any ) => {
-                createSideMenuIgnoreTypeCheckBox( ignoreTypesContent, key, bindingOptions, !ignore[ `${key}Values` ] );
-            } );
+            addSideMenuIgnoreTypes( contents, bindingOptions );
         }
     }
 
-    function createSideMenuIgnoreTypeCheckBox( ignoreTypesContent: HTMLElement, key: string, bindingOptions: BindingOptions, checked: boolean ) : void {
+    function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {
+        const checkboxes: HTMLInputElement[] = [];
+        const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );
+        const titleBar: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-title-bar" );
+
+        DomElement.createWithHTML( titleBar, "div", "settings-panel-title-text", `${_configuration.text!.showTypesText!}:` );
+        const controlButtons: HTMLElement = DomElement.create( titleBar, "div", "control-buttons" );
+
+        const selectAll: HTMLElement = DomElement.create( controlButtons, "div", "control-button fill" );
+        const selectNone: HTMLElement = DomElement.create( controlButtons, "div", "control-button" );
+
+        selectAll.onclick = () => changeSidePanelCheckboxSelection( bindingOptions, checkboxes, true );
+        selectNone.onclick = () => changeSidePanelCheckboxSelection( bindingOptions, checkboxes, false );
+
+        ToolTip.add( selectAll, bindingOptions, _configuration.text!.selectAllText! );
+        ToolTip.add( selectNone, bindingOptions, _configuration.text!.selectNoneText! );
+
+        const ignoreTypesContent: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-contents" );
+        const dataTypes: string[] = Object.keys( DataType );
+        const ignore: any = bindingOptions.ignore;
+
+        dataTypes.sort();
+
+        dataTypes.forEach( ( key: string, _: any ) => {
+            checkboxes.push( createSideMenuIgnoreTypeCheckBox( ignoreTypesContent, key, bindingOptions, !ignore[ `${key}Values` ] ) );
+        } );
+    }
+
+    function changeSidePanelCheckboxSelection( bindingOptions: BindingOptions, checkboxes: HTMLInputElement[], flag: boolean ) : void {
+        const checkboxesLength: number = checkboxes.length;
+        const ignoreTypes: any = bindingOptions.ignore;
+
+        for ( let checkboxIndex: number = 0; checkboxIndex < checkboxesLength; checkboxIndex++ ) {
+            checkboxes[ checkboxIndex ].checked = flag;
+            ignoreTypes[ `${checkboxes[ checkboxIndex ].name}Values` ] = !flag;
+        }
+
+        bindingOptions._currentView.sideMenuChanged = true;
+    }
+
+    function createSideMenuIgnoreTypeCheckBox( ignoreTypesContent: HTMLElement, key: string, bindingOptions: BindingOptions, checked: boolean ) : HTMLInputElement {
         const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, Str.capitalizeFirstLetter( key ), key, checked, bindingOptions.showValueColors ? key : Char.empty );
 
         input.onchange = () => {
@@ -397,6 +426,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions.ignore = ignoreTypes;
             bindingOptions._currentView.sideMenuChanged = true;
         };
+
+        return input;
     }
 
 

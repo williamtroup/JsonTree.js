@@ -63,6 +63,9 @@ export type ConfigurationText = {
 	sideMenuButtonText?: string;
 	closeButtonSymbolText?: string;
 	closeButtonText?: string;
+	showTypesText?: string;
+	selectAllText?: string;
+	selectNoneText?: string;
 };
 
 export type BindingOptions = {

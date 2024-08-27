@@ -361,12 +361,38 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel {
   border-radius: var(--json-tree-js-border-radius);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-text {
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-title-text {
   text-align: left;
   font-weight: var(--json-tree-js-title-bold-weight);
   font-size: 0.9rem;
   margin: 3px;
   color: var(--json-tree-js-color-white);
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons {
+  flex-grow: 1;
+  text-align: right;
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.control-button {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+  border: 4px solid var(--json-tree-js-color-white);
+  height: 15px;
+  width: 15px;
+  border-radius: var(--json-tree-js-border-radius-editable);
+  display: inline-block;
+  transition: var(--json-tree-js-transition);
+  transition-property: opacity;
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.control-button:not(.no-hover):hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.control-buttons div.fill {
+  background-color: var(--json-tree-js-color-white);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents {
   margin-top: var(--json-tree-js-spacing);

@@ -58,6 +58,9 @@ export namespace Config {
             configuration.text!.sideMenuButtonText = Default.getAnyString( configuration.text!.sideMenuButtonText, "Show Menu" );
             configuration.text!.closeButtonSymbolText = Default.getAnyString( configuration.text!.closeButtonSymbolText, "✕" );
             configuration.text!.closeButtonText = Default.getAnyString( configuration.text!.closeButtonText, "Close" );
+            configuration.text!.showTypesText = Default.getAnyString( configuration.text!.showTypesText, "Show Types" );
+            configuration.text!.selectAllText = Default.getAnyString( configuration.text!.selectAllText, "Select All" );
+            configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
