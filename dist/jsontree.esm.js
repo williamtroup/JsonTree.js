@@ -759,7 +759,7 @@ var ToolTip;
             n++;
         }
         i(e);
-        R(e);
+        L(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -775,7 +775,7 @@ var ToolTip;
         if (o) {
             DomElement.addClass(r, "page-switch");
         }
-        H(r, n);
+        P(r, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(l)) {
             l = l[n._currentView.dataArrayCurrentIndex];
         }
@@ -948,7 +948,7 @@ var ToolTip;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        t.onchange = () => P(t.files, e);
+        t.onchange = () => W(t.files, e);
         t.click();
     }
     function b(e) {
@@ -1009,7 +1009,7 @@ var ToolTip;
         const l = Is.definedMap(o);
         const r = l ? "map" : "object";
         const i = l ? Default2.getObjectFromMap(o) : o;
-        const s = N(i, n);
+        const s = k(i, n);
         const a = s.length;
         if (a !== 0 || !n.ignore.emptyObjects) {
             const u = DomElement.create(t, "div", "object-type-title");
@@ -1062,7 +1062,7 @@ var ToolTip;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            k(o, n, "}", s, a);
+            R(o, n, "}", s, a);
         }
         _(o, e, t, n, i);
     }
@@ -1082,7 +1082,7 @@ var ToolTip;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            k(o, n, "]", i, s);
+            R(o, n, "]", i, s);
         }
         _(o, e, t, n, r);
     }
@@ -1103,9 +1103,7 @@ var ToolTip;
             b = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
         }
         DomElement.createWithHTML(u, "span", "split", ":");
-        if (!s) {
-            A(o, t, l, p);
-        }
+        A(o, t, l, p, s);
         if (r === null) {
             if (!o.ignore.nullValues) {
                 d = o.showValueColors ? `${"null"} value non-value` : "value non-value";
@@ -1343,7 +1341,7 @@ var ToolTip;
         } else if (Is.definedMap(r)) {
             if (!o.ignore.mapValues) {
                 const t = Default2.getObjectFromMap(r);
-                const n = N(t, o);
+                const n = k(t, o);
                 const l = n.length;
                 if (l === 0 && o.ignore.emptyObjects) {
                     g = true;
@@ -1370,7 +1368,7 @@ var ToolTip;
             }
         } else if (Is.definedObject(r)) {
             if (!o.ignore.objectValues) {
-                const t = N(r, o);
+                const t = k(r, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     g = true;
@@ -1445,35 +1443,58 @@ var ToolTip;
             }
         }
     }
-    function A(e, t, n, o) {
+    function A(e, t, n, o, l) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = () => {
+                let r = 0;
                 clearTimeout(e._currentView.valueClickTimerId);
                 e._currentView.valueClickTimerId = 0;
                 e._currentView.editMode = true;
                 DomElement.addClass(o, "editable");
+                if (l) {
+                    r = j(o.innerHTML);
+                    o.innerHTML = r.toString();
+                }
                 o.setAttribute("contenteditable", "true");
                 o.focus();
                 DomElement.selectAllText(o);
                 o.onblur = () => i(e, false);
-                o.onkeydown = l => {
-                    if (l.code == "Escape") {
-                        l.preventDefault();
+                o.onkeydown = i => {
+                    if (i.code == "Escape") {
+                        i.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (l.code == "Enter") {
-                        l.preventDefault();
-                        const r = o.innerText;
-                        if (r !== n) {
-                            if (r.trim() === "") {
-                                delete t[n];
-                            } else {
-                                if (!t.hasOwnProperty(r)) {
-                                    const e = t[n];
-                                    delete t[n];
-                                    t[r] = e;
+                    } else if (i.code == "Enter") {
+                        i.preventDefault();
+                        const s = o.innerText;
+                        if (l) {
+                            if (!isNaN(+s)) {
+                                let n = +s;
+                                if (!e.useZeroIndexingForArrays) {
+                                    n--;
+                                }
+                                if (r !== n) {
+                                    if (n < 0) {
+                                        n = 0;
+                                    } else if (n > t.length - 1) {
+                                        n = t.length - 1;
+                                    }
+                                    N(t, r, n);
+                                    Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
                                 }
                             }
-                            Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
+                        } else {
+                            if (s !== n) {
+                                if (s.trim() === "") {
+                                    delete t[n];
+                                } else {
+                                    if (!t.hasOwnProperty(s)) {
+                                        const e = t[n];
+                                        delete t[n];
+                                        t[s] = e;
+                                    }
+                                }
+                                Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
+                            }
                         }
                         o.setAttribute("contenteditable", "false");
                     }
@@ -1631,7 +1652,16 @@ var ToolTip;
     function j(e) {
         return parseInt(e.replace("[", "").replace("]", ""));
     }
-    function N(e, t) {
+    function N(e, t, n) {
+        if (n >= e.length) {
+            let t = n - e.length + 1;
+            while (t--) {
+                e.push(void 0);
+            }
+        }
+        e.splice(n, 0, e.splice(t, 1)[0]);
+    }
+    function k(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -1650,7 +1680,7 @@ var ToolTip;
         }
         return n;
     }
-    function k(e, t, n, o, l) {
+    function R(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles) {
             DomElement.create(r, "div", "no-arrow");
@@ -1658,11 +1688,11 @@ var ToolTip;
         DomElement.createWithHTML(r, "div", "object-type-end", n);
         O(e, r, l);
     }
-    function R(e, t = true) {
+    function L(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => L(t, e)));
+        n("keydown", (t => H(t, e)));
     }
-    function L(e, o) {
+    function H(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
             if (e.code === "ArrowLeft") {
                 e.preventDefault();
@@ -1682,7 +1712,7 @@ var ToolTip;
             }
         }
     }
-    function H(e, t) {
+    function P(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1690,12 +1720,12 @@ var ToolTip;
             e.ondrop = e => {
                 DomElement.cancelBubble(e);
                 if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-                    P(e.dataTransfer.files, t);
+                    W(e.dataTransfer.files, t);
                 }
             };
         }
     }
-    function P(e, t) {
+    function W(e, t) {
         const n = e.length;
         let o = 0;
         let l = [];
@@ -1714,11 +1744,11 @@ var ToolTip;
             const n = e[t];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                W(n, r);
+                $(n, r);
             }
         }
     }
-    function W(t, n) {
+    function $(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
@@ -1730,7 +1760,7 @@ var ToolTip;
         };
         o.readAsText(t);
     }
-    function $(e) {
+    function J(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1739,19 +1769,19 @@ var ToolTip;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        R(e, false);
+        L(e, false);
         ToolTip.assignToEvents(e, false);
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const J = {
+    const U = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return J;
+            return U;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1761,29 +1791,29 @@ var ToolTip;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return J;
+            return U;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return J;
+            return U;
         },
         renderAll: function() {
             o();
-            return J;
+            return U;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 c(t[e]);
             }
-            return J;
+            return U;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return J;
+            return U;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -1803,7 +1833,7 @@ var ToolTip;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return J;
+            return U;
         },
         getJson: function(e) {
             let n = null;
@@ -1814,21 +1844,21 @@ var ToolTip;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                $(t[e]);
+                J(t[e]);
                 delete t[e];
                 n--;
             }
-            return J;
+            return U;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    $(t[e]);
+                    J(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return J;
+            return U;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -1844,7 +1874,7 @@ var ToolTip;
                     e = Config.Options.get(o);
                 }
             }
-            return J;
+            return U;
         },
         getIds: function() {
             const e = [];
@@ -1863,7 +1893,7 @@ var ToolTip;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = J;
+            window.$jsontree = U;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

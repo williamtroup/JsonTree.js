@@ -32,7 +32,7 @@ JsonTree.js
 - Custom value rendering.
 - Array paging support (show array objects on different pages)!
 - Drag & Drop JSON files support!
-- Full property/value editing support (double click the property name/value).
+- Full property/value/array index editing support (double click the property name/value).
 - Keyboard navigation keys support!
 - Toggle between regular and full-screen views.
 - Assign tooltips to any JSON value!

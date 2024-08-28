@@ -600,9 +600,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
 
-        if ( !isArrayItem ) {
-            makePropertyNameEditable( bindingOptions, data, name, nameElement );
-        }
+        makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
 
         if ( value === null ) {
             if ( !bindingOptions.ignore!.nullValues ) {
@@ -1058,9 +1056,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement ) : void {
+    function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing!.propertyNames ) {
             propertyName.ondblclick = () => {
+                let originalArrayIndex: number = 0;
+
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
                 
                 bindingOptions._currentView.valueClickTimerId = 0;
@@ -1068,6 +1068,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.addClass( propertyName, "editable" );
 
+                if ( isArrayItem ) {
+                    originalArrayIndex = getArrayIndexFromBrackets( propertyName.innerHTML );
+                    
+                    propertyName.innerHTML = originalArrayIndex.toString();
+                }
+                
                 propertyName.setAttribute( "contenteditable", "true" );
                 propertyName.focus();
 
@@ -1085,21 +1091,44 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                         const newPropertyName: string = propertyName.innerText;
 
-                        if ( newPropertyName !== originalPropertyName ) {
-                            if ( newPropertyName.trim() === Char.empty ) {
-                                delete data[ originalPropertyName ];
-        
-                            } else {
-                                if ( !data.hasOwnProperty( newPropertyName ) ) {
-                                    const originalValue: any = data[ originalPropertyName ];
-            
-                                    delete data[ originalPropertyName ];
-            
-                                    data[ newPropertyName ] = originalValue;
+                        if ( isArrayItem ) {
+                            if ( !isNaN( +newPropertyName ) ) {
+                                let newArrayIndex: number = +newPropertyName;
+
+                                if ( !bindingOptions.useZeroIndexingForArrays ) {
+                                    newArrayIndex--;
+                                }
+
+                                if ( originalArrayIndex !== newArrayIndex ) {
+                                    if ( newArrayIndex < 0 ) {
+                                        newArrayIndex = 0;
+                                    } else if ( newArrayIndex > data.length - 1 ) {
+                                        newArrayIndex = data.length - 1;
+                                    }
+    
+                                    moveArrayIndex( data, originalArrayIndex, newArrayIndex );
+    
+                                    Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                                 }
                             }
-    
-                            Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
+
+                        } else {
+                            if ( newPropertyName !== originalPropertyName ) {
+                                if ( newPropertyName.trim() === Char.empty ) {
+                                    delete data[ originalPropertyName ];
+            
+                                } else {
+                                    if ( !data.hasOwnProperty( newPropertyName ) ) {
+                                        const originalValue: any = data[ originalPropertyName ];
+                
+                                        delete data[ originalPropertyName ];
+                
+                                        data[ newPropertyName ] = originalValue;
+                                    }
+                                }
+        
+                                Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
+                            }
                         }
 
                         propertyName.setAttribute( "contenteditable", "false" );
@@ -1303,6 +1332,18 @@ type JsonTreeData = Record<string, BindingOptions>;
     function getArrayIndexFromBrackets( propertyName: string ) : number {
         return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
     }
+
+    function moveArrayIndex( arrayData: any[], oldIndex: number, newIndex: number ) : void {
+        if ( newIndex >= arrayData.length ) {
+            let remainingIndexes: number = newIndex - arrayData.length + 1;
+
+            while ( remainingIndexes-- ) {
+                arrayData.push( undefined );
+            }
+        }
+
+        arrayData.splice( newIndex, 0, arrayData.splice( oldIndex, 1 )[ 0 ] );
+    };
 
     function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
         let properties: string[] = [];
