@@ -45,8 +45,8 @@ export namespace Config {
             configuration.text!.rdText = Default.getAnyString( configuration.text!.rdText, "rd" );
             configuration.text!.thText = Default.getAnyString( configuration.text!.thText, "th" );
             configuration.text!.ellipsisText = Default.getAnyString( configuration.text!.ellipsisText, "..." );
-            configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
-            configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
+            configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "⇈" );
+            configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "⇊" );
             configuration.text!.copyAllButtonSymbolText = Default.getAnyString( configuration.text!.copyAllButtonSymbolText, "❐" );
             configuration.text!.backButtonText = Default.getAnyString( configuration.text!.backButtonText, "Back" );
             configuration.text!.nextButtonText = Default.getAnyString( configuration.text!.nextButtonText, "Next" );
