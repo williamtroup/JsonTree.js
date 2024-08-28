@@ -66,6 +66,7 @@ export namespace Config {
             configuration.text!.fullScreenOnButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOnButtonSymbolText, "↗" );
             configuration.text!.fullScreenOffButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOffButtonSymbolText, "↙" );
             configuration.text!.fullScreenButtonText = Default.getAnyString( configuration.text!.fullScreenButtonText, "Toggle Full-Screen" );
+            configuration.text!.copyButtonText = Default.getAnyString( configuration.text!.copyButtonText, "Copy" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

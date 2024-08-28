@@ -199,7 +199,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 copyButton.onclick = () => onTitleBarCopyClick( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
+                if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
+                    ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
+                }
+                else {
+                    ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
+                }
             }
 
             if ( bindingOptions.title!.showTreeControls ) {

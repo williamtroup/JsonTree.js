@@ -71,6 +71,7 @@ export type ConfigurationText = {
 	fullScreenOnButtonSymbolText?: string;
 	fullScreenOffButtonSymbolText?: string;
 	fullScreenButtonText?: string;
+	copyButtonText?: string;
 };
 
 export type BindingOptions = {

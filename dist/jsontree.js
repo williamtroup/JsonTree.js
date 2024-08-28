@@ -616,6 +616,7 @@ var Config;
             e.text.fullScreenOnButtonSymbolText = Default2.getAnyString(e.text.fullScreenOnButtonSymbolText, "↗");
             e.text.fullScreenOffButtonSymbolText = Default2.getAnyString(e.text.fullScreenOffButtonSymbolText, "↙");
             e.text.fullScreenButtonText = Default2.getAnyString(e.text.fullScreenButtonText, "Toggle Full-Screen");
+            e.text.copyButtonText = Default2.getAnyString(e.text.copyButtonText, "Copy");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -812,7 +813,11 @@ var ToolTip;
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
                 o.onclick = () => u(t, n);
                 o.ondblclick = DomElement.cancelBubble;
-                ToolTip.add(o, t, e.text.copyAllButtonText);
+                if (t.copyOnlyCurrentPage && t.showArrayItemsAsSeparateObjects) {
+                    ToolTip.add(o, t, e.text.copyButtonText);
+                } else {
+                    ToolTip.add(o, t, e.text.copyAllButtonText);
+                }
             }
             if (t.title.showTreeControls) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
@@ -970,8 +975,8 @@ var ToolTip;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => D(n, o, true);
-        a.onclick = () => D(n, o, false);
+        s.onclick = () => x(n, o, true);
+        a.onclick = () => x(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -979,10 +984,10 @@ var ToolTip;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            o.push(x(u, e, n, !d[`${e}Values`]));
+            o.push(D(u, e, n, !d[`${e}Values`]));
         }));
     }
-    function D(e, t, n) {
+    function x(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -991,7 +996,7 @@ var ToolTip;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function x(e, t, n, o) {
+    function D(e, t, n, o) {
         const l = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
