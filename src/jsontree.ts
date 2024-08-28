@@ -155,7 +155,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderObject( contents, bindingOptions, data );
         }
 
-        if ( contents.innerHTML === Char.empty ) {
+        if ( contents.innerHTML === Char.empty || containsContentForParentItem( contents ) ) {
+            contents.innerHTML = Char.empty;
+
             DomElement.createWithHTML( contents, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
 
             bindingOptions._currentView.titleBarButtons.style.display = "none";
@@ -163,6 +165,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
+    }
+
+    function containsContentForParentItem( contents: HTMLElement ) : boolean {
+        return contents.children.length >= 2 && contents.children[ 1 ].children.length === 0;
     }
 
     
