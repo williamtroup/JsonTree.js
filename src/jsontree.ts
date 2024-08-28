@@ -30,6 +30,7 @@ import { Binding } from "./ts/options/binding";
 import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
 import { ToolTip } from "./ts/area/tooltip";
+import { Arr } from "./ts/data/arr";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -557,18 +558,18 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                const actualIndex: number = getArrayIndex( dataIndex1, bindingOptions );
+                const actualIndex: number = Arr.getIndex( dataIndex1, bindingOptions );
                 const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
 
-                renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
+                renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath );
             }
 
         } else {
             for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
-                const actualIndex: number = getArrayIndex( dataIndex2, bindingOptions );
+                const actualIndex: number = Arr.getIndex( dataIndex2, bindingOptions );
                 const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
 
-                renderValue( data, objectTypeContents, bindingOptions, getArrayIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
+                renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath );
             }
         }
 
@@ -1069,7 +1070,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( propertyName, "editable" );
 
                 if ( isArrayItem ) {
-                    originalArrayIndex = getArrayIndexFromBrackets( propertyName.innerHTML );
+                    originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
                     
                     propertyName.innerHTML = originalArrayIndex.toString();
                 }
@@ -1100,14 +1101,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 }
 
                                 if ( originalArrayIndex !== newArrayIndex ) {
-                                    if ( newArrayIndex < 0 ) {
-                                        newArrayIndex = 0;
-                                    } else if ( newArrayIndex > data.length - 1 ) {
-                                        newArrayIndex = data.length - 1;
-                                    }
-    
-                                    moveArrayIndex( data, originalArrayIndex, newArrayIndex );
-    
+                                    Arr.moveIndex( data, originalArrayIndex, newArrayIndex );
                                     Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                                 }
                             }
@@ -1174,7 +1168,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                         if ( newPropertyValue.trim() === Char.empty ) {
                             if ( isArrayItem ) {
-                                data.splice( getArrayIndexFromBrackets( originalPropertyName ), 1 );
+                                data.splice( Arr.getIndexFromBrackets( originalPropertyName ), 1 );
                             } else {
                                 delete data[ originalPropertyName ];
                             }
@@ -1198,7 +1192,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                             if ( newDataPropertyValue !== null ) {
                                 if ( isArrayItem ) {
-                                    data[ getArrayIndexFromBrackets( originalPropertyName ) ] = newDataPropertyValue;
+                                    data[ Arr.getIndexFromBrackets( originalPropertyName ) ] = newDataPropertyValue;
                                 } else {
                                     data[ originalPropertyName ] = newDataPropertyValue;
                                 }
@@ -1310,40 +1304,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         return result;
     }
-
-    function getArrayIndex( index: number, bindingOptions: BindingOptions ) : number {
-        return bindingOptions.useZeroIndexingForArrays ? index : index + 1;
-    }
-    
-    function getArrayIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
-        let result: string = index.toString();
-    
-        if ( !bindingOptions.addArrayIndexPadding ) {
-            result = Str.padNumber( parseInt( result ), largestValue.toString().length );
-        }
-
-        if ( bindingOptions.showArrayIndexBrackets ) {
-            result = `[${result}]`;
-        }
-    
-        return result;
-    }
-
-    function getArrayIndexFromBrackets( propertyName: string ) : number {
-        return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
-    }
-
-    function moveArrayIndex( arrayData: any[], oldIndex: number, newIndex: number ) : void {
-        if ( newIndex >= arrayData.length ) {
-            let remainingIndexes: number = newIndex - arrayData.length + 1;
-
-            while ( remainingIndexes-- ) {
-                arrayData.push( undefined );
-            }
-        }
-
-        arrayData.splice( newIndex, 0, arrayData.splice( oldIndex, 1 )[ 0 ] );
-    };
 
     function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
         let properties: string[] = [];

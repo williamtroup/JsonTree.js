@@ -700,6 +700,39 @@ var ToolTip;
     e.remove = i;
 })(ToolTip || (ToolTip = {}));
 
+var Arr;
+
+(e => {
+    function t(e, t) {
+        return t.useZeroIndexingForArrays ? e : e + 1;
+    }
+    e.getIndex = t;
+    function n(e, t, n) {
+        let o = t.toString();
+        if (!e.addArrayIndexPadding) {
+            o = Str.padNumber(parseInt(o), n.toString().length);
+        }
+        if (e.showArrayIndexBrackets) {
+            o = `[${o}]`;
+        }
+        return o;
+    }
+    e.getIndexName = n;
+    function o(e) {
+        return parseInt(e.replace("[", "").replace("]", ""));
+    }
+    e.getIndexFromBrackets = o;
+    function l(e, t, n) {
+        if (n < 0) {
+            n = 0;
+        } else if (n > e.length - 1) {
+            n = e.length - 1;
+        }
+        e.splice(n, 0, e.splice(t, 1)[0]);
+    }
+    e.moveIndex = l;
+})(Arr || (Arr = {}));
+
 (() => {
     let e = {};
     let t = {};
@@ -759,7 +792,7 @@ var ToolTip;
             n++;
         }
         i(e);
-        L(e);
+        N(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -775,7 +808,7 @@ var ToolTip;
         if (o) {
             DomElement.addClass(r, "page-switch");
         }
-        P(r, n);
+        k(r, n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(l)) {
             l = l[n._currentView.dataArrayCurrentIndex];
         }
@@ -948,7 +981,7 @@ var ToolTip;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        t.onchange = () => W(t.files, e);
+        t.onchange = () => R(t.files, e);
         t.click();
     }
     function b(e) {
@@ -1009,7 +1042,7 @@ var ToolTip;
         const l = Is.definedMap(o);
         const r = l ? "map" : "object";
         const i = l ? Default2.getObjectFromMap(o) : o;
-        const s = k(i, n);
+        const s = M(i, n);
         const a = s.length;
         if (a !== 0 || !n.ignore.emptyObjects) {
             const u = DomElement.create(t, "div", "object-type-title");
@@ -1062,7 +1095,7 @@ var ToolTip;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            R(o, n, "}", s, a);
+            F(o, n, "}", s, a);
         }
         _(o, e, t, n, i);
     }
@@ -1070,19 +1103,19 @@ var ToolTip;
         const u = l.length;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < u; e++) {
-                const t = M(e, o);
+                const t = Arr.getIndex(e, o);
                 const r = a === "" ? t.toString() : `${a}${"\\"}${t}`;
-                E(l, n, o, F(o, t, u), l[e], e === u - 1, true, r);
+                E(l, n, o, Arr.getIndexName(o, t, u), l[e], e === u - 1, true, r);
             }
         } else {
             for (let e = u; e--; ) {
-                const t = M(e, o);
+                const t = Arr.getIndex(e, o);
                 const r = a === "" ? t.toString() : `${a}${"\\"}${t}`;
-                E(l, n, o, F(o, t, u), l[e], e === 0, true, r);
+                E(l, n, o, Arr.getIndexName(o, t, u), l[e], e === 0, true, r);
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            R(o, n, "]", i, s);
+            F(o, n, "]", i, s);
         }
         _(o, e, t, n, r);
     }
@@ -1341,7 +1374,7 @@ var ToolTip;
         } else if (Is.definedMap(r)) {
             if (!o.ignore.mapValues) {
                 const t = Default2.getObjectFromMap(r);
-                const n = k(t, o);
+                const n = M(t, o);
                 const l = n.length;
                 if (l === 0 && o.ignore.emptyObjects) {
                     g = true;
@@ -1368,7 +1401,7 @@ var ToolTip;
             }
         } else if (Is.definedObject(r)) {
             if (!o.ignore.objectValues) {
-                const t = k(r, o);
+                const t = M(r, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     g = true;
@@ -1452,7 +1485,7 @@ var ToolTip;
                 e._currentView.editMode = true;
                 DomElement.addClass(o, "editable");
                 if (l) {
-                    r = j(o.innerHTML);
+                    r = Arr.getIndexFromBrackets(o.innerHTML);
                     o.innerHTML = r.toString();
                 }
                 o.setAttribute("contenteditable", "true");
@@ -1473,12 +1506,7 @@ var ToolTip;
                                     n--;
                                 }
                                 if (r !== n) {
-                                    if (n < 0) {
-                                        n = 0;
-                                    } else if (n > t.length - 1) {
-                                        n = t.length - 1;
-                                    }
-                                    N(t, r, n);
+                                    Arr.moveIndex(t, r, n);
                                     Trigger.customEvent(e.events.onJsonEdit, e._currentView.element);
                                 }
                             }
@@ -1527,7 +1555,7 @@ var ToolTip;
                         const s = l.innerText;
                         if (s.trim() === "") {
                             if (r) {
-                                t.splice(j(n), 1);
+                                t.splice(Arr.getIndexFromBrackets(n), 1);
                             } else {
                                 delete t[n];
                             }
@@ -1548,7 +1576,7 @@ var ToolTip;
                             }
                             if (l !== null) {
                                 if (r) {
-                                    t[j(n)] = l;
+                                    t[Arr.getIndexFromBrackets(n)] = l;
                                 } else {
                                     t[n] = l;
                                 }
@@ -1637,31 +1665,6 @@ var ToolTip;
         return o;
     }
     function M(e, t) {
-        return t.useZeroIndexingForArrays ? e : e + 1;
-    }
-    function F(e, t, n) {
-        let o = t.toString();
-        if (!e.addArrayIndexPadding) {
-            o = Str.padNumber(parseInt(o), n.toString().length);
-        }
-        if (e.showArrayIndexBrackets) {
-            o = `[${o}]`;
-        }
-        return o;
-    }
-    function j(e) {
-        return parseInt(e.replace("[", "").replace("]", ""));
-    }
-    function N(e, t, n) {
-        if (n >= e.length) {
-            let t = n - e.length + 1;
-            while (t--) {
-                e.push(void 0);
-            }
-        }
-        e.splice(n, 0, e.splice(t, 1)[0]);
-    }
-    function k(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -1680,7 +1683,7 @@ var ToolTip;
         }
         return n;
     }
-    function R(e, t, n, o, l) {
+    function F(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles) {
             DomElement.create(r, "div", "no-arrow");
@@ -1688,11 +1691,11 @@ var ToolTip;
         DomElement.createWithHTML(r, "div", "object-type-end", n);
         O(e, r, l);
     }
-    function L(e, t = true) {
+    function N(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => H(t, e)));
+        n("keydown", (t => j(t, e)));
     }
-    function H(e, o) {
+    function j(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
             if (e.code === "ArrowLeft") {
                 e.preventDefault();
@@ -1712,7 +1715,7 @@ var ToolTip;
             }
         }
     }
-    function P(e, t) {
+    function k(e, t) {
         if (t.fileDroppingEnabled) {
             e.ondragover = DomElement.cancelBubble;
             e.ondragenter = DomElement.cancelBubble;
@@ -1720,12 +1723,12 @@ var ToolTip;
             e.ondrop = e => {
                 DomElement.cancelBubble(e);
                 if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-                    W(e.dataTransfer.files, t);
+                    R(e.dataTransfer.files, t);
                 }
             };
         }
     }
-    function W(e, t) {
+    function R(e, t) {
         const n = e.length;
         let o = 0;
         let l = [];
@@ -1744,11 +1747,11 @@ var ToolTip;
             const n = e[t];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                $(n, r);
+                L(n, r);
             }
         }
     }
-    function $(t, n) {
+    function L(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
@@ -1760,7 +1763,7 @@ var ToolTip;
         };
         o.readAsText(t);
     }
-    function J(e) {
+    function H(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1769,19 +1772,19 @@ var ToolTip;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        L(e, false);
+        N(e, false);
         ToolTip.assignToEvents(e, false);
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const U = {
+    const P = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return U;
+            return P;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1791,29 +1794,29 @@ var ToolTip;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return U;
+            return P;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return U;
+            return P;
         },
         renderAll: function() {
             o();
-            return U;
+            return P;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 c(t[e]);
             }
-            return U;
+            return P;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return U;
+            return P;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -1833,7 +1836,7 @@ var ToolTip;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return U;
+            return P;
         },
         getJson: function(e) {
             let n = null;
@@ -1844,21 +1847,21 @@ var ToolTip;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                J(t[e]);
+                H(t[e]);
                 delete t[e];
                 n--;
             }
-            return U;
+            return P;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    J(t[e]);
+                    H(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return U;
+            return P;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -1874,7 +1877,7 @@ var ToolTip;
                     e = Config.Options.get(o);
                 }
             }
-            return U;
+            return P;
         },
         getIds: function() {
             const e = [];
@@ -1893,7 +1896,7 @@ var ToolTip;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = U;
+            window.$jsontree = P;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map
