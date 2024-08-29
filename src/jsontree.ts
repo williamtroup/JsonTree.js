@@ -144,8 +144,6 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.addClass( contents, "page-switch" );
         }
 
-        renderControlDragAndDrop( bindingOptions );
-
         if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
         }
@@ -166,6 +164,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
+
+        renderControlDragAndDrop( bindingOptions );
     }
 
     

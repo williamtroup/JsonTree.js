@@ -814,7 +814,6 @@ var Arr;
         if (o) {
             DomElement.addClass(l, "page-switch");
         }
-        N(n);
         if (n.showArrayItemsAsSeparateObjects && Is.definedArray(r)) {
             r = r[n._currentView.dataArrayCurrentIndex];
         }
@@ -830,6 +829,7 @@ var Arr;
         } else {
             n._currentView.titleBarButtons.style.display = "block";
         }
+        N(n);
     }
     function s(t, n) {
         if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.showArrayItemsAsSeparateObjects || t.title.enableFullScreenToggling) {
