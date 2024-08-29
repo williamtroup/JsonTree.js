@@ -17,6 +17,8 @@ export enum Char {
     zero = "0",
     hash = "#",
     backslash = "\\",
+    dash = "_",
+    underscore = "_",
 }
 
 export enum DataType {

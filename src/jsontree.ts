@@ -416,8 +416,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
 
+            if ( bindingOptions.sideMenu!.showExportButton ) {
+                const exportButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
+                exportButton.onclick = () => onExport( bindingOptions );
+    
+                ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
+            }
+
             if ( bindingOptions.sideMenu!.showImportButton ) {
-                const importButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "close", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+                const importButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
                 importButton.onclick = () => onSideMenuImportClick( bindingOptions );
     
                 ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
@@ -1398,7 +1405,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Drag & Drop Files
+     * Render:  Import / Drag & Drop Files
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -1476,6 +1483,37 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         reader.readAsText( file );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Export
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function onExport( bindingOptions: BindingOptions ) : void {
+        let contents: string = JSON.stringify( bindingOptions.data, jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
+
+        if ( Is.definedString( contents ) ) {
+            const tempLink: HTMLElement = DomElement.create( document.body, "a" );
+            tempLink.style.display = "none";
+            tempLink.setAttribute( "target", "_blank" );
+            tempLink.setAttribute( "href", `data:application/json;charset=utf-8,${encodeURIComponent(contents)}` );
+            tempLink.setAttribute( "download", getExportFilename( bindingOptions ) );
+            tempLink.click();
+            
+            document.body.removeChild( tempLink );
+
+            Trigger.customEvent( bindingOptions.events!.onExport!, bindingOptions._currentView.element );
+        }
+    }
+
+    function getExportFilename( bindingOptions: BindingOptions ) : string {
+        const date: Date = new Date();
+        const filename: string = DateTime.getCustomFormattedDateText( _configuration, date, bindingOptions.exportFilenameFormat! )
+
+        return filename;
     }
 
 

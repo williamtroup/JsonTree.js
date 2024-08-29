@@ -94,6 +94,7 @@ export namespace Binding {
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
             options.editableJsonIndentSpaces = Default.getNumber( options.editableJsonIndentSpaces, 8 );
+            options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
 
             options = getTitle( options );
             options = getIgnore( options );
@@ -185,6 +186,7 @@ export namespace Binding {
             options.sideMenu = Default.getObject( options.sideMenu, {} as BindingOptionsSideMenu );
             options.sideMenu!.enabled = Default.getBoolean( options.sideMenu!.enabled, true );
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
+            options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
 
             return options;
@@ -216,6 +218,7 @@ export namespace Binding {
             options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
             options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
             options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
+            options.events!.onExport = Default.getFunction( options.events!.onExport, null! );
 
             return options;
         }

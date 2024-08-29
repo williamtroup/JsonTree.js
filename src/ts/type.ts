@@ -75,6 +75,8 @@ export type ConfigurationText = {
 	dragAndDropSymbolText?: string;
 	dragAndDropTitleText?: string;
 	dragAndDropDescriptionText?: string;
+	exportButtonSymbolText?: string;
+	exportButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -109,6 +111,7 @@ export type BindingOptions = {
 	showTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
 	editableJsonIndentSpaces?: number;
+	exportFilenameFormat?: string;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
@@ -197,6 +200,7 @@ export type BindingOptionsTooltip = {
 export type BindingOptionsSideMenu = {
     enabled?: boolean;
 	showImportButton?: boolean;
+	showExportButton?: boolean;
 	titleText?: string;
 };
 
@@ -228,4 +232,5 @@ export type BindingOptionsEvents = {
 	onSetJson?: ( element: HTMLElement ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 	onJsonEdit?: ( element: HTMLElement ) => void;
+	onExport?: ( element: HTMLElement ) => void;
 };
