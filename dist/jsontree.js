@@ -473,6 +473,7 @@ var Binding;
             e.title.showTreeControls = Default2.getBoolean(e.title.showTreeControls, true);
             e.title.showCopyButton = Default2.getBoolean(e.title.showCopyButton, true);
             e.title.enableFullScreenToggling = Default2.getBoolean(e.title.enableFullScreenToggling, true);
+            e.title.showFullScreenButton = Default2.getBoolean(e.title.showFullScreenButton, true);
             return e;
         }
         function l(e) {
@@ -889,7 +890,7 @@ var Arr;
                     t.showArrayItemsAsSeparateObjects = false;
                 }
             }
-            if (t.title.enableFullScreenToggling) {
+            if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
                 t._currentView.toggleFullScreenButton.onclick = () => a(t);

@@ -101,6 +101,7 @@ export namespace Binding {
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
             options.title!.enableFullScreenToggling = Default.getBoolean( options.title!.enableFullScreenToggling, true );
+            options.title!.showFullScreenButton = Default.getBoolean( options.title!.showFullScreenButton, true );
 
             return options;
         }

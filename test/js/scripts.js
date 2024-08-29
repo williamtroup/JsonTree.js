@@ -41,6 +41,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             showCopyButton: true,
             showTreeControls: true,
             enableFullScreenToggling: true,
+            showFullScreenButton: true,
         },
         sideMenu: {
             enabled: true,

@@ -253,7 +253,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
             }
 
-            if ( bindingOptions.title!.enableFullScreenToggling ) {
+            if ( bindingOptions.title!.enableFullScreenToggling && bindingOptions.title!.showFullScreenButton ) {
                 const buttonText: string = !bindingOptions._currentView.fullScreenOn
                     ? _configuration.text!.fullScreenOnButtonSymbolText!
                     : _configuration.text!.fullScreenOffButtonSymbolText!

@@ -149,6 +149,7 @@ export type BindingOptionsTitle = {
     showTreeControls?: boolean;
     showCopyButton?: boolean;
 	enableFullScreenToggling?: boolean;
+	showFullScreenButton?: boolean;
 };
 
 export type BindingOptionsIgnore = {
