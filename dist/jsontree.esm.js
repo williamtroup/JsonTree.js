@@ -624,7 +624,7 @@ var Config;
             e.text.showTypesText = Default2.getAnyString(e.text.showTypesText, "Show Types");
             e.text.selectAllText = Default2.getAnyString(e.text.selectAllText, "Select All");
             e.text.selectNoneText = Default2.getAnyString(e.text.selectNoneText, "Select None");
-            e.text.importButtonSymbolText = Default2.getAnyString(e.text.importButtonSymbolText, "⇧");
+            e.text.importButtonSymbolText = Default2.getAnyString(e.text.importButtonSymbolText, "↑");
             e.text.importButtonText = Default2.getAnyString(e.text.importButtonText, "Import");
             e.text.fullScreenOnButtonSymbolText = Default2.getAnyString(e.text.fullScreenOnButtonSymbolText, "↗");
             e.text.fullScreenOffButtonSymbolText = Default2.getAnyString(e.text.fullScreenOffButtonSymbolText, "↙");
@@ -633,7 +633,7 @@ var Config;
             e.text.dragAndDropSymbolText = Default2.getAnyString(e.text.dragAndDropSymbolText, "⇪");
             e.text.dragAndDropTitleText = Default2.getAnyString(e.text.dragAndDropTitleText, "Drag and drop your JSON files to upload");
             e.text.dragAndDropDescriptionText = Default2.getAnyString(e.text.dragAndDropDescriptionText, "Multiple files will be joined as an array");
-            e.text.exportButtonSymbolText = Default2.getAnyString(e.text.exportButtonSymbolText, "⇩");
+            e.text.exportButtonSymbolText = Default2.getAnyString(e.text.exportButtonSymbolText, "↓");
             e.text.exportButtonText = Default2.getAnyString(e.text.exportButtonText, "Export");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];

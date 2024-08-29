@@ -61,7 +61,7 @@ export namespace Config {
             configuration.text!.showTypesText = Default.getAnyString( configuration.text!.showTypesText, "Show Types" );
             configuration.text!.selectAllText = Default.getAnyString( configuration.text!.selectAllText, "Select All" );
             configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
-            configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "⇧" );
+            configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "↑" );
             configuration.text!.importButtonText = Default.getAnyString( configuration.text!.importButtonText, "Import" );
             configuration.text!.fullScreenOnButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOnButtonSymbolText, "↗" );
             configuration.text!.fullScreenOffButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOffButtonSymbolText, "↙" );
@@ -70,7 +70,7 @@ export namespace Config {
             configuration.text!.dragAndDropSymbolText = Default.getAnyString( configuration.text!.dragAndDropSymbolText, "⇪" );
             configuration.text!.dragAndDropTitleText = Default.getAnyString( configuration.text!.dragAndDropTitleText, "Drag and drop your JSON files to upload" );
             configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an array" );
-            configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "⇩" );
+            configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
             configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
