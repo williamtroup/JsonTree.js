@@ -110,7 +110,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.className = "json-tree-js";
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
-        if ( bindingOptions.title!.enableFullScreenToggling && bindingOptions.openInFullScreenMode ) {
+        if ( bindingOptions.openInFullScreenMode ) {
             DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
             bindingOptions._currentView.fullScreenOn = true;
         }

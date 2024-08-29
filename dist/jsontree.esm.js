@@ -798,7 +798,7 @@ var Arr;
         }
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
-        if (e.title.enableFullScreenToggling && e.openInFullScreenMode) {
+        if (e.openInFullScreenMode) {
             DomElement.addClass(e._currentView.element, "full-screen");
             e._currentView.fullScreenOn = true;
         }
