@@ -21,7 +21,7 @@ import {
     type BindingOptionsTitle, 
     type ContentPanelsForArrayIndex, 
     type BindingOptionsAllowEditing, 
-    BindingOptionsSideMenu} from "../type";
+    type BindingOptionsSideMenu } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
