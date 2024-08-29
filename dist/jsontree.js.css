@@ -529,6 +529,47 @@ div.json-tree-js div.contents span.no-json-text {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Drag & Drop
+    -------------------------------------------------------------------------
+*/
+div.json-tree-js div.drag-and-drop-background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+  text-align: center;
+}
+div.json-tree-js div.drag-and-drop-background div.notice-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  pointer-events: none;
+}
+div.json-tree-js div.drag-and-drop-background div.notice-text p {
+  margin: 0;
+  padding: 0;
+}
+div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-symbol {
+  font-size: 4.5rem;
+  font-weight: var(--json-tree-js-text-bold-weight);
+}
+div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-title {
+  margin-top: calc(var(--json-tree-js-spacing));
+  font-weight: var(--json-tree-js-title-bold-weight);
+}
+div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-description {
+  margin-top: calc(var(--json-tree-js-spacing));
+  font-weight: var(--json-tree-js-text-bold-weight);
+}
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - Object Type Title
     -------------------------------------------------------------------------
 */

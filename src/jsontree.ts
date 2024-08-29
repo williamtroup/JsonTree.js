@@ -144,7 +144,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.addClass( contents, "page-switch" );
         }
 
-        makeAreaDroppable( contents, bindingOptions );
+        renderControlDragAndDrop( bindingOptions );
 
         if ( bindingOptions.showArrayItemsAsSeparateObjects && Is.definedArray( data ) ) {
             data = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
@@ -1345,61 +1345,37 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Document Events
+     * Render:  Drag & Drop Files
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
-        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+    function renderControlDragAndDrop( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.fileDroppingEnabled ) {
+            const dragAndDropBackground: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "drag-and-drop-background" );
+            const dragAndDropText: HTMLElement = DomElement.create( dragAndDropBackground, "div", "notice-text" );
 
-        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
-    }
+            DomElement.createWithHTML( dragAndDropText, "p", "notice-text-symbol", _configuration.text!.dragAndDropSymbolText! );
+            DomElement.createWithHTML( dragAndDropText, "p", "notice-text-title", _configuration.text!.dragAndDropTitleText! );
+            DomElement.createWithHTML( dragAndDropText, "p", "notice-text-description", _configuration.text!.dragAndDropDescriptionText! );
 
-    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
-            if ( e.code === KeyCode.left ) {
-                e.preventDefault();
-                onBackPage( bindingOptions );
+            bindingOptions._currentView.dragAndDropBackground = dragAndDropBackground;
+            bindingOptions._currentView.element.ondragover = () => dragAndDropBackground.style.display = "block";
+            bindingOptions._currentView.element.ondragenter = () => dragAndDropBackground.style.display = "block";
 
-            } else if ( e.code === KeyCode.right ) {
-                e.preventDefault();
-                onNextPage( bindingOptions );
-
-            } else if ( e.code === KeyCode.up ) {
-                e.preventDefault();
-                onCloseAll( bindingOptions );
-
-            } else if ( e.code === KeyCode.down ) {
-                e.preventDefault();
-                onOpenAll( bindingOptions );
-
-            } else if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
-                onSideMenuClose( bindingOptions );
-            }
+            dragAndDropBackground.ondragover = DomElement.cancelBubble;
+            dragAndDropBackground.ondragenter = DomElement.cancelBubble;
+            dragAndDropBackground.ondragleave = () => dragAndDropBackground.style.display = "none";
+            dragAndDropBackground.ondrop = ( e: DragEvent ) => onDropFiles( e, bindingOptions );
         }
     }
 
+    function onDropFiles( e: DragEvent, bindingOptions: BindingOptions ) : void {
+        DomElement.cancelBubble( e );
 
-    /*
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Drop Files
-     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+        bindingOptions._currentView.dragAndDropBackground.style.display = "none";
 
-    function makeAreaDroppable( element: HTMLElement, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.fileDroppingEnabled ) {
-            element.ondragover = DomElement.cancelBubble;
-            element.ondragenter = DomElement.cancelBubble;
-            element.ondragleave = DomElement.cancelBubble;
-    
-            element.ondrop = ( e: DragEvent ) => {
-                DomElement.cancelBubble( e );
-    
-                if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
-                    importFromFiles( e.dataTransfer!.files, bindingOptions );
-                }
-            };
+        if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
+            importFromFiles( e.dataTransfer!.files, bindingOptions );
         }
     }
 
@@ -1447,6 +1423,44 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         reader.readAsText( file );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Document Events
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
+        const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+
+        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
+    }
+
+    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+            if ( e.code === KeyCode.left ) {
+                e.preventDefault();
+                onBackPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.right ) {
+                e.preventDefault();
+                onNextPage( bindingOptions );
+
+            } else if ( e.code === KeyCode.up ) {
+                e.preventDefault();
+                onCloseAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.down ) {
+                e.preventDefault();
+                onOpenAll( bindingOptions );
+
+            } else if ( e.code === KeyCode.escape ) {
+                e.preventDefault();
+                onSideMenuClose( bindingOptions );
+            }
+        }
     }
 
 

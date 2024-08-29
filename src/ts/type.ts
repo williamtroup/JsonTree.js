@@ -72,6 +72,9 @@ export type ConfigurationText = {
 	fullScreenOffButtonSymbolText?: string;
 	fullScreenButtonText?: string;
 	copyButtonText?: string;
+	dragAndDropSymbolText?: string;
+	dragAndDropTitleText?: string;
+	dragAndDropDescriptionText?: string;
 };
 
 export type BindingOptions = {
@@ -132,6 +135,7 @@ export type BindingOptionsCurrentView = {
 	sideMenuChanged: boolean;
 	toggleFullScreenButton: HTMLButtonElement;
 	fullScreenOn: boolean;
+	dragAndDropBackground: HTMLElement;
 };
 
 export type BindingOptionsParse = {

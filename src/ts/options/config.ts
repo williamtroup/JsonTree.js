@@ -67,6 +67,9 @@ export namespace Config {
             configuration.text!.fullScreenOffButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOffButtonSymbolText, "↙" );
             configuration.text!.fullScreenButtonText = Default.getAnyString( configuration.text!.fullScreenButtonText, "Toggle Full-Screen" );
             configuration.text!.copyButtonText = Default.getAnyString( configuration.text!.copyButtonText, "Copy" );
+            configuration.text!.dragAndDropSymbolText = Default.getAnyString( configuration.text!.dragAndDropSymbolText, "⇪" );
+            configuration.text!.dragAndDropTitleText = Default.getAnyString( configuration.text!.dragAndDropTitleText, "Drag and drop your JSON files to upload" );
+            configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an Array" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
