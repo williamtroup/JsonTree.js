@@ -431,13 +431,17 @@ div.json-tree-js {
 */
 
 div.json-tree-js {
+    div.editable {
+        cursor: text !important;
+        outline: none;
+        box-shadow: none;
+        white-space: pre;
+    }
+
     div.contents {
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
         overflow: auto;
-        white-space: pre;
-        outline: none;
-        box-shadow: none;
 
         @include type-span-colors;
 

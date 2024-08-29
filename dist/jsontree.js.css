@@ -459,13 +459,16 @@ div.json-tree-js div.side-menu-open {
     JsonTree.js - Contents
     -------------------------------------------------------------------------
 */
+div.json-tree-js div.editable {
+  cursor: text !important;
+  outline: none;
+  box-shadow: none;
+  white-space: pre;
+}
 div.json-tree-js div.contents {
   padding: var(--json-tree-js-spacing);
   margin: 0 !important;
   overflow: auto;
-  white-space: pre;
-  outline: none;
-  box-shadow: none;
 }
 div.json-tree-js div.contents span.array {
   color: var(--json-tree-js-color-array);
