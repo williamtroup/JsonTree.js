@@ -93,6 +93,7 @@ export namespace Binding {
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
+            options.editableJsonIndentSpaces = Default.getNumber( options.editableJsonIndentSpaces, 8 );
 
             options = getTitle( options );
             options = getIgnore( options );

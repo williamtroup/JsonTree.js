@@ -182,7 +182,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( contents, "editable" );
 
                 contents.setAttribute( "contenteditable", "true" );
-                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, 6 );
+                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.editableJsonIndentSpaces );
                 contents.focus();
 
                 DomElement.selectAllText( contents );

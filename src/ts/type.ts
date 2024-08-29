@@ -108,6 +108,7 @@ export type BindingOptions = {
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
+	editableJsonIndentSpaces?: number;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

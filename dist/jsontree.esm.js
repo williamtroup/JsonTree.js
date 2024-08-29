@@ -109,10 +109,10 @@ var Is;
         return n(e) && (e instanceof Set || e instanceof WeakSet);
     }
     e.definedSet = p;
-    function T(e, t = 1) {
+    function b(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = T;
+    e.invalidOptionArray = b;
 })(Is || (Is = {}));
 
 var Default2;
@@ -463,6 +463,7 @@ var Binding;
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
             t.showTypes = Default2.getBoolean(t.showTypes, false);
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
+            t.editableJsonIndentSpaces = Default2.getNumber(t.editableJsonIndentSpaces, 8);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -817,7 +818,7 @@ var Arr;
         n._currentView.contentPanelsIndex = 0;
         n._currentView.sideMenuChanged = false;
         s(n, l);
-        T(n);
+        b(n);
         const r = DomElement.create(n._currentView.element, "div", "contents");
         if (o) {
             DomElement.addClass(r, "page-switch");
@@ -849,7 +850,7 @@ var Arr;
                 t._currentView.editMode = true;
                 DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
-                o.innerText = JSON.stringify(n, p, 6);
+                o.innerText = JSON.stringify(n, p, t.editableJsonIndentSpaces);
                 o.focus();
                 DomElement.selectAllText(o);
                 o.onblur = () => i(t, false);
@@ -1004,7 +1005,7 @@ var Arr;
         }
         return n;
     }
-    function T(t) {
+    function b(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => w(t);
@@ -1017,7 +1018,7 @@ var Arr;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "close", e.text.importButtonSymbolText);
-                n.onclick = () => b(t);
+                n.onclick = () => T(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1027,7 +1028,7 @@ var Arr;
             x(r, t);
         }
     }
-    function b(e) {
+    function T(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -1178,13 +1179,13 @@ var Arr;
         let g = false;
         let m = null;
         const p = DomElement.createWithHTML(u, "span", "title", l);
-        let T = false;
-        let b = null;
+        let b = false;
+        let T = null;
         if (i) {
             DomElement.addClass(u, "last-item");
         }
         if (o.showTypes) {
-            b = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
+            T = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
         }
         DomElement.createWithHTML(u, "span", "split", ":");
         I(o, t, l, p, a);
@@ -1229,8 +1230,8 @@ var Arr;
                 d = o.showValueColors ? `${"boolean"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "boolean";
-                T = o.allowEditing.booleanValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.booleanValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -1244,8 +1245,8 @@ var Arr;
                 d = o.showValueColors ? `${"decimal"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
-                T = o.allowEditing.decimalValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.decimalValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -1258,8 +1259,8 @@ var Arr;
                 d = o.showValueColors ? `${"number"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "number";
-                T = o.allowEditing.numberValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.numberValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -1272,8 +1273,8 @@ var Arr;
                 d = o.showValueColors ? `${"bigint"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "bigint";
-                T = o.allowEditing.bigIntValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.bigIntValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -1286,8 +1287,8 @@ var Arr;
                 d = o.showValueColors ? `${"guid"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "guid";
-                T = o.allowEditing.guidValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.guidValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1300,11 +1301,11 @@ var Arr;
                 d = o.showValueColors ? `${"color"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, r);
                 m = "color";
-                T = o.allowEditing.colorValues;
+                b = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     f.style.color = r;
                 }
-                _(o, t, l, r, f, a, T);
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1331,8 +1332,8 @@ var Arr;
                     d = o.showValueColors ? `${"string"} value` : "value";
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
-                    T = o.allowEditing.stringValues;
-                    _(o, t, l, r, f, a, T);
+                    b = o.allowEditing.stringValues;
+                    _(o, t, l, r, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1346,8 +1347,8 @@ var Arr;
                 d = o.showValueColors ? `${"date"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 m = "date";
-                T = o.allowEditing.dateValues;
-                _(o, t, l, r, f, a, T);
+                b = o.allowEditing.dateValues;
+                _(o, t, l, r, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1494,16 +1495,16 @@ var Arr;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                if (Is.defined(b)) {
+                if (Is.defined(T)) {
                     if (m !== "null" && m !== "undefined" && m !== "array" && m !== "object" && m !== "map" && m !== "set") {
-                        b.innerHTML = `(${m})`;
+                        T.innerHTML = `(${m})`;
                     } else {
-                        b.parentNode.removeChild(b);
-                        b = null;
+                        T.parentNode.removeChild(T);
+                        T = null;
                     }
                 }
-                A(o, s, p, b, f);
-                C(o, f, r, m, T);
+                A(o, s, p, T, f);
+                C(o, f, r, m, b);
             }
         }
     }
