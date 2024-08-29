@@ -315,14 +315,16 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onTitleBarDblClick( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
-            DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
-            bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOnButtonSymbolText!
-            bindingOptions._currentView.fullScreenOn = false;
-        } else {
-            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
-            bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOffButtonSymbolText!
-            bindingOptions._currentView.fullScreenOn = true;
+        if ( bindingOptions.title!.enableFullScreenToggling ) {
+            if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
+                DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
+                bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOnButtonSymbolText!
+                bindingOptions._currentView.fullScreenOn = false;
+            } else {
+                DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+                bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOffButtonSymbolText!
+                bindingOptions._currentView.fullScreenOn = true;
+            }
         }
     }
 
@@ -1491,7 +1493,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
-            if ( e.code === KeyCode.left ) {
+            if ( isCommandKey( e ) && e.code === KeyCode.f11 ) {
+                e.preventDefault();
+                onTitleBarDblClick( bindingOptions );
+
+            } else if ( e.code === KeyCode.left ) {
                 e.preventDefault();
                 onBackPage( bindingOptions );
 
@@ -1512,6 +1518,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 onSideMenuClose( bindingOptions );
             }
         }
+    }
+
+    function isCommandKey( e: KeyboardEvent ) : boolean {
+        return e.ctrlKey || e.metaKey;
     }
 
 

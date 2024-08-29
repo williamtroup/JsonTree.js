@@ -47,4 +47,5 @@ export enum KeyCode {
     up = "ArrowUp",
     right = "ArrowRight",
     down = "ArrowDown",
+    f11 = "F11",
 }

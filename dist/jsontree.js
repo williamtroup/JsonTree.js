@@ -944,14 +944,16 @@ var Arr;
         }
     }
     function u(t) {
-        if (t._currentView.element.classList.contains("full-screen")) {
-            DomElement.removeClass(t._currentView.element, "full-screen");
-            t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOnButtonSymbolText;
-            t._currentView.fullScreenOn = false;
-        } else {
-            DomElement.addClass(t._currentView.element, "full-screen");
-            t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOffButtonSymbolText;
-            t._currentView.fullScreenOn = true;
+        if (t.title.enableFullScreenToggling) {
+            if (t._currentView.element.classList.contains("full-screen")) {
+                DomElement.removeClass(t._currentView.element, "full-screen");
+                t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOnButtonSymbolText;
+                t._currentView.fullScreenOn = false;
+            } else {
+                DomElement.addClass(t._currentView.element, "full-screen");
+                t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOffButtonSymbolText;
+                t._currentView.fullScreenOn = true;
+            }
         }
     }
     function c(e, t) {
@@ -1808,7 +1810,10 @@ var Arr;
     }
     function W(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
-            if (e.code === "ArrowLeft") {
+            if (P(e) && e.code === "F11") {
+                e.preventDefault();
+                u(o);
+            } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
                 g(o);
             } else if (e.code === "ArrowRight") {
@@ -1827,6 +1832,9 @@ var Arr;
         }
     }
     function P(e) {
+        return e.ctrlKey || e.metaKey;
+    }
+    function $(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1840,14 +1848,14 @@ var Arr;
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const $ = {
+    const J = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return $;
+            return J;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1857,29 +1865,29 @@ var Arr;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return $;
+            return J;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return $;
+            return J;
         },
         renderAll: function() {
             o();
-            return $;
+            return J;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return $;
+            return J;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 f(t[e]);
             }
-            return $;
+            return J;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -1899,7 +1907,7 @@ var Arr;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return $;
+            return J;
         },
         getJson: function(e) {
             let n = null;
@@ -1910,21 +1918,21 @@ var Arr;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                P(t[e]);
+                $(t[e]);
                 delete t[e];
                 n--;
             }
-            return $;
+            return J;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    P(t[e]);
+                    $(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return $;
+            return J;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -1940,7 +1948,7 @@ var Arr;
                     e = Config.Options.get(o);
                 }
             }
-            return $;
+            return J;
         },
         getIds: function() {
             const e = [];
@@ -1959,7 +1967,7 @@ var Arr;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = $;
+            window.$jsontree = J;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map
