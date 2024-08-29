@@ -166,6 +166,53 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         renderControlDragAndDrop( bindingOptions );
+        makeContentsEditable( bindingOptions, data, contents );
+    }
+
+    function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement ) : void {
+        if ( bindingOptions._currentView.isBulkEditingEnabled ) {
+            contents.ondblclick = ( e: MouseEvent ) => {
+                DomElement.cancelBubble( e );
+
+                clearTimeout( bindingOptions._currentView.valueClickTimerId );
+
+                bindingOptions._currentView.valueClickTimerId = 0;
+                bindingOptions._currentView.editMode = true;
+
+                DomElement.addClass( contents, "editable" );
+
+                contents.setAttribute( "contenteditable", "true" );
+                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, 6 );
+                contents.focus();
+
+                DomElement.selectAllText( contents );
+
+                contents.onblur = () => renderControlContainer( bindingOptions, false );
+    
+                contents.onkeydown = ( e: KeyboardEvent ) => {
+                    if ( e.code == KeyCode.escape ) {
+                        e.preventDefault();
+                        contents.setAttribute( "contenteditable", "false" );
+                        
+                    } else if ( e.code == KeyCode.enter ) {
+                        e.preventDefault();
+    
+                        const newValue: string = contents.innerText;
+                        const newData: StringToJson = Default.getObjectFromString( newValue, _configuration );
+
+                        if ( newData.parsed ) {
+                            if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
+                                bindingOptions.data[ bindingOptions._currentView.dataArrayCurrentIndex ] = newData.object;
+                            } else {
+                                bindingOptions.data = newData.object;
+                            }
+                        }
+
+                        contents.setAttribute( "contenteditable", "false" );
+                    }
+                };
+            };
+        }
     }
 
     
@@ -1059,7 +1106,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing!.propertyNames ) {
-            propertyName.ondblclick = () => {
+            propertyName.ondblclick = ( e: MouseEvent ) => {
+                DomElement.cancelBubble( e );
+
                 let originalArrayIndex: number = 0;
 
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -1134,7 +1183,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean ) : void {
         if ( allowEditing ) {
-            propertyValue.ondblclick = () => {
+            propertyValue.ondblclick = ( e: MouseEvent ) => {
+                DomElement.cancelBubble( e );
+
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
 
                 bindingOptions._currentView.valueClickTimerId = 0;

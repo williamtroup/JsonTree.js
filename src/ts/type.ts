@@ -136,6 +136,7 @@ export type BindingOptionsCurrentView = {
 	toggleFullScreenButton: HTMLButtonElement;
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
+	isBulkEditingEnabled: boolean;
 };
 
 export type BindingOptionsParse = {
@@ -184,6 +185,7 @@ export type BindingOptionsAllowEditing = {
 	guidValues?: boolean;
 	colorValues?: boolean;
 	propertyNames?: boolean;
+	bulk?: boolean;
 };
 
 export type BindingOptionsTooltip = {

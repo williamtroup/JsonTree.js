@@ -31,6 +31,8 @@ export namespace Binding {
     export namespace Options {
         export function getForNewInstance( data: any, element: HTMLElement ) : BindingOptions {
             const bindingOptions: BindingOptions = Binding.Options.get( data );
+            const allowEditing: any = bindingOptions.allowEditing;
+
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
@@ -48,6 +50,14 @@ export namespace Binding {
             bindingOptions._currentView.toggleFullScreenButton = null!;
             bindingOptions._currentView.fullScreenOn = false;
             bindingOptions._currentView.dragAndDropBackground = null!;
+            bindingOptions._currentView.isBulkEditingEnabled = true;
+
+            for ( var key in allowEditing ) {
+                if ( !allowEditing[ key ] ) {
+                    bindingOptions._currentView.isBulkEditingEnabled = false;
+                    break;
+                }
+            }
 
             return bindingOptions;
         }
@@ -161,6 +171,7 @@ export namespace Binding {
             options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, defaultFlag );
             options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
+            options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 
             if ( valueToolTipsSet ) {
                 options.allowEditing!.propertyNames = false;

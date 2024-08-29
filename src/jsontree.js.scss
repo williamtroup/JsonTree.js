@@ -435,6 +435,9 @@ div.json-tree-js {
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
         overflow: auto;
+        white-space: pre;
+        outline: none;
+        box-shadow: none;
 
         @include type-span-colors;
 
