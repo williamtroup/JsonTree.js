@@ -946,6 +946,25 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedImage( value ) ) {
+            if ( !bindingOptions.ignore!.imageValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.image} value` : "value";
+                valueElement = DomElement.create( objectTypeValue, "span", valueClass );
+                type = DataType.image;
+
+                const image: HTMLImageElement = DomElement.create( valueElement, "img" ) as HTMLImageElement;
+                image.src = value.src;
+
+                if ( Is.definedFunction( bindingOptions.events!.onImageRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onImageRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedSet( value ) ) {
             if ( !bindingOptions.ignore!.setValues ) {
                 const arrayValues: any[] = Default.getArrayFromSet( value );

@@ -142,6 +142,7 @@ export namespace Binding {
             options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
             options.ignore!.setValues = Default.getBoolean( options.ignore!.setValues, false );
             options.ignore!.urlValues = Default.getBoolean( options.ignore!.urlValues, false );
+            options.ignore!.imageValues = Default.getBoolean( options.ignore!.imageValues, false );
 
             return options;
         }
@@ -175,6 +176,7 @@ export namespace Binding {
             options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, defaultFlag );
             options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, defaultFlag );
             options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, defaultFlag );
+            options.allowEditing!.urlValues = Default.getBoolean( options.allowEditing!.urlValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 
@@ -223,6 +225,7 @@ export namespace Binding {
             options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
             options.events!.onExport = Default.getFunction( options.events!.onExport, null! );
             options.events!.onUrlRender = Default.getFunction( options.events!.onUrlRender, null! );
+            options.events!.onImageRender = Default.getFunction( options.events!.onImageRender, null! );
 
             return options;
         }

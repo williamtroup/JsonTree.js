@@ -103,6 +103,10 @@ export namespace Is {
         return defined( object ) && ( object instanceof Set || object instanceof WeakSet );
     }
 
+    export function definedImage( object: any ) : boolean {
+        return defined( object ) && object instanceof Image;
+    }
+
     export function definedUrl( data: string ) : boolean {
         let url: URL;
         

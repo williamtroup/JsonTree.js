@@ -452,6 +452,11 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.url {
   color: var(--json-tree-js-color-url);
 }
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.image img {
+  height: 30px;
+  width: 30px;
+  border-radius: var(--json-tree-js-border-radius-editable);
+}
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
   margin-bottom: 0;
 }
@@ -530,6 +535,11 @@ div.json-tree-js div.contents span.regexp {
 }
 div.json-tree-js div.contents span.url {
   color: var(--json-tree-js-color-url);
+}
+div.json-tree-js div.contents span.image img {
+  height: 30px;
+  width: 30px;
+  border-radius: var(--json-tree-js-border-radius-editable);
 }
 div.json-tree-js div.contents span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

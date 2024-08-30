@@ -64,6 +64,9 @@ function getData() {
 
     var set = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
 
+    var image = new Image( 100, 100 );
+    image.src = "images/image.png";
+
     return [
         {
             value1: true,
@@ -88,6 +91,7 @@ function getData() {
             value18: map,
             value19: set,
             value20: "https://www.william-troup.com",
+            value21: image,
             value5: [
                 true,
                 "This is another string",
@@ -151,6 +155,8 @@ function onValueClickEvent( value, type ) {
         value = Array.from( value.keys() );
     } else if ( value instanceof Set ) {
         value = Array.from( value.values() );
+    } else if ( value instanceof Image ) {
+        value = Array.from( value.src );
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );

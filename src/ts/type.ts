@@ -180,6 +180,7 @@ export type BindingOptionsIgnore = {
 	mapValues?: boolean;
 	setValues?: boolean;
 	urlValues?: boolean;
+	imageValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -191,6 +192,7 @@ export type BindingOptionsAllowEditing = {
 	bigIntValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
+	urlValues?: boolean;
 	propertyNames?: boolean;
 	bulk?: boolean;
 };
@@ -231,6 +233,7 @@ export type BindingOptionsEvents = {
 	onColorRender?: ( element: HTMLElement ) => void;
 	onRegExpRender?: ( element: HTMLElement ) => void;
 	onUrlRender?: ( element: HTMLElement ) => void;
+	onImageRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;
