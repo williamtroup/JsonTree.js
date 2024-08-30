@@ -98,7 +98,8 @@ function getData() {
             value18: map,
             value19: set,
             value20: "https://www.william-troup.com",
-            value21: image,
+            value21: "william@william-troup.com",
+            value22: image,
             value5: [
                 true,
                 "This is another string",

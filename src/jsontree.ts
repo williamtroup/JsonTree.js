@@ -868,6 +868,25 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedString( value ) && Is.definedEmail( value ) ) {
+            if ( !bindingOptions.ignore!.emailValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.email} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.email;
+                allowEditing = bindingOptions.allowEditing!.emailValues!;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
+
+                if ( Is.definedFunction( bindingOptions.events!.onEmailRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onEmailRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {

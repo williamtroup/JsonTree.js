@@ -119,6 +119,12 @@ export namespace Is {
         return url !== null && ( url.protocol === "http:" || url.protocol === "https:" )
     }
 
+    export function definedEmail( data: string ) : boolean {
+        const regex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
+        return regex.test( data );	
+    }
+
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
     }

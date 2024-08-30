@@ -184,6 +184,7 @@ export type BindingOptionsIgnore = {
 	setValues?: boolean;
 	urlValues?: boolean;
 	imageValues?: boolean;
+	emailValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -196,6 +197,7 @@ export type BindingOptionsAllowEditing = {
 	guidValues?: boolean;
 	colorValues?: boolean;
 	urlValues?: boolean;
+	emailValues?: boolean;
 	propertyNames?: boolean;
 	bulk?: boolean;
 };
@@ -244,6 +246,7 @@ export type BindingOptionsEvents = {
 	onRegExpRender?: ( element: HTMLElement ) => void;
 	onUrlRender?: ( element: HTMLElement ) => void;
 	onImageRender?: ( element: HTMLElement ) => void;
+	onEmailRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

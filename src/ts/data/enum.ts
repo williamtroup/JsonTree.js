@@ -42,6 +42,7 @@ export enum DataType {
     set = "set",
     url = "url",
     image = "image",
+    email = "email",
 }
 
 export enum KeyCode {

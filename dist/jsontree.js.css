@@ -45,6 +45,7 @@
   --json-tree-js-color-guid: #c45600;
   --json-tree-js-color-regexp: #AA336A;
   --json-tree-js-color-url: #00FFFF;
+  --json-tree-js-color-email: #FA8072;
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
@@ -452,6 +453,9 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.url {
   color: var(--json-tree-js-color-url);
 }
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.email {
+  color: var(--json-tree-js-color-email);
+}
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
   margin-bottom: 0;
 }
@@ -530,6 +534,9 @@ div.json-tree-js div.contents span.regexp {
 }
 div.json-tree-js div.contents span.url {
   color: var(--json-tree-js-color-url);
+}
+div.json-tree-js div.contents span.email {
+  color: var(--json-tree-js-color-email);
 }
 div.json-tree-js div.contents span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

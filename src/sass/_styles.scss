@@ -123,6 +123,10 @@ $minimum-width: 768px;
     span.url {
         color: var(--json-tree-js-color-url);
     }
+
+    span.email {
+        color: var(--json-tree-js-color-email);
+    }
 }
 
 @mixin title-bar-buttons {
