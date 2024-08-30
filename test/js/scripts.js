@@ -164,7 +164,7 @@ function onValueClickEvent( value, type ) {
     } else if ( value instanceof Set ) {
         value = Array.from( value.values() );
     } else if ( value instanceof Image ) {
-        value = Array.from( value.src );
+        value = value.src;
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );

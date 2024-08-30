@@ -397,6 +397,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             value = Default.getArrayFromSet( value );
         } else if ( Is.definedRegExp( value ) ) {
             value = value.source;
+        } else if ( Is.definedImage( value ) ) {
+            value = value.src;
         }
 
         return value;

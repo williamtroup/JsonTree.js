@@ -1057,6 +1057,8 @@ var Arr;
             n = Default2.getArrayFromSet(n);
         } else if (Is.definedRegExp(n)) {
             n = n.source;
+        } else if (Is.definedImage(n)) {
+            n = n.src;
         }
         return n;
     }
