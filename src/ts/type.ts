@@ -164,7 +164,7 @@ export type BindingOptionsIgnore = {
     functionValues?: boolean;
     unknownValues?: boolean;
     booleanValues?: boolean;
-    decimalValues?: boolean;
+    floatValues?: boolean;
     stringValues?: boolean;
     arrayValues?: boolean;
     objectValues?: boolean;
@@ -185,7 +185,7 @@ export type BindingOptionsIgnore = {
 
 export type BindingOptionsAllowEditing = {
     booleanValues?: boolean;
-    decimalValues?: boolean;
+    floatValues?: boolean;
     stringValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
@@ -221,7 +221,7 @@ export type BindingOptionsEvents = {
     onBooleanRender?: ( element: HTMLElement ) => void;
     onDateRender?: ( element: HTMLElement ) => void;
     onNumberRender?: ( element: HTMLElement ) => void;
-    onDecimalRender?: ( element: HTMLElement ) => void;
+    onFloatRender?: ( element: HTMLElement ) => void;
     onFunctionRender?: ( element: HTMLElement ) => void;
     onNullRender?: ( element: HTMLElement ) => void;
     onStringRender?: ( element: HTMLElement ) => void;

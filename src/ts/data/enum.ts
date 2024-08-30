@@ -25,7 +25,7 @@ export enum DataType {
     null = "null",
     function = "function",
     boolean = "boolean",
-    decimal = "decimal",
+    float = "float",
     number = "number",
     bigint = "bigint",
     string = "string",

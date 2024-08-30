@@ -126,7 +126,7 @@ export namespace Binding {
             options.ignore!.functionValues = Default.getBoolean( options.ignore!.functionValues, false );
             options.ignore!.unknownValues = Default.getBoolean( options.ignore!.unknownValues, false );
             options.ignore!.booleanValues = Default.getBoolean( options.ignore!.booleanValues, false );
-            options.ignore!.decimalValues = Default.getBoolean( options.ignore!.decimalValues, false );
+            options.ignore!.floatValues = Default.getBoolean( options.ignore!.floatValues, false );
             options.ignore!.numberValues = Default.getBoolean( options.ignore!.numberValues, false );
             options.ignore!.stringValues = Default.getBoolean( options.ignore!.stringValues, false );
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
@@ -169,7 +169,7 @@ export namespace Binding {
 
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
             options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, defaultFlag );
-            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, defaultFlag );
+            options.allowEditing!.floatValues = Default.getBoolean( options.allowEditing!.floatValues, defaultFlag );
             options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, defaultFlag );
             options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, defaultFlag );
             options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, defaultFlag );
@@ -208,7 +208,7 @@ export namespace Binding {
             options.events!.onCloseAll = Default.getFunction( options.events!.onCloseAll, null! );
             options.events!.onDestroy = Default.getFunction( options.events!.onDestroy, null! );
             options.events!.onBooleanRender = Default.getFunction( options.events!.onBooleanRender, null! );
-            options.events!.onDecimalRender = Default.getFunction( options.events!.onDecimalRender, null! );
+            options.events!.onFloatRender = Default.getFunction( options.events!.onFloatRender, null! );
             options.events!.onNumberRender = Default.getFunction( options.events!.onNumberRender, null! );
             options.events!.onBigIntRender = Default.getFunction( options.events!.onBigIntRender, null! );
             options.events!.onStringRender = Default.getFunction( options.events!.onStringRender, null! );

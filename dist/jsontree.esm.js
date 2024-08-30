@@ -2,7 +2,7 @@ var DataType = (e => {
     e["null"] = "null";
     e["function"] = "function";
     e["boolean"] = "boolean";
-    e["decimal"] = "decimal";
+    e["float"] = "float";
     e["number"] = "number";
     e["bigint"] = "bigint";
     e["string"] = "string";
@@ -94,7 +94,7 @@ var Is;
     function d(e) {
         return n(e) && typeof e === "number" && e % 1 !== 0;
     }
-    e.definedDecimal = d;
+    e.definedFloat = d;
     function f(e) {
         return n(e) && typeof e === "symbol";
     }
@@ -177,11 +177,11 @@ var Default2;
         return n;
     }
     Default.getStringOrArray = getStringOrArray;
-    function getFixedDecimalPlacesValue(e, t) {
+    function getFixedFloatPlacesValue(e, t) {
         const n = new RegExp(`^-?\\d+(?:.\\d{0,${t || -1}})?`);
         return e.toString().match(n)?.[0] || "";
     }
-    Default.getFixedDecimalPlacesValue = getFixedDecimalPlacesValue;
+    Default.getFixedFloatPlacesValue = getFixedFloatPlacesValue;
     function getFunctionName(e, t) {
         let n;
         const o = e.toString().split("(");
@@ -508,7 +508,7 @@ var Binding;
             e.ignore.functionValues = Default2.getBoolean(e.ignore.functionValues, false);
             e.ignore.unknownValues = Default2.getBoolean(e.ignore.unknownValues, false);
             e.ignore.booleanValues = Default2.getBoolean(e.ignore.booleanValues, false);
-            e.ignore.decimalValues = Default2.getBoolean(e.ignore.decimalValues, false);
+            e.ignore.floatValues = Default2.getBoolean(e.ignore.floatValues, false);
             e.ignore.numberValues = Default2.getBoolean(e.ignore.numberValues, false);
             e.ignore.stringValues = Default2.getBoolean(e.ignore.stringValues, false);
             e.ignore.dateValues = Default2.getBoolean(e.ignore.dateValues, false);
@@ -544,7 +544,7 @@ var Binding;
             let n = Default2.getBoolean(e.allowEditing, true);
             e.allowEditing = Default2.getObject(e.allowEditing, {});
             e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, n);
-            e.allowEditing.decimalValues = Default2.getBoolean(e.allowEditing.decimalValues, n);
+            e.allowEditing.floatValues = Default2.getBoolean(e.allowEditing.floatValues, n);
             e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, n);
             e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, n);
             e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, n);
@@ -578,7 +578,7 @@ var Binding;
             e.events.onCloseAll = Default2.getFunction(e.events.onCloseAll, null);
             e.events.onDestroy = Default2.getFunction(e.events.onDestroy, null);
             e.events.onBooleanRender = Default2.getFunction(e.events.onBooleanRender, null);
-            e.events.onDecimalRender = Default2.getFunction(e.events.onDecimalRender, null);
+            e.events.onFloatRender = Default2.getFunction(e.events.onFloatRender, null);
             e.events.onNumberRender = Default2.getFunction(e.events.onNumberRender, null);
             e.events.onBigIntRender = Default2.getFunction(e.events.onBigIntRender, null);
             e.events.onStringRender = Default2.getFunction(e.events.onStringRender, null);
@@ -1279,16 +1279,16 @@ var Arr;
             } else {
                 g = true;
             }
-        } else if (Is.definedDecimal(l)) {
-            if (!o.ignore.decimalValues) {
-                const e = Default2.getFixedDecimalPlacesValue(l, o.maximumDecimalPlaces);
-                d = o.showValueColors ? `${"decimal"} value` : "value";
+        } else if (Is.definedFloat(l)) {
+            if (!o.ignore.floatValues) {
+                const e = Default2.getFixedFloatPlacesValue(l, o.maximumDecimalPlaces);
+                d = o.showValueColors ? `${"float"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, e);
-                m = "decimal";
-                b = o.allowEditing.decimalValues;
+                m = "float";
+                b = o.allowEditing.floatValues;
                 C(o, t, r, l, f, a, b);
-                if (Is.definedFunction(o.events.onDecimalRender)) {
-                    Trigger.customEvent(o.events.onDecimalRender, f);
+                if (Is.definedFunction(o.events.onFloatRender)) {
+                    Trigger.customEvent(o.events.onFloatRender, f);
                 }
                 F(o, u, i);
             } else {
@@ -1700,7 +1700,7 @@ var Arr;
                             let r = null;
                             if (Is.definedBoolean(o)) {
                                 r = a.toLowerCase() === "true";
-                            } else if (Is.definedDecimal(o) && !isNaN(+a)) {
+                            } else if (Is.definedFloat(o) && !isNaN(+a)) {
                                 r = parseFloat(a);
                             } else if (Is.definedNumber(o) && !isNaN(+a)) {
                                 r = parseInt(a);

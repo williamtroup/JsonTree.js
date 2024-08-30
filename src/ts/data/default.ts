@@ -64,7 +64,7 @@ export namespace Default {
         return result;
     }
 
-    export function getFixedDecimalPlacesValue( value: number, decimalPlaces: number ) : string {
+    export function getFixedFloatPlacesValue( value: number, decimalPlaces: number ) : string {
         const regExp: RegExp = new RegExp( `^-?\\d+(?:.\\d{0,${decimalPlaces || -1}})?` );
     
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;

@@ -12,7 +12,7 @@
     --json-tree-js-color-map: #BDB5D5;
     --json-tree-js-color-set: #FFD700;
     --json-tree-js-color-boolean: #FF0000;
-    --json-tree-js-color-decimal: #e3c868;
+    --json-tree-js-color-float: #e3c868;
     --json-tree-js-color-number: #666bf9;
     --json-tree-js-color-bigint: #6495ED;
     --json-tree-js-color-string: #78b13f;

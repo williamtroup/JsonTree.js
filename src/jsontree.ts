@@ -736,19 +736,19 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
-        } else if ( Is.definedDecimal( value ) ) {
-            if ( !bindingOptions.ignore!.decimalValues ) {
-                const newValue: string = Default.getFixedDecimalPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
+        } else if ( Is.definedFloat( value ) ) {
+            if ( !bindingOptions.ignore!.floatValues ) {
+                const newValue: string = Default.getFixedFloatPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
 
-                valueClass = bindingOptions.showValueColors ? `${DataType.decimal} value` : "value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.float} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
-                type = DataType.decimal;
-                allowEditing = bindingOptions.allowEditing!.decimalValues!;
+                type = DataType.float;
+                allowEditing = bindingOptions.allowEditing!.floatValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
-                if ( Is.definedFunction( bindingOptions.events!.onDecimalRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onDecimalRender!, valueElement );
+                if ( Is.definedFunction( bindingOptions.events!.onFloatRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onFloatRender!, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1309,7 +1309,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                             if ( Is.definedBoolean( originalPropertyValue ) ) {
                                 newDataPropertyValue = newPropertyValue.toLowerCase() === "true";
-                            } else if ( Is.definedDecimal( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
+                            } else if ( Is.definedFloat( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
                                 newDataPropertyValue = parseFloat( newPropertyValue );
                             } else if ( Is.definedNumber( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
                                 newDataPropertyValue = parseInt( newPropertyValue );

@@ -32,7 +32,7 @@
   --json-tree-js-color-map: #BDB5D5;
   --json-tree-js-color-set: #FFD700;
   --json-tree-js-color-boolean: #FF0000;
-  --json-tree-js-color-decimal: #e3c868;
+  --json-tree-js-color-float: #e3c868;
   --json-tree-js-color-number: #666bf9;
   --json-tree-js-color-bigint: #6495ED;
   --json-tree-js-color-string: #78b13f;
@@ -413,8 +413,8 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.boolean {
   color: var(--json-tree-js-color-boolean);
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.decimal {
-  color: var(--json-tree-js-color-decimal);
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.float {
+  color: var(--json-tree-js-color-float);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.number {
   color: var(--json-tree-js-color-number);
@@ -497,8 +497,8 @@ div.json-tree-js div.contents span.set {
 div.json-tree-js div.contents span.boolean {
   color: var(--json-tree-js-color-boolean);
 }
-div.json-tree-js div.contents span.decimal {
-  color: var(--json-tree-js-color-decimal);
+div.json-tree-js div.contents span.float {
+  color: var(--json-tree-js-color-float);
 }
 div.json-tree-js div.contents span.number {
   color: var(--json-tree-js-color-number);

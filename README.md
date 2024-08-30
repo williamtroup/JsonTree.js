@@ -63,7 +63,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `object` Objects
 - `object Array` Arrays
 - `object Date` Dates
-- `number` Decimals
+- `float` Floats
 - `null` Nulls
 - `symbol` Symbols
 - `function` Functions and Lambdas

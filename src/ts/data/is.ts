@@ -83,7 +83,7 @@ export namespace Is {
         return definedObject( object ) && object instanceof Date;
     }
 
-    export function definedDecimal( object: any ) : boolean {
+    export function definedFloat( object: any ) : boolean {
         return defined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 

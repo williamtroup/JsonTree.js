@@ -72,8 +72,8 @@ $minimum-width: 768px;
         color: var(--json-tree-js-color-boolean);
     }
 
-    span.decimal {
-        color: var(--json-tree-js-color-decimal);
+    span.float {
+        color: var(--json-tree-js-color-float);
     }
 
     span.number {
