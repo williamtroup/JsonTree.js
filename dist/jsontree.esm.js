@@ -1055,6 +1055,8 @@ var Arr;
             n = Default2.getObjectFromMap(n);
         } else if (Is.definedSet(n)) {
             n = Default2.getArrayFromSet(n);
+        } else if (Is.definedRegExp(n)) {
+            n = n.source;
         }
         return n;
     }

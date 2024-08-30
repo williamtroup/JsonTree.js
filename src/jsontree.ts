@@ -395,6 +395,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             value = Default.getObjectFromMap( value );
         } else if ( Is.definedSet( value ) ) {
             value = Default.getArrayFromSet( value );
+        } else if ( Is.definedRegExp( value ) ) {
+            value = value.source;
         }
 
         return value;
