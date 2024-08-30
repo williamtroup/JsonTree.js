@@ -461,6 +461,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( !bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
             bindingOptions._currentView.sideMenu.classList.add( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "block";
+
+            ToolTip.hide( bindingOptions );
         }
     }
 
@@ -468,6 +470,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
             bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "none";
+
+            ToolTip.hide( bindingOptions );
     
             if ( bindingOptions._currentView.sideMenuChanged ) {
                 renderControlContainer( bindingOptions );

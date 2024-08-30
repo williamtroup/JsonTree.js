@@ -877,7 +877,7 @@ var Arr;
         if (Is.definedArray(l) || Is.definedSet(l)) {
             S(r, n, l);
         } else if (Is.definedObject(l)) {
-            h(r, n, l);
+            v(r, n, l);
         }
         if (r.innerHTML === "" || r.children.length >= 2 && r.children[1].children.length === 0) {
             r.innerHTML = "";
@@ -1098,12 +1098,14 @@ var Arr;
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
+            ToolTip.hide(e);
         }
     }
     function w(e) {
         if (e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.remove("side-menu-open");
             e._currentView.disabledBackground.style.display = "none";
+            ToolTip.hide(e);
             if (e._currentView.sideMenuChanged) {
                 i(e);
             }
@@ -1126,7 +1128,7 @@ var Arr;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            o.push(v(u, e, n, !d[`${e}Values`]));
+            o.push(h(u, e, n, !d[`${e}Values`]));
         }));
     }
     function D(e, t, n) {
@@ -1138,7 +1140,7 @@ var Arr;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function v(e, t, n, o) {
+    function h(e, t, n, o) {
         const l = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
@@ -1148,7 +1150,7 @@ var Arr;
         };
         return l;
     }
-    function h(t, n, o) {
+    function v(t, n, o) {
         const l = Is.definedMap(o);
         const r = l ? "map" : "object";
         const i = l ? Default2.getObjectFromMap(o) : o;
