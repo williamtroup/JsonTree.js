@@ -55,6 +55,7 @@
   --json-tree-js-side-menu-right-border-width: calc( var(--json-tree-js-border-size) * 12 );
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
+  --json-tree-js-container-object-left-border-color: #5a6370;
   --json-tree-js-button-background-color: #2d333b;
   --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-button-text-color: var(--json-tree-js-color-white);
@@ -621,6 +622,13 @@ div.json-tree-js div.object-type-contents {
   text-align: left !important;
   width: fit-content;
   margin-bottom: var(--json-tree-js-spacing);
+}
+div.json-tree-js div.object-border {
+  border-left: 1px dotted var(--json-tree-js-container-object-left-border-color);
+  margin-left: 5px;
+}
+div.json-tree-js div.object-border-no-arrow-toggles {
+  margin-left: 1px;
 }
 
 /*

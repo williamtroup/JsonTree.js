@@ -113,6 +113,7 @@ export type BindingOptions = {
 	editableJsonIndentSpaces?: number;
 	exportFilenameFormat?: string;
 	showPropertyNameQuotes?: boolean;
+	showOpenedObjectArrayBorders?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

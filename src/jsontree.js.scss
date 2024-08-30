@@ -73,6 +73,7 @@
     // Containers
     --json-tree-js-container-background-color: #22272e;
     --json-tree-js-container-border-color: #454c56;
+    --json-tree-js-container-object-left-border-color: #5a6370;
 
     // Button
     --json-tree-js-button-background-color: #2d333b;
@@ -563,6 +564,15 @@ div.json-tree-js {
         text-align: left !important;
         width: fit-content;
         margin-bottom: var(--json-tree-js-spacing);
+    }
+
+    div.object-border {
+        border-left: 1px dotted var(--json-tree-js-container-object-left-border-color);
+        margin-left: 5px;
+    }
+
+    div.object-border-no-arrow-toggles {
+        margin-left: 1px;
     }
 }
 

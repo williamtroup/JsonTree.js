@@ -545,6 +545,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isMap ? _configuration.text!.mapText! : _configuration.text!.objectText! ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
 
+            addObjectContentsBorder( objectTypeContents, bindingOptions );
+
             if ( bindingOptions.showArrayItemsAsSeparateObjects ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
     
@@ -577,6 +579,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
         const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} main-title` : "main-title", isSet ? _configuration.text!.setText! : _configuration.text!.arrayText! );
         let openingBracket: HTMLSpanElement = null!;
+
+        addObjectContentsBorder( objectTypeContents, bindingOptions );
 
         if ( bindingOptions.showCounts ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `[${setData.length}]` );
@@ -949,6 +953,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
 
+                addObjectContentsBorder( arrayTypeContents, bindingOptions );
+
                 if ( isLastItem ) {
                     DomElement.addClass( arrayTypeContents, "last-item" );
                 }
@@ -977,6 +983,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.array : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
+
+                addObjectContentsBorder( arrayTypeContents, bindingOptions );
 
                 if ( isLastItem ) {
                     DomElement.addClass( arrayTypeContents, "last-item" );
@@ -1015,6 +1023,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
 
+                    addObjectContentsBorder( objectTypeContents, bindingOptions );
+
                     if ( isLastItem ) {
                         DomElement.addClass( objectTypeContents, "last-item" );
                     }
@@ -1051,6 +1061,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.object : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
+
+                    addObjectContentsBorder( objectTypeContents, bindingOptions );
 
                     if ( isLastItem ) {
                         DomElement.addClass( objectTypeContents, "last-item" );
@@ -1109,6 +1121,16 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 addValueElementToolTip( bindingOptions, jsonPath, nameElement, typeElement, valueElement );
                 addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
+            }
+        }
+    }
+
+    function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.showOpenedObjectArrayBorders ) {
+            DomElement.addClass( objectContents, "object-border" );
+
+            if ( !bindingOptions.showArrowToggles ) {
+                DomElement.addClass( objectContents, "object-border-no-arrow-toggles" );
             }
         }
     }
