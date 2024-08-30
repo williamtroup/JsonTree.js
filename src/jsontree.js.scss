@@ -566,6 +566,12 @@ div.json-tree-js {
         width: fit-content;
         margin-bottom: var(--json-tree-js-spacing);
         position: relative;
+
+        img {
+            height: 30px;
+            width: 30px;
+            border-radius: var(--json-tree-js-border-radius-editable);
+        }
     }
 
     div.object-border {

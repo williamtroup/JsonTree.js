@@ -123,14 +123,6 @@ $minimum-width: 768px;
     span.url {
         color: var(--json-tree-js-color-url);
     }
-
-    span.image {
-        img {
-            height: 30px;
-            width: 30px;
-            border-radius: var(--json-tree-js-border-radius-editable);
-        }
-    }
 }
 
 @mixin title-bar-buttons {
