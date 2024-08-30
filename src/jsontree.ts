@@ -1512,7 +1512,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
         let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
-        if ( addNoArrow && bindingOptions.showArrowToggles ) {
+        if ( ( addNoArrow && bindingOptions.showArrowToggles ) || bindingOptions.showOpenedObjectArrayBorders ) {
             DomElement.create( symbolContainer, "div", "no-arrow" );
         }
         

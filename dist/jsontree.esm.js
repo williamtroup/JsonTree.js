@@ -1177,7 +1177,7 @@ var Arr;
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
             V(d, null, c, n, i, a, g, false, true, "", r);
-            M(n, f, o, r, false);
+            O(n, f, o, r, false);
         }
     }
     function S(t, n, o) {
@@ -1197,7 +1197,7 @@ var Arr;
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
         E(u, null, s, n, i, d, false, true, "", r);
-        M(n, c, o, r, false);
+        O(n, c, o, r, false);
     }
     function V(e, t, n, o, l, r, i, a, s, u, c) {
         const d = r.length;
@@ -1212,7 +1212,7 @@ var Arr;
         if (o.showOpeningClosingCurlyBraces) {
             N(o, n, "}", a, s);
         }
-        O(o, e, t, n, i, f, c);
+        M(o, e, t, n, i, f, c);
     }
     function E(e, t, n, o, l, r, i, a, s, u) {
         const c = l.length;
@@ -1233,7 +1233,7 @@ var Arr;
         if (o.showOpeningClosingCurlyBraces) {
             N(o, n, "]", i, a);
         }
-        O(o, e, t, n, r, d, u);
+        M(o, e, t, n, r, d, u);
     }
     function B(t, n, o, l, r, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
@@ -1622,7 +1622,7 @@ var Arr;
                     }
                 }
                 I(o, s, b, y, g);
-                M(o, g, r, p, T);
+                O(o, g, r, p, T);
             }
         }
     }
@@ -1772,7 +1772,7 @@ var Arr;
             };
         }
     }
-    function M(e, t, n, o, l) {
+    function O(e, t, n, o, l) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (l) {
@@ -1789,7 +1789,7 @@ var Arr;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function O(e, t, n, o, l, r, i) {
+    function M(e, t, n, o, l, r, i) {
         const a = e._currentView.contentPanelsIndex;
         const s = e._currentView.dataArrayCurrentIndex;
         if (!e._currentView.contentPanelsOpen.hasOwnProperty(s)) {
@@ -1879,7 +1879,7 @@ var Arr;
     }
     function N(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
-        if (o && e.showArrowToggles) {
+        if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);
