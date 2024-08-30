@@ -55,7 +55,7 @@
   --json-tree-js-side-menu-right-border-width: calc( var(--json-tree-js-border-size) * 12 );
   --json-tree-js-container-background-color: #22272e;
   --json-tree-js-container-border-color: #454c56;
-  --json-tree-js-container-object-left-border-color: #5a6370;
+  --json-tree-js-container-object-left-border-color: #677180;
   --json-tree-js-button-background-color: #2d333b;
   --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-button-text-color: var(--json-tree-js-color-white);
@@ -73,6 +73,7 @@
   --json-tree-js-border-size: 0.5px;
   --json-tree-js-spacing: 10px;
   --json-tree-js-spacing-font-size: 0.85rem;
+  --json-tree-js-spacing-arrow-toggle-size: 12px;
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
 }
@@ -158,7 +159,7 @@ div.full-screen div.contents span.no-json-text {
 */
 div.json-tree-js div.no-arrow {
   display: inline-block;
-  width: 12px;
+  width: var(--json-tree-js-spacing-arrow-toggle-size);
   height: 8px;
   margin-right: calc(var(--json-tree-js-spacing));
 }
@@ -184,7 +185,7 @@ div.json-tree-js div.down-arrow {
 div.json-tree-js div.right-arrow {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-left: 12px solid var(--json-tree-js-color-white);
+  border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-white);
 }
 
 /*
@@ -622,13 +623,22 @@ div.json-tree-js div.object-type-contents {
   text-align: left !important;
   width: fit-content;
   margin-bottom: var(--json-tree-js-spacing);
+  position: relative;
 }
 div.json-tree-js div.object-border {
-  border-left: 1px dotted var(--json-tree-js-container-object-left-border-color);
+  border-left: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
   margin-left: 5px;
 }
 div.json-tree-js div.object-border-no-arrow-toggles {
-  margin-left: 1px;
+  margin-left: var(--json-tree-js-border-size);
+}
+div.json-tree-js div.object-border-bottom {
+  position: absolute;
+  bottom: 0;
+  left: var(--json-tree-js-border-size);
+  height: var(--json-tree-js-border-size);
+  width: var(--json-tree-js-spacing-arrow-toggle-size);
+  border-bottom: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
 }
 
 /*
@@ -646,6 +656,7 @@ div.json-tree-js div.object-type-contents div.closing-symbol div {
   display: inline-block !important;
 }
 div.json-tree-js div.object-type-contents div.closing-symbol div.object-type-end {
+  margin-top: 3px;
   font-weight: var(--json-tree-js-text-bold-weight);
 }
 div.json-tree-js div.object-type-contents div.object-type-value {

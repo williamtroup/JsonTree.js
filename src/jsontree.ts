@@ -1132,6 +1132,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.showArrowToggles ) {
                 DomElement.addClass( objectContents, "object-border-no-arrow-toggles" );
             }
+
+            DomElement.create( objectContents, "div", "object-border-bottom" );
         }
     }
 

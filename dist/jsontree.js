@@ -112,7 +112,7 @@ var Is;
         return n(e) && (e instanceof Set || e instanceof WeakSet);
     }
     e.definedSet = p;
-    function T(e) {
+    function b(e) {
         let t;
         try {
             t = new URL(e);
@@ -121,11 +121,11 @@ var Is;
         }
         return t !== null && (t.protocol === "http:" || t.protocol === "https:");
     }
-    e.definedUrl = T;
-    function b(e, t = 1) {
+    e.definedUrl = b;
+    function T(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = b;
+    e.invalidOptionArray = T;
 })(Is || (Is = {}));
 
 var Default2;
@@ -840,7 +840,7 @@ var Arr;
         n._currentView.contentPanelsIndex = 0;
         n._currentView.sideMenuChanged = false;
         s(n, r);
-        T(n);
+        b(n);
         const l = DomElement.create(n._currentView.element, "div", "contents");
         if (o) {
             DomElement.addClass(l, "page-switch");
@@ -1027,7 +1027,7 @@ var Arr;
         }
         return n;
     }
-    function T(t) {
+    function b(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => x(t);
@@ -1045,7 +1045,7 @@ var Arr;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => b(t);
+                n.onclick = () => T(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1055,7 +1055,7 @@ var Arr;
             w(l, t);
         }
     }
-    function b(e) {
+    function T(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -1208,8 +1208,8 @@ var Arr;
         let g = false;
         let m = null;
         const p = DomElement.create(u, "span", "title");
-        let T = false;
-        let b = null;
+        let b = false;
+        let T = null;
         if (a || !o.showPropertyNameQuotes) {
             p.innerHTML = r;
         } else {
@@ -1219,7 +1219,7 @@ var Arr;
             DomElement.addClass(u, "last-item");
         }
         if (o.showTypes) {
-            b = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
+            T = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
         }
         DomElement.createWithHTML(u, "span", "split", ":");
         _(o, t, r, p, a);
@@ -1264,8 +1264,8 @@ var Arr;
                 d = o.showValueColors ? `${"boolean"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
-                T = o.allowEditing.booleanValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.booleanValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -1279,8 +1279,8 @@ var Arr;
                 d = o.showValueColors ? `${"decimal"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
-                T = o.allowEditing.decimalValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.decimalValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -1293,8 +1293,8 @@ var Arr;
                 d = o.showValueColors ? `${"number"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
-                T = o.allowEditing.numberValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.numberValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -1307,8 +1307,8 @@ var Arr;
                 d = o.showValueColors ? `${"bigint"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
-                T = o.allowEditing.bigIntValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.bigIntValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -1321,8 +1321,8 @@ var Arr;
                 d = o.showValueColors ? `${"guid"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
-                T = o.allowEditing.guidValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.guidValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1335,11 +1335,11 @@ var Arr;
                 d = o.showValueColors ? `${"color"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "color";
-                T = o.allowEditing.colorValues;
+                b = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                C(o, t, r, l, f, a, T);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1352,8 +1352,8 @@ var Arr;
                 d = o.showValueColors ? `${"url"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "url";
-                T = o.allowEditing.urlValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.urlValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, f);
                 }
@@ -1380,8 +1380,8 @@ var Arr;
                     d = o.showValueColors ? `${"string"} value` : "value";
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
-                    T = o.allowEditing.stringValues;
-                    C(o, t, r, l, f, a, T);
+                    b = o.allowEditing.stringValues;
+                    C(o, t, r, l, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1395,8 +1395,8 @@ var Arr;
                 d = o.showValueColors ? `${"date"} value` : "value";
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
-                T = o.allowEditing.dateValues;
-                C(o, t, r, l, f, a, T);
+                b = o.allowEditing.dateValues;
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1547,16 +1547,16 @@ var Arr;
             n.removeChild(u);
         } else {
             if (Is.defined(f)) {
-                if (Is.defined(b)) {
+                if (Is.defined(T)) {
                     if (m !== "null" && m !== "undefined" && m !== "array" && m !== "object" && m !== "map" && m !== "set") {
-                        b.innerHTML = `(${m})`;
+                        T.innerHTML = `(${m})`;
                     } else {
-                        b.parentNode.removeChild(b);
-                        b = null;
+                        T.parentNode.removeChild(T);
+                        T = null;
                     }
                 }
-                I(o, s, p, b, f);
-                O(o, f, l, m, T);
+                I(o, s, p, T, f);
+                O(o, f, l, m, b);
             }
         }
     }
@@ -1566,6 +1566,7 @@ var Arr;
             if (!t.showArrowToggles) {
                 DomElement.addClass(e, "object-border-no-arrow-toggles");
             }
+            DomElement.create(e, "div", "object-border-bottom");
         }
     }
     function I(e, t, n, o, r) {
