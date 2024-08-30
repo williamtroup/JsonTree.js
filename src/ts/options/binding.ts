@@ -97,6 +97,7 @@ export namespace Binding {
             options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
             options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
             options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );
+            options.showPropertyNameAndIndexColors = Default.getBoolean( options.showPropertyNameAndIndexColors, true );
 
             options = getTitle( options );
             options = getIgnore( options );

@@ -114,6 +114,7 @@ export type BindingOptions = {
 	exportFilenameFormat?: string;
 	showPropertyNameQuotes?: boolean;
 	showOpenedObjectArrayBorders?: boolean;
+	showPropertyNameAndIndexColors?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
