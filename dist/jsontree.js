@@ -1230,7 +1230,7 @@ var Arr;
             T = DomElement.createWithHTML(u, "span", o.showValueColors ? "type-color" : "type", "");
         }
         DomElement.createWithHTML(u, "span", "split", ":");
-        C(o, t, r, p, a);
+        _(o, t, r, p, a);
         if (l === null) {
             if (!o.ignore.nullValues) {
                 d = o.showValueColors ? `${"null"} value non-value` : "value non-value";
@@ -1273,7 +1273,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "boolean";
                 b = o.allowEditing.booleanValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
@@ -1288,7 +1288,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, e);
                 m = "decimal";
                 b = o.allowEditing.decimalValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDecimalRender)) {
                     Trigger.customEvent(o.events.onDecimalRender, f);
                 }
@@ -1302,7 +1302,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "number";
                 b = o.allowEditing.numberValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
@@ -1316,7 +1316,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "bigint";
                 b = o.allowEditing.bigIntValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
@@ -1330,7 +1330,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "guid";
                 b = o.allowEditing.guidValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
@@ -1347,7 +1347,7 @@ var Arr;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
@@ -1361,7 +1361,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, l);
                 m = "url";
                 b = o.allowEditing.urlValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, f);
                 }
@@ -1389,7 +1389,7 @@ var Arr;
                     f = DomElement.createWithHTML(u, "span", d, n);
                     m = "string";
                     b = o.allowEditing.stringValues;
-                    _(o, t, r, l, f, a, b);
+                    C(o, t, r, l, f, a, b);
                     if (Is.definedFunction(o.events.onStringRender)) {
                         Trigger.customEvent(o.events.onStringRender, f);
                     }
@@ -1404,7 +1404,7 @@ var Arr;
                 f = DomElement.createWithHTML(u, "span", d, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 m = "date";
                 b = o.allowEditing.dateValues;
-                _(o, t, r, l, f, a, b);
+                C(o, t, r, l, f, a, b);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
@@ -1611,7 +1611,7 @@ var Arr;
             }
         }
     }
-    function C(e, t, n, o, r) {
+    function _(e, t, n, o, r) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = l => {
                 DomElement.cancelBubble(l);
@@ -1668,7 +1668,7 @@ var Arr;
             };
         }
     }
-    function _(e, t, n, o, r, l, a) {
+    function C(e, t, n, o, r, l, a) {
         if (a) {
             r.ondblclick = a => {
                 DomElement.cancelBubble(a);
@@ -1911,7 +1911,7 @@ var Arr;
         n("keydown", (t => J(t, e)));
     }
     function J(e, o) {
-        if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id)) {
+        if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
             if (U(e) && e.code === "F11") {
                 e.preventDefault();
                 u(o);

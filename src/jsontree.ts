@@ -1601,7 +1601,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) ) {
+        if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
             if ( isCommandKey( e ) && e.code === KeyCode.f11 ) {
                 e.preventDefault();
                 onTitleBarDblClick( bindingOptions );
