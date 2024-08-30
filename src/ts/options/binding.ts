@@ -21,7 +21,8 @@ import {
     type BindingOptionsTitle, 
     type ContentPanelsForArrayIndex, 
     type BindingOptionsAllowEditing, 
-    type BindingOptionsSideMenu } from "../type";
+    type BindingOptionsSideMenu, 
+    type BindingOptionsAutoClose } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -51,6 +52,7 @@ export namespace Binding {
             bindingOptions._currentView.fullScreenOn = false;
             bindingOptions._currentView.dragAndDropBackground = null!;
             bindingOptions._currentView.isBulkEditingEnabled = true;
+            bindingOptions._currentView.initialized = false;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
@@ -105,6 +107,7 @@ export namespace Binding {
             options = getParse( options );
             options = getAllowEditing( options, Is.definedObject( options.valueToolTips ) );
             options = getSideMenu( options );
+            options = getAutoClose( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -194,6 +197,16 @@ export namespace Binding {
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
             options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
+
+            return options;
+        }
+
+        function getAutoClose( options: BindingOptions ) : BindingOptions {
+            options.autoClose = Default.getObject( options.autoClose, {} as BindingOptionsAutoClose );
+            options.autoClose!.objectSize = Default.getNumber( options.autoClose!.objectSize, 0 );
+            options.autoClose!.arraySize = Default.getNumber( options.autoClose!.arraySize, 0 );
+            options.autoClose!.mapSize = Default.getNumber( options.autoClose!.mapSize, 0 );
+            options.autoClose!.setSize = Default.getNumber( options.autoClose!.setSize, 0 );
 
             return options;
         }

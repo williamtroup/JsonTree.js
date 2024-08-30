@@ -441,6 +441,7 @@ var Binding;
             o._currentView.fullScreenOn = false;
             o._currentView.dragAndDropBackground = null;
             o._currentView.isBulkEditingEnabled = true;
+            o._currentView.initialized = false;
             for (var l in r) {
                 if (!r[l]) {
                     o._currentView.isBulkEditingEnabled = false;
@@ -493,6 +494,7 @@ var Binding;
             t = s(t, Is.definedObject(t.valueToolTips));
             t = u(t);
             t = c(t);
+            t = d(t);
             return t;
         }
         t.get = o;
@@ -571,6 +573,14 @@ var Binding;
             return e;
         }
         function c(e) {
+            e.autoClose = Default2.getObject(e.autoClose, {});
+            e.autoClose.objectSize = Default2.getNumber(e.autoClose.objectSize, 0);
+            e.autoClose.arraySize = Default2.getNumber(e.autoClose.arraySize, 0);
+            e.autoClose.mapSize = Default2.getNumber(e.autoClose.mapSize, 0);
+            e.autoClose.setSize = Default2.getNumber(e.autoClose.setSize, 0);
+            return e;
+        }
+        function d(e) {
             e.events = Default2.getObject(e.events, {});
             e.events.onBeforeRender = Default2.getFunction(e.events.onBeforeRender, null);
             e.events.onRenderComplete = Default2.getFunction(e.events.onRenderComplete, null);
@@ -858,7 +868,7 @@ var Arr;
             r = r[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedArray(r) || Is.definedSet(r)) {
-            V(l, n, r);
+            S(l, n, r);
         } else if (Is.definedObject(r)) {
             v(l, n, r);
         }
@@ -871,6 +881,7 @@ var Arr;
         }
         k(n);
         a(n, r, l);
+        n._currentView.initialized = true;
     }
     function a(t, n, o) {
         if (t._currentView.isBulkEditingEnabled) {
@@ -1039,7 +1050,7 @@ var Arr;
     function b(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
-            t._currentView.disabledBackground.onclick = () => x(t);
+            t._currentView.disabledBackground.onclick = () => w(t);
             t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
             const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
             if (Is.definedString(t.sideMenu.titleText)) {
@@ -1058,10 +1069,10 @@ var Arr;
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
-            r.onclick = () => x(t);
+            r.onclick = () => w(t);
             ToolTip.add(r, t, e.text.closeButtonText);
             const l = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-            w(l, t);
+            x(l, t);
         }
     }
     function T(e) {
@@ -1078,7 +1089,7 @@ var Arr;
             e._currentView.disabledBackground.style.display = "block";
         }
     }
-    function x(e) {
+    function w(e) {
         if (e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.remove("side-menu-open");
             e._currentView.disabledBackground.style.display = "none";
@@ -1087,7 +1098,7 @@ var Arr;
             }
         }
     }
-    function w(t, n) {
+    function x(t, n) {
         const o = [];
         const r = DomElement.create(t, "div", "settings-panel");
         const l = DomElement.create(r, "div", "settings-panel-title-bar");
@@ -1152,11 +1163,11 @@ var Arr;
             if (n.showOpeningClosingCurlyBraces) {
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            S(d, null, c, n, i, a, g, false, true, "", l);
+            V(d, null, c, n, i, a, g, false, true, "", l);
             O(n, f, o, l, false);
         }
     }
-    function V(t, n, o) {
+    function S(t, n, o) {
         const r = Is.definedSet(o);
         const l = r ? "set" : "array";
         const i = r ? Default2.getArrayFromSet(o) : o;
@@ -1175,8 +1186,9 @@ var Arr;
         E(u, null, s, n, i, d, false, true, "", l);
         O(n, c, o, l, false);
     }
-    function S(e, t, n, o, r, l, i, a, s, u, c) {
+    function V(e, t, n, o, r, l, i, a, s, u, c) {
         const d = l.length;
+        const f = u !== "" ? d : 0;
         for (let e = 0; e < d; e++) {
             const t = l[e];
             const i = u === "" ? t : `${u}${"\\"}${t}`;
@@ -1187,10 +1199,11 @@ var Arr;
         if (o.showOpeningClosingCurlyBraces) {
             N(o, n, "}", a, s);
         }
-        M(o, e, t, n, i);
+        M(o, e, t, n, i, f, c);
     }
     function E(e, t, n, o, r, l, i, a, s, u) {
         const c = r.length;
+        const d = s !== "" ? c : 0;
         if (!o.reverseArrayValues) {
             for (let e = 0; e < c; e++) {
                 const t = Arr.getIndex(e, o);
@@ -1207,7 +1220,7 @@ var Arr;
         if (o.showOpeningClosingCurlyBraces) {
             N(o, n, "]", i, a);
         }
-        M(o, e, t, n, l);
+        M(o, e, t, n, l, d, u);
     }
     function B(t, n, o, r, l, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
@@ -1523,7 +1536,7 @@ var Arr;
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let f = F(o, l, i);
-                    S(d, f, a, o, t, n, u, true, i, s, p);
+                    V(d, f, a, o, t, n, u, true, i, s, p);
                 }
             } else {
                 m = true;
@@ -1551,7 +1564,7 @@ var Arr;
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let f = F(o, r, i);
-                    S(d, f, a, o, l, t, u, true, i, s, p);
+                    V(d, f, a, o, l, t, u, true, i, s, p);
                 }
             } else {
                 m = true;
@@ -1749,15 +1762,15 @@ var Arr;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function M(e, t, n, o, r) {
-        const l = e._currentView.contentPanelsIndex;
-        const i = e._currentView.dataArrayCurrentIndex;
-        if (!e._currentView.contentPanelsOpen.hasOwnProperty(i)) {
-            e._currentView.contentPanelsOpen[i] = {};
+    function M(e, t, n, o, r, l, i) {
+        const a = e._currentView.contentPanelsIndex;
+        const s = e._currentView.dataArrayCurrentIndex;
+        if (!e._currentView.contentPanelsOpen.hasOwnProperty(s)) {
+            e._currentView.contentPanelsOpen[s] = {};
         }
-        const a = () => {
+        const u = () => {
             o.style.display = "none";
-            e._currentView.contentPanelsOpen[i][l] = true;
+            e._currentView.contentPanelsOpen[s][a] = true;
             if (Is.defined(t)) {
                 t.className = "right-arrow";
             }
@@ -1768,9 +1781,9 @@ var Arr;
                 n.style.display = "inline-block";
             }
         };
-        const s = () => {
+        const c = () => {
             o.style.display = "block";
-            e._currentView.contentPanelsOpen[i][l] = false;
+            e._currentView.contentPanelsOpen[s][a] = false;
             if (Is.defined(t)) {
                 t.className = "down-arrow";
             }
@@ -1781,23 +1794,34 @@ var Arr;
                 n.style.display = "none";
             }
         };
-        const u = e => {
+        const d = e => {
             if (e) {
-                a();
+                u();
             } else {
-                s();
+                c();
             }
         };
-        let c = e.showAllAsClosed;
-        if (e._currentView.contentPanelsOpen[i].hasOwnProperty(l)) {
-            c = e._currentView.contentPanelsOpen[i][l];
+        let f = e.showAllAsClosed;
+        if (e._currentView.contentPanelsOpen[s].hasOwnProperty(a)) {
+            f = e._currentView.contentPanelsOpen[s][a];
         } else {
-            e._currentView.contentPanelsOpen[i][l] = c;
+            if (!e._currentView.initialized) {
+                if (i === "object" && e.autoClose.objectSize > 0 && l >= e.autoClose.objectSize) {
+                    f = true;
+                } else if (i === "array" && e.autoClose.arraySize > 0 && l >= e.autoClose.arraySize) {
+                    f = true;
+                } else if (i === "map" && e.autoClose.mapSize > 0 && l >= e.autoClose.mapSize) {
+                    f = true;
+                } else if (i === "set" && e.autoClose.setSize > 0 && l >= e.autoClose.setSize) {
+                    f = true;
+                }
+            }
+            e._currentView.contentPanelsOpen[s][a] = f;
         }
         if (Is.defined(t)) {
-            t.onclick = () => u(t.className === "down-arrow");
+            t.onclick = () => d(t.className === "down-arrow");
         }
-        u(c);
+        d(f);
         e._currentView.contentPanelsIndex++;
     }
     function F(e, t, n) {
@@ -1933,14 +1957,14 @@ var Arr;
                 d(o);
             } else if (e.code === "Escape") {
                 e.preventDefault();
-                x(o);
+                w(o);
             }
         }
     }
     function U(e) {
         return e.ctrlKey || e.metaKey;
     }
-    function Z(e) {
+    function z(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -1954,14 +1978,14 @@ var Arr;
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const Q = {
+    const Z = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return Q;
+            return Z;
         },
         refreshAll: function() {
             for (let e in t) {
@@ -1971,29 +1995,29 @@ var Arr;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return Q;
+            return Z;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 l(Binding.Options.getForNewInstance(t, e));
             }
-            return Q;
+            return Z;
         },
         renderAll: function() {
             o();
-            return Q;
+            return Z;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 d(t[e]);
             }
-            return Q;
+            return Z;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 f(t[e]);
             }
-            return Q;
+            return Z;
         },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
@@ -2013,7 +2037,7 @@ var Arr;
                 i(l);
                 Trigger.customEvent(l.events.onSetJson, l._currentView.element);
             }
-            return Q;
+            return Z;
         },
         getJson: function(e) {
             let n = null;
@@ -2024,21 +2048,21 @@ var Arr;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                Z(t[e]);
+                z(t[e]);
                 delete t[e];
                 n--;
             }
-            return Q;
+            return Z;
         },
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    Z(t[e]);
+                    z(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return Q;
+            return Z;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -2054,7 +2078,7 @@ var Arr;
                     e = Config.Options.get(o);
                 }
             }
-            return Q;
+            return Z;
         },
         getIds: function() {
             const e = [];
@@ -2073,7 +2097,7 @@ var Arr;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = Q;
+            window.$jsontree = Z;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map

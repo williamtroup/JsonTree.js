@@ -115,6 +115,7 @@ export type BindingOptions = {
 	showPropertyNameQuotes?: boolean;
 	showOpenedObjectArrayBorders?: boolean;
 	showPropertyNameAndIndexColors?: boolean;
+	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
@@ -144,6 +145,7 @@ export type BindingOptionsCurrentView = {
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
 	isBulkEditingEnabled: boolean;
+	initialized: boolean;
 };
 
 export type BindingOptionsParse = {
@@ -209,6 +211,13 @@ export type BindingOptionsSideMenu = {
 	showExportButton?: boolean;
 	titleText?: string;
 };
+
+export type BindingOptionsAutoClose = {
+	objectSize: number;
+	arraySize: number;
+	mapSize: number;
+	setSize: number;
+}
 
 export type BindingOptionsEvents = {
     onBeforeRender?: ( element: HTMLElement ) => void;

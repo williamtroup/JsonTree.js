@@ -52,6 +52,12 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         },
         allowEditing: {
             bulk: true,
+        },
+        autoCloseAt: {
+            objectSize: 0,
+            arraySize: 0,
+            mapSize: 0,
+            setSize: 0,
         }
     };
 }

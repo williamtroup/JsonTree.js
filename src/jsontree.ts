@@ -167,6 +167,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderControlDragAndDrop( bindingOptions );
         makeContentsEditable( bindingOptions, data, contents );
+
+        bindingOptions._currentView.initialized = true;
     }
 
     function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement ) : void {
@@ -596,6 +598,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : void {
         const propertiesLength: number = propertyNames.length;
+        const propertiesLengthForAutoClose: number = jsonPath !== Char.empty ? propertiesLength : 0;
 
         for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
             const propertyName: string = propertyNames[ propertyIndex ];
@@ -610,11 +613,12 @@ type JsonTreeData = Record<string, BindingOptions>;
             createClosingSymbol( bindingOptions, objectTypeContents, "}", addNoArrowToClosingSymbol, isLastItem );
         }
 
-        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace );
+        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace, propertiesLengthForAutoClose, parentType );
     }
 
     function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : void {
         const dataLength: number = data.length;
+        const dataLengthForAutoClose: number = jsonPath !== Char.empty ? dataLength : 0;
 
         if ( !bindingOptions.reverseArrayValues ) {
             for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
@@ -637,7 +641,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
         }
 
-        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket );
+        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket, dataLengthForAutoClose, parentType );
     }
 
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string ) : void {
@@ -1363,7 +1367,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement ) : void {
+    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
 
@@ -1417,7 +1421,20 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ].hasOwnProperty( panelId ) ) {
             isClosed = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ];
+
         } else {
+            if ( !bindingOptions._currentView.initialized ) {
+                if ( dataType === DataType.object && bindingOptions.autoClose!.objectSize! > 0 && dataLength >= bindingOptions.autoClose!.objectSize! ) {
+                    isClosed = true;
+                } else if ( dataType === DataType.array && bindingOptions.autoClose!.arraySize! > 0 && dataLength >= bindingOptions.autoClose!.arraySize! ) {
+                    isClosed = true;
+                } else if ( dataType === DataType.map && bindingOptions.autoClose!.mapSize! > 0 && dataLength >= bindingOptions.autoClose!.mapSize! ) {
+                    isClosed = true;
+                } else if ( dataType === DataType.set && bindingOptions.autoClose!.setSize! > 0 && dataLength >= bindingOptions.autoClose!.setSize! ) {
+                    isClosed = true;
+                }
+            }
+
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
         }
 
