@@ -112,6 +112,7 @@ export type BindingOptions = {
 	logJsonValueToolTipPaths?: boolean;
 	editableJsonIndentSpaces?: number;
 	exportFilenameFormat?: string;
+	showPropertyNameQuotes?: boolean;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;

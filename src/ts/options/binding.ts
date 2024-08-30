@@ -95,6 +95,7 @@ export namespace Binding {
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
             options.editableJsonIndentSpaces = Default.getNumber( options.editableJsonIndentSpaces, 8 );
             options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
+            options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
 
             options = getTitle( options );
             options = getIgnore( options );

@@ -643,9 +643,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let type: string = null!;
-        const nameElement: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "title", name );
+        const nameElement: HTMLSpanElement = DomElement.create( objectTypeValue, "span", "title" );
         let allowEditing: boolean = false;
         let typeElement: HTMLSpanElement = null!;
+        
+        if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
+            nameElement.innerHTML = name;
+        } else {
+            nameElement.innerHTML = `\"${name}\"`;
+        }
 
         if ( isLastItem ) {
             DomElement.addClass( objectTypeValue, "last-item" );
@@ -1131,6 +1137,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                     originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
                     
                     propertyName.innerHTML = originalArrayIndex.toString();
+                    
+                } else {
+                    propertyName.innerHTML = propertyName.innerHTML.replace( /['"]+/g, Char.empty );
                 }
                 
                 propertyName.setAttribute( "contenteditable", "true" );

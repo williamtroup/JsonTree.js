@@ -467,6 +467,7 @@ var Binding;
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
             t.editableJsonIndentSpaces = Default2.getNumber(t.editableJsonIndentSpaces, 8);
             t.exportFilenameFormat = Default2.getString(t.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json");
+            t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, false);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -814,7 +815,7 @@ var Arr;
             n++;
         }
         i(e);
-        P(e);
+        W(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -845,7 +846,7 @@ var Arr;
         } else {
             n._currentView.titleBarButtons.style.display = "block";
         }
-        N(n);
+        j(n);
         a(n, r, l);
     }
     function a(t, n, o) {
@@ -1159,7 +1160,7 @@ var Arr;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            j(o, n, "}", a, s);
+            N(o, n, "}", a, s);
         }
         M(o, e, t, n, i);
     }
@@ -1179,7 +1180,7 @@ var Arr;
             }
         }
         if (o.showOpeningClosingCurlyBraces) {
-            j(o, n, "]", i, a);
+            N(o, n, "]", i, a);
         }
         M(o, e, t, n, l);
     }
@@ -1190,9 +1191,14 @@ var Arr;
         let f = null;
         let g = false;
         let m = null;
-        const p = DomElement.createWithHTML(u, "span", "title", r);
+        const p = DomElement.create(u, "span", "title");
         let T = false;
         let b = null;
+        if (a || !o.showPropertyNameQuotes) {
+            p.innerHTML = r;
+        } else {
+            p.innerHTML = `"${r}"`;
+        }
         if (i) {
             DomElement.addClass(u, "last-item");
         }
@@ -1552,6 +1558,8 @@ var Arr;
                 if (r) {
                     a = Arr.getIndexFromBrackets(o.innerHTML);
                     o.innerHTML = a.toString();
+                } else {
+                    o.innerHTML = o.innerHTML.replace(/['"]+/g, "");
                 }
                 o.setAttribute("contenteditable", "true");
                 o.focus();
@@ -1749,7 +1757,7 @@ var Arr;
         }
         return n;
     }
-    function j(e, t, n, o, r) {
+    function N(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles) {
             DomElement.create(l, "div", "no-arrow");
@@ -1757,7 +1765,7 @@ var Arr;
         DomElement.createWithHTML(l, "div", "object-type-end", n);
         O(e, l, r);
     }
-    function N(t) {
+    function j(t) {
         if (t.fileDroppingEnabled) {
             const n = DomElement.create(t._currentView.element, "div", "drag-and-drop-background");
             const o = DomElement.create(n, "div", "notice-text");
@@ -1822,18 +1830,18 @@ var Arr;
             n.style.display = "none";
             n.setAttribute("target", "_blank");
             n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(t)}`);
-            n.setAttribute("download", W(e));
+            n.setAttribute("download", P(e));
             n.click();
             document.body.removeChild(n);
             Trigger.customEvent(e.events.onExport, e._currentView.element);
         }
     }
-    function W(t) {
+    function P(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
         return o;
     }
-    function P(e, t = true) {
+    function W(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         n("keydown", (t => $(t, e)));
     }
@@ -1872,7 +1880,7 @@ var Arr;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        P(e, false);
+        W(e, false);
         ToolTip.assignToEvents(e, false);
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
