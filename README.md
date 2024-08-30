@@ -61,8 +61,8 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `bigint` Big Integers
 - `string` Strings
 - `object` Objects
-- `object Array` Arrays
-- `object Date` Dates
+- `array` Arrays
+- `date` Dates
 - `float` Floats
 - `null` Nulls
 - `symbol` Symbols
