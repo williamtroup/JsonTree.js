@@ -391,6 +391,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             value = value.toString();
         } else if ( Is.definedFunction( value ) ) {
             value = Default.getFunctionName( value, _configuration );
+        } else if ( Is.definedMap( value ) ) {
+            value = Default.getObjectFromMap( value );
+        } else if ( Is.definedSet( value ) ) {
+            value = Default.getArrayFromSet( value );
         }
 
         return value;

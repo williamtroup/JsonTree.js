@@ -1044,6 +1044,10 @@ var Arr;
             n = n.toString();
         } else if (Is.definedFunction(n)) {
             n = Default2.getFunctionName(n, e);
+        } else if (Is.definedMap(n)) {
+            n = Default2.getObjectFromMap(n);
+        } else if (Is.definedSet(n)) {
+            n = Default2.getArrayFromSet(n);
         }
         return n;
     }
