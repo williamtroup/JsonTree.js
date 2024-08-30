@@ -140,6 +140,7 @@ export namespace Binding {
             options.ignore!.regexpValues = Default.getBoolean( options.ignore!.regexpValues, false );
             options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
             options.ignore!.setValues = Default.getBoolean( options.ignore!.setValues, false );
+            options.ignore!.urlValues = Default.getBoolean( options.ignore!.urlValues, false );
 
             return options;
         }
@@ -220,6 +221,7 @@ export namespace Binding {
             options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
             options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
             options.events!.onExport = Default.getFunction( options.events!.onExport, null! );
+            options.events!.onUrlRender = Default.getFunction( options.events!.onUrlRender, null! );
 
             return options;
         }

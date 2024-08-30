@@ -17,7 +17,7 @@
 - Full API available via public functions.
 - Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - Full CSS theme support (using :root variables), with dark and light themes.
-- 17 types supported by default (with unknown type support).
+- 18 types supported by default (with unknown type support).
 - Support to show the data types, array/object counts, comas, and opening symbols!
 - Fully configurable per DOM element!
 - Close/Open all nodes.
@@ -60,6 +60,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `regexp` RegExps
 - `map` Maps
 - `set` Sets
+- `url` URLs
 - `any` Unknown
 
 

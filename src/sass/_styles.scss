@@ -119,6 +119,10 @@ $minimum-width: 768px;
     span.regexp {
         color: var(--json-tree-js-color-regexp);
     }
+
+    span.url {
+        color: var(--json-tree-js-color-url);
+    }
 }
 
 @mixin title-bar-buttons {

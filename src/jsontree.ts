@@ -833,6 +833,25 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedString( value ) && Is.definedUrl( value ) ) {
+            if ( !bindingOptions.ignore!.urlValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.url} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                type = DataType.url;
+                allowEditing = bindingOptions.allowEditing!.urlValues!;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
+
+                if ( Is.definedFunction( bindingOptions.events!.onUrlRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onUrlRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedString( value ) ) {
             if ( !bindingOptions.ignore!.stringValues ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {

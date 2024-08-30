@@ -40,6 +40,7 @@ export enum DataType {
     regexp = "regexp",
     map = "map",
     set = "set",
+    url = "url",
 }
 
 export enum KeyCode {

@@ -85,6 +85,7 @@ function getData() {
             value17: new RegExp( "ab+c" ),
             value18: map,
             value19: set,
+            value20: "https://www.william-troup.com",
             value5: [
                 true,
                 "This is another string",

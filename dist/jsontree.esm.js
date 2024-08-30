@@ -17,6 +17,7 @@ var DataType = (e => {
     e["regexp"] = "regexp";
     e["map"] = "map";
     e["set"] = "set";
+    e["url"] = "url";
     return e;
 })(DataType || {});
 
@@ -109,10 +110,20 @@ var Is;
         return n(e) && (e instanceof Set || e instanceof WeakSet);
     }
     e.definedSet = p;
-    function T(e, t = 1) {
+    function T(e) {
+        let t;
+        try {
+            t = new URL(e);
+        } catch {
+            t = null;
+        }
+        return t !== null && (t.protocol === "http:" || t.protocol === "https:");
+    }
+    e.definedUrl = T;
+    function b(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = T;
+    e.invalidOptionArray = b;
 })(Is || (Is = {}));
 
 var Default2;
@@ -506,6 +517,7 @@ var Binding;
             e.ignore.regexpValues = Default2.getBoolean(e.ignore.regexpValues, false);
             e.ignore.mapValues = Default2.getBoolean(e.ignore.mapValues, false);
             e.ignore.setValues = Default2.getBoolean(e.ignore.setValues, false);
+            e.ignore.urlValues = Default2.getBoolean(e.ignore.urlValues, false);
             return e;
         }
         function i(e) {
@@ -574,6 +586,7 @@ var Binding;
             e.events.onJsonEdit = Default2.getFunction(e.events.onJsonEdit, null);
             e.events.onRegExpRender = Default2.getFunction(e.events.onRegExpRender, null);
             e.events.onExport = Default2.getFunction(e.events.onExport, null);
+            e.events.onUrlRender = Default2.getFunction(e.events.onUrlRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -833,7 +846,7 @@ var Arr;
             r = r[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedArray(r) || Is.definedSet(r)) {
-            S(l, n, r);
+            V(l, n, r);
         } else if (Is.definedObject(r)) {
             v(l, n, r);
         }
@@ -1126,11 +1139,11 @@ var Arr;
             if (n.showOpeningClosingCurlyBraces) {
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            V(d, null, c, n, i, a, g, false, true, "");
+            S(d, null, c, n, i, a, g, false, true, "");
             C(n, f, o, l, false);
         }
     }
-    function S(t, n, o) {
+    function V(t, n, o) {
         const r = Is.definedSet(o);
         const l = r ? "set" : "array";
         const i = r ? Default2.getArrayFromSet(o) : o;
@@ -1148,7 +1161,7 @@ var Arr;
         E(u, null, s, n, i, d, false, true, "");
         C(n, c, o, l, false);
     }
-    function V(e, t, n, o, r, l, i, a, s, u) {
+    function S(e, t, n, o, r, l, i, a, s, u) {
         const c = l.length;
         for (let e = 0; e < c; e++) {
             const t = l[e];
@@ -1329,6 +1342,20 @@ var Arr;
             } else {
                 g = true;
             }
+        } else if (Is.definedString(l) && Is.definedUrl(l)) {
+            if (!o.ignore.urlValues) {
+                d = o.showValueColors ? `${"url"} value` : "value";
+                f = DomElement.createWithHTML(u, "span", d, l);
+                m = "url";
+                T = o.allowEditing.urlValues;
+                _(o, t, r, l, f, a, T);
+                if (Is.definedFunction(o.events.onUrlRender)) {
+                    Trigger.customEvent(o.events.onUrlRender, f);
+                }
+                O(o, u, i);
+            } else {
+                g = true;
+            }
         } else if (Is.definedString(l)) {
             if (!o.ignore.stringValues) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
@@ -1462,7 +1489,7 @@ var Arr;
                         d = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let g = O(o, l, i);
-                    V(c, g, a, o, t, n, d, true, i, s);
+                    S(c, g, a, o, t, n, d, true, i, s);
                 }
             } else {
                 g = true;
@@ -1489,7 +1516,7 @@ var Arr;
                         d = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let g = O(o, r, i);
-                    V(c, g, a, o, l, t, d, true, i, s);
+                    S(c, g, a, o, l, t, d, true, i, s);
                 }
             } else {
                 g = true;

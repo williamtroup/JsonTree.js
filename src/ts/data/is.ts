@@ -103,6 +103,18 @@ export namespace Is {
         return defined( object ) && ( object instanceof Set || object instanceof WeakSet );
     }
 
+    export function definedUrl( data: string ) : boolean {
+        let url: URL;
+        
+        try {
+            url = new URL( data );
+        } catch {
+            url = null!;  
+        }
+      
+        return url !== null && ( url.protocol === "http:" || url.protocol === "https:" )
+    }
+
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
     }
