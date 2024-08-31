@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "חזור",
         "nextButtonText": "הַבָּא",
         "noJsonToViewText": "כרגע אין JSON לצפייה.",
-        "functionText": "פוּנקצִיָה"
+        "functionText": "פוּנקצִיָה",
+        "sideMenuButtonText": "הצג תפריט",
+        "closeButtonText": "לִסְגוֹר",
+        "showTypesText": "הצג סוגים",
+        "selectAllText": "בחר הכל",
+        "selectNoneText": "בחר ללא",
+        "importButtonText": "יְבוּא",
+        "fullScreenButtonText": "החלף מסך מלא",
+        "copyButtonText": "לְהַעְתִיק",
+        "dragAndDropTitleText": "גרור ושחרר את קובצי ה-JSON שלך כדי להעלות",
+        "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
+        "exportButtonText": "יְצוּא"
     }
 } );

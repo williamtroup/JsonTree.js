@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "뒤쪽에",
         "nextButtonText": "다음",
         "noJsonToViewText": "현재 볼 수 있는 JSON이 없습니다.",
-        "functionText": "기능"
+        "functionText": "기능",
+        "sideMenuButtonText": "메뉴 표시",
+        "closeButtonText": "닫다",
+        "showTypesText": "쇼 유형",
+        "selectAllText": "모두 선택",
+        "selectNoneText": "없음을 선택하세요",
+        "importButtonText": "수입",
+        "fullScreenButtonText": "전체 화면 전환",
+        "copyButtonText": "복사",
+        "dragAndDropTitleText": "업로드할 JSON 파일을 드래그 앤 드롭하세요.",
+        "dragAndDropDescriptionText": "여러 파일이 배열로 결합됩니다.",
+        "exportButtonText": "내보내다"
     }
 } );

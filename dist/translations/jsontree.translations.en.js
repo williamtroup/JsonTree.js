@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Back",
         "nextButtonText": "Next",
         "noJsonToViewText": "There is currently no JSON to view.",
-        "functionText": "function"
+        "functionText": "function",
+        "sideMenuButtonText": "Show Menu",
+        "closeButtonText": "Close",
+        "showTypesText": "Show Types",
+        "selectAllText": "Select All",
+        "selectNoneText": "Select None",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Toggle Full-Screen",
+        "copyButtonText": "Copy",
+        "dragAndDropTitleText": "Drag and drop your JSON files to upload",
+        "dragAndDropDescriptionText": "Multiple files will be joined as an array",
+        "exportButtonText": "Export"
     }
 } );

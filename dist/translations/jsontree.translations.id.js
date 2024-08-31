@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Kembali",
         "nextButtonText": "Berikutnya",
         "noJsonToViewText": "Saat ini tidak ada JSON untuk dilihat.",
-        "functionText": "fungsi"
+        "functionText": "fungsi",
+        "sideMenuButtonText": "Tampilkan Menu",
+        "closeButtonText": "Menutup",
+        "showTypesText": "Jenis Pertunjukan",
+        "selectAllText": "Pilih Semua",
+        "selectNoneText": "Pilih Tidak Ada",
+        "importButtonText": "Impor",
+        "fullScreenButtonText": "Alihkan Layar Penuh",
+        "copyButtonText": "Menyalin",
+        "dragAndDropTitleText": "Tarik dan lepas file JSON Anda untuk diunggah",
+        "dragAndDropDescriptionText": "Beberapa file akan digabungkan sebagai sebuah array",
+        "exportButtonText": "Ekspor"
     }
 } );

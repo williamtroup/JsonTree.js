@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Atpakaļ",
         "nextButtonText": "Nākamais",
         "noJsonToViewText": "Pašlaik nav neviena JSON, ko skatīt.",
-        "functionText": "funkciju"
+        "functionText": "funkciju",
+        "sideMenuButtonText": "Rādīt izvēlni",
+        "closeButtonText": "Aizvērt",
+        "showTypesText": "Rādījumu veidi",
+        "selectAllText": "Atlasiet visu",
+        "selectNoneText": "Atlasiet Nav",
+        "importButtonText": "Importēt",
+        "fullScreenButtonText": "Pārslēgt pilnekrāna režīmu",
+        "copyButtonText": "Kopēt",
+        "dragAndDropTitleText": "Velciet un nometiet savus JSON failus, lai augšupielādētu",
+        "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
+        "exportButtonText": "Eksportēt"
     }
 } );

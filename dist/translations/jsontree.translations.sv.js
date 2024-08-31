@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Tillbaka",
         "nextButtonText": "Nästa",
         "noJsonToViewText": "Det finns för närvarande ingen JSON att visa.",
-        "functionText": "fungera"
+        "functionText": "fungera",
+        "sideMenuButtonText": "Visa meny",
+        "closeButtonText": "Nära",
+        "showTypesText": "Visa typer",
+        "selectAllText": "Välj Alla",
+        "selectNoneText": "Välj Ingen",
+        "importButtonText": "Importera",
+        "fullScreenButtonText": "Växla helskärm",
+        "copyButtonText": "Kopiera",
+        "dragAndDropTitleText": "Dra och släpp dina JSON-filer för att ladda upp",
+        "dragAndDropDescriptionText": "Flera filer kommer att sammanfogas som en array",
+        "exportButtonText": "Exportera"
     }
 } );

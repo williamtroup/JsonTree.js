@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Πίσω",
         "nextButtonText": "Επόμενο",
         "noJsonToViewText": "Αυτήν τη στιγμή δεν υπάρχει JSON για προβολή.",
-        "functionText": "λειτουργία"
+        "functionText": "λειτουργία",
+        "sideMenuButtonText": "Εμφάνιση μενού",
+        "closeButtonText": "Κοντά",
+        "showTypesText": "Εμφάνιση τύπων",
+        "selectAllText": "Επιλέξτε Όλα",
+        "selectNoneText": "Επιλέξτε Κανένα",
+        "importButtonText": "Εισαγωγή",
+        "fullScreenButtonText": "Εναλλαγή πλήρους οθόνης",
+        "copyButtonText": "Αντίγραφο",
+        "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία JSON για μεταφόρτωση",
+        "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
+        "exportButtonText": "Εξαγωγή"
     }
 } );

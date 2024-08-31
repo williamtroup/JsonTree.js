@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Nazaj",
         "nextButtonText": "Naslednji",
         "noJsonToViewText": "Trenutno ni JSON za ogled.",
-        "functionText": "funkcijo"
+        "functionText": "funkcijo",
+        "sideMenuButtonText": "Pokaži meni",
+        "closeButtonText": "Zapri",
+        "showTypesText": "Prikaži vrste",
+        "selectAllText": "Izberite Vse",
+        "selectNoneText": "Izberite Brez",
+        "importButtonText": "Uvozi",
+        "fullScreenButtonText": "Preklop na celozaslonski način",
+        "copyButtonText": "Kopiraj",
+        "dragAndDropTitleText": "Povlecite in spustite svoje datoteke JSON za nalaganje",
+        "dragAndDropDescriptionText": "Več datotek bo združenih v matriko",
+        "exportButtonText": "Izvozi"
     }
 } );

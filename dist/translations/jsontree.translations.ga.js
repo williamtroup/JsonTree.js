@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Ar ais",
         "nextButtonText": "Ar aghaidh",
         "noJsonToViewText": "Níl aon JSON le féachaint air faoi láthair.",
-        "functionText": "feidhm"
+        "functionText": "feidhm",
+        "sideMenuButtonText": "Taispeáin Roghchlár",
+        "closeButtonText": "Dún",
+        "showTypesText": "Taispeáin Cineálacha",
+        "selectAllText": "Roghnaigh Uile",
+        "selectNoneText": "Roghnaigh Dada",
+        "importButtonText": "Iompórtáil",
+        "fullScreenButtonText": "Scoránaigh Lánscáileán",
+        "copyButtonText": "Cóip",
+        "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid JSON le huaslódáil",
+        "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
+        "exportButtonText": "Easpórtáil"
     }
 } );

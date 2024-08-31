@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "De volta",
         "nextButtonText": "A continuación",
         "noJsonToViewText": "Actualmente non hai ningún JSON para ver.",
-        "functionText": "función"
+        "functionText": "función",
+        "sideMenuButtonText": "Mostrar menú",
+        "closeButtonText": "Pechar",
+        "showTypesText": "Mostrar tipos",
+        "selectAllText": "Seleccione Todo",
+        "selectNoneText": "Seleccione Ningún",
+        "importButtonText": "Importar",
+        "fullScreenButtonText": "Alterna a pantalla completa",
+        "copyButtonText": "Copiar",
+        "dragAndDropTitleText": "Arrastra e solta os teus ficheiros JSON para cargalos",
+        "dragAndDropDescriptionText": "Varios ficheiros uniranse como unha matriz",
+        "exportButtonText": "Exportar"
     }
 } );

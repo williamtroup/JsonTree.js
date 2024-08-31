@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "पीछे",
         "nextButtonText": "अगला",
         "noJsonToViewText": "वर्तमान में देखने के लिए कोई JSON नहीं है.",
-        "functionText": "समारोह"
+        "functionText": "समारोह",
+        "sideMenuButtonText": "मेनू दिखाओ",
+        "closeButtonText": "बंद करना",
+        "showTypesText": "प्रकार दिखाएँ",
+        "selectAllText": "सबका चयन करें",
+        "selectNoneText": "कुछ मत चुनिए",
+        "importButtonText": "आयात",
+        "fullScreenButtonText": "संपूर्ण स्क्रीन टॉगल करें",
+        "copyButtonText": "प्रतिलिपि",
+        "dragAndDropTitleText": "अपलोड करने के लिए अपनी JSON फ़ाइलें खींचें और छोड़ें",
+        "dragAndDropDescriptionText": "एकाधिक फ़ाइलें एक सरणी के रूप में जोड़ी जाएंगी",
+        "exportButtonText": "निर्यात"
     }
 } );

@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "tagasi",
         "nextButtonText": "Edasi",
         "noJsonToViewText": "Praegu pole vaatamiseks ühtegi JSON-i.",
-        "functionText": "funktsiooni"
+        "functionText": "funktsiooni",
+        "sideMenuButtonText": "Kuva menüü",
+        "closeButtonText": "Sule",
+        "showTypesText": "Näituse tüübid",
+        "selectAllText": "Valige Kõik",
+        "selectNoneText": "Valige Puudub",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Lülitage täisekraan sisse",
+        "copyButtonText": "Kopeeri",
+        "dragAndDropTitleText": "Üleslaadimiseks pukseerige oma JSON-failid",
+        "dragAndDropDescriptionText": "Mitu faili liidetakse massiivina",
+        "exportButtonText": "Ekspordi"
     }
 } );

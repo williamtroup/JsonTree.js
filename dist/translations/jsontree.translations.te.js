@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "వెనుకకు",
         "nextButtonText": "తరువాత",
         "noJsonToViewText": "వీక్షించడానికి ప్రస్తుతం JSON లేదు.",
-        "functionText": "ఫంక్షన్"
+        "functionText": "ఫంక్షన్",
+        "sideMenuButtonText": "మెనుని చూపించు",
+        "closeButtonText": "మూసివేయి",
+        "showTypesText": "రకాలను చూపించు",
+        "selectAllText": "అన్నీ ఎంచుకోండి",
+        "selectNoneText": "ఏదీ లేదు ఎంచుకోండి",
+        "importButtonText": "దిగుమతి",
+        "fullScreenButtonText": "పూర్తి స్క్రీన్‌ను టోగుల్ చేయండి",
+        "copyButtonText": "కాపీ చేయండి",
+        "dragAndDropTitleText": "అప్‌లోడ్ చేయడానికి మీ JSON ఫైల్‌లను లాగండి మరియు వదలండి",
+        "dragAndDropDescriptionText": "అనేక ఫైల్‌లు శ్రేణిగా చేర్చబడతాయి",
+        "exportButtonText": "ఎగుమతి చేయండి"
     }
 } );

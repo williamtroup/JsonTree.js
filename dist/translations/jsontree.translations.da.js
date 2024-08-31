@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Tilbage",
         "nextButtonText": "Næste",
         "noJsonToViewText": "Der er i øjeblikket ingen JSON at se.",
-        "functionText": "fungere"
+        "functionText": "fungere",
+        "sideMenuButtonText": "Vis menu",
+        "closeButtonText": "Tæt",
+        "showTypesText": "Vis typer",
+        "selectAllText": "Vælg alle",
+        "selectNoneText": "Vælg Ingen",
+        "importButtonText": "Importere",
+        "fullScreenButtonText": "Skift fuld skærm",
+        "copyButtonText": "Kopi",
+        "dragAndDropTitleText": "Træk og slip dine JSON-filer for at uploade",
+        "dragAndDropDescriptionText": "Flere filer vil blive samlet som et array",
+        "exportButtonText": "Eksportere"
     }
 } );

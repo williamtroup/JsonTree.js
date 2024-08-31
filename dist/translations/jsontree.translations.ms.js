@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "belakang",
         "nextButtonText": "Seterusnya",
         "noJsonToViewText": "Pada masa ini tiada JSON untuk dilihat.",
-        "functionText": "fungsi"
+        "functionText": "fungsi",
+        "sideMenuButtonText": "Tunjukkan Menu",
+        "closeButtonText": "tutup",
+        "showTypesText": "Tunjukkan Jenis",
+        "selectAllText": "Pilih Semua",
+        "selectNoneText": "Pilih Tiada",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Togol Skrin Penuh",
+        "copyButtonText": "salin",
+        "dragAndDropTitleText": "Seret dan lepaskan fail JSON anda untuk dimuat naik",
+        "dragAndDropDescriptionText": "Berbilang fail akan digabungkan sebagai tatasusunan",
+        "exportButtonText": "Eksport"
     }
 } );

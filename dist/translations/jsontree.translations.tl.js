@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Bumalik",
         "nextButtonText": "Susunod",
         "noJsonToViewText": "Kasalukuyang walang JSON na titingnan.",
-        "functionText": "function"
+        "functionText": "function",
+        "sideMenuButtonText": "Ipakita ang Menu",
+        "closeButtonText": "Isara",
+        "showTypesText": "Mga Uri ng Palabas",
+        "selectAllText": "Piliin ang Lahat",
+        "selectNoneText": "Piliin ang Wala",
+        "importButtonText": "Mag-import",
+        "fullScreenButtonText": "I-toggle ang Full-Screen",
+        "copyButtonText": "Kopyahin",
+        "dragAndDropTitleText": "I-drag at i-drop ang iyong mga JSON file para i-upload",
+        "dragAndDropDescriptionText": "Maraming mga file ang isasama bilang isang array",
+        "exportButtonText": "I-export"
     }
 } );

@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Geri",
         "nextButtonText": "Sonraki",
         "noJsonToViewText": "Şu anda görüntülenecek JSON yok.",
-        "functionText": "işlev"
+        "functionText": "işlev",
+        "sideMenuButtonText": "Menüyü Göster",
+        "closeButtonText": "Kapalı",
+        "showTypesText": "Türleri Göster",
+        "selectAllText": "Tümünü Seç",
+        "selectNoneText": "Yok'u seçin",
+        "importButtonText": "İçe aktarmak",
+        "fullScreenButtonText": "Tam Ekrana Geçiş Yap",
+        "copyButtonText": "Kopyala",
+        "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
+        "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
+        "exportButtonText": "İhracat"
     }
 } );

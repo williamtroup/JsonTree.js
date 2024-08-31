@@ -73,6 +73,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Назад",
         "nextButtonText": "Далей",
         "noJsonToViewText": "Зараз няма JSON для прагляду.",
-        "functionText": "функцыя"
+        "functionText": "функцыя",
+        "sideMenuButtonText": "Паказаць меню",
+        "closeButtonText": "Блізка",
+        "showTypesText": "Паказаць тыпы",
+        "selectAllText": "Выбраць усе",
+        "selectNoneText": "Выберыце «Няма».",
+        "importButtonText": "Імпарт",
+        "fullScreenButtonText": "Пераключыць поўнаэкранны рэжым",
+        "copyButtonText": "Копія",
+        "dragAndDropTitleText": "Перацягніце файлы JSON для загрузкі",
+        "dragAndDropDescriptionText": "Некалькі файлаў будуць аб'яднаны ў масіў",
+        "exportButtonText": "Экспарт"
     }
 } );

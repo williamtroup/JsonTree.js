@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "后退",
         "nextButtonText": "下一个",
         "noJsonToViewText": "目前没有可查看的 JSON。",
-        "functionText": "功能"
+        "functionText": "功能",
+        "sideMenuButtonText": "显示菜单",
+        "closeButtonText": "关闭",
+        "showTypesText": "演出类型",
+        "selectAllText": "选择全部",
+        "selectNoneText": "选择无",
+        "importButtonText": "进口",
+        "fullScreenButtonText": "切换全屏",
+        "copyButtonText": "复制",
+        "dragAndDropTitleText": "拖放 JSON 文件进行上传",
+        "dragAndDropDescriptionText": "多个文件将连接为一个数组",
+        "exportButtonText": "出口"
     }
 } );

@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "بازگشت",
         "nextButtonText": "بعد",
         "noJsonToViewText": "در حال حاضر JSON برای مشاهده وجود ندارد.",
-        "functionText": "تابع"
+        "functionText": "تابع",
+        "sideMenuButtonText": "نمایش منو",
+        "closeButtonText": "بستن",
+        "showTypesText": "نمایش انواع",
+        "selectAllText": "همه را انتخاب کنید",
+        "selectNoneText": "هیچکدام را انتخاب کنید",
+        "importButtonText": "واردات",
+        "fullScreenButtonText": "تمام صفحه را تغییر دهید",
+        "copyButtonText": "کپی کنید",
+        "dragAndDropTitleText": "فایل های JSON خود را برای آپلود بکشید و رها کنید",
+        "dragAndDropDescriptionText": "چندین فایل به عنوان یک آرایه به یکدیگر ملحق می شوند",
+        "exportButtonText": "صادرات"
     }
 } );

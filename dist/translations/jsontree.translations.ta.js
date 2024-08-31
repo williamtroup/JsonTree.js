@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "மீண்டும்",
         "nextButtonText": "அடுத்தது",
         "noJsonToViewText": "பார்க்க தற்போது JSON இல்லை.",
-        "functionText": "செயல்பாடு"
+        "functionText": "செயல்பாடு",
+        "sideMenuButtonText": "மெனுவைக் காட்டு",
+        "closeButtonText": "மூடு",
+        "showTypesText": "வகைகளைக் காட்டு",
+        "selectAllText": "அனைத்தையும் தேர்ந்தெடுக்கவும்",
+        "selectNoneText": "எதுவுமில்லை என்பதைத் தேர்ந்தெடுக்கவும்",
+        "importButtonText": "இறக்குமதி",
+        "fullScreenButtonText": "முழுத்திரையை நிலைமாற்று",
+        "copyButtonText": "நகலெடுக்கவும்",
+        "dragAndDropTitleText": "பதிவேற்ற உங்கள் JSON கோப்புகளை இழுத்து விடுங்கள்",
+        "dragAndDropDescriptionText": "பல கோப்புகள் அணிவரிசையாக இணைக்கப்படும்",
+        "exportButtonText": "ஏற்றுமதி"
     }
 } );
