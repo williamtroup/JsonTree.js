@@ -218,7 +218,7 @@ export type BindingOptionsAutoClose = {
 	arraySize: number;
 	mapSize: number;
 	setSize: number;
-}
+};
 
 export type BindingOptionsEvents = {
     onBeforeRender?: ( element: HTMLElement ) => void;
