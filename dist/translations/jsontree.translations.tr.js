@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Turkish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Turkish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Geri",
         "nextButtonText": "Sonraki",
         "noJsonToViewText": "Şu anda görüntülenecek JSON yok.",
-        "functionText": "işlev"
+        "functionText": "işlev",
+        "sideMenuButtonText": "Menüyü Göster",
+        "closeButtonText": "Kapalı",
+        "showTypesText": "Türleri Göster",
+        "selectAllText": "Tümünü Seç",
+        "selectNoneText": "Yok'u seçin",
+        "importButtonText": "İçe aktarmak",
+        "fullScreenButtonText": "Tam Ekrana Geçiş Yap",
+        "copyButtonText": "Kopyala",
+        "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
+        "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
+        "exportButtonText": "İhracat"
     }
 } );

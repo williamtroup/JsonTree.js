@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Slovak | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Slovak | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "späť",
         "nextButtonText": "Ďalšie",
         "noJsonToViewText": "Momentálne nie je k dispozícii žiadny JSON na zobrazenie.",
-        "functionText": "funkciu"
+        "functionText": "funkciu",
+        "sideMenuButtonText": "Zobraziť menu",
+        "closeButtonText": "Zavrieť",
+        "showTypesText": "Zobraziť typy",
+        "selectAllText": "Vyberte možnosť Všetky",
+        "selectNoneText": "Vyberte možnosť Žiadne",
+        "importButtonText": "Importovať",
+        "fullScreenButtonText": "Prepnúť na celú obrazovku",
+        "copyButtonText": "Kopírovať",
+        "dragAndDropTitleText": "Presuňte súbory JSON, ktoré chcete nahrať",
+        "dragAndDropDescriptionText": "Viacero súborov sa spojí ako pole",
+        "exportButtonText": "Exportovať"
     }
 } );

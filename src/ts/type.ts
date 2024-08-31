@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -59,6 +59,24 @@ export type ConfigurationText = {
 	nextButtonSymbolText?: string;
 	noJsonToViewText?: string;
 	functionText?: string;
+	sideMenuButtonSymbolText?: string;
+	sideMenuButtonText?: string;
+	closeButtonSymbolText?: string;
+	closeButtonText?: string;
+	showTypesText?: string;
+	selectAllText?: string;
+	selectNoneText?: string;
+	importButtonSymbolText?: string;
+	importButtonText?: string;
+	fullScreenOnButtonSymbolText?: string;
+	fullScreenOffButtonSymbolText?: string;
+	fullScreenButtonText?: string;
+	copyButtonText?: string;
+	dragAndDropSymbolText?: string;
+	dragAndDropTitleText?: string;
+	dragAndDropDescriptionText?: string;
+	exportButtonSymbolText?: string;
+	exportButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -81,21 +99,28 @@ export type BindingOptions = {
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
-	copyIndentSpaces?: number;
+	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
 	includeTimeZoneInDateTimeEditing?: boolean;
 	shortcutKeysEnabled?: boolean;
 	openInFullScreenMode?: boolean;
-	enableFullScreenToggling?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
+	showTypes?: boolean;
+	logJsonValueToolTipPaths?: boolean;
+	exportFilenameFormat?: string;
+	showPropertyNameQuotes?: boolean;
+	showOpenedObjectArrayBorders?: boolean;
+	showPropertyNameAndIndexColors?: boolean;
+	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
 	parse?: BindingOptionsParse;
+	sideMenu?: BindingOptionsSideMenu;
 	events?: BindingOptionsEvents;
 };
 
@@ -112,6 +137,14 @@ export type BindingOptionsCurrentView = {
 	contentPanelsIndex: number;
 	backButton: HTMLButtonElement;
 	nextButton: HTMLButtonElement;
+	disabledBackground: HTMLElement;
+	sideMenu: HTMLElement;
+	sideMenuChanged: boolean;
+	toggleFullScreenButton: HTMLButtonElement;
+	fullScreenOn: boolean;
+	dragAndDropBackground: HTMLElement;
+	isBulkEditingEnabled: boolean;
+	initialized: boolean;
 };
 
 export type BindingOptionsParse = {
@@ -122,9 +155,10 @@ export type BindingOptionsParse = {
 
 export type BindingOptionsTitle = {
     text?: string;
-    show?: boolean;
     showTreeControls?: boolean;
     showCopyButton?: boolean;
+	enableFullScreenToggling?: boolean;
+	showFullScreenButton?: boolean;
 };
 
 export type BindingOptionsIgnore = {
@@ -132,38 +166,58 @@ export type BindingOptionsIgnore = {
     functionValues?: boolean;
     unknownValues?: boolean;
     booleanValues?: boolean;
-    decimalValues?: boolean;
+    floatValues?: boolean;
     stringValues?: boolean;
     arrayValues?: boolean;
     objectValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
-	bigIntValues?: boolean;
+	bigintValues?: boolean;
 	symbolValues?: boolean;
 	emptyObjects?: boolean;
 	undefinedValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
-	regExpValues?: boolean;
+	regexpValues?: boolean;
 	mapValues?: boolean;
 	setValues?: boolean;
+	urlValues?: boolean;
+	imageValues?: boolean;
+	emailValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
     booleanValues?: boolean;
-    decimalValues?: boolean;
+    floatValues?: boolean;
     stringValues?: boolean;
     dateValues?: boolean;
     numberValues?: boolean;
 	bigIntValues?: boolean;
 	guidValues?: boolean;
 	colorValues?: boolean;
+	urlValues?: boolean;
+	emailValues?: boolean;
 	propertyNames?: boolean;
+	bulk?: boolean;
 };
 
 export type BindingOptionsTooltip = {
     delay?: number;
 	offset?: number;
+};
+
+export type BindingOptionsSideMenu = {
+    enabled?: boolean;
+	showImportButton?: boolean;
+	showExportButton?: boolean;
+	titleText?: string;
+};
+
+export type BindingOptionsAutoClose = {
+	objectSize: number;
+	arraySize: number;
+	mapSize: number;
+	setSize: number;
 };
 
 export type BindingOptionsEvents = {
@@ -178,7 +232,7 @@ export type BindingOptionsEvents = {
     onBooleanRender?: ( element: HTMLElement ) => void;
     onDateRender?: ( element: HTMLElement ) => void;
     onNumberRender?: ( element: HTMLElement ) => void;
-    onDecimalRender?: ( element: HTMLElement ) => void;
+    onFloatRender?: ( element: HTMLElement ) => void;
     onFunctionRender?: ( element: HTMLElement ) => void;
     onNullRender?: ( element: HTMLElement ) => void;
     onStringRender?: ( element: HTMLElement ) => void;
@@ -189,9 +243,13 @@ export type BindingOptionsEvents = {
 	onGuidRender?: ( element: HTMLElement ) => void;
 	onColorRender?: ( element: HTMLElement ) => void;
 	onRegExpRender?: ( element: HTMLElement ) => void;
+	onUrlRender?: ( element: HTMLElement ) => void;
+	onImageRender?: ( element: HTMLElement ) => void;
+	onEmailRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 	onJsonEdit?: ( element: HTMLElement ) => void;
+	onExport?: ( element: HTMLElement ) => void;
 };

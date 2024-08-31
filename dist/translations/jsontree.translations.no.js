@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Norwegian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Norwegian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Tilbake",
         "nextButtonText": "Neste",
         "noJsonToViewText": "Det er for øyeblikket ingen JSON å se.",
-        "functionText": "funksjon"
+        "functionText": "funksjon",
+        "sideMenuButtonText": "Vis meny",
+        "closeButtonText": "Lukke",
+        "showTypesText": "Vis typer",
+        "selectAllText": "Velg alle",
+        "selectNoneText": "Velg Ingen",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Veksle på fullskjerm",
+        "copyButtonText": "Kopiere",
+        "dragAndDropTitleText": "Dra og slipp JSON-filene dine for å laste opp",
+        "dragAndDropDescriptionText": "Flere filer vil bli satt sammen som en matrise",
+        "exportButtonText": "Eksport"
     }
 } );

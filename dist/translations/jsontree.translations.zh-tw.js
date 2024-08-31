@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Taiwanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Taiwanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "後退",
         "nextButtonText": "下一個",
         "noJsonToViewText": "目前沒有可查看的 JSON。",
-        "functionText": "功能"
+        "functionText": "功能",
+        "sideMenuButtonText": "顯示選單",
+        "closeButtonText": "關閉",
+        "showTypesText": "演出類型",
+        "selectAllText": "選擇全部",
+        "selectNoneText": "選擇無",
+        "importButtonText": "進口",
+        "fullScreenButtonText": "切換全螢幕",
+        "copyButtonText": "複製",
+        "dragAndDropTitleText": "拖放 JSON 檔案進行上傳",
+        "dragAndDropDescriptionText": "多個檔案將連接為一個數組",
+        "exportButtonText": "出口"
     }
 } );

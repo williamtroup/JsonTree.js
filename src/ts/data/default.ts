@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        default.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -64,7 +64,7 @@ export namespace Default {
         return result;
     }
 
-    export function getFixedDecimalPlacesValue( value: number, decimalPlaces: number ) : string {
+    export function getFixedFloatPlacesValue( value: number, decimalPlaces: number ) : string {
         const regExp: RegExp = new RegExp( `^-?\\d+(?:.\\d{0,${decimalPlaces || -1}})?` );
     
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;

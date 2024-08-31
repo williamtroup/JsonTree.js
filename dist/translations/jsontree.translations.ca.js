@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "esquena",
         "nextButtonText": "Pròxim",
         "noJsonToViewText": "Actualment no hi ha cap JSON per veure.",
-        "functionText": "funció"
+        "functionText": "funció",
+        "sideMenuButtonText": "Mostra el menú",
+        "closeButtonText": "Tancar",
+        "showTypesText": "Mostra els tipus",
+        "selectAllText": "Seleccioneu Tot",
+        "selectNoneText": "Seleccioneu Cap",
+        "importButtonText": "Importar",
+        "fullScreenButtonText": "Commuta la pantalla completa",
+        "copyButtonText": "Còpia",
+        "dragAndDropTitleText": "Arrossegueu i deixeu anar els fitxers JSON per carregar-los",
+        "dragAndDropDescriptionText": "S'uniran diversos fitxers com a matriu",
+        "exportButtonText": "Exporta"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Afrikaans | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Afrikaans | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Terug",
         "nextButtonText": "Volgende",
         "noJsonToViewText": "Daar is tans geen JSON om te bekyk nie.",
-        "functionText": "funksie"
+        "functionText": "funksie",
+        "sideMenuButtonText": "Wys spyskaart",
+        "closeButtonText": "Maak toe",
+        "showTypesText": "Wys tipes",
+        "selectAllText": "Kies Alles",
+        "selectNoneText": "Kies Geen",
+        "importButtonText": "Invoer",
+        "fullScreenButtonText": "Wissel Volskerm",
+        "copyButtonText": "Kopieer",
+        "dragAndDropTitleText": "Sleep en los jou JSON-lêers om op te laai",
+        "dragAndDropDescriptionText": "Veelvuldige lêers sal as 'n skikking saamgevoeg word",
+        "exportButtonText": "Uitvoer"
     }
 } );

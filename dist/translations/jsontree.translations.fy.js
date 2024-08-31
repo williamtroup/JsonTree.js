@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Frisian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Efter",
         "nextButtonText": "Folgjende",
         "noJsonToViewText": "D'r is op it stuit gjin JSON om te besjen.",
-        "functionText": "funksje"
+        "functionText": "funksje",
+        "sideMenuButtonText": "Menu sjen litte",
+        "closeButtonText": "Slute",
+        "showTypesText": "Soarten sjen litte",
+        "selectAllText": "Selektearje alles",
+        "selectNoneText": "Selektearje Gjin",
+        "importButtonText": "Ymport",
+        "fullScreenButtonText": "Skeakelje folslein skerm",
+        "copyButtonText": "Kopy",
+        "dragAndDropTitleText": "Sleep en drop jo JSON-bestannen om te uploaden",
+        "dragAndDropDescriptionText": "Meardere bestannen sille wurde gearfoege as in array",
+        "exportButtonText": "Eksportearje"
     }
 } );

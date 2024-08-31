@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "戻る",
         "nextButtonText": "次",
         "noJsonToViewText": "現在、表示できる JSON はありません。",
-        "functionText": "関数"
+        "functionText": "関数",
+        "sideMenuButtonText": "メニューを表示",
+        "closeButtonText": "近い",
+        "showTypesText": "ショータイプ",
+        "selectAllText": "すべて選択",
+        "selectNoneText": "なしを選択します",
+        "importButtonText": "輸入",
+        "fullScreenButtonText": "全画面表示の切り替え",
+        "copyButtonText": "コピー",
+        "dragAndDropTitleText": "JSON ファイルをドラッグ アンド ドロップしてアップロードします",
+        "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
+        "exportButtonText": "輸出"
     }
 } );

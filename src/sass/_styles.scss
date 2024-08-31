@@ -50,3 +50,88 @@ $minimum-width: 768px;
         }
     }
 }
+
+@mixin type-span-colors {
+    span.array {
+        color: var(--json-tree-js-color-array);
+    }
+
+    span.object {
+        color: var(--json-tree-js-color-object);
+    }
+
+    span.map {
+        color: var(--json-tree-js-color-map);
+    }
+
+    span.set {
+        color: var(--json-tree-js-color-set);
+    }
+
+    span.boolean {
+        color: var(--json-tree-js-color-boolean);
+    }
+
+    span.float {
+        color: var(--json-tree-js-color-float);
+    }
+
+    span.number {
+        color: var(--json-tree-js-color-number);
+    }
+
+    span.bigint {
+        color: var(--json-tree-js-color-bigint);
+    }
+
+    span.string {
+        color: var(--json-tree-js-color-string)
+    }
+
+    span.date {
+        color: var(--json-tree-js-color-date)
+    }
+
+    span.null {
+        color: var(--json-tree-js-color-null);
+    }
+
+    span.symbol {
+        color: var(--json-tree-js-color-symbol);
+    }
+
+    span.function {
+        color: var(--json-tree-js-color-function);
+    }
+
+    span.unknown {
+        color: var(--json-tree-js-color-unknown);
+    }
+
+    span.undefined {
+        color: var(--json-tree-js-color-null);
+    }
+
+    span.guid {
+        color: var(--json-tree-js-color-guid);
+    }
+
+    span.regexp {
+        color: var(--json-tree-js-color-regexp);
+    }
+
+    span.url {
+        color: var(--json-tree-js-color-url);
+    }
+
+    span.email {
+        color: var(--json-tree-js-color-email);
+    }
+}
+
+@mixin title-bar-buttons {
+    font-weight: var(--json-tree-js-header-bold-weight);
+    min-width: 30px;
+    min-height: 30px;
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Arabic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Arabic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "خلف",
         "nextButtonText": "التالي",
         "noJsonToViewText": "لا يوجد حاليا أي JSON لعرضه.",
-        "functionText": "وظيفة"
+        "functionText": "وظيفة",
+        "sideMenuButtonText": "عرض القائمة",
+        "closeButtonText": "يغلق",
+        "showTypesText": "إظهار الأنواع",
+        "selectAllText": "حدد الكل",
+        "selectNoneText": "حدد لا شيء",
+        "importButtonText": "يستورد",
+        "fullScreenButtonText": "تبديل ملء الشاشة",
+        "copyButtonText": "ينسخ",
+        "dragAndDropTitleText": "قم بسحب وإسقاط ملفات JSON للتحميل",
+        "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
+        "exportButtonText": "يصدّر"
     }
 } );

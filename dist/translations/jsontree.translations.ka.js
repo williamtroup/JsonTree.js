@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Georgian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Georgian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "უკან",
         "nextButtonText": "შემდეგი",
         "noJsonToViewText": "ამჟამად არ არის JSON სანახავი.",
-        "functionText": "ფუნქცია"
+        "functionText": "ფუნქცია",
+        "sideMenuButtonText": "მენიუს ჩვენება",
+        "closeButtonText": "დახურვა",
+        "showTypesText": "ტიპების ჩვენება",
+        "selectAllText": "აირჩიეთ ყველა",
+        "selectNoneText": "აირჩიეთ არცერთი",
+        "importButtonText": "იმპორტი",
+        "fullScreenButtonText": "სრულ ეკრანზე გადართვა",
+        "copyButtonText": "კოპირება",
+        "dragAndDropTitleText": "გადაიტანეთ და ჩამოაგდეთ თქვენი JSON ფაილები ასატვირთად",
+        "dragAndDropDescriptionText": "მრავალი ფაილი შეუერთდება მასივის სახით",
+        "exportButtonText": "ექსპორტი"
     }
 } );

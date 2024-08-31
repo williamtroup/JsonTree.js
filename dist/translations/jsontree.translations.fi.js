@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Finnish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Finnish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Takaisin",
         "nextButtonText": "Seuraava",
         "noJsonToViewText": "Tällä hetkellä ei ole katsottavaa JSON-tiedostoa.",
-        "functionText": "toiminto"
+        "functionText": "toiminto",
+        "sideMenuButtonText": "Näytä valikko",
+        "closeButtonText": "Lähellä",
+        "showTypesText": "Näytä tyypit",
+        "selectAllText": "Valitse Kaikki",
+        "selectNoneText": "Valitse Ei mitään",
+        "importButtonText": "Tuoda",
+        "fullScreenButtonText": "Vaihda koko näyttö päälle",
+        "copyButtonText": "Kopioida",
+        "dragAndDropTitleText": "Vedä ja pudota JSON-tiedostosi lähetettäväksi",
+        "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
+        "exportButtonText": "Viedä"
     }
 } );

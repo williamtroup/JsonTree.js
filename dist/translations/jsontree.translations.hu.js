@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Hungarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Hungarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Vissza",
         "nextButtonText": "Következő",
         "noJsonToViewText": "Jelenleg nincs megtekinthető JSON.",
-        "functionText": "funkció"
+        "functionText": "funkció",
+        "sideMenuButtonText": "Menü megjelenítése",
+        "closeButtonText": "Közeli",
+        "showTypesText": "Show Types",
+        "selectAllText": "Válassza az Összes lehetőséget",
+        "selectNoneText": "Válassza a Nincs lehetőséget",
+        "importButtonText": "Importálás",
+        "fullScreenButtonText": "Teljes képernyő váltás",
+        "copyButtonText": "Másolat",
+        "dragAndDropTitleText": "A feltöltéshez húzza át a JSON-fájlokat",
+        "dragAndDropDescriptionText": "Több fájl tömbként fog egyesülni",
+        "exportButtonText": "Export"
     }
 } );

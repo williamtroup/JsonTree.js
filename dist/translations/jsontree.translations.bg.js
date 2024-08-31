@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "обратно",
         "nextButtonText": "Следващия",
         "noJsonToViewText": "В момента няма JSON за преглед.",
-        "functionText": "функция"
+        "functionText": "функция",
+        "sideMenuButtonText": "Показване на менюто",
+        "closeButtonText": "затвори",
+        "showTypesText": "Показване на типове",
+        "selectAllText": "Изберете Всички",
+        "selectNoneText": "Изберете Няма",
+        "importButtonText": "Импортиране",
+        "fullScreenButtonText": "Превключване на цял екран",
+        "copyButtonText": "копие",
+        "dragAndDropTitleText": "Плъзнете и пуснете вашите JSON файлове за качване",
+        "dragAndDropDescriptionText": "Няколко файла ще бъдат обединени като масив",
+        "exportButtonText": "Експортиране"
     }
 } );

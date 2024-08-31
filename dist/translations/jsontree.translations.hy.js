@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Armenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Armenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Ետ",
         "nextButtonText": "Հաջորդը",
         "noJsonToViewText": "Ներկայումս JSON չկա դիտելու համար:",
-        "functionText": "ֆունկցիան"
+        "functionText": "ֆունկցիան",
+        "sideMenuButtonText": "Ցուցադրել ընտրացանկը",
+        "closeButtonText": "Փակել",
+        "showTypesText": "Ցույց տալ տեսակները",
+        "selectAllText": "Ընտրեք Բոլորը",
+        "selectNoneText": "Ընտրեք Ոչ մեկը",
+        "importButtonText": "Ներմուծում",
+        "fullScreenButtonText": "Միացնել ամբողջ էկրանը",
+        "copyButtonText": "Պատճենել",
+        "dragAndDropTitleText": "Քաշեք և թողեք ձեր JSON ֆայլերը՝ վերբեռնելու համար",
+        "dragAndDropDescriptionText": "Բազմաթիվ ֆայլեր կմիանան որպես զանգված",
+        "exportButtonText": "Արտահանում"
     }
 } );

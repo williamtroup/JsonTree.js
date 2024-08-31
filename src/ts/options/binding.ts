@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -20,7 +20,9 @@ import {
     type BindingOptionsIgnore,
     type BindingOptionsTitle, 
     type ContentPanelsForArrayIndex, 
-    type BindingOptionsAllowEditing } from "../type";
+    type BindingOptionsAllowEditing, 
+    type BindingOptionsSideMenu, 
+    type BindingOptionsAutoClose } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -30,6 +32,8 @@ export namespace Binding {
     export namespace Options {
         export function getForNewInstance( data: any, element: HTMLElement ) : BindingOptions {
             const bindingOptions: BindingOptions = Binding.Options.get( data );
+            const allowEditing: any = bindingOptions.allowEditing;
+
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
             bindingOptions._currentView.dataArrayCurrentIndex = 0;
@@ -41,6 +45,21 @@ export namespace Binding {
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.backButton = null!;
             bindingOptions._currentView.nextButton = null!;
+            bindingOptions._currentView.disabledBackground = null!;
+            bindingOptions._currentView.sideMenu = null!;
+            bindingOptions._currentView.sideMenuChanged = false;
+            bindingOptions._currentView.toggleFullScreenButton = null!;
+            bindingOptions._currentView.fullScreenOn = false;
+            bindingOptions._currentView.dragAndDropBackground = null!;
+            bindingOptions._currentView.isBulkEditingEnabled = true;
+            bindingOptions._currentView.initialized = false;
+
+            for ( var key in allowEditing ) {
+                if ( !allowEditing[ key ] ) {
+                    bindingOptions._currentView.isBulkEditingEnabled = false;
+                    break;
+                }
+            }
 
             return bindingOptions;
         }
@@ -65,22 +84,29 @@ export namespace Binding {
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
-            options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
+            options.jsonIndentSpaces = Default.getNumber( options.jsonIndentSpaces, 8 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
             options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
-            options.enableFullScreenToggling = Default.getBoolean( options.enableFullScreenToggling, true );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
+            options.showTypes = Default.getBoolean( options.showTypes, false );
+            options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
+            options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
+            options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
+            options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );
+            options.showPropertyNameAndIndexColors = Default.getBoolean( options.showPropertyNameAndIndexColors, true );
 
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
             options = getAllowEditing( options, Is.definedObject( options.valueToolTips ) );
+            options = getSideMenu( options );
+            options = getAutoClose( options );
             options = getCustomTriggers( options );
     
             return options;
@@ -88,11 +114,12 @@ export namespace Binding {
     
         function getTitle( options: BindingOptions ) : BindingOptions {
             options.title = Default.getObject( options.title, {} as BindingOptionsTitle );
-            options.title!.text = Default.getString( options.title!.text, "JsonTree.js" );
-            options.title!.show = Default.getBoolean( options.title!.show, true );
+            options.title!.text = Default.getAnyString( options.title!.text, "JsonTree.js" );
             options.title!.showTreeControls = Default.getBoolean( options.title!.showTreeControls, true );
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
-    
+            options.title!.enableFullScreenToggling = Default.getBoolean( options.title!.enableFullScreenToggling, true );
+            options.title!.showFullScreenButton = Default.getBoolean( options.title!.showFullScreenButton, true );
+
             return options;
         }
     
@@ -102,21 +129,24 @@ export namespace Binding {
             options.ignore!.functionValues = Default.getBoolean( options.ignore!.functionValues, false );
             options.ignore!.unknownValues = Default.getBoolean( options.ignore!.unknownValues, false );
             options.ignore!.booleanValues = Default.getBoolean( options.ignore!.booleanValues, false );
-            options.ignore!.decimalValues = Default.getBoolean( options.ignore!.decimalValues, false );
+            options.ignore!.floatValues = Default.getBoolean( options.ignore!.floatValues, false );
             options.ignore!.numberValues = Default.getBoolean( options.ignore!.numberValues, false );
             options.ignore!.stringValues = Default.getBoolean( options.ignore!.stringValues, false );
             options.ignore!.dateValues = Default.getBoolean( options.ignore!.dateValues, false );
             options.ignore!.objectValues = Default.getBoolean( options.ignore!.objectValues, false );
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
-            options.ignore!.bigIntValues = Default.getBoolean( options.ignore!.bigIntValues, false );
+            options.ignore!.bigintValues = Default.getBoolean( options.ignore!.bigintValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
             options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );
-            options.ignore!.regExpValues = Default.getBoolean( options.ignore!.regExpValues, false );
+            options.ignore!.regexpValues = Default.getBoolean( options.ignore!.regexpValues, false );
             options.ignore!.mapValues = Default.getBoolean( options.ignore!.mapValues, false );
             options.ignore!.setValues = Default.getBoolean( options.ignore!.setValues, false );
+            options.ignore!.urlValues = Default.getBoolean( options.ignore!.urlValues, false );
+            options.ignore!.imageValues = Default.getBoolean( options.ignore!.imageValues, false );
+            options.ignore!.emailValues = Default.getBoolean( options.ignore!.emailValues, false );
 
             return options;
         }
@@ -143,18 +173,41 @@ export namespace Binding {
 
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
             options.allowEditing!.booleanValues = Default.getBoolean( options.allowEditing!.booleanValues, defaultFlag );
-            options.allowEditing!.decimalValues = Default.getBoolean( options.allowEditing!.decimalValues, defaultFlag );
+            options.allowEditing!.floatValues = Default.getBoolean( options.allowEditing!.floatValues, defaultFlag );
             options.allowEditing!.numberValues = Default.getBoolean( options.allowEditing!.numberValues, defaultFlag );
             options.allowEditing!.stringValues = Default.getBoolean( options.allowEditing!.stringValues, defaultFlag );
             options.allowEditing!.dateValues = Default.getBoolean( options.allowEditing!.dateValues, defaultFlag );
             options.allowEditing!.bigIntValues = Default.getBoolean( options.allowEditing!.bigIntValues, defaultFlag );
             options.allowEditing!.guidValues = Default.getBoolean( options.allowEditing!.guidValues, defaultFlag );
             options.allowEditing!.colorValues = Default.getBoolean( options.allowEditing!.colorValues, defaultFlag );
+            options.allowEditing!.urlValues = Default.getBoolean( options.allowEditing!.urlValues, defaultFlag );
+            options.allowEditing!.emailValues = Default.getBoolean( options.allowEditing!.emailValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
+            options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 
             if ( valueToolTipsSet ) {
                 options.allowEditing!.propertyNames = false;
             }
+
+            return options;
+        }
+
+        function getSideMenu( options: BindingOptions ) : BindingOptions {
+            options.sideMenu = Default.getObject( options.sideMenu, {} as BindingOptionsSideMenu );
+            options.sideMenu!.enabled = Default.getBoolean( options.sideMenu!.enabled, true );
+            options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
+            options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
+            options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
+
+            return options;
+        }
+
+        function getAutoClose( options: BindingOptions ) : BindingOptions {
+            options.autoClose = Default.getObject( options.autoClose, {} as BindingOptionsAutoClose );
+            options.autoClose!.objectSize = Default.getNumber( options.autoClose!.objectSize, 0 );
+            options.autoClose!.arraySize = Default.getNumber( options.autoClose!.arraySize, 0 );
+            options.autoClose!.mapSize = Default.getNumber( options.autoClose!.mapSize, 0 );
+            options.autoClose!.setSize = Default.getNumber( options.autoClose!.setSize, 0 );
 
             return options;
         }
@@ -170,7 +223,7 @@ export namespace Binding {
             options.events!.onCloseAll = Default.getFunction( options.events!.onCloseAll, null! );
             options.events!.onDestroy = Default.getFunction( options.events!.onDestroy, null! );
             options.events!.onBooleanRender = Default.getFunction( options.events!.onBooleanRender, null! );
-            options.events!.onDecimalRender = Default.getFunction( options.events!.onDecimalRender, null! );
+            options.events!.onFloatRender = Default.getFunction( options.events!.onFloatRender, null! );
             options.events!.onNumberRender = Default.getFunction( options.events!.onNumberRender, null! );
             options.events!.onBigIntRender = Default.getFunction( options.events!.onBigIntRender, null! );
             options.events!.onStringRender = Default.getFunction( options.events!.onStringRender, null! );
@@ -185,6 +238,10 @@ export namespace Binding {
             options.events!.onColorRender = Default.getFunction( options.events!.onColorRender, null! );
             options.events!.onJsonEdit = Default.getFunction( options.events!.onJsonEdit, null! );
             options.events!.onRegExpRender = Default.getFunction( options.events!.onRegExpRender, null! );
+            options.events!.onExport = Default.getFunction( options.events!.onExport, null! );
+            options.events!.onUrlRender = Default.getFunction( options.events!.onUrlRender, null! );
+            options.events!.onImageRender = Default.getFunction( options.events!.onImageRender, null! );
+            options.events!.onEmailRender = Default.getFunction( options.events!.onEmailRender, null! );
 
             return options;
         }

@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Nepali | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Nepali | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "पछाडि",
         "nextButtonText": "अर्को",
         "noJsonToViewText": "हेर्नको लागि हाल कुनै JSON छैन।",
-        "functionText": "समारोह"
+        "functionText": "समारोह",
+        "sideMenuButtonText": "मेनु देखाउनुहोस्",
+        "closeButtonText": "बन्द गर्नुहोस्",
+        "showTypesText": "प्रकारहरू देखाउनुहोस्",
+        "selectAllText": "सबै चयन गर्नुहोस्",
+        "selectNoneText": "कुनै पनि चयन गर्नुहोस्",
+        "importButtonText": "आयात गर्नुहोस्",
+        "fullScreenButtonText": "पूर्ण-स्क्रिन टगल गर्नुहोस्",
+        "copyButtonText": "प्रतिलिपि गर्नुहोस्",
+        "dragAndDropTitleText": "तपाईंको JSON फाइलहरू अपलोड गर्न ड्र्याग र ड्रप गर्नुहोस्",
+        "dragAndDropDescriptionText": "धेरै फाइलहरू एरेको रूपमा जोडिनेछन्",
+        "exportButtonText": "निर्यात गर्नुहोस्"
     }
 } );

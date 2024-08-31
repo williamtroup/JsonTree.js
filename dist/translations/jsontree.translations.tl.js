@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Tagalog | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Tagalog | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Bumalik",
         "nextButtonText": "Susunod",
         "noJsonToViewText": "Kasalukuyang walang JSON na titingnan.",
-        "functionText": "function"
+        "functionText": "function",
+        "sideMenuButtonText": "Ipakita ang Menu",
+        "closeButtonText": "Isara",
+        "showTypesText": "Mga Uri ng Palabas",
+        "selectAllText": "Piliin ang Lahat",
+        "selectNoneText": "Piliin ang Wala",
+        "importButtonText": "Mag-import",
+        "fullScreenButtonText": "I-toggle ang Full-Screen",
+        "copyButtonText": "Kopyahin",
+        "dragAndDropTitleText": "I-drag at i-drop ang iyong mga JSON file para i-upload",
+        "dragAndDropDescriptionText": "Maraming mga file ang isasama bilang isang array",
+        "exportButtonText": "I-export"
     }
 } );

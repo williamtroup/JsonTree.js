@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "ආපසු",
         "nextButtonText": "ඊළඟ",
         "noJsonToViewText": "බැලීම සඳහා දැනට JSON නොමැත.",
-        "functionText": "කාර්යය"
+        "functionText": "කාර්යය",
+        "sideMenuButtonText": "මෙනුව පෙන්වන්න",
+        "closeButtonText": "වසන්න",
+        "showTypesText": "වර්ග පෙන්වන්න",
+        "selectAllText": "සියල්ල තෝරන්න",
+        "selectNoneText": "කිසිවක් නැත තෝරන්න",
+        "importButtonText": "ආනයනය කරන්න",
+        "fullScreenButtonText": "සම්පූර්ණ තිරය ටොගල් කරන්න",
+        "copyButtonText": "පිටපත් කරන්න",
+        "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ JSON ගොනු ඇද දමන්න",
+        "dragAndDropDescriptionText": "ගොනු කිහිපයක් අරාවක් ලෙස එකතු වනු ඇත",
+        "exportButtonText": "අපනයනය කරන්න"
     }
 } );

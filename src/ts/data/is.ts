@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -83,7 +83,7 @@ export namespace Is {
         return definedObject( object ) && object instanceof Date;
     }
 
-    export function definedDecimal( object: any ) : boolean {
+    export function definedFloat( object: any ) : boolean {
         return defined( object ) && typeof object === "number" && object % 1 !== 0;
     }
 
@@ -101,6 +101,28 @@ export namespace Is {
 
     export function definedSet( object: any ) : boolean {
         return defined( object ) && ( object instanceof Set || object instanceof WeakSet );
+    }
+
+    export function definedImage( object: any ) : boolean {
+        return defined( object ) && object instanceof Image;
+    }
+
+    export function definedUrl( data: string ) : boolean {
+        let url: URL;
+        
+        try {
+            url = new URL( data );
+        } catch {
+            url = null!;  
+        }
+      
+        return url !== null && ( url.protocol === "http:" || url.protocol === "https:" )
+    }
+
+    export function definedEmail( data: string ) : boolean {
+        const regex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
+        return regex.test( data );	
     }
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {

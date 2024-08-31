@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        config.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -45,8 +45,8 @@ export namespace Config {
             configuration.text!.rdText = Default.getAnyString( configuration.text!.rdText, "rd" );
             configuration.text!.thText = Default.getAnyString( configuration.text!.thText, "th" );
             configuration.text!.ellipsisText = Default.getAnyString( configuration.text!.ellipsisText, "..." );
-            configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "↑" );
-            configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "↓" );
+            configuration.text!.closeAllButtonSymbolText = Default.getAnyString( configuration.text!.closeAllButtonSymbolText, "⇈" );
+            configuration.text!.openAllButtonSymbolText = Default.getAnyString( configuration.text!.openAllButtonSymbolText, "⇊" );
             configuration.text!.copyAllButtonSymbolText = Default.getAnyString( configuration.text!.copyAllButtonSymbolText, "❐" );
             configuration.text!.backButtonText = Default.getAnyString( configuration.text!.backButtonText, "Back" );
             configuration.text!.nextButtonText = Default.getAnyString( configuration.text!.nextButtonText, "Next" );
@@ -54,6 +54,24 @@ export namespace Config {
             configuration.text!.nextButtonSymbolText = Default.getAnyString( configuration.text!.nextButtonSymbolText, "→" );
             configuration.text!.noJsonToViewText = Default.getAnyString( configuration.text!.noJsonToViewText, "There is currently no JSON to view." );
             configuration.text!.functionText = Default.getAnyString( configuration.text!.functionText, "function" );
+            configuration.text!.sideMenuButtonSymbolText = Default.getAnyString( configuration.text!.sideMenuButtonSymbolText, "☰" );
+            configuration.text!.sideMenuButtonText = Default.getAnyString( configuration.text!.sideMenuButtonText, "Show Menu" );
+            configuration.text!.closeButtonSymbolText = Default.getAnyString( configuration.text!.closeButtonSymbolText, "✕" );
+            configuration.text!.closeButtonText = Default.getAnyString( configuration.text!.closeButtonText, "Close" );
+            configuration.text!.showTypesText = Default.getAnyString( configuration.text!.showTypesText, "Show Types" );
+            configuration.text!.selectAllText = Default.getAnyString( configuration.text!.selectAllText, "Select All" );
+            configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
+            configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "↑" );
+            configuration.text!.importButtonText = Default.getAnyString( configuration.text!.importButtonText, "Import" );
+            configuration.text!.fullScreenOnButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOnButtonSymbolText, "↗" );
+            configuration.text!.fullScreenOffButtonSymbolText = Default.getAnyString( configuration.text!.fullScreenOffButtonSymbolText, "↙" );
+            configuration.text!.fullScreenButtonText = Default.getAnyString( configuration.text!.fullScreenButtonText, "Toggle Full-Screen" );
+            configuration.text!.copyButtonText = Default.getAnyString( configuration.text!.copyButtonText, "Copy" );
+            configuration.text!.dragAndDropSymbolText = Default.getAnyString( configuration.text!.dragAndDropSymbolText, "⇪" );
+            configuration.text!.dragAndDropTitleText = Default.getAnyString( configuration.text!.dragAndDropTitleText, "Drag and drop your JSON files to upload" );
+            configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an array" );
+            configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
+            configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

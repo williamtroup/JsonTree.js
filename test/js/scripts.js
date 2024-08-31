@@ -26,9 +26,14 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         showCommas: false,
         showArrowToggles: true,
         openInFullScreenMode: false,
-        enableFullScreenToggling: true,
         useZeroIndexingForArrays: true,
         showCounts: true,
+        showTypes: false,
+        logJsonValueToolTipPaths: false,
+        showOpenedObjectArrayBorders: true,
+        showPropertyNameQuotes: false,
+        showPropertyNameAndIndexColors: true,
+        addArrayIndexPadding: false,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
@@ -37,9 +42,23 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
         } : null,
         title: {
-            show: true,
             showCopyButton: true,
             showTreeControls: true,
+            enableFullScreenToggling: true,
+            showFullScreenButton: true,
+        },
+        sideMenu: {
+            enabled: true,
+            showImportButton: true,
+        },
+        allowEditing: {
+            bulk: true,
+        },
+        autoCloseAt: {
+            objectSize: 0,
+            arraySize: 0,
+            mapSize: 0,
+            setSize: 0,
         }
     };
 }
@@ -52,6 +71,9 @@ function getData() {
     map.set( "key4", { value1: true, value2: 10 } );
 
     var set = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
+
+    var image = new Image( 100, 100 );
+    image.src = "images/image.png";
 
     return [
         {
@@ -76,6 +98,9 @@ function getData() {
             value17: new RegExp( "ab+c" ),
             value18: map,
             value19: set,
+            value20: "https://www.william-troup.com",
+            value21: "william@william-troup.com",
+            value22: image,
             value5: [
                 true,
                 "This is another string",
@@ -139,6 +164,8 @@ function onValueClickEvent( value, type ) {
         value = Array.from( value.keys() );
     } else if ( value instanceof Set ) {
         value = Array.from( value.values() );
+    } else if ( value instanceof Image ) {
+        value = value.src;
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );

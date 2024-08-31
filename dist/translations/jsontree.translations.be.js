@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Belarusian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Belarusian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayHeaderNames": [
@@ -73,6 +73,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Назад",
         "nextButtonText": "Далей",
         "noJsonToViewText": "Зараз няма JSON для прагляду.",
-        "functionText": "функцыя"
+        "functionText": "функцыя",
+        "sideMenuButtonText": "Паказаць меню",
+        "closeButtonText": "Блізка",
+        "showTypesText": "Паказаць тыпы",
+        "selectAllText": "Выбраць усе",
+        "selectNoneText": "Выберыце «Няма».",
+        "importButtonText": "Імпарт",
+        "fullScreenButtonText": "Пераключыць поўнаэкранны рэжым",
+        "copyButtonText": "Копія",
+        "dragAndDropTitleText": "Перацягніце файлы JSON для загрузкі",
+        "dragAndDropDescriptionText": "Некалькі файлаў будуць аб'яднаны ў масіў",
+        "exportButtonText": "Экспарт"
     }
 } );

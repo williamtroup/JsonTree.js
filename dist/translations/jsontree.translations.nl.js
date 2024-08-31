@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Dutch | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Dutch | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Rug",
         "nextButtonText": "Volgende",
         "noJsonToViewText": "Er is momenteel geen JSON om te bekijken.",
-        "functionText": "functie"
+        "functionText": "functie",
+        "sideMenuButtonText": "Toon menu",
+        "closeButtonText": "Dichtbij",
+        "showTypesText": "Typen weergeven",
+        "selectAllText": "Selecteer Alles",
+        "selectNoneText": "Selecteer Geen",
+        "importButtonText": "Importeren",
+        "fullScreenButtonText": "Schakel Volledig scherm in",
+        "copyButtonText": "Kopiëren",
+        "dragAndDropTitleText": "Versleep uw JSON-bestanden om ze te uploaden",
+        "dragAndDropDescriptionText": "Meerdere bestanden worden samengevoegd als een array",
+        "exportButtonText": "Exporteren"
     }
 } );

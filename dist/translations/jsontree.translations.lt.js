@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Atgal",
         "nextButtonText": "Kitas",
         "noJsonToViewText": "Šiuo metu nėra JSON, kurį būtų galima peržiūrėti.",
-        "functionText": "funkcija"
+        "functionText": "funkcija",
+        "sideMenuButtonText": "Rodyti meniu",
+        "closeButtonText": "Uždaryti",
+        "showTypesText": "Rodyti tipai",
+        "selectAllText": "Pasirinkite Viskas",
+        "selectNoneText": "Pasirinkite Nėra",
+        "importButtonText": "Importuoti",
+        "fullScreenButtonText": "Perjungti viso ekrano režimą",
+        "copyButtonText": "Kopijuoti",
+        "dragAndDropTitleText": "Nuvilkite JSON failus, kad įkeltumėte",
+        "dragAndDropDescriptionText": "Keli failai bus sujungti kaip masyvas",
+        "exportButtonText": "Eksportuoti"
     }
 } );

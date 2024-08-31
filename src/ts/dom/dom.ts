@@ -4,16 +4,16 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v2.9.0
+ * @version     v3.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
+import { type Position } from "../type";
 import { Char } from "../data/enum";
 import { Is } from "../data/is";
-import { Position } from "../type";
 
 
 export namespace DomElement {
@@ -41,6 +41,15 @@ export namespace DomElement {
         element.innerHTML = html;
 
         return element;
+    }
+
+    export function createWithNoContainer( type: string ) : HTMLElement {
+        const nodeType: string = type.toLowerCase();
+        const isText: boolean = nodeType === "text";
+
+        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+
+        return result;
     }
 
     export function addClass( element: HTMLElement, className: string ) : void {
@@ -108,5 +117,20 @@ export namespace DomElement {
 
         selection.removeAllRanges();
         selection.addRange( range );
+    }
+
+    export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean, spanClass: string ) : HTMLInputElement {
+        const lineContainer: HTMLElement = create( container, "div", "checkbox" );
+        const label: HTMLElement = create( lineContainer, "label", "checkbox" );
+        const input: HTMLInputElement = create( label, "input" ) as HTMLInputElement;
+
+        input.type = "checkbox";
+        input.name = name;
+        input.checked = checked;
+
+        create( label, "span", "check-mark" );
+        createWithHTML( label, "span", `text ${spanClass}`, labelText );
+        
+        return input;
     }
 }

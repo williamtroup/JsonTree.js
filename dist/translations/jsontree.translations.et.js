@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Estonian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Estonian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "tagasi",
         "nextButtonText": "Edasi",
         "noJsonToViewText": "Praegu pole vaatamiseks ühtegi JSON-i.",
-        "functionText": "funktsiooni"
+        "functionText": "funktsiooni",
+        "sideMenuButtonText": "Kuva menüü",
+        "closeButtonText": "Sule",
+        "showTypesText": "Näituse tüübid",
+        "selectAllText": "Valige Kõik",
+        "selectNoneText": "Valige Puudub",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Lülitage täisekraan sisse",
+        "copyButtonText": "Kopeeri",
+        "dragAndDropTitleText": "Üleslaadimiseks pukseerige oma JSON-failid",
+        "dragAndDropDescriptionText": "Mitu faili liidetakse massiivina",
+        "exportButtonText": "Ekspordi"
     }
 } );

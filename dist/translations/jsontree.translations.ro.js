@@ -1,4 +1,4 @@
-/*! JsonTree.js v2.9.0 - Romanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.0.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -64,6 +64,17 @@ $jsontree.setConfiguration( {
         "backButtonText": "Înapoi",
         "nextButtonText": "Următorul",
         "noJsonToViewText": "În prezent, nu există niciun JSON de vizualizat.",
-        "functionText": "funcţie"
+        "functionText": "funcţie",
+        "sideMenuButtonText": "Afișați meniul",
+        "closeButtonText": "Aproape",
+        "showTypesText": "Afișați tipuri",
+        "selectAllText": "Selectați Toate",
+        "selectNoneText": "Selectați Niciunul",
+        "importButtonText": "Import",
+        "fullScreenButtonText": "Comutați ecranul complet",
+        "copyButtonText": "Copie",
+        "dragAndDropTitleText": "Trageți și plasați fișierele dvs. JSON pentru a le încărca",
+        "dragAndDropDescriptionText": "Mai multe fișiere vor fi unite ca o matrice",
+        "exportButtonText": "Export"
     }
 } );
