@@ -99,7 +99,7 @@ export type BindingOptions = {
 	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
-	copyIndentSpaces?: number;
+	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
@@ -110,7 +110,6 @@ export type BindingOptions = {
 	editingValueClickDelay?: number;
 	showTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
-	editableJsonIndentSpaces?: number;
 	exportFilenameFormat?: string;
 	showPropertyNameQuotes?: boolean;
 	showOpenedObjectArrayBorders?: boolean;

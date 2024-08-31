@@ -475,7 +475,7 @@ var Binding;
             t.showArrayItemsAsSeparateObjects = Default2.getBoolean(t.showArrayItemsAsSeparateObjects, false);
             t.copyOnlyCurrentPage = Default2.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default2.getBoolean(t.fileDroppingEnabled, true);
-            t.copyIndentSpaces = Default2.getNumber(t.copyIndentSpaces, 2);
+            t.jsonIndentSpaces = Default2.getNumber(t.jsonIndentSpaces, 8);
             t.showArrayIndexBrackets = Default2.getBoolean(t.showArrayIndexBrackets, true);
             t.showOpeningClosingCurlyBraces = Default2.getBoolean(t.showOpeningClosingCurlyBraces, false);
             t.showOpeningClosingSquaredBrackets = Default2.getBoolean(t.showOpeningClosingSquaredBrackets, false);
@@ -486,7 +486,6 @@ var Binding;
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
             t.showTypes = Default2.getBoolean(t.showTypes, false);
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
-            t.editableJsonIndentSpaces = Default2.getNumber(t.editableJsonIndentSpaces, 8);
             t.exportFilenameFormat = Default2.getString(t.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json");
             t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, false);
             t.showOpenedObjectArrayBorders = Default2.getBoolean(t.showOpenedObjectArrayBorders, true);
@@ -875,7 +874,7 @@ var Arr;
             l = l[n._currentView.dataArrayCurrentIndex];
         }
         if (Is.definedArray(l) || Is.definedSet(l)) {
-            S(r, n, l);
+            V(r, n, l);
         } else if (Is.definedObject(l)) {
             v(r, n, l);
         }
@@ -899,7 +898,7 @@ var Arr;
                 t._currentView.editMode = true;
                 DomElement.addClass(o, "editable");
                 o.setAttribute("contenteditable", "true");
-                o.innerText = JSON.stringify(n, p, t.editableJsonIndentSpaces);
+                o.innerText = JSON.stringify(n, p, t.jsonIndentSpaces);
                 o.focus();
                 DomElement.selectAllText(o);
                 o.onblur = () => i(t, false);
@@ -1011,9 +1010,9 @@ var Arr;
             o = e.events.onCopyJsonReplacer;
         }
         if (e.copyOnlyCurrentPage && e.showArrayItemsAsSeparateObjects) {
-            n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.copyIndentSpaces);
+            n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.jsonIndentSpaces);
         } else {
-            n = JSON.stringify(t, o, e.copyIndentSpaces);
+            n = JSON.stringify(t, o, e.jsonIndentSpaces);
         }
         navigator.clipboard.writeText(n);
         Trigger.customEvent(e.events.onCopyAll, n);
@@ -1180,11 +1179,11 @@ var Arr;
             if (n.showOpeningClosingCurlyBraces) {
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
             }
-            V(d, null, c, n, i, a, g, false, true, "", r);
+            S(d, null, c, n, i, a, g, false, true, "", r);
             O(n, f, o, r, false);
         }
     }
-    function S(t, n, o) {
+    function V(t, n, o) {
         const l = Is.definedSet(o);
         const r = l ? "set" : "array";
         const i = l ? Default2.getArrayFromSet(o) : o;
@@ -1203,7 +1202,7 @@ var Arr;
         E(u, null, s, n, i, d, false, true, "", r);
         O(n, c, o, r, false);
     }
-    function V(e, t, n, o, l, r, i, a, s, u, c) {
+    function S(e, t, n, o, l, r, i, a, s, u, c) {
         const d = r.length;
         const f = u !== "" ? d : 0;
         for (let e = 0; e < d; e++) {
@@ -1567,7 +1566,7 @@ var Arr;
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let f = F(o, r, i);
-                    V(d, f, a, o, t, n, u, true, i, s, p);
+                    S(d, f, a, o, t, n, u, true, i, s, p);
                 }
             } else {
                 m = true;
@@ -1595,7 +1594,7 @@ var Arr;
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let f = F(o, l, i);
-                    V(d, f, a, o, r, t, u, true, i, s, p);
+                    S(d, f, a, o, r, t, u, true, i, s, p);
                 }
             } else {
                 m = true;
@@ -1948,7 +1947,7 @@ var Arr;
         o.readAsText(t);
     }
     function P(e) {
-        let t = JSON.stringify(e.data, p, e.copyIndentSpaces);
+        let t = JSON.stringify(e.data, p, e.jsonIndentSpaces);
         if (Is.definedString(t)) {
             const n = DomElement.create(document.body, "a");
             n.style.display = "none";

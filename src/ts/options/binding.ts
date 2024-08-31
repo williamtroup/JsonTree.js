@@ -84,7 +84,7 @@ export namespace Binding {
             options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
-            options.copyIndentSpaces = Default.getNumber( options.copyIndentSpaces, 2 );
+            options.jsonIndentSpaces = Default.getNumber( options.jsonIndentSpaces, 8 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
@@ -95,7 +95,6 @@ export namespace Binding {
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
-            options.editableJsonIndentSpaces = Default.getNumber( options.editableJsonIndentSpaces, 8 );
             options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
             options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
             options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );

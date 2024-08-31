@@ -184,7 +184,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( contents, "editable" );
 
                 contents.setAttribute( "contenteditable", "true" );
-                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.editableJsonIndentSpaces );
+                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
                 contents.focus();
 
                 DomElement.selectAllText( contents );
@@ -339,10 +339,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.showArrayItemsAsSeparateObjects ) {
-            copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.copyIndentSpaces );
+            copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.jsonIndentSpaces );
         }
         else {
-            copyData = JSON.stringify( data, replaceFunction, bindingOptions.copyIndentSpaces );
+            copyData = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
         }
 
         navigator.clipboard.writeText( copyData );
@@ -1616,7 +1616,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function onExport( bindingOptions: BindingOptions ) : void {
-        let contents: string = JSON.stringify( bindingOptions.data, jsonStringifyReplacer, bindingOptions.copyIndentSpaces );
+        let contents: string = JSON.stringify( bindingOptions.data, jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );
