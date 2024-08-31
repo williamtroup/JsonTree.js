@@ -878,7 +878,7 @@ var Arr;
         } else if (Is.definedObject(l)) {
             v(r, n, l);
         }
-        if (r.innerHTML === "" || r.children.length >= 2 && r.children[1].children.length === 0) {
+        if (r.innerHTML === "" || r.children.length >= 2 && (!n.showOpenedObjectArrayBorders && r.children[1].children.length === 0 || r.children[1].children.length === 1)) {
             r.innerHTML = "";
             DomElement.createWithHTML(r, "span", "no-json-text", e.text.noJsonToViewText);
             n._currentView.titleBarButtons.style.display = "none";

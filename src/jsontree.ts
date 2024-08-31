@@ -154,7 +154,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderObject( contents, bindingOptions, data );
         }
 
-        if ( contents.innerHTML === Char.empty || ( contents.children.length >= 2 && contents.children[ 1 ].children.length === 0 ) ) {
+        if ( contents.innerHTML === Char.empty || ( contents.children.length >= 2 && ( ( !bindingOptions.showOpenedObjectArrayBorders && contents.children[ 1 ].children.length === 0 ) || contents.children[ 1 ].children.length === 1 )  ) ) {
             contents.innerHTML = Char.empty;
 
             DomElement.createWithHTML( contents, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
