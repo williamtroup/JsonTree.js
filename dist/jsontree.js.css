@@ -398,6 +398,7 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents {
   margin-top: var(--json-tree-js-spacing);
   margin-left: var(--json-tree-js-spacing);
+  text-align: left;
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.array {
   color: var(--json-tree-js-color-array);

@@ -410,6 +410,7 @@ div.json-tree-js {
                 div.settings-panel-contents {
                     margin-top: var(--json-tree-js-spacing);
                     margin-left: var(--json-tree-js-spacing);
+                    text-align: left;
 
                     @include type-span-colors;
 
