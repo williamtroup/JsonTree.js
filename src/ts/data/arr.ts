@@ -24,7 +24,7 @@ export namespace Arr {
     export function getIndexName( bindingOptions: BindingOptions, index: number, largestValue: number ) : string {
         let result: string = index.toString();
     
-        if ( !bindingOptions.addArrayIndexPadding ) {
+        if ( bindingOptions.addArrayIndexPadding ) {
             result = Str.padNumber( parseInt( result ), largestValue.toString().length );
         }
 
@@ -36,7 +36,7 @@ export namespace Arr {
     }
 
     export function getIndexFromBrackets( propertyName: string ) : number {
-        return parseInt( propertyName.replace( "[", Char.empty ).replace( "]", Char.empty ) );
+        return parseInt( propertyName.replace( /^\D+/g, Char.empty ) );
     }
 
     export function moveIndex( arrayData: any[], oldIndex: number, newIndex: number ) : void {

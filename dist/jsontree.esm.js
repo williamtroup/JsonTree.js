@@ -771,7 +771,7 @@ var Arr;
     e.getIndex = t;
     function n(e, t, n) {
         let o = t.toString();
-        if (!e.addArrayIndexPadding) {
+        if (e.addArrayIndexPadding) {
             o = Str.padNumber(parseInt(o), n.toString().length);
         }
         if (e.showArrayIndexBrackets) {
@@ -781,7 +781,7 @@ var Arr;
     }
     e.getIndexName = n;
     function o(e) {
-        return parseInt(e.replace("[", "").replace("]", ""));
+        return parseInt(e.replace(/^\D+/g, ""));
     }
     e.getIndexFromBrackets = o;
     function l(e, t, n) {
