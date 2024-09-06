@@ -685,7 +685,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.addClass( nameElement, parentType );
         }
 
-        DomElement.createWithHTML( objectTypeValue, "span", "split", ":" );
+        DomElement.createWithHTML( objectTypeValue, "span", "split", _configuration.text!.propertyColonCharacter! );
 
         makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
 

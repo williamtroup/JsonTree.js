@@ -77,6 +77,7 @@ export type ConfigurationText = {
 	dragAndDropDescriptionText?: string;
 	exportButtonSymbolText?: string;
 	exportButtonText?: string;
+	propertyColonCharacter?: string;
 };
 
 export type BindingOptions = {

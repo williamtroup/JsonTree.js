@@ -72,6 +72,7 @@ export namespace Config {
             configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an array" );
             configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
             configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
+            configuration.text!.propertyColonCharacter = Default.getAnyString( configuration.text!.propertyColonCharacter, ":" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
