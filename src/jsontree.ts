@@ -891,7 +891,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.urlValues!;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
-                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( value );
                 }
 
@@ -915,7 +915,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.emailValues!;
 
                 if ( bindingOptions.showEmailOpenButtons ) {
-                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( `mailto:${value}` );
                 }
 

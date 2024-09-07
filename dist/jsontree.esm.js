@@ -1434,7 +1434,7 @@ var Arr;
                 p = "url";
                 T = o.allowEditing.urlValues;
                 if (o.showUrlOpenButtons) {
-                    const t = DomElement.createWithHTML(c, "span", "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(l);
                 }
                 O(o, t, r, l, g, a, T);
@@ -1452,7 +1452,7 @@ var Arr;
                 p = "email";
                 T = o.allowEditing.emailValues;
                 if (o.showEmailOpenButtons) {
-                    const t = DomElement.createWithHTML(c, "span", "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(`mailto:${l}`);
                 }
                 O(o, t, r, l, g, a, T);

@@ -46,6 +46,7 @@
   --json-tree-js-color-regexp: #AA336A;
   --json-tree-js-color-url: #00FFFF;
   --json-tree-js-color-email: #FA8072;
+  --json-tree-js-color-link: #89CFF0;
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
@@ -736,13 +737,17 @@ div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
   font-weight: var(--json-tree-js-text-bold-weight);
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.open-button {
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button,
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
   margin-left: calc(var(--json-tree-js-spacing) * 2);
-  color: #89CFF0;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.open-button:hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button:hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
+  color: var(--json-tree-js-color-link);
 }
 
 /*

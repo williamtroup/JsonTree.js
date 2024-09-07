@@ -56,6 +56,7 @@
     --json-tree-js-color-regexp: #AA336A;
     --json-tree-js-color-url: #00FFFF;
     --json-tree-js-color-email: #FA8072;
+    --json-tree-js-color-link: #89CFF0;
 
     // Colors - Editable Fields
     --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
@@ -688,14 +689,18 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-text-bold-weight);
             }
 
-            span.open-button {
+            span.open-button,
+            span.open-button-color {
                 margin-left: calc( var(--json-tree-js-spacing) * 2 );
-                color: #89CFF0;
 
                 &:hover {
                     text-decoration: underline;
                     cursor: pointer;
                 }
+            }
+
+            span.open-button-color {
+                color: var(--json-tree-js-color-link);
             }
         }
     }
