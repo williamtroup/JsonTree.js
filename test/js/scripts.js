@@ -83,7 +83,7 @@ function getData() {
             value4: 5,
             value7: null,
             value8: function( message ) {
-                alert( message );
+                console.log( message );
             },
             value9: 3.1415926535,
             value10: 9007199254740991n,
@@ -91,7 +91,7 @@ function getData() {
             value12: {},
             value13: undefined,
             value14: ( message ) => {
-                alert( message );
+                console.log( message );
             },
             value15: "rgb(144, 238, 144)",
             value16: crypto.randomUUID(),
@@ -101,6 +101,7 @@ function getData() {
             value20: "https://www.william-troup.com",
             value21: "william@william-troup.com",
             value22: image,
+            value23: testFunctionName,
             value5: [
                 true,
                 "This is another string",
@@ -149,6 +150,10 @@ function getData() {
             }
         }
     ]
+}
+
+function testFunctionName( message ) {
+    console.log( message );
 }
 
 function onValueClickEvent( value, type ) {

@@ -76,13 +76,7 @@ export namespace Default {
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
         const functionBrackets: string = "()";
 
-        if ( valueNameParts.length === 2 ) {
-            result = valueNameParts[ 1 ];
-        } else {
-            result = valueNameParts[ 0 ];
-        }
-
-        result += functionBrackets;
+        result = `${valueNameParts.join(Char.space)}${functionBrackets}`;
 
         if ( result.trim() === functionBrackets ) {
             result = `${configuration.text!.functionText!}${functionBrackets}`;

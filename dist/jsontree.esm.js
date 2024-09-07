@@ -193,12 +193,7 @@ var Default2;
         const o = e.toString().split("(");
         const r = o[0].split(" ");
         const l = "()";
-        if (r.length === 2) {
-            n = r[1];
-        } else {
-            n = r[0];
-        }
-        n += l;
+        n = `${r.join(" ")}${l}`;
         if (n.trim() === l) {
             n = `${t.text.functionText}${l}`;
         }
