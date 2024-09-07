@@ -137,7 +137,7 @@ export namespace Binding {
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
             options.ignore!.bigintValues = Default.getBoolean( options.ignore!.bigintValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
-            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
+            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, false );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );

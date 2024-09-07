@@ -679,6 +679,11 @@ div.json-tree-js {
                 padding-right: 5px;
             }
 
+            span.no-properties-text {
+                margin-left: calc( var(--json-tree-js-spacing) 2 );
+                font-style: italic;
+            }
+
             span.comma {
                 color: var(--json-tree-js-color-white);
                 font-weight: var(--json-tree-js-text-bold-weight);

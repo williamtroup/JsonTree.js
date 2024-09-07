@@ -78,6 +78,7 @@ export type ConfigurationText = {
 	exportButtonSymbolText?: string;
 	exportButtonText?: string;
 	propertyColonCharacter?: string;
+	noPropertiesText?: string;
 };
 
 export type BindingOptions = {

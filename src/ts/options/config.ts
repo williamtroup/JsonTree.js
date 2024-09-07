@@ -73,6 +73,7 @@ export namespace Config {
             configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
             configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
             configuration.text!.propertyColonCharacter = Default.getAnyString( configuration.text!.propertyColonCharacter, ":" );
+            configuration.text!.noPropertiesText = Default.getAnyString( configuration.text!.noPropertiesText, "There are no properties to view." );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
