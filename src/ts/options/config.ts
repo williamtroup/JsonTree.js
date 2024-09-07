@@ -75,7 +75,7 @@ export namespace Config {
             configuration.text!.propertyColonCharacter = Default.getAnyString( configuration.text!.propertyColonCharacter, ":" );
             configuration.text!.noPropertiesText = Default.getAnyString( configuration.text!.noPropertiesText, "There are no properties to view." );
             configuration.text!.openText = Default.getAnyString( configuration.text!.openText, "open" );
-            configuration.text!.openSymbolText = Default.getAnyString( configuration.text!.openSymbolText, "➾" );
+            configuration.text!.openSymbolText = Default.getAnyString( configuration.text!.openSymbolText, "⤤" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

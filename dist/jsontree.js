@@ -695,7 +695,7 @@ var Config;
             e.text.propertyColonCharacter = Default2.getAnyString(e.text.propertyColonCharacter, ":");
             e.text.noPropertiesText = Default2.getAnyString(e.text.noPropertiesText, "There are no properties to view.");
             e.text.openText = Default2.getAnyString(e.text.openText, "open");
-            e.text.openSymbolText = Default2.getAnyString(e.text.openSymbolText, "➾");
+            e.text.openSymbolText = Default2.getAnyString(e.text.openSymbolText, "⤤");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
