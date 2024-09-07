@@ -128,15 +128,15 @@ var Is;
         return t !== null && (t.protocol === "http:" || t.protocol === "https:");
     }
     e.definedUrl = T;
-    function y(e) {
+    function x(e) {
         const t = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return t.test(e);
     }
-    e.definedEmail = y;
-    function x(e, t = 1) {
+    e.definedEmail = x;
+    function y(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = x;
+    e.invalidOptionArray = y;
 })(Is || (Is = {}));
 
 var Default2;
@@ -503,6 +503,8 @@ var Binding;
             t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, false);
             t.showOpenedObjectArrayBorders = Default2.getBoolean(t.showOpenedObjectArrayBorders, true);
             t.showPropertyNameAndIndexColors = Default2.getBoolean(t.showPropertyNameAndIndexColors, true);
+            t.showUrlOpenButtons = Default2.getBoolean(t.showUrlOpenButtons, true);
+            t.showEmailOpenButtons = Default2.getBoolean(t.showEmailOpenButtons, true);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -692,6 +694,8 @@ var Config;
             e.text.exportButtonText = Default2.getAnyString(e.text.exportButtonText, "Export");
             e.text.propertyColonCharacter = Default2.getAnyString(e.text.propertyColonCharacter, ":");
             e.text.noPropertiesText = Default2.getAnyString(e.text.noPropertiesText, "There are no properties to view.");
+            e.text.openText = Default2.getAnyString(e.text.openText, "open");
+            e.text.openSymbolText = Default2.getAnyString(e.text.openSymbolText, "➾");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -955,7 +959,7 @@ var Arr;
             }
             if (t.sideMenu.enabled && Is.definedObject(n)) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => x(t);
+                n.onclick = () => y(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -1103,7 +1107,7 @@ var Arr;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => y(t);
+                n.onclick = () => x(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1113,7 +1117,7 @@ var Arr;
             D(l, t);
         }
     }
-    function y(e) {
+    function x(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -1121,7 +1125,7 @@ var Arr;
         t.onchange = () => H(t.files, e);
         t.click();
     }
-    function x(e) {
+    function y(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -1275,10 +1279,10 @@ var Arr;
         let p = null;
         let b = DomElement.create(c, "span", "title");
         let T = false;
-        let y = null;
-        const x = !Is.definedString(r);
+        let x = null;
+        const y = !Is.definedString(r);
         let w = true;
-        if (!x) {
+        if (!y) {
             if (a || !o.showPropertyNameQuotes) {
                 b.innerHTML = r;
             } else {
@@ -1292,12 +1296,12 @@ var Arr;
             DomElement.addClass(c, "last-item");
         }
         if (o.showTypes) {
-            y = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
+            x = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
         }
-        if (!x && o.showValueColors && o.showPropertyNameAndIndexColors) {
+        if (!y && o.showValueColors && o.showPropertyNameAndIndexColors) {
             DomElement.addClass(b, u);
         }
-        if (!x) {
+        if (!y) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             _(o, t, r, b, a);
         }
@@ -1431,6 +1435,10 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, l);
                 p = "url";
                 T = o.allowEditing.urlValues;
+                if (o.showUrlOpenButtons) {
+                    const t = DomElement.createWithHTML(c, "span", "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    t.onclick = () => window.open(l);
+                }
                 O(o, t, r, l, g, a, T);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, g);
@@ -1445,6 +1453,10 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, l);
                 p = "email";
                 T = o.allowEditing.emailValues;
+                if (o.showEmailOpenButtons) {
+                    const t = DomElement.createWithHTML(c, "span", "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    t.onclick = () => window.open(`mailto:${l}`);
+                }
                 O(o, t, r, l, g, a, T);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, g);
@@ -1466,7 +1478,7 @@ var Arr;
                     m = true;
                 } else {
                     let n = l;
-                    if (!x) {
+                    if (!y) {
                         if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
                             l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
@@ -1480,7 +1492,7 @@ var Arr;
                     }
                     g = DomElement.createWithHTML(c, "span", f, n);
                     p = "string";
-                    if (!x) {
+                    if (!y) {
                         O(o, t, r, l, g, a, T);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, g);
@@ -1662,16 +1674,16 @@ var Arr;
             n.removeChild(c);
         } else {
             if (Is.defined(g)) {
-                if (Is.defined(y)) {
+                if (Is.defined(x)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
-                        y.innerHTML = `(${p})`;
+                        x.innerHTML = `(${p})`;
                     } else {
-                        y.parentNode.removeChild(y);
-                        y = null;
+                        x.parentNode.removeChild(x);
+                        x = null;
                     }
                 }
                 if (w) {
-                    C(o, s, b, y, g);
+                    C(o, s, b, x, g);
                     M(o, g, l, p, T);
                 }
             }

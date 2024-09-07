@@ -98,6 +98,8 @@ export namespace Binding {
             options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
             options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );
             options.showPropertyNameAndIndexColors = Default.getBoolean( options.showPropertyNameAndIndexColors, true );
+            options.showUrlOpenButtons = Default.getBoolean( options.showUrlOpenButtons, true );
+            options.showEmailOpenButtons = Default.getBoolean( options.showEmailOpenButtons, true );
 
             options = getTitle( options );
             options = getIgnore( options );

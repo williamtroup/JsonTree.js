@@ -730,12 +730,19 @@ div.json-tree-js div.object-type-contents div.object-type-value span.undefined-o
   padding-right: 5px;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.no-properties-text {
-  margin-left: calc(var(--json-tree-js-spacing) 2);
   font-style: italic;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
   font-weight: var(--json-tree-js-text-bold-weight);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button {
+  margin-left: calc(var(--json-tree-js-spacing) * 2);
+  color: #89CFF0;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /*

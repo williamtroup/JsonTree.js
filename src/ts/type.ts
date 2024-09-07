@@ -79,6 +79,8 @@ export type ConfigurationText = {
 	exportButtonText?: string;
 	propertyColonCharacter?: string;
 	noPropertiesText?: string;
+	openText?: string;
+	openSymbolText?: string;
 };
 
 export type BindingOptions = {
@@ -116,6 +118,8 @@ export type BindingOptions = {
 	showPropertyNameQuotes?: boolean;
 	showOpenedObjectArrayBorders?: boolean;
 	showPropertyNameAndIndexColors?: boolean;
+	showUrlOpenButtons?: boolean;
+	showEmailOpenButtons?: boolean;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;

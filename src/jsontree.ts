@@ -890,6 +890,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 type = DataType.url;
                 allowEditing = bindingOptions.allowEditing!.urlValues!;
 
+                if ( bindingOptions.showUrlOpenButtons ) {
+                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton.onclick = () => window.open( value );
+                }
+
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUrlRender ) ) {
@@ -908,6 +913,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
                 type = DataType.email;
                 allowEditing = bindingOptions.allowEditing!.emailValues!;
+
+                if ( bindingOptions.showEmailOpenButtons ) {
+                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton.onclick = () => window.open( `mailto:${value}` );
+                }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
