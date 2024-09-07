@@ -2178,7 +2178,7 @@ var Arr;
             return e;
         },
         getVersion: function() {
-            return "3.0.1";
+            return "3.1.0";
         }
     };
     (() => {
