@@ -128,4 +128,24 @@ export namespace Default {
     
         return result;
     }
+
+    export function getObjectFromUrl( url: string, configuration: Configuration, callback: Function ) : void {
+        const request: XMLHttpRequest = new XMLHttpRequest();
+        request.open( "GET", url, true );
+        request.send();
+
+        request.onreadystatechange = () => {
+            if ( request.readyState === 4 && request.status === 200 ) {
+                const data: string = request.responseText;
+                const dataJson: StringToJson = Default.getObjectFromString( data, configuration );
+
+                if ( dataJson.parsed ) {
+                    callback( dataJson.object );
+                }
+
+            } else {
+                callback( null );
+            }
+        }
+    }
 }

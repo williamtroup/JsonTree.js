@@ -66,7 +66,6 @@ export namespace Binding {
 
         export function get( newOptions: any ) : BindingOptions {
             let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
-            options.data = Default.getObject( options.data, null! );
             options.showCounts = Default.getBoolean( options.showCounts, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );

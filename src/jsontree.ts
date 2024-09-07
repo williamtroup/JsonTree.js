@@ -128,6 +128,17 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlContainer( bindingOptions: BindingOptions, isForPageSwitch: boolean = false ) : void {
         let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
 
+        if ( Is.definedUrl( data ) ) {
+            Default.getObjectFromUrl( data, _configuration, ( ajaxData: any ) => {
+                renderControlContainerForData( bindingOptions, isForPageSwitch, ajaxData );
+            } );
+
+        } else {
+            renderControlContainerForData( bindingOptions, isForPageSwitch, data );
+        }
+    }
+
+    function renderControlContainerForData( bindingOptions: BindingOptions, isForPageSwitch: boolean, data: any ) : void {
         ToolTip.hide( bindingOptions );
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
