@@ -25,6 +25,7 @@
     --json-tree-js-color-guid: #c45600;
     --json-tree-js-color-regexp: #AA336A;
     --json-tree-js-color-url: #00FFFF;
+    --json-tree-js-color-link: #89CFF0;
     
     /* ToolTip */
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);

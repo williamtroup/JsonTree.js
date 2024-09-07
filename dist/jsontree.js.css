@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v3.0.0
+ * JsonTree.js Library v3.1.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -46,6 +46,7 @@
   --json-tree-js-color-regexp: #AA336A;
   --json-tree-js-color-url: #00FFFF;
   --json-tree-js-color-email: #FA8072;
+  --json-tree-js-color-link: #89CFF0;
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
@@ -398,6 +399,7 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents {
   margin-top: var(--json-tree-js-spacing);
   margin-left: var(--json-tree-js-spacing);
+  text-align: left;
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.array {
   color: var(--json-tree-js-color-array);
@@ -429,9 +431,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.date {
   color: var(--json-tree-js-color-date);
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.null {
-  color: var(--json-tree-js-color-null);
-}
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.symbol {
   color: var(--json-tree-js-color-symbol);
 }
@@ -440,9 +439,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.unknown {
   color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
-  color: var(--json-tree-js-color-null);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.guid {
   color: var(--json-tree-js-color-guid);
@@ -455,6 +451,16 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.email {
   color: var(--json-tree-js-color-email);
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.null,
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
+  background-color: var(--json-tree-js-color-null);
+  border-radius: var(--json-tree-js-border-radius-editable);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
   margin-bottom: 0;
@@ -511,9 +517,6 @@ div.json-tree-js div.contents span.string {
 div.json-tree-js div.contents span.date {
   color: var(--json-tree-js-color-date);
 }
-div.json-tree-js div.contents span.null {
-  color: var(--json-tree-js-color-null);
-}
 div.json-tree-js div.contents span.symbol {
   color: var(--json-tree-js-color-symbol);
 }
@@ -522,9 +525,6 @@ div.json-tree-js div.contents span.function {
 }
 div.json-tree-js div.contents span.unknown {
   color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.contents span.undefined {
-  color: var(--json-tree-js-color-null);
 }
 div.json-tree-js div.contents span.guid {
   color: var(--json-tree-js-color-guid);
@@ -537,6 +537,16 @@ div.json-tree-js div.contents span.url {
 }
 div.json-tree-js div.contents span.email {
   color: var(--json-tree-js-color-email);
+}
+div.json-tree-js div.contents span.null,
+div.json-tree-js div.contents span.undefined {
+  background-color: var(--json-tree-js-color-null);
+  border-radius: var(--json-tree-js-border-radius-editable);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.contents span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
@@ -716,9 +726,28 @@ div.json-tree-js div.object-type-contents div.object-type-value span.main-title 
 div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
   font-style: italic;
 }
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null {
+  font-style: italic;
+  padding-right: 5px;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.no-properties-text {
+  font-style: italic;
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
   font-weight: var(--json-tree-js-text-bold-weight);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button,
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
+  margin-left: calc(var(--json-tree-js-spacing) * 2);
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button:hover,
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
+  color: var(--json-tree-js-color-link);
 }
 
 /*

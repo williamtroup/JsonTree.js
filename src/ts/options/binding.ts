@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v3.0.0
+ * @version     v3.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -66,7 +66,6 @@ export namespace Binding {
 
         export function get( newOptions: any ) : BindingOptions {
             let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
-            options.data = Default.getObject( options.data, null! );
             options.showCounts = Default.getBoolean( options.showCounts, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
@@ -99,6 +98,8 @@ export namespace Binding {
             options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
             options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );
             options.showPropertyNameAndIndexColors = Default.getBoolean( options.showPropertyNameAndIndexColors, true );
+            options.showUrlOpenButtons = Default.getBoolean( options.showUrlOpenButtons, true );
+            options.showEmailOpenButtons = Default.getBoolean( options.showEmailOpenButtons, true );
 
             options = getTitle( options );
             options = getIgnore( options );
@@ -137,7 +138,7 @@ export namespace Binding {
             options.ignore!.arrayValues = Default.getBoolean( options.ignore!.arrayValues, false );
             options.ignore!.bigintValues = Default.getBoolean( options.ignore!.bigintValues, false );
             options.ignore!.symbolValues = Default.getBoolean( options.ignore!.symbolValues, false );
-            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, true );
+            options.ignore!.emptyObjects = Default.getBoolean( options.ignore!.emptyObjects, false );
             options.ignore!.undefinedValues = Default.getBoolean( options.ignore!.undefinedValues, false );
             options.ignore!.guidValues = Default.getBoolean( options.ignore!.guidValues, false );
             options.ignore!.colorValues = Default.getBoolean( options.ignore!.colorValues, false );

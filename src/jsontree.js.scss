@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v3.0.0
+ * JsonTree.js Library v3.1.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -56,6 +56,7 @@
     --json-tree-js-color-regexp: #AA336A;
     --json-tree-js-color-url: #00FFFF;
     --json-tree-js-color-email: #FA8072;
+    --json-tree-js-color-link: #89CFF0;
 
     // Colors - Editable Fields
     --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
@@ -410,6 +411,7 @@ div.json-tree-js {
                 div.settings-panel-contents {
                     margin-top: var(--json-tree-js-spacing);
                     margin-left: var(--json-tree-js-spacing);
+                    text-align: left;
 
                     @include type-span-colors;
 
@@ -673,9 +675,32 @@ div.json-tree-js {
                 font-style: italic;
             }
 
+            span.undefined-or-null {
+                font-style: italic;
+                padding-right: 5px;
+            }
+
+            span.no-properties-text {
+                font-style: italic;
+            }
+
             span.comma {
                 color: var(--json-tree-js-color-white);
                 font-weight: var(--json-tree-js-text-bold-weight);
+            }
+
+            span.open-button,
+            span.open-button-color {
+                margin-left: calc( var(--json-tree-js-spacing) * 2 );
+
+                &:hover {
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+
+            span.open-button-color {
+                color: var(--json-tree-js-color-link);
             }
         }
     }

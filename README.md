@@ -2,15 +2,15 @@
 JsonTree.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v3.0.0-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v3.0.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v3.1.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v3.1.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.</p>
-> <p align="center">v3.0.0</p>
+> <p align="center">v3.1.0</p>
 <br />
 
 ![JsonTree.js](docs/images/main.png)
@@ -19,23 +19,24 @@ JsonTree.js
 
 <h1>What features does JsonTree.js have?</h1>
 
-- Zero-dependencies and extremely lightweight!
-- Written in TypeScript, allowing greater support for React, Angular, and other libraries!
-- Full API available via public functions.
-- Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
-- Full CSS theme support (using :root variables), with dark and light themes.
-- 20 types supported by default (with unknown type support).
-- Support to show the data types, array/object counts, comas, and opening symbols!
-- Fully configurable per DOM element!
-- Close/Open all nodes.
-- Clickable values via custom triggers!
-- Custom value rendering.
-- Array paging support (show array objects on different pages)!
-- Drag & Drop JSON files support!
-- Full editing support (double click a value, property, index, or anywhere for everything).
-- Keyboard navigation keys support!
-- Toggle between regular and full-screen views.
-- Assign tooltips to any JSON value!
+- 😏 Zero-dependencies and extremely lightweight!
+- 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
+- 💻 Full API available via public functions.
+- 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
+- 🌈 Full CSS theme support (using :root variables), with dark and light themes.
+- 🔍 20 types supported by default (such as Object, Array, primitive types, and even Sets and Maps).
+- 🔣 Support to show the data types, array/object counts, comas, and opening symbols!
+- ☑️ Fully configurable per DOM element!
+- 📂 Close/Open all nodes.
+- 🚀 Clickable values via custom triggers!
+- ⭐ Custom value rendering.
+- 📃 Array paging support (show array objects on different pages)!
+- 💧 Drag & Drop JSON files support!
+- 📋 Copy to clipboard (all JSON, or just the current page).
+- ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
+- 🔠 Keyboard navigation keys support!
+- 🎥 Toggle between regular and full-screen views.
+- ❓ Assign tooltips to any JSON value!
 <br />
 <br />
 
@@ -156,8 +157,8 @@ npm install jjsontree.js
 You can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.0.0/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.0.0/dist/jsontree.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.1.0/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.1.0/dist/jsontree.js.min.css
 ```
 <br>
 <br>

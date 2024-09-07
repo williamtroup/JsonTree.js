@@ -25,6 +25,7 @@
     --json-tree-js-color-guid: #c45600;
     --json-tree-js-color-regexp: #AA336A;
     --json-tree-js-color-url: #89CFF0;
+    --json-tree-js-color-link: #0047AB;
 
     /* Colors - Editable Fields */
     --json-tree-js-editable-text-color: var(--json-tree-js-color-white);

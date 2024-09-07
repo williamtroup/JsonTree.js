@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        default.ts
- * @version     v3.0.0
+ * @version     v3.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -76,13 +76,7 @@ export namespace Default {
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
         const functionBrackets: string = "()";
 
-        if ( valueNameParts.length === 2 ) {
-            result = valueNameParts[ 1 ];
-        } else {
-            result = valueNameParts[ 0 ];
-        }
-
-        result += functionBrackets;
+        result = `${valueNameParts.join(Char.space)}${functionBrackets}`;
 
         if ( result.trim() === functionBrackets ) {
             result = `${configuration.text!.functionText!}${functionBrackets}`;
@@ -133,5 +127,25 @@ export namespace Default {
         const result: any[] = Array.from( set.values() );
     
         return result;
+    }
+
+    export function getObjectFromUrl( url: string, configuration: Configuration, callback: Function ) : void {
+        const request: XMLHttpRequest = new XMLHttpRequest();
+        request.open( "GET", url, true );
+        request.send();
+
+        request.onreadystatechange = () => {
+            if ( request.readyState === 4 && request.status === 200 ) {
+                const data: string = request.responseText;
+                const dataJson: StringToJson = Default.getObjectFromString( data, configuration );
+
+                if ( dataJson.parsed ) {
+                    callback( dataJson.object );
+                }
+
+            } else {
+                callback( null );
+            }
+        }
     }
 }

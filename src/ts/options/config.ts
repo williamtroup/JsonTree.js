@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        config.ts
- * @version     v3.0.0
+ * @version     v3.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -72,6 +72,10 @@ export namespace Config {
             configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an array" );
             configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
             configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
+            configuration.text!.propertyColonCharacter = Default.getAnyString( configuration.text!.propertyColonCharacter, ":" );
+            configuration.text!.noPropertiesText = Default.getAnyString( configuration.text!.noPropertiesText, "There are no properties to view." );
+            configuration.text!.openText = Default.getAnyString( configuration.text!.openText, "open" );
+            configuration.text!.openSymbolText = Default.getAnyString( configuration.text!.openSymbolText, "⤤" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

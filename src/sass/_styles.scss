@@ -92,10 +92,6 @@ $minimum-width: 768px;
         color: var(--json-tree-js-color-date)
     }
 
-    span.null {
-        color: var(--json-tree-js-color-null);
-    }
-
     span.symbol {
         color: var(--json-tree-js-color-symbol);
     }
@@ -106,10 +102,6 @@ $minimum-width: 768px;
 
     span.unknown {
         color: var(--json-tree-js-color-unknown);
-    }
-
-    span.undefined {
-        color: var(--json-tree-js-color-null);
     }
 
     span.guid {
@@ -126,6 +118,17 @@ $minimum-width: 768px;
 
     span.email {
         color: var(--json-tree-js-color-email);
+    }
+
+    span.null,
+    span.undefined {
+        background-color: var(--json-tree-js-color-null);
+        border-radius: var(--json-tree-js-border-radius-editable);
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        color: var(--json-tree-js-color-dark-black);
     }
 }
 
