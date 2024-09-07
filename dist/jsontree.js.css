@@ -430,9 +430,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.date {
   color: var(--json-tree-js-color-date);
 }
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.null {
-  color: var(--json-tree-js-color-null);
-}
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.symbol {
   color: var(--json-tree-js-color-symbol);
 }
@@ -441,9 +438,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.unknown {
   color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
-  color: var(--json-tree-js-color-null);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.guid {
   color: var(--json-tree-js-color-guid);
@@ -456,6 +450,16 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.email {
   color: var(--json-tree-js-color-email);
+}
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.null,
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
+  background-color: var(--json-tree-js-color-null);
+  border-radius: var(--json-tree-js-border-radius-editable);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
   margin-bottom: 0;
@@ -512,9 +516,6 @@ div.json-tree-js div.contents span.string {
 div.json-tree-js div.contents span.date {
   color: var(--json-tree-js-color-date);
 }
-div.json-tree-js div.contents span.null {
-  color: var(--json-tree-js-color-null);
-}
 div.json-tree-js div.contents span.symbol {
   color: var(--json-tree-js-color-symbol);
 }
@@ -523,9 +524,6 @@ div.json-tree-js div.contents span.function {
 }
 div.json-tree-js div.contents span.unknown {
   color: var(--json-tree-js-color-unknown);
-}
-div.json-tree-js div.contents span.undefined {
-  color: var(--json-tree-js-color-null);
 }
 div.json-tree-js div.contents span.guid {
   color: var(--json-tree-js-color-guid);
@@ -538,6 +536,16 @@ div.json-tree-js div.contents span.url {
 }
 div.json-tree-js div.contents span.email {
   color: var(--json-tree-js-color-email);
+}
+div.json-tree-js div.contents span.null,
+div.json-tree-js div.contents span.undefined {
+  background-color: var(--json-tree-js-color-null);
+  border-radius: var(--json-tree-js-border-radius-editable);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.contents span.count {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
@@ -716,6 +724,10 @@ div.json-tree-js div.object-type-contents div.object-type-value span.main-title 
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
   font-style: italic;
+}
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null {
+  font-style: italic;
+  padding-right: 5px;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);

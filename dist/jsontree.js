@@ -1269,7 +1269,7 @@ var Arr;
         C(o, t, r, b, a);
         if (l === null) {
             if (!o.ignore.nullValues) {
-                f = o.showValueColors ? `${"null"} value non-value` : "value non-value";
+                f = o.showValueColors ? `${"null"} value undefined-or-null` : "value undefined-or-null";
                 g = DomElement.createWithHTML(c, "span", f, "null");
                 p = "null";
                 if (Is.definedFunction(o.events.onNullRender)) {
@@ -1281,7 +1281,7 @@ var Arr;
             }
         } else if (l === void 0) {
             if (!o.ignore.undefinedValues) {
-                f = o.showValueColors ? `${"undefined"} value non-value` : "value non-value";
+                f = o.showValueColors ? `${"undefined"} value undefined-or-null` : "value undefined-or-null";
                 g = DomElement.createWithHTML(c, "span", f, "undefined");
                 p = "undefined";
                 if (Is.definedFunction(o.events.onUndefinedRender)) {

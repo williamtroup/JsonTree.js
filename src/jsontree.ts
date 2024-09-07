@@ -691,7 +691,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( value === null ) {
             if ( !bindingOptions.ignore!.nullValues ) {
-                valueClass = bindingOptions.showValueColors ? `${DataType.null} value non-value` : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.null} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
                 type = DataType.null;
 
@@ -707,7 +707,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( value === undefined ) {
             if ( !bindingOptions.ignore!.undefinedValues ) {
-                valueClass = bindingOptions.showValueColors ? `${DataType.undefined} value non-value` : "value non-value";
+                valueClass = bindingOptions.showValueColors ? `${DataType.undefined} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
                 type = DataType.undefined;
 
