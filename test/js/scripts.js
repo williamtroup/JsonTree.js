@@ -8,6 +8,7 @@
 function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
     return {
         data: getData(),
+        //data: null,
         //data: "https://william-troup.com/jsontree-js/test-data/test.json",
         parse: {
             stringsToDates: true,

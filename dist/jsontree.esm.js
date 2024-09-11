@@ -902,7 +902,7 @@ var Arr;
         if (t) {
             DomElement.addClass(o, "page-switch");
         }
-        if (e.paging.enabled) {
+        if (e.paging.enabled && Is.definedArray(n)) {
             for (let t = 0; t < e.paging.columnsPerPage; t++) {
                 const l = t + e._currentView.dataArrayCurrentIndex;
                 const r = n[l];

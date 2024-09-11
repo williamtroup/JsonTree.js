@@ -155,7 +155,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.addClass( contents, "page-switch" );
         }
 
-        if ( bindingOptions.paging!.enabled ) {
+        if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
                 const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
                 const actualData: any = data[ actualDataIndex ];
