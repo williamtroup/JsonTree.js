@@ -47,7 +47,8 @@ var Is;
         }
         e.boolean = o;
         function l(e) {
-            return !isNaN(+new Date(e));
+            const t = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
+            return e.match(t);
         }
         e.date = l;
         function r(e) {
