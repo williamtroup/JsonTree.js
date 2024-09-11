@@ -1137,7 +1137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
                     type = DataType.map;
 
-                    if ( bindingOptions.showCounts && propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) {
+                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                     }
 
@@ -1176,7 +1176,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
                     type = DataType.object;
 
-                    if ( bindingOptions.showCounts && propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) {
+                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                     }
 
