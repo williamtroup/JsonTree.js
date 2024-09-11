@@ -5,7 +5,7 @@
     } );
 } )();
 
-function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
+function bindingOptions( showValueColors = true, allowValueToolTips = true, showPaging = false, columnSize = 1 ) {
     return {
         data: getData(),
         //data: null,
@@ -25,7 +25,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         showOpeningClosingSquaredBrackets: false,
         showCommas: false,
         showArrowToggles: true,
-        openInFullScreenMode: false,
+        openInFullScreenMode: columnSize > 1,
         useZeroIndexingForArrays: true,
         showCounts: true,
         showTypes: false,
@@ -65,8 +65,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             emptyObjects: false
         },
         paging: {
-            enabled: true,
-            columnsPerPage: 1,
+            enabled: showPaging,
+            columnsPerPage: columnSize,
             copyOnlyCurrentPage: false,
         }
     };
