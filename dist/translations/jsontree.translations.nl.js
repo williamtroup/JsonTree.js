@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopiëren",
         "dragAndDropTitleText": "Versleep uw JSON-bestanden om ze te uploaden",
         "dragAndDropDescriptionText": "Meerdere bestanden worden samengevoegd als een array",
-        "exportButtonText": "Exporteren"
+        "exportButtonText": "Exporteren",
+        "noPropertiesText": "Er zijn geen eigendommen om te bekijken.",
+        "openText": "open"
     }
 } );

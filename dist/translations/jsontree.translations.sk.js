@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopírovať",
         "dragAndDropTitleText": "Presuňte súbory JSON, ktoré chcete nahrať",
         "dragAndDropDescriptionText": "Viacero súborov sa spojí ako pole",
-        "exportButtonText": "Exportovať"
+        "exportButtonText": "Exportovať",
+        "noPropertiesText": "Nie sú k dispozícii žiadne vlastnosti na zobrazenie.",
+        "openText": "OTVORENÉ"
     }
 } );

@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Cóip",
         "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid JSON le huaslódáil",
         "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
-        "exportButtonText": "Easpórtáil"
+        "exportButtonText": "Easpórtáil",
+        "noPropertiesText": "Níl aon airíonna le feiceáil.",
+        "openText": "oscailte"
     }
 } );

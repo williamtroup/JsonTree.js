@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "复制",
         "dragAndDropTitleText": "拖放 JSON 文件进行上传",
         "dragAndDropDescriptionText": "多个文件将连接为一个数组",
-        "exportButtonText": "出口"
+        "exportButtonText": "出口",
+        "noPropertiesText": "没有可查看的属性。",
+        "openText": "打开"
     }
 } );

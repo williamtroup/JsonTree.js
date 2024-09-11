@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopy",
         "dragAndDropTitleText": "Sleep en drop jo JSON-bestannen om te uploaden",
         "dragAndDropDescriptionText": "Meardere bestannen sille wurde gearfoege as in array",
-        "exportButtonText": "Eksportearje"
+        "exportButtonText": "Eksportearje",
+        "noPropertiesText": "D'r binne gjin eigenskippen om te besjen.",
+        "openText": "iepen"
     }
 } );

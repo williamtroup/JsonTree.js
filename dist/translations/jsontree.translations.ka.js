@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "კოპირება",
         "dragAndDropTitleText": "გადაიტანეთ და ჩამოაგდეთ თქვენი JSON ფაილები ასატვირთად",
         "dragAndDropDescriptionText": "მრავალი ფაილი შეუერთდება მასივის სახით",
-        "exportButtonText": "ექსპორტი"
+        "exportButtonText": "ექსპორტი",
+        "noPropertiesText": "სანახავი თვისებები არ არის.",
+        "openText": "გახსნა"
     }
 } );

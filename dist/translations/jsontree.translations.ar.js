@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "ينسخ",
         "dragAndDropTitleText": "قم بسحب وإسقاط ملفات JSON للتحميل",
         "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
-        "exportButtonText": "يصدّر"
+        "exportButtonText": "يصدّر",
+        "noPropertiesText": "لا توجد خصائص لعرضها.",
+        "openText": "يفتح"
     }
 } );

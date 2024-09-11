@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Αντίγραφο",
         "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία JSON για μεταφόρτωση",
         "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
-        "exportButtonText": "Εξαγωγή"
+        "exportButtonText": "Εξαγωγή",
+        "noPropertiesText": "Δεν υπάρχουν ιδιότητες για προβολή.",
+        "openText": "ανοιχτό"
     }
 } );

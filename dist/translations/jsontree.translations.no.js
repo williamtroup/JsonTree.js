@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopiere",
         "dragAndDropTitleText": "Dra og slipp JSON-filene dine for å laste opp",
         "dragAndDropDescriptionText": "Flere filer vil bli satt sammen som en matrise",
-        "exportButtonText": "Eksport"
+        "exportButtonText": "Eksport",
+        "noPropertiesText": "Det er ingen eiendommer å se.",
+        "openText": "åpne"
     }
 } );

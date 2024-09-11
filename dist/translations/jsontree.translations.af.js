@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopieer",
         "dragAndDropTitleText": "Sleep en los jou JSON-lêers om op te laai",
         "dragAndDropDescriptionText": "Veelvuldige lêers sal as 'n skikking saamgevoeg word",
-        "exportButtonText": "Uitvoer"
+        "exportButtonText": "Uitvoer",
+        "noPropertiesText": "Daar is geen eiendomme om te besigtig nie.",
+        "openText": "oopmaak"
     }
 } );

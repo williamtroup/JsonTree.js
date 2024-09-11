@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "salin",
         "dragAndDropTitleText": "Seret dan lepaskan fail JSON anda untuk dimuat naik",
         "dragAndDropDescriptionText": "Berbilang fail akan digabungkan sebagai tatasusunan",
-        "exportButtonText": "Eksport"
+        "exportButtonText": "Eksport",
+        "noPropertiesText": "Tiada hartanah untuk dilihat.",
+        "openText": "terbuka"
     }
 } );

@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "පිටපත් කරන්න",
         "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ JSON ගොනු ඇද දමන්න",
         "dragAndDropDescriptionText": "ගොනු කිහිපයක් අරාවක් ලෙස එකතු වනු ඇත",
-        "exportButtonText": "අපනයනය කරන්න"
+        "exportButtonText": "අපනයනය කරන්න",
+        "noPropertiesText": "බැලීමට දේපල නොමැත.",
+        "openText": "විවෘත"
     }
 } );

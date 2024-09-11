@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopioida",
         "dragAndDropTitleText": "Vedä ja pudota JSON-tiedostosi lähetettäväksi",
         "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
-        "exportButtonText": "Viedä"
+        "exportButtonText": "Viedä",
+        "noPropertiesText": "Ei ole näkyviä kiinteistöjä.",
+        "openText": "avata"
     }
 } );

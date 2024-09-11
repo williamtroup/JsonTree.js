@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Копіювати",
         "dragAndDropTitleText": "Перетягніть файли JSON для завантаження",
         "dragAndDropDescriptionText": "Кілька файлів буде об’єднано в масив",
-        "exportButtonText": "Експорт"
+        "exportButtonText": "Експорт",
+        "noPropertiesText": "Немає властивостей для перегляду.",
+        "openText": "ВІДЧИНЕНО"
     }
 } );

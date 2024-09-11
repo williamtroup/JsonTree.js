@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Afrita",
         "dragAndDropTitleText": "Dragðu og slepptu JSON skránum þínum til að hlaða upp",
         "dragAndDropDescriptionText": "Margar skrár verða sameinaðar sem fylki",
-        "exportButtonText": "Útflutningur"
+        "exportButtonText": "Útflutningur",
+        "noPropertiesText": "Það eru engar eignir til að skoða.",
+        "openText": "opið"
     }
 } );

@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "کپی کنید",
         "dragAndDropTitleText": "فایل های JSON خود را برای آپلود بکشید و رها کنید",
         "dragAndDropDescriptionText": "چندین فایل به عنوان یک آرایه به یکدیگر ملحق می شوند",
-        "exportButtonText": "صادرات"
+        "exportButtonText": "صادرات",
+        "noPropertiesText": "هیچ خاصیتی برای مشاهده وجود ندارد",
+        "openText": "باز کردن"
     }
 } );

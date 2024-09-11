@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopyala",
         "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
         "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
-        "exportButtonText": "İhracat"
+        "exportButtonText": "İhracat",
+        "noPropertiesText": "Görüntülenecek mülk yok.",
+        "openText": "açık"
     }
 } );

@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Պատճենել",
         "dragAndDropTitleText": "Քաշեք և թողեք ձեր JSON ֆայլերը՝ վերբեռնելու համար",
         "dragAndDropDescriptionText": "Բազմաթիվ ֆայլեր կմիանան որպես զանգված",
-        "exportButtonText": "Արտահանում"
+        "exportButtonText": "Արտահանում",
+        "noPropertiesText": "Դիտելու հատկություններ չկան:",
+        "openText": "բացել"
     }
 } );

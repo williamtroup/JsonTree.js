@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "কপি",
         "dragAndDropTitleText": "আপলোড করতে আপনার JSON ফাইলগুলি টেনে আনুন এবং ফেলে দিন",
         "dragAndDropDescriptionText": "একাধিক ফাইল একটি অ্যারে হিসাবে যোগদান করা হবে",
-        "exportButtonText": "রপ্তানি"
+        "exportButtonText": "রপ্তানি",
+        "noPropertiesText": "দেখার জন্য কোন বৈশিষ্ট্য নেই.",
+        "openText": "খোলা"
     }
 } );

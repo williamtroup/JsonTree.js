@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Copie",
         "dragAndDropTitleText": "Trageți și plasați fișierele dvs. JSON pentru a le încărca",
         "dragAndDropDescriptionText": "Mai multe fișiere vor fi unite ca o matrice",
-        "exportButtonText": "Export"
+        "exportButtonText": "Export",
+        "noPropertiesText": "Nu există proprietăți de vizualizat.",
+        "openText": "deschide"
     }
 } );

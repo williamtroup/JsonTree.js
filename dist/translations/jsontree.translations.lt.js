@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopijuoti",
         "dragAndDropTitleText": "Nuvilkite JSON failus, kad įkeltumėte",
         "dragAndDropDescriptionText": "Keli failai bus sujungti kaip masyvas",
-        "exportButtonText": "Eksportuoti"
+        "exportButtonText": "Eksportuoti",
+        "noPropertiesText": "Nėra nuosavybės, kurią būtų galima peržiūrėti.",
+        "openText": "atviras"
     }
 } );

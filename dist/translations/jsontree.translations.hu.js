@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Másolat",
         "dragAndDropTitleText": "A feltöltéshez húzza át a JSON-fájlokat",
         "dragAndDropDescriptionText": "Több fájl tömbként fog egyesülni",
-        "exportButtonText": "Export"
+        "exportButtonText": "Export",
+        "noPropertiesText": "Nincsenek megtekinthető ingatlanok.",
+        "openText": "nyitott"
     }
 } );

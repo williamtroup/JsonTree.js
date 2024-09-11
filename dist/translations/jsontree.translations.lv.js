@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopēt",
         "dragAndDropTitleText": "Velciet un nometiet savus JSON failus, lai augšupielādētu",
         "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
-        "exportButtonText": "Eksportēt"
+        "exportButtonText": "Eksportēt",
+        "noPropertiesText": "Nav apskatāmo īpašumu.",
+        "openText": "atvērts"
     }
 } );

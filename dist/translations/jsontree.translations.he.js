@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "לְהַעְתִיק",
         "dragAndDropTitleText": "גרור ושחרר את קובצי ה-JSON שלך כדי להעלות",
         "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
-        "exportButtonText": "יְצוּא"
+        "exportButtonText": "יְצוּא",
+        "noPropertiesText": "אין נכסים לצפייה.",
+        "openText": "לִפְתוֹחַ"
     }
 } );

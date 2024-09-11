@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopeeri",
         "dragAndDropTitleText": "Üleslaadimiseks pukseerige oma JSON-failid",
         "dragAndDropDescriptionText": "Mitu faili liidetakse massiivina",
-        "exportButtonText": "Ekspordi"
+        "exportButtonText": "Ekspordi",
+        "noPropertiesText": "Vaatamiseks pole atribuute.",
+        "openText": "avatud"
     }
 } );

@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopiraj",
         "dragAndDropTitleText": "Povlecite in spustite svoje datoteke JSON za nalaganje",
         "dragAndDropDescriptionText": "Več datotek bo združenih v matriko",
-        "exportButtonText": "Izvozi"
+        "exportButtonText": "Izvozi",
+        "noPropertiesText": "Ni lastnosti za ogled.",
+        "openText": "odprto"
     }
 } );

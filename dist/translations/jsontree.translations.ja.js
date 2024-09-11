@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "コピー",
         "dragAndDropTitleText": "JSON ファイルをドラッグ アンド ドロップしてアップロードします",
         "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
-        "exportButtonText": "輸出"
+        "exportButtonText": "輸出",
+        "noPropertiesText": "表示できる物件はありません。",
+        "openText": "開ける"
     }
 } );

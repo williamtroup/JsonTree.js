@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Menyalin",
         "dragAndDropTitleText": "Tarik dan lepas file JSON Anda untuk diunggah",
         "dragAndDropDescriptionText": "Beberapa file akan digabungkan sebagai sebuah array",
-        "exportButtonText": "Ekspor"
+        "exportButtonText": "Ekspor",
+        "noPropertiesText": "Tidak ada properti untuk dilihat.",
+        "openText": "membuka"
     }
 } );
