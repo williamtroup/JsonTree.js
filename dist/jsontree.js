@@ -2180,7 +2180,7 @@ var Arr;
             return e;
         },
         getVersion: function() {
-            return "3.1.1";
+            return "3.2.0";
         }
     };
     (() => {
