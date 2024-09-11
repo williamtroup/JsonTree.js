@@ -1276,33 +1276,45 @@ var Arr;
                     I(r, o, l, t, r[t], e === g - 1, false, n, d);
                 }
             }
-            if (l.showOpeningClosingCurlyBraces) {
-                R(l, o, "}", s, u);
+            if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
+                I(r, o, l, "", e.text.noPropertiesText, true, false, "", d);
+                f = false;
+            } else {
+                if (l.showOpeningClosingCurlyBraces) {
+                    R(l, o, "}", s, u);
+                }
             }
         }
         j(l, t, n, o, a, m, d);
         return f;
     }
-    function A(e, t, n, o, l, r, i, a, s, u) {
-        const c = l.length;
-        const d = s !== "" ? c : 0;
-        if (!o.reverseArrayValues) {
-            for (let e = 0; e < c; e++) {
-                const t = Arr.getIndex(e, o);
-                const r = s === "" ? t.toString() : `${s}${"\\"}${t}`;
-                I(l, n, o, Arr.getIndexName(o, t, c), l[e], e === c - 1, true, r, u);
+    function A(t, n, o, l, r, i, a, s, u, c) {
+        let d = true;
+        const f = r.length;
+        const g = u !== "" ? f : 0;
+        if (!l.reverseArrayValues) {
+            for (let e = 0; e < f; e++) {
+                const t = Arr.getIndex(e, l);
+                const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
+                I(r, o, l, Arr.getIndexName(l, t, f), r[e], e === f - 1, true, n, c);
             }
         } else {
-            for (let e = c; e--; ) {
-                const t = Arr.getIndex(e, o);
-                const r = s === "" ? t.toString() : `${s}${"\\"}${t}`;
-                I(l, n, o, Arr.getIndexName(o, t, c), l[e], e === 0, true, r, u);
+            for (let e = f; e--; ) {
+                const t = Arr.getIndex(e, l);
+                const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
+                I(r, o, l, Arr.getIndexName(l, t, f), r[e], e === 0, true, n, c);
             }
         }
-        if (o.showOpeningClosingCurlyBraces) {
-            R(o, n, "]", i, a);
+        if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
+            I(r, o, l, "", e.text.noPropertiesText, true, false, "", c);
+            d = false;
+        } else {
+            if (l.showOpeningClosingCurlyBraces) {
+                R(l, o, "]", a, s);
+            }
         }
-        j(o, e, t, n, r, d, u);
+        j(l, t, n, o, i, g, c);
+        return d;
     }
     function I(t, n, o, l, r, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
@@ -1500,7 +1512,7 @@ var Arr;
                 m = true;
             }
         } else if (Is.definedString(r)) {
-            if (!o.ignore.stringValues) {
+            if (!o.ignore.stringValues || y) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(r)) {
                     I(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u);
                     m = true;
@@ -1608,7 +1620,10 @@ var Arr;
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
                 let u = N(o, n, i);
-                A(d, u, l, o, t, a, true, i, s, p);
+                const f = A(d, u, l, o, t, a, true, i, s, p);
+                if (!f && Is.defined(a)) {
+                    a.parentNode.removeChild(a);
+                }
             } else {
                 m = true;
             }
@@ -1630,7 +1645,10 @@ var Arr;
                     l = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
                 let a = N(o, t, i);
-                A(d, a, n, o, r, l, true, i, s, p);
+                const u = A(d, a, n, o, r, l, true, i, s, p);
+                if (!u && Is.defined(l)) {
+                    l.parentNode.removeChild(l);
+                }
             } else {
                 m = true;
             }

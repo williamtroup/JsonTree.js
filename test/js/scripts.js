@@ -156,7 +156,11 @@ function getData() {
                     value1: "123",
                     value2: "9.876",
                 },
-            }
+            },
+            booleans: [
+                true,
+                false,
+            ]
         },
         {
             value1: false,
