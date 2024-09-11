@@ -100,7 +100,6 @@ export type BindingOptions = {
 	showValueColors?: boolean;
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
-	showArrayItemsAsSeparateObjects?: boolean;
 	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
@@ -120,6 +119,7 @@ export type BindingOptions = {
 	showPropertyNameAndIndexColors?: boolean;
 	showUrlOpenButtons?: boolean;
 	showEmailOpenButtons?: boolean;
+	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
@@ -152,6 +152,11 @@ export type BindingOptionsCurrentView = {
 	isBulkEditingEnabled: boolean;
 	initialized: boolean;
 };
+
+export type BindingOptionsPaging = {
+	enabled?: boolean;
+	columnsPerPage?: number;
+}
 
 export type BindingOptionsParse = {
     stringsToDates?: boolean;

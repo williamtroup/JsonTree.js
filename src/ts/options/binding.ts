@@ -22,7 +22,8 @@ import {
     type ContentPanelsForArrayIndex, 
     type BindingOptionsAllowEditing, 
     type BindingOptionsSideMenu, 
-    type BindingOptionsAutoClose } from "../type";
+    type BindingOptionsAutoClose, 
+    BindingOptionsPaging} from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -80,7 +81,6 @@ export namespace Binding {
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
             options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
-            options.showArrayItemsAsSeparateObjects = Default.getBoolean( options.showArrayItemsAsSeparateObjects, false );
             options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
             options.jsonIndentSpaces = Default.getNumber( options.jsonIndentSpaces, 8 );
@@ -101,6 +101,7 @@ export namespace Binding {
             options.showUrlOpenButtons = Default.getBoolean( options.showUrlOpenButtons, true );
             options.showEmailOpenButtons = Default.getBoolean( options.showEmailOpenButtons, true );
 
+            options = getPaging( options );
             options = getTitle( options );
             options = getIgnore( options );
             options = getToolTip( options );
@@ -110,6 +111,14 @@ export namespace Binding {
             options = getAutoClose( options );
             options = getCustomTriggers( options );
     
+            return options;
+        }
+        
+        function getPaging( options: BindingOptions ) : BindingOptions {
+            options.paging = Default.getObject( options.paging, {} as BindingOptionsPaging );
+            options.paging!.enabled = Default.getBoolean( options.paging!.enabled, false );
+            options.paging!.columnsPerPage = Default.getNumber( options.paging!.columnsPerPage, 1 );
+
             return options;
         }
     

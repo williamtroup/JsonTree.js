@@ -177,6 +177,7 @@ div.full-screen {
         flex-grow: 1;
         position: relative;
         max-height: none !important;
+        overflow: auto;
 
         span.no-json-text {
             position: absolute;
@@ -446,9 +447,15 @@ div.json-tree-js {
     }
 
     div.contents {
+        display: flex;
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
-        overflow: auto;
+        width: 100%;
+
+        div.contents-panel {
+            flex-basis: 100%;
+            overflow: auto;
+        }
 
         @include type-span-colors;
 

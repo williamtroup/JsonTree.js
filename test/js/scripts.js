@@ -18,7 +18,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             onValueClick: onValueClickEvent,
         },
         showValueColors: showValueColors,
-        showArrayItemsAsSeparateObjects: true,
         copyOnlyCurrentPage: false,
         sortPropertyNames: true,
         showArrayIndexBrackets: true,
@@ -64,6 +63,10 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         },
         ignore: {
             emptyObjects: false
+        },
+        paging: {
+            enabled: true,
+            columnsPerPage: 1,
         }
     };
 }

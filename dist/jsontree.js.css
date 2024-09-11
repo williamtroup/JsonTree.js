@@ -146,6 +146,7 @@ div.full-screen div.contents {
   flex-grow: 1;
   position: relative;
   max-height: none !important;
+  overflow: auto;
 }
 div.full-screen div.contents span.no-json-text {
   position: absolute;
@@ -483,8 +484,13 @@ div.json-tree-js div.editable {
   white-space: pre;
 }
 div.json-tree-js div.contents {
+  display: flex;
   padding: var(--json-tree-js-spacing);
   margin: 0 !important;
+  width: 100%;
+}
+div.json-tree-js div.contents div.contents-panel {
+  flex-basis: 100%;
   overflow: auto;
 }
 div.json-tree-js div.contents span.array {
