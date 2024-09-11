@@ -1259,23 +1259,26 @@ var Arr;
         F(n, c, o, r, false);
     }
     function B(t, n, o, l, r, i, a, s, u, c, d) {
-        const f = i.length;
-        const g = c !== "" ? f : 0;
-        if (f === 0 && !l.ignore.emptyObjects) {
+        let f = true;
+        const g = i.length;
+        const m = c !== "" ? g : 0;
+        if (g === 0 && !l.ignore.emptyObjects) {
             I(r, o, l, "", e.text.noPropertiesText, true, false, "", d);
+            f = false;
         } else {
-            for (let e = 0; e < f; e++) {
+            for (let e = 0; e < g; e++) {
                 const t = i[e];
                 const n = c === "" ? t : `${c}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    I(r, o, l, t, r[t], e === f - 1, false, n, d);
+                    I(r, o, l, t, r[t], e === g - 1, false, n, d);
                 }
             }
             if (l.showOpeningClosingCurlyBraces) {
                 R(l, o, "}", s, u);
             }
         }
-        j(l, t, n, o, a, g, d);
+        j(l, t, n, o, a, m, d);
+        return f;
     }
     function A(e, t, n, o, l, r, i, a, s, u) {
         const c = l.length;
@@ -1652,7 +1655,10 @@ var Arr;
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let f = N(o, r, i);
-                    B(d, f, a, o, t, n, u, true, i, s, p);
+                    const m = B(d, f, a, o, t, n, u, true, i, s, p);
+                    if (!m && Is.defined(u)) {
+                        u.parentNode.removeChild(u);
+                    }
                 }
             } else {
                 m = true;
@@ -1680,7 +1686,10 @@ var Arr;
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let f = N(o, l, i);
-                    B(d, f, a, o, r, t, u, true, i, s, p);
+                    const m = B(d, f, a, o, r, t, u, true, i, s, p);
+                    if (!m && Is.defined(u)) {
+                        u.parentNode.removeChild(u);
+                    }
                 }
             } else {
                 m = true;

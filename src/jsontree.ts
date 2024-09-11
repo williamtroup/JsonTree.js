@@ -651,12 +651,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         addValueClickEvent( bindingOptions, titleText, data, type, false );
     }
 
-    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : void {
+    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : boolean {
+        let propertiesAdded: boolean = true;
         const propertiesLength: number = propertyNames.length;
         const propertiesLengthForAutoClose: number = jsonPath !== Char.empty ? propertiesLength : 0;
 
         if ( propertiesLength === 0 && !bindingOptions.ignore!.emptyObjects ) {
             renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType );
+            propertiesAdded = false;
         } else {
 
             for ( let propertyIndex: number = 0; propertyIndex < propertiesLength; propertyIndex++ ) {
@@ -674,6 +676,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace, propertiesLengthForAutoClose, parentType );
+
+        return propertiesAdded;
     }
 
     function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : void {
@@ -1179,7 +1183,11 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
 
-                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+
+                    if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                        openingBrace.parentNode!.removeChild( openingBrace );
+                    }
                 }
 
             } else {
@@ -1218,7 +1226,11 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
 
-                    renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+
+                    if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                        openingBrace.parentNode!.removeChild( openingBrace );
+                    }
                 }
 
             } else {
