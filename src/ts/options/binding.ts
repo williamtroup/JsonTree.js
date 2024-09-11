@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v3.1.0
+ * @version     v3.1.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -95,7 +95,7 @@ export namespace Binding {
             options.showTypes = Default.getBoolean( options.showTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
             options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
-            options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, false );
+            options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, true );
             options.showOpenedObjectArrayBorders = Default.getBoolean( options.showOpenedObjectArrayBorders, true );
             options.showPropertyNameAndIndexColors = Default.getBoolean( options.showPropertyNameAndIndexColors, true );
             options.showUrlOpenButtons = Default.getBoolean( options.showUrlOpenButtons, true );

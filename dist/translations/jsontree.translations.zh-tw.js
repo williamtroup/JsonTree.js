@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Taiwanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Taiwanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "複製",
         "dragAndDropTitleText": "拖放 JSON 檔案進行上傳",
         "dragAndDropDescriptionText": "多個檔案將連接為一個數組",
-        "exportButtonText": "出口"
+        "exportButtonText": "出口",
+        "noPropertiesText": "沒有可查看的屬性。",
+        "openText": "打開"
     }
 } );

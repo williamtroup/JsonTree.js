@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Swedish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Swedish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopiera",
         "dragAndDropTitleText": "Dra och släpp dina JSON-filer för att ladda upp",
         "dragAndDropDescriptionText": "Flera filer kommer att sammanfogas som en array",
-        "exportButtonText": "Exportera"
+        "exportButtonText": "Exportera",
+        "noPropertiesText": "Det finns inga fastigheter att se.",
+        "openText": "öppna"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "コピー",
         "dragAndDropTitleText": "JSON ファイルをドラッグ アンド ドロップしてアップロードします",
         "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
-        "exportButtonText": "輸出"
+        "exportButtonText": "輸出",
+        "noPropertiesText": "表示できる物件はありません。",
+        "openText": "開ける"
     }
 } );

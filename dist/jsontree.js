@@ -500,7 +500,7 @@ var Binding;
             t.showTypes = Default2.getBoolean(t.showTypes, false);
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
             t.exportFilenameFormat = Default2.getString(t.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json");
-            t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, false);
+            t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, true);
             t.showOpenedObjectArrayBorders = Default2.getBoolean(t.showOpenedObjectArrayBorders, true);
             t.showPropertyNameAndIndexColors = Default2.getBoolean(t.showPropertyNameAndIndexColors, true);
             t.showUrlOpenButtons = Default2.getBoolean(t.showUrlOpenButtons, true);
@@ -1479,10 +1479,10 @@ var Arr;
                 } else {
                     let n = l;
                     if (!y) {
-                        if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
-                            l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
+                        if (o.maximumStringLength > 0 && n.length > o.maximumStringLength) {
+                            n = n.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
-                        n = o.showStringQuotes ? `"${l}"` : l;
+                        n = o.showStringQuotes ? `"${n}"` : n;
                         f = o.showValueColors ? `${"string"} value` : "value";
                         T = o.allowEditing.stringValues;
                     } else {
@@ -1617,7 +1617,7 @@ var Arr;
                     }
                     g = DomElement.createWithHTML(l, "span", "main-title", e.text.mapText);
                     p = "map";
-                    if (o.showCounts && r > 0 || !o.ignore.emptyObjects) {
+                    if (o.showCounts && (r > 0 || !o.ignore.emptyObjects)) {
                         DomElement.createWithHTML(l, "span", "count", `{${r}}`);
                     }
                     if (o.showOpeningClosingCurlyBraces) {
@@ -1645,7 +1645,7 @@ var Arr;
                     }
                     g = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
                     p = "object";
-                    if (o.showCounts && n > 0 || !o.ignore.emptyObjects) {
+                    if (o.showCounts && (n > 0 || !o.ignore.emptyObjects)) {
                         DomElement.createWithHTML(r, "span", "count", `{${n}}`);
                     }
                     if (o.showOpeningClosingCurlyBraces) {
@@ -2180,7 +2180,7 @@ var Arr;
             return e;
         },
         getVersion: function() {
-            return "3.1.0";
+            return "3.1.1";
         }
     };
     (() => {

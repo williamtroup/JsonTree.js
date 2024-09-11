@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Latvian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopēt",
         "dragAndDropTitleText": "Velciet un nometiet savus JSON failus, lai augšupielādētu",
         "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
-        "exportButtonText": "Eksportēt"
+        "exportButtonText": "Eksportēt",
+        "noPropertiesText": "Nav apskatāmo īpašumu.",
+        "openText": "atvērts"
     }
 } );

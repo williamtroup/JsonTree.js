@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Finnish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Finnish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopioida",
         "dragAndDropTitleText": "Vedä ja pudota JSON-tiedostosi lähetettäväksi",
         "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
-        "exportButtonText": "Viedä"
+        "exportButtonText": "Viedä",
+        "noPropertiesText": "Ei ole näkyviä kiinteistöjä.",
+        "openText": "avata"
     }
 } );

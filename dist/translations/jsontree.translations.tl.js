@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Tagalog | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Tagalog | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopyahin",
         "dragAndDropTitleText": "I-drag at i-drop ang iyong mga JSON file para i-upload",
         "dragAndDropDescriptionText": "Maraming mga file ang isasama bilang isang array",
-        "exportButtonText": "I-export"
+        "exportButtonText": "I-export",
+        "noPropertiesText": "Walang mga property na titingnan.",
+        "openText": "bukas"
     }
 } );

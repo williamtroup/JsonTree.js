@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Icelandic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Icelandic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Afrita",
         "dragAndDropTitleText": "Dragðu og slepptu JSON skránum þínum til að hlaða upp",
         "dragAndDropDescriptionText": "Margar skrár verða sameinaðar sem fylki",
-        "exportButtonText": "Útflutningur"
+        "exportButtonText": "Útflutningur",
+        "noPropertiesText": "Það eru engar eignir til að skoða.",
+        "openText": "opið"
     }
 } );

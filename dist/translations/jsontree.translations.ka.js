@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Georgian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Georgian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "კოპირება",
         "dragAndDropTitleText": "გადაიტანეთ და ჩამოაგდეთ თქვენი JSON ფაილები ასატვირთად",
         "dragAndDropDescriptionText": "მრავალი ფაილი შეუერთდება მასივის სახით",
-        "exportButtonText": "ექსპორტი"
+        "exportButtonText": "ექსპორტი",
+        "noPropertiesText": "სანახავი თვისებები არ არის.",
+        "openText": "გახსნა"
     }
 } );

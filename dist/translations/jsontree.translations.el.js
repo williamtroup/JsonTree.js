@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Greek | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Greek | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Αντίγραφο",
         "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία JSON για μεταφόρτωση",
         "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
-        "exportButtonText": "Εξαγωγή"
+        "exportButtonText": "Εξαγωγή",
+        "noPropertiesText": "Δεν υπάρχουν ιδιότητες για προβολή.",
+        "openText": "ανοιχτό"
     }
 } );

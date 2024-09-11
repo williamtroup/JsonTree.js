@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Armenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Armenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Պատճենել",
         "dragAndDropTitleText": "Քաշեք և թողեք ձեր JSON ֆայլերը՝ վերբեռնելու համար",
         "dragAndDropDescriptionText": "Բազմաթիվ ֆայլեր կմիանան որպես զանգված",
-        "exportButtonText": "Արտահանում"
+        "exportButtonText": "Արտահանում",
+        "noPropertiesText": "Դիտելու հատկություններ չկան:",
+        "openText": "բացել"
     }
 } );

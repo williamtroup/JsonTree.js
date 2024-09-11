@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Slovenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Slovenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopiraj",
         "dragAndDropTitleText": "Povlecite in spustite svoje datoteke JSON za nalaganje",
         "dragAndDropDescriptionText": "Več datotek bo združenih v matriko",
-        "exportButtonText": "Izvozi"
+        "exportButtonText": "Izvozi",
+        "noPropertiesText": "Ni lastnosti za ogled.",
+        "openText": "odprto"
     }
 } );

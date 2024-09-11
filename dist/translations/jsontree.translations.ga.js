@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Irish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Irish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Cóip",
         "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid JSON le huaslódáil",
         "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
-        "exportButtonText": "Easpórtáil"
+        "exportButtonText": "Easpórtáil",
+        "noPropertiesText": "Níl aon airíonna le feiceáil.",
+        "openText": "oscailte"
     }
 } );

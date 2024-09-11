@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v3.1.0
+ * @version     v3.1.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -949,11 +949,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let newStringValue: string = value;
 
                     if ( !isForEmptyProperties ) {
-                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                        if ( bindingOptions.maximumStringLength! > 0 && newStringValue.length > bindingOptions.maximumStringLength! ) {
+                            newStringValue = newStringValue.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                         }
         
-                        newStringValue = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
+                        newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;
                         valueClass = bindingOptions.showValueColors ? `${DataType.string} value` : "value";
                         allowEditing = bindingOptions.allowEditing!.stringValues!;
                     } else {
@@ -1137,7 +1137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
                     type = DataType.map;
 
-                    if ( bindingOptions.showCounts && propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) {
+                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                     }
 
@@ -1176,7 +1176,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
                     type = DataType.object;
 
-                    if ( bindingOptions.showCounts && propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) {
+                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
                     }
 
@@ -1952,7 +1952,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "3.1.0";
+            return "3.1.1";
         }
     };
 

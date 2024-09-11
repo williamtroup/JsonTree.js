@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Indonesian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Indonesian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Menyalin",
         "dragAndDropTitleText": "Tarik dan lepas file JSON Anda untuk diunggah",
         "dragAndDropDescriptionText": "Beberapa file akan digabungkan sebagai sebuah array",
-        "exportButtonText": "Ekspor"
+        "exportButtonText": "Ekspor",
+        "noPropertiesText": "Tidak ada properti untuk dilihat.",
+        "openText": "membuka"
     }
 } );

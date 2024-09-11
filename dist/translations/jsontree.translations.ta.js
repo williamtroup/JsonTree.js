@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Tamil | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Tamil | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "நகலெடுக்கவும்",
         "dragAndDropTitleText": "பதிவேற்ற உங்கள் JSON கோப்புகளை இழுத்து விடுங்கள்",
         "dragAndDropDescriptionText": "பல கோப்புகள் அணிவரிசையாக இணைக்கப்படும்",
-        "exportButtonText": "ஏற்றுமதி"
+        "exportButtonText": "ஏற்றுமதி",
+        "noPropertiesText": "பார்க்க எந்த சொத்துகளும் இல்லை.",
+        "openText": "திறந்த"
     }
 } );

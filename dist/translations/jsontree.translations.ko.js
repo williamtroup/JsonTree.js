@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Korean | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Korean | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "복사",
         "dragAndDropTitleText": "업로드할 JSON 파일을 드래그 앤 드롭하세요.",
         "dragAndDropDescriptionText": "여러 파일이 배열로 결합됩니다.",
-        "exportButtonText": "내보내다"
+        "exportButtonText": "내보내다",
+        "noPropertiesText": "조회할 속성이 없습니다.",
+        "openText": "열려 있는"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Arabic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Arabic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "ينسخ",
         "dragAndDropTitleText": "قم بسحب وإسقاط ملفات JSON للتحميل",
         "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
-        "exportButtonText": "يصدّر"
+        "exportButtonText": "يصدّر",
+        "noPropertiesText": "لا توجد خصائص لعرضها.",
+        "openText": "يفتح"
     }
 } );

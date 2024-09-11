@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Hindi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Hindi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "प्रतिलिपि",
         "dragAndDropTitleText": "अपलोड करने के लिए अपनी JSON फ़ाइलें खींचें और छोड़ें",
         "dragAndDropDescriptionText": "एकाधिक फ़ाइलें एक सरणी के रूप में जोड़ी जाएंगी",
-        "exportButtonText": "निर्यात"
+        "exportButtonText": "निर्यात",
+        "noPropertiesText": "देखने के लिए कोई संपत्ति नहीं है.",
+        "openText": "खुला"
     }
 } );

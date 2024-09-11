@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Hebrew | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Hebrew | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "לְהַעְתִיק",
         "dragAndDropTitleText": "גרור ושחרר את קובצי ה-JSON שלך כדי להעלות",
         "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
-        "exportButtonText": "יְצוּא"
+        "exportButtonText": "יְצוּא",
+        "noPropertiesText": "אין נכסים לצפייה.",
+        "openText": "לִפְתוֹחַ"
     }
 } );

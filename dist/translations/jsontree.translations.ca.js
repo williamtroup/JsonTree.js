@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Còpia",
         "dragAndDropTitleText": "Arrossegueu i deixeu anar els fitxers JSON per carregar-los",
         "dragAndDropDescriptionText": "S'uniran diversos fitxers com a matriu",
-        "exportButtonText": "Exporta"
+        "exportButtonText": "Exporta",
+        "noPropertiesText": "No hi ha propietats per veure.",
+        "openText": "obert"
     }
 } );

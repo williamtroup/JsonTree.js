@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "копие",
         "dragAndDropTitleText": "Плъзнете и пуснете вашите JSON файлове за качване",
         "dragAndDropDescriptionText": "Няколко файла ще бъдат обединени като масив",
-        "exportButtonText": "Експортиране"
+        "exportButtonText": "Експортиране",
+        "noPropertiesText": "Няма имоти за разглеждане.",
+        "openText": "отворен"
     }
 } );

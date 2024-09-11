@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Turkish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Turkish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Kopyala",
         "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
         "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
-        "exportButtonText": "İhracat"
+        "exportButtonText": "İhracat",
+        "noPropertiesText": "Görüntülenecek mülk yok.",
+        "openText": "açık"
     }
 } );

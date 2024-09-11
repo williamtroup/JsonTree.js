@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Telugu | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "కాపీ చేయండి",
         "dragAndDropTitleText": "అప్‌లోడ్ చేయడానికి మీ JSON ఫైల్‌లను లాగండి మరియు వదలండి",
         "dragAndDropDescriptionText": "అనేక ఫైల్‌లు శ్రేణిగా చేర్చబడతాయి",
-        "exportButtonText": "ఎగుమతి చేయండి"
+        "exportButtonText": "ఎగుమతి చేయండి",
+        "noPropertiesText": "వీక్షించడానికి ప్రాపర్టీలు లేవు.",
+        "openText": "తెరవండి"
     }
 } );

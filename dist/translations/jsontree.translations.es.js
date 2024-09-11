@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.0 - Spanish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v3.1.1 - Spanish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -75,6 +75,8 @@ $jsontree.setConfiguration( {
         "copyButtonText": "Copiar",
         "dragAndDropTitleText": "Arrastre y suelte sus archivos JSON para cargarlos",
         "dragAndDropDescriptionText": "Se unirán varios archivos como una matriz",
-        "exportButtonText": "Exportar"
+        "exportButtonText": "Exportar",
+        "noPropertiesText": "No hay propiedades para ver.",
+        "openText": "abierto"
     }
 } );
