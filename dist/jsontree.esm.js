@@ -1477,10 +1477,10 @@ var Arr;
                 } else {
                     let n = l;
                     if (!y) {
-                        if (o.maximumStringLength > 0 && l.length > o.maximumStringLength) {
-                            l = l.substring(0, o.maximumStringLength) + e.text.ellipsisText;
+                        if (o.maximumStringLength > 0 && n.length > o.maximumStringLength) {
+                            n = n.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
-                        n = o.showStringQuotes ? `"${l}"` : l;
+                        n = o.showStringQuotes ? `"${n}"` : n;
                         f = o.showValueColors ? `${"string"} value` : "value";
                         T = o.allowEditing.stringValues;
                     } else {

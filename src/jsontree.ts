@@ -949,11 +949,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let newStringValue: string = value;
 
                     if ( !isForEmptyProperties ) {
-                        if ( bindingOptions.maximumStringLength! > 0 && value.length > bindingOptions.maximumStringLength! ) {
-                            value = value.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                        if ( bindingOptions.maximumStringLength! > 0 && newStringValue.length > bindingOptions.maximumStringLength! ) {
+                            newStringValue = newStringValue.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
                         }
         
-                        newStringValue = bindingOptions.showStringQuotes ? `\"${value}\"` : value;
+                        newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;
                         valueClass = bindingOptions.showValueColors ? `${DataType.string} value` : "value";
                         allowEditing = bindingOptions.allowEditing!.stringValues!;
                     } else {
