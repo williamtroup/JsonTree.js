@@ -489,7 +489,7 @@ div.json-tree-js div.contents {
   margin: 0 !important;
   width: 100%;
 }
-div.json-tree-js div.contents div.contents-panel {
+div.json-tree-js div.contents div.contents-column {
   flex-basis: 100%;
   overflow: auto;
 }

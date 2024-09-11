@@ -485,7 +485,6 @@ var Binding;
             t.showValueColors = Default2.getBoolean(t.showValueColors, true);
             t.maximumDecimalPlaces = Default2.getNumber(t.maximumDecimalPlaces, 2);
             t.maximumStringLength = Default2.getNumber(t.maximumStringLength, 0);
-            t.copyOnlyCurrentPage = Default2.getBoolean(t.copyOnlyCurrentPage, false);
             t.fileDroppingEnabled = Default2.getBoolean(t.fileDroppingEnabled, true);
             t.jsonIndentSpaces = Default2.getNumber(t.jsonIndentSpaces, 8);
             t.showArrayIndexBrackets = Default2.getBoolean(t.showArrayIndexBrackets, true);
@@ -520,6 +519,7 @@ var Binding;
             e.paging = Default2.getObject(e.paging, {});
             e.paging.enabled = Default2.getBoolean(e.paging.enabled, false);
             e.paging.columnsPerPage = Default2.getNumber(e.paging.columnsPerPage, 1);
+            e.paging.copyOnlyCurrentPage = Default2.getBoolean(e.paging.copyOnlyCurrentPage, false);
             return e;
         }
         function r(e) {
@@ -907,34 +907,37 @@ var Arr;
         if (e.paging.enabled) {
             for (let t = 0; t < e.paging.columnsPerPage; t++) {
                 const l = t + e._currentView.dataArrayCurrentIndex;
-                s(n[l], o, e);
+                const r = n[l];
+                if (Is.defined(r)) {
+                    s(r, o, e, l);
+                }
             }
         } else {
-            s(n, o, e);
+            s(n, o, e, null);
         }
         L(e);
         e._currentView.initialized = true;
     }
-    function s(t, n, o) {
-        const l = DomElement.create(n, "div", "contents-panel");
+    function s(t, n, o, l) {
+        const r = DomElement.create(n, "div", "contents-column");
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            E(l, o, t);
+            E(r, o, t);
         } else if (Is.definedObject(t)) {
-            S(l, o, t);
+            S(r, o, t, l);
         }
-        if (l.innerHTML === "" || l.children.length >= 2 && (!o.showOpenedObjectArrayBorders && l.children[1].children.length === 0 || l.children[1].children.length === 1)) {
-            l.innerHTML = "";
-            DomElement.createWithHTML(l, "span", "no-json-text", e.text.noJsonToViewText);
+        if (r.innerHTML === "" || r.children.length >= 2 && (!o.showOpenedObjectArrayBorders && r.children[1].children.length === 0 || r.children[1].children.length === 1)) {
+            r.innerHTML = "";
+            DomElement.createWithHTML(r, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
             o._currentView.titleBarButtons.style.display = "block";
         }
-        u(o, t, l);
+        u(o, t, r, l);
     }
-    function u(t, n, o) {
+    function u(t, n, o, l) {
         if (t._currentView.isBulkEditingEnabled) {
-            o.ondblclick = l => {
-                DomElement.cancelBubble(l);
+            o.ondblclick = r => {
+                DomElement.cancelBubble(r);
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
@@ -950,13 +953,13 @@ var Arr;
                         o.setAttribute("contenteditable", "false");
                     } else if (n.code == "Enter") {
                         n.preventDefault();
-                        const l = o.innerText;
-                        const r = Default2.getObjectFromString(l, e);
-                        if (r.parsed) {
+                        const r = o.innerText;
+                        const i = Default2.getObjectFromString(r, e);
+                        if (i.parsed) {
                             if (t.paging.enabled) {
-                                t.data[t._currentView.dataArrayCurrentIndex] = r.object;
+                                t.data[l] = i.object;
                             } else {
-                                t.data = r.object;
+                                t.data = i.object;
                             }
                         }
                         o.setAttribute("contenteditable", "false");
@@ -985,7 +988,7 @@ var Arr;
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
                 o.onclick = () => f(t, n);
                 o.ondblclick = DomElement.cancelBubble;
-                if (t.copyOnlyCurrentPage && t.paging.enabled) {
+                if (t.paging.copyOnlyCurrentPage && t.paging.enabled) {
                     ToolTip.add(o, t, e.text.copyButtonText);
                 } else {
                     ToolTip.add(o, t, e.text.copyAllButtonText);
@@ -1013,7 +1016,7 @@ var Arr;
                 t._currentView.nextButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "next", e.text.nextButtonSymbolText);
                 t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
-                if (t._currentView.dataArrayCurrentIndex < n.length - 1) {
+                if (t._currentView.dataArrayCurrentIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
                     t._currentView.nextButton.onclick = () => b(t);
                 } else {
                     t._currentView.nextButton.disabled = true;
@@ -1051,8 +1054,21 @@ var Arr;
         if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
             o = e.events.onCopyJsonReplacer;
         }
-        if (e.copyOnlyCurrentPage && e.paging.enabled) {
-            n = JSON.stringify(t[e._currentView.dataArrayCurrentIndex], o, e.jsonIndentSpaces);
+        if (e.paging.copyOnlyCurrentPage && e.paging.enabled) {
+            let l = null;
+            if (e.paging.columnsPerPage <= 1) {
+                l = t[e._currentView.dataArrayCurrentIndex];
+            } else {
+                l = [];
+                for (let n = 0; n < e.paging.columnsPerPage; n++) {
+                    const o = n + e._currentView.dataArrayCurrentIndex;
+                    const r = t[o];
+                    if (Is.defined(r)) {
+                        l.push(r);
+                    }
+                }
+            }
+            n = JSON.stringify(l, o, e.jsonIndentSpaces);
         } else {
             n = JSON.stringify(t, o, e.jsonIndentSpaces);
         }
@@ -1073,14 +1089,14 @@ var Arr;
     }
     function p(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
-            e._currentView.dataArrayCurrentIndex--;
+            e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
     function b(e) {
         if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
-            e._currentView.dataArrayCurrentIndex++;
+            e._currentView.dataArrayCurrentIndex += e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
@@ -1136,7 +1152,7 @@ var Arr;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        t.onchange = () => P(t.files, e);
+        t.onchange = () => H(t.files, e);
         t.click();
     }
     function w(e) {
@@ -1195,34 +1211,34 @@ var Arr;
         };
         return l;
     }
-    function S(t, n, o) {
-        const l = Is.definedMap(o);
-        const r = l ? "map" : "object";
-        const i = l ? Default2.getObjectFromMap(o) : o;
-        const a = k(i, n);
-        const s = a.length;
-        if (s !== 0 || !n.ignore.emptyObjects) {
-            const u = DomElement.create(t, "div", "object-type-title");
-            const c = DomElement.create(t, "div", "object-type-contents last-item");
-            const d = n.showArrowToggles ? DomElement.create(u, "div", "down-arrow") : null;
-            const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} main-title` : "main-title", l ? e.text.mapText : e.text.objectText);
-            let g = null;
-            C(c, n);
+    function S(t, n, o, l) {
+        const r = Is.definedMap(o);
+        const i = r ? "map" : "object";
+        const a = r ? Default2.getObjectFromMap(o) : o;
+        const s = k(a, n);
+        const u = s.length;
+        if (u !== 0 || !n.ignore.emptyObjects) {
+            const c = DomElement.create(t, "div", "object-type-title");
+            const d = DomElement.create(t, "div", "object-type-contents last-item");
+            const f = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
+            const g = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", r ? e.text.mapText : e.text.objectText);
+            let m = null;
+            C(d, n);
             if (n.paging.enabled) {
-                let e = n.useZeroIndexingForArrays ? n._currentView.dataArrayCurrentIndex.toString() : (n._currentView.dataArrayCurrentIndex + 1).toString();
+                let e = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]${" "}:`;
                 }
-                DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", e, f);
+                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} data-array-index` : "data-array-index", e, g);
             }
-            if (n.showCounts && s > 0) {
-                DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} count` : "count", `{${s}}`);
+            if (n.showCounts && u > 0) {
+                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} count` : "count", `{${u}}`);
             }
             if (n.showOpeningClosingCurlyBraces) {
-                g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
+                m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
-            B(d, null, c, n, i, a, g, false, true, "", r);
-            F(n, f, o, r, false);
+            B(f, null, d, n, a, s, m, false, true, "", i);
+            F(n, g, o, i, false);
         }
     }
     function E(t, n, o) {
@@ -1975,17 +1991,17 @@ var Arr;
             n.ondragover = DomElement.cancelBubble;
             n.ondragenter = DomElement.cancelBubble;
             n.ondragleave = () => n.style.display = "none";
-            n.ondrop = e => H(e, t);
-        }
-    }
-    function H(e, t) {
-        DomElement.cancelBubble(e);
-        t._currentView.dragAndDropBackground.style.display = "none";
-        if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-            P(e.dataTransfer.files, t);
+            n.ondrop = e => P(e, t);
         }
     }
     function P(e, t) {
+        DomElement.cancelBubble(e);
+        t._currentView.dragAndDropBackground.style.display = "none";
+        if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
+            H(e.dataTransfer.files, t);
+        }
+    }
+    function H(e, t) {
         const n = e.length;
         let o = 0;
         let l = [];

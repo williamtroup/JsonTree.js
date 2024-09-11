@@ -100,7 +100,6 @@ export type BindingOptions = {
 	showValueColors?: boolean;
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
-	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
@@ -156,6 +155,7 @@ export type BindingOptionsCurrentView = {
 export type BindingOptionsPaging = {
 	enabled?: boolean;
 	columnsPerPage?: number;
+	copyOnlyCurrentPage?: boolean;
 }
 
 export type BindingOptionsParse = {

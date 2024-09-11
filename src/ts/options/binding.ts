@@ -81,7 +81,6 @@ export namespace Binding {
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
             options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
             options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
-            options.copyOnlyCurrentPage = Default.getBoolean( options.copyOnlyCurrentPage, false );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
             options.jsonIndentSpaces = Default.getNumber( options.jsonIndentSpaces, 8 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
@@ -118,6 +117,7 @@ export namespace Binding {
             options.paging = Default.getObject( options.paging, {} as BindingOptionsPaging );
             options.paging!.enabled = Default.getBoolean( options.paging!.enabled, false );
             options.paging!.columnsPerPage = Default.getNumber( options.paging!.columnsPerPage, 1 );
+            options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
 
             return options;
         }

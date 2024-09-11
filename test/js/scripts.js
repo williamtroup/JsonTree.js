@@ -18,7 +18,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
             onValueClick: onValueClickEvent,
         },
         showValueColors: showValueColors,
-        copyOnlyCurrentPage: false,
         sortPropertyNames: true,
         showArrayIndexBrackets: true,
         showOpeningClosingCurlyBraces: false,
@@ -67,6 +66,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         paging: {
             enabled: true,
             columnsPerPage: 1,
+            copyOnlyCurrentPage: false,
         }
     };
 }
@@ -86,7 +86,7 @@ function getData() {
     return [
         {
             value1: true,
-            value2: "This is a string",
+            value2: "This is a string for page 1",
             value3: new Date(),
             value4: 5,
             value7: null,
@@ -139,7 +139,7 @@ function getData() {
         },
         {
             value1: true,
-            value2: "This is a string",
+            value2: "This is a string for page 2",
             value3: new Date(),
             value4: 5,
             value5: null,
@@ -156,6 +156,11 @@ function getData() {
                     value2: "9.876",
                 },
             }
+        },
+        {
+            value1: false,
+            value2: "This is a string for page 3",
+            value3: new Date(),
         }
     ]
 }

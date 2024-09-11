@@ -158,12 +158,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.paging!.enabled ) {
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
                 const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
+                const actualData: any = data[ actualDataIndex ];
 
-                renderControlContentsPanel( data[ actualDataIndex ], contents, bindingOptions );
+                if ( Is.defined( actualData ) ) {
+                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex );
+                }
             }
 
         } else {
-            renderControlContentsPanel( data, contents, bindingOptions );
+            renderControlContentsPanel( data, contents, bindingOptions, null! );
         }
 
         renderControlDragAndDrop( bindingOptions );
@@ -171,13 +174,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.initialized = true;
     }
 
-    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions ) : void {
-        const contentsPanel: HTMLElement = DomElement.create( contents, "div", "contents-panel" );
+    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number ) : void {
+        const contentsPanel: HTMLElement = DomElement.create( contents, "div", "contents-column" );
 
         if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
             renderArray( contentsPanel, bindingOptions, data );
         } else if ( Is.definedObject( data ) ) {
-            renderObject( contentsPanel, bindingOptions, data );
+            renderObject( contentsPanel, bindingOptions, data, dataIndex );
         }
 
         if ( contentsPanel.innerHTML === Char.empty || ( contentsPanel.children.length >= 2 && ( ( !bindingOptions.showOpenedObjectArrayBorders && contentsPanel.children[ 1 ].children.length === 0 ) || contentsPanel.children[ 1 ].children.length === 1 )  ) ) {
@@ -191,10 +194,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
 
-        makeContentsEditable( bindingOptions, data, contentsPanel );
+        makeContentsEditable( bindingOptions, data, contentsPanel, dataIndex );
     }
 
-    function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement ) : void {
+    function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
         if ( bindingOptions._currentView.isBulkEditingEnabled ) {
             contents.ondblclick = ( e: MouseEvent ) => {
                 DomElement.cancelBubble( e );
@@ -227,7 +230,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                         if ( newData.parsed ) {
                             if ( bindingOptions.paging!.enabled ) {
-                                bindingOptions.data[ bindingOptions._currentView.dataArrayCurrentIndex ] = newData.object;
+                                bindingOptions.data[ dataIndex ] = newData.object;
                             } else {
                                 bindingOptions.data = newData.object;
                             }
@@ -274,7 +277,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 copyButton.onclick = () => onTitleBarCopyClick( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
 
-                if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
+                if ( bindingOptions.paging!.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
                     ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
                 }
                 else {
@@ -313,7 +316,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 
-                if ( bindingOptions._currentView.dataArrayCurrentIndex < data.length - 1 ) {
+                if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
                     bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
                 } else {
                     bindingOptions._currentView.nextButton.disabled = true;
@@ -354,23 +357,40 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onTitleBarCopyClick( bindingOptions: BindingOptions, data: any ) : void {
-        let copyData: string = null!;
+        let copyDataJson: string = null!;
         let replaceFunction: any = jsonStringifyReplacer;
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
             replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
         }
 
-        if ( bindingOptions.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
-            copyData = JSON.stringify( data[ bindingOptions._currentView.dataArrayCurrentIndex ], replaceFunction, bindingOptions.jsonIndentSpaces );
-        }
-        else {
-            copyData = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        if ( bindingOptions.paging!.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
+            let copyData: any = null;
+
+            if ( bindingOptions.paging!.columnsPerPage! <= 1 ) {
+                copyData = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
+            } else {
+                copyData = [];
+
+                for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
+                    const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
+                    const actualData: any = data[ actualDataIndex ];
+    
+                    if ( Is.defined( actualData ) ) {
+                        copyData.push( actualData );
+                    }
+                }
+            }
+
+            copyDataJson = JSON.stringify( copyData, replaceFunction, bindingOptions.jsonIndentSpaces );
+
+        } else {
+            copyDataJson = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
         }
 
-        navigator.clipboard.writeText( copyData );
+        navigator.clipboard.writeText( copyDataJson );
 
-        Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyData );
+        Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyDataJson );
     }
 
     function onOpenAll( bindingOptions: BindingOptions ) : void {
@@ -391,7 +411,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onBackPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex--;
+            bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
     
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
@@ -400,7 +420,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onNextPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex++;
+            bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
                         
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
@@ -568,7 +588,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
+    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number ) : void {
         const isMap: boolean = Is.definedMap( data );
         const type: string = isMap ? DataType.map : DataType.object;
         const objectData: object = isMap ? Default.getObjectFromMap( data ) : data;
@@ -585,7 +605,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             addObjectContentsBorder( objectTypeContents, bindingOptions );
 
             if ( bindingOptions.paging!.enabled ) {
-                let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? bindingOptions._currentView.dataArrayCurrentIndex.toString() : ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ).toString();
+                let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
                     dataArrayIndex = `[${dataArrayIndex}]${Char.space}:`;
