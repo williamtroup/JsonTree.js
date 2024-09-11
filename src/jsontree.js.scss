@@ -455,6 +455,15 @@ div.json-tree-js {
         div.contents-column {
             flex-basis: 100%;
             overflow: auto;
+            border-right: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
+            padding-right: var(--json-tree-js-spacing);
+            margin-right: var(--json-tree-js-spacing);
+
+            &:last-child {
+                padding-right: 0;
+                border-right: none;
+                margin-right: 0;
+            }
         }
 
         @include type-span-colors;
