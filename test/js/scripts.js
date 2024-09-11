@@ -35,6 +35,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         showPropertyNameQuotes: false,
         showPropertyNameAndIndexColors: true,
         addArrayIndexPadding: false,
+        maximumStringLength: 0,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
