@@ -32,7 +32,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true ) {
         showTypes: false,
         logJsonValueToolTipPaths: false,
         showOpenedObjectArrayBorders: true,
-        showPropertyNameQuotes: false,
+        showPropertyNameQuotes: true,
         showPropertyNameAndIndexColors: true,
         addArrayIndexPadding: false,
         maximumStringLength: 0,

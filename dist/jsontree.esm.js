@@ -498,7 +498,7 @@ var Binding;
             t.showTypes = Default2.getBoolean(t.showTypes, false);
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
             t.exportFilenameFormat = Default2.getString(t.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json");
-            t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, false);
+            t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, true);
             t.showOpenedObjectArrayBorders = Default2.getBoolean(t.showOpenedObjectArrayBorders, true);
             t.showPropertyNameAndIndexColors = Default2.getBoolean(t.showPropertyNameAndIndexColors, true);
             t.showUrlOpenButtons = Default2.getBoolean(t.showUrlOpenButtons, true);
