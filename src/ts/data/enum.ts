@@ -44,6 +44,7 @@ export enum DataType {
     image = "image",
     email = "email",
     html = "html",
+    lambda = "lambda",
 }
 
 export enum KeyCode {

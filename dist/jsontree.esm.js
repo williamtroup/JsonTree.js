@@ -21,6 +21,7 @@ var DataType = (e => {
     e["image"] = "image";
     e["email"] = "email";
     e["html"] = "html";
+    e["lambda"] = "lambda";
     return e;
 })(DataType || {});
 
@@ -200,14 +201,19 @@ var Default2;
     Default.getFixedFloatPlacesValue = getFixedFloatPlacesValue;
     function getFunctionName(e, t) {
         let n;
-        const o = e.toString().split("(");
-        const l = o[0].split(" ");
-        const r = "()";
-        n = `${l.join(" ")}${r}`;
-        if (n.trim() === r) {
-            n = `${t.text.functionText}${r}`;
+        let o = false;
+        const l = e.toString().split("(");
+        const r = l[0].split(" ");
+        const i = "()";
+        n = `${r.join(" ")}${i}`;
+        if (n.trim() === i) {
+            n = `${t.text.functionText}${i}`;
+            o = true;
         }
-        return n;
+        return {
+            name: n,
+            isLambda: o
+        };
     }
     Default.getFunctionName = getFunctionName;
     function getObjectFromString(objectString, configuration) {
@@ -568,6 +574,7 @@ var Binding;
             e.ignore.imageValues = Default2.getBoolean(e.ignore.imageValues, false);
             e.ignore.emailValues = Default2.getBoolean(e.ignore.emailValues, false);
             e.ignore.htmlValues = Default2.getBoolean(e.ignore.htmlValues, false);
+            e.ignore.lambdaValues = Default2.getBoolean(e.ignore.lambdaValues, false);
             return e;
         }
         function a(e) {
@@ -650,6 +657,7 @@ var Binding;
             e.events.onImageRender = Default2.getFunction(e.events.onImageRender, null);
             e.events.onEmailRender = Default2.getFunction(e.events.onEmailRender, null);
             e.events.onHtmlRender = Default2.getFunction(e.events.onHtmlRender, null);
+            e.events.onLambdaRender = Default2.getFunction(e.events.onLambdaRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -1142,7 +1150,7 @@ var Arr;
         } else if (Is.definedSymbol(n)) {
             n = n.toString();
         } else if (Is.definedFunction(n)) {
-            n = Default2.getFunctionName(n, e);
+            n = Default2.getFunctionName(n, e).name;
         } else if (Is.definedMap(n)) {
             n = Default2.getObjectFromMap(n);
         } else if (Is.definedSet(n)) {
@@ -1410,16 +1418,31 @@ var Arr;
                 m = true;
             }
         } else if (Is.definedFunction(r)) {
-            if (!o.ignore.functionValues) {
-                f = o.showValueColors ? `${"function"} value non-value` : "value non-value";
-                g = DomElement.createWithHTML(c, "span", f, Default2.getFunctionName(r, e));
-                p = "function";
-                if (Is.definedFunction(o.events.onFunctionRender)) {
-                    Trigger.customEvent(o.events.onFunctionRender, g);
+            const t = Default2.getFunctionName(r, e);
+            if (t.isLambda) {
+                if (!o.ignore.lambdaValues) {
+                    f = o.showValueColors ? `${"lambda"} value non-value` : "value non-value";
+                    g = DomElement.createWithHTML(c, "span", f, t.name);
+                    p = "lambda";
+                    if (Is.definedFunction(o.events.onLambdaRender)) {
+                        Trigger.customEvent(o.events.onLambdaRender, g);
+                    }
+                    k(o, c, i);
+                } else {
+                    m = true;
                 }
-                k(o, c, i);
             } else {
-                m = true;
+                if (!o.ignore.functionValues) {
+                    f = o.showValueColors ? `${"function"} value non-value` : "value non-value";
+                    g = DomElement.createWithHTML(c, "span", f, t.name);
+                    p = "function";
+                    if (Is.definedFunction(o.events.onFunctionRender)) {
+                        Trigger.customEvent(o.events.onFunctionRender, g);
+                    }
+                    k(o, c, i);
+                } else {
+                    m = true;
+                }
             }
         } else if (Is.definedBoolean(r)) {
             if (!o.ignore.booleanValues) {

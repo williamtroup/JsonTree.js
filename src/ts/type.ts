@@ -14,6 +14,11 @@
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 
+export type FunctionName = {
+	name: string;
+	isLambda: boolean;
+};
+
 export type StringToJson = {
     parsed: boolean;
     object: any;
@@ -200,6 +205,7 @@ export type BindingOptionsIgnore = {
 	imageValues?: boolean;
 	emailValues?: boolean;
 	htmlValues?: boolean;
+	lambdaValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -263,6 +269,7 @@ export type BindingOptionsEvents = {
 	onImageRender?: ( element: HTMLElement ) => void;
 	onEmailRender?: ( element: HTMLElement ) => void;
 	onHtmlRender?: ( element: HTMLElement ) => void;
+	onLambdaRender?: ( element: HTMLElement ) => void;
 	onBackPage?: ( element: HTMLElement ) => void;
 	onNextPage?: ( element: HTMLElement ) => void;
 	onSetJson?: ( element: HTMLElement ) => void;

@@ -124,6 +124,10 @@ $minimum-width: 768px;
         color: var(--json-tree-js-color-html);
     }
 
+    span.lambda {
+        color: var(--json-tree-js-color-lambda);
+    }
+
     span.null,
     span.undefined {
         background-color: var(--json-tree-js-color-null);

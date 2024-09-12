@@ -162,6 +162,7 @@ export namespace Binding {
             options.ignore!.imageValues = Default.getBoolean( options.ignore!.imageValues, false );
             options.ignore!.emailValues = Default.getBoolean( options.ignore!.emailValues, false );
             options.ignore!.htmlValues = Default.getBoolean( options.ignore!.htmlValues, false );
+            options.ignore!.lambdaValues = Default.getBoolean( options.ignore!.lambdaValues, false );
 
             return options;
         }
@@ -258,6 +259,7 @@ export namespace Binding {
             options.events!.onImageRender = Default.getFunction( options.events!.onImageRender, null! );
             options.events!.onEmailRender = Default.getFunction( options.events!.onEmailRender, null! );
             options.events!.onHtmlRender = Default.getFunction( options.events!.onHtmlRender, null! );
+            options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
 
             return options;
         }

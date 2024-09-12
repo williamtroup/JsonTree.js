@@ -41,6 +41,7 @@
   --json-tree-js-color-undefined: var(--json-tree-js-color-null);
   --json-tree-js-color-symbol: #DAA06D;
   --json-tree-js-color-function: var(--json-tree-js-color-null);
+  --json-tree-js-color-lambda: var(--json-tree-js-color-function);
   --json-tree-js-color-unknown: var(--json-tree-js-color-null);
   --json-tree-js-color-guid: #c45600;
   --json-tree-js-color-regexp: #AA336A;
@@ -457,6 +458,9 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.html {
   color: var(--json-tree-js-color-html);
 }
+div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.lambda {
+  color: var(--json-tree-js-color-lambda);
+}
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.null,
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
   background-color: var(--json-tree-js-color-null);
@@ -558,6 +562,9 @@ div.json-tree-js div.contents span.email {
 }
 div.json-tree-js div.contents span.html {
   color: var(--json-tree-js-color-html);
+}
+div.json-tree-js div.contents span.lambda {
+  color: var(--json-tree-js-color-lambda);
 }
 div.json-tree-js div.contents span.null,
 div.json-tree-js div.contents span.undefined {

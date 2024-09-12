@@ -11,7 +11,11 @@
  */
 
 
-import { type StringToJson, type Configuration } from "../type";
+import {
+    type StringToJson,
+    type Configuration,
+    type FunctionName } from "../type";
+    
 import { Char } from "./enum";
 import { Is } from "./is";
 
@@ -74,19 +78,25 @@ export namespace Default {
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
 
-    export function getFunctionName( value: any, configuration: Configuration ) : string {
-        let result: string;
+    export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
+        let name: string;
+        let isLambda: boolean = false;
+
         const valueParts: string[] = value.toString().split( "(" );
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
         const functionBrackets: string = "()";
 
-        result = `${valueNameParts.join(Char.space)}${functionBrackets}`;
+        name = `${valueNameParts.join(Char.space)}${functionBrackets}`;
 
-        if ( result.trim() === functionBrackets ) {
-            result = `${configuration.text!.functionText!}${functionBrackets}`;
+        if ( name.trim() === functionBrackets ) {
+            name = `${configuration.text!.functionText!}${functionBrackets}`;
+            isLambda = true;
         }
 
-        return result;
+        return {
+            name: name,
+            isLambda: isLambda
+        } as FunctionName;
     }
 
     export function getObjectFromString( objectString: any, configuration: Configuration ) : StringToJson {

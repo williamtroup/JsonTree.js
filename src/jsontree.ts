@@ -16,7 +16,8 @@ import {
     type BindingOptions,
     type Configuration,
     type ContentPanelsForArrayIndex,
-    type ContentPanels } from "./ts/type";
+    type ContentPanels, 
+    type FunctionName } from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -458,7 +459,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedSymbol( value ) ) {
             value = value.toString();
         } else if ( Is.definedFunction( value ) ) {
-            value = Default.getFunctionName( value, _configuration );
+            value = Default.getFunctionName( value, _configuration ).name;
         } else if ( Is.definedMap( value ) ) {
             value = Default.getObjectFromMap( value );
         } else if ( Is.definedSet( value ) ) {
@@ -824,19 +825,39 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
         } else if ( Is.definedFunction( value ) ) {
-            if ( !bindingOptions.ignore!.functionValues ) {
-                valueClass = bindingOptions.showValueColors ? `${DataType.function} value non-value` : "value non-value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, Default.getFunctionName( value, _configuration ) );
-                type = DataType.function;
+            const functionName: FunctionName = Default.getFunctionName( value, _configuration );
 
-                if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+            if ( functionName.isLambda ) {
+                if ( !bindingOptions.ignore!.lambdaValues ) {
+                    valueClass = bindingOptions.showValueColors ? `${DataType.lambda} value non-value` : "value non-value";
+                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
+                    type = DataType.lambda;
+    
+                    if ( Is.definedFunction( bindingOptions.events!.onLambdaRender ) ) {
+                        Trigger.customEvent( bindingOptions.events!.onLambdaRender!, valueElement );
+                    }
+                
+                    createComma( bindingOptions, objectTypeValue, isLastItem );
+    
+                } else {
+                    ignored = true;
                 }
-            
-                createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
-                ignored = true;
+                if ( !bindingOptions.ignore!.functionValues ) {
+                    valueClass = bindingOptions.showValueColors ? `${DataType.function} value non-value` : "value non-value";
+                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
+                    type = DataType.function;
+    
+                    if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
+                        Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+                    }
+                
+                    createComma( bindingOptions, objectTypeValue, isLastItem );
+    
+                } else {
+                    ignored = true;
+                }
             }
 
         } else if ( Is.definedBoolean( value ) ) {
