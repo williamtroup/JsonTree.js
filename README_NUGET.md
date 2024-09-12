@@ -18,7 +18,7 @@
 - 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
 - 🔍 21 types supported by default (such as Object, Array, primitive types, and even Sets and Maps).
-- 🔣 Support to show the data types, array/object counts, comas, and opening/closing symbols!
+- 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
 - 📂 Close/Open all nodes.
 - 🚀 Clickable values via custom triggers!
