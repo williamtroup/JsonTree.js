@@ -152,6 +152,7 @@ export type BindingOptionsCurrentView = {
 	dragAndDropBackground: HTMLElement;
 	isBulkEditingEnabled: boolean;
 	initialized: boolean;
+	contentColumns: HTMLElement[];
 };
 
 export type BindingOptionsPaging = {

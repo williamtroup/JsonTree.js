@@ -139,12 +139,15 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContainerForData( bindingOptions: BindingOptions, isForPageSwitch: boolean, data: any ) : void {
+        const scrollTopsForColumns: number[] = getContentColumnScrollTops( bindingOptions );
+        
         ToolTip.hide( bindingOptions );
 
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.editMode = false;
         bindingOptions._currentView.contentPanelsIndex = 0;
         bindingOptions._currentView.sideMenuChanged = false;
+        bindingOptions._currentView.contentColumns = [];
 
         renderControlTitleBar( bindingOptions, data );
         renderControlSideMenu( bindingOptions );
@@ -161,12 +164,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const actualData: any = data[ actualDataIndex ];
 
                 if ( Is.defined( actualData ) ) {
-                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex );
+                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ] );
                 }
             }
 
         } else {
-            renderControlContentsPanel( data, contents, bindingOptions, null! );
+            renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ] );
         }
 
         renderControlDragAndDrop( bindingOptions );
@@ -174,8 +177,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.initialized = true;
     }
 
-    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number ) : void {
+    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number ) : void {
         const contentsPanel: HTMLElement = DomElement.create( contents, "div", "contents-column" );
+
+        bindingOptions._currentView.contentColumns.push( contentsPanel );
 
         if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
             renderArray( contentsPanel, bindingOptions, data );
@@ -191,6 +196,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "none";
 
         } else {
+            if ( Is.defined( scrollTop ) ) {
+                contentsPanel.scrollTop = scrollTop;
+            }
+
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
 
@@ -241,6 +250,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
             };
         }
+    }
+
+    function getContentColumnScrollTops( bindingOptions: BindingOptions ) : number[] {
+        const result: number[] = [];
+        
+        ToolTip.hide( bindingOptions );
+
+        if ( bindingOptions._currentView.editMode ) {
+            const contentColumnsLength: number = bindingOptions._currentView.contentColumns.length;
+
+            for ( let contentColumnIndex: number = 0; contentColumnIndex < contentColumnsLength; contentColumnIndex++ ) {
+                result.push( bindingOptions._currentView.contentColumns[ contentColumnIndex ].scrollTop );
+            }
+        }
+
+        return result;
     }
 
     

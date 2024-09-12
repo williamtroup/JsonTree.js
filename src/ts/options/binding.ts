@@ -54,6 +54,7 @@ export namespace Binding {
             bindingOptions._currentView.dragAndDropBackground = null!;
             bindingOptions._currentView.isBulkEditingEnabled = true;
             bindingOptions._currentView.initialized = false;
+            bindingOptions._currentView.contentColumns = [];
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
