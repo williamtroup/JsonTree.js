@@ -370,18 +370,18 @@ var DomElement;
 var Str;
 
 (e => {
-    function t(e, t = 1) {
-        const n = e.toString();
-        let o = n;
-        if (n.length < t) {
-            const e = t - n.length + 1;
-            o = Array(e).join("0") + n;
+    function t(e, t = 1, n = "0") {
+        const o = e.toString();
+        let l = o;
+        if (o.length < t) {
+            const e = t - o.length + 1;
+            l = `${Array(e).join(n)}${o}`;
         }
-        return o;
+        return l;
     }
     e.padNumber = t;
     function n(e) {
-        return e.charAt(0).toUpperCase() + e.slice(1);
+        return `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
     }
     e.capitalizeFirstLetter = n;
 })(Str || (Str = {}));
@@ -512,6 +512,7 @@ var Binding;
             t.showUrlOpenButtons = Default2.getBoolean(t.showUrlOpenButtons, true);
             t.showEmailOpenButtons = Default2.getBoolean(t.showEmailOpenButtons, true);
             t.minimumArrayIndexPadding = Default2.getNumber(t.minimumArrayIndexPadding, 0);
+            t.arrayIndexPaddingCharacter = Default2.getString(t.arrayIndexPaddingCharacter, "0");
             t = l(t);
             t = r(t);
             t = i(t);
@@ -813,7 +814,7 @@ var Arr;
             if (t < e.minimumArrayIndexPadding + 1) {
                 t = e.minimumArrayIndexPadding + 1;
             }
-            o = Str.padNumber(parseInt(o), t);
+            o = Str.padNumber(parseInt(o), t, e.arrayIndexPaddingCharacter);
         }
         if (e.showArrayIndexBrackets) {
             o = `[${o}]`;
@@ -1148,7 +1149,7 @@ var Arr;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             if (t.sideMenu.showExportButton) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => $(t);
+                n.onclick = () => W(t);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
@@ -2075,11 +2076,11 @@ var Arr;
             const n = e[t];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                W(n, r);
+                $(n, r);
             }
         }
     }
-    function W(t, n) {
+    function $(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
@@ -2091,7 +2092,7 @@ var Arr;
         };
         o.readAsText(t);
     }
-    function $(e) {
+    function W(e) {
         let t = JSON.stringify(e.data, T, e.jsonIndentSpaces);
         if (Is.definedString(t)) {
             const n = DomElement.create(document.body, "a");

@@ -12,20 +12,20 @@
 
 
 export namespace Str {
-    export function padNumber( number: number, length: number = 1 ) : string {
+    export function padNumber( number: number, length: number = 1, paddingCharacter: string = "0" ) : string {
         const numberString: string = number.toString();
         let numberResult: string = numberString;
 
         if ( numberString.length < length ) {
             const arrayLength: number = ( length - numberString.length ) + 1;
 
-            numberResult = Array( arrayLength ).join( "0" ) + numberString;
+            numberResult = `${Array(arrayLength).join(paddingCharacter)}${numberString}`;
         }
 
         return numberResult;
     }
 
     export function capitalizeFirstLetter( string: string ) : string {
-        return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
+        return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
     }
 }

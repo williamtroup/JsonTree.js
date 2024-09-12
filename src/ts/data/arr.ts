@@ -31,7 +31,7 @@ export namespace Arr {
                 paddingLength = bindingOptions.minimumArrayIndexPadding! + 1;
             }
 
-            result = Str.padNumber( parseInt( result ), paddingLength );
+            result = Str.padNumber( parseInt( result ), paddingLength, bindingOptions.arrayIndexPaddingCharacter );
         }
 
         if ( bindingOptions.showArrayIndexBrackets ) {
