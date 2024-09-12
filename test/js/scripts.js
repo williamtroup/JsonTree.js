@@ -85,6 +85,9 @@ function getData() {
     var image = new Image( 100, 100 );
     image.src = "images/image.png";
 
+    var htmlElement = document.createElement( "div" );
+    htmlElement.innerHTML = "This is an HTML element.";
+
     return [
         {
             value1: true,
@@ -112,7 +115,7 @@ function getData() {
             value21: "william@troup.uk",
             value22: image,
             value23: testFunctionName,
-            value24: document.createElement( "div" ),
+            value24: htmlElement,
             value5: [
                 true,
                 "This is another string",
@@ -191,6 +194,8 @@ function onValueClickEvent( value, type ) {
         value = Array.from( value.values() );
     } else if ( value instanceof Image ) {
         value = value.src;
+    } else if ( value instanceof HTMLElement ) {
+        value = value.innerHTML;
     }
 
     console.log( `Type: ${type}, Value: ${JSON.stringify( value, onValueClickJsonReplacer )}` );
