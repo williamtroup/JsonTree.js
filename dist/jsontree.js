@@ -513,6 +513,7 @@ var Binding;
             t.showPropertyNameAndIndexColors = Default2.getBoolean(t.showPropertyNameAndIndexColors, true);
             t.showUrlOpenButtons = Default2.getBoolean(t.showUrlOpenButtons, true);
             t.showEmailOpenButtons = Default2.getBoolean(t.showEmailOpenButtons, true);
+            t.minimumArrayIndexPadding = Default2.getNumber(t.minimumArrayIndexPadding, 0);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -810,7 +811,11 @@ var Arr;
     function n(e, t, n) {
         let o = t.toString();
         if (e.addArrayIndexPadding) {
-            o = Str.padNumber(parseInt(o), n.toString().length);
+            let t = n.toString().length;
+            if (t < e.minimumArrayIndexPadding + 1) {
+                t = e.minimumArrayIndexPadding + 1;
+            }
+            o = Str.padNumber(parseInt(o), t);
         }
         if (e.showArrayIndexBrackets) {
             o = `[${o}]`;

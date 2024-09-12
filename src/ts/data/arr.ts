@@ -25,7 +25,13 @@ export namespace Arr {
         let result: string = index.toString();
     
         if ( bindingOptions.addArrayIndexPadding ) {
-            result = Str.padNumber( parseInt( result ), largestValue.toString().length );
+            let paddingLength = largestValue.toString().length;
+
+            if ( paddingLength < ( bindingOptions.minimumArrayIndexPadding! + 1 ) ) {
+                paddingLength = bindingOptions.minimumArrayIndexPadding! + 1;
+            }
+
+            result = Str.padNumber( parseInt( result ), paddingLength );
         }
 
         if ( bindingOptions.showArrayIndexBrackets ) {

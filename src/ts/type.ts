@@ -118,6 +118,7 @@ export type BindingOptions = {
 	showPropertyNameAndIndexColors?: boolean;
 	showUrlOpenButtons?: boolean;
 	showEmailOpenButtons?: boolean;
+	minimumArrayIndexPadding?: number;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
