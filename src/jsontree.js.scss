@@ -645,6 +645,10 @@ div.json-tree-js {
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
             margin-left: calc( var(--json-tree-js-spacing) * 2 );
 
+            img {
+                vertical-align: middle;
+            }
+
             span.split {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 margin-right: calc( var(--json-tree-js-spacing) / 2 );

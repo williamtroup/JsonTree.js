@@ -701,6 +701,9 @@ div.json-tree-js div.object-type-contents div.object-type-value {
   margin-bottom: calc(var(--json-tree-js-spacing) / 2);
   margin-left: calc(var(--json-tree-js-spacing) * 2);
 }
+div.json-tree-js div.object-type-contents div.object-type-value img {
+  vertical-align: middle;
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
