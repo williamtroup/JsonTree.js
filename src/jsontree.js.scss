@@ -469,7 +469,7 @@ div.json-tree-js {
 
         @include type-span-colors;
 
-        span.count {
+        span.size {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-text-bold-weight);
         }

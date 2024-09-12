@@ -614,8 +614,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} data-array-index` : "data-array-index", dataArrayIndex, titleText );
             }
     
-            if ( bindingOptions.showCounts && propertyCount > 0 ) {
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `{${propertyCount}}` );
+            if ( bindingOptions.showObjectSizes && propertyCount > 0 ) {
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} size` : "size", `{${propertyCount}}` );
             }
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -639,8 +639,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         addObjectContentsBorder( objectTypeContents, bindingOptions );
 
-        if ( bindingOptions.showCounts ) {
-            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} count` : "count", `[${setData.length}]` );
+        if ( bindingOptions.showObjectSizes ) {
+            DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${type} size` : "size", `[${setData.length}]` );
         }
 
         if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1134,8 +1134,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.setText! );
                 type = DataType.set;
 
-                if ( bindingOptions.showCounts ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", `[${arrayValues.length}]` );
+                if ( bindingOptions.showObjectSizes ) {
+                    DomElement.createWithHTML( objectTitle, "span", "size", `[${arrayValues.length}]` );
                 }
 
                 if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1169,8 +1169,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.arrayText! );
                 type = DataType.array;
 
-                if ( bindingOptions.showCounts ) {
-                    DomElement.createWithHTML( objectTitle, "span", "count", `[${value.length}]` );
+                if ( bindingOptions.showObjectSizes ) {
+                    DomElement.createWithHTML( objectTitle, "span", "size", `[${value.length}]` );
                 }
 
                 if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1212,8 +1212,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
                     type = DataType.map;
 
-                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
-                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
+                        DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
                     }
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1255,8 +1255,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
                     type = DataType.object;
 
-                    if ( bindingOptions.showCounts && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
-                        DomElement.createWithHTML( objectTitle, "span", "count", `{${propertyCount}}` );
+                    if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
+                        DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
                     }
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {

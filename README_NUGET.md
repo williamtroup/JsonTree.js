@@ -168,7 +168,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<div id="tree-1" data-jsontree-js="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
+<div id="tree-1" data-jsontree-js="{ 'showObjectSizes': true, 'data': [ true, false, 5, 10, 'A String' ] }">
     Your HTML.
 </div>
 ```

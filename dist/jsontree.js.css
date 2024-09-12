@@ -569,7 +569,7 @@ div.json-tree-js div.contents span.undefined {
   padding-right: 4px;
   color: var(--json-tree-js-color-dark-black);
 }
-div.json-tree-js div.contents span.count {
+div.json-tree-js div.contents span.size {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-text-bold-weight);
 }

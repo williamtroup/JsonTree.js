@@ -86,7 +86,7 @@ export type ConfigurationText = {
 export type BindingOptions = {
     _currentView: BindingOptionsCurrentView;
 	data?: any;
-	showCounts?: boolean;
+	showObjectSizes?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
 	showArrowToggles?: boolean;

@@ -19,7 +19,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showArrowToggles: true,
         openInFullScreenMode: columnSize > 1,
         useZeroIndexingForArrays: true,
-        showCounts: true,
+        showObjectSizes: true,
         showTypes: false,
         logJsonValueToolTipPaths: false,
         showOpenedObjectArrayBorders: true,
