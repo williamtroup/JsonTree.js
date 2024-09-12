@@ -1003,7 +1003,7 @@ var Arr;
     function c(e) {
         const t = [];
         ToolTip.hide(e);
-        if (e._currentView.editMode) {
+        if (e._currentView.editMode || e._currentView.sideMenuChanged) {
             const n = e._currentView.contentColumns.length;
             for (let o = 0; o < n; o++) {
                 t.push(e._currentView.contentColumns[o].scrollTop);

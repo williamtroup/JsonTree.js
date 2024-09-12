@@ -258,7 +258,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         
         ToolTip.hide( bindingOptions );
 
-        if ( bindingOptions._currentView.editMode ) {
+        if ( bindingOptions._currentView.editMode || bindingOptions._currentView.sideMenuChanged ) {
             const contentColumnsLength: number = bindingOptions._currentView.contentColumns.length;
 
             for ( let contentColumnIndex: number = 0; contentColumnIndex < contentColumnsLength; contentColumnIndex++ ) {
