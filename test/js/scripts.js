@@ -10,14 +10,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         data: getData(),
         //data: null,
         //data: "https://william-troup.com/jsontree-js/test-data/test.json",
-        parse: {
-            stringsToDates: true,
-            stringsToBooleans: true,
-            stringsToNumbers: true,
-        },
-        events: {
-            onValueClick: onValueClickEvent,
-        },
         showValueColors: showValueColors,
         sortPropertyNames: true,
         showArrayIndexBrackets: true,
@@ -42,6 +34,14 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             "parsing\\booleans\\value1": "This is a boolean tooltip for Value 1 on Page 2",
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
         } : null,
+        parse: {
+            stringsToDates: true,
+            stringsToBooleans: true,
+            stringsToNumbers: true,
+        },
+        events: {
+            onValueClick: onValueClickEvent,
+        },
         title: {
             showCopyButton: true,
             showTreeControls: true,
