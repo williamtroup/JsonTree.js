@@ -20,6 +20,7 @@ var DataType = (e => {
     e["url"] = "url";
     e["image"] = "image";
     e["email"] = "email";
+    e["html"] = "html";
     return e;
 })(DataType || {});
 
@@ -118,6 +119,10 @@ var Is;
     }
     e.definedImage = b;
     function T(e) {
+        return n(e) && e instanceof HTMLElement;
+    }
+    e.definedHtmlElement = T;
+    function x(e) {
         let t;
         try {
             t = new URL(e);
@@ -126,16 +131,16 @@ var Is;
         }
         return t !== null && (t.protocol === "http:" || t.protocol === "https:");
     }
-    e.definedUrl = T;
-    function x(e) {
+    e.definedUrl = x;
+    function y(e) {
         const t = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return t.test(e);
     }
-    e.definedEmail = x;
-    function y(e, t = 1) {
+    e.definedEmail = y;
+    function w(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = y;
+    e.invalidOptionArray = w;
 })(Is || (Is = {}));
 
 var Default2;
@@ -559,6 +564,7 @@ var Binding;
             e.ignore.urlValues = Default2.getBoolean(e.ignore.urlValues, false);
             e.ignore.imageValues = Default2.getBoolean(e.ignore.imageValues, false);
             e.ignore.emailValues = Default2.getBoolean(e.ignore.emailValues, false);
+            e.ignore.htmlValues = Default2.getBoolean(e.ignore.htmlValues, false);
             return e;
         }
         function a(e) {
@@ -640,6 +646,7 @@ var Binding;
             e.events.onUrlRender = Default2.getFunction(e.events.onUrlRender, null);
             e.events.onImageRender = Default2.getFunction(e.events.onImageRender, null);
             e.events.onEmailRender = Default2.getFunction(e.events.onEmailRender, null);
+            e.events.onHtmlRender = Default2.getFunction(e.events.onHtmlRender, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -925,9 +932,9 @@ var Arr;
     function s(t, n, o, l) {
         const r = DomElement.create(n, "div", "contents-column");
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            E(r, o, t);
+            S(r, o, t);
         } else if (Is.definedObject(t)) {
-            S(r, o, t, l);
+            E(r, o, t, l);
         }
         if (r.innerHTML === "" || r.children.length >= 2 && (!o.showOpenedObjectArrayBorders && r.children[1].children.length === 0 || r.children[1].children.length === 1)) {
             r.innerHTML = "";
@@ -1215,7 +1222,7 @@ var Arr;
         };
         return l;
     }
-    function S(t, n, o, l) {
+    function E(t, n, o, l) {
         const r = Is.definedMap(o);
         const i = r ? "map" : "object";
         const a = r ? Default2.getObjectFromMap(o) : o;
@@ -1245,7 +1252,7 @@ var Arr;
             F(n, g, o, i, false);
         }
     }
-    function E(t, n, o) {
+    function S(t, n, o) {
         const l = Is.definedSet(o);
         const r = l ? "set" : "array";
         const i = l ? Default2.getArrayFromSet(o) : o;
@@ -1599,6 +1606,18 @@ var Arr;
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
                     Trigger.customEvent(o.events.onImageRender, g);
+                }
+                N(o, c, i);
+            } else {
+                m = true;
+            }
+        } else if (Is.definedHtmlElement(r)) {
+            if (!o.ignore.htmlValues) {
+                f = o.showValueColors ? `${"html"} value` : "value";
+                g = DomElement.createWithHTML(c, "span", f, r.tagName.toLowerCase());
+                p = "html";
+                if (Is.definedFunction(o.events.onHtmlRender)) {
+                    Trigger.customEvent(o.events.onHtmlRender, g);
                 }
                 N(o, c, i);
             } else {

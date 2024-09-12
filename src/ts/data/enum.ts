@@ -43,6 +43,7 @@ export enum DataType {
     url = "url",
     image = "image",
     email = "email",
+    html = "html",
 }
 
 export enum KeyCode {

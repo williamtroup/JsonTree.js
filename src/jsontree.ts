@@ -1102,6 +1102,22 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ignored = true;
             }
 
+        } else if ( Is.definedHtmlElement( value ) ) {
+            if ( !bindingOptions.ignore!.htmlValues ) {
+                valueClass = bindingOptions.showValueColors ? `${DataType.html} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.tagName.toLowerCase() );
+                type = DataType.html;
+
+                if ( Is.definedFunction( bindingOptions.events!.onHtmlRender ) ) {
+                    Trigger.customEvent( bindingOptions.events!.onHtmlRender!, valueElement );
+                }
+                
+                createComma( bindingOptions, objectTypeValue, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
         } else if ( Is.definedSet( value ) ) {
             if ( !bindingOptions.ignore!.setValues ) {
                 const arrayValues: any[] = Default.getArrayFromSet( value );

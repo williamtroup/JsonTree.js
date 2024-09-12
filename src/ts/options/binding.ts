@@ -23,7 +23,7 @@ import {
     type BindingOptionsAllowEditing, 
     type BindingOptionsSideMenu, 
     type BindingOptionsAutoClose, 
-    BindingOptionsPaging} from "../type";
+    type BindingOptionsPaging } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -158,6 +158,7 @@ export namespace Binding {
             options.ignore!.urlValues = Default.getBoolean( options.ignore!.urlValues, false );
             options.ignore!.imageValues = Default.getBoolean( options.ignore!.imageValues, false );
             options.ignore!.emailValues = Default.getBoolean( options.ignore!.emailValues, false );
+            options.ignore!.htmlValues = Default.getBoolean( options.ignore!.htmlValues, false );
 
             return options;
         }
@@ -253,6 +254,7 @@ export namespace Binding {
             options.events!.onUrlRender = Default.getFunction( options.events!.onUrlRender, null! );
             options.events!.onImageRender = Default.getFunction( options.events!.onImageRender, null! );
             options.events!.onEmailRender = Default.getFunction( options.events!.onEmailRender, null! );
+            options.events!.onHtmlRender = Default.getFunction( options.events!.onHtmlRender, null! );
 
             return options;
         }

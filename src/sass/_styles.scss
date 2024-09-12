@@ -120,6 +120,10 @@ $minimum-width: 768px;
         color: var(--json-tree-js-color-email);
     }
 
+    span.html {
+        color: var(--json-tree-js-color-html);
+    }
+
     span.null,
     span.undefined {
         background-color: var(--json-tree-js-color-null);

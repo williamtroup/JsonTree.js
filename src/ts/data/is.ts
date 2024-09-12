@@ -109,6 +109,10 @@ export namespace Is {
         return defined( object ) && object instanceof Image;
     }
 
+    export function definedHtmlElement( object: any ) : boolean {
+        return defined( object ) && object instanceof HTMLElement;
+    }
+
     export function definedUrl( data: string ) : boolean {
         let url: URL;
         

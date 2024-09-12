@@ -112,6 +112,7 @@ function getData() {
             value21: "william@troup.uk",
             value22: image,
             value23: testFunctionName,
+            value24: document.createElement( "div" ),
             value5: [
                 true,
                 "This is another string",
