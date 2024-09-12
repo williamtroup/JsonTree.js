@@ -68,6 +68,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             enabled: showPaging,
             columnsPerPage: columnSize,
             copyOnlyCurrentPage: false,
+            startPage: 1
         }
     };
 }

@@ -156,6 +156,7 @@ export type BindingOptionsPaging = {
 	enabled?: boolean;
 	columnsPerPage?: number;
 	copyOnlyCurrentPage?: boolean;
+	startPage?: number;
 }
 
 export type BindingOptionsParse = {

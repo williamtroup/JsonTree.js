@@ -169,6 +169,10 @@ var Default2;
         return Is.definedObject(e) ? e : t;
     }
     Default.getObject = getObject;
+    function getNumberMinimum(e, t, n) {
+        return Is.definedNumber(e) ? e >= n ? e : n : t;
+    }
+    Default.getNumberMinimum = getNumberMinimum;
     function getStringOrArray(e, t) {
         let n = t;
         if (Is.definedString(e)) {
@@ -442,7 +446,7 @@ var Binding;
             const l = o.allowEditing;
             o._currentView = {};
             o._currentView.element = n;
-            o._currentView.dataArrayCurrentIndex = 0;
+            o._currentView.dataArrayCurrentIndex = (o.paging.startPage - 1) * o.paging.columnsPerPage;
             o._currentView.titleBarButtons = null;
             o._currentView.valueClickTimerId = 0;
             o._currentView.editMode = false;
@@ -519,6 +523,7 @@ var Binding;
             e.paging.enabled = Default2.getBoolean(e.paging.enabled, false);
             e.paging.columnsPerPage = Default2.getNumber(e.paging.columnsPerPage, 1);
             e.paging.copyOnlyCurrentPage = Default2.getBoolean(e.paging.copyOnlyCurrentPage, false);
+            e.paging.startPage = Default2.getNumberMinimum(e.paging.startPage, 1, 1);
             return e;
         }
         function r(e) {

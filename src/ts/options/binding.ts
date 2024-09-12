@@ -37,7 +37,7 @@ export namespace Binding {
 
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
-            bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            bindingOptions._currentView.dataArrayCurrentIndex = ( bindingOptions.paging!.startPage! - 1 ) * bindingOptions.paging!.columnsPerPage!;
             bindingOptions._currentView.titleBarButtons = null!;
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
@@ -118,6 +118,7 @@ export namespace Binding {
             options.paging!.enabled = Default.getBoolean( options.paging!.enabled, false );
             options.paging!.columnsPerPage = Default.getNumber( options.paging!.columnsPerPage, 1 );
             options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
+            options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
 
             return options;
         }

@@ -45,6 +45,10 @@ export namespace Default {
         return Is.definedObject( value ) ? value : defaultValue;
     }
 
+    export function getNumberMinimum( value: any, defaultValue: number, minimum: number ) : number {
+        return Is.definedNumber( value ) ? ( value >= minimum ? value: minimum ) : defaultValue;
+    }
+
     export function getStringOrArray( value: any, defaultValue: string[] ) : string[] {
         let result: string[] = defaultValue;
 
