@@ -76,9 +76,12 @@
 
     // Containers
     --json-tree-js-container-background-color: #22272e;
-    --json-tree-js-container-column-background-color: #2b323b;
     --json-tree-js-container-border-color: #454c56;
     --json-tree-js-container-object-left-border-color: #677180;
+
+    // Paging Columns
+    --json-tree-js-paging-column-background-color: #2b323b;
+    --json-tree-js-paging-column-border-color: var(--json-tree-js-container-border-color);
 
     // Button
     --json-tree-js-button-background-color: #2d333b;
@@ -469,7 +472,8 @@ div.json-tree-js {
         }
 
         div.contents-column-multiple {
-            background-color: var(--json-tree-js-container-column-background-color);
+            background-color: var(--json-tree-js-paging-column-background-color);
+            border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
             padding: var(--json-tree-js-spacing);
             border-radius: var(--json-tree-js-border-radius);
         }

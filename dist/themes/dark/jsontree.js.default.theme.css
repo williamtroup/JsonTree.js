@@ -34,8 +34,11 @@
 
     /* Containers */
     --json-tree-js-container-background-color: #22272e;
-    --json-tree-js-container-column-background-color: #2b323b;
     --json-tree-js-container-border-color: #454c56;
+
+    /* Paging Columns */
+    --json-tree-js-paging-column-background-color: #2b323b;
+    --json-tree-js-paging-column-border-color: var(--json-tree-js-container-border-color);
 
     /* Button */
     --json-tree-js-button-background-color: #2d333b;
