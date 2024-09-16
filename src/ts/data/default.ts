@@ -50,7 +50,11 @@ export namespace Default {
     }
 
     export function getNumberMinimum( value: any, defaultValue: number, minimum: number ) : number {
-        return Is.definedNumber( value ) ? ( value >= minimum ? value: minimum ) : defaultValue;
+        return Is.definedNumber( value ) ? ( value >= minimum ? value : minimum ) : defaultValue;
+    }
+
+    export function getNumberMaximum( value: any, defaultValue: number, maximum: number ) : number {
+        return Is.definedNumber( value ) ? ( value > maximum ? maximum : value ) : defaultValue;
     }
 
     export function getStringOrArray( value: any, defaultValue: string[] ) : string[] {

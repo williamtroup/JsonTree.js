@@ -181,6 +181,10 @@ var Default2;
         return Is.definedNumber(e) ? e >= n ? e : n : t;
     }
     Default.getNumberMinimum = getNumberMinimum;
+    function getNumberMaximum(e, t, n) {
+        return Is.definedNumber(e) ? e > n ? n : e : t;
+    }
+    Default.getNumberMaximum = getNumberMaximum;
     function getStringOrArray(e, t) {
         let n = t;
         if (Is.definedString(e)) {
@@ -537,7 +541,7 @@ var Binding;
         function l(e) {
             e.paging = Default2.getObject(e.paging, {});
             e.paging.enabled = Default2.getBoolean(e.paging.enabled, false);
-            e.paging.columnsPerPage = Default2.getNumber(e.paging.columnsPerPage, 1);
+            e.paging.columnsPerPage = Default2.getNumberMaximum(e.paging.columnsPerPage, 1, 6);
             e.paging.copyOnlyCurrentPage = Default2.getBoolean(e.paging.copyOnlyCurrentPage, false);
             e.paging.startPage = Default2.getNumberMinimum(e.paging.startPage, 1, 1);
             return e;

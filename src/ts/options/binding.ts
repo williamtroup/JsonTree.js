@@ -119,7 +119,7 @@ export namespace Binding {
         function getPaging( options: BindingOptions ) : BindingOptions {
             options.paging = Default.getObject( options.paging, {} as BindingOptionsPaging );
             options.paging!.enabled = Default.getBoolean( options.paging!.enabled, false );
-            options.paging!.columnsPerPage = Default.getNumber( options.paging!.columnsPerPage, 1 );
+            options.paging!.columnsPerPage = Default.getNumberMaximum( options.paging!.columnsPerPage, 1, 6 );
             options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
             options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
 
