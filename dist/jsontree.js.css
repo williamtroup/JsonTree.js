@@ -58,6 +58,7 @@
   --json-tree-js-side-menu-width: 320px;
   --json-tree-js-side-menu-right-border-width: calc( var(--json-tree-js-border-size) * 12 );
   --json-tree-js-container-background-color: #22272e;
+  --json-tree-js-container-column-background-color: #2b323b;
   --json-tree-js-container-border-color: #454c56;
   --json-tree-js-container-object-left-border-color: #677180;
   --json-tree-js-button-background-color: #2d333b;
@@ -497,17 +498,22 @@ div.json-tree-js div.contents {
   margin: 0 !important;
   width: 100%;
 }
-div.json-tree-js div.contents div.contents-column {
+div.json-tree-js div.contents div.contents-column,
+div.json-tree-js div.contents div.contents-column-multiple {
   flex-basis: 100%;
   overflow: auto;
-  border-right: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
   padding-right: var(--json-tree-js-spacing);
   margin-right: var(--json-tree-js-spacing);
 }
-div.json-tree-js div.contents div.contents-column:last-child {
+div.json-tree-js div.contents div.contents-column:last-child,
+div.json-tree-js div.contents div.contents-column-multiple:last-child {
   padding-right: 0;
-  border-right: none;
   margin-right: 0;
+}
+div.json-tree-js div.contents div.contents-column-multiple {
+  background-color: var(--json-tree-js-container-column-background-color);
+  padding: var(--json-tree-js-spacing);
+  border-radius: var(--json-tree-js-border-radius);
 }
 div.json-tree-js div.contents span.array {
   color: var(--json-tree-js-color-array);

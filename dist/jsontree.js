@@ -939,34 +939,34 @@ var Arr;
                 const r = t + e._currentView.dataArrayCurrentIndex;
                 const i = n[r];
                 if (Is.defined(i)) {
-                    s(i, l, e, r, o[t]);
+                    s(i, l, e, r, o[t], e.paging.columnsPerPage);
                 }
             }
         } else {
-            s(n, l, e, null, o[0]);
+            s(n, l, e, null, o[0], 1);
         }
         P(e);
         e._currentView.initialized = true;
     }
-    function s(t, n, o, l, r) {
-        const i = DomElement.create(n, "div", "contents-column");
-        o._currentView.contentColumns.push(i);
+    function s(t, n, o, l, r, i) {
+        const a = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        o._currentView.contentColumns.push(a);
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            B(i, o, t);
+            B(a, o, t);
         } else if (Is.definedObject(t)) {
-            E(i, o, t, l);
+            E(a, o, t, l);
         }
-        if (i.innerHTML === "" || i.children.length >= 2 && (!o.showOpenedObjectArrayBorders && i.children[1].children.length === 0 || i.children[1].children.length === 1)) {
-            i.innerHTML = "";
-            DomElement.createWithHTML(i, "span", "no-json-text", e.text.noJsonToViewText);
+        if (a.innerHTML === "" || a.children.length >= 2 && (!o.showOpenedObjectArrayBorders && a.children[1].children.length === 0 || a.children[1].children.length === 1)) {
+            a.innerHTML = "";
+            DomElement.createWithHTML(a, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
             if (Is.defined(r)) {
-                i.scrollTop = r;
+                a.scrollTop = r;
             }
             o._currentView.titleBarButtons.style.display = "block";
         }
-        u(o, t, i, l);
+        u(o, t, a, l);
     }
     function u(t, n, o, l) {
         if (t._currentView.isBulkEditingEnabled) {

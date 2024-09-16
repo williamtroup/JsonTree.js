@@ -165,12 +165,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const actualData: any = data[ actualDataIndex ];
 
                 if ( Is.defined( actualData ) ) {
-                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ] );
+                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage! );
                 }
             }
 
         } else {
-            renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ] );
+            renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1 );
         }
 
         renderControlDragAndDrop( bindingOptions );
@@ -178,8 +178,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.initialized = true;
     }
 
-    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number ) : void {
-        const contentsPanel: HTMLElement = DomElement.create( contents, "div", "contents-column" );
+    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number ) : void {
+        const contentsPanel: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
 
         bindingOptions._currentView.contentColumns.push( contentsPanel );
 

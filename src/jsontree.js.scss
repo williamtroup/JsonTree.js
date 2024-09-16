@@ -76,6 +76,7 @@
 
     // Containers
     --json-tree-js-container-background-color: #22272e;
+    --json-tree-js-container-column-background-color: #2b323b;
     --json-tree-js-container-border-color: #454c56;
     --json-tree-js-container-object-left-border-color: #677180;
 
@@ -454,18 +455,23 @@ div.json-tree-js {
         margin: 0 !important;
         width: 100%;
 
-        div.contents-column {
+        div.contents-column,
+        div.contents-column-multiple {
             flex-basis: 100%;
             overflow: auto;
-            border-right: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
             padding-right: var(--json-tree-js-spacing);
             margin-right: var(--json-tree-js-spacing);
 
             &:last-child {
                 padding-right: 0;
-                border-right: none;
                 margin-right: 0;
             }
+        }
+
+        div.contents-column-multiple {
+            background-color: var(--json-tree-js-container-column-background-color);
+            padding: var(--json-tree-js-spacing);
+            border-radius: var(--json-tree-js-border-radius);
         }
 
         @include type-span-colors;
