@@ -867,6 +867,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( objectTypeValue, "span", "split", _configuration.text!.propertyColonCharacter! );
 
             makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
+
+            if ( !isArrayItem ) {
+                addFooterSizeOfStatus( bindingOptions, name, nameElement );
+            }
         }
 
         if ( value === null ) {

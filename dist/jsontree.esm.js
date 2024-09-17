@@ -1538,6 +1538,9 @@ var Size;
         if (!w) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             k(o, t, l, b, a);
+            if (!a) {
+                C(o, l, b);
+            }
         }
         if (r === null) {
             if (!o.ignore.nullValues) {
