@@ -77,7 +77,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             columnsPerPage: columnSize,
             copyOnlyCurrentPage: false,
             startPage: 1,
-            synchronizedScrolling: false,
+            synchronizeScrolling: false,
+            allowColumnReordering: true,
         }
     };
 }

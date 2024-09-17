@@ -173,6 +173,8 @@ export type BindingOptionsCurrentView = {
 	footerSizeText: HTMLElement;
 	footerPageText: HTMLElement;
 	footerStatusTextTimerId: number;
+	columnDragging: boolean;
+	columnDraggingDataIndex: number;
 };
 
 export type BindingOptionsPaging = {
@@ -180,7 +182,8 @@ export type BindingOptionsPaging = {
 	columnsPerPage?: number;
 	copyOnlyCurrentPage?: boolean;
 	startPage?: number;
-	synchronizedScrolling?: boolean;
+	synchronizeScrolling?: boolean;
+	allowColumnReordering?: boolean;
 }
 
 export type BindingOptionsParse = {

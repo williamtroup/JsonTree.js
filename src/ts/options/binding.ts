@@ -61,6 +61,8 @@ export namespace Binding {
             bindingOptions._currentView.footerSizeText = null!;
             bindingOptions._currentView.footerPageText = null!;
             bindingOptions._currentView.footerStatusTextTimerId = 0;
+            bindingOptions._currentView.columnDragging = false;
+            bindingOptions._currentView.columnDraggingDataIndex = 0;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
@@ -132,7 +134,8 @@ export namespace Binding {
             options.paging!.columnsPerPage = Default.getNumberMaximum( options.paging!.columnsPerPage, 1, 6 );
             options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
             options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
-            options.paging!.synchronizedScrolling = Default.getBoolean( options.paging!.synchronizedScrolling, false );
+            options.paging!.synchronizeScrolling = Default.getBoolean( options.paging!.synchronizeScrolling, false );
+            options.paging!.allowColumnReordering = Default.getBoolean( options.paging!.allowColumnReordering, true );
 
             return options;
         }

@@ -184,9 +184,17 @@ type JsonTreeData = Record<string, BindingOptions>;
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
         contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
 
+        if ( bindingOptions.paging!.allowColumnReordering && bindingOptions.allowEditing !== false ) {
+            contentsColumn.setAttribute( "draggable", "true" );
+            contentsColumn.ondragstart = () => onContentsColumnDragStart( bindingOptions, dataIndex );
+            contentsColumn.ondragend = () => onContentsColumnDragEnd( bindingOptions );
+            contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
+            contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
+        }
+
         bindingOptions._currentView.contentColumns.push( contentsColumn );
 
-        if ( bindingOptions.paging!.synchronizedScrolling ) {
+        if ( bindingOptions.paging!.synchronizeScrolling ) {
             contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
         }
 
@@ -288,6 +296,29 @@ type JsonTreeData = Record<string, BindingOptions>;
         for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
             bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
             bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+        }
+    }
+
+    function onContentsColumnDragStart( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        bindingOptions._currentView.columnDragging = true;
+        bindingOptions._currentView.columnDraggingDataIndex = dataIndex;
+    }
+
+    function onContentsColumnDragEnd( bindingOptions: BindingOptions ) : void {
+        bindingOptions._currentView.columnDragging = false;
+    }
+
+    function onContentsColumnDrop( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        bindingOptions._currentView.columnDragging = false;
+
+        if ( dataIndex !== bindingOptions._currentView.columnDraggingDataIndex ) {
+            const dataArray1: any = bindingOptions.data[ dataIndex ];
+            const dataArray2: any = bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex ];
+
+            bindingOptions.data[ dataIndex ] = dataArray2;
+            bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex  ] = dataArray1;
+
+            renderControlContainer( bindingOptions );
         }
     }
 
@@ -1871,13 +1902,19 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( dragAndDropText, "p", "notice-text-description", _configuration.text!.dragAndDropDescriptionText! );
 
             bindingOptions._currentView.dragAndDropBackground = dragAndDropBackground;
-            bindingOptions._currentView.element.ondragover = () => dragAndDropBackground.style.display = "block";
-            bindingOptions._currentView.element.ondragenter = () => dragAndDropBackground.style.display = "block";
+            bindingOptions._currentView.element.ondragover = () => onDragStart( bindingOptions, dragAndDropBackground );
+            bindingOptions._currentView.element.ondragenter = () => onDragStart( bindingOptions, dragAndDropBackground );
 
             dragAndDropBackground.ondragover = DomElement.cancelBubble;
             dragAndDropBackground.ondragenter = DomElement.cancelBubble;
             dragAndDropBackground.ondragleave = () => dragAndDropBackground.style.display = "none";
             dragAndDropBackground.ondrop = ( e: DragEvent ) => onDropFiles( e, bindingOptions );
+        }
+    }
+
+    function onDragStart( bindingOptions: BindingOptions, dragAndDropBackground: HTMLElement ) : void {
+        if ( !bindingOptions._currentView.columnDragging ) {
+            dragAndDropBackground.style.display = "block"
         }
     }
 
