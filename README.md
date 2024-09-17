@@ -27,16 +27,17 @@ JsonTree.js
 - 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets and Maps).
 - 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
-- 📂 Close/Open all nodes.
+- 📂 Close and open all objects, arrays, sets, and maps.
 - 🚀 Clickable values via custom triggers!
 - ⭐ Custom value rendering.
-- 📃 Array paging, with configuration column count support (show array objects on different pages)!
+- 📃 Array paging, with configurable column count support (show array objects on different pages)!
 - 💧 Drag & Drop JSON files support!
 - 📋 Copy to clipboard (all JSON, or just the current page).
 - ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
 - 🔠 Keyboard navigation keys support!
 - 🎥 Toggle between regular and full-screen views.
 - ❓ Assign tooltips to any JSON value!
+- 💁 Show value/key memory sizes, page numbers, and status updates in the footer!
 <br />
 <br />
 
@@ -85,7 +86,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `url` URLs
 - `image` Images
 - `email` Emails
-- `html` HTML Element
+- `html` HTML
 - `any` Unknown
 <br>
 <br>
