@@ -1150,15 +1150,57 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedHtmlElement( value ) ) {
             if ( !bindingOptions.ignore!.htmlValues ) {
-                valueClass = bindingOptions.showValueColors ? `${DataType.html} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.tagName.toLowerCase() );
-                type = DataType.html;
+                if ( bindingOptions.showHtmlValuesAsObjects ) {
+                    const htmlObject: any = Default.getHtmlElementAsObject( value );
+                    const propertyNames: string[] = getObjectPropertyNames( htmlObject, bindingOptions );
+                    const propertyCount: number = propertyNames.length;
+    
+                    if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
+                        ignored = true;
+                    } else {
+    
+                        const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.html : Char.empty );
+                        const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
+                        let openingBrace: HTMLSpanElement = null!;
+    
+                        addObjectContentsBorder( objectTypeContents, bindingOptions );
+    
+                        if ( isLastItem ) {
+                            DomElement.addClass( objectTypeContents, "last-item" );
+                        }
+    
+                        valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.htmlText! );
+                        type = DataType.html;
+    
+                        if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
+                            DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
+                        }
+    
+                        if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                            openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement
+                        }
+        
+                        let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
+    
+                        const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                        
+                        if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                            openingBrace.parentNode!.removeChild( openingBrace );
+                        }
+                    }
+                    
 
-                if ( Is.definedFunction( bindingOptions.events!.onHtmlRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onHtmlRender!, valueElement );
+                } else {
+                    valueClass = bindingOptions.showValueColors ? `${DataType.html} value` : "value";
+                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.tagName.toLowerCase() );
+                    type = DataType.html;
+    
+                    if ( Is.definedFunction( bindingOptions.events!.onHtmlRender ) ) {
+                        Trigger.customEvent( bindingOptions.events!.onHtmlRender!, valueElement );
+                    }
+                    
+                    createComma( bindingOptions, objectTypeValue, isLastItem );
                 }
-                
-                createComma( bindingOptions, objectTypeValue, isLastItem );
 
             } else {
                 ignored = true;

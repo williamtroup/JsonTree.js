@@ -275,6 +275,26 @@ var Default2;
         };
     }
     Default.getObjectFromUrl = getObjectFromUrl;
+    function getHtmlElementAsObject(e) {
+        const t = {};
+        const n = e.attributes.length;
+        const o = e.children.length;
+        t["children"] = [];
+        for (let o = 0; o < n; o++) {
+            const n = e.attributes[o];
+            if (Is.definedString(n.nodeName)) {
+                t[n.nodeName] = n.nodeValue;
+            }
+        }
+        for (let n = 0; n < o; n++) {
+            t["children"].push(e.children[n]);
+        }
+        if (t["children"].length === 0) {
+            delete t["children"];
+        }
+        return t;
+    }
+    Default.getHtmlElementAsObject = getHtmlElementAsObject;
 })(Default2 || (Default2 = {}));
 
 var DomElement;
@@ -526,6 +546,7 @@ var Binding;
             t.showEmailOpenButtons = Default2.getBoolean(t.showEmailOpenButtons, true);
             t.minimumArrayIndexPadding = Default2.getNumber(t.minimumArrayIndexPadding, 0);
             t.arrayIndexPaddingCharacter = Default2.getString(t.arrayIndexPaddingCharacter, "0");
+            t.showHtmlValuesAsObjects = Default2.getBoolean(t.showHtmlValuesAsObjects, false);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -688,6 +709,7 @@ var Config;
             e.text.arrayText = Default2.getAnyString(e.text.arrayText, "array");
             e.text.mapText = Default2.getAnyString(e.text.mapText, "map");
             e.text.setText = Default2.getAnyString(e.text.setText, "set");
+            e.text.htmlText = Default2.getAnyString(e.text.htmlText, "html");
             e.text.closeAllButtonText = Default2.getAnyString(e.text.closeAllButtonText, "Close All");
             e.text.openAllButtonText = Default2.getAnyString(e.text.openAllButtonText, "Open All");
             e.text.copyAllButtonText = Default2.getAnyString(e.text.copyAllButtonText, "Copy All");
@@ -958,7 +980,7 @@ var Arr;
         if (Is.definedArray(t) || Is.definedSet(t)) {
             B(a, o, t);
         } else if (Is.definedObject(t)) {
-            E(a, o, t, l);
+            S(a, o, t, l);
         }
         if (a.innerHTML === "" || a.children.length >= 2 && (!o.showOpenedObjectArrayBorders && a.children[1].children.length === 0 || a.children[1].children.length === 1)) {
             a.innerHTML = "";
@@ -1201,7 +1223,7 @@ var Arr;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        t.onchange = () => $(t.files, e);
+        t.onchange = () => W(t.files, e);
         t.click();
     }
     function D(e) {
@@ -1238,7 +1260,7 @@ var Arr;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            o.push(S(u, e, n, !d[`${e}Values`]));
+            o.push(E(u, e, n, !d[`${e}Values`]));
         }));
     }
     function V(e, t, n) {
@@ -1250,7 +1272,7 @@ var Arr;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function S(e, t, n, o) {
+    function E(e, t, n, o) {
         const l = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
@@ -1260,11 +1282,11 @@ var Arr;
         };
         return l;
     }
-    function E(t, n, o, l) {
+    function S(t, n, o, l) {
         const r = Is.definedMap(o);
         const i = r ? "map" : "object";
         const a = r ? Default2.getObjectFromMap(o) : o;
-        const s = R(a, n);
+        const s = L(a, n);
         const u = s.length;
         if (u !== 0 || !n.ignore.emptyObjects) {
             const c = DomElement.create(t, "div", "object-type-title");
@@ -1287,7 +1309,7 @@ var Arr;
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
             A(f, null, d, n, a, s, m, false, true, "", i);
-            j(n, g, o, i, false);
+            F(n, g, o, i, false);
         }
     }
     function B(t, n, o) {
@@ -1307,7 +1329,7 @@ var Arr;
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
         I(u, null, s, n, i, d, false, true, "", r);
-        j(n, c, o, r, false);
+        F(n, c, o, r, false);
     }
     function A(t, n, o, l, r, i, a, s, u, c, d) {
         let f = true;
@@ -1329,7 +1351,7 @@ var Arr;
                 f = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
-                    L(l, o, "}", s, u);
+                    R(l, o, "}", s, u);
                 }
             }
         }
@@ -1358,7 +1380,7 @@ var Arr;
             d = false;
         } else {
             if (l.showOpeningClosingCurlyBraces) {
-                L(l, o, "]", a, s);
+                R(l, o, "]", a, s);
             }
         }
         N(l, t, n, o, i, g, c);
@@ -1456,7 +1478,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "boolean";
                 T = o.allowEditing.booleanValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, g);
                 }
@@ -1471,7 +1493,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, e);
                 p = "float";
                 T = o.allowEditing.floatValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, g);
                 }
@@ -1485,7 +1507,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "number";
                 T = o.allowEditing.numberValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, g);
                 }
@@ -1499,7 +1521,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "bigint";
                 T = o.allowEditing.bigIntValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, g);
                 }
@@ -1513,7 +1535,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "guid";
                 T = o.allowEditing.guidValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, g);
                 }
@@ -1530,7 +1552,7 @@ var Arr;
                 if (o.showValueColors) {
                     g.style.color = r;
                 }
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, g);
                 }
@@ -1548,7 +1570,7 @@ var Arr;
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(r);
                 }
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, g);
                 }
@@ -1566,7 +1588,7 @@ var Arr;
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(`mailto:${r}`);
                 }
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, g);
                 }
@@ -1602,7 +1624,7 @@ var Arr;
                     g = DomElement.createWithHTML(c, "span", f, n);
                     p = "string";
                     if (!y) {
-                        F(o, t, l, r, g, a, T);
+                        j(o, t, l, r, g, a, T);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, g);
                         }
@@ -1618,7 +1640,7 @@ var Arr;
                 g = DomElement.createWithHTML(c, "span", f, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 p = "date";
                 T = o.allowEditing.dateValues;
-                F(o, t, l, r, g, a, T);
+                j(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, g);
                 }
@@ -1666,13 +1688,43 @@ var Arr;
             }
         } else if (Is.definedHtmlElement(r)) {
             if (!o.ignore.htmlValues) {
-                f = o.showValueColors ? `${"html"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r.tagName.toLowerCase());
-                p = "html";
-                if (Is.definedFunction(o.events.onHtmlRender)) {
-                    Trigger.customEvent(o.events.onHtmlRender, g);
+                if (o.showHtmlValuesAsObjects) {
+                    const t = Default2.getHtmlElementAsObject(r);
+                    const n = L(t, o);
+                    const l = n.length;
+                    if (l === 0 && o.ignore.emptyObjects) {
+                        m = true;
+                    } else {
+                        const r = DomElement.create(c, "span", o.showValueColors ? "html" : "");
+                        const a = DomElement.create(c, "div", "object-type-contents");
+                        let u = null;
+                        _(a, o);
+                        if (i) {
+                            DomElement.addClass(a, "last-item");
+                        }
+                        g = DomElement.createWithHTML(r, "span", "main-title", e.text.htmlText);
+                        p = "html";
+                        if (o.showObjectSizes && (l > 0 || !o.ignore.emptyObjects)) {
+                            DomElement.createWithHTML(r, "span", "size", `{${l}}`);
+                        }
+                        if (o.showOpeningClosingCurlyBraces) {
+                            u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
+                        }
+                        let f = k(o, r, i);
+                        const m = A(d, f, a, o, t, n, u, true, i, s, p);
+                        if (!m && Is.defined(u)) {
+                            u.parentNode.removeChild(u);
+                        }
+                    }
+                } else {
+                    f = o.showValueColors ? `${"html"} value` : "value";
+                    g = DomElement.createWithHTML(c, "span", f, r.tagName.toLowerCase());
+                    p = "html";
+                    if (Is.definedFunction(o.events.onHtmlRender)) {
+                        Trigger.customEvent(o.events.onHtmlRender, g);
+                    }
+                    k(o, c, i);
                 }
-                k(o, c, i);
             } else {
                 m = true;
             }
@@ -1730,7 +1782,7 @@ var Arr;
         } else if (Is.definedMap(r)) {
             if (!o.ignore.mapValues) {
                 const t = Default2.getObjectFromMap(r);
-                const n = R(t, o);
+                const n = L(t, o);
                 const l = n.length;
                 if (l === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -1761,7 +1813,7 @@ var Arr;
             }
         } else if (Is.definedObject(r)) {
             if (!o.ignore.objectValues) {
-                const t = R(r, o);
+                const t = L(r, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -1817,7 +1869,7 @@ var Arr;
                 }
                 if (w) {
                     O(o, s, b, x, g);
-                    j(o, g, r, p, T);
+                    F(o, g, r, p, T);
                 }
             }
         }
@@ -1908,7 +1960,7 @@ var Arr;
             };
         }
     }
-    function F(e, t, n, o, l, r, a) {
+    function j(e, t, n, o, l, r, a) {
         if (a) {
             l.ondblclick = a => {
                 DomElement.cancelBubble(a);
@@ -1968,7 +2020,7 @@ var Arr;
             };
         }
     }
-    function j(e, t, n, o, l) {
+    function F(e, t, n, o, l) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (l) {
@@ -2054,7 +2106,7 @@ var Arr;
         }
         return o;
     }
-    function R(e, t) {
+    function L(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -2073,7 +2125,7 @@ var Arr;
         }
         return n;
     }
-    function L(e, t, n, o, l) {
+    function R(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
@@ -2101,10 +2153,10 @@ var Arr;
         DomElement.cancelBubble(e);
         t._currentView.dragAndDropBackground.style.display = "none";
         if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-            $(e.dataTransfer.files, t);
+            W(e.dataTransfer.files, t);
         }
     }
-    function $(e, t) {
+    function W(e, t) {
         const n = e.length;
         let o = 0;
         let l = [];
@@ -2123,11 +2175,11 @@ var Arr;
             const n = e[t];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                W(n, r);
+                $(n, r);
             }
         }
     }
-    function W(t, n) {
+    function $(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);

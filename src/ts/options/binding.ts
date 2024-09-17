@@ -102,6 +102,7 @@ export namespace Binding {
             options.showEmailOpenButtons = Default.getBoolean( options.showEmailOpenButtons, true );
             options.minimumArrayIndexPadding = Default.getNumber( options.minimumArrayIndexPadding, 0 );
             options.arrayIndexPaddingCharacter = Default.getString( options.arrayIndexPaddingCharacter, "0" );
+            options.showHtmlValuesAsObjects = Default.getBoolean( options.showHtmlValuesAsObjects, false );
 
             options = getPaging( options );
             options = getTitle( options );

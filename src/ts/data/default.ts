@@ -166,4 +166,30 @@ export namespace Default {
             }
         }
     }
+
+    export function getHtmlElementAsObject( value: HTMLElement ) : any {
+        const result: any = {};
+        const attributesLength: number = value.attributes.length;
+        const childrenLength: number = value.children.length;
+
+        result[ "children" ] = [];
+
+        for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
+            const attribute: Attr = value.attributes[ attributeIndex ];
+
+            if ( Is.definedString( attribute.nodeName ) ) {
+                result[ attribute.nodeName ] = attribute.nodeValue;
+            }
+        }
+
+        for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
+            result[ "children" ].push( value.children[ childIndex ] );
+        }
+
+        if ( result[ "children" ].length === 0 ) {
+            delete result[ "children" ];
+        }
+
+        return result;
+    }
 }

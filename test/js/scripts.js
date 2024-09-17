@@ -29,6 +29,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         maximumStringLength: 0,
         minimumArrayIndexPadding: 0,
         arrayIndexPaddingCharacter: "0",
+        showHtmlValuesAsObjects: false,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 1 > Array Index 1",
@@ -87,8 +88,15 @@ function getData() {
     var image = new Image( 100, 100 );
     image.src = "images/image.png";
 
-    var htmlElement = document.createElement( "div" );
-    htmlElement.innerHTML = "This is an HTML element.";
+    var htmlElement1 = document.createElement( "div" );
+    htmlElement1.innerHTML = "This is an HTML element.";
+    htmlElement1.id = "test-id-1";
+
+    var htmlElement2 = document.createElement( "div" );
+    htmlElement2.id = "test-id-2";
+    htmlElement2.innerHTML = "This is a child HTML element.";
+
+    htmlElement1.appendChild( htmlElement2 );
 
     return [
         {
@@ -117,7 +125,7 @@ function getData() {
             value21: "william@troup.uk",
             value22: image,
             value23: testFunctionName,
-            value24: htmlElement,
+            value24: htmlElement1,
             value5: [
                 true,
                 "This is another string",

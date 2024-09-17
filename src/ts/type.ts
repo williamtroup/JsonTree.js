@@ -40,6 +40,7 @@ export type ConfigurationText = {
 	arrayText?: string;
 	mapText?: string;
 	setText?: string;
+	htmlText?: string;
 	closeAllButtonText?: string;
 	openAllButtonText?: string;
 	copyAllButtonText?: string;
@@ -125,6 +126,7 @@ export type BindingOptions = {
 	showEmailOpenButtons?: boolean;
 	minimumArrayIndexPadding?: number;
 	arrayIndexPaddingCharacter?: string;
+	showHtmlValuesAsObjects?: boolean;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
