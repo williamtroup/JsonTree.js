@@ -664,7 +664,7 @@ var Binding;
             e.sideMenu.enabled = Default2.getBoolean(e.sideMenu.enabled, true);
             e.sideMenu.showImportButton = Default2.getBoolean(e.sideMenu.showImportButton, true);
             e.sideMenu.showExportButton = Default2.getBoolean(e.sideMenu.showExportButton, true);
-            e.sideMenu.titleText = Default2.getAnyString(e.sideMenu.titleText, "JsonTree.js");
+            e.sideMenu.titleText = Default2.getAnyString(e.sideMenu.titleText, e.title.text);
             e.sideMenu.showDataTypeCounts = Default2.getBoolean(e.sideMenu.showDataTypeCounts, true);
             return e;
         }
