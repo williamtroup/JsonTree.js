@@ -140,6 +140,10 @@ div.json-tree-js {
     margin: 0 !important;
     max-width: 500px;
 
+    *.draggable-item {
+        overflow: hidden !important;
+    }
+
     button {
         font-family: var(--json-tree-js-default-font);
     }

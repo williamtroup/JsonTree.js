@@ -189,8 +189,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
             contentsColumn.setAttribute( "draggable", "true" );
-            contentsColumn.ondragstart = () => onContentsColumnDragStart( bindingOptions, dataIndex );
-            contentsColumn.ondragend = () => onContentsColumnDragEnd( bindingOptions );
+            contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
+            contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );
             contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
             contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
         }
@@ -302,13 +302,17 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onContentsColumnDragStart( bindingOptions: BindingOptions, dataIndex: number ) : void {
+    function onContentsColumnDragStart( column: HTMLElement, bindingOptions: BindingOptions, dataIndex: number ) : void {
         bindingOptions._currentView.columnDragging = true;
         bindingOptions._currentView.columnDraggingDataIndex = dataIndex;
+
+        column.classList.add( "draggable-item" );
     }
 
-    function onContentsColumnDragEnd( bindingOptions: BindingOptions ) : void {
+    function onContentsColumnDragEnd( column: HTMLElement, bindingOptions: BindingOptions ) : void {
         bindingOptions._currentView.columnDragging = false;
+
+        column.classList.remove( "draggable-item" );
     }
 
     function onContentsColumnDrop( bindingOptions: BindingOptions, dataIndex: number ) : void {
