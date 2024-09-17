@@ -175,6 +175,7 @@ export type BindingOptionsCurrentView = {
 	footerStatusTextTimerId: number;
 	columnDragging: boolean;
 	columnDraggingDataIndex: number;
+	dataTypeCounts: Record<string, number>;
 };
 
 export type BindingOptionsPaging = {
@@ -256,6 +257,7 @@ export type BindingOptionsSideMenu = {
 	showImportButton?: boolean;
 	showExportButton?: boolean;
 	titleText?: string;
+	showTypeCounts?: boolean;
 };
 
 export type BindingOptionsAutoClose = {

@@ -150,9 +150,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.contentPanelsIndex = 0;
         bindingOptions._currentView.sideMenuChanged = false;
         bindingOptions._currentView.contentColumns = [];
+        bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
 
         renderControlTitleBar( bindingOptions, data );
-        renderControlSideMenu( bindingOptions );
 
         const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
 
@@ -176,6 +176,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1, false );
         }
 
+        renderControlSideMenu( bindingOptions );
         renderControlFooterBar( bindingOptions );
         renderControlDragAndDrop( bindingOptions );
 
@@ -652,7 +653,16 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function createSideMenuIgnoreTypeCheckBox( ignoreTypesContent: HTMLElement, key: string, bindingOptions: BindingOptions, checked: boolean ) : HTMLInputElement {
-        const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, Str.capitalizeFirstLetter( key ), key, checked, bindingOptions.showValueColors ? key : Char.empty );
+        let checkBoxName: string = Str.capitalizeFirstLetter( key );
+        let checkBoxAdditionalText: string = Char.empty;
+        
+        if ( bindingOptions.sideMenu!.showTypeCounts ) {
+            if ( bindingOptions._currentView.dataTypeCounts.hasOwnProperty( key ) ) {
+                checkBoxAdditionalText = `(${bindingOptions._currentView.dataTypeCounts[ key ]})`;
+            }
+        }
+
+        const input: HTMLInputElement = DomElement.createCheckBox( ignoreTypesContent, checkBoxName, key, checked, bindingOptions.showValueColors ? key : Char.empty, checkBoxAdditionalText );
 
         input.onchange = () => {
             const ignoreTypes: any = bindingOptions.ignore;
@@ -1527,6 +1537,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             if ( Is.defined( valueElement ) ) {
                 addFooterSizeOfStatus( bindingOptions, value, valueElement );
+                updateDataTypeCount( bindingOptions, type );
 
                 if ( Is.defined( typeElement ) ) {
                     if ( type !== DataType.null && type !== DataType.undefined && type !== DataType.array && type !== DataType.object && type !== DataType.map && type !== DataType.set ) {
@@ -1542,6 +1553,16 @@ type JsonTreeData = Record<string, BindingOptions>;
                     addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
                 }
             }
+        }
+    }
+
+    function updateDataTypeCount( bindingOptions: BindingOptions, dataType: string ) : void {
+        if ( bindingOptions.sideMenu!.showTypeCounts ) {
+            if ( !bindingOptions._currentView.dataTypeCounts.hasOwnProperty( dataType ) ) {
+                bindingOptions._currentView.dataTypeCounts[ dataType ] = 0;
+            }
+    
+            bindingOptions._currentView.dataTypeCounts[ dataType ]++;
         }
     }
 

@@ -812,6 +812,10 @@ div.json-tree-js {
             span.text {
                 margin-left: calc( var(--json-tree-js-spacing) / 3 );
             }
+
+            span.additional-text {
+                margin-left: calc( var(--json-tree-js-spacing) / 2 );
+            }
     
             span.check-mark {
                 position: absolute;

@@ -63,6 +63,7 @@ export namespace Binding {
             bindingOptions._currentView.footerStatusTextTimerId = 0;
             bindingOptions._currentView.columnDragging = false;
             bindingOptions._currentView.columnDraggingDataIndex = 0;
+            bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
@@ -235,6 +236,7 @@ export namespace Binding {
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
             options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
+            options.sideMenu!.showTypeCounts = Default.getBoolean( options.sideMenu!.showTypeCounts, true );
 
             return options;
         }

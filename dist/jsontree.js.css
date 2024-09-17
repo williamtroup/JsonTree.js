@@ -853,6 +853,9 @@ div.json-tree-js div.checkbox label.checkbox input:disabled ~ span.check-mark {
 div.json-tree-js div.checkbox label.checkbox span.text {
   margin-left: calc(var(--json-tree-js-spacing) / 3);
 }
+div.json-tree-js div.checkbox label.checkbox span.additional-text {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+}
 div.json-tree-js div.checkbox label.checkbox span.check-mark {
   position: absolute;
   top: 1px;

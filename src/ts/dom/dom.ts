@@ -119,7 +119,7 @@ export namespace DomElement {
         selection.addRange( range );
     }
 
-    export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean, spanClass: string ) : HTMLInputElement {
+    export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean, spanClass: string, additionalText: string ) : HTMLInputElement {
         const lineContainer: HTMLElement = create( container, "div", "checkbox" );
         const label: HTMLElement = create( lineContainer, "label", "checkbox" );
         const input: HTMLInputElement = create( label, "input" ) as HTMLInputElement;
@@ -130,6 +130,10 @@ export namespace DomElement {
 
         create( label, "span", "check-mark" );
         createWithHTML( label, "span", `text ${spanClass}`, labelText );
+
+        if ( Is.definedString( additionalText ) ) {
+            createWithHTML( label, "span", `additional-text`, additionalText );
+        }
         
         return input;
     }
