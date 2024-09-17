@@ -1541,7 +1541,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             if ( Is.defined( valueElement ) ) {
                 addFooterSizeOfStatus( bindingOptions, value, valueElement );
-                updateDataTypeCount( bindingOptions, type );
+
+                if ( !isForEmptyProperties ) {
+                    updateDataTypeCount( bindingOptions, type );
+                }
 
                 if ( Is.defined( typeElement ) ) {
                     if ( type !== DataType.null && type !== DataType.undefined && type !== DataType.array && type !== DataType.object && type !== DataType.map && type !== DataType.set ) {

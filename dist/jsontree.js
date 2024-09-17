@@ -2048,7 +2048,9 @@ var Size;
         } else {
             if (Is.defined(f)) {
                 M(o, l, f);
-                P(o, p);
+                if (!w) {
+                    P(o, p);
+                }
                 if (Is.defined(b)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
                         b.innerHTML = `(${p})`;
