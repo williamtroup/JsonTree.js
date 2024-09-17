@@ -93,6 +93,7 @@ export type ConfigurationText = {
 	copiedText?: string;
 	exportedText?: string;
 	importedText?: string;
+	ignoreDataTypesUpdated?: string;
 };
 
 export type BindingOptions = {

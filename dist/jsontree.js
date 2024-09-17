@@ -781,6 +781,7 @@ var Config;
             e.text.copiedText = Default2.getAnyString(e.text.copiedText, "JSON copied.");
             e.text.exportedText = Default2.getAnyString(e.text.exportedText, "JSON exported.");
             e.text.importedText = Default2.getAnyString(e.text.importedText, "{0} JSON files imported.");
+            e.text.ignoreDataTypesUpdated = Default2.getAnyString(e.text.ignoreDataTypesUpdated, "Ignore data types updated.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -1359,13 +1360,16 @@ var Size;
             ToolTip.hide(e);
         }
     }
-    function E(e) {
-        if (e._currentView.sideMenu.classList.contains("side-menu-open")) {
-            e._currentView.sideMenu.classList.remove("side-menu-open");
-            e._currentView.disabledBackground.style.display = "none";
-            ToolTip.hide(e);
-            if (e._currentView.sideMenuChanged) {
-                i(e);
+    function E(t) {
+        if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
+            t._currentView.sideMenu.classList.remove("side-menu-open");
+            t._currentView.disabledBackground.style.display = "none";
+            ToolTip.hide(t);
+            if (t._currentView.sideMenuChanged) {
+                setTimeout((() => {
+                    i(t);
+                    j(t, e.text.ignoreDataTypesUpdated);
+                }), 500);
             }
         }
     }

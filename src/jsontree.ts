@@ -611,7 +611,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.hide( bindingOptions );
     
             if ( bindingOptions._currentView.sideMenuChanged ) {
-                renderControlContainer( bindingOptions );
+                setTimeout( () => {
+                    renderControlContainer( bindingOptions );
+                    setFooterStatusText( bindingOptions, _configuration.text!.ignoreDataTypesUpdated! );
+                }, 500 );
             }
         }
     }
