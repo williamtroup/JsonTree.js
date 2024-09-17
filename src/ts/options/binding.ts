@@ -103,6 +103,8 @@ export namespace Binding {
             options.minimumArrayIndexPadding = Default.getNumber( options.minimumArrayIndexPadding, 0 );
             options.arrayIndexPaddingCharacter = Default.getString( options.arrayIndexPaddingCharacter, "0" );
             options.showHtmlValuesAsObjects = Default.getBoolean( options.showHtmlValuesAsObjects, false );
+            options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
+            options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
 
             options = getPaging( options );
             options = getTitle( options );

@@ -127,6 +127,8 @@ export type BindingOptions = {
 	minimumArrayIndexPadding?: number;
 	arrayIndexPaddingCharacter?: string;
 	showHtmlValuesAsObjects?: boolean;
+	maximumUrlLength?: number;
+	maximumEmailLength?: number;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;

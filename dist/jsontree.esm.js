@@ -99,14 +99,14 @@ var Is;
         return n(e) && typeof e === "number" && e % 1 !== 0;
     }
     e.definedFloat = d;
-    function f(e) {
+    function g(e) {
         return n(e) && typeof e === "symbol";
     }
-    e.definedSymbol = f;
-    function g(e) {
+    e.definedSymbol = g;
+    function f(e) {
         return n(e) && e instanceof RegExp;
     }
-    e.definedRegExp = g;
+    e.definedRegExp = f;
     function m(e) {
         return n(e) && (e instanceof Map || e instanceof WeakMap);
     }
@@ -546,6 +546,8 @@ var Binding;
             t.minimumArrayIndexPadding = Default2.getNumber(t.minimumArrayIndexPadding, 0);
             t.arrayIndexPaddingCharacter = Default2.getString(t.arrayIndexPaddingCharacter, "0");
             t.showHtmlValuesAsObjects = Default2.getBoolean(t.showHtmlValuesAsObjects, false);
+            t.maximumUrlLength = Default2.getNumber(t.maximumUrlLength, 0);
+            t.maximumEmailLength = Default2.getNumber(t.maximumEmailLength, 0);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -554,7 +556,7 @@ var Binding;
             t = u(t, Is.definedObject(t.valueToolTips));
             t = c(t);
             t = d(t);
-            t = f(t);
+            t = g(t);
             return t;
         }
         t.get = o;
@@ -652,7 +654,7 @@ var Binding;
             e.autoClose.setSize = Default2.getNumber(e.autoClose.setSize, 0);
             return e;
         }
-        function f(e) {
+        function g(e) {
             e.events = Default2.getObject(e.events, {});
             e.events.onBeforeRender = Default2.getFunction(e.events.onBeforeRender, null);
             e.events.onRenderComplete = Default2.getFunction(e.events.onRenderComplete, null);
@@ -1046,7 +1048,7 @@ var Arr;
         if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => f(t);
+                o.ondblclick = () => g(t);
             }
             if (t.sideMenu.enabled && Is.definedObject(n)) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
@@ -1060,7 +1062,7 @@ var Arr;
             }
             if (t.title.showCopyButton) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
-                o.onclick = () => g(t, n);
+                o.onclick = () => f(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 if (t.paging.copyOnlyCurrentPage && t.paging.enabled) {
                     ToolTip.add(o, t, e.text.copyButtonText);
@@ -1103,13 +1105,13 @@ var Arr;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => f(t);
+                t._currentView.toggleFullScreenButton.onclick = () => g(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function f(t) {
+    function g(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 DomElement.removeClass(t._currentView.element, "full-screen");
@@ -1122,7 +1124,7 @@ var Arr;
             }
         }
     }
-    function g(e, t) {
+    function f(e, t) {
         let n = null;
         let o = x;
         if (Is.definedFunction(e.events.onCopyJsonReplacer)) {
@@ -1289,13 +1291,13 @@ var Arr;
         const r = Is.definedMap(o);
         const i = r ? "map" : "object";
         const a = r ? Default2.getObjectFromMap(o) : o;
-        const s = R(a, n);
+        const s = k(a, n);
         const u = s.length;
         if (u !== 0 || !n.ignore.emptyObjects) {
             const c = DomElement.create(t, "div", "object-type-title");
             const d = DomElement.create(t, "div", "object-type-contents last-item");
-            const f = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
-            const g = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", r ? e.text.mapText : e.text.objectText);
+            const g = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
+            const f = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", r ? e.text.mapText : e.text.objectText);
             let m = null;
             _(d, n);
             if (n.paging.enabled) {
@@ -1303,7 +1305,7 @@ var Arr;
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]${" "}:`;
                 }
-                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} data-array-index` : "data-array-index", e, g);
+                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} data-array-index` : "data-array-index", e, f);
             }
             if (n.showObjectSizes && u > 0) {
                 DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} size` : "size", `{${u}}`);
@@ -1311,8 +1313,8 @@ var Arr;
             if (n.showOpeningClosingCurlyBraces) {
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
-            A(f, null, d, n, a, s, m, false, true, "", i);
-            F(n, g, o, i, false);
+            A(g, null, d, n, a, s, m, false, true, "", i);
+            F(n, f, o, i, false);
         }
     }
     function B(t, n, o) {
@@ -1335,47 +1337,47 @@ var Arr;
         F(n, c, o, r, false);
     }
     function A(t, n, o, l, r, i, a, s, u, c, d) {
-        let f = true;
-        const g = i.length;
-        const m = c !== "" ? g : 0;
-        if (g === 0 && !l.ignore.emptyObjects) {
+        let g = true;
+        const f = i.length;
+        const m = c !== "" ? f : 0;
+        if (f === 0 && !l.ignore.emptyObjects) {
             C(r, o, l, "", e.text.noPropertiesText, true, false, "", d);
-            f = false;
+            g = false;
         } else {
-            for (let e = 0; e < g; e++) {
+            for (let e = 0; e < f; e++) {
                 const t = i[e];
                 const n = c === "" ? t : `${c}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    C(r, o, l, t, r[t], e === g - 1, false, n, d);
+                    C(r, o, l, t, r[t], e === f - 1, false, n, d);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
                 C(r, o, l, "", e.text.noPropertiesText, true, false, "", d);
-                f = false;
+                g = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
-                    L(l, o, "}", s, u);
+                    R(l, o, "}", s, u);
                 }
             }
         }
         N(l, t, n, o, a, m, d);
-        return f;
+        return g;
     }
     function I(t, n, o, l, r, i, a, s, u, c) {
         let d = true;
-        const f = r.length;
-        const g = u !== "" ? f : 0;
+        const g = r.length;
+        const f = u !== "" ? g : 0;
         if (!l.reverseArrayValues) {
-            for (let e = 0; e < f; e++) {
+            for (let e = 0; e < g; e++) {
                 const t = Arr.getIndex(e, l);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                C(r, o, l, Arr.getIndexName(l, t, f), r[e], e === f - 1, true, n, c);
+                C(r, o, l, Arr.getIndexName(l, t, g), r[e], e === g - 1, true, n, c);
             }
         } else {
-            for (let e = f; e--; ) {
+            for (let e = g; e--; ) {
                 const t = Arr.getIndex(e, l);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                C(r, o, l, Arr.getIndexName(l, t, f), r[e], e === 0, true, n, c);
+                C(r, o, l, Arr.getIndexName(l, t, g), r[e], e === 0, true, n, c);
             }
         }
         if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
@@ -1383,17 +1385,17 @@ var Arr;
             d = false;
         } else {
             if (l.showOpeningClosingCurlyBraces) {
-                L(l, o, "]", a, s);
+                R(l, o, "]", a, s);
             }
         }
-        N(l, t, n, o, i, g, c);
+        N(l, t, n, o, i, f, c);
         return d;
     }
     function C(t, n, o, l, r, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
         const d = o.showArrowToggles ? DomElement.create(c, "div", "no-arrow") : null;
-        let f = null;
         let g = null;
+        let f = null;
         let m = false;
         let p = null;
         let b = DomElement.create(c, "span", "title");
@@ -1426,25 +1428,25 @@ var Arr;
         }
         if (r === null) {
             if (!o.ignore.nullValues) {
-                f = o.showValueColors ? `${"null"} value undefined-or-null` : "value undefined-or-null";
-                g = DomElement.createWithHTML(c, "span", f, "null");
+                g = o.showValueColors ? `${"null"} value undefined-or-null` : "value undefined-or-null";
+                f = DomElement.createWithHTML(c, "span", g, "null");
                 p = "null";
                 if (Is.definedFunction(o.events.onNullRender)) {
-                    Trigger.customEvent(o.events.onNullRender, g);
+                    Trigger.customEvent(o.events.onNullRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (r === void 0) {
             if (!o.ignore.undefinedValues) {
-                f = o.showValueColors ? `${"undefined"} value undefined-or-null` : "value undefined-or-null";
-                g = DomElement.createWithHTML(c, "span", f, "undefined");
+                g = o.showValueColors ? `${"undefined"} value undefined-or-null` : "value undefined-or-null";
+                f = DomElement.createWithHTML(c, "span", g, "undefined");
                 p = "undefined";
                 if (Is.definedFunction(o.events.onUndefinedRender)) {
-                    Trigger.customEvent(o.events.onUndefinedRender, g);
+                    Trigger.customEvent(o.events.onUndefinedRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
@@ -1452,150 +1454,158 @@ var Arr;
             const t = Default2.getFunctionName(r, e);
             if (t.isLambda) {
                 if (!o.ignore.lambdaValues) {
-                    f = o.showValueColors ? `${"lambda"} value non-value` : "value non-value";
-                    g = DomElement.createWithHTML(c, "span", f, t.name);
+                    g = o.showValueColors ? `${"lambda"} value non-value` : "value non-value";
+                    f = DomElement.createWithHTML(c, "span", g, t.name);
                     p = "lambda";
                     if (Is.definedFunction(o.events.onLambdaRender)) {
-                        Trigger.customEvent(o.events.onLambdaRender, g);
+                        Trigger.customEvent(o.events.onLambdaRender, f);
                     }
-                    k(o, c, i);
+                    L(o, c, i);
                 } else {
                     m = true;
                 }
             } else {
                 if (!o.ignore.functionValues) {
-                    f = o.showValueColors ? `${"function"} value non-value` : "value non-value";
-                    g = DomElement.createWithHTML(c, "span", f, t.name);
+                    g = o.showValueColors ? `${"function"} value non-value` : "value non-value";
+                    f = DomElement.createWithHTML(c, "span", g, t.name);
                     p = "function";
                     if (Is.definedFunction(o.events.onFunctionRender)) {
-                        Trigger.customEvent(o.events.onFunctionRender, g);
+                        Trigger.customEvent(o.events.onFunctionRender, f);
                     }
-                    k(o, c, i);
+                    L(o, c, i);
                 } else {
                     m = true;
                 }
             }
         } else if (Is.definedBoolean(r)) {
             if (!o.ignore.booleanValues) {
-                f = o.showValueColors ? `${"boolean"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                g = o.showValueColors ? `${"boolean"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r);
                 p = "boolean";
                 T = o.allowEditing.booleanValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
-                    Trigger.customEvent(o.events.onBooleanRender, g);
+                    Trigger.customEvent(o.events.onBooleanRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedFloat(r)) {
             if (!o.ignore.floatValues) {
                 const e = Default2.getFixedFloatPlacesValue(r, o.maximumDecimalPlaces);
-                f = o.showValueColors ? `${"float"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, e);
+                g = o.showValueColors ? `${"float"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, e);
                 p = "float";
                 T = o.allowEditing.floatValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onFloatRender)) {
-                    Trigger.customEvent(o.events.onFloatRender, g);
+                    Trigger.customEvent(o.events.onFloatRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedNumber(r)) {
             if (!o.ignore.numberValues) {
-                f = o.showValueColors ? `${"number"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                g = o.showValueColors ? `${"number"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r);
                 p = "number";
                 T = o.allowEditing.numberValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onNumberRender)) {
-                    Trigger.customEvent(o.events.onNumberRender, g);
+                    Trigger.customEvent(o.events.onNumberRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedBigInt(r)) {
             if (!o.ignore.bigintValues) {
-                f = o.showValueColors ? `${"bigint"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                g = o.showValueColors ? `${"bigint"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r);
                 p = "bigint";
                 T = o.allowEditing.bigIntValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
-                    Trigger.customEvent(o.events.onBigIntRender, g);
+                    Trigger.customEvent(o.events.onBigIntRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedString(r) && Is.String.guid(r)) {
             if (!o.ignore.guidValues) {
-                f = o.showValueColors ? `${"guid"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                g = o.showValueColors ? `${"guid"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r);
                 p = "guid";
                 T = o.allowEditing.guidValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onGuidRender)) {
-                    Trigger.customEvent(o.events.onGuidRender, g);
+                    Trigger.customEvent(o.events.onGuidRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedString(r) && (Is.String.hexColor(r) || Is.String.rgbColor(r))) {
             if (!o.ignore.colorValues) {
-                f = o.showValueColors ? `${"color"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                g = o.showValueColors ? `${"color"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r);
                 p = "color";
                 T = o.allowEditing.colorValues;
                 if (o.showValueColors) {
-                    g.style.color = r;
+                    f.style.color = r;
                 }
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onColorRender)) {
-                    Trigger.customEvent(o.events.onColorRender, g);
+                    Trigger.customEvent(o.events.onColorRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedString(r) && Is.definedUrl(r)) {
             if (!o.ignore.urlValues) {
-                f = o.showValueColors ? `${"url"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                let n = r;
+                if (o.maximumUrlLength > 0 && n.length > o.maximumUrlLength) {
+                    n = n.substring(0, o.maximumUrlLength) + e.text.ellipsisText;
+                }
+                g = o.showValueColors ? `${"url"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, n);
                 p = "url";
                 T = o.allowEditing.urlValues;
                 if (o.showUrlOpenButtons) {
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(r);
                 }
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onUrlRender)) {
-                    Trigger.customEvent(o.events.onUrlRender, g);
+                    Trigger.customEvent(o.events.onUrlRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedString(r) && Is.definedEmail(r)) {
             if (!o.ignore.emailValues) {
-                f = o.showValueColors ? `${"email"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r);
+                let n = r;
+                if (o.maximumEmailLength > 0 && n.length > o.maximumEmailLength) {
+                    n = n.substring(0, o.maximumEmailLength) + e.text.ellipsisText;
+                }
+                g = o.showValueColors ? `${"email"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, n);
                 p = "email";
                 T = o.allowEditing.emailValues;
                 if (o.showEmailOpenButtons) {
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(`mailto:${r}`);
                 }
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onEmailRender)) {
-                    Trigger.customEvent(o.events.onEmailRender, g);
+                    Trigger.customEvent(o.events.onEmailRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
@@ -1617,21 +1627,21 @@ var Arr;
                             n = n.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
                         n = o.showStringQuotes ? `"${n}"` : n;
-                        f = o.showValueColors ? `${"string"} value` : "value";
+                        g = o.showValueColors ? `${"string"} value` : "value";
                         T = o.allowEditing.stringValues;
                     } else {
-                        f = "no-properties-text";
+                        g = "no-properties-text";
                         T = false;
                         w = false;
                     }
-                    g = DomElement.createWithHTML(c, "span", f, n);
+                    f = DomElement.createWithHTML(c, "span", g, n);
                     p = "string";
                     if (!y) {
-                        j(o, t, l, r, g, a, T);
+                        j(o, t, l, r, f, a, T);
                         if (Is.definedFunction(o.events.onStringRender)) {
-                            Trigger.customEvent(o.events.onStringRender, g);
+                            Trigger.customEvent(o.events.onStringRender, f);
                         }
-                        k(o, c, i);
+                        L(o, c, i);
                     }
                 }
             } else {
@@ -1639,53 +1649,53 @@ var Arr;
             }
         } else if (Is.definedDate(r)) {
             if (!o.ignore.dateValues) {
-                f = o.showValueColors ? `${"date"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
+                g = o.showValueColors ? `${"date"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 p = "date";
                 T = o.allowEditing.dateValues;
-                j(o, t, l, r, g, a, T);
+                j(o, t, l, r, f, a, T);
                 if (Is.definedFunction(o.events.onDateRender)) {
-                    Trigger.customEvent(o.events.onDateRender, g);
+                    Trigger.customEvent(o.events.onDateRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedSymbol(r)) {
             if (!o.ignore.symbolValues) {
-                f = o.showValueColors ? `${"symbol"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r.toString());
+                g = o.showValueColors ? `${"symbol"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r.toString());
                 p = "symbol";
                 if (Is.definedFunction(o.events.onSymbolRender)) {
-                    Trigger.customEvent(o.events.onSymbolRender, g);
+                    Trigger.customEvent(o.events.onSymbolRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedRegExp(r)) {
             if (!o.ignore.regexpValues) {
-                f = o.showValueColors ? `${"regexp"} value` : "value";
-                g = DomElement.createWithHTML(c, "span", f, r.source.toString());
+                g = o.showValueColors ? `${"regexp"} value` : "value";
+                f = DomElement.createWithHTML(c, "span", g, r.source.toString());
                 p = "regexp";
                 if (Is.definedFunction(o.events.onRegExpRender)) {
-                    Trigger.customEvent(o.events.onRegExpRender, g);
+                    Trigger.customEvent(o.events.onRegExpRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedImage(r)) {
             if (!o.ignore.imageValues) {
-                f = o.showValueColors ? `${"image"} value` : "value";
-                g = DomElement.create(c, "span", f);
+                g = o.showValueColors ? `${"image"} value` : "value";
+                f = DomElement.create(c, "span", g);
                 p = "image";
-                const e = DomElement.create(g, "img");
+                const e = DomElement.create(f, "img");
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
-                    Trigger.customEvent(o.events.onImageRender, g);
+                    Trigger.customEvent(o.events.onImageRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
@@ -1693,7 +1703,7 @@ var Arr;
             if (!o.ignore.htmlValues) {
                 if (o.showHtmlValuesAsObjects) {
                     const t = Default2.getHtmlElementAsObject(r);
-                    const n = R(t, o);
+                    const n = k(t, o);
                     const l = n.length;
                     if (l === 0 && o.ignore.emptyObjects) {
                         m = true;
@@ -1705,7 +1715,7 @@ var Arr;
                         if (i) {
                             DomElement.addClass(a, "last-item");
                         }
-                        g = DomElement.createWithHTML(r, "span", "main-title", e.text.htmlText);
+                        f = DomElement.createWithHTML(r, "span", "main-title", e.text.htmlText);
                         p = "html";
                         if (o.showObjectSizes && (l > 0 || !o.ignore.emptyObjects)) {
                             DomElement.createWithHTML(r, "span", "size", `{${l}}`);
@@ -1713,20 +1723,20 @@ var Arr;
                         if (o.showOpeningClosingCurlyBraces) {
                             u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                         }
-                        let f = k(o, r, i);
-                        const m = A(d, f, a, o, t, n, u, true, i, s, p);
+                        let g = L(o, r, i);
+                        const m = A(d, g, a, o, t, n, u, true, i, s, p);
                         if (!m && Is.defined(u)) {
                             u.parentNode.removeChild(u);
                         }
                     }
                 } else {
-                    f = o.showValueColors ? `${"html"} value` : "value";
-                    g = DomElement.createWithHTML(c, "span", f, r.tagName.toLowerCase());
+                    g = o.showValueColors ? `${"html"} value` : "value";
+                    f = DomElement.createWithHTML(c, "span", g, r.tagName.toLowerCase());
                     p = "html";
                     if (Is.definedFunction(o.events.onHtmlRender)) {
-                        Trigger.customEvent(o.events.onHtmlRender, g);
+                        Trigger.customEvent(o.events.onHtmlRender, f);
                     }
-                    k(o, c, i);
+                    L(o, c, i);
                 }
             } else {
                 m = true;
@@ -1741,7 +1751,7 @@ var Arr;
                 if (i) {
                     DomElement.addClass(l, "last-item");
                 }
-                g = DomElement.createWithHTML(n, "span", "main-title", e.text.setText);
+                f = DomElement.createWithHTML(n, "span", "main-title", e.text.setText);
                 p = "set";
                 if (o.showObjectSizes) {
                     DomElement.createWithHTML(n, "span", "size", `[${t.length}]`);
@@ -1749,9 +1759,9 @@ var Arr;
                 if (o.showOpeningClosingCurlyBraces) {
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
-                let u = k(o, n, i);
-                const f = I(d, u, l, o, t, a, true, i, s, p);
-                if (!f && Is.defined(a)) {
+                let u = L(o, n, i);
+                const g = I(d, u, l, o, t, a, true, i, s, p);
+                if (!g && Is.defined(a)) {
                     a.parentNode.removeChild(a);
                 }
             } else {
@@ -1766,7 +1776,7 @@ var Arr;
                 if (i) {
                     DomElement.addClass(n, "last-item");
                 }
-                g = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
+                f = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
                 p = "array";
                 if (o.showObjectSizes) {
                     DomElement.createWithHTML(t, "span", "size", `[${r.length}]`);
@@ -1774,7 +1784,7 @@ var Arr;
                 if (o.showOpeningClosingCurlyBraces) {
                     l = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
-                let a = k(o, t, i);
+                let a = L(o, t, i);
                 const u = I(d, a, n, o, r, l, true, i, s, p);
                 if (!u && Is.defined(l)) {
                     l.parentNode.removeChild(l);
@@ -1785,7 +1795,7 @@ var Arr;
         } else if (Is.definedMap(r)) {
             if (!o.ignore.mapValues) {
                 const t = Default2.getObjectFromMap(r);
-                const n = R(t, o);
+                const n = k(t, o);
                 const l = n.length;
                 if (l === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -1797,7 +1807,7 @@ var Arr;
                     if (i) {
                         DomElement.addClass(a, "last-item");
                     }
-                    g = DomElement.createWithHTML(r, "span", "main-title", e.text.mapText);
+                    f = DomElement.createWithHTML(r, "span", "main-title", e.text.mapText);
                     p = "map";
                     if (o.showObjectSizes && (l > 0 || !o.ignore.emptyObjects)) {
                         DomElement.createWithHTML(r, "span", "size", `{${l}}`);
@@ -1805,8 +1815,8 @@ var Arr;
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
-                    let f = k(o, r, i);
-                    const m = A(d, f, a, o, t, n, u, true, i, s, p);
+                    let g = L(o, r, i);
+                    const m = A(d, g, a, o, t, n, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
@@ -1816,7 +1826,7 @@ var Arr;
             }
         } else if (Is.definedObject(r)) {
             if (!o.ignore.objectValues) {
-                const t = R(r, o);
+                const t = k(r, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -1828,7 +1838,7 @@ var Arr;
                     if (i) {
                         DomElement.addClass(a, "last-item");
                     }
-                    g = DomElement.createWithHTML(l, "span", "main-title", e.text.objectText);
+                    f = DomElement.createWithHTML(l, "span", "main-title", e.text.objectText);
                     p = "object";
                     if (o.showObjectSizes && (n > 0 || !o.ignore.emptyObjects)) {
                         DomElement.createWithHTML(l, "span", "size", `{${n}}`);
@@ -1836,8 +1846,8 @@ var Arr;
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
-                    let f = k(o, l, i);
-                    const m = A(d, f, a, o, r, t, u, true, i, s, p);
+                    let g = L(o, l, i);
+                    const m = A(d, g, a, o, r, t, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
@@ -1847,13 +1857,13 @@ var Arr;
             }
         } else {
             if (!o.ignore.unknownValues) {
-                f = o.showValueColors ? `${"unknown"} value non-value` : "value non-value";
-                g = DomElement.createWithHTML(c, "span", f, r.toString());
+                g = o.showValueColors ? `${"unknown"} value non-value` : "value non-value";
+                f = DomElement.createWithHTML(c, "span", g, r.toString());
                 p = "unknown";
                 if (Is.definedFunction(o.events.onUnknownRender)) {
-                    Trigger.customEvent(o.events.onUnknownRender, g);
+                    Trigger.customEvent(o.events.onUnknownRender, f);
                 }
-                k(o, c, i);
+                L(o, c, i);
             } else {
                 m = true;
             }
@@ -1861,7 +1871,7 @@ var Arr;
         if (m) {
             n.removeChild(c);
         } else {
-            if (Is.defined(g)) {
+            if (Is.defined(f)) {
                 if (Is.defined(x)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
                         x.innerHTML = `(${p})`;
@@ -1871,8 +1881,8 @@ var Arr;
                     }
                 }
                 if (w) {
-                    O(o, s, b, x, g);
-                    F(o, g, r, p, T);
+                    O(o, s, b, x, f);
+                    F(o, f, r, p, T);
                 }
             }
         }
@@ -2079,37 +2089,37 @@ var Arr;
                 c();
             }
         };
-        let f = e.showAllAsClosed;
+        let g = e.showAllAsClosed;
         if (e._currentView.contentPanelsOpen[s].hasOwnProperty(a)) {
-            f = e._currentView.contentPanelsOpen[s][a];
+            g = e._currentView.contentPanelsOpen[s][a];
         } else {
             if (!e._currentView.initialized) {
                 if (i === "object" && e.autoClose.objectSize > 0 && r >= e.autoClose.objectSize) {
-                    f = true;
+                    g = true;
                 } else if (i === "array" && e.autoClose.arraySize > 0 && r >= e.autoClose.arraySize) {
-                    f = true;
+                    g = true;
                 } else if (i === "map" && e.autoClose.mapSize > 0 && r >= e.autoClose.mapSize) {
-                    f = true;
+                    g = true;
                 } else if (i === "set" && e.autoClose.setSize > 0 && r >= e.autoClose.setSize) {
-                    f = true;
+                    g = true;
                 }
             }
-            e._currentView.contentPanelsOpen[s][a] = f;
+            e._currentView.contentPanelsOpen[s][a] = g;
         }
         if (Is.defined(t)) {
             t.onclick = () => d(t.className === "down-arrow");
         }
-        d(f);
+        d(g);
         e._currentView.contentPanelsIndex++;
     }
-    function k(e, t, n) {
+    function L(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function R(e, t) {
+    function k(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -2128,13 +2138,13 @@ var Arr;
         }
         return n;
     }
-    function L(e, t, n, o, l) {
+    function R(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);
-        k(e, r, l);
+        L(e, r, l);
     }
     function P(t) {
         if (t.fileDroppingEnabled) {
@@ -2220,7 +2230,7 @@ var Arr;
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
             if (Y(e) && e.code === "F11") {
                 e.preventDefault();
-                f(o);
+                g(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
                 b(o);

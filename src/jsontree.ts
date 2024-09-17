@@ -987,8 +987,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) && Is.definedUrl( value ) ) {
             if ( !bindingOptions.ignore!.urlValues ) {
+                let newUrlValue: string = value;
+
+                if ( bindingOptions.maximumUrlLength! > 0 && newUrlValue.length > bindingOptions.maximumUrlLength! ) {
+                    newUrlValue = newUrlValue.substring( 0, bindingOptions.maximumUrlLength ) + _configuration.text!.ellipsisText;
+                }
+
                 valueClass = bindingOptions.showValueColors ? `${DataType.url} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newUrlValue );
                 type = DataType.url;
                 allowEditing = bindingOptions.allowEditing!.urlValues!;
 
@@ -1011,8 +1017,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedString( value ) && Is.definedEmail( value ) ) {
             if ( !bindingOptions.ignore!.emailValues ) {
+                let newEmailValue: string = value;
+
+                if ( bindingOptions.maximumEmailLength! > 0 && newEmailValue.length > bindingOptions.maximumEmailLength! ) {
+                    newEmailValue = newEmailValue.substring( 0, bindingOptions.maximumEmailLength ) + _configuration.text!.ellipsisText;
+                }
+
                 valueClass = bindingOptions.showValueColors ? `${DataType.email} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newEmailValue );
                 type = DataType.email;
                 allowEditing = bindingOptions.allowEditing!.emailValues!;
 
