@@ -697,9 +697,12 @@ type JsonTreeData = Record<string, BindingOptions>;
             updateFooterDisplay( bindingOptions );
 
             bindingOptions._currentView.footerStatusText = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
-            bindingOptions._currentView.footerSizeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-size" );
+            
+            if ( bindingOptions.footer!.showSizes ) {
+                bindingOptions._currentView.footerSizeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-size" );
+            }
 
-            if ( bindingOptions.paging!.enabled ) {
+            if ( bindingOptions.paging!.enabled && bindingOptions.footer!.showPageOf ) {
                 bindingOptions._currentView.footerPageText = DomElement.create( bindingOptions._currentView.footer, "div", "status-page-index" );
 
                 getFooterPageText( bindingOptions );
@@ -724,7 +727,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function addFooterSizeOfStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
-        if ( bindingOptions.footer!.enabled ) {
+        if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showSizes ) {
             const size: string = Size.of( value );
 
             if ( Is.definedString( size ) ) {

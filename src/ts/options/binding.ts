@@ -155,6 +155,8 @@ export namespace Binding {
         function getFooter( options: BindingOptions ) : BindingOptions {
             options.footer = Default.getObject( options.footer, {} as BindingOptionsFooter );
             options.footer!.enabled = Default.getBoolean( options.footer!.enabled, true );
+            options.footer!.showSizes = Default.getBoolean( options.footer!.showSizes, true );
+            options.footer!.showPageOf = Default.getBoolean( options.footer!.showPageOf, true );
 
             return options;
         }

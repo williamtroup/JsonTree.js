@@ -205,6 +205,8 @@ export type BindingOptionsTitle = {
 
 export type BindingOptionsFooter = {
     enabled?: boolean;
+	showSizes?: boolean;
+	showPageOf?: boolean;
 };
 
 export type BindingOptionsIgnore = {

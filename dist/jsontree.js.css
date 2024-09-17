@@ -292,7 +292,7 @@ div.json-tree-js div.footer-bar div.status-text {
 }
 div.json-tree-js div.footer-bar div.status-value-size,
 div.json-tree-js div.footer-bar div.status-page-index {
-  margin-left: calc(var(--json-tree-js-spacing) * 2);
+  margin-left: calc(var(--json-tree-js-spacing) * 3);
 }
 
 /*
