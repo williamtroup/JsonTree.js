@@ -23,7 +23,8 @@ import {
     type BindingOptionsAllowEditing, 
     type BindingOptionsSideMenu, 
     type BindingOptionsAutoClose, 
-    type BindingOptionsPaging } from "../type";
+    type BindingOptionsPaging, 
+    BindingOptionsFooter} from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -55,6 +56,7 @@ export namespace Binding {
             bindingOptions._currentView.isBulkEditingEnabled = true;
             bindingOptions._currentView.initialized = false;
             bindingOptions._currentView.contentColumns = [];
+            bindingOptions._currentView.footer = null!;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
@@ -108,6 +110,7 @@ export namespace Binding {
 
             options = getPaging( options );
             options = getTitle( options );
+            options = getFooter( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
@@ -137,6 +140,13 @@ export namespace Binding {
             options.title!.showCopyButton = Default.getBoolean( options.title!.showCopyButton, true );
             options.title!.enableFullScreenToggling = Default.getBoolean( options.title!.enableFullScreenToggling, true );
             options.title!.showFullScreenButton = Default.getBoolean( options.title!.showFullScreenButton, true );
+
+            return options;
+        }
+
+        function getFooter( options: BindingOptions ) : BindingOptions {
+            options.footer = Default.getObject( options.footer, {} as BindingOptionsFooter );
+            options.footer!.enabled = Default.getBoolean( options.footer!.enabled, true );
 
             return options;
         }

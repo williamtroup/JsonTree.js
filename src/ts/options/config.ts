@@ -77,6 +77,9 @@ export namespace Config {
             configuration.text!.noPropertiesText = Default.getAnyString( configuration.text!.noPropertiesText, "There are no properties to view." );
             configuration.text!.openText = Default.getAnyString( configuration.text!.openText, "open" );
             configuration.text!.openSymbolText = Default.getAnyString( configuration.text!.openSymbolText, "⤤" );
+            configuration.text!.waitingText = Default.getAnyString( configuration.text!.waitingText, "Waiting..." );
+            configuration.text!.pageOfText = Default.getAnyString( configuration.text!.pageOfText, "Page {0} of {1}" );
+            configuration.text!.sizeText = Default.getAnyString( configuration.text!.sizeText, "Size: {0}" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

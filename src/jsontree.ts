@@ -173,6 +173,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1 );
         }
 
+        renderControlFooterBar( bindingOptions );
         renderControlDragAndDrop( bindingOptions );
 
         bindingOptions._currentView.initialized = true;
@@ -399,6 +400,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOffButtonSymbolText!
                 bindingOptions._currentView.fullScreenOn = true;
             }
+            
+            updateFooterDisplay( bindingOptions );
         }
     }
 
@@ -630,7 +633,40 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Tree
+     * Render:  Footer Bar
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlFooterBar( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.footer!.enabled ) {
+            bindingOptions._currentView.footer = DomElement.create( bindingOptions._currentView.element, "div", "footer-bar" );
+            
+            updateFooterDisplay( bindingOptions );
+
+            const statusText: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
+            const statusValueSize: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-value-size", getFooterSize( bindingOptions ) );
+            const statusPageIndex: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-page-index", getFooterPageIndex( bindingOptions ) );
+        }
+    }
+
+    function getFooterSize( bindingOptions: BindingOptions ) : string {
+        return _configuration.text!.sizeText!.replace( "{0}", "0" );
+    }
+
+    function getFooterPageIndex( bindingOptions: BindingOptions ) : string {
+        return _configuration.text!.pageOfText!.replace( "{0}", "0" ).replace( "{1}", "0" );
+    }
+
+    function updateFooterDisplay( bindingOptions: BindingOptions ) : void {
+        if ( Is.defined( bindingOptions._currentView.footer ) ) {
+            bindingOptions._currentView.footer.style.display = bindingOptions._currentView.fullScreenOn ? "flex" : "none";
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Contents
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 

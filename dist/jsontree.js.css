@@ -143,7 +143,8 @@ div.full-screen {
   border: none;
   z-index: 1000;
 }
-div.full-screen div.title-bar {
+div.full-screen div.title-bar,
+div.full-screen div.footer-bar {
   border-radius: 0 !important;
 }
 div.full-screen div.contents {
@@ -267,6 +268,28 @@ div.json-tree-js div.title-bar div.controls button.copy-all {
   div.json-tree-js div.title-bar div.controls button.copy-all {
     display: inline-block;
   }
+}
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Footer Bar
+    -------------------------------------------------------------------------
+*/
+div.json-tree-js div.footer-bar {
+  display: flex;
+  padding: calc(var(--json-tree-js-spacing));
+  background-color: var(--json-tree-js-color-dark-black);
+  border-radius: var(--json-tree-js-border-radius);
+  border-top: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
+  justify-content: left;
+  align-items: center;
+}
+div.json-tree-js div.footer-bar div.status-text {
+  flex-grow: 1;
+}
+div.json-tree-js div.footer-bar div.status-value-size,
+div.json-tree-js div.footer-bar div.status-page-index {
+  margin-left: calc(var(--json-tree-js-spacing) * 2);
 }
 
 /*

@@ -87,6 +87,9 @@ export type ConfigurationText = {
 	noPropertiesText?: string;
 	openText?: string;
 	openSymbolText?: string;
+	waitingText?: string;
+	pageOfText?: string;
+	sizeText?: string;
 };
 
 export type BindingOptions = {
@@ -133,6 +136,7 @@ export type BindingOptions = {
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
+	footer?: BindingOptionsFooter;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
 	parse?: BindingOptionsParse;
@@ -162,6 +166,7 @@ export type BindingOptionsCurrentView = {
 	isBulkEditingEnabled: boolean;
 	initialized: boolean;
 	contentColumns: HTMLElement[];
+	footer: HTMLElement;
 };
 
 export type BindingOptionsPaging = {
@@ -184,6 +189,10 @@ export type BindingOptionsTitle = {
     showCopyButton?: boolean;
 	enableFullScreenToggling?: boolean;
 	showFullScreenButton?: boolean;
+};
+
+export type BindingOptionsFooter = {
+    enabled?: boolean;
 };
 
 export type BindingOptionsIgnore = {
