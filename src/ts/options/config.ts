@@ -80,8 +80,9 @@ export namespace Config {
             configuration.text!.waitingText = Default.getAnyString( configuration.text!.waitingText, "Waiting..." );
             configuration.text!.pageOfText = Default.getAnyString( configuration.text!.pageOfText, "Page {0} of {1}" );
             configuration.text!.sizeText = Default.getAnyString( configuration.text!.sizeText, "Size: {0}" );
-            configuration.text!.copiedText = Default.getAnyString( configuration.text!.copiedText, "JSON copied!" );
-            configuration.text!.exportedText = Default.getAnyString( configuration.text!.exportedText, "JSON exported!" );
+            configuration.text!.copiedText = Default.getAnyString( configuration.text!.copiedText, "JSON copied." );
+            configuration.text!.exportedText = Default.getAnyString( configuration.text!.exportedText, "JSON exported." );
+            configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} JSON files imported." );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

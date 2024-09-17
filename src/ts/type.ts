@@ -92,6 +92,7 @@ export type ConfigurationText = {
 	sizeText?: string;
 	copiedText?: string;
 	exportedText?: string;
+	importedText?: string;
 };
 
 export type BindingOptions = {

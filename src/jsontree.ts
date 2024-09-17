@@ -1973,6 +1973,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
     
                 renderControlContainer( bindingOptions );
+                setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );
                 Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
             }
         };
@@ -2024,6 +2025,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             document.body.removeChild( tempLink );
 
+            onSideMenuClose( bindingOptions );
             setFooterStatusText( bindingOptions, _configuration.text!.exportedText! );
             Trigger.customEvent( bindingOptions.events!.onExport!, bindingOptions._currentView.element );
         }

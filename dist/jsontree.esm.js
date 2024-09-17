@@ -776,8 +776,9 @@ var Config;
             e.text.waitingText = Default2.getAnyString(e.text.waitingText, "Waiting...");
             e.text.pageOfText = Default2.getAnyString(e.text.pageOfText, "Page {0} of {1}");
             e.text.sizeText = Default2.getAnyString(e.text.sizeText, "Size: {0}");
-            e.text.copiedText = Default2.getAnyString(e.text.copiedText, "JSON copied!");
-            e.text.exportedText = Default2.getAnyString(e.text.exportedText, "JSON exported!");
+            e.text.copiedText = Default2.getAnyString(e.text.copiedText, "JSON copied.");
+            e.text.exportedText = Default2.getAnyString(e.text.exportedText, "JSON exported.");
+            e.text.importedText = Default2.getAnyString(e.text.importedText, "{0} JSON files imported.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -2359,26 +2360,27 @@ var Size;
             q(e.dataTransfer.files, t);
         }
     }
-    function q(e, t) {
-        const n = e.length;
-        let o = 0;
-        let r = [];
-        const l = e => {
-            o++;
-            r.push(e);
-            if (o === n) {
-                t._currentView.dataArrayCurrentIndex = 0;
-                t._currentView.contentPanelsOpen = {};
-                t.data = r.length === 1 ? r[0] : r;
-                i(t);
-                Trigger.customEvent(t.events.onSetJson, t._currentView.element);
+    function q(t, n) {
+        const o = t.length;
+        let r = 0;
+        let l = [];
+        const a = t => {
+            r++;
+            l.push(t);
+            if (r === o) {
+                n._currentView.dataArrayCurrentIndex = 0;
+                n._currentView.contentPanelsOpen = {};
+                n.data = l.length === 1 ? l[0] : l;
+                i(n);
+                j(n, e.text.importedText.replace("{0}", o.toString()));
+                Trigger.customEvent(n.events.onSetJson, n._currentView.element);
             }
         };
-        for (let t = 0; t < n; t++) {
-            const n = e[t];
+        for (let e = 0; e < o; e++) {
+            const n = t[e];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                ee(n, l);
+                ee(n, a);
             }
         }
     }
@@ -2404,6 +2406,7 @@ var Size;
             o.setAttribute("download", ne(t));
             o.click();
             document.body.removeChild(o);
+            E(t);
             j(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
