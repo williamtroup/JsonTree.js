@@ -231,8 +231,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     if ( e.code == KeyCode.escape ) {
                         e.preventDefault();
                         contents.setAttribute( "contenteditable", "false" );
-                        
-                    } else if ( e.code == KeyCode.enter ) {
+
+                    } else if ( isCommandKey( e ) && e.code == KeyCode.enter ) {
                         e.preventDefault();
     
                         const newValue: string = contents.innerText;
@@ -247,6 +247,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                         }
 
                         contents.setAttribute( "contenteditable", "false" );
+                        
+                    } else if ( e.code == KeyCode.enter ) {
+                        e.preventDefault();
+                        document.execCommand( "insertLineBreak" );    
                     }
                 };
             };

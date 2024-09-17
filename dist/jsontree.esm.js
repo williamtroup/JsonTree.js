@@ -1009,7 +1009,7 @@ var Arr;
                     if (n.code == "Escape") {
                         n.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (n.code == "Enter") {
+                    } else if (Q(n) && n.code == "Enter") {
                         n.preventDefault();
                         const r = o.innerText;
                         const i = Default2.getObjectFromString(r, e);
@@ -1021,6 +1021,9 @@ var Arr;
                             }
                         }
                         o.setAttribute("contenteditable", "false");
+                    } else if (n.code == "Enter") {
+                        n.preventDefault();
+                        document.execCommand("insertLineBreak");
                     }
                 };
             };
