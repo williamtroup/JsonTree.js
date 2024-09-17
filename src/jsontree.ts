@@ -167,12 +167,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
                 const actualData: any = data[ actualDataIndex ];
 
+                bindingOptions._currentView.contentPanelsIndex = 0;
+                bindingOptions._currentView.contentPanelsDataIndex = actualDataIndex;
+
                 if ( Is.defined( actualData ) ) {
                     renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage!, allowColumnReordering );
                 }
             }
 
         } else {
+            bindingOptions._currentView.contentPanelsIndex = 0;
+            bindingOptions._currentView.contentPanelsDataIndex = 0;
+
             renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1, false );
         }
 
@@ -321,9 +327,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( dataIndex !== bindingOptions._currentView.columnDraggingDataIndex ) {
             const dataArray1: any = bindingOptions.data[ dataIndex ];
             const dataArray2: any = bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex ];
+            const dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
+            const dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ bindingOptions._currentView.columnDraggingDataIndex ];
 
             bindingOptions.data[ dataIndex ] = dataArray2;
             bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex  ] = dataArray1;
+
+            bindingOptions._currentView.contentPanelsOpen[ dataIndex ] = dataPanelsOpen2;
+            bindingOptions._currentView.contentPanelsOpen[ bindingOptions._currentView.columnDraggingDataIndex ] = dataPanelsOpen1;
 
             renderControlContainer( bindingOptions );
         }
@@ -1796,7 +1807,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
-        const dataArrayIndex: number = bindingOptions._currentView.dataArrayCurrentIndex;
+        const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;

@@ -159,6 +159,7 @@ export type BindingOptionsCurrentView = {
 	idSet: boolean;
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
+	contentPanelsDataIndex: number;
 	backButton: HTMLButtonElement;
 	nextButton: HTMLButtonElement;
 	disabledBackground: HTMLElement;

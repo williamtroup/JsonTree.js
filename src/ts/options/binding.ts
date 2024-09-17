@@ -45,6 +45,7 @@ export namespace Binding {
             bindingOptions._currentView.idSet = false;
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
+            bindingOptions._currentView.contentPanelsDataIndex = 0;
             bindingOptions._currentView.backButton = null!;
             bindingOptions._currentView.nextButton = null!;
             bindingOptions._currentView.disabledBackground = null!;
