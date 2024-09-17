@@ -778,7 +778,7 @@ var Config;
             e.text.waitingText = Default2.getAnyString(e.text.waitingText, "Waiting...");
             e.text.pageOfText = Default2.getAnyString(e.text.pageOfText, "Page {0} of {1}");
             e.text.sizeText = Default2.getAnyString(e.text.sizeText, "Size: {0}");
-            e.text.copiedText = Default2.getAnyString(e.text.copiedText, "JSON copied.");
+            e.text.copiedText = Default2.getAnyString(e.text.copiedText, "JSON copied to clipboard.");
             e.text.exportedText = Default2.getAnyString(e.text.exportedText, "JSON exported.");
             e.text.importedText = Default2.getAnyString(e.text.importedText, "{0} JSON files imported.");
             e.text.ignoreDataTypesUpdated = Default2.getAnyString(e.text.ignoreDataTypesUpdated, "Ignore data types updated.");
