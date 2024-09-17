@@ -402,6 +402,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.fullScreenOn = true;
             }
             
+            ToolTip.hide( bindingOptions );
             updateFooterDisplay( bindingOptions );
         }
     }

@@ -119,11 +119,11 @@ var Is;
         return n(e) && e instanceof Image;
     }
     e.definedImage = x;
-    function b(e) {
+    function T(e) {
         return n(e) && e instanceof HTMLElement;
     }
-    e.definedHtmlElement = b;
-    function T(e) {
+    e.definedHtmlElement = T;
+    function b(e) {
         let t;
         try {
             t = new URL(e);
@@ -132,7 +132,7 @@ var Is;
         }
         return t !== null && (t.protocol === "http:" || t.protocol === "https:");
     }
-    e.definedUrl = T;
+    e.definedUrl = b;
     function w(e) {
         const t = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return t.test(e);
@@ -1164,7 +1164,7 @@ var Size;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
-                    t._currentView.backButton.onclick = () => b(t);
+                    t._currentView.backButton.onclick = () => T(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1172,7 +1172,7 @@ var Size;
                 t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
                 if (t._currentView.dataArrayCurrentIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextButton.onclick = () => T(t);
+                    t._currentView.nextButton.onclick = () => b(t);
                 } else {
                     t._currentView.nextButton.disabled = true;
                 }
@@ -1201,6 +1201,7 @@ var Size;
                 t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOffButtonSymbolText;
                 t._currentView.fullScreenOn = true;
             }
+            ToolTip.hide(t);
             I(t);
         }
     }
@@ -1244,14 +1245,14 @@ var Size;
         i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function b(e) {
+    function T(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
-    function T(e) {
+    function b(e) {
         if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
             e._currentView.dataArrayCurrentIndex += e.paging.columnsPerPage;
             i(e, true);
@@ -1525,8 +1526,8 @@ var Size;
         let m = false;
         let p = null;
         let x = DomElement.create(c, "span", "title");
-        let b = false;
-        let T = null;
+        let T = false;
+        let b = null;
         const w = !Is.definedString(l);
         let y = true;
         if (!w) {
@@ -1543,7 +1544,7 @@ var Size;
             DomElement.addClass(c, "last-item");
         }
         if (o.showTypes) {
-            T = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
+            b = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
         }
         if (!w && o.showValueColors && o.showPropertyNameAndIndexColors) {
             DomElement.addClass(x, u);
@@ -1611,8 +1612,8 @@ var Size;
                 f = o.showValueColors ? `${"boolean"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "boolean";
-                b = o.allowEditing.booleanValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.booleanValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, g);
                 }
@@ -1626,8 +1627,8 @@ var Size;
                 f = o.showValueColors ? `${"float"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, e);
                 p = "float";
-                b = o.allowEditing.floatValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.floatValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, g);
                 }
@@ -1640,8 +1641,8 @@ var Size;
                 f = o.showValueColors ? `${"number"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "number";
-                b = o.allowEditing.numberValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.numberValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, g);
                 }
@@ -1654,8 +1655,8 @@ var Size;
                 f = o.showValueColors ? `${"bigint"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "bigint";
-                b = o.allowEditing.bigIntValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.bigIntValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, g);
                 }
@@ -1668,8 +1669,8 @@ var Size;
                 f = o.showValueColors ? `${"guid"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "guid";
-                b = o.allowEditing.guidValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.guidValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, g);
                 }
@@ -1682,11 +1683,11 @@ var Size;
                 f = o.showValueColors ? `${"color"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, r);
                 p = "color";
-                b = o.allowEditing.colorValues;
+                T = o.allowEditing.colorValues;
                 if (o.showValueColors) {
                     g.style.color = r;
                 }
-                P(o, t, l, r, g, a, b);
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, g);
                 }
@@ -1703,12 +1704,12 @@ var Size;
                 f = o.showValueColors ? `${"url"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, n);
                 p = "url";
-                b = o.allowEditing.urlValues;
+                T = o.allowEditing.urlValues;
                 if (o.showUrlOpenButtons) {
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(r);
                 }
-                P(o, t, l, r, g, a, b);
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, g);
                 }
@@ -1725,12 +1726,12 @@ var Size;
                 f = o.showValueColors ? `${"email"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, n);
                 p = "email";
-                b = o.allowEditing.emailValues;
+                T = o.allowEditing.emailValues;
                 if (o.showEmailOpenButtons) {
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(`mailto:${r}`);
                 }
-                P(o, t, l, r, g, a, b);
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, g);
                 }
@@ -1757,16 +1758,16 @@ var Size;
                         }
                         n = o.showStringQuotes ? `"${n}"` : n;
                         f = o.showValueColors ? `${"string"} value` : "value";
-                        b = o.allowEditing.stringValues;
+                        T = o.allowEditing.stringValues;
                     } else {
                         f = "no-properties-text";
-                        b = false;
+                        T = false;
                         y = false;
                     }
                     g = DomElement.createWithHTML(c, "span", f, n);
                     p = "string";
                     if (!w) {
-                        P(o, t, l, r, g, a, b);
+                        P(o, t, l, r, g, a, T);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, g);
                         }
@@ -1781,8 +1782,8 @@ var Size;
                 f = o.showValueColors ? `${"date"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 p = "date";
-                b = o.allowEditing.dateValues;
-                P(o, t, l, r, g, a, b);
+                T = o.allowEditing.dateValues;
+                P(o, t, l, r, g, a, T);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, g);
                 }
@@ -2002,17 +2003,17 @@ var Size;
         } else {
             if (Is.defined(g)) {
                 C(o, r, g);
-                if (Is.defined(T)) {
+                if (Is.defined(b)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
-                        T.innerHTML = `(${p})`;
+                        b.innerHTML = `(${p})`;
                     } else {
-                        T.parentNode.removeChild(T);
-                        T = null;
+                        b.parentNode.removeChild(b);
+                        b = null;
                     }
                 }
                 if (y) {
-                    k(o, s, x, T, g);
-                    H(o, g, r, p, b);
+                    k(o, s, x, b, g);
+                    H(o, g, r, p, T);
                 }
             }
         }
@@ -2364,10 +2365,10 @@ var Size;
                 g(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                b(o);
+                T(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
-                T(o);
+                b(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
                 x(o);
@@ -2442,7 +2443,7 @@ var Size;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    b(t[e]);
+                    T(t[e]);
                 }
             }
             return ne;
@@ -2451,7 +2452,7 @@ var Size;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    T(t[e]);
+                    b(t[e]);
                 }
             }
             return ne;
