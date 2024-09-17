@@ -179,32 +179,33 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number ) : void {
-        const contentsPanel: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
+        const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
+        contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
 
-        bindingOptions._currentView.contentColumns.push( contentsPanel );
+        bindingOptions._currentView.contentColumns.push( contentsColumn );
 
         if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
-            renderArray( contentsPanel, bindingOptions, data );
+            renderArray( contentsColumn, bindingOptions, data );
         } else if ( Is.definedObject( data ) ) {
-            renderObject( contentsPanel, bindingOptions, data, dataIndex );
+            renderObject( contentsColumn, bindingOptions, data, dataIndex );
         }
 
-        if ( contentsPanel.innerHTML === Char.empty || ( contentsPanel.children.length >= 2 && ( ( !bindingOptions.showOpenedObjectArrayBorders && contentsPanel.children[ 1 ].children.length === 0 ) || contentsPanel.children[ 1 ].children.length === 1 )  ) ) {
-            contentsPanel.innerHTML = Char.empty;
+        if ( contentsColumn.innerHTML === Char.empty || ( contentsColumn.children.length >= 2 && ( ( !bindingOptions.showOpenedObjectArrayBorders && contentsColumn.children[ 1 ].children.length === 0 ) || contentsColumn.children[ 1 ].children.length === 1 )  ) ) {
+            contentsColumn.innerHTML = Char.empty;
 
-            DomElement.createWithHTML( contentsPanel, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
+            DomElement.createWithHTML( contentsColumn, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
 
             bindingOptions._currentView.titleBarButtons.style.display = "none";
 
         } else {
             if ( Is.defined( scrollTop ) ) {
-                contentsPanel.scrollTop = scrollTop;
+                contentsColumn.scrollTop = scrollTop;
             }
 
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
 
-        makeContentsEditable( bindingOptions, data, contentsPanel, dataIndex );
+        makeContentsEditable( bindingOptions, data, contentsColumn, dataIndex );
     }
 
     function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {

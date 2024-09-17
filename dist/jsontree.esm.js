@@ -469,6 +469,7 @@ var Constants;
 
 (e => {
     e.JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
+    e.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME = "data-jsontree-js-array-index";
 })(Constants || (Constants = {}));
 
 var Binding;
@@ -974,6 +975,7 @@ var Arr;
     }
     function s(t, n, o, l, r, i) {
         const a = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        a.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
         o._currentView.contentColumns.push(a);
         if (Is.definedArray(t) || Is.definedSet(t)) {
             B(a, o, t);
@@ -1009,7 +1011,7 @@ var Arr;
                     if (n.code == "Escape") {
                         n.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (Q(n) && n.code == "Enter") {
+                    } else if (Y(n) && n.code == "Enter") {
                         n.preventDefault();
                         const r = o.innerText;
                         const i = Default2.getObjectFromString(r, e);
@@ -1252,8 +1254,8 @@ var Arr;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => V(n, o, true);
-        s.onclick = () => V(n, o, false);
+        a.onclick = () => E(n, o, true);
+        s.onclick = () => E(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -1261,10 +1263,10 @@ var Arr;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            o.push(E(u, e, n, !d[`${e}Values`]));
+            o.push(V(u, e, n, !d[`${e}Values`]));
         }));
     }
-    function V(e, t, n) {
+    function E(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -1273,7 +1275,7 @@ var Arr;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function E(e, t, n, o) {
+    function V(e, t, n, o) {
         const l = DomElement.createCheckBox(e, Str.capitalizeFirstLetter(t), t, o, n.showValueColors ? t : "");
         l.onchange = () => {
             const e = n.ignore;
@@ -1287,7 +1289,7 @@ var Arr;
         const r = Is.definedMap(o);
         const i = r ? "map" : "object";
         const a = r ? Default2.getObjectFromMap(o) : o;
-        const s = L(a, n);
+        const s = R(a, n);
         const u = s.length;
         if (u !== 0 || !n.ignore.emptyObjects) {
             const c = DomElement.create(t, "div", "object-type-title");
@@ -1352,7 +1354,7 @@ var Arr;
                 f = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
-                    R(l, o, "}", s, u);
+                    L(l, o, "}", s, u);
                 }
             }
         }
@@ -1381,7 +1383,7 @@ var Arr;
             d = false;
         } else {
             if (l.showOpeningClosingCurlyBraces) {
-                R(l, o, "]", a, s);
+                L(l, o, "]", a, s);
             }
         }
         N(l, t, n, o, i, g, c);
@@ -1691,7 +1693,7 @@ var Arr;
             if (!o.ignore.htmlValues) {
                 if (o.showHtmlValuesAsObjects) {
                     const t = Default2.getHtmlElementAsObject(r);
-                    const n = L(t, o);
+                    const n = R(t, o);
                     const l = n.length;
                     if (l === 0 && o.ignore.emptyObjects) {
                         m = true;
@@ -1783,7 +1785,7 @@ var Arr;
         } else if (Is.definedMap(r)) {
             if (!o.ignore.mapValues) {
                 const t = Default2.getObjectFromMap(r);
-                const n = L(t, o);
+                const n = R(t, o);
                 const l = n.length;
                 if (l === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -1814,7 +1816,7 @@ var Arr;
             }
         } else if (Is.definedObject(r)) {
             if (!o.ignore.objectValues) {
-                const t = L(r, o);
+                const t = R(r, o);
                 const n = t.length;
                 if (n === 0 && o.ignore.emptyObjects) {
                     m = true;
@@ -2107,7 +2109,7 @@ var Arr;
         }
         return o;
     }
-    function L(e, t) {
+    function R(e, t) {
         let n = [];
         for (let t in e) {
             if (e.hasOwnProperty(t)) {
@@ -2126,7 +2128,7 @@ var Arr;
         }
         return n;
     }
-    function R(e, t, n, o, l) {
+    function L(e, t, n, o, l) {
         let r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
@@ -2216,7 +2218,7 @@ var Arr;
     }
     function Z(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
-            if (Q(e) && e.code === "F11") {
+            if (Y(e) && e.code === "F11") {
                 e.preventDefault();
                 f(o);
             } else if (e.code === "ArrowLeft") {
@@ -2237,10 +2239,10 @@ var Arr;
             }
         }
     }
-    function Q(e) {
+    function Y(e) {
         return e.ctrlKey || e.metaKey;
     }
-    function Y(e) {
+    function Q(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -2342,7 +2344,7 @@ var Arr;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                Y(t[e]);
+                Q(t[e]);
                 delete t[e];
                 n--;
             }
@@ -2351,7 +2353,7 @@ var Arr;
         destroyAll: function() {
             for (let e in t) {
                 if (t.hasOwnProperty(e)) {
-                    Y(t[e]);
+                    Q(t[e]);
                 }
             }
             t = {};
