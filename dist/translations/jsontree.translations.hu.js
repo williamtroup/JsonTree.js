@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "funkció",
         "sideMenuButtonText": "Menü megjelenítése",
         "closeButtonText": "Közeli",
-        "showTypesText": "Show Types",
+        "showTypesText": "Adattípusok megjelenítése",
         "selectAllText": "Válassza az Összes lehetőséget",
         "selectNoneText": "Válassza a Nincs lehetőséget",
         "importButtonText": "Importálás",

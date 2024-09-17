@@ -755,7 +755,7 @@ var Config;
             e.text.sideMenuButtonText = Default2.getAnyString(e.text.sideMenuButtonText, "Show Menu");
             e.text.closeButtonSymbolText = Default2.getAnyString(e.text.closeButtonSymbolText, "✕");
             e.text.closeButtonText = Default2.getAnyString(e.text.closeButtonText, "Close");
-            e.text.showTypesText = Default2.getAnyString(e.text.showTypesText, "Show Types");
+            e.text.showTypesText = Default2.getAnyString(e.text.showTypesText, "Show Data Types");
             e.text.selectAllText = Default2.getAnyString(e.text.selectAllText, "Select All");
             e.text.selectNoneText = Default2.getAnyString(e.text.selectNoneText, "Select None");
             e.text.importButtonSymbolText = Default2.getAnyString(e.text.importButtonSymbolText, "↑");
