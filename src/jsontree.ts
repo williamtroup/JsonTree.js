@@ -440,6 +440,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         navigator.clipboard.writeText( copyDataJson );
 
+        setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
         Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyDataJson );
     }
 
@@ -679,6 +680,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement.onmouseover = () => bindingOptions._currentView.footerSizeText.innerHTML = _configuration.text!.sizeText!.replace( "{0}", size.toString() );
                 valueElement.onmouseleave = () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty;
             }
+        }
+    }
+
+    function setFooterStatusText( bindingOptions: BindingOptions, statusText: string ) : void {
+        if ( bindingOptions.footer!.enabled ) {
+            bindingOptions._currentView.footerStatusText.innerHTML = statusText;
+
+            clearTimeout( bindingOptions._currentView.footerStatusTextTimerId );
+    
+            bindingOptions._currentView.footerStatusTextTimerId = setTimeout( () => {
+                bindingOptions._currentView.footerStatusText.innerHTML = _configuration.text!.waitingText!
+            }, 5000 );
         }
     }
 
@@ -1943,6 +1956,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             document.body.removeChild( tempLink );
 
+            setFooterStatusText( bindingOptions, _configuration.text!.exportedText! );
             Trigger.customEvent( bindingOptions.events!.onExport!, bindingOptions._currentView.element );
         }
     }

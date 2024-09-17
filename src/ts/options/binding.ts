@@ -60,6 +60,7 @@ export namespace Binding {
             bindingOptions._currentView.footerStatusText = null!;
             bindingOptions._currentView.footerSizeText = null!;
             bindingOptions._currentView.footerPageText = null!;
+            bindingOptions._currentView.footerStatusTextTimerId = 0;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {

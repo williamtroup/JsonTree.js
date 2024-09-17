@@ -90,6 +90,8 @@ export type ConfigurationText = {
 	waitingText?: string;
 	pageOfText?: string;
 	sizeText?: string;
+	copiedText?: string;
+	exportedText?: string;
 };
 
 export type BindingOptions = {
@@ -170,6 +172,7 @@ export type BindingOptionsCurrentView = {
 	footerStatusText: HTMLElement;
 	footerSizeText: HTMLElement;
 	footerPageText: HTMLElement;
+	footerStatusTextTimerId: number;
 };
 
 export type BindingOptionsPaging = {
