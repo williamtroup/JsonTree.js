@@ -2242,6 +2242,24 @@ var Arr;
             }
             return G;
         },
+        backPage: function(e) {
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const n = t[e];
+                if (n.paging.enabled) {
+                    b(t[e]);
+                }
+            }
+            return G;
+        },
+        nextPage: function(e) {
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const n = t[e];
+                if (n.paging.enabled) {
+                    T(t[e]);
+                }
+            }
+            return G;
+        },
         setJson: function(n, o) {
             if (Is.definedString(n) && Is.defined(o) && t.hasOwnProperty(n)) {
                 let l = null;

@@ -1958,6 +1958,30 @@ type JsonTreeData = Record<string, BindingOptions>;
             return _public;
         },
 
+        backPage: function ( elementId: string ) : PublicApi {
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+
+                if ( bindingOptions.paging!.enabled ) {
+                    onBackPage( _elements_Data[ elementId ] );
+                }
+            }
+    
+            return _public;
+        },
+
+        nextPage: function ( elementId: string ) : PublicApi {
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+
+                if ( bindingOptions.paging!.enabled ) {
+                    onNextPage( _elements_Data[ elementId ] );
+                }
+            }
+    
+            return _public;
+        },
+
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

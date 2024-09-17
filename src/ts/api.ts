@@ -97,6 +97,34 @@ export type PublicApi = {
 	 */
 	closeAll: ( elementId: string ) => PublicApi;
 
+	/**
+	 * backPage().
+	 *
+	 * Moves back a page (if array paging is enabled).
+	 *
+	 * @public
+	 * @fires       onBackPage
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	backPage: ( elementId: string ) => PublicApi;
+
+	/**
+	 * nextPage().
+	 *
+	 * Moves forward a page (if array paging is enabled).
+	 *
+	 * @public
+	 * @fires       onNextPage
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	nextPage: ( elementId: string ) => PublicApi;
+	
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
