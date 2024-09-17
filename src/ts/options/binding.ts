@@ -125,6 +125,7 @@ export namespace Binding {
             options.paging!.columnsPerPage = Default.getNumberMaximum( options.paging!.columnsPerPage, 1, 6 );
             options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
             options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
+            options.paging!.synchronizedScrolling = Default.getBoolean( options.paging!.synchronizedScrolling, false );
 
             return options;
         }

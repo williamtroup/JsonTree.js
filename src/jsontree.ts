@@ -184,6 +184,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         bindingOptions._currentView.contentColumns.push( contentsColumn );
 
+        if ( bindingOptions.paging!.synchronizedScrolling ) {
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
+        }
+
         if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
             renderArray( contentsColumn, bindingOptions, data );
         } else if ( Is.definedObject( data ) ) {
@@ -272,6 +276,17 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return result;
+    }
+
+    function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions ) : void {
+        const scrollTop: number = column.scrollTop;
+        const scrollLeft: number = column.scrollLeft;
+        const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
+            bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+        }
     }
 
     
