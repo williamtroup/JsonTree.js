@@ -513,7 +513,7 @@ var Binding;
             o._currentView.columnDragging = false;
             o._currentView.columnDraggingDataIndex = 0;
             o._currentView.dataTypeCounts = {};
-            for (let e in r) {
+            for (const e in r) {
                 if (!r[e]) {
                     o._currentView.isBulkEditingEnabled = false;
                     break;
@@ -942,7 +942,7 @@ var Size;
                     t += n(e[r]);
                 }
             } else if (Is.definedObject(e)) {
-                for (let o in e) {
+                for (const o in e) {
                     if (e.hasOwnProperty(o)) {
                         t += n(o) + n(e[o]);
                     }
@@ -2313,7 +2313,7 @@ var Size;
     }
     function Y(e, t) {
         let n = [];
-        for (let t in e) {
+        for (const t in e) {
             if (e.hasOwnProperty(t)) {
                 n.push(t);
             }
@@ -2476,7 +2476,7 @@ var Size;
             return ae;
         },
         refreshAll: function() {
-            for (let e in t) {
+            for (const e in t) {
                 if (t.hasOwnProperty(e)) {
                     const n = t[e];
                     i(n);
@@ -2569,7 +2569,7 @@ var Size;
             return ae;
         },
         destroyAll: function() {
-            for (let e in t) {
+            for (const e in t) {
                 if (t.hasOwnProperty(e)) {
                     ie(t[e]);
                 }
@@ -2582,7 +2582,7 @@ var Size;
             if (Is.definedObject(t)) {
                 let n = false;
                 const o = e;
-                for (let r in t) {
+                for (const r in t) {
                     if (t.hasOwnProperty(r) && e.hasOwnProperty(r) && o[r] !== t[r]) {
                         o[r] = t[r];
                         n = true;
@@ -2596,7 +2596,7 @@ var Size;
         },
         getIds: function() {
             const e = [];
-            for (let n in t) {
+            for (const n in t) {
                 if (t.hasOwnProperty(n)) {
                     e.push(n);
                 }

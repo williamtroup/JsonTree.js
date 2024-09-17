@@ -1884,7 +1884,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
         let properties: string[] = [];
 
-        for ( let key in data ) {
+        for ( const key in data ) {
             if ( data.hasOwnProperty( key ) ) {
                 properties.push( key );
             }
@@ -2140,7 +2140,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         refreshAll: function () : PublicApi {
-            for ( let elementId in _elements_Data ) {
+            for ( const elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
                     const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
@@ -2282,7 +2282,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         destroyAll: function () : PublicApi {
-            for ( let elementId in _elements_Data ) {
+            for ( const elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
                     destroyElement( _elements_Data[ elementId ] );
                 }
@@ -2306,7 +2306,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let configurationHasChanged: boolean = false;
                 const newInternalConfiguration: any = _configuration;
             
-                for ( let propertyName in newConfiguration ) {
+                for ( const propertyName in newConfiguration ) {
                     if ( newConfiguration.hasOwnProperty( propertyName ) && _configuration.hasOwnProperty( propertyName ) && newInternalConfiguration[ propertyName ] !== newConfiguration[ propertyName ] ) {
                         newInternalConfiguration[ propertyName ] = newConfiguration[ propertyName ];
                         configurationHasChanged = true;
@@ -2331,7 +2331,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         getIds: function () : string[] {
             const result: string[] = [];
         
-            for ( let elementId in _elements_Data ) {
+            for ( const elementId in _elements_Data ) {
                 if ( _elements_Data.hasOwnProperty( elementId ) ) {
                     result.push( elementId );
                 }

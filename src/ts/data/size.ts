@@ -65,7 +65,7 @@ export namespace Size {
                 }
                 
             } else if ( Is.definedObject( value ) ) {
-                for ( let itemKey in value ) {
+                for ( const itemKey in value ) {
                     if ( value.hasOwnProperty( itemKey ) ) {
                         bytes += ( getSize( itemKey ) + getSize( value[ itemKey ] ) );
                     }

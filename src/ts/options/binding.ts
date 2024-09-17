@@ -24,7 +24,7 @@ import {
     type BindingOptionsSideMenu, 
     type BindingOptionsAutoClose, 
     type BindingOptionsPaging, 
-    BindingOptionsFooter} from "../type";
+    type BindingOptionsFooter } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -65,7 +65,7 @@ export namespace Binding {
             bindingOptions._currentView.columnDraggingDataIndex = 0;
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
 
-            for ( let key in allowEditing ) {
+            for ( const key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
                     bindingOptions._currentView.isBulkEditingEnabled = false;
                     break;
