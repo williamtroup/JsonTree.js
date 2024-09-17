@@ -2134,6 +2134,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             return _public;
         },
 
+        getPageNumber: function ( elementId: string ) : number {
+            let result: number = 1;
+
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+
+                result = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+            }
+    
+            return result;
+        },
+
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

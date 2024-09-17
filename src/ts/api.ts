@@ -124,6 +124,19 @@ export type PublicApi = {
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
 	nextPage: ( elementId: string ) => PublicApi;
+
+	/**
+	 * getPageNumber().
+	 *
+	 * Returns the current page number (if array paging is enabled).
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {number}                                                The array page number.
+	 */
+	getPageNumber: ( elementId: string ) => number;
 	
 
     /*
