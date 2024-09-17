@@ -65,7 +65,7 @@ export namespace Binding {
             bindingOptions._currentView.columnDraggingDataIndex = 0;
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
 
-            for ( var key in allowEditing ) {
+            for ( let key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
                     bindingOptions._currentView.isBulkEditingEnabled = false;
                     break;

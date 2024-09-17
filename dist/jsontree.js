@@ -513,8 +513,8 @@ var Binding;
             o._currentView.columnDragging = false;
             o._currentView.columnDraggingDataIndex = 0;
             o._currentView.dataTypeCounts = {};
-            for (var l in r) {
-                if (!r[l]) {
+            for (let e in r) {
+                if (!r[e]) {
                     o._currentView.isBulkEditingEnabled = false;
                     break;
                 }
