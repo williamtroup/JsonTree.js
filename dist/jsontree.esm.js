@@ -1031,50 +1031,51 @@ var Size;
             DomElement.addClass(r, "page-switch");
         }
         if (e.paging.enabled && Is.definedArray(n)) {
-            for (let t = 0; t < e.paging.columnsPerPage; t++) {
-                const l = t + e._currentView.dataArrayCurrentIndex;
-                const i = n[l];
-                if (Is.defined(i)) {
-                    s(i, r, e, l, o[t], e.paging.columnsPerPage);
+            const t = Is.defined(n[e._currentView.dataArrayCurrentIndex + 1]);
+            for (let l = 0; l < e.paging.columnsPerPage; l++) {
+                const i = l + e._currentView.dataArrayCurrentIndex;
+                const a = n[i];
+                if (Is.defined(a)) {
+                    s(a, r, e, i, o[l], e.paging.columnsPerPage, t);
                 }
             }
         } else {
-            s(n, r, e, null, o[0], 1);
+            s(n, r, e, null, o[0], 1, false);
         }
         _(e);
         G(e);
         e._currentView.initialized = true;
     }
-    function s(t, n, o, r, l, i) {
-        const a = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
-        a.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
-        if (o.paging.allowColumnReordering && o.allowEditing !== false) {
-            a.setAttribute("draggable", "true");
-            a.ondragstart = () => g(o, r);
-            a.ondragend = () => f(o);
-            a.ondragover = e => e.preventDefault();
-            a.ondrop = () => m(o, r);
+    function s(t, n, o, r, l, i, a) {
+        const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
+        if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
+            s.setAttribute("draggable", "true");
+            s.ondragstart = () => g(o, r);
+            s.ondragend = () => f(o);
+            s.ondragover = e => e.preventDefault();
+            s.ondrop = () => m(o, r);
         }
-        o._currentView.contentColumns.push(a);
+        o._currentView.contentColumns.push(s);
         if (o.paging.synchronizeScrolling) {
-            a.onscroll = () => d(a, o);
+            s.onscroll = () => d(s, o);
         }
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            N(a, o, t);
+            N(s, o, t);
         } else if (Is.definedObject(t)) {
-            F(a, o, t, r);
+            F(s, o, t, r);
         }
-        if (a.innerHTML === "" || a.children.length >= 2 && (!o.showOpenedObjectArrayBorders && a.children[1].children.length === 0 || a.children[1].children.length === 1)) {
-            a.innerHTML = "";
-            DomElement.createWithHTML(a, "span", "no-json-text", e.text.noJsonToViewText);
+        if (s.innerHTML === "" || s.children.length >= 2 && (!o.showOpenedObjectArrayBorders && s.children[1].children.length === 0 || s.children[1].children.length === 1)) {
+            s.innerHTML = "";
+            DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
             if (Is.defined(l)) {
-                a.scrollTop = l;
+                s.scrollTop = l;
             }
             o._currentView.titleBarButtons.style.display = "block";
         }
-        u(o, t, a, r);
+        u(o, t, s, r);
     }
     function u(t, n, o, r) {
         if (t._currentView.isBulkEditingEnabled) {

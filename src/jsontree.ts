@@ -161,17 +161,19 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
+            const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.dataArrayCurrentIndex + 1 ] );
+
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
                 const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
                 const actualData: any = data[ actualDataIndex ];
 
                 if ( Is.defined( actualData ) ) {
-                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage! );
+                    renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage!, allowColumnReordering );
                 }
             }
 
         } else {
-            renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1 );
+            renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1, false );
         }
 
         renderControlFooterBar( bindingOptions );
@@ -180,11 +182,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.initialized = true;
     }
 
-    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number ) : void {
+    function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
         contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
 
-        if ( bindingOptions.paging!.allowColumnReordering && bindingOptions.allowEditing !== false ) {
+        if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
             contentsColumn.setAttribute( "draggable", "true" );
             contentsColumn.ondragstart = () => onContentsColumnDragStart( bindingOptions, dataIndex );
             contentsColumn.ondragend = () => onContentsColumnDragEnd( bindingOptions );
