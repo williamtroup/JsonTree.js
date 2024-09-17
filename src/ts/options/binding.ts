@@ -57,6 +57,9 @@ export namespace Binding {
             bindingOptions._currentView.initialized = false;
             bindingOptions._currentView.contentColumns = [];
             bindingOptions._currentView.footer = null!;
+            bindingOptions._currentView.footerStatusText = null!;
+            bindingOptions._currentView.footerSizeText = null!;
+            bindingOptions._currentView.footerPageText = null!;
 
             for ( var key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {

@@ -32,6 +32,7 @@ import { Config } from "./ts/options/config";
 import { Trigger } from "./ts/area/trigger";
 import { ToolTip } from "./ts/area/tooltip";
 import { Arr } from "./ts/data/arr";
+import { Size } from "./ts/data/size";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -643,23 +644,41 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             updateFooterDisplay( bindingOptions );
 
-            const statusText: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
-            const statusValueSize: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-value-size", getFooterSize( bindingOptions ) );
-            const statusPageIndex: HTMLElement = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-page-index", getFooterPageIndex( bindingOptions ) );
+            bindingOptions._currentView.footerStatusText = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
+            bindingOptions._currentView.footerSizeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-size" );
+
+            if ( bindingOptions.paging!.enabled ) {
+                bindingOptions._currentView.footerPageText = DomElement.create( bindingOptions._currentView.footer, "div", "status-page-index" );
+
+                getFooterPageText( bindingOptions );
+            }
         }
     }
 
-    function getFooterSize( bindingOptions: BindingOptions ) : string {
-        return _configuration.text!.sizeText!.replace( "{0}", "0" );
-    }
+    function getFooterPageText( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.paging!.enabled ) {
+            const currentPage: number = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+            const totalPages: number = Math.ceil( bindingOptions.data.length / bindingOptions.paging!.columnsPerPage! );
+            const text: string = _configuration.text!.pageOfText!.replace( "{0}", currentPage.toString() ).replace( "{1}", totalPages.toString() );
 
-    function getFooterPageIndex( bindingOptions: BindingOptions ) : string {
-        return _configuration.text!.pageOfText!.replace( "{0}", "0" ).replace( "{1}", "0" );
+            bindingOptions._currentView.footerPageText.innerHTML = text;
+        }
     }
 
     function updateFooterDisplay( bindingOptions: BindingOptions ) : void {
         if ( Is.defined( bindingOptions._currentView.footer ) ) {
             bindingOptions._currentView.footer.style.display = bindingOptions._currentView.fullScreenOn ? "flex" : "none";
+        }
+    }
+
+    function addFooterSizeOfStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
+        if ( bindingOptions.footer!.enabled ) {
+            const size: string = Size.of( value );
+
+            if ( Is.definedString( size ) ) {
+                valueElement.onmouseover = () => bindingOptions._currentView.footerSizeText.innerHTML = _configuration.text!.sizeText!.replace( "{0}", size.toString() );
+                valueElement.onmouseleave = () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty;
+            }
         }
     }
 
@@ -706,6 +725,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, objectData, propertyNames, openingBrace, false, true, Char.empty, type );
             addValueClickEvent( bindingOptions, titleText, data, type, false );
+            addFooterSizeOfStatus( bindingOptions, data, titleText );
         }
     }
 
@@ -731,6 +751,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, setData, openingBracket, false, true, Char.empty, type );
         addValueClickEvent( bindingOptions, titleText, data, type, false );
+        addFooterSizeOfStatus( bindingOptions, data, titleText );
     }
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : boolean {
@@ -1454,6 +1475,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
+                addFooterSizeOfStatus( bindingOptions, value, valueElement );
+
                 if ( Is.defined( typeElement ) ) {
                     if ( type !== DataType.null && type !== DataType.undefined && type !== DataType.array && type !== DataType.object && type !== DataType.map && type !== DataType.set ) {
                         typeElement.innerHTML = `(${type})`;

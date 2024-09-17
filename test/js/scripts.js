@@ -53,6 +53,9 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             enableFullScreenToggling: true,
             showFullScreenButton: true,
         },
+        footer: {
+            enabled: true,
+        },
         sideMenu: {
             enabled: true,
             showImportButton: true,

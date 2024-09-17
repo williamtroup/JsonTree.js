@@ -167,6 +167,9 @@ export type BindingOptionsCurrentView = {
 	initialized: boolean;
 	contentColumns: HTMLElement[];
 	footer: HTMLElement;
+	footerStatusText: HTMLElement;
+	footerSizeText: HTMLElement;
+	footerPageText: HTMLElement;
 };
 
 export type BindingOptionsPaging = {
