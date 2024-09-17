@@ -257,7 +257,7 @@ export type BindingOptionsSideMenu = {
 	showImportButton?: boolean;
 	showExportButton?: boolean;
 	titleText?: string;
-	showTypeCounts?: boolean;
+	showDataTypeCounts?: boolean;
 };
 
 export type BindingOptionsAutoClose = {

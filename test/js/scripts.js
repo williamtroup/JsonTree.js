@@ -59,7 +59,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         sideMenu: {
             enabled: true,
             showImportButton: true,
-            showTypeCounts: true,
+            showDataTypeCounts: true,
         },
         allowEditing: {
             bulk: true,

@@ -236,7 +236,7 @@ export namespace Binding {
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
             options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, "JsonTree.js" );
-            options.sideMenu!.showTypeCounts = Default.getBoolean( options.sideMenu!.showTypeCounts, true );
+            options.sideMenu!.showDataTypeCounts = Default.getBoolean( options.sideMenu!.showDataTypeCounts, true );
 
             return options;
         }

@@ -140,10 +140,10 @@ var Is;
         return t.test(e);
     }
     e.definedEmail = w;
-    function y(e, t = 1) {
+    function D(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = y;
+    e.invalidOptionArray = D;
 })(Is || (Is = {}));
 
 var Default2;
@@ -665,7 +665,7 @@ var Binding;
             e.sideMenu.showImportButton = Default2.getBoolean(e.sideMenu.showImportButton, true);
             e.sideMenu.showExportButton = Default2.getBoolean(e.sideMenu.showExportButton, true);
             e.sideMenu.titleText = Default2.getAnyString(e.sideMenu.titleText, "JsonTree.js");
-            e.sideMenu.showTypeCounts = Default2.getBoolean(e.sideMenu.showTypeCounts, true);
+            e.sideMenu.showDataTypeCounts = Default2.getBoolean(e.sideMenu.showDataTypeCounts, true);
             return e;
         }
         function g(e) {
@@ -1202,7 +1202,7 @@ var Size;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
-                    t._currentView.backButton.onclick = () => y(t);
+                    t._currentView.backButton.onclick = () => D(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1210,7 +1210,7 @@ var Size;
                 t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
                 if (t._currentView.dataArrayCurrentIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextButton.onclick = () => D(t);
+                    t._currentView.nextButton.onclick = () => y(t);
                 } else {
                     t._currentView.nextButton.disabled = true;
                 }
@@ -1283,14 +1283,14 @@ var Size;
         i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function y(e) {
+    function D(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
-    function D(e) {
+    function y(e) {
         if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
             e._currentView.dataArrayCurrentIndex += e.paging.columnsPerPage;
             i(e, true);
@@ -1400,7 +1400,7 @@ var Size;
     function I(e, t, n, o) {
         let r = Str.capitalizeFirstLetter(t);
         let l = "";
-        if (n.sideMenu.showTypeCounts) {
+        if (n.sideMenu.showDataTypeCounts) {
             if (n._currentView.dataTypeCounts.hasOwnProperty(t)) {
                 l = `(${n._currentView.dataTypeCounts[t]})`;
             }
@@ -1574,7 +1574,7 @@ var Size;
         let T = false;
         let b = null;
         const w = !Is.definedString(r);
-        let y = true;
+        let D = true;
         if (!w) {
             if (a || !o.showPropertyNameQuotes) {
                 x.innerHTML = r;
@@ -1807,7 +1807,7 @@ var Size;
                     } else {
                         g = "no-properties-text";
                         T = false;
-                        y = false;
+                        D = false;
                     }
                     f = DomElement.createWithHTML(c, "span", g, n);
                     p = "string";
@@ -2057,7 +2057,7 @@ var Size;
                         b = null;
                     }
                 }
-                if (y) {
+                if (D) {
                     W(o, s, x, b, f);
                     J(o, f, l, p, T);
                 }
@@ -2065,7 +2065,7 @@ var Size;
         }
     }
     function P(e, t) {
-        if (e.sideMenu.showTypeCounts) {
+        if (e.sideMenu.showDataTypeCounts) {
             if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
                 e._currentView.dataTypeCounts[t] = 0;
             }
@@ -2424,10 +2424,10 @@ var Size;
                 x(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                y(o);
+                D(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
-                D(o);
+                y(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
                 w(o);
@@ -2502,7 +2502,7 @@ var Size;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    y(t[e]);
+                    D(t[e]);
                 }
             }
             return ae;
@@ -2511,7 +2511,7 @@ var Size;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    D(t[e]);
+                    y(t[e]);
                 }
             }
             return ae;

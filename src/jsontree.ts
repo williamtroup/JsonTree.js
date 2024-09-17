@@ -660,7 +660,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let checkBoxName: string = Str.capitalizeFirstLetter( key );
         let checkBoxAdditionalText: string = Char.empty;
         
-        if ( bindingOptions.sideMenu!.showTypeCounts ) {
+        if ( bindingOptions.sideMenu!.showDataTypeCounts ) {
             if ( bindingOptions._currentView.dataTypeCounts.hasOwnProperty( key ) ) {
                 checkBoxAdditionalText = `(${bindingOptions._currentView.dataTypeCounts[ key ]})`;
             }
@@ -1561,7 +1561,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function updateDataTypeCount( bindingOptions: BindingOptions, dataType: string ) : void {
-        if ( bindingOptions.sideMenu!.showTypeCounts ) {
+        if ( bindingOptions.sideMenu!.showDataTypeCounts ) {
             if ( !bindingOptions._currentView.dataTypeCounts.hasOwnProperty( dataType ) ) {
                 bindingOptions._currentView.dataTypeCounts[ dataType ] = 0;
             }
