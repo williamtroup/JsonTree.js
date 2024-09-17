@@ -33,6 +33,7 @@ import { Trigger } from "./ts/area/trigger";
 import { ToolTip } from "./ts/area/tooltip";
 import { Arr } from "./ts/data/arr";
 import { Size } from "./ts/data/size";
+import { Obj } from "./ts/data/obj";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -771,7 +772,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const isMap: boolean = Is.definedMap( data );
         const type: string = isMap ? DataType.map : DataType.object;
         const objectData: object = isMap ? Default.getObjectFromMap( data ) : data;
-        const propertyNames: string[] = getObjectPropertyNames( objectData, bindingOptions );
+        const propertyNames: string[] = Obj.getPropertyNames( objectData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
@@ -1323,7 +1324,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.htmlValues ) {
                 if ( bindingOptions.showHtmlValuesAsObjects ) {
                     const htmlObject: any = Default.getHtmlElementAsObject( value );
-                    const propertyNames: string[] = getObjectPropertyNames( htmlObject, bindingOptions );
+                    const propertyNames: string[] = Obj.getPropertyNames( htmlObject, bindingOptions );
                     const propertyCount: number = propertyNames.length;
     
                     if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
@@ -1451,7 +1452,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedMap( value ) ) {
             if ( !bindingOptions.ignore!.mapValues ) {
                 const valueObject: object = Default.getObjectFromMap( value );
-                const propertyNames: string[] = getObjectPropertyNames( valueObject, bindingOptions );
+                const propertyNames: string[] = Obj.getPropertyNames( valueObject, bindingOptions );
                 const propertyCount: number = propertyNames.length;
 
                 if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
@@ -1494,7 +1495,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedObject( value ) ) {
             if ( !bindingOptions.ignore!.objectValues ) {
-                const propertyNames: string[] = getObjectPropertyNames( value, bindingOptions );
+                const propertyNames: string[] = Obj.getPropertyNames( value, bindingOptions );
                 const propertyCount: number = propertyNames.length;
 
                 if ( propertyCount === 0 && bindingOptions.ignore!.emptyObjects ) {
@@ -1893,31 +1894,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return result;
-    }
-
-    function getObjectPropertyNames( data: any, bindingOptions: BindingOptions ) : string[] {
-        let properties: string[] = [];
-
-        for ( const key in data ) {
-            if ( data.hasOwnProperty( key ) ) {
-                properties.push( key );
-            }
-        }
-
-        if ( bindingOptions.sortPropertyNames ) {
-            let collator: Intl.Collator = new Intl.Collator( undefined, {
-                numeric: true,
-                sensitivity: "base"
-            } );
-
-            properties = properties.sort( collator.compare );
-
-            if ( !bindingOptions.sortPropertyNamesInAlphabeticalOrder ) {
-                properties = properties.reverse();
-            }
-        }
-
-        return properties;
     }
 
     function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
