@@ -712,10 +712,12 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             if ( bindingOptions.footer!.showLengths ) {
                 bindingOptions._currentView.footerLengthText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-length" );
+                bindingOptions._currentView.footerLengthText.style.display = "none";
             }
 
             if ( bindingOptions.footer!.showSizes ) {
                 bindingOptions._currentView.footerSizeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-size" );
+                bindingOptions._currentView.footerSizeText.style.display = "none";
             }
 
             if ( bindingOptions.paging!.enabled && bindingOptions.footer!.showPageOf ) {
@@ -753,11 +755,15 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const replacement: string = DomElement.createWithHTML( null!, "span", "status-count", length.toString() ).outerHTML;
                     const sizeText: string = _configuration.text!.lengthText!.replace( "{0}", replacement );
 
+                    bindingOptions._currentView.footerLengthText.style.display = "block";
                     bindingOptions._currentView.footerLengthText.innerHTML = sizeText;
 
                 } );
 
-                valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerLengthText.innerHTML = Char.empty );
+                valueElement.addEventListener( "mouseleave", () => {
+                    bindingOptions._currentView.footerLengthText.style.display = "none";
+                    bindingOptions._currentView.footerLengthText.innerHTML = Char.empty;
+                } );
             }
         }
     }
@@ -771,10 +777,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                     const replacement: string = DomElement.createWithHTML( null!, "span", "status-count", size.toString() ).outerHTML;
                     const sizeText: string = _configuration.text!.sizeText!.replace( "{0}", replacement );
 
+                    bindingOptions._currentView.footerSizeText.style.display = "block";
                     bindingOptions._currentView.footerSizeText.innerHTML = sizeText;
                 } );
                 
-                valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty );
+                valueElement.addEventListener( "mouseleave", () => {
+                    bindingOptions._currentView.footerSizeText.style.display = "none";
+                    bindingOptions._currentView.footerSizeText.innerHTML = Char.empty;
+                } );
             }
         }
     }

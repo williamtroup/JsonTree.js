@@ -326,6 +326,11 @@ div.json-tree-js {
             margin-left: calc( var(--json-tree-js-spacing) * 3 );
         }
 
+        div.status-value-length,
+        div.status-value-size {
+            animation: fade-in-animation var(--json-tree-js-animation-length);
+        }
+
         span.status-count {
             font-weight: var(--json-tree-js-header-bold-weight);
         }
