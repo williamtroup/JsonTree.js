@@ -35,6 +35,12 @@ export namespace Size {
         if ( Is.defined( value ) ) {
             if ( Is.definedDate( value ) ) {
                 length = value.toString().length;
+
+            } else if ( Is.definedImage( value ) ) {
+                length = value.src.length;
+
+            } else if ( Is.definedRegExp( value ) ) {
+                length = value.source.length;
                 
             } else if ( Is.definedSet( value ) ) {
                 length = Size.length( Default.getArrayFromSet( value ) );

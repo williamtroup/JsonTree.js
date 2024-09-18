@@ -932,6 +932,10 @@ var Size;
         if (Is.defined(t)) {
             if (Is.definedDate(t)) {
                 n = t.toString().length;
+            } else if (Is.definedImage(t)) {
+                n = t.src.length;
+            } else if (Is.definedRegExp(t)) {
+                n = t.source.length;
             } else if (Is.definedSet(t)) {
                 n = e.length(Default2.getArrayFromSet(t));
             } else if (Is.definedMap(t)) {
@@ -1620,7 +1624,7 @@ var Obj;
         if (n.showOpeningClosingCurlyBraces) {
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
-        k(u, null, s, n, i, d, false, true, "", l);
+        R(u, null, s, n, i, d, false, true, "", l);
         J(n, c, o, l, false);
         j(n, o, c);
         M(n, o, c);
@@ -1630,18 +1634,18 @@ var Obj;
         const f = i.length;
         const m = c !== "" ? f : 0;
         if (f === 0 && !r.ignore.emptyObjects) {
-            R(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
+            k(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
             g = false;
         } else {
             for (let e = 0; e < f; e++) {
                 const t = i[e];
                 const n = c === "" ? t : `${c}${"\\"}${t}`;
                 if (l.hasOwnProperty(t)) {
-                    R(l, o, r, t, l[t], e === f - 1, false, n, d);
+                    k(l, o, r, t, l[t], e === f - 1, false, n, d);
                 }
             }
             if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-                R(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
+                k(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
                 g = false;
             } else {
                 if (r.showOpeningClosingCurlyBraces) {
@@ -1652,7 +1656,7 @@ var Obj;
         Z(r, t, n, o, a, m, d);
         return g;
     }
-    function k(t, n, o, r, l, i, a, s, u, c) {
+    function R(t, n, o, r, l, i, a, s, u, c) {
         let d = true;
         const g = l.length;
         const f = u !== "" ? g : 0;
@@ -1660,17 +1664,17 @@ var Obj;
             for (let e = 0; e < g; e++) {
                 const t = Arr.getIndex(e, r);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                R(l, o, r, Arr.getIndexName(r, t, g), l[e], e === g - 1, true, n, c);
+                k(l, o, r, Arr.getIndexName(r, t, g), l[e], e === g - 1, true, n, c);
             }
         } else {
             for (let e = g; e--; ) {
                 const t = Arr.getIndex(e, r);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                R(l, o, r, Arr.getIndexName(r, t, g), l[e], e === 0, true, n, c);
+                k(l, o, r, Arr.getIndexName(r, t, g), l[e], e === 0, true, n, c);
             }
         }
         if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-            R(l, o, r, "", e.text.noPropertiesText, true, false, "", c);
+            k(l, o, r, "", e.text.noPropertiesText, true, false, "", c);
             d = false;
         } else {
             if (r.showOpeningClosingCurlyBraces) {
@@ -1680,7 +1684,7 @@ var Obj;
         Z(r, t, n, o, i, f, c);
         return d;
     }
-    function R(t, n, o, r, l, i, a, s, u) {
+    function k(t, n, o, r, l, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
         const d = o.showArrowToggles ? DomElement.create(c, "div", "no-arrow") : null;
         let g = null;
@@ -1905,13 +1909,13 @@ var Obj;
         } else if (Is.definedString(l)) {
             if (!o.ignore.stringValues || w) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
-                    R(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
+                    k(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
                     m = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(l)) {
-                    R(t, n, o, r, parseFloat(l), i, a, s, u);
+                    k(t, n, o, r, parseFloat(l), i, a, s, u);
                     m = true;
                 } else if (o.parse.stringsToDates && Is.String.date(l)) {
-                    R(t, n, o, r, new Date(l), i, a, s, u);
+                    k(t, n, o, r, new Date(l), i, a, s, u);
                     m = true;
                 } else {
                     let n = l;
@@ -2053,7 +2057,7 @@ var Obj;
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
                 let u = Y(o, n, i);
-                const g = k(d, u, r, o, t, a, true, i, s, p);
+                const g = R(d, u, r, o, t, a, true, i, s, p);
                 if (!g && Is.defined(a)) {
                     a.parentNode.removeChild(a);
                 }
@@ -2078,7 +2082,7 @@ var Obj;
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
                 let a = Y(o, t, i);
-                const u = k(d, a, n, o, l, r, true, i, s, p);
+                const u = R(d, a, n, o, l, r, true, i, s, p);
                 if (!u && Is.defined(r)) {
                     r.parentNode.removeChild(r);
                 }
