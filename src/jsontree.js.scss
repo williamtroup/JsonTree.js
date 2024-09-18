@@ -320,6 +320,7 @@ div.json-tree-js {
             flex-grow: 1;
         }
 
+        div.status-value-length,
         div.status-value-size,
         div.status-page-index {
             margin-left: calc( var(--json-tree-js-spacing) * 3 );

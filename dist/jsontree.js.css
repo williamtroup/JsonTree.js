@@ -290,6 +290,7 @@ div.json-tree-js div.footer-bar {
 div.json-tree-js div.footer-bar div.status-text {
   flex-grow: 1;
 }
+div.json-tree-js div.footer-bar div.status-value-length,
 div.json-tree-js div.footer-bar div.status-value-size,
 div.json-tree-js div.footer-bar div.status-page-index {
   margin-left: calc(var(--json-tree-js-spacing) * 3);

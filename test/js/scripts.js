@@ -55,6 +55,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         },
         footer: {
             enabled: true,
+            showLengths: true,
             showSizes: true,
             showPageOf: true,
         },

@@ -94,6 +94,7 @@ export type ConfigurationText = {
 	exportedText?: string;
 	importedText?: string;
 	ignoreDataTypesUpdated?: string;
+	lengthText?: string;
 };
 
 export type BindingOptions = {
@@ -173,6 +174,7 @@ export type BindingOptionsCurrentView = {
 	contentColumns: HTMLElement[];
 	footer: HTMLElement;
 	footerStatusText: HTMLElement;
+	footerLengthText: HTMLElement;
 	footerSizeText: HTMLElement;
 	footerPageText: HTMLElement;
 	footerStatusTextTimerId: number;
@@ -206,6 +208,7 @@ export type BindingOptionsTitle = {
 
 export type BindingOptionsFooter = {
     enabled?: boolean;
+	showLengths?: boolean;
 	showSizes?: boolean;
 	showPageOf?: boolean;
 };

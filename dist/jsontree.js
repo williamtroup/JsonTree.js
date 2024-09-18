@@ -508,6 +508,7 @@ var Binding;
             o._currentView.contentColumns = [];
             o._currentView.footer = null;
             o._currentView.footerStatusText = null;
+            o._currentView.footerLengthText = null;
             o._currentView.footerSizeText = null;
             o._currentView.footerPageText = null;
             o._currentView.footerStatusTextTimerId = 0;
@@ -597,6 +598,7 @@ var Binding;
         function i(e) {
             e.footer = Default2.getObject(e.footer, {});
             e.footer.enabled = Default2.getBoolean(e.footer.enabled, true);
+            e.footer.showLengths = Default2.getBoolean(e.footer.showLengths, true);
             e.footer.showSizes = Default2.getBoolean(e.footer.showSizes, true);
             e.footer.showPageOf = Default2.getBoolean(e.footer.showPageOf, true);
             return e;
@@ -782,6 +784,7 @@ var Config;
             e.text.exportedText = Default2.getAnyString(e.text.exportedText, "JSON exported.");
             e.text.importedText = Default2.getAnyString(e.text.importedText, "{0} JSON files imported.");
             e.text.ignoreDataTypesUpdated = Default2.getAnyString(e.text.ignoreDataTypesUpdated, "Ignore data types updated.");
+            e.text.lengthText = Default2.getAnyString(e.text.lengthText, "Length: {0}");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -909,15 +912,39 @@ var Size;
 (e => {
     function t(e) {
         let t = null;
-        const o = n(e);
-        if (o > 0) {
-            const e = Math.floor(Math.log(o) / Math.log(1024));
-            return `${Default2.getFixedFloatPlacesValue(o / Math.pow(1024, e), 2)} ${" KMGTP".charAt(e)}B`;
+        const n = o(e);
+        if (n > 0) {
+            const e = Math.floor(Math.log(n) / Math.log(1024));
+            return `${Default2.getFixedFloatPlacesValue(n / Math.pow(1024, e), 2)} ${" KMGTP".charAt(e)}B`;
         }
         return t;
     }
     e.of = t;
-    function n(e) {
+    function n(t) {
+        let n = 0;
+        if (Is.defined(t)) {
+            if (Is.definedDate(t)) {
+                n = t.toString().length;
+            } else if (Is.definedSet(t)) {
+                n = e.length(Default2.getArrayFromSet(t));
+            } else if (Is.definedMap(t)) {
+                n = e.length(Default2.getObjectFromMap(t));
+            } else if (Is.definedArray(t)) {
+                n = t.length;
+            } else if (Is.definedObject(t)) {
+                for (const e in t) {
+                    if (t.hasOwnProperty(e)) {
+                        n++;
+                    }
+                }
+            } else {
+                n = t.toString().length;
+            }
+        }
+        return n;
+    }
+    e.length = n;
+    function o(e) {
         let t = 0;
         if (Is.defined(e)) {
             if (Is.definedNumber(e)) {
@@ -927,24 +954,24 @@ var Size;
             } else if (Is.definedBoolean(e)) {
                 t = 4;
             } else if (Is.definedBigInt(e)) {
-                t = n(e.toString());
+                t = o(e.toString());
             } else if (Is.definedRegExp(e)) {
-                t = n(e.toString());
+                t = o(e.toString());
             } else if (Is.definedDate(e)) {
-                t = n(e.toString());
+                t = o(e.toString());
             } else if (Is.definedSet(e)) {
-                t = n(Default2.getArrayFromSet(e));
+                t = o(Default2.getArrayFromSet(e));
             } else if (Is.definedMap(e)) {
-                t = n(Default2.getObjectFromMap(e));
+                t = o(Default2.getObjectFromMap(e));
             } else if (Is.definedArray(e)) {
-                const o = e.length;
-                for (let r = 0; r < o; r++) {
-                    t += n(e[r]);
+                const n = e.length;
+                for (let r = 0; r < n; r++) {
+                    t += o(e[r]);
                 }
             } else if (Is.definedObject(e)) {
-                for (const o in e) {
-                    if (e.hasOwnProperty(o)) {
-                        t += n(o) + n(e[o]);
+                for (const n in e) {
+                    if (e.hasOwnProperty(n)) {
+                        t += o(n) + o(e[n]);
                     }
                 }
             }
@@ -1037,7 +1064,7 @@ var Obj;
             n++;
         }
         i(e);
-        ne(e);
+        oe(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -1082,7 +1109,7 @@ var Obj;
         }
         V(e);
         _(e);
-        G(e);
+        K(e);
         e._currentView.initialized = true;
     }
     function s(t, n, o, r, l, i, a) {
@@ -1100,9 +1127,9 @@ var Obj;
             s.onscroll = () => d(s, o);
         }
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            N(s, o, t);
+            L(s, o, t);
         } else if (Is.definedObject(t)) {
-            F(s, o, t, r);
+            N(s, o, t, r);
         }
         if (s.innerHTML === "" || s.children.length >= 2 && (!o.showOpenedObjectArrayBorders && s.children[1].children.length === 0 || s.children[1].children.length === 1)) {
             s.innerHTML = "";
@@ -1133,7 +1160,7 @@ var Obj;
                     if (n.code == "Escape") {
                         n.preventDefault();
                         o.setAttribute("contenteditable", "false");
-                    } else if (re(n) && n.code == "Enter") {
+                    } else if (le(n) && n.code == "Enter") {
                         n.preventDefault();
                         const l = o.innerText;
                         const i = Default2.getObjectFromString(l, e);
@@ -1303,7 +1330,7 @@ var Obj;
             o = JSON.stringify(n, r, t.jsonIndentSpaces);
         }
         navigator.clipboard.writeText(o);
-        j(t, e.text.copiedText);
+        F(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, o);
     }
     function b(e) {
@@ -1363,7 +1390,7 @@ var Obj;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             if (t.sideMenu.showExportButton) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => ee(t);
+                n.onclick = () => te(t);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
@@ -1383,7 +1410,7 @@ var Obj;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        t.onchange = () => X(t.files, e);
+        t.onchange = () => q(t.files, e);
         t.click();
     }
     function v(e) {
@@ -1401,7 +1428,7 @@ var Obj;
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
                     i(t);
-                    j(t, e.text.ignoreDataTypesUpdated);
+                    F(t, e.text.ignoreDataTypesUpdated);
                 }), 500);
             }
         }
@@ -1457,6 +1484,9 @@ var Obj;
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
             O(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
+            if (t.footer.showLengths) {
+                t._currentView.footerLengthText = DomElement.create(t._currentView.footer, "div", "status-value-length");
+            }
             if (t.footer.showSizes) {
                 t._currentView.footerSizeText = DomElement.create(t._currentView.footer, "div", "status-value-size");
             }
@@ -1480,6 +1510,15 @@ var Obj;
         }
     }
     function M(t, n, o) {
+        if (t.footer.enabled && t.footer.showLengths) {
+            const r = Size.length(n);
+            if (r > 0) {
+                o.addEventListener("mousemove", (() => t._currentView.footerLengthText.innerHTML = e.text.lengthText.replace("{0}", r.toString())));
+                o.addEventListener("mouseleave", (() => t._currentView.footerLengthText.innerHTML = ""));
+            }
+        }
+    }
+    function j(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
             const r = Size.of(n);
             if (Is.definedString(r)) {
@@ -1488,7 +1527,7 @@ var Obj;
             }
         }
     }
-    function j(t, n) {
+    function F(t, n) {
         if (t.footer.enabled) {
             t._currentView.footerStatusText.innerHTML = n;
             clearTimeout(t._currentView.footerStatusTextTimerId);
@@ -1497,7 +1536,7 @@ var Obj;
             }), 5e3);
         }
     }
-    function F(t, n, o, r) {
+    function N(t, n, o, r) {
         const l = Is.definedMap(o);
         const i = l ? "map" : "object";
         const a = l ? Default2.getObjectFromMap(o) : o;
@@ -1509,7 +1548,7 @@ var Obj;
             const g = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
             const f = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", l ? e.text.mapText : e.text.objectText);
             let m = null;
-            H(d, n);
+            W(d, n);
             if (n.paging.enabled) {
                 let e = n.useZeroIndexingForArrays ? r.toString() : (r + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -1524,11 +1563,12 @@ var Obj;
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
             P(g, null, d, n, a, s, m, false, true, "", i);
-            J(n, f, o, i, false);
+            U(n, f, o, i, false);
+            j(n, o, f);
             M(n, o, f);
         }
     }
-    function N(t, n, o) {
+    function L(t, n, o) {
         const r = Is.definedSet(o);
         const l = r ? "set" : "array";
         const i = r ? Default2.getArrayFromSet(o) : o;
@@ -1537,15 +1577,16 @@ var Obj;
         const u = n.showArrowToggles ? DomElement.create(a, "div", "down-arrow") : null;
         const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.setText : e.text.arrayText);
         let d = null;
-        H(s, n);
+        W(s, n);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} size` : "size", `[${i.length}]`);
         }
         if (n.showOpeningClosingCurlyBraces) {
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
-        L(u, null, s, n, i, d, false, true, "", l);
-        J(n, c, o, l, false);
+        R(u, null, s, n, i, d, false, true, "", l);
+        U(n, c, o, l, false);
+        j(n, o, c);
         M(n, o, c);
     }
     function P(t, n, o, r, l, i, a, s, u, c, d) {
@@ -1553,29 +1594,29 @@ var Obj;
         const f = i.length;
         const m = c !== "" ? f : 0;
         if (f === 0 && !r.ignore.emptyObjects) {
-            R(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
+            k(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
             g = false;
         } else {
             for (let e = 0; e < f; e++) {
                 const t = i[e];
                 const n = c === "" ? t : `${c}${"\\"}${t}`;
                 if (l.hasOwnProperty(t)) {
-                    R(l, o, r, t, l[t], e === f - 1, false, n, d);
+                    k(l, o, r, t, l[t], e === f - 1, false, n, d);
                 }
             }
             if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-                R(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
+                k(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
                 g = false;
             } else {
                 if (r.showOpeningClosingCurlyBraces) {
-                    Y(r, o, "}", s, u);
+                    G(r, o, "}", s, u);
                 }
             }
         }
-        U(r, t, n, o, a, m, d);
+        Z(r, t, n, o, a, m, d);
         return g;
     }
-    function L(t, n, o, r, l, i, a, s, u, c) {
+    function R(t, n, o, r, l, i, a, s, u, c) {
         let d = true;
         const g = l.length;
         const f = u !== "" ? g : 0;
@@ -1583,27 +1624,27 @@ var Obj;
             for (let e = 0; e < g; e++) {
                 const t = Arr.getIndex(e, r);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                R(l, o, r, Arr.getIndexName(r, t, g), l[e], e === g - 1, true, n, c);
+                k(l, o, r, Arr.getIndexName(r, t, g), l[e], e === g - 1, true, n, c);
             }
         } else {
             for (let e = g; e--; ) {
                 const t = Arr.getIndex(e, r);
                 const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                R(l, o, r, Arr.getIndexName(r, t, g), l[e], e === 0, true, n, c);
+                k(l, o, r, Arr.getIndexName(r, t, g), l[e], e === 0, true, n, c);
             }
         }
         if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-            R(l, o, r, "", e.text.noPropertiesText, true, false, "", c);
+            k(l, o, r, "", e.text.noPropertiesText, true, false, "", c);
             d = false;
         } else {
             if (r.showOpeningClosingCurlyBraces) {
-                Y(r, o, "]", a, s);
+                G(r, o, "]", a, s);
             }
         }
-        U(r, t, n, o, i, f, c);
+        Z(r, t, n, o, i, f, c);
         return d;
     }
-    function R(t, n, o, r, l, i, a, s, u) {
+    function k(t, n, o, r, l, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
         const d = o.showArrowToggles ? DomElement.create(c, "div", "no-arrow") : null;
         let g = null;
@@ -1636,9 +1677,10 @@ var Obj;
         }
         if (!w) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
-            $(o, t, r, x, a);
+            z(o, t, r, x, a);
             if (!a) {
-                M(o, r, x);
+                j(o, r, x);
+                M(o, t, x);
             }
         }
         if (l === null) {
@@ -1649,7 +1691,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onNullRender)) {
                     Trigger.customEvent(o.events.onNullRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1661,7 +1703,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onUndefinedRender)) {
                     Trigger.customEvent(o.events.onUndefinedRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1675,7 +1717,7 @@ var Obj;
                     if (Is.definedFunction(o.events.onLambdaRender)) {
                         Trigger.customEvent(o.events.onLambdaRender, f);
                     }
-                    Z(o, c, i);
+                    Y(o, c, i);
                 } else {
                     m = true;
                 }
@@ -1687,7 +1729,7 @@ var Obj;
                     if (Is.definedFunction(o.events.onFunctionRender)) {
                         Trigger.customEvent(o.events.onFunctionRender, f);
                     }
-                    Z(o, c, i);
+                    Y(o, c, i);
                 } else {
                     m = true;
                 }
@@ -1698,11 +1740,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, l);
                 p = "boolean";
                 T = o.allowEditing.booleanValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1713,11 +1755,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, e);
                 p = "float";
                 T = o.allowEditing.floatValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1727,11 +1769,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, l);
                 p = "number";
                 T = o.allowEditing.numberValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1741,11 +1783,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, l);
                 p = "bigint";
                 T = o.allowEditing.bigIntValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1755,11 +1797,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, l);
                 p = "guid";
                 T = o.allowEditing.guidValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1772,11 +1814,11 @@ var Obj;
                 if (o.showValueColors) {
                     f.style.color = l;
                 }
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1794,11 +1836,11 @@ var Obj;
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(l);
                 }
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1816,24 +1858,24 @@ var Obj;
                     const t = DomElement.createWithHTML(c, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     t.onclick = () => window.open(`mailto:${l}`);
                 }
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
         } else if (Is.definedString(l)) {
             if (!o.ignore.stringValues || w) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
-                    R(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
+                    k(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
                     m = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(l)) {
-                    R(t, n, o, r, parseFloat(l), i, a, s, u);
+                    k(t, n, o, r, parseFloat(l), i, a, s, u);
                     m = true;
                 } else if (o.parse.stringsToDates && Is.String.date(l)) {
-                    R(t, n, o, r, new Date(l), i, a, s, u);
+                    k(t, n, o, r, new Date(l), i, a, s, u);
                     m = true;
                 } else {
                     let n = l;
@@ -1852,11 +1894,11 @@ var Obj;
                     f = DomElement.createWithHTML(c, "span", g, n);
                     p = "string";
                     if (!w) {
-                        z(o, t, r, l, f, a, T);
+                        J(o, t, r, l, f, a, T);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, f);
                         }
-                        Z(o, c, i);
+                        Y(o, c, i);
                     }
                 }
             } else {
@@ -1868,11 +1910,11 @@ var Obj;
                 f = DomElement.createWithHTML(c, "span", g, DateTime.getCustomFormattedDateText(e, l, o.dateTimeFormat));
                 p = "date";
                 T = o.allowEditing.dateValues;
-                z(o, t, r, l, f, a, T);
+                J(o, t, r, l, f, a, T);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1884,7 +1926,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1896,7 +1938,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onRegExpRender)) {
                     Trigger.customEvent(o.events.onRegExpRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1910,7 +1952,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onImageRender)) {
                     Trigger.customEvent(o.events.onImageRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -1926,7 +1968,7 @@ var Obj;
                         const l = DomElement.create(c, "span", o.showValueColors ? "html" : "");
                         const a = DomElement.create(c, "div", "object-type-contents");
                         let u = null;
-                        H(a, o);
+                        W(a, o);
                         if (i) {
                             DomElement.addClass(a, "last-item");
                         }
@@ -1938,7 +1980,7 @@ var Obj;
                         if (o.showOpeningClosingCurlyBraces) {
                             u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                         }
-                        let g = Z(o, l, i);
+                        let g = Y(o, l, i);
                         const m = P(d, g, a, o, t, n, u, true, i, s, p);
                         if (!m && Is.defined(u)) {
                             u.parentNode.removeChild(u);
@@ -1951,7 +1993,7 @@ var Obj;
                     if (Is.definedFunction(o.events.onHtmlRender)) {
                         Trigger.customEvent(o.events.onHtmlRender, f);
                     }
-                    Z(o, c, i);
+                    Y(o, c, i);
                 }
             } else {
                 m = true;
@@ -1962,7 +2004,7 @@ var Obj;
                 const n = DomElement.create(c, "span", o.showValueColors ? "set" : "");
                 const r = DomElement.create(c, "div", "object-type-contents");
                 let a = null;
-                H(r, o);
+                W(r, o);
                 if (i) {
                     DomElement.addClass(r, "last-item");
                 }
@@ -1974,8 +2016,8 @@ var Obj;
                 if (o.showOpeningClosingCurlyBraces) {
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
-                let u = Z(o, n, i);
-                const g = L(d, u, r, o, t, a, true, i, s, p);
+                let u = Y(o, n, i);
+                const g = R(d, u, r, o, t, a, true, i, s, p);
                 if (!g && Is.defined(a)) {
                     a.parentNode.removeChild(a);
                 }
@@ -1987,7 +2029,7 @@ var Obj;
                 const t = DomElement.create(c, "span", o.showValueColors ? "array" : "");
                 const n = DomElement.create(c, "div", "object-type-contents");
                 let r = null;
-                H(n, o);
+                W(n, o);
                 if (i) {
                     DomElement.addClass(n, "last-item");
                 }
@@ -1999,8 +2041,8 @@ var Obj;
                 if (o.showOpeningClosingCurlyBraces) {
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
-                let a = Z(o, t, i);
-                const u = L(d, a, n, o, l, r, true, i, s, p);
+                let a = Y(o, t, i);
+                const u = R(d, a, n, o, l, r, true, i, s, p);
                 if (!u && Is.defined(r)) {
                     r.parentNode.removeChild(r);
                 }
@@ -2018,7 +2060,7 @@ var Obj;
                     const l = DomElement.create(c, "span", o.showValueColors ? "map" : "");
                     const a = DomElement.create(c, "div", "object-type-contents");
                     let u = null;
-                    H(a, o);
+                    W(a, o);
                     if (i) {
                         DomElement.addClass(a, "last-item");
                     }
@@ -2030,7 +2072,7 @@ var Obj;
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
-                    let g = Z(o, l, i);
+                    let g = Y(o, l, i);
                     const m = P(d, g, a, o, t, n, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
@@ -2049,7 +2091,7 @@ var Obj;
                     const r = DomElement.create(c, "span", o.showValueColors ? "object" : "");
                     const a = DomElement.create(c, "div", "object-type-contents");
                     let u = null;
-                    H(a, o);
+                    W(a, o);
                     if (i) {
                         DomElement.addClass(a, "last-item");
                     }
@@ -2061,7 +2103,7 @@ var Obj;
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
-                    let g = Z(o, r, i);
+                    let g = Y(o, r, i);
                     const m = P(d, g, a, o, l, t, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
@@ -2078,7 +2120,7 @@ var Obj;
                 if (Is.definedFunction(o.events.onUnknownRender)) {
                     Trigger.customEvent(o.events.onUnknownRender, f);
                 }
-                Z(o, c, i);
+                Y(o, c, i);
             } else {
                 m = true;
             }
@@ -2087,9 +2129,10 @@ var Obj;
             n.removeChild(c);
         } else {
             if (Is.defined(f)) {
-                M(o, l, f);
                 if (!w) {
-                    k(o, p);
+                    H(o, p);
+                    j(o, l, f);
+                    M(o, l, f);
                 }
                 if (Is.defined(b)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
@@ -2100,13 +2143,13 @@ var Obj;
                     }
                 }
                 if (D) {
-                    W(o, s, x, b, f);
-                    J(o, f, l, p, T);
+                    $(o, s, x, b, f);
+                    U(o, f, l, p, T);
                 }
             }
         }
     }
-    function k(e, t) {
+    function H(e, t) {
         if (e.sideMenu.showDataTypeCounts) {
             if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
                 e._currentView.dataTypeCounts[t] = 0;
@@ -2114,7 +2157,7 @@ var Obj;
             e._currentView.dataTypeCounts[t]++;
         }
     }
-    function H(e, t) {
+    function W(e, t) {
         if (t.showOpenedObjectArrayBorders) {
             DomElement.addClass(e, "object-border");
             if (!t.showArrowToggles) {
@@ -2123,7 +2166,7 @@ var Obj;
             DomElement.create(e, "div", "object-border-bottom");
         }
     }
-    function W(e, t, n, o, r) {
+    function $(e, t, n, o, r) {
         if (Is.definedObject(e.valueToolTips)) {
             if (e.logJsonValueToolTipPaths) {
                 console.log(t);
@@ -2143,7 +2186,7 @@ var Obj;
             }
         }
     }
-    function $(e, t, n, o, r) {
+    function z(e, t, n, o, r) {
         if (e.allowEditing.propertyNames) {
             o.ondblclick = l => {
                 DomElement.cancelBubble(l);
@@ -2200,7 +2243,7 @@ var Obj;
             };
         }
     }
-    function z(e, t, n, o, r, l, a) {
+    function J(e, t, n, o, r, l, a) {
         if (a) {
             r.ondblclick = a => {
                 DomElement.cancelBubble(a);
@@ -2260,7 +2303,7 @@ var Obj;
             };
         }
     }
-    function J(e, t, n, o, r) {
+    function U(e, t, n, o, r) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (r) {
@@ -2277,7 +2320,7 @@ var Obj;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function U(e, t, n, o, r, l, i) {
+    function Z(e, t, n, o, r, l, i) {
         const a = e._currentView.contentPanelsIndex;
         const s = e._currentView.contentPanelsDataIndex;
         if (!e._currentView.contentPanelsOpen.hasOwnProperty(s)) {
@@ -2339,22 +2382,22 @@ var Obj;
         d(g);
         e._currentView.contentPanelsIndex++;
     }
-    function Z(e, t, n) {
+    function Y(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function Y(e, t, n, o, r) {
+    function G(e, t, n, o, r) {
         let l = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(l, "div", "no-arrow");
         }
         DomElement.createWithHTML(l, "div", "object-type-end", n);
-        Z(e, l, r);
+        Y(e, l, r);
     }
-    function G(t) {
+    function K(t) {
         if (t.fileDroppingEnabled) {
             const n = DomElement.create(t._currentView.element, "div", "drag-and-drop-background");
             const o = DomElement.create(n, "div", "notice-text");
@@ -2362,27 +2405,27 @@ var Obj;
             DomElement.createWithHTML(o, "p", "notice-text-title", e.text.dragAndDropTitleText);
             DomElement.createWithHTML(o, "p", "notice-text-description", e.text.dragAndDropDescriptionText);
             t._currentView.dragAndDropBackground = n;
-            t._currentView.element.ondragover = () => K(t, n);
-            t._currentView.element.ondragenter = () => K(t, n);
+            t._currentView.element.ondragover = () => Q(t, n);
+            t._currentView.element.ondragenter = () => Q(t, n);
             n.ondragover = DomElement.cancelBubble;
             n.ondragenter = DomElement.cancelBubble;
             n.ondragleave = () => n.style.display = "none";
-            n.ondrop = e => Q(e, t);
+            n.ondrop = e => X(e, t);
         }
     }
-    function K(e, t) {
+    function Q(e, t) {
         if (!e._currentView.columnDragging) {
             t.style.display = "block";
         }
     }
-    function Q(e, t) {
+    function X(e, t) {
         DomElement.cancelBubble(e);
         t._currentView.dragAndDropBackground.style.display = "none";
         if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-            X(e.dataTransfer.files, t);
+            q(e.dataTransfer.files, t);
         }
     }
-    function X(t, n) {
+    function q(t, n) {
         const o = t.length;
         let r = 0;
         let l = [];
@@ -2394,7 +2437,7 @@ var Obj;
                 n._currentView.contentPanelsOpen = {};
                 n.data = l.length === 1 ? l[0] : l;
                 i(n);
-                j(n, e.text.importedText.replace("{0}", o.toString()));
+                F(n, e.text.importedText.replace("{0}", o.toString()));
                 Trigger.customEvent(n.events.onSetJson, n._currentView.element);
             }
         };
@@ -2402,11 +2445,11 @@ var Obj;
             const n = t[e];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                q(n, a);
+                ee(n, a);
             }
         }
     }
-    function q(t, n) {
+    function ee(t, n) {
         const o = new FileReader;
         let r = null;
         o.onloadend = () => n(r);
@@ -2418,33 +2461,33 @@ var Obj;
         };
         o.readAsText(t);
     }
-    function ee(t) {
+    function te(t) {
         let n = JSON.stringify(t.data, h, t.jsonIndentSpaces);
         if (Is.definedString(n)) {
             const o = DomElement.create(document.body, "a");
             o.style.display = "none";
             o.setAttribute("target", "_blank");
             o.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(n)}`);
-            o.setAttribute("download", te(t));
+            o.setAttribute("download", ne(t));
             o.click();
             document.body.removeChild(o);
             E(t);
-            j(t, e.text.exportedText);
+            F(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }
-    function te(t) {
+    function ne(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
         return o;
     }
-    function ne(e, t = true) {
+    function oe(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => oe(t, e)));
+        n("keydown", (t => re(t, e)));
     }
-    function oe(e, o) {
+    function re(e, o) {
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
-            if (re(e) && e.code === "F11") {
+            if (le(e) && e.code === "F11") {
                 e.preventDefault();
                 x(o);
             } else if (e.code === "ArrowLeft") {
@@ -2465,10 +2508,10 @@ var Obj;
             }
         }
     }
-    function re(e) {
+    function le(e) {
         return e.ctrlKey || e.metaKey;
     }
-    function le(e) {
+    function ie(e) {
         e._currentView.element.innerHTML = "";
         DomElement.removeClass(e._currentView.element, "json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -2477,19 +2520,19 @@ var Obj;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        ne(e, false);
+        oe(e, false);
         ToolTip.assignToEvents(e, false);
         ToolTip.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const ie = {
+    const ae = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return ie;
+            return ae;
         },
         refreshAll: function() {
             for (const e in t) {
@@ -2499,29 +2542,29 @@ var Obj;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return ie;
+            return ae;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 l(Binding.Options.getForNewInstance(t, e));
             }
-            return ie;
+            return ae;
         },
         renderAll: function() {
             o();
-            return ie;
+            return ae;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 b(t[e]);
             }
-            return ie;
+            return ae;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 w(t[e]);
             }
-            return ie;
+            return ae;
         },
         backPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -2530,7 +2573,7 @@ var Obj;
                     D(t[e]);
                 }
             }
-            return ie;
+            return ae;
         },
         nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -2539,7 +2582,7 @@ var Obj;
                     y(t[e]);
                 }
             }
-            return ie;
+            return ae;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -2567,7 +2610,7 @@ var Obj;
                 i(l);
                 Trigger.customEvent(l.events.onSetJson, l._currentView.element);
             }
-            return ie;
+            return ae;
         },
         getJson: function(e) {
             let n = null;
@@ -2578,21 +2621,21 @@ var Obj;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                le(t[e]);
+                ie(t[e]);
                 delete t[e];
                 n--;
             }
-            return ie;
+            return ae;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    le(t[e]);
+                    ie(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return ie;
+            return ae;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -2608,7 +2651,7 @@ var Obj;
                     e = Config.Options.get(o);
                 }
             }
-            return ie;
+            return ae;
         },
         getIds: function() {
             const e = [];
@@ -2627,7 +2670,7 @@ var Obj;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => o()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = ie;
+            window.$jsontree = ae;
         }
     })();
 })();//# sourceMappingURL=jsontree.js.map

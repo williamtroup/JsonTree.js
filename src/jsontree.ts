@@ -710,6 +710,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             bindingOptions._currentView.footerStatusText = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
             
+            if ( bindingOptions.footer!.showLengths ) {
+                bindingOptions._currentView.footerLengthText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-length" );
+            }
+
             if ( bindingOptions.footer!.showSizes ) {
                 bindingOptions._currentView.footerSizeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-size" );
             }
@@ -738,7 +742,18 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addFooterSizeOfStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
+    function addFooterLengthStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
+        if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showLengths ) {
+            const length: number = Size.length( value );
+
+            if ( length > 0 ) {
+                valueElement.addEventListener( "mousemove", () => bindingOptions._currentView.footerLengthText.innerHTML = _configuration.text!.lengthText!.replace( "{0}", length.toString() ) );
+                valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerLengthText.innerHTML = Char.empty );
+            }
+        }
+    }
+
+    function addFooterSizeStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
         if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showSizes ) {
             const size: string = Size.of( value );
 
@@ -804,7 +819,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, objectData, propertyNames, openingBrace, false, true, Char.empty, type );
             addValueClickEvent( bindingOptions, titleText, data, type, false );
-            addFooterSizeOfStatus( bindingOptions, data, titleText );
+            addFooterSizeStatus( bindingOptions, data, titleText );
+            addFooterLengthStatus( bindingOptions, data, titleText );
         }
     }
 
@@ -830,7 +846,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, setData, openingBracket, false, true, Char.empty, type );
         addValueClickEvent( bindingOptions, titleText, data, type, false );
-        addFooterSizeOfStatus( bindingOptions, data, titleText );
+        addFooterSizeStatus( bindingOptions, data, titleText );
+        addFooterLengthStatus( bindingOptions, data, titleText );
     }
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string ) : boolean {
@@ -948,7 +965,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
 
             if ( !isArrayItem ) {
-                addFooterSizeOfStatus( bindingOptions, name, nameElement );
+                addFooterSizeStatus( bindingOptions, name, nameElement );
+                addFooterLengthStatus( bindingOptions, data, nameElement );
             }
         }
 
@@ -1558,10 +1576,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             
         } else {
             if ( Is.defined( valueElement ) ) {
-                addFooterSizeOfStatus( bindingOptions, value, valueElement );
-
                 if ( !isForEmptyProperties ) {
                     updateDataTypeCount( bindingOptions, type );
+                    addFooterSizeStatus( bindingOptions, value, valueElement );
+                    addFooterLengthStatus( bindingOptions, value, valueElement );
                 }
 
                 if ( Is.defined( typeElement ) ) {

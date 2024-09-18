@@ -29,6 +29,37 @@ export namespace Size {
         return result;
     }
 
+    export function length( value: any ) : number {
+        let length: number = 0;
+
+        if ( Is.defined( value ) ) {
+            if ( Is.definedDate( value ) ) {
+                length = value.toString().length;
+                
+            } else if ( Is.definedSet( value ) ) {
+                length = Size.length( Default.getArrayFromSet( value ) );
+
+            } else if ( Is.definedMap( value ) ) {
+                length = Size.length( Default.getObjectFromMap( value ) );
+
+            } else if ( Is.definedArray( value ) ) {
+                length = value.length;
+                
+            } else if ( Is.definedObject( value ) ) {
+                for ( const itemKey in value ) {
+                    if ( value.hasOwnProperty( itemKey ) ) {
+                        length++;
+                    }
+                }
+
+            } else {
+                length = value.toString().length;
+            }
+        }
+
+        return length;
+    }
+
     function getSize( value: any ) : number {
         let bytes: number = 0;
 

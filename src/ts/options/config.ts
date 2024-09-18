@@ -84,6 +84,7 @@ export namespace Config {
             configuration.text!.exportedText = Default.getAnyString( configuration.text!.exportedText, "JSON exported." );
             configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} JSON files imported." );
             configuration.text!.ignoreDataTypesUpdated = Default.getAnyString( configuration.text!.ignoreDataTypesUpdated, "Ignore data types updated." );
+            configuration.text!.lengthText = Default.getAnyString( configuration.text!.lengthText, "Length: {0}" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
