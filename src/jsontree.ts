@@ -542,16 +542,22 @@ type JsonTreeData = Record<string, BindingOptions>;
     function jsonStringifyReplacer( _: string, value: any ) : void {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
+
         } else if ( Is.definedSymbol( value ) ) {
             value = value.toString();
+
         } else if ( Is.definedFunction( value ) ) {
             value = Default.getFunctionName( value, _configuration ).name;
+
         } else if ( Is.definedMap( value ) ) {
             value = Default.getObjectFromMap( value );
+
         } else if ( Is.definedSet( value ) ) {
             value = Default.getArrayFromSet( value );
+
         } else if ( Is.definedRegExp( value ) ) {
             value = value.source;
+            
         } else if ( Is.definedImage( value ) ) {
             value = value.src;
         }
