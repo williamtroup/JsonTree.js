@@ -981,7 +981,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !isArrayItem ) {
                 addFooterSizeStatus( bindingOptions, name, nameElement );
-                addFooterLengthStatus( bindingOptions, data, nameElement );
+                addFooterLengthStatus( bindingOptions, name, nameElement );
             }
         }
 
