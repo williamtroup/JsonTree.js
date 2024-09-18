@@ -235,6 +235,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
         if ( bindingOptions._currentView.isBulkEditingEnabled ) {
             contents.ondblclick = ( e: MouseEvent ) => {
+                let statusBarMessage: string = null!;
+
                 DomElement.cancelBubble( e );
 
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -250,7 +252,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( contents );
 
-                contents.onblur = () => renderControlContainer( bindingOptions, false );
+                contents.onblur = () => {
+                    renderControlContainer( bindingOptions, false );
+
+                    if ( Is.definedString( statusBarMessage ) ) {
+                        setFooterStatusText( bindingOptions, statusBarMessage );
+                    }
+                };
     
                 contents.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -270,6 +278,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 bindingOptions.data = newData.object;
                             }
                         }
+
+                        statusBarMessage = _configuration.text!.jsonUpdatedText!;
 
                         contents.setAttribute( "contenteditable", "false" );
                         
@@ -1677,6 +1687,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.cancelBubble( e );
 
                 let originalArrayIndex: number = 0;
+                let statusBarMessage: string = null!;
 
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
                 
@@ -1699,7 +1710,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( propertyName );
 
-                propertyName.onblur = () => renderControlContainer( bindingOptions, false );
+                propertyName.onblur = () => {
+                    renderControlContainer( bindingOptions, false );
+
+                    if ( Is.definedString( statusBarMessage ) ) {
+                        setFooterStatusText( bindingOptions, statusBarMessage );
+                    }
+                };
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -1720,6 +1737,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 }
 
                                 if ( originalArrayIndex !== newArrayIndex ) {
+                                    statusBarMessage = _configuration.text!.indexUpdatedText!;
+
                                     Arr.moveIndex( data, originalArrayIndex, newArrayIndex );
                                     Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                                 }
@@ -1728,10 +1747,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                         } else {
                             if ( newPropertyName !== originalPropertyName ) {
                                 if ( newPropertyName.trim() === Char.empty ) {
+                                    statusBarMessage = _configuration.text!.itemDeletedText!;
+
                                     delete data[ originalPropertyName ];
             
                                 } else {
                                     if ( !data.hasOwnProperty( newPropertyName ) ) {
+                                        statusBarMessage = _configuration.text!.nameUpdatedText!;
+
                                         const originalValue: any = data[ originalPropertyName ];
                 
                                         delete data[ originalPropertyName ];
@@ -1754,6 +1777,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean ) : void {
         if ( allowEditing ) {
             propertyValue.ondblclick = ( e: MouseEvent ) => {
+                let statusBarMessage: string = null!;
+
                 DomElement.cancelBubble( e );
 
                 clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -1775,7 +1800,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 DomElement.selectAllText( propertyValue );
 
-                propertyValue.onblur = () => renderControlContainer( bindingOptions, false );
+                propertyValue.onblur = () => {
+                    renderControlContainer( bindingOptions, false );
+
+                    if ( Is.definedString( statusBarMessage ) ) {
+                        setFooterStatusText( bindingOptions, statusBarMessage );
+                    }
+                };
     
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
                     if ( e.code == KeyCode.escape ) {
@@ -1793,6 +1824,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                             } else {
                                 delete data[ originalPropertyName ];
                             }
+
+                            statusBarMessage = _configuration.text!.itemDeletedText!;
     
                         } else {
                             let newDataPropertyValue: any = null;
@@ -1817,6 +1850,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                                 } else {
                                     data[ originalPropertyName ] = newDataPropertyValue;
                                 }
+
+                                statusBarMessage = _configuration.text!.valueUpdatedText!;
 
                                 Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                             }

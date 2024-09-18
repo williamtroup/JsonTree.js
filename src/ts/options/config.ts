@@ -85,6 +85,11 @@ export namespace Config {
             configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} JSON files imported." );
             configuration.text!.ignoreDataTypesUpdated = Default.getAnyString( configuration.text!.ignoreDataTypesUpdated, "Ignore data types updated." );
             configuration.text!.lengthText = Default.getAnyString( configuration.text!.lengthText, "Length: {0}" );
+            configuration.text!.valueUpdatedText = Default.getAnyString( configuration.text!.valueUpdatedText, "Value updated." );
+            configuration.text!.jsonUpdatedText = Default.getAnyString( configuration.text!.jsonUpdatedText, "JSON updated." );
+            configuration.text!.nameUpdatedText = Default.getAnyString( configuration.text!.nameUpdatedText, "Property name updated." );
+            configuration.text!.indexUpdatedText = Default.getAnyString( configuration.text!.indexUpdatedText, "Array index updated." );
+            configuration.text!.itemDeletedText = Default.getAnyString( configuration.text!.itemDeletedText, "Item deleted." );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

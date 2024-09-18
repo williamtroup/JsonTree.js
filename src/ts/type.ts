@@ -95,6 +95,11 @@ export type ConfigurationText = {
 	importedText?: string;
 	ignoreDataTypesUpdated?: string;
 	lengthText?: string;
+	valueUpdatedText?: string;
+	jsonUpdatedText?: string;
+	nameUpdatedText?: string;
+	indexUpdatedText?: string;
+	itemDeletedText?: string;
 };
 
 export type BindingOptions = {
