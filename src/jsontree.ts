@@ -1404,7 +1404,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                             openingBrace.parentNode!.removeChild( openingBrace );
                         }
                     }
-                    
 
                 } else {
                     valueClass = bindingOptions.showValueColors ? `${DataType.html} value` : "value";
