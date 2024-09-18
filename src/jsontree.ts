@@ -178,6 +178,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
         contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
+        contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
 
         if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
             contentsColumn.setAttribute( "draggable", "true" );
@@ -188,10 +189,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         bindingOptions._currentView.contentColumns.push( contentsColumn );
-
-        if ( bindingOptions.paging!.synchronizeScrolling ) {
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
-        }
 
         if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
             renderArray( contentsColumn, bindingOptions, data );
@@ -294,13 +291,17 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions ) : void {
-        const scrollTop: number = column.scrollTop;
-        const scrollLeft: number = column.scrollLeft;
-        const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+        ToolTip.hide( bindingOptions );
 
-        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-            bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
-            bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+        if ( bindingOptions.paging!.synchronizeScrolling ) {
+            const scrollTop: number = column.scrollTop;
+            const scrollLeft: number = column.scrollLeft;
+            const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+    
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
+                bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+            }
         }
     }
 

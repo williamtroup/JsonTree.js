@@ -1130,6 +1130,7 @@ var Obj;
     function a(t, n, o, r, l, i, a) {
         const u = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
         u.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
+        u.onscroll = () => c(u, o);
         if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
             u.setAttribute("draggable", "true");
             u.ondragstart = () => d(u, o, r);
@@ -1138,9 +1139,6 @@ var Obj;
             u.ondrop = () => g(o, r);
         }
         o._currentView.contentColumns.push(u);
-        if (o.paging.synchronizeScrolling) {
-            u.onscroll = () => c(u, o);
-        }
         if (Is.definedArray(t) || Is.definedSet(t)) {
             N(u, o, t);
         } else if (Is.definedObject(t)) {
@@ -1214,12 +1212,15 @@ var Obj;
         return t;
     }
     function c(e, t) {
-        const n = e.scrollTop;
-        const o = e.scrollLeft;
-        const r = t._currentView.contentColumns.length;
-        for (let e = 0; e < r; e++) {
-            t._currentView.contentColumns[e].scrollTop = n;
-            t._currentView.contentColumns[e].scrollLeft = o;
+        ToolTip.hide(t);
+        if (t.paging.synchronizeScrolling) {
+            const n = e.scrollTop;
+            const o = e.scrollLeft;
+            const r = t._currentView.contentColumns.length;
+            for (let e = 0; e < r; e++) {
+                t._currentView.contentColumns[e].scrollTop = n;
+                t._currentView.contentColumns[e].scrollLeft = o;
+            }
         }
     }
     function d(e, t, n) {
