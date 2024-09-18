@@ -115,16 +115,19 @@ function getData() {
             value3: new Date(),
             value4: 5,
             value7: null,
-            value8: function( message ) {
-                console.log( message );
-            },
             value9: 3.1415926535,
             value10: 9007199254740991n,
             value11: Symbol( "id" ),
             value12: {},
             value13: undefined,
-            value14: ( message ) => {
-                console.log( message );
+            value14: {
+                lambda: ( message ) => {
+                    console.log( message );
+                },
+                namedFunction: testFunctionName,
+                function: function( message ) {
+                    console.log( message );
+                }
             },
             value15: "rgb(144, 238, 144)",
             value16: crypto.randomUUID(),
@@ -134,8 +137,7 @@ function getData() {
             value20: "https://www.william-troup.com",
             value21: "william@troup.uk",
             value22: image,
-            value23: testFunctionName,
-            value24: htmlElement1,
+            value23: htmlElement1,
             value5: [
                 true,
                 "This is another string",
