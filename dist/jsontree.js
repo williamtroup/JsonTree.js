@@ -568,7 +568,7 @@ var Binding;
             t = a(t);
             t = s(t);
             t = u(t);
-            t = c(t, Is.definedObject(t.valueToolTips));
+            t = c(t);
             t = d(t);
             t = g(t);
             t = f(t);
@@ -642,24 +642,21 @@ var Binding;
             e.parse.stringsToNumbers = Default2.getBoolean(e.parse.stringsToNumbers, false);
             return e;
         }
-        function c(e, t) {
-            let n = Default2.getBoolean(e.allowEditing, true);
+        function c(e) {
+            let t = Default2.getBoolean(e.allowEditing, true);
             e.allowEditing = Default2.getObject(e.allowEditing, {});
-            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, n);
-            e.allowEditing.floatValues = Default2.getBoolean(e.allowEditing.floatValues, n);
-            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, n);
-            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, n);
-            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, n);
-            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, n);
-            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, n);
-            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, n);
-            e.allowEditing.urlValues = Default2.getBoolean(e.allowEditing.urlValues, n);
-            e.allowEditing.emailValues = Default2.getBoolean(e.allowEditing.emailValues, n);
-            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, n);
-            e.allowEditing.bulk = Default2.getBoolean(e.allowEditing.bulk, n);
-            if (t) {
-                e.allowEditing.propertyNames = false;
-            }
+            e.allowEditing.booleanValues = Default2.getBoolean(e.allowEditing.booleanValues, t);
+            e.allowEditing.floatValues = Default2.getBoolean(e.allowEditing.floatValues, t);
+            e.allowEditing.numberValues = Default2.getBoolean(e.allowEditing.numberValues, t);
+            e.allowEditing.stringValues = Default2.getBoolean(e.allowEditing.stringValues, t);
+            e.allowEditing.dateValues = Default2.getBoolean(e.allowEditing.dateValues, t);
+            e.allowEditing.bigIntValues = Default2.getBoolean(e.allowEditing.bigIntValues, t);
+            e.allowEditing.guidValues = Default2.getBoolean(e.allowEditing.guidValues, t);
+            e.allowEditing.colorValues = Default2.getBoolean(e.allowEditing.colorValues, t);
+            e.allowEditing.urlValues = Default2.getBoolean(e.allowEditing.urlValues, t);
+            e.allowEditing.emailValues = Default2.getBoolean(e.allowEditing.emailValues, t);
+            e.allowEditing.propertyNames = Default2.getBoolean(e.allowEditing.propertyNames, t);
+            e.allowEditing.bulk = Default2.getBoolean(e.allowEditing.bulk, t);
             return e;
         }
         function d(e) {

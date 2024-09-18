@@ -122,7 +122,7 @@ export namespace Binding {
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
-            options = getAllowEditing( options, Is.definedObject( options.valueToolTips ) );
+            options = getAllowEditing( options );
             options = getSideMenu( options );
             options = getAutoClose( options );
             options = getCustomTriggers( options );
@@ -209,7 +209,7 @@ export namespace Binding {
             return options;
         }
 
-        function getAllowEditing( options: BindingOptions, valueToolTipsSet: boolean ) : BindingOptions {
+        function getAllowEditing( options: BindingOptions ) : BindingOptions {
             let defaultFlag: boolean = Default.getBoolean( options.allowEditing, true );
 
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
@@ -225,10 +225,6 @@ export namespace Binding {
             options.allowEditing!.emailValues = Default.getBoolean( options.allowEditing!.emailValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
-
-            if ( valueToolTipsSet ) {
-                options.allowEditing!.propertyNames = false;
-            }
 
             return options;
         }
