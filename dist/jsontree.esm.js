@@ -833,7 +833,7 @@ var ToolTip;
     e.assignToEvents = n;
     function o(e, t, n, o = "jsontree-js-tooltip") {
         if (e !== null) {
-            e.onmousemove = e => r(e, t, n, o);
+            e.addEventListener("mousemove", (e => r(e, t, n, o)));
         }
     }
     e.add = o;
@@ -1484,8 +1484,8 @@ var Obj;
         if (t.footer.enabled && t.footer.showSizes) {
             const r = Size.of(n);
             if (Is.definedString(r)) {
-                o.onmouseover = () => t._currentView.footerSizeText.innerHTML = e.text.sizeText.replace("{0}", r.toString());
-                o.onmouseleave = () => t._currentView.footerSizeText.innerHTML = "";
+                o.addEventListener("mousemove", (() => t._currentView.footerSizeText.innerHTML = e.text.sizeText.replace("{0}", r.toString())));
+                o.addEventListener("mouseleave", (() => t._currentView.footerSizeText.innerHTML = ""));
             }
         }
     }

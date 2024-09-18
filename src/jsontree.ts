@@ -743,8 +743,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             const size: string = Size.of( value );
 
             if ( Is.definedString( size ) ) {
-                valueElement.onmouseover = () => bindingOptions._currentView.footerSizeText.innerHTML = _configuration.text!.sizeText!.replace( "{0}", size.toString() );
-                valueElement.onmouseleave = () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty;
+                valueElement.addEventListener( "mousemove", () => bindingOptions._currentView.footerSizeText.innerHTML = _configuration.text!.sizeText!.replace( "{0}", size.toString() ) );
+                valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty );
             }
         }
     }

@@ -36,7 +36,7 @@ export namespace ToolTip {
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string, tooltipClass: string = "jsontree-js-tooltip" ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass );
+            element.addEventListener( "mousemove", ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass ) );
         }
     }
 
