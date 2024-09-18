@@ -147,7 +147,7 @@ export namespace Default {
         return result;
     }
 
-    export function getObjectFromUrl( url: string, configuration: Configuration, callback: Function ) : void {
+    export function getObjectFromUrl( url: string, configuration: Configuration, callback: ( object: any ) => void ) : void {
         const request: XMLHttpRequest = new XMLHttpRequest();
         request.open( "GET", url, true );
         request.send();
