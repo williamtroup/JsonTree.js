@@ -549,7 +549,7 @@ var Binding;
             t.openInFullScreenMode = Default2.getBoolean(t.openInFullScreenMode, false);
             t.valueToolTips = Default2.getObject(t.valueToolTips, null);
             t.editingValueClickDelay = Default2.getNumber(t.editingValueClickDelay, 500);
-            t.showTypes = Default2.getBoolean(t.showTypes, false);
+            t.showDataTypes = Default2.getBoolean(t.showDataTypes, false);
             t.logJsonValueToolTipPaths = Default2.getBoolean(t.logJsonValueToolTipPaths, false);
             t.exportFilenameFormat = Default2.getString(t.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json");
             t.showPropertyNameQuotes = Default2.getBoolean(t.showPropertyNameQuotes, true);
@@ -1631,7 +1631,7 @@ var Obj;
         if (i) {
             DomElement.addClass(c, "last-item");
         }
-        if (o.showTypes) {
+        if (o.showDataTypes) {
             b = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
         }
         if (!w && o.showValueColors && o.showPropertyNameAndIndexColors) {

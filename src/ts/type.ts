@@ -123,7 +123,7 @@ export type BindingOptions = {
 	openInFullScreenMode?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
-	showTypes?: boolean;
+	showDataTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
 	exportFilenameFormat?: string;
 	showPropertyNameQuotes?: boolean;

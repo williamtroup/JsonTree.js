@@ -102,7 +102,7 @@ export namespace Binding {
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );
             options.editingValueClickDelay = Default.getNumber( options.editingValueClickDelay, 500 );
-            options.showTypes = Default.getBoolean( options.showTypes, false );
+            options.showDataTypes = Default.getBoolean( options.showDataTypes, false );
             options.logJsonValueToolTipPaths = Default.getBoolean( options.logJsonValueToolTipPaths, false );
             options.exportFilenameFormat = Default.getString( options.exportFilenameFormat, "JsonTree_{dd}-{mm}-{yyyy}_{hh}-{MM}-{ss}.json" );
             options.showPropertyNameQuotes = Default.getBoolean( options.showPropertyNameQuotes, true );
