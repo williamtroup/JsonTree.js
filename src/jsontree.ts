@@ -55,50 +55,35 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function render() : void {
-        const tagTypes: string[] = _configuration.domElementTypes as string[];
-        const tagTypesLength: number = tagTypes.length;
+        DomElement.find( _configuration.domElementTypes as string[], ( element: HTMLElement ) => {
+            let result: boolean = true;
 
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
-            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
-            const elements: HTMLElement[] = [].slice.call( domElements );
-            const elementsLength: number = elements.length;
-
-            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                if ( !renderElement( elements[ elementIndex ] ) ) {
-                    break;
-                }
-            }
-        }
-    }
-
-    function renderElement( element: HTMLElement ) : boolean {
-        let result: boolean = true;
-
-        if ( Is.defined( element ) && element.hasAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME ) ) {
-            const bindingOptionsData: string = element.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME )!;
-
-            if ( Is.definedString( bindingOptionsData ) ) {
-                const bindingOptions: StringToJson = Default.getObjectFromString( bindingOptionsData, _configuration );
-
-                if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
-                    renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
-
+            if ( Is.defined( element ) && element.hasAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME ) ) {
+                const bindingOptionsData: string = element.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME )!;
+    
+                if ( Is.definedString( bindingOptionsData ) ) {
+                    const bindingOptions: StringToJson = Default.getObjectFromString( bindingOptionsData, _configuration );
+    
+                    if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
+                        renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
+    
+                    } else {
+                        if ( !_configuration.safeMode ) {
+                            console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                            result = false;
+                        }
+                    }
+    
                 } else {
                     if ( !_configuration.safeMode ) {
-                        console.error( _configuration.text!.attributeNotValidErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
+                        console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
                         result = false;
                     }
                 }
-
-            } else {
-                if ( !_configuration.safeMode ) {
-                    console.error( _configuration.text!.attributeNotSetErrorText!.replace( "{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME ) );
-                    result = false;
-                }
             }
-        }
-
-        return result;
+    
+            return result;
+        } );
     }
 
     function renderControl( bindingOptions: BindingOptions ) : void {

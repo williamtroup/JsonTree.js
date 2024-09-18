@@ -17,6 +17,22 @@ import { Is } from "../data/is";
 
 
 export namespace DomElement {
+    export function find( tagTypes: string[], func: ( element: HTMLElement ) => boolean ) : void {
+        const tagTypesLength: number = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
+            const elements: HTMLElement[] = [].slice.call( domElements );
+            const elementsLength: number = elements.length;
+
+            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+                if ( !func( elements[ elementIndex ] ) ) {
+                    break;
+                }
+            }
+        }
+    }
+
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
