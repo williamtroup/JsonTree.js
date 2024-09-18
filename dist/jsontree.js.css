@@ -295,6 +295,9 @@ div.json-tree-js div.footer-bar div.status-value-size,
 div.json-tree-js div.footer-bar div.status-page-index {
   margin-left: calc(var(--json-tree-js-spacing) * 3);
 }
+div.json-tree-js div.footer-bar span.status-count {
+  font-weight: var(--json-tree-js-header-bold-weight);
+}
 
 /*
     -------------------------------------------------------------------------

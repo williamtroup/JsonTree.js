@@ -27,10 +27,12 @@ export namespace DomElement {
             result.className = className;
         }
 
-        if ( Is.defined( beforeNode ) ) {
-            container.insertBefore( result, beforeNode );
-        } else {
-            container.appendChild( result );
+        if ( Is.defined( container ) ) {
+            if ( Is.defined( beforeNode ) ) {
+                container.insertBefore( result, beforeNode );
+            } else {
+                container.appendChild( result );
+            }
         }
 
         return result;

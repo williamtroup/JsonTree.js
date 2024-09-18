@@ -325,6 +325,10 @@ div.json-tree-js {
         div.status-page-index {
             margin-left: calc( var(--json-tree-js-spacing) * 3 );
         }
+
+        span.status-count {
+            font-weight: var(--json-tree-js-header-bold-weight);
+        }
     }
 }
 

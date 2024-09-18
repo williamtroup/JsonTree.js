@@ -305,10 +305,12 @@ var DomElement;
         if (Is.defined(n)) {
             i.className = n;
         }
-        if (Is.defined(o)) {
-            e.insertBefore(i, o);
-        } else {
-            e.appendChild(i);
+        if (Is.defined(e)) {
+            if (Is.defined(o)) {
+                e.insertBefore(i, o);
+            } else {
+                e.appendChild(i);
+            }
         }
         return i;
     }
@@ -1498,8 +1500,10 @@ var Obj;
         if (t.paging.enabled) {
             const n = Math.ceil((t._currentView.dataArrayCurrentIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
-            const r = e.text.pageOfText.replace("{0}", n.toString()).replace("{1}", o.toString());
-            t._currentView.footerPageText.innerHTML = r;
+            const r = DomElement.createWithHTML(null, "span", "status-count", n.toFixed()).outerHTML;
+            const l = DomElement.createWithHTML(null, "span", "status-count", o.toFixed()).outerHTML;
+            const i = e.text.pageOfText.replace("{0}", r).replace("{1}", l);
+            t._currentView.footerPageText.innerHTML = i;
         }
     }
     function O(e) {
@@ -1511,7 +1515,11 @@ var Obj;
         if (t.footer.enabled && t.footer.showLengths) {
             const r = Size.length(n);
             if (r > 0) {
-                o.addEventListener("mousemove", (() => t._currentView.footerLengthText.innerHTML = e.text.lengthText.replace("{0}", r.toString())));
+                o.addEventListener("mousemove", (() => {
+                    const n = DomElement.createWithHTML(null, "span", "status-count", r.toString()).outerHTML;
+                    const o = e.text.lengthText.replace("{0}", n);
+                    t._currentView.footerLengthText.innerHTML = o;
+                }));
                 o.addEventListener("mouseleave", (() => t._currentView.footerLengthText.innerHTML = ""));
             }
         }
@@ -1520,7 +1528,11 @@ var Obj;
         if (t.footer.enabled && t.footer.showSizes) {
             const r = Size.of(n);
             if (Is.definedString(r)) {
-                o.addEventListener("mousemove", (() => t._currentView.footerSizeText.innerHTML = e.text.sizeText.replace("{0}", r.toString())));
+                o.addEventListener("mousemove", (() => {
+                    const n = DomElement.createWithHTML(null, "span", "status-count", r.toString()).outerHTML;
+                    const o = e.text.sizeText.replace("{0}", n);
+                    t._currentView.footerSizeText.innerHTML = o;
+                }));
                 o.addEventListener("mouseleave", (() => t._currentView.footerSizeText.innerHTML = ""));
             }
         }

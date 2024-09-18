@@ -730,7 +730,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.paging!.enabled ) {
             const currentPage: number = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             const totalPages: number = Math.ceil( bindingOptions.data.length / bindingOptions.paging!.columnsPerPage! );
-            const text: string = _configuration.text!.pageOfText!.replace( "{0}", currentPage.toString() ).replace( "{1}", totalPages.toString() );
+            const currentReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", currentPage.toFixed() ).outerHTML;
+            const totalReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", totalPages.toFixed() ).outerHTML;
+            const text: string = _configuration.text!.pageOfText!.replace( "{0}", currentReplacement ).replace( "{1}", totalReplacement );
 
             bindingOptions._currentView.footerPageText.innerHTML = text;
         }
@@ -747,7 +749,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             const length: number = Size.length( value );
 
             if ( length > 0 ) {
-                valueElement.addEventListener( "mousemove", () => bindingOptions._currentView.footerLengthText.innerHTML = _configuration.text!.lengthText!.replace( "{0}", length.toString() ) );
+                valueElement.addEventListener( "mousemove", () => {
+                    const replacement: string = DomElement.createWithHTML( null!, "span", "status-count", length.toString() ).outerHTML;
+                    const sizeText: string = _configuration.text!.lengthText!.replace( "{0}", replacement );
+
+                    bindingOptions._currentView.footerLengthText.innerHTML = sizeText;
+
+                } );
+
                 valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerLengthText.innerHTML = Char.empty );
             }
         }
@@ -758,7 +767,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             const size: string = Size.of( value );
 
             if ( Is.definedString( size ) ) {
-                valueElement.addEventListener( "mousemove", () => bindingOptions._currentView.footerSizeText.innerHTML = _configuration.text!.sizeText!.replace( "{0}", size.toString() ) );
+                valueElement.addEventListener( "mousemove", () => {
+                    const replacement: string = DomElement.createWithHTML( null!, "span", "status-count", size.toString() ).outerHTML;
+                    const sizeText: string = _configuration.text!.sizeText!.replace( "{0}", replacement );
+
+                    bindingOptions._currentView.footerSizeText.innerHTML = sizeText;
+                } );
+                
                 valueElement.addEventListener( "mouseleave", () => bindingOptions._currentView.footerSizeText.innerHTML = Char.empty );
             }
         }
