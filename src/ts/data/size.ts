@@ -53,7 +53,9 @@ export namespace Size {
                 }
 
             } else {
-                length = value.toString().length;
+                if ( !Is.definedFunction( value ) ) {
+                    length = value.toString().length;
+                }
             }
         }
 

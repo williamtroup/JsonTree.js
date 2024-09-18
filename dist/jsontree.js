@@ -940,7 +940,9 @@ var Size;
                     }
                 }
             } else {
-                n = t.toString().length;
+                if (!Is.definedFunction(t)) {
+                    n = t.toString().length;
+                }
             }
         }
         return n;
