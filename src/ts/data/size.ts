@@ -59,7 +59,7 @@ export namespace Size {
                 }
 
             } else {
-                if ( !Is.definedFunction( value ) ) {
+                if ( !Is.definedFunction( value ) && !Is.definedSymbol( value ) ) {
                     length = value.toString().length;
                 }
             }
