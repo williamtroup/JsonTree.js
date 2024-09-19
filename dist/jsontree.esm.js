@@ -385,20 +385,12 @@ var DomElement;
         return o;
     }
     e.createWithNoContainer = r;
-    function l(e, t) {
-        e.classList.add(t);
-    }
-    e.addClass = l;
-    function i(e, t) {
-        e.classList.remove(t);
-    }
-    e.removeClass = i;
-    function a(e) {
+    function l(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    e.cancelBubble = a;
-    function s() {
+    e.cancelBubble = l;
+    function i() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -406,11 +398,11 @@ var DomElement;
         };
         return t;
     }
-    e.getScrollPosition = s;
-    function u(e, t, n) {
+    e.getScrollPosition = i;
+    function a(e, t, n) {
         let o = e.pageX;
         let r = e.pageY;
-        const l = s();
+        const l = i();
         t.style.display = "block";
         if (o + t.offsetWidth > window.innerWidth) {
             o -= t.offsetWidth + n;
@@ -433,16 +425,16 @@ var DomElement;
         t.style.left = `${o}px`;
         t.style.top = `${r}px`;
     }
-    e.showElementAtMousePosition = u;
-    function c(e) {
+    e.showElementAtMousePosition = a;
+    function s(e) {
         const t = document.createRange();
         t.selectNodeContents(e);
         const n = window.getSelection();
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.selectAllText = c;
-    function d(e, t, r, l, i, a) {
+    e.selectAllText = s;
+    function u(e, t, r, l, i, a) {
         const s = n(e, "div", "checkbox");
         const u = n(s, "label", "checkbox");
         const c = n(u, "input");
@@ -456,7 +448,7 @@ var DomElement;
         }
         return c;
     }
-    e.createCheckBox = d;
+    e.createCheckBox = u;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -1118,7 +1110,7 @@ var Obj;
         e._currentView.element.className = "json-tree-js";
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
         if (e.openInFullScreenMode) {
-            DomElement.addClass(e._currentView.element, "full-screen");
+            e._currentView.element.classList.add("full-screen");
             e._currentView.fullScreenOn = true;
         }
         if (!t.hasOwnProperty(e._currentView.element.id)) {
@@ -1151,7 +1143,7 @@ var Obj;
         p(e, n);
         const r = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
-            DomElement.addClass(r, "page-switch");
+            r.classList.add("page-switch");
         }
         if (e.paging.enabled && Is.definedArray(n)) {
             const t = Is.defined(n[e._currentView.dataArrayCurrentIndex + 1]);
@@ -1211,7 +1203,7 @@ var Obj;
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                DomElement.addClass(r, "editable");
+                r.classList.add("editable");
                 r.setAttribute("contenteditable", "true");
                 r.innerText = JSON.stringify(n, o, t.jsonIndentSpaces);
                 r.focus();
@@ -1371,11 +1363,11 @@ var Obj;
     function T(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
-                DomElement.removeClass(t._currentView.element, "full-screen");
+                t._currentView.element.classList.remove("full-screen");
                 t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOnButtonSymbolText;
                 t._currentView.fullScreenOn = false;
             } else {
-                DomElement.addClass(t._currentView.element, "full-screen");
+                t._currentView.element.classList.add("full-screen");
                 t._currentView.toggleFullScreenButton.innerHTML = e.text.fullScreenOffButtonSymbolText;
                 t._currentView.fullScreenOn = true;
             }
@@ -1765,13 +1757,13 @@ var Obj;
             T = null;
         }
         if (i) {
-            DomElement.addClass(c, "last-item");
+            c.classList.add("last-item");
         }
         if (o.showDataTypes) {
             w = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
         }
         if (!b && o.showValueColors && o.showPropertyNameAndIndexColors) {
-            DomElement.addClass(T, u);
+            T.classList.add(u);
         }
         if (!b) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
@@ -2068,7 +2060,7 @@ var Obj;
                         let u = null;
                         W(a, o);
                         if (i) {
-                            DomElement.addClass(a, "last-item");
+                            a.classList.add("last-item");
                         }
                         g = DomElement.createWithHTML(l, "span", "main-title", e.text.htmlText);
                         p = "html";
@@ -2104,7 +2096,7 @@ var Obj;
                 let a = null;
                 W(r, o);
                 if (i) {
-                    DomElement.addClass(r, "last-item");
+                    r.classList.add("last-item");
                 }
                 g = DomElement.createWithHTML(n, "span", "main-title", e.text.setText);
                 p = "set";
@@ -2129,7 +2121,7 @@ var Obj;
                 let r = null;
                 W(n, o);
                 if (i) {
-                    DomElement.addClass(n, "last-item");
+                    n.classList.add("last-item");
                 }
                 g = DomElement.createWithHTML(t, "span", "main-title", e.text.arrayText);
                 p = "array";
@@ -2160,7 +2152,7 @@ var Obj;
                     let u = null;
                     W(a, o);
                     if (i) {
-                        DomElement.addClass(a, "last-item");
+                        a.classList.add("last-item");
                     }
                     g = DomElement.createWithHTML(l, "span", "main-title", e.text.mapText);
                     p = "map";
@@ -2191,7 +2183,7 @@ var Obj;
                     let u = null;
                     W(a, o);
                     if (i) {
-                        DomElement.addClass(a, "last-item");
+                        a.classList.add("last-item");
                     }
                     g = DomElement.createWithHTML(r, "span", "main-title", e.text.objectText);
                     p = "object";
@@ -2258,9 +2250,9 @@ var Obj;
     }
     function W(e, t) {
         if (t.showOpenedObjectArrayBorders) {
-            DomElement.addClass(e, "object-border");
+            e.classList.add("object-border");
             if (!t.showArrowToggles) {
-                DomElement.addClass(e, "object-border-no-arrow-toggles");
+                e.classList.add("object-border-no-arrow-toggles");
             }
             DomElement.create(e, "div", "object-border-bottom");
         }
@@ -2294,7 +2286,7 @@ var Obj;
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                DomElement.addClass(r, "editable");
+                r.classList.add("editable");
                 if (l) {
                     s = Arr.getIndexFromBrackets(r.innerHTML);
                     r.innerHTML = s.toString();
@@ -2359,7 +2351,7 @@ var Obj;
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                DomElement.addClass(l, "editable");
+                l.classList.add("editable");
                 l.setAttribute("contenteditable", "true");
                 if (Is.definedDate(r) && !t.includeTimeZoneInDateTimeEditing) {
                     l.innerText = JSON.stringify(r).replace(/['"]+/g, "");
@@ -2420,7 +2412,7 @@ var Obj;
                 }
             };
         } else {
-            DomElement.addClass(t, "no-hover");
+            t.classList.add("no-hover");
         }
     }
     function Z(e, t, n, o, r, l, i) {
@@ -2616,7 +2608,7 @@ var Obj;
     }
     function ie(e) {
         e._currentView.element.innerHTML = "";
-        DomElement.removeClass(e._currentView.element, "json-tree-js");
+        e._currentView.element.classList.remove("json-tree-js");
         if (e._currentView.element.className.trim() === "") {
             e._currentView.element.removeAttribute("class");
         }

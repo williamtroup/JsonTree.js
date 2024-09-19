@@ -104,7 +104,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
         if ( bindingOptions.openInFullScreenMode ) {
-            DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+            bindingOptions._currentView.element.classList.add( "full-screen" );
             bindingOptions._currentView.fullScreenOn = true;
         }
 
@@ -148,7 +148,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
 
         if ( isForPageSwitch ) {
-            DomElement.addClass( contents, "page-switch" );
+            contents.classList.add( "page-switch" );
         }
 
         if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
@@ -231,8 +231,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
-                DomElement.addClass( contents, "editable" );
-
+                contents.classList.add( "editable" );
                 contents.setAttribute( "contenteditable", "true" );
                 contents.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
                 contents.focus();
@@ -455,11 +454,11 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onTitleBarDblClick( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.title!.enableFullScreenToggling ) {
             if ( bindingOptions._currentView.element.classList.contains( "full-screen" ) ) {
-                DomElement.removeClass( bindingOptions._currentView.element, "full-screen" );
+                bindingOptions._currentView.element.classList.remove( "full-screen" );
                 bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOnButtonSymbolText!
                 bindingOptions._currentView.fullScreenOn = false;
             } else {
-                DomElement.addClass( bindingOptions._currentView.element, "full-screen" );
+                bindingOptions._currentView.element.classList.add( "full-screen" );
                 bindingOptions._currentView.toggleFullScreenButton.innerHTML = _configuration.text!.fullScreenOffButtonSymbolText!
                 bindingOptions._currentView.fullScreenOn = true;
             }
@@ -988,7 +987,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( isLastItem ) {
-            DomElement.addClass( objectTypeValue, "last-item" );
+            objectTypeValue.classList.add( "last-item" );
         }
 
         if ( bindingOptions.showDataTypes ) {
@@ -996,7 +995,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( !isForEmptyProperties && bindingOptions.showValueColors && bindingOptions.showPropertyNameAndIndexColors  ) {
-            DomElement.addClass( nameElement, parentType );
+            nameElement.classList.add( parentType );
         }
 
         if ( !isForEmptyProperties ) {
@@ -1396,7 +1395,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         addObjectContentsBorder( objectTypeContents, bindingOptions );
     
                         if ( isLastItem ) {
-                            DomElement.addClass( objectTypeContents, "last-item" );
+                            objectTypeContents.classList.add( "last-item" );
                         }
     
                         valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.htmlText! );
@@ -1445,7 +1444,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addObjectContentsBorder( arrayTypeContents, bindingOptions );
 
                 if ( isLastItem ) {
-                    DomElement.addClass( arrayTypeContents, "last-item" );
+                    arrayTypeContents.classList.add( "last-item" );
                 }
 
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.setText! );
@@ -1480,7 +1479,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addObjectContentsBorder( arrayTypeContents, bindingOptions );
 
                 if ( isLastItem ) {
-                    DomElement.addClass( arrayTypeContents, "last-item" );
+                    arrayTypeContents.classList.add( "last-item" );
                 }
 
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.arrayText! );
@@ -1523,7 +1522,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     addObjectContentsBorder( objectTypeContents, bindingOptions );
 
                     if ( isLastItem ) {
-                        DomElement.addClass( objectTypeContents, "last-item" );
+                        objectTypeContents.classList.add( "last-item" );
                     }
 
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
@@ -1566,7 +1565,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     addObjectContentsBorder( objectTypeContents, bindingOptions );
 
                     if ( isLastItem ) {
-                        DomElement.addClass( objectTypeContents, "last-item" );
+                        objectTypeContents.classList.add( "last-item" );
                     }
 
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
@@ -1651,10 +1650,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.showOpenedObjectArrayBorders ) {
-            DomElement.addClass( objectContents, "object-border" );
+            objectContents.classList.add( "object-border" );
 
             if ( !bindingOptions.showArrowToggles ) {
-                DomElement.addClass( objectContents, "object-border-no-arrow-toggles" );
+                objectContents.classList.add( "object-border-no-arrow-toggles" );
             }
 
             DomElement.create( objectContents, "div", "object-border-bottom" );
@@ -1699,7 +1698,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
-                DomElement.addClass( propertyName, "editable" );
+                propertyName.classList.add( "editable" );
 
                 if ( isArrayItem ) {
                     originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
@@ -1791,7 +1790,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
-                DomElement.addClass( propertyValue, "editable" );
+                propertyValue.classList.add( "editable" );
 
                 propertyValue.setAttribute( "contenteditable", "true" );
 
@@ -1871,7 +1870,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             };
 
         } else {
-            DomElement.addClass( valueElement, "no-hover" );
+            valueElement.classList.add( "no-hover" );
         }
     }
 
@@ -2155,8 +2154,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function destroyElement( bindingOptions: BindingOptions ) : void {
         bindingOptions._currentView.element.innerHTML = Char.empty;
-
-        DomElement.removeClass( bindingOptions._currentView.element, "json-tree-js" );
+        bindingOptions._currentView.element.classList.remove( "json-tree-js" );
 
         if ( bindingOptions._currentView.element.className.trim() === Char.empty ) {
             bindingOptions._currentView.element.removeAttribute( "class" );
