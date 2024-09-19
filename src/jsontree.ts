@@ -34,7 +34,7 @@ import { ToolTip } from "./ts/area/tooltip";
 import { Arr } from "./ts/data/arr";
 import { Size } from "./ts/data/size";
 import { Obj } from "./ts/data/obj";
-import { Replacer } from "./ts/data/replacer";
+import { Convert } from "./ts/data/convert";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -49,7 +49,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     let _elements_Data_Count: number = 0;
 
     let _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-        return Replacer.json( key, value, _configuration );
+        return Convert.json( key, value, _configuration );
     };
 
 
@@ -1833,21 +1833,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             statusBarMessage = _configuration.text!.itemDeletedText!;
     
                         } else {
-                            let newDataPropertyValue: any = null;
-
-                            if ( Is.definedBoolean( originalPropertyValue ) ) {
-                                newDataPropertyValue = newPropertyValue.toLowerCase() === "true";
-                            } else if ( Is.definedFloat( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
-                                newDataPropertyValue = parseFloat( newPropertyValue );
-                            } else if ( Is.definedNumber( originalPropertyValue ) && !isNaN( +newPropertyValue ) ) {
-                                newDataPropertyValue = parseInt( newPropertyValue );
-                            } else if ( Is.definedString( originalPropertyValue ) ) {
-                                newDataPropertyValue = newPropertyValue;
-                            } else if ( Is.definedDate( originalPropertyValue ) ) {
-                                newDataPropertyValue = new Date( newPropertyValue );
-                            } else if ( Is.definedBigInt( originalPropertyValue ) ) {
-                                newDataPropertyValue = BigInt( newPropertyValue );
-                            }
+                            let newDataPropertyValue: any = Convert.typeValue( originalPropertyValue, newPropertyValue );
 
                             if ( newDataPropertyValue !== null ) {
                                 if ( isArrayItem ) {

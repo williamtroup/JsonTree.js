@@ -1037,7 +1037,7 @@ var Obj;
     e.getPropertyNames = t;
 })(Obj || (Obj = {}));
 
-var Replacer;
+var Convert;
 
 (e => {
     function t(e, t, n) {
@@ -1059,13 +1059,31 @@ var Replacer;
         return t;
     }
     e.json = t;
-})(Replacer || (Replacer = {}));
+    function n(e, t) {
+        let n = null;
+        if (Is.definedBoolean(e)) {
+            n = t.toLowerCase() === "true";
+        } else if (Is.definedFloat(e) && !isNaN(+t)) {
+            n = parseFloat(t);
+        } else if (Is.definedNumber(e) && !isNaN(+t)) {
+            n = parseInt(t);
+        } else if (Is.definedString(e)) {
+            n = t;
+        } else if (Is.definedDate(e)) {
+            n = new Date(t);
+        } else if (Is.definedBigInt(e)) {
+            n = BigInt(t);
+        }
+        return n;
+    }
+    e.typeValue = n;
+})(Convert || (Convert = {}));
 
 (() => {
     let e = {};
     let t = {};
     let n = 0;
-    let o = (t, n) => Replacer.json(t, n, e);
+    let o = (t, n) => Convert.json(t, n, e);
     function r() {
         DomElement.find(e.domElementTypes, (t => {
             let n = true;
@@ -2372,20 +2390,7 @@ var Replacer;
                             }
                             u = e.text.itemDeletedText;
                         } else {
-                            let l = null;
-                            if (Is.definedBoolean(r)) {
-                                l = s.toLowerCase() === "true";
-                            } else if (Is.definedFloat(r) && !isNaN(+s)) {
-                                l = parseFloat(s);
-                            } else if (Is.definedNumber(r) && !isNaN(+s)) {
-                                l = parseInt(s);
-                            } else if (Is.definedString(r)) {
-                                l = s;
-                            } else if (Is.definedDate(r)) {
-                                l = new Date(s);
-                            } else if (Is.definedBigInt(r)) {
-                                l = BigInt(s);
-                            }
+                            let l = Convert.typeValue(r, s);
                             if (l !== null) {
                                 if (a) {
                                     n[Arr.getIndexFromBrackets(o)] = l;

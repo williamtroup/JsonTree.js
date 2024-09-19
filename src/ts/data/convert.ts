@@ -3,7 +3,7 @@
  * 
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
- * @file        replacer.ts
+ * @file        convert.ts
  * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
@@ -16,7 +16,7 @@ import { Default } from "./default";
 import { Is } from "./is";
 
 
-export namespace Replacer {
+export namespace Convert {
     export function json( _: string, value: any, configuration: Configuration ) : any {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
@@ -41,5 +41,25 @@ export namespace Replacer {
         }
 
         return value;
+    }
+
+    export function typeValue( oldValue: any, newValue: any ) : any {
+        let newDataPropertyValue: any = null;
+
+        if ( Is.definedBoolean( oldValue ) ) {
+            newDataPropertyValue = newValue.toLowerCase() === "true";
+        } else if ( Is.definedFloat( oldValue ) && !isNaN( +newValue ) ) {
+            newDataPropertyValue = parseFloat( newValue );
+        } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
+            newDataPropertyValue = parseInt( newValue );
+        } else if ( Is.definedString( oldValue ) ) {
+            newDataPropertyValue = newValue;
+        } else if ( Is.definedDate( oldValue ) ) {
+            newDataPropertyValue = new Date( newValue );
+        } else if ( Is.definedBigInt( oldValue ) ) {
+            newDataPropertyValue = BigInt( newValue );
+        }
+
+        return newDataPropertyValue;
     }
 }
