@@ -45,23 +45,28 @@ export namespace Convert {
     }
 
     export function dataTypeValue( oldValue: any, newValue: any ) : any {
-        let newDataPropertyValue: any = null;
+        let result: any = null;
 
         if ( Is.definedBoolean( oldValue ) ) {
-            newDataPropertyValue = newValue.toLowerCase() === "true";
+            result = newValue.toLowerCase() === "true";
+
         } else if ( Is.definedFloat( oldValue ) && !isNaN( +newValue ) ) {
-            newDataPropertyValue = parseFloat( newValue );
+            result = parseFloat( newValue );
+
         } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
-            newDataPropertyValue = parseInt( newValue );
+            result = parseInt( newValue );
+
         } else if ( Is.definedString( oldValue ) ) {
-            newDataPropertyValue = newValue;
+            result = newValue;
+
         } else if ( Is.definedDate( oldValue ) ) {
-            newDataPropertyValue = new Date( newValue );
+            result = new Date( newValue );
+
         } else if ( Is.definedBigInt( oldValue ) ) {
-            newDataPropertyValue = BigInt( newValue );
+            result = BigInt( newValue );
         }
 
-        return newDataPropertyValue;
+        return result;
     }
 
     export function htmlToObject( value: HTMLElement ) : any {
