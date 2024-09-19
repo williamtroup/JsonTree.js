@@ -92,6 +92,14 @@ export namespace Config {
             configuration.text!.itemDeletedText = Default.getAnyString( configuration.text!.itemDeletedText, "Item deleted." );
             configuration.text!.arrayJsonItemDeleted = Default.getAnyString( configuration.text!.arrayJsonItemDeleted, "Array JSON item deleted." );
             configuration.text!.dataTypeText = Default.getAnyString( configuration.text!.dataTypeText, "Data Type: {0}" );
+            configuration.text!.editSymbolButtonText = Default.getAnyString( configuration.text!.editSymbolButtonText, "✎" );
+            configuration.text!.editButtonText = Default.getAnyString( configuration.text!.editButtonText, "Edit" );
+            configuration.text!.moveRightSymbolButtonText = Default.getAnyString( configuration.text!.moveRightSymbolButtonText, "→" );
+            configuration.text!.moveRightButtonText = Default.getAnyString( configuration.text!.moveRightButtonText, "Move Right" );
+            configuration.text!.moveLeftSymbolButtonText = Default.getAnyString( configuration.text!.moveLeftSymbolButtonText, "←" );
+            configuration.text!.moveLeftButtonText = Default.getAnyString( configuration.text!.moveLeftButtonText, "Move Left" );
+            configuration.text!.removeSymbolButtonText = Default.getAnyString( configuration.text!.removeSymbolButtonText, "✕" );
+            configuration.text!.removeButtonText = Default.getAnyString( configuration.text!.removeButtonText, "Remove" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

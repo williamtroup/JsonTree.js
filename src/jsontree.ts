@@ -196,7 +196,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
         }
 
-        renderControlContentsPanelButtons( bindingOptions, contentsColumn );
+        renderControlContentsControlButtons( bindingOptions, contentsColumn );
 
         bindingOptions._currentView.contentColumns.push( contentsColumn );
 
@@ -222,36 +222,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         makeContentsEditable( bindingOptions, data, contentsColumn, dataIndex );
-    }
-
-    function renderControlContentsPanelButtons( bindingOptions: BindingOptions, column: HTMLElement ) : void {
-        const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
-
-        const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", "✎" ) as HTMLButtonElement;
-        editButton.onclick = () => onSideMenuOpen( bindingOptions );
-        editButton.ondblclick = DomElement.cancelBubble;
-
-        ToolTip.add( editButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
-
-        if ( bindingOptions.paging!.enabled ) {
-            const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", "→" ) as HTMLButtonElement;
-            moveRightButton.onclick = () => onSideMenuOpen( bindingOptions );
-            moveRightButton.ondblclick = DomElement.cancelBubble;
-    
-            ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
-    
-            const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", "←" ) as HTMLButtonElement;
-            moveLeftButton.onclick = () => onSideMenuOpen( bindingOptions );
-            moveLeftButton.ondblclick = DomElement.cancelBubble;
-    
-            ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
-        }
-
-        const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", "✕" ) as HTMLButtonElement;
-        removeButton.onclick = () => onSideMenuOpen( bindingOptions );
-        removeButton.ondblclick = DomElement.cancelBubble;
-
-        ToolTip.add( removeButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
     }
 
     function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
@@ -384,6 +354,49 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ bindingOptions._currentView.columnDraggingDataIndex ] = dataPanelsOpen1;
 
             renderControlContainer( bindingOptions );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Control Buttons
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement ) : void {
+        if ( bindingOptions.showControlButtons && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk ) ) {
+            const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
+
+            if ( bindingOptions.allowEditing!.bulk ) {
+                const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
+                editButton.onclick = () => onSideMenuOpen( bindingOptions );
+                editButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
+            }
+    
+            if ( bindingOptions.paging!.enabled ) {
+                const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
+                moveRightButton.onclick = () => onSideMenuOpen( bindingOptions );
+                moveRightButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
+        
+                const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
+                moveLeftButton.onclick = () => onSideMenuOpen( bindingOptions );
+                moveLeftButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
+            }
+    
+            if ( bindingOptions.allowEditing!.bulk ) {
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
+                removeButton.onclick = () => onSideMenuOpen( bindingOptions );
+                removeButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
+            }
         }
     }
 

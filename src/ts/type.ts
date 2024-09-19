@@ -102,6 +102,14 @@ export type ConfigurationText = {
 	itemDeletedText?: string;
 	arrayJsonItemDeleted?: string;
 	dataTypeText?: string;
+	editSymbolButtonText?: string;
+	editButtonText?: string;
+	moveRightSymbolButtonText?: string;
+	moveRightButtonText?: string;
+	moveLeftSymbolButtonText?: string;
+	moveLeftButtonText?: string;
+	removeSymbolButtonText?: string;
+	removeButtonText?: string;
 };
 
 export type BindingOptions = {
@@ -144,6 +152,7 @@ export type BindingOptions = {
 	showHtmlValuesAsObjects?: boolean;
 	maximumUrlLength?: number;
 	maximumEmailLength?: number;
+	showControlButtons?: boolean;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;

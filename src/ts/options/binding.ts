@@ -117,6 +117,7 @@ export namespace Binding {
             options.showHtmlValuesAsObjects = Default.getBoolean( options.showHtmlValuesAsObjects, false );
             options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
             options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
+            options.showControlButtons = Default.getBoolean( options.showControlButtons, true );
 
             options = getPaging( options );
             options = getTitle( options );

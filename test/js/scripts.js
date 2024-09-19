@@ -32,6 +32,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showHtmlValuesAsObjects: false,
         maximumUrlLength: 0,
         maximumEmailLength: 0,
+        showControlButtons: true,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 5 > Array Index 1",
