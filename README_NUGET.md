@@ -13,7 +13,7 @@
 ## What features does JsonTree.js have?
 
 - 😏 Zero-dependencies and extremely lightweight!
-- 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
+- 🦾 100% TypeScript, allowing greater support for React, Angular, and other libraries!
 - 💻 Full API available via public functions.
 - 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
