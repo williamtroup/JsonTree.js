@@ -196,7 +196,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
         }
 
-        renderControlContentsControlButtons( bindingOptions, contentsColumn );
+        renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
 
         bindingOptions._currentView.contentColumns.push( contentsColumn );
 
@@ -221,77 +221,79 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "block";
         }
 
-        makeContentsEditable( bindingOptions, data, contentsColumn, dataIndex );
-    }
-
-    function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
         if ( bindingOptions._currentView.isBulkEditingEnabled ) {
             contents.ondblclick = ( e: MouseEvent ) => {
-                let statusBarMessage: string = null!;
-
-                DomElement.cancelBubble( e );
-
-                clearTimeout( bindingOptions._currentView.valueClickTimerId );
-
-                bindingOptions._currentView.valueClickTimerId = 0;
-                bindingOptions._currentView.editMode = true;
-
-                contents.classList.add( "editable" );
-                contents.setAttribute( "contenteditable", "true" );
-                contents.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
-                contents.focus();
-
-                DomElement.selectAllText( contents );
-
-                contents.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-
-                    if ( Is.definedString( statusBarMessage ) ) {
-                        setFooterStatusText( bindingOptions, statusBarMessage );
-                    }
-                };
-    
-                contents.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code === KeyCode.escape ) {
-                        e.preventDefault();
-                        contents.setAttribute( "contenteditable", "false" );
-
-                    } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
-                        e.preventDefault();
-    
-                        const newValue: string = contents.innerText;
-                        const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
-
-                        if ( newData.parsed ) {
-                            statusBarMessage = _configuration.text!.jsonUpdatedText!;
-
-                            if ( bindingOptions.paging!.enabled ) {
-                                if ( Is.defined( newData.object ) ) {
-                                    bindingOptions.data[ dataIndex ] = newData.object;
-
-                                } else {
-                                    bindingOptions.data.splice( dataIndex, 1 );
-                                    statusBarMessage = _configuration.text!.arrayJsonItemDeleted!;
-
-                                    if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                                        bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
-                                    }
-                                }
-                                
-                            } else {
-                                bindingOptions.data = newData.object;
-                            }
-                        }
-
-                        contents.setAttribute( "contenteditable", "false" );
-                        
-                    } else if ( e.code === KeyCode.enter ) {
-                        e.preventDefault();
-                        document.execCommand( "insertLineBreak" );    
-                    }
-                };
+                enableContentsEditMode( e, bindingOptions, data, contents, dataIndex );
             };
         }
+    }
+
+    function enableContentsEditMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
+        let statusBarMessage: string = null!;
+
+        if ( Is.defined( e ) ) {
+            DomElement.cancelBubble( e );
+        }
+
+        clearTimeout( bindingOptions._currentView.valueClickTimerId );
+
+        bindingOptions._currentView.valueClickTimerId = 0;
+        bindingOptions._currentView.editMode = true;
+
+        contents.classList.add( "editable" );
+        contents.setAttribute( "contenteditable", "true" );
+        contents.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        contents.focus();
+
+        DomElement.selectAllText( contents );
+
+        contents.onblur = () => {
+            renderControlContainer( bindingOptions, false );
+
+            if ( Is.definedString( statusBarMessage ) ) {
+                setFooterStatusText( bindingOptions, statusBarMessage );
+            }
+        };
+
+        contents.onkeydown = ( e: KeyboardEvent ) => {
+            if ( e.code === KeyCode.escape ) {
+                e.preventDefault();
+                contents.setAttribute( "contenteditable", "false" );
+
+            } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
+                e.preventDefault();
+
+                const newValue: string = contents.innerText;
+                const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
+
+                if ( newData.parsed ) {
+                    statusBarMessage = _configuration.text!.jsonUpdatedText!;
+
+                    if ( bindingOptions.paging!.enabled ) {
+                        if ( Is.defined( newData.object ) ) {
+                            bindingOptions.data[ dataIndex ] = newData.object;
+
+                        } else {
+                            bindingOptions.data.splice( dataIndex, 1 );
+                            statusBarMessage = _configuration.text!.arrayJsonItemDeleted!;
+
+                            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+                            }
+                        }
+                        
+                    } else {
+                        bindingOptions.data = newData.object;
+                    }
+                }
+
+                contents.setAttribute( "contenteditable", "false" );
+                
+            } else if ( e.code === KeyCode.enter ) {
+                e.preventDefault();
+                document.execCommand( "insertLineBreak" );    
+            }
+        };
     }
 
     function getContentColumnScrollTops( bindingOptions: BindingOptions ) : number[] {
@@ -341,19 +343,24 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onContentsColumnDrop( bindingOptions: BindingOptions, dataIndex: number ) : void {
         bindingOptions._currentView.columnDragging = false;
 
-        if ( dataIndex !== bindingOptions._currentView.columnDraggingDataIndex ) {
-            const dataArray1: any = bindingOptions.data[ dataIndex ];
-            const dataArray2: any = bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex ];
-            const dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
-            const dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ bindingOptions._currentView.columnDraggingDataIndex ];
+        moveDataArrayIndex( bindingOptions, bindingOptions._currentView.columnDraggingDataIndex, dataIndex );
+    }
 
-            bindingOptions.data[ dataIndex ] = dataArray2;
-            bindingOptions.data[ bindingOptions._currentView.columnDraggingDataIndex  ] = dataArray1;
-
-            bindingOptions._currentView.contentPanelsOpen[ dataIndex ] = dataPanelsOpen2;
-            bindingOptions._currentView.contentPanelsOpen[ bindingOptions._currentView.columnDraggingDataIndex ] = dataPanelsOpen1;
-
+    function moveDataArrayIndex( bindingOptions: BindingOptions, oldIndex: number, newIndex: number ) : void {
+        if ( oldIndex !== newIndex ) {
+            const dataArray1: any = bindingOptions.data[ newIndex ];
+            const dataArray2: any = bindingOptions.data[ oldIndex ];
+            const dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ newIndex ];
+            const dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ oldIndex ];
+    
+            bindingOptions.data[ newIndex ] = dataArray2;
+            bindingOptions.data[ oldIndex  ] = dataArray1;
+    
+            bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
+            bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
+    
             renderControlContainer( bindingOptions );
+            setFooterStatusText( bindingOptions, _configuration.text!.jsonUpdatedText! );
         }
     }
 
@@ -364,13 +371,13 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement ) : void {
+    function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         if ( bindingOptions.showControlButtons && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk ) ) {
             const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
 
             if ( bindingOptions.allowEditing!.bulk ) {
                 const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
-                editButton.onclick = () => onSideMenuOpen( bindingOptions );
+                editButton.onclick = () => enableContentsEditMode( null!, bindingOptions, data, column, dataIndex );;
                 editButton.ondblclick = DomElement.cancelBubble;
         
                 ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
@@ -378,26 +385,47 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             if ( bindingOptions.paging!.enabled ) {
                 const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
-                moveRightButton.onclick = () => onSideMenuOpen( bindingOptions );
                 moveRightButton.ondblclick = DomElement.cancelBubble;
+
+                if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
+                    moveRightButton.disabled = true;
+                } else {
+                    moveRightButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex + 1 );
+                }
         
                 ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
         
                 const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
-                moveLeftButton.onclick = () => onSideMenuOpen( bindingOptions );
                 moveLeftButton.ondblclick = DomElement.cancelBubble;
+
+                if ( ( dataIndex - 1 ) < 0 ) {
+                    moveLeftButton.disabled = true;
+                } else {
+                    moveLeftButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex - 1 );
+                }
         
                 ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
             }
     
             if ( bindingOptions.allowEditing!.bulk ) {
                 const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
-                removeButton.onclick = () => onSideMenuOpen( bindingOptions );
+                removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
                 removeButton.ondblclick = DomElement.cancelBubble;
         
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
         }
+    }
+
+    function onRemoveArrayJson( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        bindingOptions.data.splice( dataIndex, 1 );
+
+        if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+            bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+        }
+
+        renderControlContainer( bindingOptions );
+        setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
     }
 
     
