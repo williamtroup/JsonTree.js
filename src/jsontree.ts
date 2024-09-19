@@ -417,10 +417,15 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onRemoveArrayJson( bindingOptions: BindingOptions, dataIndex: number ) : void {
-        bindingOptions.data.splice( dataIndex, 1 );
+        if ( bindingOptions.paging!.enabled ) {
+            bindingOptions.data.splice( dataIndex, 1 );
 
-        if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-            bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+            }
+
+        } else {
+            bindingOptions.data = null;
         }
 
         renderControlContainer( bindingOptions );

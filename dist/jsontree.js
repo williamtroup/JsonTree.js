@@ -1348,9 +1348,13 @@ var Obj;
         }
     }
     function x(t, n) {
-        t.data.splice(n, 1);
-        if (n === t._currentView.dataArrayCurrentIndex && t._currentView.dataArrayCurrentIndex > 0) {
-            t._currentView.dataArrayCurrentIndex -= t.paging.columnsPerPage;
+        if (t.paging.enabled) {
+            t.data.splice(n, 1);
+            if (n === t._currentView.dataArrayCurrentIndex && t._currentView.dataArrayCurrentIndex > 0) {
+                t._currentView.dataArrayCurrentIndex -= t.paging.columnsPerPage;
+            }
+        } else {
+            t.data = null;
         }
         i(t);
         F(t, e.text.arrayJsonItemDeleted);
