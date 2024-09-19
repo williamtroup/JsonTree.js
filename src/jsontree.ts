@@ -190,7 +190,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "none";
         } else {
             
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, dataIndex );
 
             if ( bindingOptions.paging!.enabled ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
@@ -312,7 +312,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         return result;
     }
 
-    function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions ) : void {
+    function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions, dataIndex: number ) : void {
         ToolTip.hide( bindingOptions );
 
         const scrollTop: number = column.scrollTop;
@@ -321,8 +321,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( bindingOptions.paging!.synchronizeScrolling ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
-                bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+                if ( dataIndex !== columnIndex ) {
+                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
+                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+                }
             }
         }
 

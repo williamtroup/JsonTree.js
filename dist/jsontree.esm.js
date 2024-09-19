@@ -1183,7 +1183,7 @@ var Obj;
             DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
-            s.onscroll = () => d(s, o);
+            s.onscroll = () => d(s, o, r);
             if (o.paging.enabled) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
             }
@@ -1273,19 +1273,21 @@ var Obj;
         }
         return t;
     }
-    function d(e, t) {
+    function d(e, t, n) {
         ToolTip.hide(t);
-        const n = e.scrollTop;
-        const o = e.scrollLeft;
-        const r = t._currentView.contentColumns.length;
+        const o = e.scrollTop;
+        const r = e.scrollLeft;
+        const l = t._currentView.contentColumns.length;
         if (t.paging.synchronizeScrolling) {
-            for (let e = 0; e < r; e++) {
-                t._currentView.contentColumns[e].scrollTop = n;
-                t._currentView.contentColumns[e].scrollLeft = o;
+            for (let e = 0; e < l; e++) {
+                if (n !== e) {
+                    t._currentView.contentColumns[e].scrollTop = o;
+                    t._currentView.contentColumns[e].scrollLeft = r;
+                }
             }
         }
         if (t.showControlButtons) {
-            for (let e = 0; e < r; e++) {
+            for (let e = 0; e < l; e++) {
                 const n = t._currentView.contentControlButtons[e];
                 if (Is.defined(n)) {
                     n.style.top = `${t._currentView.contentColumns[e].scrollTop}px`;
