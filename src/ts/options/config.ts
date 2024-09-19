@@ -91,6 +91,7 @@ export namespace Config {
             configuration.text!.indexUpdatedText = Default.getAnyString( configuration.text!.indexUpdatedText, "Array index updated." );
             configuration.text!.itemDeletedText = Default.getAnyString( configuration.text!.itemDeletedText, "Item deleted." );
             configuration.text!.arrayJsonItemDeleted = Default.getAnyString( configuration.text!.arrayJsonItemDeleted, "Array JSON item deleted." );
+            configuration.text!.dataTypeText = Default.getAnyString( configuration.text!.dataTypeText, "Data Type: {0}" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

@@ -58,6 +58,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showLengths: true,
             showSizes: true,
             showPageOf: true,
+            showDataTypes: true,
         },
         sideMenu: {
             enabled: true,

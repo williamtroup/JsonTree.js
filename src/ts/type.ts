@@ -101,6 +101,7 @@ export type ConfigurationText = {
 	indexUpdatedText?: string;
 	itemDeletedText?: string;
 	arrayJsonItemDeleted?: string;
+	dataTypeText?: string;
 };
 
 export type BindingOptions = {
@@ -180,6 +181,7 @@ export type BindingOptionsCurrentView = {
 	contentColumns: HTMLElement[];
 	footer: HTMLElement;
 	footerStatusText: HTMLElement;
+	footerDataTypeText: HTMLElement;
 	footerLengthText: HTMLElement;
 	footerSizeText: HTMLElement;
 	footerPageText: HTMLElement;
@@ -214,6 +216,7 @@ export type BindingOptionsTitle = {
 
 export type BindingOptionsFooter = {
     enabled?: boolean;
+	showDataTypes?: boolean;
 	showLengths?: boolean;
 	showSizes?: boolean;
 	showPageOf?: boolean;

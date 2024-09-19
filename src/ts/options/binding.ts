@@ -59,6 +59,7 @@ export namespace Binding {
             bindingOptions._currentView.contentColumns = [];
             bindingOptions._currentView.footer = null!;
             bindingOptions._currentView.footerStatusText = null!;
+            bindingOptions._currentView.footerDataTypeText = null!;
             bindingOptions._currentView.footerLengthText = null!;
             bindingOptions._currentView.footerSizeText = null!;
             bindingOptions._currentView.footerPageText = null!;
@@ -157,6 +158,7 @@ export namespace Binding {
         function getFooter( options: BindingOptions ) : BindingOptions {
             options.footer = Default.getObject( options.footer, {} as BindingOptionsFooter );
             options.footer!.enabled = Default.getBoolean( options.footer!.enabled, true );
+            options.footer!.showDataTypes = Default.getBoolean( options.footer!.showDataTypes, true );
             options.footer!.showLengths = Default.getBoolean( options.footer!.showLengths, true );
             options.footer!.showSizes = Default.getBoolean( options.footer!.showSizes, true );
             options.footer!.showPageOf = Default.getBoolean( options.footer!.showPageOf, true );

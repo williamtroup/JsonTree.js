@@ -702,6 +702,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             bindingOptions._currentView.footerStatusText = DomElement.createWithHTML( bindingOptions._currentView.footer, "div", "status-text", _configuration.text!.waitingText! );
             
+            if ( bindingOptions.footer!.showDataTypes ) {
+                bindingOptions._currentView.footerDataTypeText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-data-type" );
+                bindingOptions._currentView.footerDataTypeText.style.display = "none";
+            }
+
             if ( bindingOptions.footer!.showLengths ) {
                 bindingOptions._currentView.footerLengthText = DomElement.create( bindingOptions._currentView.footer, "div", "status-value-length" );
                 bindingOptions._currentView.footerLengthText.style.display = "none";
@@ -735,6 +740,24 @@ type JsonTreeData = Record<string, BindingOptions>;
     function updateFooterDisplay( bindingOptions: BindingOptions ) : void {
         if ( Is.defined( bindingOptions._currentView.footer ) ) {
             bindingOptions._currentView.footer.style.display = bindingOptions._currentView.fullScreenOn ? "flex" : "none";
+        }
+    }
+
+    function addFooterDataTypeStatus( bindingOptions: BindingOptions, dataType: string, valueElement: HTMLElement ) : void {
+        if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showDataTypes ) {
+            valueElement.addEventListener( "mousemove", () => {
+                const replacement: string = DomElement.createWithHTML( null!, "span", "status-count", dataType ).outerHTML;
+                const sizeText: string = _configuration.text!.dataTypeText!.replace( "{0}", replacement );
+
+                bindingOptions._currentView.footerDataTypeText.style.display = "block";
+                bindingOptions._currentView.footerDataTypeText.innerHTML = sizeText;
+
+            } );
+
+            valueElement.addEventListener( "mouseleave", () => {
+                bindingOptions._currentView.footerDataTypeText.style.display = "none";
+                bindingOptions._currentView.footerDataTypeText.innerHTML = Char.empty;
+            } );
         }
     }
 
@@ -1596,6 +1619,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     updateDataTypeCount( bindingOptions, dataType );
                     addFooterSizeStatus( bindingOptions, value, valueElement );
                     addFooterLengthStatus( bindingOptions, value, valueElement );
+                    addFooterDataTypeStatus( bindingOptions, dataType, valueElement );
                 }
 
                 if ( Is.defined( typeElement ) ) {
