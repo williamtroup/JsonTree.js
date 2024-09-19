@@ -11,6 +11,7 @@
  */
 
 
+import { Convert } from "./convert";
 import { Default } from "./default";
 import { Is } from "./is";
 
@@ -23,7 +24,7 @@ export namespace Size {
         if ( bytes > 0 ) {
             const type: number = Math.floor( Math.log( bytes ) / Math.log( 1024 ) );
 
-            return `${Default.getFixedFloatPlacesValue( ( bytes / Math.pow( 1024, type ) ), 2 )} ${' KMGTP'.charAt( type )}B`;
+            return `${Convert.numberToFloatWithDecimalPlaces( ( bytes / Math.pow( 1024, type ) ), 2 )} ${' KMGTP'.charAt( type )}B`;
         }
 
         return result;
@@ -43,10 +44,10 @@ export namespace Size {
                 length = value.source.length;
                 
             } else if ( Is.definedSet( value ) ) {
-                length = Size.length( Default.getArrayFromSet( value ) );
+                length = Size.length( Convert.setToArray( value ) );
 
             } else if ( Is.definedMap( value ) ) {
-                length = Size.length( Default.getObjectFromMap( value ) );
+                length = Size.length( Convert.mapToObject( value ) );
 
             } else if ( Is.definedArray( value ) ) {
                 length = value.length;
@@ -91,10 +92,10 @@ export namespace Size {
                 bytes = getSize( value.toString() );
             
             } else if ( Is.definedSet( value ) ) {
-                bytes = getSize( Default.getArrayFromSet( value ) );
+                bytes = getSize( Convert.setToArray( value ) );
 
             } else if ( Is.definedMap( value ) ) {
-                bytes = getSize( Default.getObjectFromMap( value ) );
+                bytes = getSize( Convert.mapToObject( value ) );
 
             } else if ( Is.definedArray( value ) ) {
                 const arrayLength: number = value.length;

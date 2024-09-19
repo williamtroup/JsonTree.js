@@ -49,7 +49,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     let _elements_Data_Count: number = 0;
 
     let _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-        return Convert.json( key, value, _configuration );
+        return Convert.stringifyJson( key, value, _configuration );
     };
 
 
@@ -67,7 +67,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const bindingOptionsData: string = element.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME )!;
     
                 if ( Is.definedString( bindingOptionsData ) ) {
-                    const bindingOptions: StringToJson = Default.getObjectFromString( bindingOptionsData, _configuration );
+                    const bindingOptions: StringToJson = Convert.jsonStringToObject( bindingOptionsData, _configuration );
     
                     if ( bindingOptions.parsed && Is.definedObject( bindingOptions.object ) ) {
                         renderControl( Binding.Options.getForNewInstance( bindingOptions.object, element ) );
@@ -256,7 +256,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         e.preventDefault();
     
                         const newValue: string = contents.innerText;
-                        const newData: StringToJson = Default.getObjectFromString( newValue, _configuration );
+                        const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
 
                         if ( newData.parsed ) {
                             statusBarMessage = _configuration.text!.jsonUpdatedText!;
@@ -826,7 +826,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number ) : void {
         const isMap: boolean = Is.definedMap( data );
         const type: string = isMap ? DataType.map : DataType.object;
-        const objectData: object = isMap ? Default.getObjectFromMap( data ) : data;
+        const objectData: object = isMap ? Convert.mapToObject( data ) : data;
         const propertyNames: string[] = Obj.getPropertyNames( objectData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
@@ -867,7 +867,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any ) : void {
         const isSet: boolean = Is.definedSet( data );
         const type: string = isSet ? DataType.set : DataType.array;
-        const setData: any[] = isSet ? Default.getArrayFromSet( data ) : data;
+        const setData: any[] = isSet ? Convert.setToArray( data ) : data;
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
@@ -1099,7 +1099,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedFloat( value ) ) {
             if ( !bindingOptions.ignore!.floatValues ) {
-                const newValue: string = Default.getFixedFloatPlacesValue( value, bindingOptions.maximumDecimalPlaces! );
+                const newValue: string = Convert.numberToFloatWithDecimalPlaces( value, bindingOptions.maximumDecimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.float} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
@@ -1381,7 +1381,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else if ( Is.definedHtmlElement( value ) ) {
             if ( !bindingOptions.ignore!.htmlValues ) {
                 if ( bindingOptions.showHtmlValuesAsObjects ) {
-                    const htmlObject: any = Default.getHtmlElementAsObject( value );
+                    const htmlObject: any = Convert.htmlToObject( value );
                     const propertyNames: string[] = Obj.getPropertyNames( htmlObject, bindingOptions );
                     const propertyCount: number = propertyNames.length;
     
@@ -1437,7 +1437,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedSet( value ) ) {
             if ( !bindingOptions.ignore!.setValues ) {
-                const arrayValues: any[] = Default.getArrayFromSet( value );
+                const arrayValues: any[] = Convert.setToArray( value );
                 const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? DataType.set : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
@@ -1508,7 +1508,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         } else if ( Is.definedMap( value ) ) {
             if ( !bindingOptions.ignore!.mapValues ) {
-                const valueObject: object = Default.getObjectFromMap( value );
+                const valueObject: object = Convert.mapToObject( value );
                 const propertyNames: string[] = Obj.getPropertyNames( valueObject, bindingOptions );
                 const propertyCount: number = propertyNames.length;
 
@@ -1833,7 +1833,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             statusBarMessage = _configuration.text!.itemDeletedText!;
     
                         } else {
-                            let newDataPropertyValue: any = Convert.typeValue( originalPropertyValue, newPropertyValue );
+                            let newDataPropertyValue: any = Convert.dataTypeValue( originalPropertyValue, newPropertyValue );
 
                             if ( newDataPropertyValue !== null ) {
                                 if ( isArrayItem ) {
@@ -2057,7 +2057,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         reader.onloadend = () => onFileLoad( renderData );
     
         reader.onload = ( e: ProgressEvent<FileReader> ) => {
-            const json: StringToJson = Default.getObjectFromString( e.target!.result, _configuration );
+            const json: StringToJson = Convert.jsonStringToObject( e.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
                 renderData = json.object;
@@ -2289,7 +2289,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let jsonObject: any = null;
 
                 if ( Is.definedString( json ) ) {
-                    const jsonResult: StringToJson = Default.getObjectFromString( json, _configuration );
+                    const jsonResult: StringToJson = Convert.jsonStringToObject( json, _configuration );
 
                     if ( jsonResult.parsed ) {
                         jsonObject = jsonResult.object;

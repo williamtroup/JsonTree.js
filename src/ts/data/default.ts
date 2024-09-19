@@ -15,7 +15,8 @@ import {
     type StringToJson,
     type Configuration,
     type FunctionName } from "../type";
-    
+
+import { Convert } from "./convert";
 import { Char } from "./enum";
 import { Is } from "./is";
 
@@ -76,12 +77,6 @@ export namespace Default {
         return result;
     }
 
-    export function getFixedFloatPlacesValue( value: number, decimalPlaces: number ) : string {
-        const regExp: RegExp = new RegExp( `^-?\\d+(?:.\\d{0,${decimalPlaces || -1}})?` );
-    
-        return value.toString().match( regExp )?.[ 0 ] || Char.empty;
-    }
-
     export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
         let name: string;
         let isLambda: boolean = false;
@@ -103,50 +98,6 @@ export namespace Default {
         } as FunctionName;
     }
 
-    export function getObjectFromString( objectString: any, configuration: Configuration ) : StringToJson {
-        const result: StringToJson = {
-            parsed: true,
-            object: null
-        } as StringToJson;
-
-        try {
-            if ( Is.definedString( objectString ) ) {
-                result.object = JSON.parse( objectString );
-            }
-
-        } catch ( e1: any ) {
-            try {
-                result.object = eval( `(${objectString})` );
-
-                if ( Is.definedFunction( result.object ) ) {
-                    result.object = result.object();
-                }
-                
-            } catch ( e2: any ) {
-                if ( !configuration.safeMode ) {
-                    console.error( configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
-                    result.parsed = false;
-                }
-                
-                result.object = null;
-            }
-        }
-
-        return result;
-    }
-
-    export function getObjectFromMap( map: Map<any, any> ) : object {
-        const result: object = Object.fromEntries( map.entries() );
-    
-        return result;
-    }
-
-    export function getArrayFromSet( set: Set<any> ) : any[] {
-        const result: any[] = Array.from( set.values() );
-    
-        return result;
-    }
-
     export function getObjectFromUrl( url: string, configuration: Configuration, callback: ( object: any ) => void ) : void {
         const request: XMLHttpRequest = new XMLHttpRequest();
         request.open( "GET", url, true );
@@ -155,7 +106,7 @@ export namespace Default {
         request.onreadystatechange = () => {
             if ( request.readyState === 4 && request.status === 200 ) {
                 const data: string = request.responseText;
-                const dataJson: StringToJson = Default.getObjectFromString( data, configuration );
+                const dataJson: StringToJson = Convert.jsonStringToObject( data, configuration );
 
                 if ( dataJson.parsed ) {
                     callback( dataJson.object );
@@ -165,31 +116,5 @@ export namespace Default {
                 callback( null );
             }
         }
-    }
-
-    export function getHtmlElementAsObject( value: HTMLElement ) : any {
-        const result: any = {};
-        const attributesLength: number = value.attributes.length;
-        const childrenLength: number = value.children.length;
-
-        result[ "children" ] = [];
-
-        for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
-            const attribute: Attr = value.attributes[ attributeIndex ];
-
-            if ( Is.definedString( attribute.nodeName ) ) {
-                result[ attribute.nodeName ] = attribute.nodeValue;
-            }
-        }
-
-        for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
-            result[ "children" ].push( value.children[ childIndex ] );
-        }
-
-        if ( result[ "children" ].length === 0 ) {
-            delete result[ "children" ];
-        }
-
-        return result;
     }
 }

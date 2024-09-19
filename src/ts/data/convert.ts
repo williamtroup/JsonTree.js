@@ -11,13 +11,14 @@
  */
 
 
-import { type Configuration } from "../type";
+import { type StringToJson, type Configuration } from "../type";
 import { Default } from "./default";
+import { Char } from "./enum";
 import { Is } from "./is";
 
 
 export namespace Convert {
-    export function json( _: string, value: any, configuration: Configuration ) : any {
+    export function stringifyJson( _: string, value: any, configuration: Configuration ) : any {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
 
@@ -28,10 +29,10 @@ export namespace Convert {
             value = Default.getFunctionName( value, configuration ).name;
 
         } else if ( Is.definedMap( value ) ) {
-            value = Default.getObjectFromMap( value );
+            value = mapToObject( value );
 
         } else if ( Is.definedSet( value ) ) {
-            value = Default.getArrayFromSet( value );
+            value = setToArray( value );
 
         } else if ( Is.definedRegExp( value ) ) {
             value = value.source;
@@ -43,7 +44,7 @@ export namespace Convert {
         return value;
     }
 
-    export function typeValue( oldValue: any, newValue: any ) : any {
+    export function dataTypeValue( oldValue: any, newValue: any ) : any {
         let newDataPropertyValue: any = null;
 
         if ( Is.definedBoolean( oldValue ) ) {
@@ -61,5 +62,82 @@ export namespace Convert {
         }
 
         return newDataPropertyValue;
+    }
+
+    export function htmlToObject( value: HTMLElement ) : any {
+        const result: any = {};
+        const attributesLength: number = value.attributes.length;
+        const childrenLength: number = value.children.length;
+        const childrenKeyName: string = "children";
+
+        result[ childrenKeyName ] = [];
+
+        for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
+            const attribute: Attr = value.attributes[ attributeIndex ];
+
+            if ( Is.definedString( attribute.nodeName ) ) {
+                result[ attribute.nodeName ] = attribute.nodeValue;
+            }
+        }
+
+        for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
+            result[ childrenKeyName ].push( value.children[ childIndex ] );
+        }
+
+        if ( result[ childrenKeyName ].length === 0 ) {
+            delete result[ childrenKeyName ];
+        }
+
+        return result;
+    }
+
+    export function mapToObject( map: Map<any, any> ) : object {
+        const result: object = Object.fromEntries( map.entries() );
+    
+        return result;
+    }
+
+    export function setToArray( set: Set<any> ) : any[] {
+        const result: any[] = Array.from( set.values() );
+    
+        return result;
+    }
+
+    export function jsonStringToObject( objectString: any, configuration: Configuration ) : StringToJson {
+        const result: StringToJson = {
+            parsed: true,
+            object: null
+        } as StringToJson;
+
+        try {
+            if ( Is.definedString( objectString ) ) {
+                result.object = JSON.parse( objectString );
+            }
+
+        } catch ( e1: any ) {
+            try {
+                result.object = eval( `(${objectString})` );
+
+                if ( Is.definedFunction( result.object ) ) {
+                    result.object = result.object();
+                }
+                
+            } catch ( e2: any ) {
+                if ( !configuration.safeMode ) {
+                    console.error( configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    result.parsed = false;
+                }
+                
+                result.object = null;
+            }
+        }
+
+        return result;
+    }
+
+    export function numberToFloatWithDecimalPlaces( value: number, decimalPlaces: number ) : string {
+        const regExp: RegExp = new RegExp( `^-?\\d+(?:.\\d{0,${decimalPlaces || -1}})?` );
+    
+        return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
 }
