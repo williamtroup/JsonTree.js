@@ -34,6 +34,7 @@ import { ToolTip } from "./ts/area/tooltip";
 import { Arr } from "./ts/data/arr";
 import { Size } from "./ts/data/size";
 import { Obj } from "./ts/data/obj";
+import { Replacer } from "./ts/data/replacer";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -46,6 +47,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     // Variables: Data
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
     let _elements_Data_Count: number = 0;
+
+    let _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
+        return Replacer.json( key, value, _configuration );
+    };
 
 
     /*
@@ -229,7 +234,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.addClass( contents, "editable" );
 
                 contents.setAttribute( "contenteditable", "true" );
-                contents.innerText = JSON.stringify( data, jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+                contents.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
                 contents.focus();
 
                 DomElement.selectAllText( contents );
@@ -466,7 +471,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onTitleBarCopyClick( bindingOptions: BindingOptions, data: any ) : void {
         let copyDataJson: string = null!;
-        let replaceFunction: any = jsonStringifyReplacer;
+        let replaceFunction: any = _jsonStringifyReplacer;
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
             replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
@@ -534,32 +539,6 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
         }
-    }
-
-    function jsonStringifyReplacer( _: string, value: any ) : void {
-        if ( Is.definedBigInt( value ) ) {
-            value = value.toString();
-
-        } else if ( Is.definedSymbol( value ) ) {
-            value = value.toString();
-
-        } else if ( Is.definedFunction( value ) ) {
-            value = Default.getFunctionName( value, _configuration ).name;
-
-        } else if ( Is.definedMap( value ) ) {
-            value = Default.getObjectFromMap( value );
-
-        } else if ( Is.definedSet( value ) ) {
-            value = Default.getArrayFromSet( value );
-
-        } else if ( Is.definedRegExp( value ) ) {
-            value = value.source;
-            
-        } else if ( Is.definedImage( value ) ) {
-            value = value.src;
-        }
-
-        return value;
     }
 
 
@@ -2086,7 +2065,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function onExport( bindingOptions: BindingOptions ) : void {
-        let contents: string = JSON.stringify( bindingOptions.data, jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        let contents: string = JSON.stringify( bindingOptions.data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );

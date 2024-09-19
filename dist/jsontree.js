@@ -806,7 +806,7 @@ var Config;
             e.text.nameUpdatedText = Default2.getAnyString(e.text.nameUpdatedText, "Property name updated.");
             e.text.indexUpdatedText = Default2.getAnyString(e.text.indexUpdatedText, "Array index updated.");
             e.text.itemDeletedText = Default2.getAnyString(e.text.itemDeletedText, "Item deleted.");
-            e.text.arrayItemJsonDeleted = Default2.getAnyString(e.text.arrayItemJsonDeleted, "Array JSON item deleted.");
+            e.text.arrayJsonItemDeleted = Default2.getAnyString(e.text.arrayJsonItemDeleted, "Array JSON item deleted.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -1033,19 +1033,44 @@ var Obj;
     e.getPropertyNames = t;
 })(Obj || (Obj = {}));
 
+var Replacer;
+
+(e => {
+    function t(e, t, n) {
+        if (Is.definedBigInt(t)) {
+            t = t.toString();
+        } else if (Is.definedSymbol(t)) {
+            t = t.toString();
+        } else if (Is.definedFunction(t)) {
+            t = Default2.getFunctionName(t, n).name;
+        } else if (Is.definedMap(t)) {
+            t = Default2.getObjectFromMap(t);
+        } else if (Is.definedSet(t)) {
+            t = Default2.getArrayFromSet(t);
+        } else if (Is.definedRegExp(t)) {
+            t = t.source;
+        } else if (Is.definedImage(t)) {
+            t = t.src;
+        }
+        return t;
+    }
+    e.json = t;
+})(Replacer || (Replacer = {}));
+
 (() => {
     let e = {};
     let t = {};
     let n = 0;
-    function o() {
+    let o = (t, n) => Replacer.json(t, n, e);
+    function r() {
         DomElement.find(e.domElementTypes, (t => {
             let n = true;
             if (Is.defined(t) && t.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
                 const o = t.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
                 if (Is.definedString(o)) {
-                    const l = Default2.getObjectFromString(o, e);
-                    if (l.parsed && Is.definedObject(l.object)) {
-                        r(Binding.Options.getForNewInstance(l.object, t));
+                    const r = Default2.getObjectFromString(o, e);
+                    if (r.parsed && Is.definedObject(r.object)) {
+                        l(Binding.Options.getForNewInstance(r.object, t));
                     } else {
                         if (!e.safeMode) {
                             console.error(e.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -1062,7 +1087,7 @@ var Obj;
             return n;
         }));
     }
-    function r(e) {
+    function l(e) {
         Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
         ToolTip.renderControl(e);
         if (!Is.definedString(e._currentView.element.id)) {
@@ -1079,22 +1104,22 @@ var Obj;
             t[e._currentView.element.id] = e;
             n++;
         }
-        l(e);
+        i(e);
         ne(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
-    function l(n, o = false) {
+    function i(n, o = false) {
         let r = t[n._currentView.element.id].data;
         if (Is.definedUrl(r)) {
             Default2.getObjectFromUrl(r, e, (e => {
-                i(n, o, e);
+                a(n, o, e);
             }));
         } else {
-            i(n, o, r);
+            a(n, o, r);
         }
     }
-    function i(e, t, n) {
-        const o = u(e);
+    function a(e, t, n) {
+        const o = c(e);
         ToolTip.hide(e);
         e._currentView.element.innerHTML = "";
         e._currentView.editMode = false;
@@ -1102,7 +1127,7 @@ var Obj;
         e._currentView.sideMenuChanged = false;
         e._currentView.contentColumns = [];
         e._currentView.dataTypeCounts = {};
-        m(e, n);
+        p(e, n);
         const r = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             DomElement.addClass(r, "page-switch");
@@ -1111,88 +1136,88 @@ var Obj;
             const t = Is.defined(n[e._currentView.dataArrayCurrentIndex + 1]);
             for (let l = 0; l < e.paging.columnsPerPage; l++) {
                 const i = l + e._currentView.dataArrayCurrentIndex;
-                const s = n[i];
+                const a = n[i];
                 e._currentView.contentPanelsIndex = 0;
                 e._currentView.contentPanelsDataIndex = i;
-                if (Is.defined(s)) {
-                    a(s, r, e, i, o[l], e.paging.columnsPerPage, t);
+                if (Is.defined(a)) {
+                    s(a, r, e, i, o[l], e.paging.columnsPerPage, t);
                 }
             }
         } else {
             e._currentView.contentPanelsIndex = 0;
             e._currentView.contentPanelsDataIndex = 0;
-            a(n, r, e, null, o[0], 1, false);
+            s(n, r, e, null, o[0], 1, false);
         }
         h(e);
         A(e);
         G(e);
         e._currentView.initialized = true;
     }
-    function a(t, n, o, r, l, i, a) {
-        const u = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
-        u.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
-        u.onscroll = () => c(u, o);
+    function s(t, n, o, r, l, i, a) {
+        const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
+        s.onscroll = () => d(s, o);
         if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
-            u.setAttribute("draggable", "true");
-            u.ondragstart = () => d(u, o, r);
-            u.ondragend = () => f(u, o);
-            u.ondragover = e => e.preventDefault();
-            u.ondrop = () => g(o, r);
+            s.setAttribute("draggable", "true");
+            s.ondragstart = () => f(s, o, r);
+            s.ondragend = () => g(s, o);
+            s.ondragover = e => e.preventDefault();
+            s.ondrop = () => m(o, r);
         }
-        o._currentView.contentColumns.push(u);
+        o._currentView.contentColumns.push(s);
         if (Is.definedArray(t) || Is.definedSet(t)) {
-            N(u, o, t);
+            N(s, o, t);
         } else if (Is.definedObject(t)) {
-            F(u, o, t, r);
+            F(s, o, t, r);
         }
-        if (u.innerHTML === "" || u.children.length >= 2 && (!o.showOpenedObjectArrayBorders && u.children[1].children.length === 0 || u.children[1].children.length === 1)) {
-            u.innerHTML = "";
-            DomElement.createWithHTML(u, "span", "no-json-text", e.text.noJsonToViewText);
+        if (s.innerHTML === "" || s.children.length >= 2 && (!o.showOpenedObjectArrayBorders && s.children[1].children.length === 0 || s.children[1].children.length === 1)) {
+            s.innerHTML = "";
+            DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
             if (Is.defined(l)) {
-                u.scrollTop = l;
+                s.scrollTop = l;
             }
             o._currentView.titleBarButtons.style.display = "block";
         }
-        s(o, t, u, r);
+        u(o, t, s, r);
     }
-    function s(t, n, o, r) {
+    function u(t, n, r, l) {
         if (t._currentView.isBulkEditingEnabled) {
-            o.ondblclick = i => {
-                let a = null;
-                DomElement.cancelBubble(i);
+            r.ondblclick = a => {
+                let s = null;
+                DomElement.cancelBubble(a);
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                DomElement.addClass(o, "editable");
-                o.setAttribute("contenteditable", "true");
-                o.innerText = JSON.stringify(n, y, t.jsonIndentSpaces);
-                o.focus();
-                DomElement.selectAllText(o);
-                o.onblur = () => {
-                    l(t, false);
-                    if (Is.definedString(a)) {
-                        j(t, a);
+                DomElement.addClass(r, "editable");
+                r.setAttribute("contenteditable", "true");
+                r.innerText = JSON.stringify(n, o, t.jsonIndentSpaces);
+                r.focus();
+                DomElement.selectAllText(r);
+                r.onblur = () => {
+                    i(t, false);
+                    if (Is.definedString(s)) {
+                        j(t, s);
                     }
                 };
-                o.onkeydown = n => {
+                r.onkeydown = n => {
                     if (n.code == "Escape") {
                         n.preventDefault();
-                        o.setAttribute("contenteditable", "false");
+                        r.setAttribute("contenteditable", "false");
                     } else if (re(n) && n.code == "Enter") {
                         n.preventDefault();
-                        const l = o.innerText;
-                        const i = Default2.getObjectFromString(l, e);
+                        const o = r.innerText;
+                        const i = Default2.getObjectFromString(o, e);
                         if (i.parsed) {
-                            a = e.text.jsonUpdatedText;
+                            s = e.text.jsonUpdatedText;
                             if (t.paging.enabled) {
                                 if (Is.defined(i.object)) {
-                                    t.data[r] = i.object;
+                                    t.data[l] = i.object;
                                 } else {
-                                    t.data.splice(r, 1);
-                                    a = e.text.arrayItemJsonDeleted;
-                                    if (r === t._currentView.dataArrayCurrentIndex && t._currentView.dataArrayCurrentIndex > 0) {
+                                    t.data.splice(l, 1);
+                                    s = e.text.arrayJsonItemDeleted;
+                                    if (l === t._currentView.dataArrayCurrentIndex && t._currentView.dataArrayCurrentIndex > 0) {
                                         t._currentView.dataArrayCurrentIndex -= t.paging.columnsPerPage;
                                     }
                                 }
@@ -1200,7 +1225,7 @@ var Obj;
                                 t.data = i.object;
                             }
                         }
-                        o.setAttribute("contenteditable", "false");
+                        r.setAttribute("contenteditable", "false");
                     } else if (n.code == "Enter") {
                         n.preventDefault();
                         document.execCommand("insertLineBreak");
@@ -1209,7 +1234,7 @@ var Obj;
             };
         }
     }
-    function u(e) {
+    function c(e) {
         const t = [];
         ToolTip.hide(e);
         if (e._currentView.editMode || e._currentView.sideMenuChanged) {
@@ -1220,7 +1245,7 @@ var Obj;
         }
         return t;
     }
-    function c(e, t) {
+    function d(e, t) {
         ToolTip.hide(t);
         if (t.paging.synchronizeScrolling) {
             const n = e.scrollTop;
@@ -1232,34 +1257,34 @@ var Obj;
             }
         }
     }
-    function d(e, t, n) {
+    function f(e, t, n) {
         t._currentView.columnDragging = true;
         t._currentView.columnDraggingDataIndex = n;
         e.classList.add("draggable-item");
     }
-    function f(e, t) {
+    function g(e, t) {
         t._currentView.columnDragging = false;
         e.classList.remove("draggable-item");
     }
-    function g(e, t) {
+    function m(e, t) {
         e._currentView.columnDragging = false;
         if (t !== e._currentView.columnDraggingDataIndex) {
             const n = e.data[t];
             const o = e.data[e._currentView.columnDraggingDataIndex];
             const r = e._currentView.contentPanelsOpen[t];
-            const i = e._currentView.contentPanelsOpen[e._currentView.columnDraggingDataIndex];
+            const l = e._currentView.contentPanelsOpen[e._currentView.columnDraggingDataIndex];
             e.data[t] = o;
             e.data[e._currentView.columnDraggingDataIndex] = n;
-            e._currentView.contentPanelsOpen[t] = i;
+            e._currentView.contentPanelsOpen[t] = l;
             e._currentView.contentPanelsOpen[e._currentView.columnDraggingDataIndex] = r;
-            l(e);
+            i(e);
         }
     }
-    function m(t, n) {
+    function p(t, n) {
         if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => p(t);
+                o.ondblclick = () => x(t);
             }
             if (t.sideMenu.enabled && Is.definedObject(n)) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
@@ -1273,7 +1298,7 @@ var Obj;
             }
             if (t.title.showCopyButton) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyAllButtonSymbolText);
-                o.onclick = () => x(t, n);
+                o.onclick = () => T(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 if (t.paging.copyOnlyCurrentPage && t.paging.enabled) {
                     ToolTip.add(o, t, e.text.copyButtonText);
@@ -1283,11 +1308,11 @@ var Obj;
             }
             if (t.title.showTreeControls) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
-                n.onclick = () => T(t);
+                n.onclick = () => b(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "closeAll", e.text.closeAllButtonSymbolText);
-                o.onclick = () => b(t);
+                o.onclick = () => w(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1296,7 +1321,7 @@ var Obj;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
-                    t._currentView.backButton.onclick = () => w(t);
+                    t._currentView.backButton.onclick = () => D(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1304,7 +1329,7 @@ var Obj;
                 t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
                 if (t._currentView.dataArrayCurrentIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextButton.onclick = () => D(t);
+                    t._currentView.nextButton.onclick = () => y(t);
                 } else {
                     t._currentView.nextButton.disabled = true;
                 }
@@ -1316,13 +1341,13 @@ var Obj;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => p(t);
+                t._currentView.toggleFullScreenButton.onclick = () => x(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function p(t) {
+    function x(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 DomElement.removeClass(t._currentView.element, "full-screen");
@@ -1337,11 +1362,11 @@ var Obj;
             C(t);
         }
     }
-    function x(t, n) {
-        let o = null;
-        let r = y;
+    function T(t, n) {
+        let r = null;
+        let l = o;
         if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
-            r = t.events.onCopyJsonReplacer;
+            l = t.events.onCopyJsonReplacer;
         }
         if (t.paging.copyOnlyCurrentPage && t.paging.enabled) {
             let e = null;
@@ -1357,57 +1382,39 @@ var Obj;
                     }
                 }
             }
-            o = JSON.stringify(e, r, t.jsonIndentSpaces);
+            r = JSON.stringify(e, l, t.jsonIndentSpaces);
         } else {
-            o = JSON.stringify(n, r, t.jsonIndentSpaces);
+            r = JSON.stringify(n, l, t.jsonIndentSpaces);
         }
-        navigator.clipboard.writeText(o);
+        navigator.clipboard.writeText(r);
         j(t, e.text.copiedText);
-        Trigger.customEvent(t.events.onCopyAll, o);
-    }
-    function T(e) {
-        e.showAllAsClosed = false;
-        e._currentView.contentPanelsOpen = {};
-        l(e);
-        Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
+        Trigger.customEvent(t.events.onCopyAll, r);
     }
     function b(e) {
-        e.showAllAsClosed = true;
+        e.showAllAsClosed = false;
         e._currentView.contentPanelsOpen = {};
-        l(e);
-        Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
+        i(e);
+        Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
     function w(e) {
+        e.showAllAsClosed = true;
+        e._currentView.contentPanelsOpen = {};
+        i(e);
+        Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
+    }
+    function D(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
-            l(e, true);
+            i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
-    function D(e) {
+    function y(e) {
         if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
             e._currentView.dataArrayCurrentIndex += e.paging.columnsPerPage;
-            l(e, true);
+            i(e, true);
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
-    }
-    function y(t, n) {
-        if (Is.definedBigInt(n)) {
-            n = n.toString();
-        } else if (Is.definedSymbol(n)) {
-            n = n.toString();
-        } else if (Is.definedFunction(n)) {
-            n = Default2.getFunctionName(n, e).name;
-        } else if (Is.definedMap(n)) {
-            n = Default2.getObjectFromMap(n);
-        } else if (Is.definedSet(n)) {
-            n = Default2.getArrayFromSet(n);
-        } else if (Is.definedRegExp(n)) {
-            n = n.source;
-        } else if (Is.definedImage(n)) {
-            n = n.src;
-        }
-        return n;
     }
     function h(t) {
         if (t.sideMenu.enabled) {
@@ -1459,7 +1466,7 @@ var Obj;
             ToolTip.hide(t);
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
-                    l(t);
+                    i(t);
                     j(t, e.text.ignoreDataTypesUpdated);
                 }), 500);
             }
@@ -2238,7 +2245,7 @@ var Obj;
             }
         }
     }
-    function $(t, n, o, r, i) {
+    function $(t, n, o, r, l) {
         if (t.allowEditing.propertyNames) {
             r.ondblclick = a => {
                 DomElement.cancelBubble(a);
@@ -2248,7 +2255,7 @@ var Obj;
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
                 DomElement.addClass(r, "editable");
-                if (i) {
+                if (l) {
                     s = Arr.getIndexFromBrackets(r.innerHTML);
                     r.innerHTML = s.toString();
                 } else {
@@ -2258,19 +2265,19 @@ var Obj;
                 r.focus();
                 DomElement.selectAllText(r);
                 r.onblur = () => {
-                    l(t, false);
+                    i(t, false);
                     if (Is.definedString(u)) {
                         j(t, u);
                     }
                 };
-                r.onkeydown = l => {
-                    if (l.code == "Escape") {
-                        l.preventDefault();
+                r.onkeydown = i => {
+                    if (i.code == "Escape") {
+                        i.preventDefault();
                         r.setAttribute("contenteditable", "false");
-                    } else if (l.code == "Enter") {
-                        l.preventDefault();
+                    } else if (i.code == "Enter") {
+                        i.preventDefault();
                         const a = r.innerText;
-                        if (i) {
+                        if (l) {
                             if (!isNaN(+a)) {
                                 let o = +a;
                                 if (!t.useZeroIndexingForArrays) {
@@ -2304,36 +2311,36 @@ var Obj;
             };
         }
     }
-    function z(t, n, o, r, i, a, s) {
+    function z(t, n, o, r, l, a, s) {
         if (s) {
-            i.ondblclick = s => {
+            l.ondblclick = s => {
                 let u = null;
                 DomElement.cancelBubble(s);
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                DomElement.addClass(i, "editable");
-                i.setAttribute("contenteditable", "true");
+                DomElement.addClass(l, "editable");
+                l.setAttribute("contenteditable", "true");
                 if (Is.definedDate(r) && !t.includeTimeZoneInDateTimeEditing) {
-                    i.innerText = JSON.stringify(r).replace(/['"]+/g, "");
+                    l.innerText = JSON.stringify(r).replace(/['"]+/g, "");
                 } else {
-                    i.innerText = r.toString();
+                    l.innerText = r.toString();
                 }
-                i.focus();
-                DomElement.selectAllText(i);
-                i.onblur = () => {
-                    l(t, false);
+                l.focus();
+                DomElement.selectAllText(l);
+                l.onblur = () => {
+                    i(t, false);
                     if (Is.definedString(u)) {
                         j(t, u);
                     }
                 };
-                i.onkeydown = l => {
-                    if (l.code == "Escape") {
-                        l.preventDefault();
-                        i.setAttribute("contenteditable", "false");
-                    } else if (l.code == "Enter") {
-                        l.preventDefault();
-                        const s = i.innerText;
+                l.onkeydown = i => {
+                    if (i.code == "Escape") {
+                        i.preventDefault();
+                        l.setAttribute("contenteditable", "false");
+                    } else if (i.code == "Enter") {
+                        i.preventDefault();
+                        const s = l.innerText;
                         if (s.trim() === "") {
                             if (a) {
                                 n.splice(Arr.getIndexFromBrackets(o), 1);
@@ -2366,7 +2373,7 @@ var Obj;
                                 Trigger.customEvent(t.events.onJsonEdit, t._currentView.element);
                             }
                         }
-                        i.setAttribute("contenteditable", "false");
+                        l.setAttribute("contenteditable", "false");
                     }
                 };
             };
@@ -2497,15 +2504,15 @@ var Obj;
     function X(t, n) {
         const o = t.length;
         let r = 0;
-        let i = [];
+        let l = [];
         const a = t => {
             r++;
-            i.push(t);
+            l.push(t);
             if (r === o) {
                 n._currentView.dataArrayCurrentIndex = 0;
                 n._currentView.contentPanelsOpen = {};
-                n.data = i.length === 1 ? i[0] : i;
-                l(n);
+                n.data = l.length === 1 ? l[0] : l;
+                i(n);
                 j(n, e.text.importedText.replace("{0}", o.toString()));
                 Trigger.customEvent(n.events.onSetJson, n._currentView.element);
             }
@@ -2531,7 +2538,7 @@ var Obj;
         o.readAsText(t);
     }
     function ee(t) {
-        let n = JSON.stringify(t.data, y, t.jsonIndentSpaces);
+        let n = JSON.stringify(t.data, o, t.jsonIndentSpaces);
         if (Is.definedString(n)) {
             const o = DomElement.create(document.body, "a");
             o.style.display = "none";
@@ -2558,19 +2565,19 @@ var Obj;
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
             if (re(e) && e.code === "F11") {
                 e.preventDefault();
-                p(o);
+                x(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                w(o);
+                D(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
-                D(o);
+                y(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                b(o);
+                w(o);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
-                T(o);
+                b(o);
             } else if (e.code === "Escape") {
                 e.preventDefault();
                 v(o);
@@ -2598,7 +2605,7 @@ var Obj;
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
-                l(n);
+                i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
             return ie;
@@ -2607,7 +2614,7 @@ var Obj;
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
                     const n = t[e];
-                    l(n);
+                    i(n);
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
@@ -2615,23 +2622,23 @@ var Obj;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
-                r(Binding.Options.getForNewInstance(t, e));
+                l(Binding.Options.getForNewInstance(t, e));
             }
             return ie;
         },
         renderAll: function() {
-            o();
+            r();
             return ie;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                T(t[e]);
+                b(t[e]);
             }
             return ie;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                b(t[e]);
+                w(t[e]);
             }
             return ie;
         },
@@ -2639,7 +2646,7 @@ var Obj;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    w(t[e]);
+                    D(t[e]);
                 }
             }
             return ie;
@@ -2648,7 +2655,7 @@ var Obj;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    D(t[e]);
+                    y(t[e]);
                 }
             }
             return ie;
@@ -2672,12 +2679,12 @@ var Obj;
                 } else {
                     r = o;
                 }
-                const i = t[n];
-                i._currentView.dataArrayCurrentIndex = 0;
-                i._currentView.contentPanelsOpen = {};
-                i.data = r;
-                l(i);
-                Trigger.customEvent(i.events.onSetJson, i._currentView.element);
+                const l = t[n];
+                l._currentView.dataArrayCurrentIndex = 0;
+                l._currentView.contentPanelsOpen = {};
+                l.data = r;
+                i(l);
+                Trigger.customEvent(l.events.onSetJson, l._currentView.element);
             }
             return ie;
         },
@@ -2737,7 +2744,7 @@ var Obj;
     };
     (() => {
         e = Config.Options.get();
-        document.addEventListener("DOMContentLoaded", (() => o()));
+        document.addEventListener("DOMContentLoaded", (() => r()));
         if (!Is.defined(window.$jsontree)) {
             window.$jsontree = ie;
         }
