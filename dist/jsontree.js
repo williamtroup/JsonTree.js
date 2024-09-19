@@ -567,6 +567,7 @@ var Binding;
             o._currentView.columnDragging = false;
             o._currentView.columnDraggingDataIndex = 0;
             o._currentView.dataTypeCounts = {};
+            o._currentView.contentControlButtons = [];
             for (const e in r) {
                 if (!r[e]) {
                     o._currentView.isBulkEditingEnabled = false;
@@ -1151,6 +1152,7 @@ var Obj;
         e._currentView.sideMenuChanged = false;
         e._currentView.contentColumns = [];
         e._currentView.dataTypeCounts = {};
+        e._currentView.contentControlButtons = [];
         b(e, n);
         const r = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
@@ -1275,13 +1277,22 @@ var Obj;
     }
     function d(e, t) {
         ToolTip.hide(t);
+        const n = e.scrollTop;
+        const o = e.scrollLeft;
+        const r = t._currentView.contentColumns.length;
         if (t.paging.synchronizeScrolling) {
-            const n = e.scrollTop;
-            const o = e.scrollLeft;
-            const r = t._currentView.contentColumns.length;
             for (let e = 0; e < r; e++) {
                 t._currentView.contentColumns[e].scrollTop = n;
                 t._currentView.contentColumns[e].scrollLeft = o;
+            }
+        }
+        if (t.showControlButtons) {
+            for (let e = 0; e < r; e++) {
+                const n = t._currentView.contentControlButtons[e];
+                if (Is.defined(n)) {
+                    n.style.top = `${t._currentView.contentColumns[e].scrollTop}px`;
+                    n.style.right = `-${t._currentView.contentColumns[e].scrollLeft}px`;
+                }
             }
         }
     }
@@ -1345,6 +1356,7 @@ var Obj;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
+            t._currentView.contentControlButtons.push(l);
         }
     }
     function x(t, n) {

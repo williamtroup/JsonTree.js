@@ -198,6 +198,7 @@ export type BindingOptionsCurrentView = {
 	columnDragging: boolean;
 	columnDraggingDataIndex: number;
 	dataTypeCounts: Record<string, number>;
+	contentControlButtons: HTMLElement[];
 };
 
 export type BindingOptionsPaging = {

@@ -67,6 +67,7 @@ export namespace Binding {
             bindingOptions._currentView.columnDragging = false;
             bindingOptions._currentView.columnDraggingDataIndex = 0;
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
+            bindingOptions._currentView.contentControlButtons = [];
 
             for ( const key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {

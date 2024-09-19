@@ -142,6 +142,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.sideMenuChanged = false;
         bindingOptions._currentView.contentColumns = [];
         bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
+        bindingOptions._currentView.contentControlButtons = [];
 
         renderControlTitleBar( bindingOptions, data );
 
@@ -314,14 +315,25 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions ) : void {
         ToolTip.hide( bindingOptions );
 
+        const scrollTop: number = column.scrollTop;
+        const scrollLeft: number = column.scrollLeft;
+        const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+
         if ( bindingOptions.paging!.synchronizeScrolling ) {
-            const scrollTop: number = column.scrollTop;
-            const scrollLeft: number = column.scrollLeft;
-            const columnsLength: number = bindingOptions._currentView.contentColumns.length;
-    
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
                 bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+            }
+        }
+
+        if ( bindingOptions.showControlButtons ) {
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
+                    
+                if ( Is.defined( controlButtons ) ) {
+                    controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop}px`;
+                    controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft}px`;
+                }
             }
         }
     }
@@ -413,6 +425,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
+
+            bindingOptions._currentView.contentControlButtons.push( controlButtons );
         }
     }
 
