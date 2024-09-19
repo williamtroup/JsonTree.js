@@ -248,11 +248,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
     
                 contents.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code == KeyCode.escape ) {
+                    if ( e.code === KeyCode.escape ) {
                         e.preventDefault();
                         contents.setAttribute( "contenteditable", "false" );
 
-                    } else if ( isCommandKey( e ) && e.code == KeyCode.enter ) {
+                    } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
                         e.preventDefault();
     
                         const newValue: string = contents.innerText;
@@ -281,7 +281,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                         contents.setAttribute( "contenteditable", "false" );
                         
-                    } else if ( e.code == KeyCode.enter ) {
+                    } else if ( e.code === KeyCode.enter ) {
                         e.preventDefault();
                         document.execCommand( "insertLineBreak" );    
                     }
@@ -1700,11 +1700,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
     
                 propertyName.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code == KeyCode.escape ) {
+                    if ( e.code === KeyCode.escape ) {
                         e.preventDefault();
                         propertyName.setAttribute( "contenteditable", "false" );
 
-                    } else if ( e.code == KeyCode.enter ) {
+                    } else if ( e.code === KeyCode.enter ) {
                         e.preventDefault();
     
                         const newPropertyName: string = propertyName.innerText;
@@ -1790,11 +1790,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
     
                 propertyValue.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code == KeyCode.escape ) {
+                    if ( e.code === KeyCode.escape ) {
                         e.preventDefault();
                         propertyValue.setAttribute( "contenteditable", "false" );
                         
-                    } else if ( e.code == KeyCode.enter ) {
+                    } else if ( e.code === KeyCode.enter ) {
                         e.preventDefault();
     
                         const newPropertyValue: string = propertyValue.innerText;

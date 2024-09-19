@@ -1202,10 +1202,10 @@ var Replacer;
                     }
                 };
                 r.onkeydown = n => {
-                    if (n.code == "Escape") {
+                    if (n.code === "Escape") {
                         n.preventDefault();
                         r.setAttribute("contenteditable", "false");
-                    } else if (re(n) && n.code == "Enter") {
+                    } else if (re(n) && n.code === "Enter") {
                         n.preventDefault();
                         const o = r.innerText;
                         const i = Default2.getObjectFromString(o, e);
@@ -1226,7 +1226,7 @@ var Replacer;
                             }
                         }
                         r.setAttribute("contenteditable", "false");
-                    } else if (n.code == "Enter") {
+                    } else if (n.code === "Enter") {
                         n.preventDefault();
                         document.execCommand("insertLineBreak");
                     }
@@ -2271,10 +2271,10 @@ var Replacer;
                     }
                 };
                 r.onkeydown = i => {
-                    if (i.code == "Escape") {
+                    if (i.code === "Escape") {
                         i.preventDefault();
                         r.setAttribute("contenteditable", "false");
-                    } else if (i.code == "Enter") {
+                    } else if (i.code === "Enter") {
                         i.preventDefault();
                         const a = r.innerText;
                         if (l) {
@@ -2335,10 +2335,10 @@ var Replacer;
                     }
                 };
                 l.onkeydown = i => {
-                    if (i.code == "Escape") {
+                    if (i.code === "Escape") {
                         i.preventDefault();
                         l.setAttribute("contenteditable", "false");
-                    } else if (i.code == "Enter") {
+                    } else if (i.code === "Enter") {
                         i.preventDefault();
                         const s = l.innerText;
                         if (s.trim() === "") {
