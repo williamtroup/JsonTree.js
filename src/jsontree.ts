@@ -945,7 +945,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let valueClass: string = null!;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
-        let type: string = null!;
+        let dataType: string = null!;
         let nameElement: HTMLSpanElement = DomElement.create( objectTypeValue, "span", "title" );
         let allowEditing: boolean = false;
         let typeElement: HTMLSpanElement = null!;
@@ -991,7 +991,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.nullValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.null} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
-                type = DataType.null;
+                dataType = DataType.null;
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
@@ -1007,7 +1007,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.undefinedValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.undefined} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
-                type = DataType.undefined;
+                dataType = DataType.undefined;
 
                 if ( Is.definedFunction( bindingOptions.events!.onUndefinedRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, valueElement );
@@ -1026,7 +1026,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( !bindingOptions.ignore!.lambdaValues ) {
                     valueClass = bindingOptions.showValueColors ? `${DataType.lambda} value non-value` : "value non-value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
-                    type = DataType.lambda;
+                    dataType = DataType.lambda;
     
                     if ( Is.definedFunction( bindingOptions.events!.onLambdaRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onLambdaRender!, valueElement );
@@ -1042,7 +1042,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( !bindingOptions.ignore!.functionValues ) {
                     valueClass = bindingOptions.showValueColors ? `${DataType.function} value non-value` : "value non-value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
-                    type = DataType.function;
+                    dataType = DataType.function;
     
                     if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
@@ -1059,7 +1059,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.booleanValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.boolean} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = DataType.boolean;
+                dataType = DataType.boolean;
                 allowEditing = bindingOptions.allowEditing!.booleanValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1080,7 +1080,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.float} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
-                type = DataType.float;
+                dataType = DataType.float;
                 allowEditing = bindingOptions.allowEditing!.floatValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1099,7 +1099,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.numberValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.number} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = DataType.number;
+                dataType = DataType.number;
                 allowEditing = bindingOptions.allowEditing!.numberValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1118,7 +1118,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.bigintValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.bigint} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = DataType.bigint;
+                dataType = DataType.bigint;
                 allowEditing = bindingOptions.allowEditing!.bigIntValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1137,7 +1137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.guidValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.guid} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = DataType.guid;
+                dataType = DataType.guid;
                 allowEditing = bindingOptions.allowEditing!.guidValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1156,7 +1156,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.colorValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.color} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
-                type = DataType.color;
+                dataType = DataType.color;
                 allowEditing = bindingOptions.allowEditing!.colorValues!;
 
                 if ( bindingOptions.showValueColors ) {
@@ -1185,7 +1185,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.url} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newUrlValue );
-                type = DataType.url;
+                dataType = DataType.url;
                 allowEditing = bindingOptions.allowEditing!.urlValues!;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
@@ -1215,7 +1215,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.email} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newEmailValue );
-                type = DataType.email;
+                dataType = DataType.email;
                 allowEditing = bindingOptions.allowEditing!.emailValues!;
 
                 if ( bindingOptions.showEmailOpenButtons ) {
@@ -1268,7 +1268,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
 
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
-                    type = DataType.string;
+                    dataType = DataType.string;
 
                     if ( !isForEmptyProperties ) {
                         makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1289,7 +1289,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.date} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
-                type = DataType.date;
+                dataType = DataType.date;
                 allowEditing = bindingOptions.allowEditing!.dateValues!;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1308,7 +1308,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.symbolValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.symbol} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
-                type = DataType.symbol;
+                dataType = DataType.symbol;
 
                 if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
@@ -1324,7 +1324,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.regexpValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.regexp} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
-                type = DataType.regexp;
+                dataType = DataType.regexp;
 
                 if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onRegExpRender!, valueElement );
@@ -1340,7 +1340,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.imageValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.image} value` : "value";
                 valueElement = DomElement.create( objectTypeValue, "span", valueClass );
-                type = DataType.image;
+                dataType = DataType.image;
 
                 const image: HTMLImageElement = DomElement.create( valueElement, "img" ) as HTMLImageElement;
                 image.src = value.src;
@@ -1377,7 +1377,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         }
     
                         valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.htmlText! );
-                        type = DataType.html;
+                        dataType = DataType.html;
     
                         if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                             DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
@@ -1389,7 +1389,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                         let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
     
-                        const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                        const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, true, isLastItem, jsonPath, dataType );
                         
                         if ( !propertiesAdded && Is.defined( openingBrace ) ) {
                             openingBrace.parentNode!.removeChild( openingBrace );
@@ -1399,7 +1399,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 } else {
                     valueClass = bindingOptions.showValueColors ? `${DataType.html} value` : "value";
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.tagName.toLowerCase() );
-                    type = DataType.html;
+                    dataType = DataType.html;
     
                     if ( Is.definedFunction( bindingOptions.events!.onHtmlRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onHtmlRender!, valueElement );
@@ -1426,7 +1426,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.setText! );
-                type = DataType.set;
+                dataType = DataType.set;
 
                 if ( bindingOptions.showObjectSizes ) {
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${arrayValues.length}]` );
@@ -1438,7 +1438,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, true, isLastItem, jsonPath, type );
+                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, true, isLastItem, jsonPath, dataType );
 
                 if ( !propertiesAdded && Is.defined( openingBracket ) ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -1461,7 +1461,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.arrayText! );
-                type = DataType.array;
+                dataType = DataType.array;
 
                 if ( bindingOptions.showObjectSizes ) {
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${value.length}]` );
@@ -1473,7 +1473,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem, jsonPath, type );
+                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, true, isLastItem, jsonPath, dataType );
 
                 if ( !propertiesAdded && Is.defined( openingBracket ) ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -1504,7 +1504,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
 
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.mapText! );
-                    type = DataType.map;
+                    dataType = DataType.map;
 
                     if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
@@ -1516,7 +1516,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
 
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, true, isLastItem, jsonPath, dataType );
 
                     if ( !propertiesAdded && Is.defined( openingBrace ) ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -1547,7 +1547,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
 
                     valueElement = DomElement.createWithHTML( objectTitle, "span", "main-title", _configuration.text!.objectText! );
-                    type = DataType.object;
+                    dataType = DataType.object;
 
                     if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
                         DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
@@ -1559,7 +1559,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                     let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
 
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath, type );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, true, isLastItem, jsonPath, dataType );
                     
                     if ( !propertiesAdded && Is.defined( openingBrace ) ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -1574,7 +1574,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.unknownValues ) {
                 valueClass = bindingOptions.showValueColors ? `${DataType.unknown} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
-                type = DataType.unknown;
+                dataType = DataType.unknown;
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
@@ -1593,14 +1593,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         } else {
             if ( Is.defined( valueElement ) ) {
                 if ( !isForEmptyProperties ) {
-                    updateDataTypeCount( bindingOptions, type );
+                    updateDataTypeCount( bindingOptions, dataType );
                     addFooterSizeStatus( bindingOptions, value, valueElement );
                     addFooterLengthStatus( bindingOptions, value, valueElement );
                 }
 
                 if ( Is.defined( typeElement ) ) {
-                    if ( type !== DataType.null && type !== DataType.undefined && type !== DataType.array && type !== DataType.object && type !== DataType.map && type !== DataType.set ) {
-                        typeElement.innerHTML = `(${type})`;
+                    if ( dataType !== DataType.null && dataType !== DataType.undefined && dataType !== DataType.array && dataType !== DataType.object && dataType !== DataType.map && dataType !== DataType.set ) {
+                        typeElement.innerHTML = `(${dataType})`;
                     } else {
                         typeElement.parentNode!.removeChild( typeElement );
                         typeElement = null!;
@@ -1609,7 +1609,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( assignClickEvent ) {
                     addValueElementToolTip( bindingOptions, jsonPath, nameElement, typeElement, valueElement );
-                    addValueClickEvent( bindingOptions, valueElement, value, type, allowEditing );
+                    addValueClickEvent( bindingOptions, valueElement, value, dataType, allowEditing );
                 }
             }
         }
