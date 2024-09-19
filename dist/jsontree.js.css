@@ -535,12 +535,72 @@ div.json-tree-js div.contents {
   margin: 0 !important;
   width: 100%;
 }
+div.json-tree-js div.contents div.contents-column div.column-control-buttons {
+  border-radius: var(--json-tree-js-border-radius);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+}
 div.json-tree-js div.contents div.contents-column,
 div.json-tree-js div.contents div.contents-column-multiple {
+  position: relative;
   flex-basis: 100%;
   overflow: auto;
   padding-right: var(--json-tree-js-spacing);
   margin-right: var(--json-tree-js-spacing);
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  background-color: var(--json-tree-js-color-dark-black);
+  border-bottom-left-radius: var(--json-tree-js-border-radius);
+  border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+  border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+  padding: calc(var(--json-tree-js-spacing) / 2);
+  z-index: 50;
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
+  background-color: var(--json-tree-js-button-background-color);
+  border: var(--json-tree-js-border-size) solid var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-text-color);
+  border-radius: var(--json-tree-js-border-radius);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  margin: 3px;
+  outline: none;
+  transition: var(--json-tree-js-transition);
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:disabled,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:disabled {
+  color: var(--json-tree-js-button-border-color);
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:not(.active):not(:disabled):active,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:not(.active):not(:disabled):active {
+  background: var(--json-tree-js-button-background-color-active) !important;
+  color: var(--json-tree-js-button-text-color-active) !important;
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:not(.active):not(:disabled):hover,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:not(.active):not(:disabled):hover {
+  cursor: pointer;
+  background: var(--json-tree-js-button-background-color-hover);
+  color: var(--json-tree-js-button-text-color-hover);
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
+  margin-bottom: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-header-bold-weight);
+  min-width: 30px;
+  min-height: 30px;
+  text-align: center;
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:last-child,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:last-child {
+  margin-bottom: 0;
 }
 div.json-tree-js div.contents div.contents-column:last-child,
 div.json-tree-js div.contents div.contents-column-multiple:last-child {

@@ -182,8 +182,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
-        contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
         contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
+
+        if ( bindingOptions.paging!.enabled ) {
+            contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
+        }
 
         if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
             contentsColumn.setAttribute( "draggable", "true" );
@@ -192,6 +195,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
             contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
         }
+
+        renderControlContentsPanelButtons( bindingOptions, contentsColumn );
 
         bindingOptions._currentView.contentColumns.push( contentsColumn );
 
@@ -217,6 +222,36 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         makeContentsEditable( bindingOptions, data, contentsColumn, dataIndex );
+    }
+
+    function renderControlContentsPanelButtons( bindingOptions: BindingOptions, column: HTMLElement ) : void {
+        const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
+
+        const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", "✎" ) as HTMLButtonElement;
+        editButton.onclick = () => onSideMenuOpen( bindingOptions );
+        editButton.ondblclick = DomElement.cancelBubble;
+
+        ToolTip.add( editButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
+
+        if ( bindingOptions.paging!.enabled ) {
+            const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", "→" ) as HTMLButtonElement;
+            moveRightButton.onclick = () => onSideMenuOpen( bindingOptions );
+            moveRightButton.ondblclick = DomElement.cancelBubble;
+    
+            ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
+    
+            const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", "←" ) as HTMLButtonElement;
+            moveLeftButton.onclick = () => onSideMenuOpen( bindingOptions );
+            moveLeftButton.ondblclick = DomElement.cancelBubble;
+    
+            ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
+        }
+
+        const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", "✕" ) as HTMLButtonElement;
+        removeButton.onclick = () => onSideMenuOpen( bindingOptions );
+        removeButton.ondblclick = DomElement.cancelBubble;
+
+        ToolTip.add( removeButton, bindingOptions, _configuration.text!.sideMenuButtonText! );
     }
 
     function makeContentsEditable( bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {

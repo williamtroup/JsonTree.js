@@ -503,12 +503,46 @@ div.json-tree-js {
         margin: 0 !important;
         width: 100%;
 
+        div.contents-column {
+            div.column-control-buttons {
+                border-radius: var(--json-tree-js-border-radius);
+                border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+            }
+        }
+
         div.contents-column,
         div.contents-column-multiple {
+            position: relative;
             flex-basis: 100%;
             overflow: auto;
             padding-right: var(--json-tree-js-spacing);
             margin-right: var(--json-tree-js-spacing);
+
+            div.column-control-buttons {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                top: 0;
+                right: 0;
+                background-color: var(--json-tree-js-color-dark-black);
+                border-bottom-left-radius: var(--json-tree-js-border-radius);
+                border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+                border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+                padding: calc( var(--json-tree-js-spacing) / 2 );
+                z-index: 50;
+
+                @include buttons;
+
+                button {
+                    margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
+
+                    @include title-bar-buttons;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
 
             &:last-child {
                 padding-right: 0;
