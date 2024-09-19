@@ -100,6 +100,7 @@ export type ConfigurationText = {
 	nameUpdatedText?: string;
 	indexUpdatedText?: string;
 	itemDeletedText?: string;
+	arrayJsonItemDeleted?: string;
 };
 
 export type BindingOptions = {

@@ -254,14 +254,25 @@ type JsonTreeData = Record<string, BindingOptions>;
                         const newData: StringToJson = Default.getObjectFromString( newValue, _configuration );
 
                         if ( newData.parsed ) {
+                            statusBarMessage = _configuration.text!.jsonUpdatedText!;
+
                             if ( bindingOptions.paging!.enabled ) {
-                                bindingOptions.data[ dataIndex ] = newData.object;
+                                if ( Is.defined( newData.object ) ) {
+                                    bindingOptions.data[ dataIndex ] = newData.object;
+
+                                } else {
+                                    bindingOptions.data.splice( dataIndex, 1 );
+                                    statusBarMessage = _configuration.text!.arrayJsonItemDeleted!;
+
+                                    if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                                        bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+                                    }
+                                }
+                                
                             } else {
                                 bindingOptions.data = newData.object;
                             }
                         }
-
-                        statusBarMessage = _configuration.text!.jsonUpdatedText!;
 
                         contents.setAttribute( "contenteditable", "false" );
                         

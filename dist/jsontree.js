@@ -806,6 +806,7 @@ var Config;
             e.text.nameUpdatedText = Default2.getAnyString(e.text.nameUpdatedText, "Property name updated.");
             e.text.indexUpdatedText = Default2.getAnyString(e.text.indexUpdatedText, "Array index updated.");
             e.text.itemDeletedText = Default2.getAnyString(e.text.itemDeletedText, "Item deleted.");
+            e.text.arrayItemJsonDeleted = Default2.getAnyString(e.text.arrayItemJsonDeleted, "Array JSON item deleted.");
             if (Is.invalidOptionArray(e.text.dayNames, 7)) {
                 e.text.dayNames = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ];
             }
@@ -1184,13 +1185,21 @@ var Obj;
                         const l = o.innerText;
                         const i = Default2.getObjectFromString(l, e);
                         if (i.parsed) {
+                            a = e.text.jsonUpdatedText;
                             if (t.paging.enabled) {
-                                t.data[r] = i.object;
+                                if (Is.defined(i.object)) {
+                                    t.data[r] = i.object;
+                                } else {
+                                    t.data.splice(r, 1);
+                                    a = e.text.arrayItemJsonDeleted;
+                                    if (r === t._currentView.dataArrayCurrentIndex && t._currentView.dataArrayCurrentIndex > 0) {
+                                        t._currentView.dataArrayCurrentIndex -= t.paging.columnsPerPage;
+                                    }
+                                }
                             } else {
                                 t.data = i.object;
                             }
                         }
-                        a = e.text.jsonUpdatedText;
                         o.setAttribute("contenteditable", "false");
                     } else if (n.code == "Enter") {
                         n.preventDefault();
@@ -1606,7 +1615,7 @@ var Obj;
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
             L(f, null, d, n, a, s, m, false, true, "", i);
-            U(n, g, o, i, false);
+            J(n, g, o, i, false);
             M(n, o, g);
             O(n, o, g);
         }
@@ -1628,7 +1637,7 @@ var Obj;
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
         P(u, null, s, n, i, d, false, true, "", l);
-        U(n, c, o, l, false);
+        J(n, c, o, l, false);
         M(n, o, c);
         O(n, o, c);
     }
@@ -1656,7 +1665,7 @@ var Obj;
                 }
             }
         }
-        J(r, t, n, o, a, m, d);
+        U(r, t, n, o, a, m, d);
         return f;
     }
     function P(t, n, o, r, l, i, a, s, u, c) {
@@ -1684,7 +1693,7 @@ var Obj;
                 Y(r, o, "]", a, s);
             }
         }
-        J(r, t, n, o, i, g, c);
+        U(r, t, n, o, i, g, c);
         return d;
     }
     function R(t, n, o, r, l, i, a, s, u) {
@@ -2187,7 +2196,7 @@ var Obj;
                 }
                 if (D) {
                     W(o, s, x, b, g);
-                    U(o, g, l, p, T);
+                    J(o, g, l, p, T);
                 }
             }
         }
@@ -2363,7 +2372,7 @@ var Obj;
             };
         }
     }
-    function U(e, t, n, o, r) {
+    function J(e, t, n, o, r) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (r) {
@@ -2380,7 +2389,7 @@ var Obj;
             DomElement.addClass(t, "no-hover");
         }
     }
-    function J(e, t, n, o, r, l, i) {
+    function U(e, t, n, o, r, l, i) {
         const a = e._currentView.contentPanelsIndex;
         const s = e._currentView.contentPanelsDataIndex;
         if (!e._currentView.contentPanelsOpen.hasOwnProperty(s)) {
