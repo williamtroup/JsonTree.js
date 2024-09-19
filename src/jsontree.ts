@@ -789,7 +789,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             bindingOptions._currentView.footerStatusTextTimerId = setTimeout( () => {
                 bindingOptions._currentView.footerStatusText.innerHTML = _configuration.text!.waitingText!
-            }, 5000 );
+            }, bindingOptions.footer!.statusResetDelay );
         }
     }
 

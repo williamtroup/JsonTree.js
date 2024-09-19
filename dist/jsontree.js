@@ -617,6 +617,7 @@ var Binding;
             e.footer.showLengths = Default2.getBoolean(e.footer.showLengths, true);
             e.footer.showSizes = Default2.getBoolean(e.footer.showSizes, true);
             e.footer.showPageOf = Default2.getBoolean(e.footer.showPageOf, true);
+            e.footer.statusResetDelay = Default2.getNumber(e.footer.statusResetDelay, 5e3);
             return e;
         }
         function a(e) {
@@ -1592,7 +1593,7 @@ var Replacer;
             clearTimeout(t._currentView.footerStatusTextTimerId);
             t._currentView.footerStatusTextTimerId = setTimeout((() => {
                 t._currentView.footerStatusText.innerHTML = e.text.waitingText;
-            }), 5e3);
+            }), t.footer.statusResetDelay);
         }
     }
     function F(t, n, o, r) {

@@ -160,6 +160,7 @@ export namespace Binding {
             options.footer!.showLengths = Default.getBoolean( options.footer!.showLengths, true );
             options.footer!.showSizes = Default.getBoolean( options.footer!.showSizes, true );
             options.footer!.showPageOf = Default.getBoolean( options.footer!.showPageOf, true );
+            options.footer!.statusResetDelay = Default.getNumber( options.footer!.statusResetDelay, 5000 );
 
             return options;
         }

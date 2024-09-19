@@ -217,6 +217,7 @@ export type BindingOptionsFooter = {
 	showLengths?: boolean;
 	showSizes?: boolean;
 	showPageOf?: boolean;
+	statusResetDelay?: number;
 };
 
 export type BindingOptionsIgnore = {
