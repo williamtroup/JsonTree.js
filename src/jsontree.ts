@@ -182,49 +182,48 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
-        contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
-
-        if ( bindingOptions.paging!.enabled ) {
-            contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
-        }
-
-        if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
-            contentsColumn.setAttribute( "draggable", "true" );
-            contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
-            contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );
-            contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
-            contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
-        }
-
-        renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
-
-        bindingOptions._currentView.contentColumns.push( contentsColumn );
-
-        if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
-            renderArray( contentsColumn, bindingOptions, data );
-        } else if ( Is.definedObject( data ) ) {
-            renderObject( contentsColumn, bindingOptions, data, dataIndex );
-        }
-
-        if ( contentsColumn.innerHTML === Char.empty || ( contentsColumn.children.length >= 2 && ( ( !bindingOptions.showOpenedObjectArrayBorders && contentsColumn.children[ 1 ].children.length === 0 ) || contentsColumn.children[ 1 ].children.length === 1 )  ) ) {
-            contentsColumn.innerHTML = Char.empty;
-
+        
+        if ( !Is.defined( data ) ) {
             DomElement.createWithHTML( contentsColumn, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
 
             bindingOptions._currentView.titleBarButtons.style.display = "none";
-
         } else {
+            
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions );
+
+            if ( bindingOptions.paging!.enabled ) {
+                contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
+            }
+    
+            if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
+                contentsColumn.setAttribute( "draggable", "true" );
+                contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
+                contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );
+                contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
+                contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
+            }
+    
+            renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
+    
+            bindingOptions._currentView.contentColumns.push( contentsColumn );
+    
+            if ( Is.definedArray( data ) || Is.definedSet( data ) ) {
+                renderArray( contentsColumn, bindingOptions, data );
+            } else if ( Is.definedObject( data ) ) {
+                renderObject( contentsColumn, bindingOptions, data, dataIndex );
+            }
+    
             if ( Is.defined( scrollTop ) ) {
                 contentsColumn.scrollTop = scrollTop;
             }
-
+    
             bindingOptions._currentView.titleBarButtons.style.display = "block";
-        }
-
-        if ( bindingOptions._currentView.isBulkEditingEnabled ) {
-            contents.ondblclick = ( e: MouseEvent ) => {
-                enableContentsEditMode( e, bindingOptions, data, contents, dataIndex );
-            };
+    
+            if ( bindingOptions._currentView.isBulkEditingEnabled ) {
+                contents.ondblclick = ( e: MouseEvent ) => {
+                    enableContentsEditMode( e, bindingOptions, data, contents, dataIndex );
+                };
+            }
         }
     }
 

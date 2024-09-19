@@ -1177,38 +1177,37 @@ var Obj;
     }
     function s(t, n, o, r, l, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
-        s.onscroll = () => d(s, o);
-        if (o.paging.enabled) {
-            s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
-        }
-        if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
-            s.setAttribute("draggable", "true");
-            s.ondragstart = () => f(s, o, r);
-            s.ondragend = () => g(s, o);
-            s.ondragover = e => e.preventDefault();
-            s.ondrop = () => m(o, r);
-        }
-        T(o, s, t, r);
-        o._currentView.contentColumns.push(s);
-        if (Is.definedArray(t) || Is.definedSet(t)) {
-            R(s, o, t);
-        } else if (Is.definedObject(t)) {
-            k(s, o, t, r);
-        }
-        if (s.innerHTML === "" || s.children.length >= 2 && (!o.showOpenedObjectArrayBorders && s.children[1].children.length === 0 || s.children[1].children.length === 1)) {
-            s.innerHTML = "";
+        if (!Is.defined(t)) {
             DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
             o._currentView.titleBarButtons.style.display = "none";
         } else {
+            s.onscroll = () => d(s, o);
+            if (o.paging.enabled) {
+                s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
+            }
+            if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
+                s.setAttribute("draggable", "true");
+                s.ondragstart = () => f(s, o, r);
+                s.ondragend = () => g(s, o);
+                s.ondragover = e => e.preventDefault();
+                s.ondrop = () => m(o, r);
+            }
+            T(o, s, t, r);
+            o._currentView.contentColumns.push(s);
+            if (Is.definedArray(t) || Is.definedSet(t)) {
+                R(s, o, t);
+            } else if (Is.definedObject(t)) {
+                k(s, o, t, r);
+            }
             if (Is.defined(l)) {
                 s.scrollTop = l;
             }
             o._currentView.titleBarButtons.style.display = "block";
-        }
-        if (o._currentView.isBulkEditingEnabled) {
-            n.ondblclick = e => {
-                u(e, o, t, n, r);
-            };
+            if (o._currentView.isBulkEditingEnabled) {
+                n.ondblclick = e => {
+                    u(e, o, t, n, r);
+                };
+            }
         }
     }
     function u(t, n, r, l, a) {
