@@ -324,6 +324,10 @@ div.json-tree-js {
         div.status-value-size,
         div.status-page-index {
             margin-left: calc( var(--json-tree-js-spacing) * 3 );
+        }
+
+        div.status-value-length,
+        div.status-value-size {
             animation: fade-in-animation var(--json-tree-js-animation-length);
         }
 
