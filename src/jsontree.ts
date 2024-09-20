@@ -1313,7 +1313,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let newUrlValue: string = value;
 
                 if ( bindingOptions.maximumUrlLength! > 0 && newUrlValue.length > bindingOptions.maximumUrlLength! ) {
-                    newUrlValue = newUrlValue.substring( 0, bindingOptions.maximumUrlLength ) + _configuration.text!.ellipsisText;
+                    newUrlValue = `${newUrlValue.substring(0, bindingOptions.maximumUrlLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.url} value` : "value";
@@ -1343,7 +1343,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let newEmailValue: string = value;
 
                 if ( bindingOptions.maximumEmailLength! > 0 && newEmailValue.length > bindingOptions.maximumEmailLength! ) {
-                    newEmailValue = newEmailValue.substring( 0, bindingOptions.maximumEmailLength ) + _configuration.text!.ellipsisText;
+                    newEmailValue = `${newEmailValue.substring(0, bindingOptions.maximumEmailLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${DataType.email} value` : "value";
@@ -1387,7 +1387,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( !isForEmptyProperties ) {
                         if ( bindingOptions.maximumStringLength! > 0 && newStringValue.length > bindingOptions.maximumStringLength! ) {
-                            newStringValue = newStringValue.substring( 0, bindingOptions.maximumStringLength ) + _configuration.text!.ellipsisText;
+                            newStringValue = `${newStringValue.substring(0, bindingOptions.maximumStringLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                         }
         
                         newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;

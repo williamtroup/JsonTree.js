@@ -1751,7 +1751,7 @@ var Obj;
             if (n.showOpeningClosingCurlyBraces) {
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
-            W(f, null, d, n, a, s, m, false, true, "", i);
+            $(f, null, d, n, a, s, m, false, true, "", i);
             K(n, g, o, i, false);
             F(n, o, g);
             P(n, o, g);
@@ -1773,12 +1773,12 @@ var Obj;
         if (n.showOpeningClosingCurlyBraces) {
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
         }
-        $(u, null, s, n, i, d, false, true, "", l);
+        W(u, null, s, n, i, d, false, true, "", l);
         K(n, c, o, l, false);
         F(n, o, c);
         P(n, o, c);
     }
-    function W(t, n, o, r, l, i, a, s, u, c, d) {
+    function $(t, n, o, r, l, i, a, s, u, c, d) {
         let f = true;
         const g = i.length;
         const m = c !== "" ? g : 0;
@@ -1805,7 +1805,7 @@ var Obj;
         Q(r, t, n, o, a, m, d);
         return f;
     }
-    function $(t, n, o, r, l, i, a, s, u, c) {
+    function W(t, n, o, r, l, i, a, s, u, c) {
         let d = true;
         const f = l.length;
         const g = u !== "" ? f : 0;
@@ -2015,7 +2015,7 @@ var Obj;
             if (!o.ignore.urlValues) {
                 let n = l;
                 if (o.maximumUrlLength > 0 && n.length > o.maximumUrlLength) {
-                    n = n.substring(0, o.maximumUrlLength) + e.text.ellipsisText;
+                    n = `${n.substring(0, o.maximumUrlLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
                 f = o.showValueColors ? `${"url"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, n);
@@ -2037,7 +2037,7 @@ var Obj;
             if (!o.ignore.emailValues) {
                 let n = l;
                 if (o.maximumEmailLength > 0 && n.length > o.maximumEmailLength) {
-                    n = n.substring(0, o.maximumEmailLength) + e.text.ellipsisText;
+                    n = `${n.substring(0, o.maximumEmailLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
                 f = o.showValueColors ? `${"email"} value` : "value";
                 g = DomElement.createWithHTML(c, "span", f, n);
@@ -2070,7 +2070,7 @@ var Obj;
                     let n = l;
                     if (!w) {
                         if (o.maximumStringLength > 0 && n.length > o.maximumStringLength) {
-                            n = n.substring(0, o.maximumStringLength) + e.text.ellipsisText;
+                            n = `${n.substring(0, o.maximumStringLength)}${" "}${e.text.ellipsisText}${" "}`;
                         }
                         n = o.showStringQuotes ? `"${n}"` : n;
                         f = o.showValueColors ? `${"string"} value` : "value";
@@ -2170,7 +2170,7 @@ var Obj;
                             u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                         }
                         let f = X(o, l, i);
-                        const m = W(d, f, a, o, t, n, u, true, i, s, p);
+                        const m = $(d, f, a, o, t, n, u, true, i, s, p);
                         if (!m && Is.defined(u)) {
                             u.parentNode.removeChild(u);
                         }
@@ -2206,7 +2206,7 @@ var Obj;
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
                 let u = X(o, n, i);
-                const f = $(d, u, r, o, t, a, true, i, s, p);
+                const f = W(d, u, r, o, t, a, true, i, s, p);
                 if (!f && Is.defined(a)) {
                     a.parentNode.removeChild(a);
                 }
@@ -2231,7 +2231,7 @@ var Obj;
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
                 let a = X(o, t, i);
-                const u = $(d, a, n, o, l, r, true, i, s, p);
+                const u = W(d, a, n, o, l, r, true, i, s, p);
                 if (!u && Is.defined(r)) {
                     r.parentNode.removeChild(r);
                 }
@@ -2262,7 +2262,7 @@ var Obj;
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
                     }
                     let f = X(o, l, i);
-                    const m = W(d, f, a, o, t, n, u, true, i, s, p);
+                    const m = $(d, f, a, o, t, n, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
@@ -2293,7 +2293,7 @@ var Obj;
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
                     }
                     let f = X(o, r, i);
-                    const m = W(d, f, a, o, l, t, u, true, i, s, p);
+                    const m = $(d, f, a, o, l, t, u, true, i, s, p);
                     if (!m && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
