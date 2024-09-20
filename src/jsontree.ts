@@ -587,6 +587,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             ToolTip.hide( bindingOptions );
             updateFooterDisplay( bindingOptions );
+            Trigger.customEvent( bindingOptions.events!.onFullScreenChange!, bindingOptions._currentView.element.classList.contains( "full-screen" ) );
         }
     }
 

@@ -774,6 +774,7 @@ var Binding;
             e.events.onHtmlRender = Default.getFunction(e.events.onHtmlRender, null);
             e.events.onLambdaRender = Default.getFunction(e.events.onLambdaRender, null);
             e.events.onCopy = Default.getFunction(e.events.onCopy, null);
+            e.events.onFullScreenChange = Default.getFunction(e.events.onFullScreenChange, null);
             return e;
         }
     })(t = e.Options || (e.Options = {}));
@@ -1238,7 +1239,7 @@ var Obj;
         l.onblur = () => {
             i(n, false);
             if (Is.definedString(s)) {
-                F(n, s);
+                R(n, s);
             }
         };
         l.onkeydown = t => {
@@ -1330,7 +1331,7 @@ var Obj;
             t._currentView.contentPanelsOpen[o] = s;
             t._currentView.contentPanelsOpen[n] = a;
             i(t);
-            F(t, e.text.jsonUpdatedText);
+            R(t, e.text.jsonUpdatedText);
         }
     }
     function T(t, n, o, r) {
@@ -1391,7 +1392,7 @@ var Obj;
             t.data = null;
         }
         i(t);
-        F(t, e.text.arrayJsonItemDeleted);
+        R(t, e.text.arrayJsonItemDeleted);
     }
     function b(t, n) {
         let r = o;
@@ -1400,7 +1401,7 @@ var Obj;
         }
         let l = JSON.stringify(n, r, t.jsonIndentSpaces);
         navigator.clipboard.writeText(l);
-        F(t, e.text.copiedText);
+        R(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopy, l);
     }
     function y(t, n) {
@@ -1479,6 +1480,7 @@ var Obj;
             }
             ToolTip.hide(t);
             j(t);
+            Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element.classList.contains("full-screen"));
         }
     }
     function D(t, n) {
@@ -1488,7 +1490,7 @@ var Obj;
         }
         let l = JSON.stringify(n, r, t.jsonIndentSpaces);
         navigator.clipboard.writeText(l);
-        F(t, e.text.copiedText);
+        R(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, l);
     }
     function h(e) {
@@ -1568,7 +1570,7 @@ var Obj;
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
                     i(t);
-                    F(t, e.text.ignoreDataTypesUpdated);
+                    R(t, e.text.ignoreDataTypesUpdated);
                 }), 500);
             }
         }
@@ -1688,7 +1690,7 @@ var Obj;
             }
         }
     }
-    function R(t, n, o) {
+    function F(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
             const r = Size.of(n);
             if (Is.definedString(r)) {
@@ -1705,7 +1707,7 @@ var Obj;
             }
         }
     }
-    function F(t, n) {
+    function R(t, n) {
         if (t.footer.enabled) {
             t._currentView.footerStatusText.innerHTML = n;
             clearTimeout(t._currentView.footerStatusTextTimerId);
@@ -1742,7 +1744,7 @@ var Obj;
             }
             W(f, null, d, n, a, s, m, false, true, "", i);
             K(n, g, o, i, false);
-            R(n, o, g);
+            F(n, o, g);
             P(n, o, g);
         }
     }
@@ -1764,7 +1766,7 @@ var Obj;
         }
         $(u, null, s, n, i, d, false, true, "", l);
         K(n, c, o, l, false);
-        R(n, o, c);
+        F(n, o, c);
         P(n, o, c);
     }
     function W(t, n, o, r, l, i, a, s, u, c, d) {
@@ -1857,7 +1859,7 @@ var Obj;
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             Y(o, t, r, T, a);
             if (!a) {
-                R(o, r, T);
+                F(o, r, T);
                 P(o, r, T);
             }
         }
@@ -2309,7 +2311,7 @@ var Obj;
             if (Is.defined(g)) {
                 if (!y) {
                     z(o, p);
-                    R(o, l, g);
+                    F(o, l, g);
                     P(o, l, g);
                     N(o, p, g);
                 }
@@ -2387,7 +2389,7 @@ var Obj;
                 r.onblur = () => {
                     i(t, false);
                     if (Is.definedString(u)) {
-                        F(t, u);
+                        R(t, u);
                     }
                 };
                 r.onkeydown = i => {
@@ -2451,7 +2453,7 @@ var Obj;
                 l.onblur = () => {
                     i(t, false);
                     if (Is.definedString(u)) {
-                        F(t, u);
+                        R(t, u);
                     }
                 };
                 l.onkeydown = i => {
@@ -2620,7 +2622,7 @@ var Obj;
                 n._currentView.contentPanelsOpen = {};
                 n.data = l.length === 1 ? l[0] : l;
                 i(n);
-                F(n, e.text.importedText.replace("{0}", o.toString()));
+                R(n, e.text.importedText.replace("{0}", o.toString()));
                 Trigger.customEvent(n.events.onSetJson, n._currentView.element);
             }
         };
@@ -2655,7 +2657,7 @@ var Obj;
             o.click();
             document.body.removeChild(o);
             A(t);
-            F(t, e.text.exportedText);
+            R(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }

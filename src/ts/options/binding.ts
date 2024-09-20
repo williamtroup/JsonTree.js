@@ -300,6 +300,7 @@ export namespace Binding {
             options.events!.onHtmlRender = Default.getFunction( options.events!.onHtmlRender, null! );
             options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
+            options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
 
             return options;
         }

@@ -337,4 +337,5 @@ export type BindingOptionsEvents = {
 	onJsonEdit?: ( element: HTMLElement ) => void;
 	onExport?: ( element: HTMLElement ) => void;
 	onCopy?: ( data: string ) => void;
+	onFullScreenChange?: ( enabled: boolean ) => void;
 };
