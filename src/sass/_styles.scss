@@ -141,7 +141,7 @@ $minimum-width: 768px;
 }
 
 @mixin symbol-buttons {
-    font-weight: var(--json-tree-js-header-bold-weight);
+    font-weight: var(--json-tree-js-bold-weight-heavy);
     min-width: 30px;
     min-height: 30px;
     text-align: center;

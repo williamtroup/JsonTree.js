@@ -239,7 +239,7 @@ div.json-tree-js div.title-bar button:not(.active):not(:disabled):hover {
   color: var(--json-tree-js-button-text-color-hover);
 }
 div.json-tree-js div.title-bar button {
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
   text-align: center;
@@ -386,7 +386,7 @@ div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-contr
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button {
   margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
   text-align: center;
@@ -593,7 +593,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
   margin-bottom: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
   text-align: center;
