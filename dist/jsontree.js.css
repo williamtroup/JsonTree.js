@@ -18,10 +18,10 @@
                                "Segoe UI Emoji",
                                "Segoe UI Symbol",
                                "Noto Color Emoji";
-  --json-tree-js-text-bold-weight: 400;
-  --json-tree-js-header-bold-weight: 900;
-  --json-tree-js-title-bold-weight: var(--json-tree-js-header-bold-weight);
-  --json-tree-js-text-bold-weight-active: var(--json-tree-js-header-bold-weight);
+  --json-tree-js-bold-weight-light: 400;
+  --json-tree-js-bold-weight-medium: 600;
+  --json-tree-js-bold-weight-heavy: 900;
+  --json-tree-js-title-bold-weight: var(--json-tree-js-bold-weight-heavy);
   --json-tree-js-color-dark-black: #1c2128;
   --json-tree-js-color-black: #3b3a3a;
   --json-tree-js-color-white: #F5F5F5;
@@ -106,7 +106,7 @@ div.json-tree-js {
   color: var(--json-tree-js-color-white);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
   font-size: var(--json-tree-js-spacing-font-size);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
   width: 100%;
   overflow: hidden;
   margin: 0 !important;
@@ -302,7 +302,7 @@ div.json-tree-js div.footer-bar div.status-value-size {
   animation: fade-in-animation var(--json-tree-js-animation-length);
 }
 div.json-tree-js div.footer-bar span.status-count {
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
 }
 
 /*
@@ -682,7 +682,7 @@ div.json-tree-js div.contents span.undefined {
 }
 div.json-tree-js div.contents span.size {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
@@ -722,7 +722,7 @@ div.json-tree-js div.drag-and-drop-background div.notice-text p {
 }
 div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-symbol {
   font-size: 4.5rem;
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-title {
   margin-top: calc(var(--json-tree-js-spacing));
@@ -730,7 +730,7 @@ div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-titl
 }
 div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-description {
   margin-top: calc(var(--json-tree-js-spacing));
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 
 /*
@@ -739,7 +739,7 @@ div.json-tree-js div.drag-and-drop-background div.notice-text p.notice-text-desc
     -------------------------------------------------------------------------
 */
 div.json-tree-js div.object-type-title {
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
   text-align: left !important;
   width: fit-content;
 }
@@ -753,12 +753,12 @@ div.json-tree-js div.object-type-title span.main-title:not(.no-hover):hover {
 }
 div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.object-type-title span.opening-symbol {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
   color: var(--json-tree-js-color-snow-white) !important;
 }
 
@@ -803,7 +803,7 @@ div.json-tree-js div.object-border-bottom {
 div.json-tree-js div.object-type-contents span.opening-symbol {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
   color: var(--json-tree-js-color-snow-white) !important;
 }
 div.json-tree-js div.object-type-contents div.closing-symbol div {
@@ -811,7 +811,7 @@ div.json-tree-js div.object-type-contents div.closing-symbol div {
 }
 div.json-tree-js div.object-type-contents div.closing-symbol div.object-type-end {
   margin-top: 3px;
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
@@ -856,7 +856,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.editable {
   cursor: text !important;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
-  font-weight: var(--json-tree-js-header-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-heavy);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
   font-style: italic;
@@ -864,13 +864,15 @@ div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
 div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null {
   font-style: italic;
   padding-right: 5px;
+  text-transform: uppercase;
+  font-weight: var(--json-tree-js-bold-weight-medium);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.no-properties-text {
   font-style: italic;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button,
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
@@ -979,7 +981,7 @@ div.jsontree-js-tooltip-value {
   max-width: 300px;
   padding: var(--json-tree-js-spacing);
   font-size: var(--json-tree-js-spacing-font-size);
-  font-weight: var(--json-tree-js-text-bold-weight);
+  font-weight: var(--json-tree-js-bold-weight-light);
   display: none;
 }
 
