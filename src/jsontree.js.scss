@@ -262,7 +262,7 @@ div.json-tree-js {
         @include buttons;
 
         button {
-            @include title-bar-buttons;
+            @include symbol-buttons;
         }
 
         button.side-menu {
@@ -403,7 +403,7 @@ div.json-tree-js {
                 button {
                     margin-left: calc( var(--json-tree-js-spacing) / 2 ) !important;
                     
-                    @include title-bar-buttons;
+                    @include symbol-buttons;
                 }
             }
         }
@@ -536,7 +536,7 @@ div.json-tree-js {
                 button {
                     margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
 
-                    @include title-bar-buttons;
+                    @include symbol-buttons;
 
                     &:last-child {
                         margin-bottom: 0;

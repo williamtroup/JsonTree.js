@@ -140,7 +140,7 @@ $minimum-width: 768px;
     }
 }
 
-@mixin title-bar-buttons {
+@mixin symbol-buttons {
     font-weight: var(--json-tree-js-header-bold-weight);
     min-width: 30px;
     min-height: 30px;
