@@ -385,7 +385,9 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
-        if ( bindingOptions.showControlButtons && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk ) ) {
+        const copyButtonVisible: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
+
+        if ( bindingOptions.showControlButtons && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible ) ) {
             const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
 
             if ( bindingOptions.allowEditing!.bulk ) {
@@ -419,6 +421,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                 ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
             }
+
+            if ( copyButtonVisible ) {
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
+                copyButton.onclick = () => onCopy( bindingOptions, data );
+                copyButton.ondblclick = DomElement.cancelBubble;
+            
+                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
+            }
     
             if ( bindingOptions.allowEditing!.bulk ) {
                 const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
@@ -429,6 +439,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             bindingOptions._currentView.contentControlButtons.push( controlButtons );
+            column.style.minHeight = `${controlButtons.offsetHeight}px`;
         }
     }
 
@@ -446,6 +457,21 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderControlContainer( bindingOptions );
         setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
+    }
+
+    function onCopy( bindingOptions: BindingOptions, data: any ) : void {
+        let replaceFunction: any = _jsonStringifyReplacer;
+
+        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
+            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
+        }
+
+        let copyDataJson: string  = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+
+        navigator.clipboard.writeText( copyDataJson );
+
+        setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
+        Trigger.customEvent( bindingOptions.events!.onCopy!, copyDataJson );
     }
 
     
@@ -478,16 +504,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showCopyButton ) {
-                const copyButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyAllButtonSymbolText! ) as HTMLButtonElement;
-                copyButton.onclick = () => onTitleBarCopyClick( bindingOptions, data );
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
+                copyButton.onclick = () => onTitleBarCopyAllClick( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
 
-                if ( bindingOptions.paging!.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
-                    ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
-                }
-                else {
-                    ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
-                }
+                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
             }
 
             if ( bindingOptions.title!.showTreeControls ) {
@@ -564,37 +585,14 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onTitleBarCopyClick( bindingOptions: BindingOptions, data: any ) : void {
-        let copyDataJson: string = null!;
+    function onTitleBarCopyAllClick( bindingOptions: BindingOptions, data: any ) : void {
         let replaceFunction: any = _jsonStringifyReplacer;
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
             replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
         }
 
-        if ( bindingOptions.paging!.copyOnlyCurrentPage && bindingOptions.paging!.enabled ) {
-            let copyData: any = null;
-
-            if ( bindingOptions.paging!.columnsPerPage! <= 1 ) {
-                copyData = data[ bindingOptions._currentView.dataArrayCurrentIndex ];
-            } else {
-                copyData = [];
-
-                for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
-                    const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
-                    const actualData: any = data[ actualDataIndex ];
-    
-                    if ( Is.defined( actualData ) ) {
-                        copyData.push( actualData );
-                    }
-                }
-            }
-
-            copyDataJson = JSON.stringify( copyData, replaceFunction, bindingOptions.jsonIndentSpaces );
-
-        } else {
-            copyDataJson = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
-        }
+        let copyDataJson: string = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
 
         navigator.clipboard.writeText( copyDataJson );
 

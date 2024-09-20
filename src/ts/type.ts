@@ -58,7 +58,7 @@ export type ConfigurationText = {
 	monthNamesAbbreviated?: string[];
 	closeAllButtonSymbolText?: string;
 	openAllButtonSymbolText?: string;
-	copyAllButtonSymbolText?: string;
+	copyButtonSymbolText?: string;
 	backButtonText?: string;
 	nextButtonText?: string;
 	backButtonSymbolText?: string;
@@ -204,7 +204,6 @@ export type BindingOptionsCurrentView = {
 export type BindingOptionsPaging = {
 	enabled?: boolean;
 	columnsPerPage?: number;
-	copyOnlyCurrentPage?: boolean;
 	startPage?: number;
 	synchronizeScrolling?: boolean;
 	allowColumnReordering?: boolean;
@@ -329,4 +328,5 @@ export type BindingOptionsEvents = {
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 	onJsonEdit?: ( element: HTMLElement ) => void;
 	onExport?: ( element: HTMLElement ) => void;
+	onCopy?: ( data: string ) => void;
 };

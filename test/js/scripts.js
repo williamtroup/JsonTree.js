@@ -81,7 +81,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         paging: {
             enabled: showPaging,
             columnsPerPage: columnSize,
-            copyOnlyCurrentPage: false,
             startPage: 1,
             synchronizeScrolling: false,
             allowColumnReordering: true,

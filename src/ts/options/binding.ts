@@ -138,7 +138,6 @@ export namespace Binding {
             options.paging = Default.getObject( options.paging, {} as BindingOptionsPaging );
             options.paging!.enabled = Default.getBoolean( options.paging!.enabled, false );
             options.paging!.columnsPerPage = Default.getNumberMaximum( options.paging!.columnsPerPage, 1, 6 );
-            options.paging!.copyOnlyCurrentPage = Default.getBoolean( options.paging!.copyOnlyCurrentPage, false );
             options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
             options.paging!.synchronizeScrolling = Default.getBoolean( options.paging!.synchronizeScrolling, false );
             options.paging!.allowColumnReordering = Default.getBoolean( options.paging!.allowColumnReordering, true );
@@ -289,6 +288,7 @@ export namespace Binding {
             options.events!.onEmailRender = Default.getFunction( options.events!.onEmailRender, null! );
             options.events!.onHtmlRender = Default.getFunction( options.events!.onHtmlRender, null! );
             options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
+            options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
 
             return options;
         }
