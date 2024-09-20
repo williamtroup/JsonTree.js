@@ -799,7 +799,8 @@ div.json-tree-js {
 
             span.comma {
                 color: var(--json-tree-js-color-white);
-                font-weight: var(--json-tree-js-bold-weight-light);
+                font-weight: var(--json-tree-js-bold-weight-medium);
+                margin-left: 2px;
             }
 
             span.open-button,

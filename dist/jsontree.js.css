@@ -872,7 +872,8 @@ div.json-tree-js div.object-type-contents div.object-type-value span.no-properti
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
   color: var(--json-tree-js-color-white);
-  font-weight: var(--json-tree-js-bold-weight-light);
+  font-weight: var(--json-tree-js-bold-weight-medium);
+  margin-left: 2px;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button,
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
