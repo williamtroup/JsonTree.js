@@ -68,7 +68,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         allowEditing: {
             bulk: true,
         },
-        autoCloseAt: {
+        autoClose: {
             objectSize: 0,
             arraySize: 0,
             mapSize: 0,
