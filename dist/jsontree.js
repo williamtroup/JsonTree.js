@@ -633,7 +633,7 @@ var Binding;
         t.get = o;
         function r(e) {
             e.paging = Default.getObject(e.paging, {});
-            e.paging.enabled = Default.getBoolean(e.paging.enabled, false);
+            e.paging.enabled = Default.getBoolean(e.paging.enabled, true);
             e.paging.columnsPerPage = Default.getNumberMaximum(e.paging.columnsPerPage, 1, 6);
             e.paging.startPage = Default.getNumberMinimum(e.paging.startPage, 1, 1);
             e.paging.synchronizeScrolling = Default.getBoolean(e.paging.synchronizeScrolling, false);
