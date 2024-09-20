@@ -137,6 +137,7 @@ export namespace DomElement {
         input.type = "checkbox";
         input.name = name;
         input.checked = checked;
+        input.autocomplete = "off";
 
         create( label, "span", "check-mark" );
         createWithHTML( label, "span", `text ${spanClass}`, labelText );

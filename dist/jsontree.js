@@ -443,6 +443,7 @@ var DomElement;
         c.type = "checkbox";
         c.name = r;
         c.checked = l;
+        c.autocomplete = "off";
         n(u, "span", "check-mark");
         o(u, "span", `text ${i}`, t);
         if (Is.definedString(a)) {
