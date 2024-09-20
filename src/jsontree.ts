@@ -793,7 +793,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlFooterBar( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.footer!.enabled ) {
+        if ( bindingOptions.footer!.enabled && Is.defined( bindingOptions.data ) ) {
             bindingOptions._currentView.footer = DomElement.create( bindingOptions._currentView.element, "div", "footer-bar" );
             
             updateFooterDisplay( bindingOptions );

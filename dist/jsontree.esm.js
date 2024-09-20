@@ -1619,7 +1619,7 @@ var Obj;
         return i;
     }
     function M(t) {
-        if (t.footer.enabled) {
+        if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
             j(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
