@@ -328,7 +328,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         }
 
-        if ( bindingOptions.showControlButtons ) {
+        if ( bindingOptions.controlPanel!.enabled ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
                     
@@ -387,10 +387,10 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         const copyButtonVisible: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
 
-        if ( bindingOptions.showControlButtons && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible ) ) {
+        if ( bindingOptions.controlPanel!.enabled && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible ) ) {
             const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
 
-            if ( bindingOptions.allowEditing!.bulk ) {
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
                 const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
                 editButton.onclick = () => enableContentsEditMode( null!, bindingOptions, data, column, dataIndex );;
                 editButton.ondblclick = DomElement.cancelBubble;
@@ -398,7 +398,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
             }
     
-            if ( bindingOptions.paging!.enabled ) {
+            if ( bindingOptions.paging!.enabled && bindingOptions.controlPanel!.showMovingButtons ) {
                 const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
                 moveRightButton.ondblclick = DomElement.cancelBubble;
 
@@ -422,7 +422,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
             }
 
-            if ( copyButtonVisible ) {
+            if ( copyButtonVisible && bindingOptions.controlPanel!.showCopyButton ) {
                 const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
                 copyButton.onclick = () => onCopy( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
@@ -430,7 +430,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
             }
     
-            if ( bindingOptions.allowEditing!.bulk ) {
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
                 const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
                 removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
                 removeButton.ondblclick = DomElement.cancelBubble;
@@ -438,8 +438,13 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
 
-            bindingOptions._currentView.contentControlButtons.push( controlButtons );
-            column.style.minHeight = `${controlButtons.offsetHeight}px`;
+            if ( controlButtons.innerHTML !== Char.empty ) {
+                bindingOptions._currentView.contentControlButtons.push( controlButtons );
+                column.style.minHeight = `${controlButtons.offsetHeight}px`;
+
+            } else {
+                column.removeChild( controlButtons );
+            }
         }
     }
 

@@ -12,6 +12,7 @@
 
 
 import {
+    type ContentPanelsForArrayIndex,
     type BindingOptionsCurrentView,
     type BindingOptionsParse,
     type BindingOptionsTooltip,
@@ -19,15 +20,14 @@ import {
     type BindingOptionsEvents,
     type BindingOptionsIgnore,
     type BindingOptionsTitle, 
-    type ContentPanelsForArrayIndex, 
     type BindingOptionsAllowEditing, 
     type BindingOptionsSideMenu, 
     type BindingOptionsAutoClose, 
     type BindingOptionsPaging, 
-    type BindingOptionsFooter } from "../type";
+    type BindingOptionsFooter, 
+    type BindingOptionsControlPanel } from "../type";
 
 import { Default } from "../data/default";
-import { Is } from "../data/is";
 
 
 export namespace Binding {
@@ -118,11 +118,11 @@ export namespace Binding {
             options.showHtmlValuesAsObjects = Default.getBoolean( options.showHtmlValuesAsObjects, false );
             options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
             options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
-            options.showControlButtons = Default.getBoolean( options.showControlButtons, true );
 
             options = getPaging( options );
             options = getTitle( options );
             options = getFooter( options );
+            options = getControlPanel( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
@@ -164,6 +164,17 @@ export namespace Binding {
             options.footer!.showSizes = Default.getBoolean( options.footer!.showSizes, true );
             options.footer!.showPageOf = Default.getBoolean( options.footer!.showPageOf, true );
             options.footer!.statusResetDelay = Default.getNumber( options.footer!.statusResetDelay, 5000 );
+
+            return options;
+        }
+
+        function getControlPanel( options: BindingOptions ) : BindingOptions {
+            options.controlPanel = Default.getObject( options.controlPanel, {} as BindingOptionsControlPanel );
+            options.controlPanel!.enabled = Default.getBoolean( options.controlPanel!.enabled, true );
+            options.controlPanel!.showCopyButton = Default.getBoolean( options.controlPanel!.showCopyButton, true );
+            options.controlPanel!.showMovingButtons = Default.getBoolean( options.controlPanel!.showMovingButtons, true );
+            options.controlPanel!.showRemoveButton = Default.getBoolean( options.controlPanel!.showRemoveButton, false );
+            options.controlPanel!.showEditButton = Default.getBoolean( options.controlPanel!.showEditButton, true );
 
             return options;
         }

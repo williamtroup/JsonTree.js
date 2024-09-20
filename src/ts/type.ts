@@ -152,7 +152,7 @@ export type BindingOptions = {
 	showHtmlValuesAsObjects?: boolean;
 	maximumUrlLength?: number;
 	maximumEmailLength?: number;
-	showControlButtons?: boolean;
+	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
@@ -231,6 +231,14 @@ export type BindingOptionsFooter = {
 	showPageOf?: boolean;
 	statusResetDelay?: number;
 };
+
+export type BindingOptionsControlPanel = {
+	enabled?: boolean;
+	showCopyButton?: boolean;
+	showMovingButtons?: boolean;
+	showRemoveButton?: boolean;
+	showEditButton?: boolean;
+}
 
 export type BindingOptionsIgnore = {
     nullValues?: boolean;
