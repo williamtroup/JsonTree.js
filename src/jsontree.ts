@@ -319,6 +319,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         const scrollLeft: number = column.scrollLeft;
         const columnsLength: number = bindingOptions._currentView.contentColumns.length;
 
+        if ( bindingOptions.controlPanel!.enabled ) {
+            const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ dataIndex ];
+
+            if ( Is.defined( controlButtons ) ) {
+                controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ dataIndex ].scrollTop}px`;
+                controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ dataIndex ].scrollLeft}px`;
+            }
+        }
+
         if ( bindingOptions.paging!.synchronizeScrolling ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
@@ -330,11 +339,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( bindingOptions.controlPanel!.enabled ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
+                if ( dataIndex !== columnIndex ) {
+                    const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
                     
-                if ( Is.defined( controlButtons ) ) {
-                    controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop}px`;
-                    controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft}px`;
+                    if ( Is.defined( controlButtons ) ) {
+                        controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop}px`;
+                        controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft}px`;
+                    }
                 }
             }
         }

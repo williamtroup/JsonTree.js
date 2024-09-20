@@ -133,15 +133,15 @@ var Is;
         return t !== null && (t.protocol === "http:" || t.protocol === "https:");
     }
     e.definedUrl = b;
-    function y(e) {
+    function w(e) {
         const t = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return t.test(e);
     }
-    e.definedEmail = y;
-    function w(e, t = 1) {
+    e.definedEmail = w;
+    function y(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = w;
+    e.invalidOptionArray = y;
 })(Is || (Is = {}));
 
 var Convert2;
@@ -1162,7 +1162,7 @@ var Obj;
         e._currentView.contentColumns = [];
         e._currentView.dataTypeCounts = {};
         e._currentView.contentControlButtons = [];
-        y(e, n);
+        w(e, n);
         const r = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             r.classList.add("page-switch");
@@ -1289,6 +1289,13 @@ var Obj;
         const o = e.scrollTop;
         const r = e.scrollLeft;
         const l = t._currentView.contentColumns.length;
+        if (t.controlPanel.enabled) {
+            const e = t._currentView.contentControlButtons[n];
+            if (Is.defined(e)) {
+                e.style.top = `${t._currentView.contentColumns[n].scrollTop}px`;
+                e.style.right = `-${t._currentView.contentColumns[n].scrollLeft}px`;
+            }
+        }
         if (t.paging.synchronizeScrolling) {
             for (let e = 0; e < l; e++) {
                 if (n !== e) {
@@ -1299,10 +1306,12 @@ var Obj;
         }
         if (t.controlPanel.enabled) {
             for (let e = 0; e < l; e++) {
-                const n = t._currentView.contentControlButtons[e];
-                if (Is.defined(n)) {
-                    n.style.top = `${t._currentView.contentColumns[e].scrollTop}px`;
-                    n.style.right = `-${t._currentView.contentColumns[e].scrollLeft}px`;
+                if (n !== e) {
+                    const n = t._currentView.contentControlButtons[e];
+                    if (Is.defined(n)) {
+                        n.style.top = `${t._currentView.contentColumns[e].scrollTop}px`;
+                        n.style.right = `-${t._currentView.contentColumns[e].scrollLeft}px`;
+                    }
                 }
             }
         }
@@ -1404,11 +1413,11 @@ var Obj;
         R(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopy, l);
     }
-    function y(t, n) {
+    function w(t, n) {
         if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => w(t);
+                o.ondblclick = () => y(t);
             }
             if (t.sideMenu.enabled && Is.definedObject(n)) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
@@ -1461,13 +1470,13 @@ var Obj;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => w(t);
+                t._currentView.toggleFullScreenButton.onclick = () => y(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function w(t) {
+    function y(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 t._currentView.element.classList.remove("full-screen");
@@ -1834,9 +1843,9 @@ var Obj;
         let T = DomElement.create(c, "span", "title");
         let x = false;
         let b = null;
-        const y = !Is.definedString(r);
-        let w = true;
-        if (!y) {
+        const w = !Is.definedString(r);
+        let y = true;
+        if (!w) {
             if (a || !o.showPropertyNameQuotes) {
                 T.innerHTML = r;
             } else {
@@ -1852,10 +1861,10 @@ var Obj;
         if (o.showDataTypes) {
             b = DomElement.createWithHTML(c, "span", o.showValueColors ? "type-color" : "type", "");
         }
-        if (!y && o.showValueColors && o.showPropertyNameAndIndexColors) {
+        if (!w && o.showValueColors && o.showPropertyNameAndIndexColors) {
             T.classList.add(u);
         }
-        if (!y) {
+        if (!w) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             Y(o, t, r, T, a);
             if (!a) {
@@ -2047,7 +2056,7 @@ var Obj;
                 m = true;
             }
         } else if (Is.definedString(l)) {
-            if (!o.ignore.stringValues || y) {
+            if (!o.ignore.stringValues || w) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
                     J(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
                     m = true;
@@ -2059,7 +2068,7 @@ var Obj;
                     m = true;
                 } else {
                     let n = l;
-                    if (!y) {
+                    if (!w) {
                         if (o.maximumStringLength > 0 && n.length > o.maximumStringLength) {
                             n = n.substring(0, o.maximumStringLength) + e.text.ellipsisText;
                         }
@@ -2069,11 +2078,11 @@ var Obj;
                     } else {
                         f = "no-properties-text";
                         x = false;
-                        w = false;
+                        y = false;
                     }
                     g = DomElement.createWithHTML(c, "span", f, n);
                     p = "string";
-                    if (!y) {
+                    if (!w) {
                         G(o, t, r, l, g, a, x);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, g);
@@ -2309,7 +2318,7 @@ var Obj;
             n.removeChild(c);
         } else {
             if (Is.defined(g)) {
-                if (!y) {
+                if (!w) {
                     z(o, p);
                     F(o, l, g);
                     P(o, l, g);
@@ -2323,7 +2332,7 @@ var Obj;
                         b = null;
                     }
                 }
-                if (w) {
+                if (y) {
                     Z(o, s, T, b, g);
                     K(o, g, l, p, x);
                 }
@@ -2674,7 +2683,7 @@ var Obj;
         if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
             if (ue(e) && e.code === "F11") {
                 e.preventDefault();
-                w(o);
+                y(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
                 V(o);
