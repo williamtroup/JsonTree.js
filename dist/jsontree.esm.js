@@ -537,6 +537,7 @@ var Constants;
 (e => {
     e.JSONTREE_JS_ATTRIBUTE_NAME = "data-jsontree-js";
     e.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME = "data-jsontree-js-array-index";
+    e.JSONTREE_JS_ATTRIBUTE_PATH_NAME = "data-jsontree-js-path";
 })(Constants || (Constants = {}));
 
 var Binding;
@@ -1492,13 +1493,13 @@ var Obj;
             }
             if (t.title.showCopyButton && Is.defined(n)) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyButtonSymbolText);
-                o.onclick = () => V(t, n);
+                o.onclick = () => S(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
             if (t.title.showTreeControls && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
-                n.onclick = () => S(t);
+                n.onclick = () => V(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
@@ -1549,11 +1550,11 @@ var Obj;
                 t._currentView.fullScreenOn = true;
             }
             ToolTip.hide(t);
-            k(t);
+            R(t);
             Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element.classList.contains("full-screen"));
         }
     }
-    function V(t, n) {
+    function S(t, n) {
         let r = o;
         if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
             r = t.events.onCopyJsonReplacer;
@@ -1563,7 +1564,7 @@ var Obj;
         W(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, l);
     }
-    function S(e) {
+    function V(e) {
         e.showAllAsClosed = false;
         e._currentView.contentPanelsOpen = {};
         i(e);
@@ -1697,7 +1698,7 @@ var Obj;
     function P(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
-            k(t);
+            R(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
             if (t.footer.showDataTypes) {
                 t._currentView.footerDataTypeText = DomElement.create(t._currentView.footer, "div", "status-value-data-type");
@@ -1727,12 +1728,12 @@ var Obj;
             t._currentView.footerPageText.innerHTML = i;
         }
     }
-    function k(e) {
+    function R(e) {
         if (Is.defined(e._currentView.footer)) {
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function F(t, n, o) {
+    function k(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -1746,7 +1747,7 @@ var Obj;
             }));
         }
     }
-    function R(t, n, o) {
+    function F(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const r = Size.length(n);
             if (r > 0) {
@@ -1818,7 +1819,7 @@ var Obj;
             z(f, null, d, n, a, s, m, false, true, "", i);
             q(n, g, o, i, false);
             H(n, o, g);
-            R(n, o, g);
+            F(n, o, g);
         }
     }
     function J(t, n, o) {
@@ -1840,7 +1841,7 @@ var Obj;
         U(u, null, s, n, i, d, false, true, "", l);
         q(n, c, o, l, false);
         H(n, o, c);
-        R(n, o, c);
+        F(n, o, c);
     }
     function z(t, n, o, r, l, i, a, s, u, c, d) {
         let f = true;
@@ -1931,9 +1932,12 @@ var Obj;
         if (!w) {
             DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             Q(o, t, r, T, a);
+            if (Is.definedString(s)) {
+                c.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, s);
+            }
             if (!a) {
                 H(o, r, T);
-                R(o, r, T);
+                F(o, r, T);
             }
         }
         if (l === null) {
@@ -2388,8 +2392,8 @@ var Obj;
                 if (!w) {
                     Y(o, p);
                     H(o, l, g);
-                    R(o, l, g);
-                    F(o, p, g);
+                    F(o, l, g);
+                    k(o, p, g);
                 }
                 if (Is.defined(b)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {
@@ -2762,7 +2766,7 @@ var Obj;
                 B(o);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
-                S(o);
+                V(o);
             } else if (e.code === "Escape") {
                 e.preventDefault();
                 O(o);
@@ -2817,7 +2821,7 @@ var Obj;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                S(t[e]);
+                V(t[e]);
             }
             return me;
         },

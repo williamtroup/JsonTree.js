@@ -1178,6 +1178,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
 
+            if ( Is.definedString( jsonPath ) ) {
+                objectTypeValue.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, jsonPath );
+            }
+
             if ( !isArrayItem ) {
                 addFooterSizeStatus( bindingOptions, name, nameElement );
                 addFooterLengthStatus( bindingOptions, name, nameElement );
