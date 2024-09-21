@@ -1395,11 +1395,11 @@ var Obj;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
             if (t.paging.enabled && t.controlPanel.showCloseOpenAllButtons) {
-                const n = DomElement.createWithHTML(i, "button", "openAll", e.text.openAllButtonSymbolText);
+                const n = DomElement.createWithHTML(i, "button", "open-all", e.text.openAllButtonSymbolText);
                 n.onclick = () => x(t, r);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
-                const o = DomElement.createWithHTML(i, "button", "closeAll", e.text.closeAllButtonSymbolText);
+                const o = DomElement.createWithHTML(i, "button", "close-all", e.text.closeAllButtonSymbolText);
                 o.onclick = () => b(t, r);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
@@ -1475,11 +1475,11 @@ var Obj;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
             if (t.title.showTreeControls && Is.defined(n)) {
-                const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
+                const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
                 n.onclick = () => V(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
-                const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "closeAll", e.text.closeAllButtonSymbolText);
+                const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
                 o.onclick = () => S(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);

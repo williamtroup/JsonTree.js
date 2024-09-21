@@ -462,13 +462,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.paging!.enabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
-                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
                 openAllButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
 
-                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
                 closeAllButton.ondblclick = DomElement.cancelBubble;
 
@@ -578,13 +578,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.title!.showTreeControls && Is.defined( data ) ) {
-                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAll( bindingOptions );
                 openAllButton.ondblclick = DomElement.cancelBubble;
 
                 ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
 
-                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAllButton.onclick = () => onCloseAll( bindingOptions );
                 closeAllButton.ondblclick = DomElement.cancelBubble;
 
