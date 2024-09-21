@@ -100,6 +100,8 @@ export namespace Config {
             configuration.text!.moveLeftButtonText = Default.getAnyString( configuration.text!.moveLeftButtonText, "Move Left" );
             configuration.text!.removeSymbolButtonText = Default.getAnyString( configuration.text!.removeSymbolButtonText, "✕" );
             configuration.text!.removeButtonText = Default.getAnyString( configuration.text!.removeButtonText, "Remove" );
+            configuration.text!.switchToPagesSymbolText = Default.getAnyString( configuration.text!.switchToPagesSymbolText, "☷" );
+            configuration.text!.switchToPagesText = Default.getAnyString( configuration.text!.switchToPagesText, "Switch To Pages" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

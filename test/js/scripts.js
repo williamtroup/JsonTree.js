@@ -92,6 +92,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showRemoveButton: false,
             showEditButton: true,
             showCloseOpenAllButtons: true,
+            showSwitchToPagesButton: true,
         }
     };
 }

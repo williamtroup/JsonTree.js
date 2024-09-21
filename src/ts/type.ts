@@ -110,6 +110,8 @@ export type ConfigurationText = {
 	moveLeftButtonText?: string;
 	removeSymbolButtonText?: string;
 	removeButtonText?: string;
+	switchToPagesSymbolText?: string;
+	switchToPagesText?: string;
 };
 
 export type BindingOptions = {
@@ -239,6 +241,7 @@ export type BindingOptionsControlPanel = {
 	showRemoveButton?: boolean;
 	showEditButton?: boolean;
 	showCloseOpenAllButtons?: boolean;
+	showSwitchToPagesButton?: boolean;
 }
 
 export type BindingOptionsIgnore = {
