@@ -12,7 +12,6 @@
 
 
 import { Convert } from "./convert";
-import { Default } from "./default";
 import { Is } from "./is";
 
 
