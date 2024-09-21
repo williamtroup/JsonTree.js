@@ -238,6 +238,7 @@ export type BindingOptionsControlPanel = {
 	showMovingButtons?: boolean;
 	showRemoveButton?: boolean;
 	showEditButton?: boolean;
+	showCloseOpenAllButtons?: boolean;
 }
 
 export type BindingOptionsIgnore = {

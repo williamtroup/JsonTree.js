@@ -410,7 +410,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         const copyButtonVisible: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
 
-        if ( bindingOptions.controlPanel!.enabled && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible ) ) {
+        if ( bindingOptions.controlPanel!.enabled && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible || ( bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.controlPanel!.showCloseOpenAllButtons ) ) ) {
             const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
 
             if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
@@ -461,6 +461,20 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
 
+            if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
+                openAllButton.ondblclick = DomElement.cancelBubble;
+
+                ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
+
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "closeAll", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
+                closeAllButton.ondblclick = DomElement.cancelBubble;
+
+                ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
+            }
+
             if ( controlButtons.innerHTML !== Char.empty ) {
                 bindingOptions._currentView.contentControlButtons.push( controlButtons );
                 column.style.minHeight = `${controlButtons.offsetHeight}px`;
@@ -469,6 +483,30 @@ type JsonTreeData = Record<string, BindingOptions>;
                 column.removeChild( controlButtons );
             }
         }
+    }
+
+    function onOpenAllForPage( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        const panels: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
+
+        for ( let panelId in panels ) {
+            if ( panels.hasOwnProperty( panelId ) ) {
+                panels[ panelId ] = false;
+            }
+        }
+
+        renderControlContainer( bindingOptions );
+    }
+
+    function onCloseAllForPage( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        const panels: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
+
+        for ( let panelId in panels ) {
+            if ( panels.hasOwnProperty( panelId ) ) {
+                panels[ panelId ] = true;
+            }
+        }
+
+        renderControlContainer( bindingOptions );
     }
 
     function onRemoveArrayJson( bindingOptions: BindingOptions, dataIndex: number ) : void {

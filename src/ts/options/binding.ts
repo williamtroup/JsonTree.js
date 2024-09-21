@@ -175,6 +175,7 @@ export namespace Binding {
             options.controlPanel!.showMovingButtons = Default.getBoolean( options.controlPanel!.showMovingButtons, true );
             options.controlPanel!.showRemoveButton = Default.getBoolean( options.controlPanel!.showRemoveButton, false );
             options.controlPanel!.showEditButton = Default.getBoolean( options.controlPanel!.showEditButton, true );
+            options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
 
             return options;
         }

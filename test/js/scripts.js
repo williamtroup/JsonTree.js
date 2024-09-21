@@ -91,6 +91,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showMovingButtons: true,
             showRemoveButton: false,
             showEditButton: true,
+            showCloseOpenAllButtons: true,
         }
     };
 }
