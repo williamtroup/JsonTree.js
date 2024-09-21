@@ -388,7 +388,13 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
             bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
-    
+
+            if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
+                bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
+            } else if ( newIndex < bindingOptions._currentView.dataArrayCurrentIndex ) {
+                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
+            }
+
             renderControlContainer( bindingOptions );
             setFooterStatusText( bindingOptions, _configuration.text!.jsonUpdatedText! );
         }
