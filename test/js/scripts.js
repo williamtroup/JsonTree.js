@@ -130,8 +130,9 @@ function getData() {
             value10: 9007199254740991n,
             value11: Symbol( "id" ),
             value12: {},
-            value13: undefined,
-            value14: {
+            value13: [],
+            value14: undefined,
+            value15: {
                 lambda: ( message ) => {
                     console.log( message );
                 },
@@ -140,15 +141,15 @@ function getData() {
                     console.log( message );
                 }
             },
-            value15: "rgb(144, 238, 144)",
-            value16: crypto.randomUUID(),
-            value17: new RegExp( "ab+c" ),
-            value18: map,
-            value19: set,
-            value20: "https://www.william-troup.com",
-            value21: "william@troup.uk",
-            value22: image,
-            value23: htmlElement1,
+            value16: "rgb(144, 238, 144)",
+            value17: crypto.randomUUID(),
+            value18: new RegExp( "ab+c" ),
+            value19: map,
+            value20: set,
+            value21: "https://www.william-troup.com",
+            value22: "william@troup.uk",
+            value23: image,
+            value24: htmlElement1,
             value5: [
                 true,
                 "This is another string",

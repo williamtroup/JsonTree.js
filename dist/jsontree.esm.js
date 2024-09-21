@@ -96,7 +96,7 @@ var Is;
     }
     e.definedBigInt = s;
     function u(e) {
-        return o(e) && e instanceof Array;
+        return e !== null && e !== void 0 && e instanceof Array;
     }
     e.definedArray = u;
     function c(e) {

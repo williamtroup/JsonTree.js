@@ -88,7 +88,7 @@ export namespace Is {
     }
 
     export function definedArray( object: any ) : boolean {
-        return definedObject( object ) && object instanceof Array;
+        return object !== null && object !== undefined && object instanceof Array;
     }
 
     export function definedDate( object: any ) : boolean {
