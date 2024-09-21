@@ -1624,6 +1624,7 @@ var Obj;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
+        O(e);
         t.onchange = () => ie(t.files, e);
         t.click();
     }

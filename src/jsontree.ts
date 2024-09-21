@@ -765,8 +765,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         input.type = "file";
         input.accept = ".json";
         input.multiple = true;
-        input.onchange = () => importFromFiles( input.files!, bindingOptions );
 
+        onSideMenuClose( bindingOptions );
+
+        input.onchange = () => importFromFiles( input.files!, bindingOptions );
         input.click();
     }
 
