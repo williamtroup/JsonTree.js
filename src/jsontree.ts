@@ -372,8 +372,16 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( oldIndex !== newIndex ) {
             const dataArray1: any = bindingOptions.data[ newIndex ];
             const dataArray2: any = bindingOptions.data[ oldIndex ];
-            const dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ newIndex ];
-            const dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ oldIndex ];
+            let dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ newIndex ];
+            let dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ oldIndex ];
+
+            if ( !Is.defined( dataPanelsOpen1 ) ) {
+                dataPanelsOpen1 = {} as ContentPanels;
+            }
+
+            if ( !Is.defined( dataPanelsOpen2 ) ) {
+                dataPanelsOpen2 = {} as ContentPanels;
+            }
     
             bindingOptions.data[ newIndex ] = dataArray2;
             bindingOptions.data[ oldIndex  ] = dataArray1;

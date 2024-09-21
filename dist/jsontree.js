@@ -1334,8 +1334,14 @@ var Obj;
         if (n !== o) {
             const r = t.data[o];
             const l = t.data[n];
-            const a = t._currentView.contentPanelsOpen[o];
-            const s = t._currentView.contentPanelsOpen[n];
+            let a = t._currentView.contentPanelsOpen[o];
+            let s = t._currentView.contentPanelsOpen[n];
+            if (!Is.defined(a)) {
+                a = {};
+            }
+            if (!Is.defined(s)) {
+                s = {};
+            }
             t.data[o] = l;
             t.data[n] = r;
             t._currentView.contentPanelsOpen[o] = s;
