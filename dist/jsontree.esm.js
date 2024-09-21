@@ -1436,7 +1436,7 @@ var Obj;
     }
     function b(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
-        for (let e in n) {
+        for (const e in n) {
             if (n.hasOwnProperty(e)) {
                 n[e] = false;
             }
@@ -1445,7 +1445,7 @@ var Obj;
     }
     function w(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
-        for (let e in n) {
+        for (const e in n) {
             if (n.hasOwnProperty(e)) {
                 n[e] = true;
             }

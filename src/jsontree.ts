@@ -498,7 +498,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onOpenAllForPage( bindingOptions: BindingOptions, dataIndex: number ) : void {
         const panels: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
 
-        for ( let panelId in panels ) {
+        for ( const panelId in panels ) {
             if ( panels.hasOwnProperty( panelId ) ) {
                 panels[ panelId ] = false;
             }
@@ -510,7 +510,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onCloseAllForPage( bindingOptions: BindingOptions, dataIndex: number ) : void {
         const panels: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
 
-        for ( let panelId in panels ) {
+        for ( const panelId in panels ) {
             if ( panels.hasOwnProperty( panelId ) ) {
                 panels[ panelId ] = true;
             }
