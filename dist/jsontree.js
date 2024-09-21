@@ -1358,7 +1358,7 @@ var Obj;
     }
     function T(t, n, o, r) {
         const l = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
-        if (t.controlPanel.enabled && (t.paging.enabled || t.allowEditing.bulk || l || t.paging.columnsPerPage > 1 && t.controlPanel.showCloseOpenAllButtons)) {
+        if (t.controlPanel.enabled && (t.paging.enabled || t.allowEditing.bulk || l || t.controlPanel.showCloseOpenAllButtons)) {
             const i = DomElement.create(n, "div", "column-control-buttons");
             if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
                 const l = DomElement.createWithHTML(i, "button", "edit", e.text.editSymbolButtonText);
@@ -1396,7 +1396,7 @@ var Obj;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
-            if (t.paging.enabled && t.paging.columnsPerPage > 1 && t.controlPanel.showCloseOpenAllButtons) {
+            if (t.paging.enabled && t.controlPanel.showCloseOpenAllButtons) {
                 const n = DomElement.createWithHTML(i, "button", "openAll", e.text.openAllButtonSymbolText);
                 n.onclick = () => x(t, r);
                 n.ondblclick = DomElement.cancelBubble;

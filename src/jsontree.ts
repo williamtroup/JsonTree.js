@@ -410,7 +410,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         const copyButtonVisible: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
 
-        if ( bindingOptions.controlPanel!.enabled && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible || ( bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.controlPanel!.showCloseOpenAllButtons ) ) ) {
+        if ( bindingOptions.controlPanel!.enabled && ( bindingOptions.paging!.enabled || bindingOptions.allowEditing!.bulk || copyButtonVisible || bindingOptions.controlPanel!.showCloseOpenAllButtons ) ) {
             const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
 
             if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
@@ -461,7 +461,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
 
-            if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
+            if ( bindingOptions.paging!.enabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
                 const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
                 openAllButton.ondblclick = DomElement.cancelBubble;
