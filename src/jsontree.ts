@@ -1436,6 +1436,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath, parentType );
                     ignored = true;
 
+                } else if ( bindingOptions.parse!.stringsToNumbers && Is.String.bigInt( value ) ) {
+                    renderValue( data, container, bindingOptions, name, Convert.stringToBigInt( value ), isLastItem, isArrayItem, jsonPath, parentType );
+                    ignored = true;
+
                 } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
                     renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath, parentType );
                     ignored = true;

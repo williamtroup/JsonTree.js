@@ -145,4 +145,8 @@ export namespace Convert {
     
         return value.toString().match( regExp )?.[ 0 ] || Char.empty;
     }
+
+    export function stringToBigInt( value: string ) : BigInt {
+        return BigInt( value.substring( 0, value.length - 1 ) );
+    }
 }

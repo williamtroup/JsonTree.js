@@ -60,6 +60,14 @@ var Is;
             return t.test(e);
         }
         e.guid = l;
+        function i(e) {
+            let t = e.endsWith("n");
+            if (t) {
+                t = !isNaN(+e.substring(0, e.length - 1));
+            }
+            return t;
+        }
+        e.bigInt = i;
     })(t = e.String || (e.String = {}));
     function n(e) {
         return e !== null && e !== void 0 && e.toString() !== "";
@@ -248,6 +256,10 @@ var Convert2;
         return e.toString().match(n)?.[0] || "";
     }
     Convert.numberToFloatWithDecimalPlaces = numberToFloatWithDecimalPlaces;
+    function stringToBigInt(e) {
+        return BigInt(e.substring(0, e.length - 1));
+    }
+    Convert.stringToBigInt = stringToBigInt;
 })(Convert2 || (Convert2 = {}));
 
 var Default;
@@ -2112,6 +2124,9 @@ var Obj;
             if (!o.ignore.stringValues || w) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(l)) {
                     Z(t, n, o, r, l.toString().toLowerCase().trim() === "true", i, a, s, u);
+                    m = true;
+                } else if (o.parse.stringsToNumbers && Is.String.bigInt(l)) {
+                    Z(t, n, o, r, Convert2.stringToBigInt(l), i, a, s, u);
                     m = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(l)) {
                     Z(t, n, o, r, parseFloat(l), i, a, s, u);

@@ -47,6 +47,16 @@ export namespace Is {
 
             return regex.test( value );
         }
+
+        export function bigInt( value: string ) : boolean {
+            let result: boolean = value.endsWith( "n" );
+
+            if ( result ) {
+                result = !isNaN( +value.substring( 0, value.length - 1 ) );
+            }
+
+            return result;
+        }
     }
 
     export function defined( value: any ) : boolean {
