@@ -1192,7 +1192,6 @@ var Obj;
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
         if (!Is.defined(t)) {
             DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
-            o._currentView.titleBarButtons.style.display = "none";
         } else {
             s.onscroll = () => d(s, o, r);
             if (o.paging.enabled) {
@@ -1419,7 +1418,7 @@ var Obj;
             if (t.title.enableFullScreenToggling) {
                 o.ondblclick = () => y(t);
             }
-            if (t.sideMenu.enabled && Is.definedObject(n)) {
+            if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
                 n.onclick = () => I(t);
                 n.ondblclick = DomElement.cancelBubble;
@@ -1429,13 +1428,13 @@ var Obj;
             if (Is.definedString(t.title.text)) {
                 DomElement.createWithHTML(o, "div", "title", t.title.text, t._currentView.titleBarButtons);
             }
-            if (t.title.showCopyButton) {
+            if (t.title.showCopyButton && Is.defined(n)) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyButtonSymbolText);
                 o.onclick = () => D(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
-            if (t.title.showTreeControls) {
+            if (t.title.showTreeControls && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "openAll", e.text.openAllButtonSymbolText);
                 n.onclick = () => h(t);
                 n.ondblclick = DomElement.cancelBubble;
@@ -1539,7 +1538,7 @@ var Obj;
                 e.innerHTML = t.sideMenu.titleText;
             }
             const o = DomElement.create(n, "div", "side-menu-title-controls");
-            if (t.sideMenu.showExportButton) {
+            if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
                 n.onclick = () => le(t);
                 ToolTip.add(n, t, e.text.exportButtonText);
@@ -1552,8 +1551,10 @@ var Obj;
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
             r.onclick = () => A(t);
             ToolTip.add(r, t, e.text.closeButtonText);
-            const l = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-            _(l, t);
+            if (Is.definedObject(t.data)) {
+                const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
+                _(e, t);
+            }
         }
     }
     function B(e) {

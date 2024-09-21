@@ -186,8 +186,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         
         if ( !Is.defined( data ) ) {
             DomElement.createWithHTML( contentsColumn, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
-
-            bindingOptions._currentView.titleBarButtons.style.display = "none";
         } else {
             
             contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, dataIndex );
@@ -505,7 +503,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 titleBar.ondblclick = () => onTitleBarDblClick( bindingOptions );
             }
 
-            if ( bindingOptions.sideMenu!.enabled && Is.definedObject( data ) ) {
+            if ( bindingOptions.sideMenu!.enabled ) {
                 const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
                 sideMenuButton.onclick = () => onSideMenuOpen( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
@@ -519,7 +517,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 DomElement.createWithHTML( titleBar, "div", "title", bindingOptions.title!.text!, bindingOptions._currentView.titleBarButtons );
             }
 
-            if ( bindingOptions.title!.showCopyButton ) {
+            if ( bindingOptions.title!.showCopyButton && Is.defined( data ) ) {
                 const copyButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "copy-all", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
                 copyButton.onclick = () => onTitleBarCopyAllClick( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
@@ -527,7 +525,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
             }
 
-            if ( bindingOptions.title!.showTreeControls ) {
+            if ( bindingOptions.title!.showTreeControls && Is.defined( data ) ) {
                 const openAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "openAll", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAll( bindingOptions );
                 openAllButton.ondblclick = DomElement.cancelBubble;
@@ -673,7 +671,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
 
-            if ( bindingOptions.sideMenu!.showExportButton ) {
+            if ( bindingOptions.sideMenu!.showExportButton && Is.definedObject( bindingOptions.data ) ) {
                 const exportButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
                 exportButton.onclick = () => onExport( bindingOptions );
     
@@ -692,9 +690,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             ToolTip.add( closeButton, bindingOptions, _configuration.text!.closeButtonText! );
 
-            const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
+            if ( Is.definedObject( bindingOptions.data ) ) {
+                const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
 
-            addSideMenuIgnoreTypes( contents, bindingOptions );
+                addSideMenuIgnoreTypes( contents, bindingOptions );
+            }
         }
     }
 
