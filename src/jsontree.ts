@@ -219,8 +219,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "block";
     
             if ( bindingOptions._currentView.isBulkEditingEnabled ) {
-                contents.ondblclick = ( e: MouseEvent ) => {
-                    enableContentsEditMode( e, bindingOptions, data, contents, dataIndex );
+                contentsColumn.ondblclick = ( e: MouseEvent ) => {
+                    enableContentsEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
                 };
             }
         }

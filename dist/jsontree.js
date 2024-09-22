@@ -1235,8 +1235,8 @@ var Obj;
             }
             o._currentView.titleBarButtons.style.display = "block";
             if (o._currentView.isBulkEditingEnabled) {
-                n.ondblclick = e => {
-                    u(e, o, t, n, r);
+                s.ondblclick = e => {
+                    u(e, o, t, s, r);
                 };
             }
         }
