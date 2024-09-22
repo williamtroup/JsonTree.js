@@ -755,7 +755,8 @@ div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
 }
-div.json-tree-js div.object-type-title span.opening-symbol {
+div.json-tree-js div.object-type-title span.opening-symbol,
+div.json-tree-js div.object-type-title span.closed-symbols {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
@@ -800,7 +801,8 @@ div.json-tree-js div.object-border-bottom {
     JsonTree.js - Object Type Contents - Values
     -------------------------------------------------------------------------
 */
-div.json-tree-js div.object-type-contents span.opening-symbol {
+div.json-tree-js div.object-type-contents span.opening-symbol,
+div.json-tree-js div.object-type-contents span.closed-symbols {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);

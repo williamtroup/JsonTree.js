@@ -1507,7 +1507,7 @@ var Obj;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => B(t);
+                o.onclick = () => E(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1516,7 +1516,7 @@ var Obj;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
-                    t._currentView.backButton.onclick = () => E(t);
+                    t._currentView.backButton.onclick = () => B(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1574,13 +1574,13 @@ var Obj;
         i(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function B(e) {
+    function E(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
         i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function E(e) {
+    function B(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
             i(e, true);
@@ -1597,7 +1597,7 @@ var Obj;
     function A(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
-            t._currentView.disabledBackground.onclick = () => O(t);
+            t._currentView.disabledBackground.onclick = () => M(t);
             t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
             const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
             if (Is.definedString(t.sideMenu.titleText)) {
@@ -1616,11 +1616,11 @@ var Obj;
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
-            r.onclick = () => O(t);
+            r.onclick = () => M(t);
             ToolTip.add(r, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                M(e, t);
+                O(e, t);
             }
         }
     }
@@ -1629,7 +1629,7 @@ var Obj;
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        O(e);
+        M(e);
         t.onchange = () => ie(t.files, e);
         t.click();
     }
@@ -1640,7 +1640,7 @@ var Obj;
             ToolTip.hide(e);
         }
     }
-    function O(t) {
+    function M(t) {
         if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
             t._currentView.sideMenu.classList.remove("side-menu-open");
             t._currentView.disabledBackground.style.display = "none";
@@ -1653,7 +1653,7 @@ var Obj;
             }
         }
     }
-    function M(t, n) {
+    function O(t, n) {
         const o = [];
         const r = DomElement.create(t, "div", "settings-panel");
         const l = DomElement.create(r, "div", "settings-panel-title-bar");
@@ -1806,6 +1806,7 @@ var Obj;
             const f = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
             const g = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", l ? e.text.mapText : e.text.objectText);
             let m = null;
+            let p = null;
             G(d, n);
             if (n.paging.enabled) {
                 let e = n.useZeroIndexingForArrays ? r.toString() : (r + 1).toString();
@@ -1819,8 +1820,9 @@ var Obj;
             }
             if (n.showOpeningClosingCurlyBraces) {
                 m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
+                p = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
             }
-            z(f, null, d, n, a, s, m, false, true, "", i);
+            z(f, null, d, n, a, s, m, p, false, true, "", i);
             q(n, g, o, i, false);
             H(n, o, g);
             F(n, o, g);
@@ -1835,72 +1837,74 @@ var Obj;
         const u = n.showArrowToggles ? DomElement.create(a, "div", "down-arrow") : null;
         const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.setText : e.text.arrayText);
         let d = null;
+        let f = null;
         G(s, n);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} size` : "size", `[${i.length}]`);
         }
         if (n.showOpeningClosingCurlyBraces) {
             d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
+            f = DomElement.createWithHTML(a, "span", "closed-symbols", "[ ... ]");
         }
-        U(u, null, s, n, i, d, false, true, "", l);
+        U(u, null, s, n, i, d, f, false, true, "", l);
         q(n, c, o, l, false);
         H(n, o, c);
         F(n, o, c);
     }
-    function z(t, n, o, r, l, i, a, s, u, c, d) {
-        let f = true;
-        const g = i.length;
-        const m = c !== "" ? g : 0;
-        if (g === 0 && !r.ignore.emptyObjects) {
-            Z(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
-            f = false;
+    function z(t, n, o, r, l, i, a, s, u, c, d, f) {
+        let g = true;
+        const m = i.length;
+        const p = d !== "" ? m : 0;
+        if (m === 0 && !r.ignore.emptyObjects) {
+            Z(l, o, r, "", e.text.noPropertiesText, true, false, "", f);
+            g = false;
         } else {
-            for (let e = 0; e < g; e++) {
+            for (let e = 0; e < m; e++) {
                 const t = i[e];
-                const n = c === "" ? t : `${c}${"\\"}${t}`;
+                const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (l.hasOwnProperty(t)) {
-                    Z(l, o, r, t, l[t], e === g - 1, false, n, d);
+                    Z(l, o, r, t, l[t], e === m - 1, false, n, f);
                 }
             }
             if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-                Z(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
-                f = false;
+                Z(l, o, r, "", e.text.noPropertiesText, true, false, "", f);
+                g = false;
             } else {
                 if (r.showOpeningClosingCurlyBraces) {
-                    ne(r, o, "}", s, u);
+                    ne(r, o, "}", u, c);
                 }
             }
         }
-        ee(r, t, n, o, a, m, d);
-        return f;
+        ee(r, t, n, o, a, s, p, f);
+        return g;
     }
-    function U(t, n, o, r, l, i, a, s, u, c) {
-        let d = true;
-        const f = l.length;
-        const g = u !== "" ? f : 0;
+    function U(t, n, o, r, l, i, a, s, u, c, d) {
+        let f = true;
+        const g = l.length;
+        const m = c !== "" ? g : 0;
         if (!r.reverseArrayValues) {
-            for (let e = 0; e < f; e++) {
+            for (let e = 0; e < g; e++) {
                 const t = Arr.getIndex(e, r);
-                const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                Z(l, o, r, Arr.getIndexName(r, t, f), l[e], e === f - 1, true, n, c);
+                const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
+                Z(l, o, r, Arr.getIndexName(r, t, g), l[e], e === g - 1, true, n, d);
             }
         } else {
-            for (let e = f; e--; ) {
+            for (let e = g; e--; ) {
                 const t = Arr.getIndex(e, r);
-                const n = u === "" ? t.toString() : `${u}${"\\"}${t}`;
-                Z(l, o, r, Arr.getIndexName(r, t, f), l[e], e === 0, true, n, c);
+                const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
+                Z(l, o, r, Arr.getIndexName(r, t, g), l[e], e === 0, true, n, d);
             }
         }
         if (o.children.length === 0 || r.showOpenedObjectArrayBorders && o.children.length === 1) {
-            Z(l, o, r, "", e.text.noPropertiesText, true, false, "", c);
-            d = false;
+            Z(l, o, r, "", e.text.noPropertiesText, true, false, "", d);
+            f = false;
         } else {
             if (r.showOpeningClosingCurlyBraces) {
-                ne(r, o, "]", a, s);
+                ne(r, o, "]", s, u);
             }
         }
-        ee(r, t, n, o, i, g, c);
-        return d;
+        ee(r, t, n, o, i, a, m, d);
+        return f;
     }
     function Z(t, n, o, r, l, i, a, s, u) {
         const c = DomElement.create(n, "div", "object-type-value");
@@ -2232,6 +2236,7 @@ var Obj;
                         const l = DomElement.create(c, "span", o.showValueColors ? "html" : "");
                         const a = DomElement.create(c, "div", "object-type-contents");
                         let u = null;
+                        let f = null;
                         G(a, o);
                         if (i) {
                             a.classList.add("last-item");
@@ -2243,10 +2248,11 @@ var Obj;
                         }
                         if (o.showOpeningClosingCurlyBraces) {
                             u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                            f = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                         }
-                        let f = te(o, l, i);
-                        const m = z(d, f, a, o, t, n, u, true, i, s, p);
-                        if (!m && Is.defined(u)) {
+                        let m = te(o, l, i);
+                        const T = z(d, m, a, o, t, n, u, f, true, i, s, p);
+                        if (!T && Is.defined(u)) {
                             u.parentNode.removeChild(u);
                         }
                     }
@@ -2268,6 +2274,7 @@ var Obj;
                 const n = DomElement.create(c, "span", o.showValueColors ? "set" : "");
                 const r = DomElement.create(c, "div", "object-type-contents");
                 let a = null;
+                let u = null;
                 G(r, o);
                 if (i) {
                     r.classList.add("last-item");
@@ -2279,10 +2286,11 @@ var Obj;
                 }
                 if (o.showOpeningClosingCurlyBraces) {
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
+                    u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
-                let u = te(o, n, i);
-                const f = U(d, u, r, o, t, a, true, i, s, p);
-                if (!f && Is.defined(a)) {
+                let f = te(o, n, i);
+                const m = U(d, f, r, o, t, a, u, true, i, s, p);
+                if (!m && Is.defined(a)) {
                     a.parentNode.removeChild(a);
                 }
             } else {
@@ -2293,6 +2301,7 @@ var Obj;
                 const t = DomElement.create(c, "span", o.showValueColors ? "array" : "");
                 const n = DomElement.create(c, "div", "object-type-contents");
                 let r = null;
+                let a = null;
                 G(n, o);
                 if (i) {
                     n.classList.add("last-item");
@@ -2304,10 +2313,11 @@ var Obj;
                 }
                 if (o.showOpeningClosingCurlyBraces) {
                     r = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
+                    a = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
-                let a = te(o, t, i);
-                const u = U(d, a, n, o, l, r, true, i, s, p);
-                if (!u && Is.defined(r)) {
+                let u = te(o, t, i);
+                const f = U(d, u, n, o, l, r, a, true, i, s, p);
+                if (!f && Is.defined(r)) {
                     r.parentNode.removeChild(r);
                 }
             } else {
@@ -2324,6 +2334,7 @@ var Obj;
                     const l = DomElement.create(c, "span", o.showValueColors ? "map" : "");
                     const a = DomElement.create(c, "div", "object-type-contents");
                     let u = null;
+                    let f = null;
                     G(a, o);
                     if (i) {
                         a.classList.add("last-item");
@@ -2335,10 +2346,11 @@ var Obj;
                     }
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                        f = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
-                    let f = te(o, l, i);
-                    const m = z(d, f, a, o, t, n, u, true, i, s, p);
-                    if (!m && Is.defined(u)) {
+                    let m = te(o, l, i);
+                    const T = z(d, m, a, o, t, n, u, f, true, i, s, p);
+                    if (!T && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
                 }
@@ -2355,6 +2367,7 @@ var Obj;
                     const r = DomElement.create(c, "span", o.showValueColors ? "object" : "");
                     const a = DomElement.create(c, "div", "object-type-contents");
                     let u = null;
+                    let f = null;
                     G(a, o);
                     if (i) {
                         a.classList.add("last-item");
@@ -2366,10 +2379,11 @@ var Obj;
                     }
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
+                        f = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    let f = te(o, r, i);
-                    const m = z(d, f, a, o, l, t, u, true, i, s, p);
-                    if (!m && Is.defined(u)) {
+                    let m = te(o, r, i);
+                    const T = z(d, m, a, o, l, t, u, f, true, i, s, p);
+                    if (!T && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
                 }
@@ -2589,68 +2603,74 @@ var Obj;
             t.classList.add("no-hover");
         }
     }
-    function ee(e, t, n, o, r, l, i) {
-        const a = e._currentView.contentPanelsIndex;
-        const s = e._currentView.contentPanelsDataIndex;
-        if (!e._currentView.contentPanelsOpen.hasOwnProperty(s)) {
-            e._currentView.contentPanelsOpen[s] = {};
+    function ee(e, t, n, o, r, l, i, a) {
+        const s = e._currentView.contentPanelsIndex;
+        const u = e._currentView.contentPanelsDataIndex;
+        if (!e._currentView.contentPanelsOpen.hasOwnProperty(u)) {
+            e._currentView.contentPanelsOpen[u] = {};
         }
-        const u = () => {
+        const c = () => {
             o.style.display = "none";
-            e._currentView.contentPanelsOpen[s][a] = true;
+            e._currentView.contentPanelsOpen[u][s] = true;
             if (Is.defined(t)) {
                 t.className = "right-arrow";
             }
             if (Is.defined(r)) {
                 r.style.display = "none";
             }
+            if (Is.defined(l)) {
+                l.style.display = "inline-block";
+            }
             if (Is.defined(n)) {
                 n.style.display = "inline-block";
             }
         };
-        const c = () => {
+        const d = () => {
             o.style.display = "block";
-            e._currentView.contentPanelsOpen[s][a] = false;
+            e._currentView.contentPanelsOpen[u][s] = false;
             if (Is.defined(t)) {
                 t.className = "down-arrow";
             }
             if (Is.defined(r)) {
                 r.style.display = "inline-block";
             }
+            if (Is.defined(l)) {
+                l.style.display = "none";
+            }
             if (Is.defined(n)) {
                 n.style.display = "none";
             }
         };
-        const d = e => {
+        const f = e => {
             if (e) {
-                u();
-            } else {
                 c();
+            } else {
+                d();
             }
         };
-        let f = e.showAllAsClosed;
-        if (e._currentView.contentPanelsOpen[s].hasOwnProperty(a)) {
-            f = e._currentView.contentPanelsOpen[s][a];
+        let g = e.showAllAsClosed;
+        if (e._currentView.contentPanelsOpen[u].hasOwnProperty(s)) {
+            g = e._currentView.contentPanelsOpen[u][s];
         } else {
             if (!e._currentView.initialized) {
-                if (i === "object" && e.autoClose.objectSize > 0 && l >= e.autoClose.objectSize) {
-                    f = true;
-                } else if (i === "array" && e.autoClose.arraySize > 0 && l >= e.autoClose.arraySize) {
-                    f = true;
-                } else if (i === "map" && e.autoClose.mapSize > 0 && l >= e.autoClose.mapSize) {
-                    f = true;
-                } else if (i === "set" && e.autoClose.setSize > 0 && l >= e.autoClose.setSize) {
-                    f = true;
-                } else if (i === "html" && e.autoClose.htmlSize > 0 && l >= e.autoClose.htmlSize) {
-                    f = true;
+                if (a === "object" && e.autoClose.objectSize > 0 && i >= e.autoClose.objectSize) {
+                    g = true;
+                } else if (a === "array" && e.autoClose.arraySize > 0 && i >= e.autoClose.arraySize) {
+                    g = true;
+                } else if (a === "map" && e.autoClose.mapSize > 0 && i >= e.autoClose.mapSize) {
+                    g = true;
+                } else if (a === "set" && e.autoClose.setSize > 0 && i >= e.autoClose.setSize) {
+                    g = true;
+                } else if (a === "html" && e.autoClose.htmlSize > 0 && i >= e.autoClose.htmlSize) {
+                    g = true;
                 }
             }
-            e._currentView.contentPanelsOpen[s][a] = f;
+            e._currentView.contentPanelsOpen[u][s] = g;
         }
         if (Is.defined(t)) {
-            t.onclick = () => d(t.className === "down-arrow");
+            t.onclick = () => f(t.className === "down-arrow");
         }
-        d(f);
+        f(g);
         e._currentView.contentPanelsIndex++;
     }
     function te(e, t, n) {
@@ -2742,7 +2762,7 @@ var Obj;
             o.setAttribute("download", ue(t));
             o.click();
             document.body.removeChild(o);
-            O(t);
+            M(t);
             W(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
@@ -2763,19 +2783,19 @@ var Obj;
                 v(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                E(o);
+                B(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
                 I(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                B(o);
+                E(o);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
                 V(o);
             } else if (e.code === "Escape") {
                 e.preventDefault();
-                O(o);
+                M(o);
             }
         }
     }
@@ -2833,7 +2853,7 @@ var Obj;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                B(t[e]);
+                E(t[e]);
             }
             return me;
         },
@@ -2841,7 +2861,7 @@ var Obj;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    E(t[e]);
+                    B(t[e]);
                 }
             }
             return me;
