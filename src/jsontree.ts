@@ -1586,7 +1586,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         dataType = DataType.html;
     
                         if ( bindingOptions.showObjectSizes && ( propertyCount > 0 || !bindingOptions.ignore!.emptyObjects ) ) {
-                            DomElement.createWithHTML( objectTitle, "span", "size", `{${propertyCount}}` );
+                            DomElement.createWithHTML( objectTitle, "span", "size", `<${propertyCount}>` );
                         }
     
                         if ( bindingOptions.showOpeningClosingCurlyBraces ) {

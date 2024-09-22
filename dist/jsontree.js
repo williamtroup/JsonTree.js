@@ -2239,7 +2239,7 @@ var Obj;
                         g = DomElement.createWithHTML(l, "span", "main-title", e.text.htmlText);
                         p = "html";
                         if (o.showObjectSizes && (r > 0 || !o.ignore.emptyObjects)) {
-                            DomElement.createWithHTML(l, "span", "size", `{${r}}`);
+                            DomElement.createWithHTML(l, "span", "size", `<${r}>`);
                         }
                         if (o.showOpeningClosingCurlyBraces) {
                             u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
