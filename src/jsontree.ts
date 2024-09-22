@@ -850,7 +850,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             let checkBoxName: string = Str.capitalizeFirstLetter( key );
             let checkBoxAdditionalText: string = Char.empty;
             
-            if ( bindingOptions.sideMenu!.showDataTypeCounts ) {
+            if ( bindingOptions.sideMenu!.showAvailableDataTypeCounts ) {
                 if ( bindingOptions._currentView.dataTypeCounts.hasOwnProperty( key ) ) {
                     checkBoxAdditionalText = `(${dataTypeDisplayCount})`;
                 }

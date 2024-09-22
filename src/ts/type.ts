@@ -296,7 +296,7 @@ export type BindingOptionsSideMenu = {
 	showImportButton?: boolean;
 	showExportButton?: boolean;
 	titleText?: string;
-	showDataTypeCounts?: boolean;
+	showAvailableDataTypeCounts?: boolean;
 	showOnlyDataTypesAvailable?: boolean;
 };
 

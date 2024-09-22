@@ -745,7 +745,7 @@ var Binding;
             e.sideMenu.showImportButton = Default.getBoolean(e.sideMenu.showImportButton, true);
             e.sideMenu.showExportButton = Default.getBoolean(e.sideMenu.showExportButton, true);
             e.sideMenu.titleText = Default.getAnyString(e.sideMenu.titleText, e.title.text);
-            e.sideMenu.showDataTypeCounts = Default.getBoolean(e.sideMenu.showDataTypeCounts, true);
+            e.sideMenu.showAvailableDataTypeCounts = Default.getBoolean(e.sideMenu.showAvailableDataTypeCounts, true);
             e.sideMenu.showOnlyDataTypesAvailable = Default.getBoolean(e.sideMenu.showOnlyDataTypesAvailable, false);
             return e;
         }
@@ -1690,7 +1690,7 @@ var Obj;
         if (!n.sideMenu.showOnlyDataTypesAvailable || l > 0) {
             let i = Str.capitalizeFirstLetter(t);
             let a = "";
-            if (n.sideMenu.showDataTypeCounts) {
+            if (n.sideMenu.showAvailableDataTypeCounts) {
                 if (n._currentView.dataTypeCounts.hasOwnProperty(t)) {
                     a = `(${l})`;
                 }

@@ -254,7 +254,7 @@ export namespace Binding {
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
             options.sideMenu!.showExportButton = Default.getBoolean( options.sideMenu!.showExportButton, true );
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, options.title!.text! );
-            options.sideMenu!.showDataTypeCounts = Default.getBoolean( options.sideMenu!.showDataTypeCounts, true );
+            options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
 
             return options;
