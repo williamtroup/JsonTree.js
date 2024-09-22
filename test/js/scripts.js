@@ -194,6 +194,7 @@ function getData() {
                 numbers: {
                     value1: "123",
                     value2: "9.876",
+                    value3: "986917361936291n",
                 },
             },
             booleans: [
