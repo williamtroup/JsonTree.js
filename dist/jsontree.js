@@ -1374,6 +1374,7 @@ var Obj;
     }
     function T(t, n, o, r) {
         const l = DomElement.create(n, "div", "column-control-buttons");
+        l.ondblclick = DomElement.cancelBubble;
         if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
             const i = DomElement.createWithHTML(l, "button", "edit", e.text.editSymbolButtonText);
             i.onclick = () => u(null, t, o, n, r);
@@ -1552,7 +1553,7 @@ var Obj;
                 t._currentView.fullScreenOn = true;
             }
             ToolTip.hide(t);
-            R(t);
+            k(t);
             Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element.classList.contains("full-screen"));
         }
     }
@@ -1700,7 +1701,7 @@ var Obj;
     function P(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
-            R(t);
+            k(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
             if (t.footer.showDataTypes) {
                 t._currentView.footerDataTypeText = DomElement.create(t._currentView.footer, "div", "status-value-data-type");
@@ -1730,12 +1731,12 @@ var Obj;
             t._currentView.footerPageText.innerHTML = i;
         }
     }
-    function R(e) {
+    function k(e) {
         if (Is.defined(e._currentView.footer)) {
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function k(t, n, o) {
+    function R(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -2395,7 +2396,7 @@ var Obj;
                     Y(o, p);
                     H(o, l, g);
                     F(o, l, g);
-                    k(o, p, g);
+                    R(o, p, g);
                 }
                 if (Is.defined(b)) {
                     if (p !== "null" && p !== "undefined" && p !== "array" && p !== "object" && p !== "map" && p !== "set") {

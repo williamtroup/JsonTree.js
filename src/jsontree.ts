@@ -409,6 +409,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
+        controlButtons.ondblclick = DomElement.cancelBubble;
 
         if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
             const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
