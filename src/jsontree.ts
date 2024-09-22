@@ -2123,6 +2123,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     isClosed = true;
                 } else if ( dataType === DataType.set && bindingOptions.autoClose!.setSize! > 0 && dataLength >= bindingOptions.autoClose!.setSize! ) {
                     isClosed = true;
+                } else if ( dataType === DataType.html && bindingOptions.autoClose!.htmlSize! > 0 && dataLength >= bindingOptions.autoClose!.htmlSize! ) {
+                    isClosed = true;
                 }
             }
 

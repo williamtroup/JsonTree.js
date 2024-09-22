@@ -74,6 +74,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             arraySize: 0,
             mapSize: 0,
             setSize: 0,
+            htmlSize: 0,
         },
         ignore: {
             emptyObjects: false

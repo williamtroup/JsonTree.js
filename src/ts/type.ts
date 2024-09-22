@@ -304,6 +304,7 @@ export type BindingOptionsAutoClose = {
 	arraySize: number;
 	mapSize: number;
 	setSize: number;
+	htmlSize: number;
 };
 
 export type BindingOptionsEvents = {

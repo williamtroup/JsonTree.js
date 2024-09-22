@@ -265,6 +265,7 @@ export namespace Binding {
             options.autoClose!.arraySize = Default.getNumber( options.autoClose!.arraySize, 0 );
             options.autoClose!.mapSize = Default.getNumber( options.autoClose!.mapSize, 0 );
             options.autoClose!.setSize = Default.getNumber( options.autoClose!.setSize, 0 );
+            options.autoClose!.htmlSize = Default.getNumber( options.autoClose!.htmlSize, 0 );
 
             return options;
         }

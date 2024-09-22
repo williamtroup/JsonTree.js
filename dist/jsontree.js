@@ -756,6 +756,7 @@ var Binding;
             e.autoClose.arraySize = Default.getNumber(e.autoClose.arraySize, 0);
             e.autoClose.mapSize = Default.getNumber(e.autoClose.mapSize, 0);
             e.autoClose.setSize = Default.getNumber(e.autoClose.setSize, 0);
+            e.autoClose.htmlSize = Default.getNumber(e.autoClose.htmlSize, 0);
             return e;
         }
         function m(e) {
@@ -2639,6 +2640,8 @@ var Obj;
                 } else if (i === "map" && e.autoClose.mapSize > 0 && l >= e.autoClose.mapSize) {
                     f = true;
                 } else if (i === "set" && e.autoClose.setSize > 0 && l >= e.autoClose.setSize) {
+                    f = true;
+                } else if (i === "html" && e.autoClose.htmlSize > 0 && l >= e.autoClose.htmlSize) {
                     f = true;
                 }
             }
