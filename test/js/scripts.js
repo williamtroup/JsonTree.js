@@ -65,6 +65,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             enabled: true,
             showImportButton: true,
             showDataTypeCounts: true,
+            showOnlyDataTypesAvailable: true,
         },
         allowEditing: {
             bulk: true,
