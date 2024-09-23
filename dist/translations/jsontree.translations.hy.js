@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ֆունկցիան",
         "sideMenuButtonText": "Ցուցադրել ընտրացանկը",
         "closeButtonText": "Փակել",
-        "showDataTypesText": "Ցույց տալ տեսակները",
         "selectAllText": "Ընտրեք Բոլորը",
         "selectNoneText": "Ընտրեք Ոչ մեկը",
         "importButtonText": "Ներմուծում",

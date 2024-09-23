@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "toiminto",
         "sideMenuButtonText": "Näytä valikko",
         "closeButtonText": "Lähellä",
-        "showDataTypesText": "Näytä tyypit",
         "selectAllText": "Valitse Kaikki",
         "selectNoneText": "Valitse Ei mitään",
         "importButtonText": "Tuoda",

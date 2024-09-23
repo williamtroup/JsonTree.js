@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "fungsi",
         "sideMenuButtonText": "Tampilkan Menu",
         "closeButtonText": "Menutup",
-        "showDataTypesText": "Jenis Pertunjukan",
         "selectAllText": "Pilih Semua",
         "selectNoneText": "Pilih Tidak Ada",
         "importButtonText": "Impor",

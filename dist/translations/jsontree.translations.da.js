@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "fungere",
         "sideMenuButtonText": "Vis menu",
         "closeButtonText": "Tæt",
-        "showDataTypesText": "Vis typer",
         "selectAllText": "Vælg alle",
         "selectNoneText": "Vælg Ingen",
         "importButtonText": "Importere",

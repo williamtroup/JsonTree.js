@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "işlev",
         "sideMenuButtonText": "Menüyü Göster",
         "closeButtonText": "Kapalı",
-        "showDataTypesText": "Türleri Göster",
         "selectAllText": "Tümünü Seç",
         "selectNoneText": "Yok'u seçin",
         "importButtonText": "İçe aktarmak",

@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "功能",
         "sideMenuButtonText": "顯示選單",
         "closeButtonText": "關閉",
-        "showDataTypesText": "演出類型",
         "selectAllText": "選擇全部",
         "selectNoneText": "選擇無",
         "importButtonText": "進口",

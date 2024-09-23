@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "feidhm",
         "sideMenuButtonText": "Taispeáin Roghchlár",
         "closeButtonText": "Dún",
-        "showDataTypesText": "Taispeáin Cineálacha",
         "selectAllText": "Roghnaigh Uile",
         "selectNoneText": "Roghnaigh Dada",
         "importButtonText": "Iompórtáil",

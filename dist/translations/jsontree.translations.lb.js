@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "Funktioun",
         "sideMenuButtonText": "Menu weisen",
         "closeButtonText": "Zoumaachen",
-        "showDataTypesText": "Aarte weisen",
         "selectAllText": "Wielt All",
         "selectNoneText": "Wielt Keen",
         "importButtonText": "Import",

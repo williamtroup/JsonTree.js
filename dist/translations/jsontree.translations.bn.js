@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ফাংশন",
         "sideMenuButtonText": "মেনু দেখান",
         "closeButtonText": "বন্ধ",
-        "showDataTypesText": "ধরন দেখান",
         "selectAllText": "সব নির্বাচন করুন",
         "selectNoneText": "কোনটি নির্বাচন করুন",
         "importButtonText": "আমদানি",

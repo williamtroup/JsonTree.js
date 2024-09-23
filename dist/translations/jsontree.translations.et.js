@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funktsiooni",
         "sideMenuButtonText": "Kuva menüü",
         "closeButtonText": "Sule",
-        "showDataTypesText": "Näituse tüübid",
         "selectAllText": "Valige Kõik",
         "selectNoneText": "Valige Puudub",
         "importButtonText": "Import",

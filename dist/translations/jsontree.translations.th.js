@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "การทำงาน",
         "sideMenuButtonText": "แสดงเมนู",
         "closeButtonText": "ปิด",
-        "showDataTypesText": "แสดงประเภท",
         "selectAllText": "เลือกทั้งหมด",
         "selectNoneText": "เลือกไม่มี",
         "importButtonText": "นำเข้า",

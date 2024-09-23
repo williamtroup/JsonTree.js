@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ფუნქცია",
         "sideMenuButtonText": "მენიუს ჩვენება",
         "closeButtonText": "დახურვა",
-        "showDataTypesText": "ტიპების ჩვენება",
         "selectAllText": "აირჩიეთ ყველა",
         "selectNoneText": "აირჩიეთ არცერთი",
         "importButtonText": "იმპორტი",

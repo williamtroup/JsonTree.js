@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "virka",
         "sideMenuButtonText": "Sýna valmynd",
         "closeButtonText": "Loka",
-        "showDataTypesText": "Sýna tegundir",
         "selectAllText": "Veldu Allt",
         "selectNoneText": "Veldu Ekkert",
         "importButtonText": "Innflutningur",
