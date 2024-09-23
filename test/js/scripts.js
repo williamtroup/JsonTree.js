@@ -114,9 +114,11 @@ function getData() {
     var htmlElement1 = document.createElement( "div" );
     htmlElement1.innerHTML = "This is an HTML element.";
     htmlElement1.id = "test-id-1";
+    htmlElement1.className = "test-class-1";
 
     var htmlElement2 = document.createElement( "div" );
     htmlElement2.id = "test-id-2";
+    htmlElement2.className = "test-class-2";
     htmlElement2.innerHTML = "This is a child HTML element.";
 
     htmlElement1.appendChild( htmlElement2 );

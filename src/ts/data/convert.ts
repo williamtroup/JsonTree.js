@@ -73,15 +73,26 @@ export namespace Convert {
         const result: any = {};
         const attributesLength: number = value.attributes.length;
         const childrenLength: number = value.children.length;
-        const childrenKeyName: string = "children";
+        const childrenKeyName: string = "&children";
+        const valueCloned: HTMLElement = value.cloneNode( true ) as HTMLElement;
+        let valueClonedChildrenLength = valueCloned.children.length;
+
+        while ( valueClonedChildrenLength > 0 ) {
+            if ( valueCloned.children[ 0 ].nodeType !== Node.TEXT_NODE ) {
+                valueCloned.removeChild( valueCloned.children[ 0 ] );
+            }
+
+            valueClonedChildrenLength--;
+        }
 
         result[ childrenKeyName ] = [];
+        result[ "#text" ] = valueCloned.innerText;
 
         for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
             const attribute: Attr = value.attributes[ attributeIndex ];
 
             if ( Is.definedString( attribute.nodeName ) ) {
-                result[ attribute.nodeName ] = attribute.nodeValue;
+                result[ `@${attribute.nodeName}` ] = attribute.nodeValue;
             }
         }
 
