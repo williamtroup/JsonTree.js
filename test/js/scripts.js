@@ -1,13 +1,68 @@
+var _HTML_ELEMENT_1 = null;
+var _HTML_ELEMENT_2 = null;
+var _MAP_1 = null;
+var _MAP_2 = null;
+var _SET_1 = null;
+var _SET_2 = null;
+var _IMAGE_1 = null;
+
 ( () => {
     document.addEventListener( "DOMContentLoaded", function() {
         document.title += " v" + $jsontree.getVersion();
         document.getElementById( "header" ).innerText += ` - v${$jsontree.getVersion()}`;
     } );
+
+    createHTML();
+    createMaps();
+    createSets();
+    createImages();
 } )();
+
+function createHTML() {
+    _HTML_ELEMENT_1 = document.createElement( "div" );
+    _HTML_ELEMENT_1.innerHTML = "This is an HTML element.";
+    _HTML_ELEMENT_1.id = "test-id-1";
+    _HTML_ELEMENT_1.className = "test-class-1";
+
+    _HTML_ELEMENT_2 = document.createElement( "div" );
+    _HTML_ELEMENT_2.id = "test-id-2";
+    _HTML_ELEMENT_2.className = "test-class-2";
+    _HTML_ELEMENT_2.innerHTML = "This is a child HTML element.";
+
+    _HTML_ELEMENT_1.appendChild( _HTML_ELEMENT_2 );
+}
+
+function createMaps() {
+    _MAP_1 = new Map();
+    _MAP_1.set( "key1", true );
+    _MAP_1.set( "key2", 10 );
+    _MAP_1.set( "key3", "This is a string in a map" );
+    _MAP_1.set( "key4", { value1: true, value2: 10 } );
+
+    _MAP_2 = new Map();
+    _MAP_2.set( "key1", false );
+    _MAP_2.set( "key2", 20 );
+    _MAP_2.set( "key3", "This is a another string in a map" );
+    _MAP_2.set( "key4", { value1: false, value2: 20 } );
+}
+
+function createSets() {
+    _SET_1 = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
+    _SET_2 = new Set( [ false, true, "This is a another string in a set", { value1: false, value2: 20 } ] );
+}
+
+function createImages() {
+    _IMAGE_1 = new Image( 100, 100 );
+    _IMAGE_1.src = "images/image.png";
+}
 
 function bindingOptions( showValueColors = true, allowValueToolTips = true, showPaging = false, columnSize = 1 ) {
     return {
         data: getData(),
+        //data: _MAP_1,
+        //data: [ _MAP_1, _MAP_2 ],
+        //data: _SET_1,
+        //data: [ _SET_1, _SET_2 ],
         //data: null,
         //data: "https://william-troup.com/jsontree-js/test-data/test.json",
         showValueColors: showValueColors,
@@ -100,29 +155,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
 }
 
 function getData() {
-    var map = new Map();
-    map.set( "key1", true );
-    map.set( "key2", 10 );
-    map.set( "key3", "This is a string in a map" );
-    map.set( "key4", { value1: true, value2: 10 } );
-
-    var set = new Set( [ true, false, "This is a string in a set", { value1: true, value2: 10 } ] );
-
-    var image = new Image( 100, 100 );
-    image.src = "images/image.png";
-
-    var htmlElement1 = document.createElement( "div" );
-    htmlElement1.innerHTML = "This is an HTML element.";
-    htmlElement1.id = "test-id-1";
-    htmlElement1.className = "test-class-1";
-
-    var htmlElement2 = document.createElement( "div" );
-    htmlElement2.id = "test-id-2";
-    htmlElement2.className = "test-class-2";
-    htmlElement2.innerHTML = "This is a child HTML element.";
-
-    htmlElement1.appendChild( htmlElement2 );
-
     return [
         {
             value1: true,
@@ -146,12 +178,12 @@ function getData() {
             value14: "rgb(144, 238, 144)",
             value15: crypto.randomUUID(),
             value16: new RegExp( "ab+c" ),
-            value17: map,
-            value18: set,
+            value17: _MAP_1,
+            value18: _SET_1,
             value19: "https://www.william-troup.com",
             value20: "william@troup.uk",
-            value21: image,
-            value22: htmlElement1,
+            value21: _IMAGE_1,
+            value22: _HTML_ELEMENT_1,
             value5: [
                 true,
                 "This is another string",

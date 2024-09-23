@@ -403,13 +403,15 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Control Buttons
+     * Render:  Control Buttons Panel
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
         const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
         controlButtons.ondblclick = DomElement.cancelBubble;
+
+        const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
 
         if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
             const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
@@ -419,7 +421,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
         }
 
-        if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showMovingButtons ) {
+        if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showMovingButtons ) {
             const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
             moveRightButton.ondblclick = DomElement.cancelBubble;
 
@@ -443,7 +445,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
         }
 
-        if ( bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showCopyButton ) {
+        if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
             const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
             copyButton.onclick = () => onCopy( bindingOptions, data );
             copyButton.ondblclick = DomElement.cancelBubble;
@@ -459,7 +461,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
         }
 
-        if ( bindingOptions.paging!.enabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
+        if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
             const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
             openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
             openAllButton.ondblclick = DomElement.cancelBubble;
@@ -473,7 +475,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
         }
 
-        if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
+        if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
             const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
             switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
             switchToPagesButton.ondblclick = DomElement.cancelBubble;
@@ -901,7 +903,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.footerSizeText.style.display = "none";
             }
 
-            if ( bindingOptions.paging!.enabled && bindingOptions.footer!.showPageOf ) {
+            if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.footer!.showPageOf ) {
                 bindingOptions._currentView.footerPageText = DomElement.create( bindingOptions._currentView.footer, "div", "status-page-index" );
 
                 getFooterPageText( bindingOptions );
@@ -1024,7 +1026,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             addObjectContentsBorder( objectTypeContents, bindingOptions );
 
-            if ( bindingOptions.paging!.enabled ) {
+            if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {

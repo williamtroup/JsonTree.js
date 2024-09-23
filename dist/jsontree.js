@@ -1390,13 +1390,14 @@ var Obj;
     function T(t, n, o, r) {
         const l = DomElement.create(n, "div", "column-control-buttons");
         l.ondblclick = DomElement.cancelBubble;
+        const i = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
         if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
             const i = DomElement.createWithHTML(l, "button", "edit", e.text.editSymbolButtonText);
             i.onclick = () => u(null, t, o, n, r);
             i.ondblclick = DomElement.cancelBubble;
             ToolTip.add(i, t, e.text.editButtonText);
         }
-        if (t.paging.enabled && t.allowEditing.bulk && t.controlPanel.showMovingButtons) {
+        if (i && t.allowEditing.bulk && t.controlPanel.showMovingButtons) {
             const n = DomElement.createWithHTML(l, "button", "move-right", e.text.moveRightSymbolButtonText);
             n.ondblclick = DomElement.cancelBubble;
             if (r + 1 > t.data.length - 1) {
@@ -1414,7 +1415,7 @@ var Obj;
             }
             ToolTip.add(o, t, e.text.moveLeftButtonText);
         }
-        if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showCopyButton) {
+        if (i && t.controlPanel.showCopyButton) {
             const n = DomElement.createWithHTML(l, "button", "copy", e.text.copyButtonSymbolText);
             n.onclick = () => h(t, o);
             n.ondblclick = DomElement.cancelBubble;
@@ -1426,7 +1427,7 @@ var Obj;
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.removeButtonText);
         }
-        if (t.paging.enabled && t.controlPanel.showCloseOpenAllButtons) {
+        if (i && t.controlPanel.showCloseOpenAllButtons) {
             const n = DomElement.createWithHTML(l, "button", "open-all", e.text.openAllButtonSymbolText);
             n.onclick = () => b(t, r);
             n.ondblclick = DomElement.cancelBubble;
@@ -1436,7 +1437,7 @@ var Obj;
             o.ondblclick = DomElement.cancelBubble;
             ToolTip.add(o, t, e.text.closeAllButtonText);
         }
-        if (!t.paging.enabled && Is.definedArray(t.data) && t.controlPanel.showSwitchToPagesButton) {
+        if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
             const n = DomElement.createWithHTML(l, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
             n.onclick = () => x(t);
             n.ondblclick = DomElement.cancelBubble;
@@ -1543,7 +1544,7 @@ var Obj;
                     t._currentView.nextButton.disabled = true;
                 }
             } else {
-                if (Is.definedArray(n) && n.length <= 1) {
+                if (Is.definedArray(n)) {
                     t.paging.enabled = false;
                 }
             }
@@ -1737,7 +1738,7 @@ var Obj;
                 t._currentView.footerSizeText = DomElement.create(t._currentView.footer, "div", "status-value-size");
                 t._currentView.footerSizeText.style.display = "none";
             }
-            if (t.paging.enabled && t.footer.showPageOf) {
+            if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.footer.showPageOf) {
                 t._currentView.footerPageText = DomElement.create(t._currentView.footer, "div", "status-page-index");
                 N(t);
             }
@@ -1829,7 +1830,7 @@ var Obj;
             let m = null;
             let p = null;
             G(d, n);
-            if (n.paging.enabled) {
+            if (n.paging.enabled && Is.definedNumber(r)) {
                 let e = n.useZeroIndexingForArrays ? r.toString() : (r + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]${" "}:`;
