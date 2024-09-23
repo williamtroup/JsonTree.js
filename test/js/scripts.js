@@ -29,7 +29,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         maximumStringLength: 0,
         minimumArrayIndexPadding: 0,
         arrayIndexPaddingCharacter: "0",
-        showHtmlValuesAsObjects: false,
+        showHtmlValuesAsObjects: true,
         maximumUrlLength: 0,
         maximumEmailLength: 0,
         showStringQuotes: true,
@@ -131,10 +131,8 @@ function getData() {
             value9: 3.1415926535,
             value10: 9007199254740991n,
             value11: Symbol( "id" ),
-            value12: {},
-            value13: [],
-            value14: undefined,
-            value15: {
+            value12: undefined,
+            value13: {
                 lambda: ( message ) => {
                     console.log( message );
                 },
@@ -143,15 +141,15 @@ function getData() {
                     console.log( message );
                 }
             },
-            value16: "rgb(144, 238, 144)",
-            value17: crypto.randomUUID(),
-            value18: new RegExp( "ab+c" ),
-            value19: map,
-            value20: set,
-            value21: "https://www.william-troup.com",
-            value22: "william@troup.uk",
-            value23: image,
-            value24: htmlElement1,
+            value14: "rgb(144, 238, 144)",
+            value15: crypto.randomUUID(),
+            value16: new RegExp( "ab+c" ),
+            value17: map,
+            value18: set,
+            value19: "https://www.william-troup.com",
+            value20: "william@troup.uk",
+            value21: image,
+            value22: htmlElement1,
             value5: [
                 true,
                 "This is another string",
@@ -178,6 +176,15 @@ function getData() {
                 objectValue3: 20,
                 objectValue4: "This is an example of a very long string that should force scrolling to kick in.",
             }
+        },
+        {
+            empty: {
+                map: new Map(),
+                set: new Set(),
+                object: {},
+                array: [],
+                html: document.createElement( "div" ),
+            },
         },
         {
             value1: true,

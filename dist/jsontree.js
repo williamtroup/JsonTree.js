@@ -627,7 +627,7 @@ var Binding;
             t.showEmailOpenButtons = Default.getBoolean(t.showEmailOpenButtons, true);
             t.minimumArrayIndexPadding = Default.getNumber(t.minimumArrayIndexPadding, 0);
             t.arrayIndexPaddingCharacter = Default.getString(t.arrayIndexPaddingCharacter, "0");
-            t.showHtmlValuesAsObjects = Default.getBoolean(t.showHtmlValuesAsObjects, false);
+            t.showHtmlValuesAsObjects = Default.getBoolean(t.showHtmlValuesAsObjects, true);
             t.maximumUrlLength = Default.getNumber(t.maximumUrlLength, 0);
             t.maximumEmailLength = Default.getNumber(t.maximumEmailLength, 0);
             t = r(t);
