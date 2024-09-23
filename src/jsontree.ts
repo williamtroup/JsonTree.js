@@ -194,7 +194,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
             }
     
-            if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing !== false ) {
+            if ( enableColumnOrder && bindingOptions.paging!.allowColumnReordering && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.allowEditing!.bulk ) {
                 contentsColumn.setAttribute( "draggable", "true" );
                 contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
                 contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );

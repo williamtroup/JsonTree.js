@@ -1229,7 +1229,7 @@ var Obj;
             if (o.paging.enabled && Is.definedNumber(r)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, r.toString());
             }
-            if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
+            if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing.bulk) {
                 s.setAttribute("draggable", "true");
                 s.ondragstart = () => f(s, o, r);
                 s.ondragend = () => g(s, o);
