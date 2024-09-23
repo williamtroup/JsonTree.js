@@ -1032,6 +1032,8 @@ var Size;
                 n = e.length(Convert2.setToArray(t));
             } else if (Is.definedMap(t)) {
                 n = e.length(Convert2.mapToObject(t));
+            } else if (Is.definedHtmlElement(t)) {
+                n = e.length(Convert2.htmlToObject(t));
             } else if (Is.definedArray(t)) {
                 n = t.length;
             } else if (Is.definedObject(t)) {
@@ -1068,6 +1070,8 @@ var Size;
                 t = o(Convert2.setToArray(e));
             } else if (Is.definedMap(e)) {
                 t = o(Convert2.mapToObject(e));
+            } else if (Is.definedHtmlElement(e)) {
+                t = o(Convert2.htmlToObject(e));
             } else if (Is.definedArray(e)) {
                 const n = e.length;
                 for (let r = 0; r < n; r++) {

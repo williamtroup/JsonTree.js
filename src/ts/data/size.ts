@@ -48,6 +48,9 @@ export namespace Size {
             } else if ( Is.definedMap( value ) ) {
                 length = Size.length( Convert.mapToObject( value ) );
 
+            } else if ( Is.definedHtmlElement( value ) ) {
+                length = Size.length( Convert.htmlToObject( value ) );
+
             } else if ( Is.definedArray( value ) ) {
                 length = value.length;
                 
@@ -95,6 +98,9 @@ export namespace Size {
 
             } else if ( Is.definedMap( value ) ) {
                 bytes = getSize( Convert.mapToObject( value ) );
+
+            } else if ( Is.definedHtmlElement( value ) ) {
+                bytes = getSize( Convert.htmlToObject( value ) );
 
             } else if ( Is.definedArray( value ) ) {
                 const arrayLength: number = value.length;
