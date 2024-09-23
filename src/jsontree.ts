@@ -190,7 +190,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, dataIndex );
 
-            if ( bindingOptions.paging!.enabled ) {
+            if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
             }
     

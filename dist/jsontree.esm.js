@@ -1226,7 +1226,7 @@ var Obj;
             DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
         } else {
             s.onscroll = () => d(s, o, l);
-            if (o.paging.enabled) {
+            if (o.paging.enabled && Is.definedNumber(l)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
             if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing !== false) {
@@ -1541,7 +1541,7 @@ var Obj;
                     t._currentView.nextButton.disabled = true;
                 }
             } else {
-                if (Is.definedArray(n)) {
+                if (Is.definedArray(n) && n.length <= 1) {
                     t.paging.enabled = false;
                 }
             }
