@@ -76,7 +76,7 @@ $jsontree.setConfiguration( {
         "functionText": "функцыя",
         "sideMenuButtonText": "Паказаць меню",
         "closeButtonText": "Блізка",
-        "showTypesText": "Паказаць тыпы",
+        "showDataTypesText": "Паказаць тыпы",
         "selectAllText": "Выбраць усе",
         "selectNoneText": "Выберыце «Няма».",
         "importButtonText": "Імпарт",

@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "समारोह",
         "sideMenuButtonText": "मेनू दिखाओ",
         "closeButtonText": "बंद करना",
-        "showTypesText": "प्रकार दिखाएँ",
+        "showDataTypesText": "प्रकार दिखाएँ",
         "selectAllText": "सबका चयन करें",
         "selectNoneText": "कुछ मत चुनिए",
         "importButtonText": "आयात",

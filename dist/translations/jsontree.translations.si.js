@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "කාර්යය",
         "sideMenuButtonText": "මෙනුව පෙන්වන්න",
         "closeButtonText": "වසන්න",
-        "showTypesText": "වර්ග පෙන්වන්න",
+        "showDataTypesText": "වර්ග පෙන්වන්න",
         "selectAllText": "සියල්ල තෝරන්න",
         "selectNoneText": "කිසිවක් නැත තෝරන්න",
         "importButtonText": "ආනයනය කරන්න",

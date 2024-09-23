@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "function",
         "sideMenuButtonText": "Ipakita ang Menu",
         "closeButtonText": "Isara",
-        "showTypesText": "Mga Uri ng Palabas",
+        "showDataTypesText": "Mga Uri ng Palabas",
         "selectAllText": "Piliin ang Lahat",
         "selectNoneText": "Piliin ang Wala",
         "importButtonText": "Mag-import",

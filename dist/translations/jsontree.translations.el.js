@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "λειτουργία",
         "sideMenuButtonText": "Εμφάνιση μενού",
         "closeButtonText": "Κοντά",
-        "showTypesText": "Εμφάνιση τύπων",
+        "showDataTypesText": "Εμφάνιση τύπων",
         "selectAllText": "Επιλέξτε Όλα",
         "selectNoneText": "Επιλέξτε Κανένα",
         "importButtonText": "Εισαγωγή",

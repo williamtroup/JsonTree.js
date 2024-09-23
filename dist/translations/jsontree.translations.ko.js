@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "기능",
         "sideMenuButtonText": "메뉴 표시",
         "closeButtonText": "닫다",
-        "showTypesText": "쇼 유형",
+        "showDataTypesText": "쇼 유형",
         "selectAllText": "모두 선택",
         "selectNoneText": "없음을 선택하세요",
         "importButtonText": "수입",

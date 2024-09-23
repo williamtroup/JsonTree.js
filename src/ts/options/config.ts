@@ -59,7 +59,7 @@ export namespace Config {
             configuration.text!.sideMenuButtonText = Default.getAnyString( configuration.text!.sideMenuButtonText, "Show Menu" );
             configuration.text!.closeButtonSymbolText = Default.getAnyString( configuration.text!.closeButtonSymbolText, "✕" );
             configuration.text!.closeButtonText = Default.getAnyString( configuration.text!.closeButtonText, "Close" );
-            configuration.text!.showTypesText = Default.getAnyString( configuration.text!.showTypesText, "Show Data Types" );
+            configuration.text!.showDataTypesText = Default.getAnyString( configuration.text!.showDataTypesText, "Show Data Types" );
             configuration.text!.selectAllText = Default.getAnyString( configuration.text!.selectAllText, "Select All" );
             configuration.text!.selectNoneText = Default.getAnyString( configuration.text!.selectNoneText, "Select None" );
             configuration.text!.importButtonSymbolText = Default.getAnyString( configuration.text!.importButtonSymbolText, "↑" );

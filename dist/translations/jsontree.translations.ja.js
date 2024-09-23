@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "関数",
         "sideMenuButtonText": "メニューを表示",
         "closeButtonText": "近い",
-        "showTypesText": "ショータイプ",
+        "showDataTypesText": "ショータイプ",
         "selectAllText": "すべて選択",
         "selectNoneText": "なしを選択します",
         "importButtonText": "輸入",

@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "ఫంక్షన్",
         "sideMenuButtonText": "మెనుని చూపించు",
         "closeButtonText": "మూసివేయి",
-        "showTypesText": "రకాలను చూపించు",
+        "showDataTypesText": "రకాలను చూపించు",
         "selectAllText": "అన్నీ ఎంచుకోండి",
         "selectNoneText": "ఏదీ లేదు ఎంచుకోండి",
         "importButtonText": "దిగుమతి",

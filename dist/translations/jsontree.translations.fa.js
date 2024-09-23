@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "تابع",
         "sideMenuButtonText": "نمایش منو",
         "closeButtonText": "بستن",
-        "showTypesText": "نمایش انواع",
+        "showDataTypesText": "نمایش انواع",
         "selectAllText": "همه را انتخاب کنید",
         "selectNoneText": "هیچکدام را انتخاب کنید",
         "importButtonText": "واردات",

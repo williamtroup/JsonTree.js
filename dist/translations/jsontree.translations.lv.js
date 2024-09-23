@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "funkciju",
         "sideMenuButtonText": "Rādīt izvēlni",
         "closeButtonText": "Aizvērt",
-        "showTypesText": "Rādījumu veidi",
+        "showDataTypesText": "Rādījumu veidi",
         "selectAllText": "Atlasiet visu",
         "selectNoneText": "Atlasiet Nav",
         "importButtonText": "Importēt",

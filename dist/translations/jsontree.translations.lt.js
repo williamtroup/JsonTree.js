@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "funkcija",
         "sideMenuButtonText": "Rodyti meniu",
         "closeButtonText": "Uždaryti",
-        "showTypesText": "Rodyti tipai",
+        "showDataTypesText": "Rodyti tipai",
         "selectAllText": "Pasirinkite Viskas",
         "selectNoneText": "Pasirinkite Nėra",
         "importButtonText": "Importuoti",

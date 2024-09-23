@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "funkciu",
         "sideMenuButtonText": "Zobraziť menu",
         "closeButtonText": "Zavrieť",
-        "showTypesText": "Zobraziť typy",
+        "showDataTypesText": "Zobraziť typy",
         "selectAllText": "Vyberte možnosť Všetky",
         "selectNoneText": "Vyberte možnosť Žiadne",
         "importButtonText": "Importovať",

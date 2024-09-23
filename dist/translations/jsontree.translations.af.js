@@ -67,7 +67,7 @@ $jsontree.setConfiguration( {
         "functionText": "funksie",
         "sideMenuButtonText": "Wys spyskaart",
         "closeButtonText": "Maak toe",
-        "showTypesText": "Wys tipes",
+        "showDataTypesText": "Wys tipes",
         "selectAllText": "Kies Alles",
         "selectNoneText": "Kies Geen",
         "importButtonText": "Invoer",

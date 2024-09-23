@@ -803,7 +803,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const ignoreTypes: HTMLElement = DomElement.create( contents, "div", "settings-panel" );
         const titleBar: HTMLElement = DomElement.create( ignoreTypes, "div", "settings-panel-title-bar" );
 
-        DomElement.createWithHTML( titleBar, "div", "settings-panel-title-text", `${_configuration.text!.showTypesText!}:` );
+        DomElement.createWithHTML( titleBar, "div", "settings-panel-title-text", `${_configuration.text!.showDataTypesText!}:` );
         const controlButtons: HTMLElement = DomElement.create( titleBar, "div", "settings-panel-control-buttons" );
 
         const selectAll: HTMLElement = DomElement.create( controlButtons, "div", "settings-panel-control-button settings-panel-fill" );

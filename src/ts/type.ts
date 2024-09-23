@@ -69,7 +69,7 @@ export type ConfigurationText = {
 	sideMenuButtonText?: string;
 	closeButtonSymbolText?: string;
 	closeButtonText?: string;
-	showTypesText?: string;
+	showDataTypesText?: string;
 	selectAllText?: string;
 	selectNoneText?: string;
 	importButtonSymbolText?: string;
