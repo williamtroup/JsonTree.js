@@ -98,7 +98,7 @@
     // CheckBox
     --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-white);
     --json-tree-js-checkbox-background-color: var(--json-tree-js-setting-panel-background-color);
-    --json-tree-js-checkbox-border-color-checked: --json-tree-js-checkbox-background-color-checked;
+    --json-tree-js-checkbox-border-color-checked: var(--json-tree-js-checkbox-background-color-checked);
     --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
 
     // Borders
@@ -888,8 +888,8 @@ div.json-tree-js {
                     transform: rotate( 45deg );
                     position: absolute;
                     display: none;
-                    left: 4.5px;
-                    top: 1px;
+                    left: 4px;
+                    top: 0.5px;
                     width: 6px;
                     height: 11px;
                     border: solid var(--json-tree-js-color-black);
