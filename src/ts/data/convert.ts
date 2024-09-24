@@ -44,7 +44,7 @@ export namespace Convert {
         return value;
     }
 
-    export function dataTypeValue( oldValue: any, newValue: any ) : any {
+    export function stringToDataTypeValue( oldValue: any, newValue: string ) : any {
         let result: any = null;
 
         if ( Is.definedBoolean( oldValue ) ) {

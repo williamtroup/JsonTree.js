@@ -2095,7 +2095,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             statusBarMessage = _configuration.text!.itemDeletedText!;
     
                         } else {
-                            let newDataPropertyValue: any = Convert.dataTypeValue( originalPropertyValue, newPropertyValue );
+                            let newDataPropertyValue: any = Convert.stringToDataTypeValue( originalPropertyValue, newPropertyValue );
 
                             if ( newDataPropertyValue !== null ) {
                                 if ( isArrayItem ) {

@@ -176,7 +176,7 @@ var Convert2;
         return t;
     }
     Convert.stringifyJson = stringifyJson;
-    function dataTypeValue(e, t) {
+    function stringToDataTypeValue(e, t) {
         let n = null;
         if (Is.definedBoolean(e)) {
             n = t.toLowerCase() === "true";
@@ -193,7 +193,7 @@ var Convert2;
         }
         return n;
     }
-    Convert.dataTypeValue = dataTypeValue;
+    Convert.stringToDataTypeValue = stringToDataTypeValue;
     function htmlToObject(e, t) {
         const n = {};
         const o = e.attributes.length;
@@ -2634,7 +2634,7 @@ var Obj;
                             }
                             u = e.text.itemDeletedText;
                         } else {
-                            let l = Convert2.dataTypeValue(r, s);
+                            let l = Convert2.stringToDataTypeValue(r, s);
                             if (l !== null) {
                                 if (a) {
                                     n[Arr.getIndexFromBrackets(o)] = l;
