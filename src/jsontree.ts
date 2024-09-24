@@ -428,7 +428,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
         }
 
-        if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showMovingButtons ) {
+        if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
             const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
             moveRightButton.ondblclick = DomElement.cancelBubble;
 

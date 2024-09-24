@@ -1406,7 +1406,7 @@ var Obj;
             i.ondblclick = DomElement.cancelBubble;
             ToolTip.add(i, t, e.text.editButtonText);
         }
-        if (i && t.allowEditing.bulk && t.controlPanel.showMovingButtons) {
+        if (i && t.allowEditing.bulk && t.paging.allowColumnReordering && t.controlPanel.showMovingButtons) {
             const n = DomElement.createWithHTML(l, "button", "move-right", e.text.moveRightSymbolButtonText);
             n.ondblclick = DomElement.cancelBubble;
             if (r + 1 > t.data.length - 1) {
@@ -1768,7 +1768,7 @@ var Obj;
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function F(t, n, o) {
+    function R(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -1782,7 +1782,7 @@ var Obj;
             }));
         }
     }
-    function R(t, n, o) {
+    function F(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const r = Size.length(n);
             if (r > 0) {
@@ -1865,7 +1865,7 @@ var Obj;
             J(d, null, c, n, o, i, g, m, false, true, "", l);
             q(n, f, o, l, false);
             H(n, o, f);
-            R(n, o, f);
+            F(n, o, f);
         }
     }
     function z(t, n, o, r) {
@@ -1892,7 +1892,7 @@ var Obj;
         U(s, null, a, n, o, c, d, false, true, "", r);
         q(n, u, o, r, false);
         H(n, o, u);
-        R(n, o, u);
+        F(n, o, u);
     }
     function J(t, n, o, r, l, i, a, s, u, c, d, f) {
         let g = true;
@@ -1989,7 +1989,7 @@ var Obj;
             }
             if (!a) {
                 H(o, r, x);
-                R(o, r, x);
+                F(o, r, x);
             }
         }
         if (l === null) {
@@ -2455,8 +2455,8 @@ var Obj;
             if (Is.defined(g)) {
                 if (!w) {
                     H(o, l, g);
-                    R(o, l, g);
-                    F(o, T, g);
+                    F(o, l, g);
+                    R(o, T, g);
                 }
                 if (Is.defined(y)) {
                     if (T !== "null" && T !== "undefined" && T !== "array" && T !== "object" && T !== "map" && T !== "set") {
