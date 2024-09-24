@@ -59,13 +59,13 @@ function createImages() {
 function bindingOptions( showValueColors = true, allowValueToolTips = true, showPaging = false, columnSize = 1 ) {
     return {
         data: getData(),
+        //data: null,
         //data: _MAP_1,
         //data: [ _MAP_1, _MAP_2 ],
         //data: _SET_1,
         //data: [ _SET_1, _SET_2 ],
         //data: _HTML_ELEMENT_1,
         //data: [ _HTML_ELEMENT_1, _HTML_ELEMENT_2 ],
-        //data: null,
         //data: "https://william-troup.com/jsontree-js/test-data/test.json",
         showValueColors: showValueColors,
         sortPropertyNames: true,
