@@ -460,14 +460,6 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
         }
 
-        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
-            const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
-            removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
-            removeButton.ondblclick = DomElement.cancelBubble;
-    
-            ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
-        }
-
         if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
             const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
             openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
@@ -480,6 +472,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             closeAllButton.ondblclick = DomElement.cancelBubble;
 
             ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
+        }
+
+        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
+            const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
+            removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
+            removeButton.ondblclick = DomElement.cancelBubble;
+    
+            ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
         }
 
         if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {

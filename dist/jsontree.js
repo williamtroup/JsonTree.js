@@ -1433,12 +1433,6 @@ var Obj;
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.copyButtonText);
         }
-        if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
-            const n = DomElement.createWithHTML(l, "button", "remove", e.text.removeSymbolButtonText);
-            n.onclick = () => w(t, r);
-            n.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(n, t, e.text.removeButtonText);
-        }
         if (i && t.controlPanel.showCloseOpenAllButtons) {
             const n = DomElement.createWithHTML(l, "button", "open-all", e.text.openAllButtonSymbolText);
             n.onclick = () => b(t, r);
@@ -1448,6 +1442,12 @@ var Obj;
             o.onclick = () => y(t, r);
             o.ondblclick = DomElement.cancelBubble;
             ToolTip.add(o, t, e.text.closeAllButtonText);
+        }
+        if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
+            const n = DomElement.createWithHTML(l, "button", "remove", e.text.removeSymbolButtonText);
+            n.onclick = () => w(t, r);
+            n.ondblclick = DomElement.cancelBubble;
+            ToolTip.add(n, t, e.text.removeButtonText);
         }
         if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
             const n = DomElement.createWithHTML(l, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
