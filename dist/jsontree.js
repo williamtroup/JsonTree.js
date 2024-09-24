@@ -1531,7 +1531,7 @@ var Obj;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => E(t);
+                o.onclick = () => B(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1540,7 +1540,7 @@ var Obj;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.dataArrayCurrentIndex > 0) {
-                    t._currentView.backButton.onclick = () => B(t);
+                    t._currentView.backButton.onclick = () => E(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1598,13 +1598,13 @@ var Obj;
         i(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function E(e) {
+    function B(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
         i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function B(e) {
+    function E(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.dataArrayCurrentIndex -= e.paging.columnsPerPage;
             i(e, true);
@@ -2826,13 +2826,13 @@ var Obj;
                 v(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                B(o);
+                E(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
                 I(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                E(o);
+                B(o);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
                 V(o);
@@ -2896,7 +2896,7 @@ var Obj;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                E(t[e]);
+                B(t[e]);
             }
             return me;
         },
@@ -2904,7 +2904,7 @@ var Obj;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    B(t[e]);
+                    E(t[e]);
                 }
             }
             return me;
@@ -2950,6 +2950,25 @@ var Obj;
             let n = null;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 n = t[e].data;
+            }
+            return n;
+        },
+        updateBindingOptions: function(e, n) {
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const o = t[e];
+                const r = o.data;
+                const l = o._currentView;
+                t[e] = Binding.Options.get(n);
+                t[e].data = r;
+                t[e]._currentView = l;
+                i(t[e]);
+            }
+            return me;
+        },
+        getBindingOptions: function(e) {
+            let n = null;
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                n = t[e];
             }
             return n;
         },

@@ -287,3 +287,10 @@ function onValueClickJsonReplacer( _, value ) {
 
     return value;
 }
+
+function updateBindingOptions() {
+    var bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
+    bindingOptions.showArrowToggles = false;
+
+    $jsontree.updateBindingOptions( "json-tree-1", bindingOptions );
+}

@@ -11,6 +11,9 @@
  */
 
 
+import { type BindingOptions } from "./type";
+
+
 export type PublicApi = {
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -176,6 +179,40 @@ export type PublicApi = {
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Manage Binding Options
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+	/**
+	 * updateBindingOptions().
+	 *
+	 * Updates the binding options that are assigned to a specific element.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 * @param       {Options}   newOptions                            		All the binding options that should be set (refer to "Binding Options" documentation for properties).
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	updateBindingOptions: ( elementId: string, newOptions: any ) => PublicApi;
+
+	/**
+	 * getBindingOptions().
+	 *
+	 * Gets the binding options that are assigned to a specific element.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	getBindingOptions: ( elementId: string ) => BindingOptions;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Public API Functions:  Destroying
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -224,7 +261,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	setConfiguration: ( configuration: any ) => PublicApi;
+	setConfiguration: ( newConfiguration: any ) => PublicApi;
 
 
     /*

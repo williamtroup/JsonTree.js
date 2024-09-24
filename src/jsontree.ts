@@ -17,7 +17,8 @@ import {
     type Configuration,
     type ContentPanelsForArrayIndex,
     type ContentPanels, 
-    type FunctionName } from "./ts/type";
+    type FunctionName, 
+    type BindingOptionsCurrentView } from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -2577,6 +2578,39 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 result = _elements_Data[ elementId ].data;
+            }
+
+            return result;
+        },
+
+
+        /*
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         * Public API Functions:  Manage Binding Options
+         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         */
+
+        updateBindingOptions: function ( elementId: string, newOptions: any ) : PublicApi {
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                const bindingOptions: BindingOptions = _elements_Data[ elementId ];
+                const data: any = bindingOptions.data;
+                const currentView: BindingOptionsCurrentView = bindingOptions._currentView;
+
+                _elements_Data[ elementId ] = Binding.Options.get( newOptions );
+                _elements_Data[ elementId ].data = data;
+                _elements_Data[ elementId ]._currentView = currentView;
+
+                renderControlContainer( _elements_Data[ elementId ] );
+            }
+
+            return _public;
+        },
+
+        getBindingOptions: function ( elementId: string ) : BindingOptions {
+            let result: BindingOptions = null!;
+
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                result = _elements_Data[ elementId ];
             }
 
             return result;
