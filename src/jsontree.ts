@@ -186,7 +186,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
         
         if ( !Is.defined( data ) ) {
-            DomElement.createWithHTML( contentsColumn, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
+            const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
+            DomElement.createWithHTML( noJson, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
+
+            if ( bindingOptions.sideMenu!.showImportButton ) {
+                const importText: HTMLSpanElement = DomElement.createWithHTML( noJson, "span", "no-json-import-text", `${_configuration.text!.importButtonText!}${_configuration.text!.ellipsisText!}` ) as HTMLSpanElement;
+                importText.onclick = () => onSideMenuImportClick( bindingOptions );
+            }
         } else {
             
             contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, dataIndex );

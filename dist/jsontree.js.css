@@ -156,7 +156,7 @@ div.full-screen div.contents {
   max-height: none !important;
   overflow: auto;
 }
-div.full-screen div.contents span.no-json-text {
+div.full-screen div.contents div.no-json {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -687,9 +687,21 @@ div.json-tree-js div.contents span.size {
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
 }
-div.json-tree-js div.contents span.no-json-text {
+div.json-tree-js div.contents div.no-json {
   font-style: italic;
+}
+div.json-tree-js div.contents div.no-json span.no-json-text {
   color: var(--json-tree-js-color-light-gray) !important;
+}
+div.json-tree-js div.contents div.no-json span.no-json-import-text {
+  margin-left: calc(var(--json-tree-js-spacing) / 2);
+  text-decoration: underline;
+  transition: var(--json-tree-js-transition);
+  transition-property: opacity;
+}
+div.json-tree-js div.contents div.no-json span.no-json-import-text:not(.no-hover):hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 /*

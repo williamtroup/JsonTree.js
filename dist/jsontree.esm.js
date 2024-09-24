@@ -1229,7 +1229,12 @@ var Obj;
     function s(t, n, o, r, l, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
         if (!Is.defined(t)) {
-            DomElement.createWithHTML(s, "span", "no-json-text", e.text.noJsonToViewText);
+            const t = DomElement.create(s, "div", "no-json");
+            DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
+            if (o.sideMenu.showImportButton) {
+                const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
+                n.onclick = () => C(o);
+            }
         } else {
             s.onscroll = () => d(s, o, r);
             if (o.paging.enabled && Is.definedNumber(r)) {
