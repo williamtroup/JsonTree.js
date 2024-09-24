@@ -1658,8 +1658,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType );
                     
-                    if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                    if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
+                        closedBraces.parentNode!.removeChild( closedBraces );
                     }
                 }
 
@@ -1698,8 +1699,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType );
 
-                if ( !propertiesAdded && Is.defined( openingBracket ) ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
+                    closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
                 
             } else {
@@ -1736,8 +1738,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType );
 
-                if ( !propertiesAdded && Is.defined( openingBracket ) ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
+                    closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
                 
             } else {
@@ -1782,8 +1785,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType );
 
-                    if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                    if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
+                        closedBraces.parentNode!.removeChild( closedBraces );
                     }
                 }
 
@@ -1828,8 +1832,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType );
                     
-                    if ( !propertiesAdded && Is.defined( openingBrace ) ) {
+                    if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
+                        closedBraces.parentNode!.removeChild( closedBraces );
                     }
                 }
 

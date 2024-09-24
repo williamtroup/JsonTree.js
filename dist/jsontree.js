@@ -1507,7 +1507,7 @@ var Obj;
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => C(t);
+                n.onclick = () => _(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -1632,7 +1632,7 @@ var Obj;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => _(t);
+                n.onclick = () => C(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1644,7 +1644,7 @@ var Obj;
             }
         }
     }
-    function _(e) {
+    function C(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -1653,7 +1653,7 @@ var Obj;
         t.onchange = () => ie(t.files, e);
         t.click();
     }
-    function C(e) {
+    function _(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -2295,8 +2295,9 @@ var Obj;
                     }
                     let m = te(o, l, i);
                     const p = J(d, m, a, o, t, n, u, f, true, i, s, T);
-                    if (!p && Is.defined(u)) {
+                    if (!p && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
+                        f.parentNode.removeChild(f);
                     }
                 }
             } else {
@@ -2324,8 +2325,9 @@ var Obj;
                 }
                 let f = te(o, n, i);
                 const m = U(d, f, r, o, t, a, u, true, i, s, T);
-                if (!m && Is.defined(a)) {
+                if (!m && o.showOpeningClosingCurlyBraces) {
                     a.parentNode.removeChild(a);
+                    u.parentNode.removeChild(u);
                 }
             } else {
                 m = true;
@@ -2351,8 +2353,9 @@ var Obj;
                 }
                 let u = te(o, t, i);
                 const f = U(d, u, n, o, l, r, a, true, i, s, T);
-                if (!f && Is.defined(r)) {
+                if (!f && o.showOpeningClosingCurlyBraces) {
                     r.parentNode.removeChild(r);
+                    a.parentNode.removeChild(a);
                 }
             } else {
                 m = true;
@@ -2384,8 +2387,9 @@ var Obj;
                     }
                     let m = te(o, l, i);
                     const p = J(d, m, a, o, t, n, u, f, true, i, s, T);
-                    if (!p && Is.defined(u)) {
+                    if (!p && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
+                        f.parentNode.removeChild(f);
                     }
                 }
             } else {
@@ -2417,8 +2421,9 @@ var Obj;
                     }
                     let m = te(o, r, i);
                     const p = J(d, m, a, o, l, t, u, f, true, i, s, T);
-                    if (!p && Is.defined(u)) {
+                    if (!p && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
+                        f.parentNode.removeChild(f);
                     }
                 }
             } else {
