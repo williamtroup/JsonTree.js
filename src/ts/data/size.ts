@@ -48,7 +48,7 @@ export namespace Size {
             } else if ( Is.definedMap( value ) ) {
                 length = Size.length( Convert.mapToObject( value ) );
 
-            } else if ( Is.definedHtmlElement( value ) ) {
+            } else if ( Is.definedHtml( value ) ) {
                 length = Size.length( Convert.htmlToObject( value ) );
 
             } else if ( Is.definedArray( value ) ) {
@@ -99,7 +99,7 @@ export namespace Size {
             } else if ( Is.definedMap( value ) ) {
                 bytes = getSize( Convert.mapToObject( value ) );
 
-            } else if ( Is.definedHtmlElement( value ) ) {
+            } else if ( Is.definedHtml( value ) ) {
                 bytes = getSize( Convert.htmlToObject( value ) );
 
             } else if ( Is.definedArray( value ) ) {

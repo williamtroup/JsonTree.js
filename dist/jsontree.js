@@ -132,7 +132,7 @@ var Is;
     function x(e) {
         return n(e) && e instanceof HTMLElement;
     }
-    e.definedHtmlElement = x;
+    e.definedHtml = x;
     function b(e) {
         let t;
         try {
@@ -636,7 +636,6 @@ var Binding;
             t.showEmailOpenButtons = Default.getBoolean(t.showEmailOpenButtons, true);
             t.minimumArrayIndexPadding = Default.getNumber(t.minimumArrayIndexPadding, 0);
             t.arrayIndexPaddingCharacter = Default.getString(t.arrayIndexPaddingCharacter, "0");
-            t.showHtmlValuesAsObjects = Default.getBoolean(t.showHtmlValuesAsObjects, true);
             t.maximumUrlLength = Default.getNumber(t.maximumUrlLength, 0);
             t.maximumEmailLength = Default.getNumber(t.maximumEmailLength, 0);
             t = r(t);
@@ -1043,7 +1042,7 @@ var Size;
                 n = e.length(Convert2.setToArray(t));
             } else if (Is.definedMap(t)) {
                 n = e.length(Convert2.mapToObject(t));
-            } else if (Is.definedHtmlElement(t)) {
+            } else if (Is.definedHtml(t)) {
                 n = e.length(Convert2.htmlToObject(t));
             } else if (Is.definedArray(t)) {
                 n = t.length;
@@ -1081,7 +1080,7 @@ var Size;
                 t = o(Convert2.setToArray(e));
             } else if (Is.definedMap(e)) {
                 t = o(Convert2.mapToObject(e));
-            } else if (Is.definedHtmlElement(e)) {
+            } else if (Is.definedHtml(e)) {
                 t = o(Convert2.htmlToObject(e));
             } else if (Is.definedArray(e)) {
                 const n = e.length;
@@ -1240,10 +1239,16 @@ var Obj;
             }
             T(o, s, t, r);
             o._currentView.contentColumns.push(s);
-            if (Is.definedArray(t) || Is.definedSet(t)) {
-                J(s, o, t);
+            if (Is.definedArray(t)) {
+                z(s, o, t, "array");
+            } else if (Is.definedSet(t)) {
+                z(s, o, Convert2.setToArray(t), "set");
+            } else if (Is.definedHtml(t)) {
+                $(s, o, Convert2.htmlToObject(t), r, "html");
+            } else if (Is.definedMap(t)) {
+                $(s, o, Convert2.mapToObject(t), r, "map");
             } else if (Is.definedObject(t)) {
-                $(s, o, t, r);
+                $(s, o, t, r, "object");
             }
             if (Is.defined(l)) {
                 s.scrollTop = l;
@@ -1759,7 +1764,7 @@ var Obj;
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function R(t, n, o) {
+    function F(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -1773,7 +1778,7 @@ var Obj;
             }));
         }
     }
-    function F(t, n, o) {
+    function R(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const r = Size.length(n);
             if (r > 0) {
@@ -1816,64 +1821,76 @@ var Obj;
             }), t.footer.statusResetDelay);
         }
     }
-    function $(t, n, o, r) {
-        const l = Is.definedMap(o);
-        const i = l ? "map" : "object";
-        const a = l ? Convert2.mapToObject(o) : o;
-        const s = Obj.getPropertyNames(a, n);
-        const u = s.length;
-        if (u !== 0 || !n.ignore.emptyObjects) {
-            const c = DomElement.create(t, "div", "object-type-title");
-            const d = DomElement.create(t, "div", "object-type-contents last-item");
-            const f = n.showArrowToggles ? DomElement.create(c, "div", "down-arrow") : null;
-            const g = DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} main-title` : "main-title", l ? e.text.mapText : e.text.objectText);
+    function $(t, n, o, r, l) {
+        const i = Obj.getPropertyNames(o, n);
+        const a = i.length;
+        if (a !== 0 || !n.ignore.emptyObjects) {
+            let s = null;
+            if (l === "object") {
+                s = e.text.objectText;
+            } else if (l === "map") {
+                s = e.text.mapText;
+            } else if (l === "html") {
+                s = e.text.htmlText;
+            }
+            const u = DomElement.create(t, "div", "object-type-title");
+            const c = DomElement.create(t, "div", "object-type-contents last-item");
+            const d = n.showArrowToggles ? DomElement.create(u, "div", "down-arrow") : null;
+            const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} main-title` : "main-title", s);
+            let g = null;
             let m = null;
-            let p = null;
-            G(d, n);
+            G(c, n);
             if (n.paging.enabled && Is.definedNumber(r)) {
                 let e = n.useZeroIndexingForArrays ? r.toString() : (r + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]${" "}:`;
                 }
-                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} data-array-index` : "data-array-index", e, g);
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} data-array-index` : "data-array-index", e, f);
             }
-            if (n.showObjectSizes && u > 0) {
-                DomElement.createWithHTML(c, "span", n.showValueColors ? `${i} size` : "size", `{${u}}`);
+            if (n.showObjectSizes && a > 0) {
+                if (l === "html") {
+                    DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} size` : "size", `<${a}>`);
+                } else {
+                    DomElement.createWithHTML(u, "span", n.showValueColors ? `${l} size` : "size", `{${a}}`);
+                }
             }
             if (n.showOpeningClosingCurlyBraces) {
-                m = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
-                p = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
+                g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
+                m = DomElement.createWithHTML(u, "span", "closed-symbols", "{ ... }");
             }
-            z(f, null, d, n, a, s, m, p, false, true, "", i);
-            q(n, g, o, i, false);
-            H(n, o, g);
-            F(n, o, g);
+            J(d, null, c, n, o, i, g, m, false, true, "", l);
+            q(n, f, o, l, false);
+            H(n, o, f);
+            R(n, o, f);
         }
     }
-    function J(t, n, o) {
-        const r = Is.definedSet(o);
-        const l = r ? "set" : "array";
-        const i = r ? Convert2.setToArray(o) : o;
-        const a = DomElement.create(t, "div", "object-type-title");
-        const s = DomElement.create(t, "div", "object-type-contents last-item");
-        const u = n.showArrowToggles ? DomElement.create(a, "div", "down-arrow") : null;
-        const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", r ? e.text.setText : e.text.arrayText);
+    function z(t, n, o, r) {
+        let l = null;
+        if (r === "set") {
+            l = e.text.setText;
+        } else if (r === "array") {
+            l = e.text.arrayText;
+        }
+        const i = DomElement.create(t, "div", "object-type-title");
+        const a = DomElement.create(t, "div", "object-type-contents last-item");
+        const s = n.showArrowToggles ? DomElement.create(i, "div", "down-arrow") : null;
+        const u = DomElement.createWithHTML(i, "span", n.showValueColors ? `${r} main-title` : "main-title", l);
+        let c = null;
         let d = null;
-        let f = null;
-        G(s, n);
+        G(a, n);
         if (n.showObjectSizes) {
-            DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} size` : "size", `[${i.length}]`);
+            DomElement.createWithHTML(i, "span", n.showValueColors ? `${r} size` : "size", `[${o.length}]`);
         }
         if (n.showOpeningClosingCurlyBraces) {
-            d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
-            f = DomElement.createWithHTML(a, "span", "closed-symbols", "[ ... ]");
+            c = DomElement.createWithHTML(i, "span", "opening-symbol", "[");
+            d = DomElement.createWithHTML(i, "span", "closed-symbols", "[ ... ]");
         }
-        U(u, null, s, n, i, d, f, false, true, "", l);
-        q(n, c, o, l, false);
-        H(n, o, c);
-        F(n, o, c);
+        U(s, null, a, n, o, c, d, false, true, "", r);
+        q(n, u, o, r, false);
+        H(n, o, u);
+        R(n, o, u);
     }
-    function z(t, n, o, r, l, i, a, s, u, c, d, f) {
+    function J(t, n, o, r, l, i, a, s, u, c, d, f) {
         let g = true;
         const m = i.length;
         const p = d !== "" ? m : 0;
@@ -1968,7 +1985,7 @@ var Obj;
             }
             if (!a) {
                 H(o, r, x);
-                F(o, r, x);
+                R(o, r, x);
             }
         }
         if (l === null) {
@@ -2251,45 +2268,36 @@ var Obj;
             } else {
                 m = true;
             }
-        } else if (Is.definedHtmlElement(l)) {
+        } else if (Is.definedHtml(l)) {
             T = "html";
             if (!o.ignore.htmlValues) {
-                if (o.showHtmlValuesAsObjects) {
-                    const t = Convert2.htmlToObject(l);
-                    const n = Obj.getPropertyNames(t, o);
-                    const r = n.length;
-                    if (r === 0 && o.ignore.emptyObjects) {
-                        m = true;
-                    } else {
-                        const l = DomElement.create(c, "span", o.showValueColors ? T : "");
-                        const a = DomElement.create(c, "div", "object-type-contents");
-                        let u = null;
-                        let f = null;
-                        G(a, o);
-                        if (i) {
-                            a.classList.add("last-item");
-                        }
-                        g = DomElement.createWithHTML(l, "span", "main-title", e.text.htmlText);
-                        if (o.showObjectSizes && (r > 0 || !o.ignore.emptyObjects)) {
-                            DomElement.createWithHTML(l, "span", "size", `<${r}>`);
-                        }
-                        if (o.showOpeningClosingCurlyBraces) {
-                            u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
-                            f = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
-                        }
-                        let m = te(o, l, i);
-                        const p = z(d, m, a, o, t, n, u, f, true, i, s, T);
-                        if (!p && Is.defined(u)) {
-                            u.parentNode.removeChild(u);
-                        }
-                    }
+                const t = Convert2.htmlToObject(l);
+                const n = Obj.getPropertyNames(t, o);
+                const r = n.length;
+                if (r === 0 && o.ignore.emptyObjects) {
+                    m = true;
                 } else {
-                    f = o.showValueColors ? `${"html"} value` : "value";
-                    g = DomElement.createWithHTML(c, "span", f, l.tagName.toLowerCase());
-                    if (Is.definedFunction(o.events.onHtmlRender)) {
-                        Trigger.customEvent(o.events.onHtmlRender, g);
+                    const l = DomElement.create(c, "span", o.showValueColors ? T : "");
+                    const a = DomElement.create(c, "div", "object-type-contents");
+                    let u = null;
+                    let f = null;
+                    G(a, o);
+                    if (i) {
+                        a.classList.add("last-item");
                     }
-                    te(o, c, i);
+                    g = DomElement.createWithHTML(l, "span", "main-title", e.text.htmlText);
+                    if (o.showObjectSizes && (r > 0 || !o.ignore.emptyObjects)) {
+                        DomElement.createWithHTML(l, "span", "size", `<${r}>`);
+                    }
+                    if (o.showOpeningClosingCurlyBraces) {
+                        u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                        f = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
+                    }
+                    let m = te(o, l, i);
+                    const p = J(d, m, a, o, t, n, u, f, true, i, s, T);
+                    if (!p && Is.defined(u)) {
+                        u.parentNode.removeChild(u);
+                    }
                 }
             } else {
                 m = true;
@@ -2375,7 +2383,7 @@ var Obj;
                         f = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
                     let m = te(o, l, i);
-                    const p = z(d, m, a, o, t, n, u, f, true, i, s, T);
+                    const p = J(d, m, a, o, t, n, u, f, true, i, s, T);
                     if (!p && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
@@ -2408,7 +2416,7 @@ var Obj;
                         f = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
                     let m = te(o, r, i);
-                    const p = z(d, m, a, o, l, t, u, f, true, i, s, T);
+                    const p = J(d, m, a, o, l, t, u, f, true, i, s, T);
                     if (!p && Is.defined(u)) {
                         u.parentNode.removeChild(u);
                     }
@@ -2438,8 +2446,8 @@ var Obj;
             if (Is.defined(g)) {
                 if (!w) {
                     H(o, l, g);
-                    F(o, l, g);
-                    R(o, T, g);
+                    R(o, l, g);
+                    F(o, T, g);
                 }
                 if (Is.defined(y)) {
                     if (T !== "null" && T !== "undefined" && T !== "array" && T !== "object" && T !== "map" && T !== "set") {

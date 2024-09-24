@@ -119,7 +119,7 @@ export namespace Is {
         return defined( object ) && object instanceof Image;
     }
 
-    export function definedHtmlElement( object: any ) : boolean {
+    export function definedHtml( object: any ) : boolean {
         return defined( object ) && object instanceof HTMLElement;
     }
 

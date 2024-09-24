@@ -151,7 +151,6 @@ export type BindingOptions = {
 	showEmailOpenButtons?: boolean;
 	minimumArrayIndexPadding?: number;
 	arrayIndexPaddingCharacter?: string;
-	showHtmlValuesAsObjects?: boolean;
 	maximumUrlLength?: number;
 	maximumEmailLength?: number;
 	controlPanel?: BindingOptionsControlPanel;
