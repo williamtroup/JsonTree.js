@@ -1600,6 +1600,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.regexpValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
+                allowEditing = bindingOptions.allowEditing!.regExpValues! && !preventEditing;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onRegExpRender!, valueElement );
@@ -2059,6 +2062,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
                     propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
+                } else if ( Is.definedRegExp( originalPropertyValue ) ) {
+                    propertyValue.innerText = originalPropertyValue.source;
                 } else {
                     propertyValue.innerText = originalPropertyValue.toString();
                 }

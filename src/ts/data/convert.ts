@@ -64,6 +64,9 @@ export namespace Convert {
 
         } else if ( Is.definedBigInt( oldValue ) ) {
             result = BigInt( newValue );
+
+        } else if ( Is.definedRegExp( oldValue ) ) {
+            result = new RegExp( newValue );
         }
 
         return result;
