@@ -24,7 +24,7 @@ JsonTree.js
 - 💻 Full API available via public functions.
 - 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
-- 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets and Maps).
+- 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
 - 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
 - 📂 Close and open all objects, arrays, sets, and maps.
