@@ -197,16 +197,17 @@ var Convert2;
         const n = e.attributes.length;
         const o = e.children.length;
         const r = "&children";
-        const l = e.cloneNode(true);
-        let i = l.children.length;
-        while (i > 0) {
-            if (l.children[0].nodeType !== Node.TEXT_NODE) {
-                l.removeChild(l.children[0]);
+        const l = "#text";
+        const i = e.cloneNode(true);
+        let a = i.children.length;
+        while (a > 0) {
+            if (i.children[0].nodeType !== Node.TEXT_NODE) {
+                i.removeChild(i.children[0]);
             }
-            i--;
+            a--;
         }
         t[r] = [];
-        t["#text"] = l.innerText;
+        t[l] = i.innerText;
         for (let o = 0; o < n; o++) {
             const n = e.attributes[o];
             if (Is.definedString(n.nodeName)) {
@@ -218,6 +219,9 @@ var Convert2;
         }
         if (t[r].length === 0) {
             delete t[r];
+        }
+        if (!Is.definedString(t[l])) {
+            delete t[l];
         }
         return t;
     }

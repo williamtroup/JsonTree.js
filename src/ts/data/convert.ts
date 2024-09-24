@@ -74,6 +74,7 @@ export namespace Convert {
         const attributesLength: number = value.attributes.length;
         const childrenLength: number = value.children.length;
         const childrenKeyName: string = "&children";
+        const textKeyName: string = "#text";
         const valueCloned: HTMLElement = value.cloneNode( true ) as HTMLElement;
         let valueClonedChildrenLength = valueCloned.children.length;
 
@@ -86,7 +87,7 @@ export namespace Convert {
         }
 
         result[ childrenKeyName ] = [];
-        result[ "#text" ] = valueCloned.innerText;
+        result[ textKeyName ] = valueCloned.innerText;
 
         for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
             const attribute: Attr = value.attributes[ attributeIndex ];
@@ -102,6 +103,10 @@ export namespace Convert {
 
         if ( result[ childrenKeyName ].length === 0 ) {
             delete result[ childrenKeyName ];
+        }
+
+        if ( !Is.definedString( result[ textKeyName ] ) ) {
+            delete result[ textKeyName ];
         }
 
         return result;
