@@ -216,7 +216,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             } else if ( Is.definedSet( data ) ) {
                 renderArray( contentsColumn, bindingOptions, Convert.setToArray( data ), DataType.set );
             } else if ( Is.definedHtml( data ) ) {
-                renderObject( contentsColumn, bindingOptions, Convert.htmlToObject( data ), dataIndex, DataType.html );
+                renderObject( contentsColumn, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
             } else if ( Is.definedMap( data ) ) {
                 renderObject( contentsColumn, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
             } else if ( Is.definedObject( data ) ) {
@@ -1635,7 +1635,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.html;
 
             if ( !bindingOptions.ignore!.htmlValues ) {
-                const htmlObject: any = Convert.htmlToObject( value );
+                const htmlObject: any = Convert.htmlToObject( value, bindingOptions.showCssStylesForHtmlObjects! );
                 const propertyNames: string[] = Obj.getPropertyNames( htmlObject, bindingOptions );
                 const propertyCount: number = propertyNames.length;
 

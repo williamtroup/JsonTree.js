@@ -153,6 +153,7 @@ export type BindingOptions = {
 	arrayIndexPaddingCharacter?: string;
 	maximumUrlLength?: number;
 	maximumEmailLength?: number;
+	showCssStylesForHtmlObjects?: boolean;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;

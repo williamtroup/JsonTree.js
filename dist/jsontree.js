@@ -194,38 +194,48 @@ var Convert2;
         return n;
     }
     Convert.dataTypeValue = dataTypeValue;
-    function htmlToObject(e) {
-        const t = {};
-        const n = e.attributes.length;
-        const o = e.children.length;
-        const r = "&children";
-        const l = "#text";
-        const i = e.cloneNode(true);
-        let a = i.children.length;
-        while (a > 0) {
-            if (i.children[0].nodeType !== Node.TEXT_NODE) {
-                i.removeChild(i.children[0]);
+    function htmlToObject(e, t) {
+        const n = {};
+        const o = e.attributes.length;
+        const r = e.children.length;
+        const l = "&children";
+        const i = "#text";
+        const a = e.cloneNode(true);
+        let s = a.children.length;
+        while (s > 0) {
+            if (a.children[0].nodeType !== Node.TEXT_NODE) {
+                a.removeChild(a.children[0]);
             }
-            a--;
+            s--;
         }
-        t[r] = [];
-        t[l] = i.innerText;
-        for (let o = 0; o < n; o++) {
-            const n = e.attributes[o];
-            if (Is.definedString(n.nodeName)) {
-                t[`@${n.nodeName}`] = n.nodeValue;
+        n[l] = [];
+        n[i] = a.innerText;
+        for (let t = 0; t < o; t++) {
+            const o = e.attributes[t];
+            if (Is.definedString(o.nodeName)) {
+                n[`@${o.nodeName}`] = o.nodeValue;
             }
         }
-        for (let n = 0; n < o; n++) {
-            t[r].push(e.children[n]);
+        for (let t = 0; t < r; t++) {
+            n[l].push(e.children[t]);
         }
-        if (t[r].length === 0) {
-            delete t[r];
+        if (t) {
+            const t = getComputedStyle(e);
+            const o = t.length;
+            for (let e = 0; e < o; e++) {
+                const o = t[e];
+                const r = `$${o}`;
+                const l = t.getPropertyValue(o);
+                n[r] = l;
+            }
         }
-        if (!Is.definedString(t[l])) {
-            delete t[l];
+        if (n[l].length === 0) {
+            delete n[l];
         }
-        return t;
+        if (!Is.definedString(n[i])) {
+            delete n[i];
+        }
+        return n;
     }
     Convert.htmlToObject = htmlToObject;
     function mapToObject(e) {
@@ -644,6 +654,7 @@ var Binding;
             t.arrayIndexPaddingCharacter = Default.getString(t.arrayIndexPaddingCharacter, "0");
             t.maximumUrlLength = Default.getNumber(t.maximumUrlLength, 0);
             t.maximumEmailLength = Default.getNumber(t.maximumEmailLength, 0);
+            t.showCssStylesForHtmlObjects = Default.getBoolean(t.showCssStylesForHtmlObjects, false);
             t = r(t);
             t = l(t);
             t = i(t);
@@ -1222,7 +1233,7 @@ var Obj;
             e._currentView.contentPanelsDataIndex = 0;
             s(n, r, e, null, o[0], 1, false);
         }
-        A(e);
+        C(e);
         P(e);
         oe(e);
         e._currentView.initialized = true;
@@ -1234,7 +1245,7 @@ var Obj;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
-                n.onclick = () => C(o);
+                n.onclick = () => A(o);
             }
         } else {
             s.onscroll = () => d(s, o, r);
@@ -1254,7 +1265,7 @@ var Obj;
             } else if (Is.definedSet(t)) {
                 z(s, o, Convert2.setToArray(t), "set");
             } else if (Is.definedHtml(t)) {
-                $(s, o, Convert2.htmlToObject(t), r, "html");
+                $(s, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), r, "html");
             } else if (Is.definedMap(t)) {
                 $(s, o, Convert2.mapToObject(t), r, "map");
             } else if (Is.definedObject(t)) {
@@ -1625,7 +1636,7 @@ var Obj;
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function A(t) {
+    function C(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => O(t);
@@ -1643,7 +1654,7 @@ var Obj;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => C(t);
+                n.onclick = () => A(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1655,7 +1666,7 @@ var Obj;
             }
         }
     }
-    function C(e) {
+    function A(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -1775,7 +1786,7 @@ var Obj;
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function R(t, n, o) {
+    function F(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -1789,7 +1800,7 @@ var Obj;
             }));
         }
     }
-    function F(t, n, o) {
+    function R(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const r = Size.length(n);
             if (r > 0) {
@@ -1872,7 +1883,7 @@ var Obj;
             J(d, null, c, n, o, i, g, m, false, true, "", l, l !== "object");
             q(n, f, o, l, false);
             H(n, o, f);
-            F(n, o, f);
+            R(n, o, f);
         }
     }
     function z(t, n, o, r) {
@@ -1899,7 +1910,7 @@ var Obj;
         U(s, null, a, n, o, c, d, false, true, "", r, r !== "array");
         q(n, u, o, r, false);
         H(n, o, u);
-        F(n, o, u);
+        R(n, o, u);
     }
     function J(t, n, o, r, l, i, a, s, u, c, d, f, g) {
         let m = true;
@@ -2000,7 +2011,7 @@ var Obj;
             }
             if (!a) {
                 H(o, r, b);
-                F(o, r, b);
+                R(o, r, b);
             }
         }
         if (l === null) {
@@ -2286,7 +2297,7 @@ var Obj;
         } else if (Is.definedHtml(l)) {
             x = "html";
             if (!o.ignore.htmlValues) {
-                const t = Convert2.htmlToObject(l);
+                const t = Convert2.htmlToObject(l, o.showCssStylesForHtmlObjects);
                 const n = Obj.getPropertyNames(t, o);
                 const r = n.length;
                 if (r === 0 && o.ignore.emptyObjects) {
@@ -2466,8 +2477,8 @@ var Obj;
             if (Is.defined(m)) {
                 if (!h) {
                     H(o, l, m);
-                    F(o, l, m);
-                    R(o, x, m);
+                    R(o, l, m);
+                    F(o, x, m);
                 }
                 if (Is.defined(w)) {
                     if (x !== "null" && x !== "undefined" && x !== "array" && x !== "object" && x !== "map" && x !== "set") {

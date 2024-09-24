@@ -121,6 +121,7 @@ export namespace Binding {
             options.arrayIndexPaddingCharacter = Default.getString( options.arrayIndexPaddingCharacter, "0" );
             options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
             options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
+            options.showCssStylesForHtmlObjects = Default.getBoolean( options.showCssStylesForHtmlObjects, false );
 
             options = getPaging( options );
             options = getTitle( options );

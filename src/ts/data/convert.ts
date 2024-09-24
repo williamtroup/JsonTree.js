@@ -69,7 +69,7 @@ export namespace Convert {
         return result;
     }
 
-    export function htmlToObject( value: HTMLElement ) : any {
+    export function htmlToObject( value: HTMLElement, addCssStyles: boolean ) : any {
         const result: any = {};
         const attributesLength: number = value.attributes.length;
         const childrenLength: number = value.children.length;
@@ -99,6 +99,19 @@ export namespace Convert {
 
         for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
             result[ childrenKeyName ].push( value.children[ childIndex ] );
+        }
+
+        if ( addCssStyles ) {
+            const computedStyles: CSSStyleDeclaration = getComputedStyle( value );
+            const computedStylesLength: number = computedStyles.length;
+    
+            for ( let cssComputedStyleIndex: number = 0; cssComputedStyleIndex < computedStylesLength; cssComputedStyleIndex++ ) {
+                const cssComputedStyleName: string = computedStyles[ cssComputedStyleIndex ];
+                const cssComputedStyleNameStorage: string = `$${cssComputedStyleName}`;
+                const cssComputedValue: string = computedStyles.getPropertyValue( cssComputedStyleName );
+
+                result[ cssComputedStyleNameStorage ] = cssComputedValue;
+            }
         }
 
         if ( result[ childrenKeyName ].length === 0 ) {

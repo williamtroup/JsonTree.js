@@ -89,6 +89,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         maximumUrlLength: 0,
         maximumEmailLength: 0,
         showStringQuotes: true,
+        showCssStylesForHtmlObjects: false,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 5 > Array Index 1",
@@ -223,6 +224,11 @@ function getData() {
             },
         },
         {
+            html: {
+                value1: document.getElementById( "header" )
+            }
+        },
+        {
             value1: true,
             value2: "This is a string for page 2",
             value3: new Date(),
@@ -251,7 +257,7 @@ function getData() {
             value1: false,
             value2: "This is a string for page 3",
             value3: new Date(),
-        }
+        },
     ]
 }
 
