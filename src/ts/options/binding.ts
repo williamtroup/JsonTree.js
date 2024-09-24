@@ -28,6 +28,7 @@ import {
     type BindingOptionsControlPanel } from "../type";
 
 import { Default } from "../data/default";
+import { Is } from "../data/is";
 
 
 export namespace Binding {
@@ -68,6 +69,10 @@ export namespace Binding {
             bindingOptions._currentView.columnDraggingDataIndex = 0;
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
             bindingOptions._currentView.contentControlButtons = [];
+
+            if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions._currentView.dataArrayCurrentIndex > ( bindingOptions.data.length - 1 ) ) {
+                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            }
 
             for ( const key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {

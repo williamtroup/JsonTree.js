@@ -595,6 +595,9 @@ var Binding;
             o._currentView.columnDraggingDataIndex = 0;
             o._currentView.dataTypeCounts = {};
             o._currentView.contentControlButtons = [];
+            if (o.paging.enabled && Is.definedArray(o.data) && o.data.length > 1 && o._currentView.dataArrayCurrentIndex > o.data.length - 1) {
+                o._currentView.dataArrayCurrentIndex = 0;
+            }
             for (const e in r) {
                 if (!r[e]) {
                     o._currentView.isBulkEditingEnabled = false;
