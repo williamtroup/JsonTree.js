@@ -110,13 +110,6 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             enableFullScreenToggling: true,
             showFullScreenButton: true,
         },
-        footer: {
-            enabled: true,
-            showLengths: true,
-            showSizes: true,
-            showPageOf: true,
-            showDataTypes: true,
-        },
         sideMenu: {
             enabled: true,
             showImportButton: true,
@@ -142,6 +135,13 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             startPage: 1,
             synchronizeScrolling: false,
             allowColumnReordering: true,
+        },
+        footer: {
+            enabled: true,
+            showLengths: true,
+            showSizes: true,
+            showPageOf: true,
+            showDataTypes: true,
         },
         controlPanel: {
             enabled: true,
