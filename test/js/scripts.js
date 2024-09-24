@@ -223,11 +223,7 @@ function getData() {
                 html: document.createElement( "div" ),
             },
         },
-        {
-            html: {
-                value1: document.getElementById( "header" )
-            }
-        },
+        document.getElementById( "header" ),
         {
             value1: true,
             value2: "This is a string for page 2",
