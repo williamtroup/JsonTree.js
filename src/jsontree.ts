@@ -209,8 +209,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
             }
     
-            renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
-    
             bindingOptions._currentView.contentColumns.push( contentsColumn );
     
             if ( Is.definedArray( data ) ) {
@@ -224,6 +222,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             } else if ( Is.definedObject( data ) ) {
                 renderObject( contentsColumn, bindingOptions, data, dataIndex, DataType.object );
             }
+
+            renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
     
             if ( Is.defined( scrollTop ) ) {
                 contentsColumn.scrollTop = scrollTop;
@@ -231,7 +231,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             bindingOptions._currentView.titleBarButtons.style.display = "block";
     
-            if ( bindingOptions._currentView.isBulkEditingEnabled ) {
+            if ( bindingOptions.allowEditing!.bulk ) {
                 contentsColumn.ondblclick = ( e: MouseEvent ) => {
                     enableContentsEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
                 };

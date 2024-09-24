@@ -186,7 +186,6 @@ export type BindingOptionsCurrentView = {
 	toggleFullScreenButton: HTMLButtonElement;
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
-	isBulkEditingEnabled: boolean;
 	initialized: boolean;
 	contentColumns: HTMLElement[];
 	footer: HTMLElement;

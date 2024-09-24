@@ -55,7 +55,6 @@ export namespace Binding {
             bindingOptions._currentView.toggleFullScreenButton = null!;
             bindingOptions._currentView.fullScreenOn = false;
             bindingOptions._currentView.dragAndDropBackground = null!;
-            bindingOptions._currentView.isBulkEditingEnabled = true;
             bindingOptions._currentView.initialized = false;
             bindingOptions._currentView.contentColumns = [];
             bindingOptions._currentView.footer = null!;
@@ -76,7 +75,7 @@ export namespace Binding {
 
             for ( const key in allowEditing ) {
                 if ( !allowEditing[ key ] ) {
-                    bindingOptions._currentView.isBulkEditingEnabled = false;
+                    bindingOptions.allowEditing!.bulk = false;
                     break;
                 }
             }

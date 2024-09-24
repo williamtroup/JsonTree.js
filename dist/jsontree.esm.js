@@ -579,7 +579,6 @@ var Binding;
             o._currentView.toggleFullScreenButton = null;
             o._currentView.fullScreenOn = false;
             o._currentView.dragAndDropBackground = null;
-            o._currentView.isBulkEditingEnabled = true;
             o._currentView.initialized = false;
             o._currentView.contentColumns = [];
             o._currentView.footer = null;
@@ -598,7 +597,7 @@ var Binding;
             }
             for (const e in r) {
                 if (!r[e]) {
-                    o._currentView.isBulkEditingEnabled = false;
+                    o.allowEditing.bulk = false;
                     break;
                 }
             }
@@ -1247,7 +1246,6 @@ var Obj;
                 s.ondragover = e => e.preventDefault();
                 s.ondrop = () => m(o, r);
             }
-            T(o, s, t, r);
             o._currentView.contentColumns.push(s);
             if (Is.definedArray(t)) {
                 z(s, o, t, "array");
@@ -1260,11 +1258,12 @@ var Obj;
             } else if (Is.definedObject(t)) {
                 $(s, o, t, r, "object");
             }
+            T(o, s, t, r);
             if (Is.defined(l)) {
                 s.scrollTop = l;
             }
             o._currentView.titleBarButtons.style.display = "block";
-            if (o._currentView.isBulkEditingEnabled) {
+            if (o.allowEditing.bulk) {
                 s.ondblclick = e => {
                     u(e, o, t, s, r);
                 };

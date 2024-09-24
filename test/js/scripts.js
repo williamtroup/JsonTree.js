@@ -117,6 +117,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showOnlyDataTypesAvailable: false,
         },
         allowEditing: {
+            booleanValues: true,
             bulk: true,
         },
         autoClose: {
