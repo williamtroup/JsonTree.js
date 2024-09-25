@@ -176,26 +176,30 @@ var Convert2;
     Convert.stringifyJson = stringifyJson;
     function stringToDataTypeValue(e, t) {
         let n = null;
-        if (Is.definedBoolean(e)) {
-            if (t.toLowerCase().trim() === "true") {
-                n = true;
-            } else if (t.toLowerCase().trim() === "false") {
-                n = false;
+        try {
+            if (Is.definedBoolean(e)) {
+                if (t.toLowerCase().trim() === "true") {
+                    n = true;
+                } else if (t.toLowerCase().trim() === "false") {
+                    n = false;
+                }
+            } else if (Is.definedFloat(e) && !isNaN(+t)) {
+                n = parseFloat(t);
+            } else if (Is.definedNumber(e) && !isNaN(+t)) {
+                n = parseInt(t);
+            } else if (Is.definedString(e)) {
+                n = t;
+            } else if (Is.definedDate(e)) {
+                n = new Date(t);
+            } else if (Is.definedBigInt(e)) {
+                n = BigInt(t);
+            } else if (Is.definedRegExp(e)) {
+                n = new RegExp(t);
+            } else if (Is.definedSymbol(e)) {
+                n = Symbol(t);
             }
-        } else if (Is.definedFloat(e) && !isNaN(+t)) {
-            n = parseFloat(t);
-        } else if (Is.definedNumber(e) && !isNaN(+t)) {
-            n = parseInt(t);
-        } else if (Is.definedString(e)) {
-            n = t;
-        } else if (Is.definedDate(e)) {
-            n = new Date(t);
-        } else if (Is.definedBigInt(e)) {
-            n = BigInt(t);
-        } else if (Is.definedRegExp(e)) {
-            n = new RegExp(t);
-        } else if (Is.definedSymbol(e)) {
-            n = Symbol(t);
+        } catch (e) {
+            n = null;
         }
         return n;
     }

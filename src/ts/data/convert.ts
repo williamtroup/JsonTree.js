@@ -47,33 +47,38 @@ export namespace Convert {
     export function stringToDataTypeValue( oldValue: any, newValue: string ) : any {
         let result: any = null;
 
-        if ( Is.definedBoolean( oldValue ) ) {
-            if ( newValue.toLowerCase().trim() === "true" ) {
-                result = true;
-            } else if ( newValue.toLowerCase().trim() === "false" ) {
-                result = false;
+        try {
+            if ( Is.definedBoolean( oldValue ) ) {
+                if ( newValue.toLowerCase().trim() === "true" ) {
+                    result = true;
+                } else if ( newValue.toLowerCase().trim() === "false" ) {
+                    result = false;
+                }
+    
+            } else if ( Is.definedFloat( oldValue ) && !isNaN( +newValue ) ) {
+                result = parseFloat( newValue );
+    
+            } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
+                result = parseInt( newValue );
+    
+            } else if ( Is.definedString( oldValue ) ) {
+                result = newValue;
+    
+            } else if ( Is.definedDate( oldValue ) ) {
+                result = new Date( newValue );
+    
+            } else if ( Is.definedBigInt( oldValue ) ) {
+                result = BigInt( newValue );
+    
+            } else if ( Is.definedRegExp( oldValue ) ) {
+                result = new RegExp( newValue );
+    
+            } else if ( Is.definedSymbol( oldValue ) ) {
+                result = Symbol( newValue );
             }
 
-        } else if ( Is.definedFloat( oldValue ) && !isNaN( +newValue ) ) {
-            result = parseFloat( newValue );
-
-        } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
-            result = parseInt( newValue );
-
-        } else if ( Is.definedString( oldValue ) ) {
-            result = newValue;
-
-        } else if ( Is.definedDate( oldValue ) ) {
-            result = new Date( newValue );
-
-        } else if ( Is.definedBigInt( oldValue ) ) {
-            result = BigInt( newValue );
-
-        } else if ( Is.definedRegExp( oldValue ) ) {
-            result = new RegExp( newValue );
-
-        } else if ( Is.definedSymbol( oldValue ) ) {
-            result = Symbol( newValue );
+        } catch ( e: any ) {
+            result = null!
         }
 
         return result;
