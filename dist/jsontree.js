@@ -1313,6 +1313,7 @@ var Obj;
         n._currentView.editMode = true;
         r.classList.add("editable");
         r.setAttribute("contenteditable", "true");
+        r.setAttribute("draggable", "false");
         r.innerText = JSON.stringify(l, o, n.jsonIndentSpaces);
         r.focus();
         DomElement.selectAllText(r);

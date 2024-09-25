@@ -233,13 +233,13 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             if ( bindingOptions.allowEditing!.bulk ) {
                 contentsColumn.ondblclick = ( e: MouseEvent ) => {
-                    enableContentsEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
+                    enableContentsColumnEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
                 };
             }
         }
     }
 
-    function enableContentsEditMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, contents: HTMLElement, dataIndex: number ) : void {
+    function enableContentsColumnEditMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, contentsColumn: HTMLElement, dataIndex: number ) : void {
         let statusBarMessage: string = null!;
 
         if ( Is.defined( e ) ) {
@@ -251,14 +251,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.valueClickTimerId = 0;
         bindingOptions._currentView.editMode = true;
 
-        contents.classList.add( "editable" );
-        contents.setAttribute( "contenteditable", "true" );
-        contents.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
-        contents.focus();
+        contentsColumn.classList.add( "editable" );
+        contentsColumn.setAttribute( "contenteditable", "true" );
+        contentsColumn.setAttribute( "draggable", "false" );
+        contentsColumn.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        contentsColumn.focus();
 
-        DomElement.selectAllText( contents );
+        DomElement.selectAllText( contentsColumn );
 
-        contents.onblur = () => {
+        contentsColumn.onblur = () => {
             renderControlContainer( bindingOptions, false );
 
             if ( Is.definedString( statusBarMessage ) ) {
@@ -266,15 +267,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        contents.onkeydown = ( e: KeyboardEvent ) => {
+        contentsColumn.onkeydown = ( e: KeyboardEvent ) => {
             if ( e.code === KeyCode.escape ) {
                 e.preventDefault();
-                contents.setAttribute( "contenteditable", "false" );
+                contentsColumn.setAttribute( "contenteditable", "false" );
 
             } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
                 e.preventDefault();
 
-                const newValue: string = contents.innerText;
+                const newValue: string = contentsColumn.innerText;
                 const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
 
                 if ( newData.parsed ) {
@@ -298,7 +299,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
                 }
 
-                contents.setAttribute( "contenteditable", "false" );
+                contentsColumn.setAttribute( "contenteditable", "false" );
                 
             } else if ( e.code === KeyCode.enter ) {
                 e.preventDefault();
@@ -420,15 +421,15 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlContentsControlButtons( bindingOptions: BindingOptions, column: HTMLElement, data: any, dataIndex: number ) : void {
-        const controlButtons: HTMLElement = DomElement.create( column, "div", "column-control-buttons" );
+    function renderControlContentsControlButtons( bindingOptions: BindingOptions, contentsColumn: HTMLElement, data: any, dataIndex: number ) : void {
+        const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
         controlButtons.ondblclick = DomElement.cancelBubble;
 
         const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
 
         if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
             const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
-            editButton.onclick = () => enableContentsEditMode( null!, bindingOptions, data, column, dataIndex );;
+            editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
             editButton.ondblclick = DomElement.cancelBubble;
     
             ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
@@ -498,10 +499,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( controlButtons.innerHTML !== Char.empty ) {
             bindingOptions._currentView.contentControlButtons.push( controlButtons );
-            column.style.minHeight = `${controlButtons.offsetHeight}px`;
+            contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
-            column.removeChild( controlButtons );
+            contentsColumn.removeChild( controlButtons );
         }
     }
 
