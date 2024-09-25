@@ -1583,6 +1583,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.symbolValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                allowEditing = bindingOptions.allowEditing!.symbolValues! && !preventEditing;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
@@ -2064,6 +2067,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
                 } else if ( Is.definedRegExp( originalPropertyValue ) ) {
                     propertyValue.innerText = originalPropertyValue.source;
+                } else if ( Is.definedSymbol( originalPropertyValue ) ) {
+                    propertyValue.innerText = originalPropertyValue.toString().replace( "Symbol(", Char.empty ).replace( ")", Char.empty );
                 } else {
                     propertyValue.innerText = originalPropertyValue.toString();
                 }

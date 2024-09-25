@@ -250,6 +250,7 @@ export namespace Binding {
             options.allowEditing!.urlValues = Default.getBoolean( options.allowEditing!.urlValues, defaultFlag );
             options.allowEditing!.emailValues = Default.getBoolean( options.allowEditing!.emailValues, defaultFlag );
             options.allowEditing!.regExpValues = Default.getBoolean( options.allowEditing!.regExpValues, defaultFlag );
+            options.allowEditing!.symbolValues = Default.getBoolean( options.allowEditing!.symbolValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 

@@ -71,6 +71,9 @@ export namespace Convert {
 
         } else if ( Is.definedRegExp( oldValue ) ) {
             result = new RegExp( newValue );
+
+        } else if ( Is.definedSymbol( oldValue ) ) {
+            result = Symbol( newValue );
         }
 
         return result;

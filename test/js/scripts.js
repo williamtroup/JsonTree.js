@@ -129,6 +129,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             urlValues: true,
             emailValues: true,
             regExpValues: true,
+            symbolValues: true,
             propertyNames: true,
             bulk: true,
         },
