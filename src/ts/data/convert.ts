@@ -23,7 +23,7 @@ export namespace Convert {
             value = value.toString();
 
         } else if ( Is.definedSymbol( value ) ) {
-            value = value.toString();
+            value = symbolToString( value );
 
         } else if ( Is.definedFunction( value ) ) {
             value = Default.getFunctionName( value, configuration ).name;
@@ -192,5 +192,9 @@ export namespace Convert {
 
     export function stringToBigInt( value: string ) : BigInt {
         return BigInt( value.substring( 0, value.length - 1 ) );
+    }
+
+    export function symbolToString( value: Symbol ) : string {
+        return value.toString().replace( "Symbol(", Char.empty ).replace( ")", Char.empty );
     }
 }

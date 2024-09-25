@@ -2068,7 +2068,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 } else if ( Is.definedRegExp( originalPropertyValue ) ) {
                     propertyValue.innerText = originalPropertyValue.source;
                 } else if ( Is.definedSymbol( originalPropertyValue ) ) {
-                    propertyValue.innerText = originalPropertyValue.toString().replace( "Symbol(", Char.empty ).replace( ")", Char.empty );
+                    propertyValue.innerText = Convert.symbolToString( originalPropertyValue );
                 } else {
                     propertyValue.innerText = originalPropertyValue.toString();
                 }

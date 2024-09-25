@@ -161,7 +161,7 @@ var Convert2;
         if (Is.definedBigInt(t)) {
             t = t.toString();
         } else if (Is.definedSymbol(t)) {
-            t = t.toString();
+            t = symbolToString(t);
         } else if (Is.definedFunction(t)) {
             t = Default.getFunctionName(t, n).name;
         } else if (Is.definedMap(t)) {
@@ -295,6 +295,10 @@ var Convert2;
         return BigInt(e.substring(0, e.length - 1));
     }
     Convert.stringToBigInt = stringToBigInt;
+    function symbolToString(e) {
+        return e.toString().replace("Symbol(", "").replace(")", "");
+    }
+    Convert.symbolToString = symbolToString;
 })(Convert2 || (Convert2 = {}));
 
 var Default;
@@ -1249,7 +1253,7 @@ var Obj;
             e._currentView.contentPanelsDataIndex = 0;
             s(n, l, e, null, o[0], 1, false);
         }
-        A(e);
+        C(e);
         P(e);
         oe(e);
         e._currentView.initialized = true;
@@ -1261,7 +1265,7 @@ var Obj;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
-                n.onclick = () => C(o);
+                n.onclick = () => A(o);
             }
         } else {
             s.onscroll = () => d(s, o, l);
@@ -1652,7 +1656,7 @@ var Obj;
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function A(t) {
+    function C(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => O(t);
@@ -1670,7 +1674,7 @@ var Obj;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => C(t);
+                n.onclick = () => A(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1682,7 +1686,7 @@ var Obj;
             }
         }
     }
-    function C(e) {
+    function A(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -2631,7 +2635,7 @@ var Obj;
                 } else if (Is.definedRegExp(l)) {
                     r.innerText = l.source;
                 } else if (Is.definedSymbol(l)) {
-                    r.innerText = l.toString().replace("Symbol(", "").replace(")", "");
+                    r.innerText = Convert2.symbolToString(l);
                 } else {
                     r.innerText = l.toString();
                 }
