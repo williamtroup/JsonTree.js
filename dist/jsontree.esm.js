@@ -2175,6 +2175,7 @@ var Obj;
             x = "url";
             if (!o.ignore.urlValues) {
                 let n = r;
+                let s = null;
                 if (o.maximumUrlLength > 0 && n.length > o.maximumUrlLength) {
                     n = `${n.substring(0, o.maximumUrlLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
@@ -2182,10 +2183,10 @@ var Obj;
                 m = DomElement.createWithHTML(d, "span", g, n);
                 y = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
-                    const t = DomElement.createWithHTML(d, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    t.onclick = () => window.open(r);
+                    s = DomElement.createWithHTML(d, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    s.onclick = () => window.open(r);
                 }
-                X(o, t, l, r, m, a, y);
+                X(o, t, l, r, m, a, y, s);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, m);
                 }
@@ -2197,6 +2198,7 @@ var Obj;
             x = "email";
             if (!o.ignore.emailValues) {
                 let n = r;
+                let s = null;
                 if (o.maximumEmailLength > 0 && n.length > o.maximumEmailLength) {
                     n = `${n.substring(0, o.maximumEmailLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
@@ -2204,10 +2206,10 @@ var Obj;
                 m = DomElement.createWithHTML(d, "span", g, n);
                 y = o.allowEditing.emailValues && !c;
                 if (o.showEmailOpenButtons) {
-                    const t = DomElement.createWithHTML(d, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    t.onclick = () => window.open(`mailto:${r}`);
+                    s = DomElement.createWithHTML(d, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    s.onclick = () => window.open(`mailto:${r}`);
                 }
-                X(o, t, l, r, m, a, y);
+                X(o, t, l, r, m, a, y, s);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, m);
                 }
@@ -2618,10 +2620,10 @@ var Obj;
             };
         }
     }
-    function X(t, n, o, l, r, a, s) {
+    function X(t, n, o, l, r, a, s, u = null) {
         if (s) {
             r.ondblclick = s => {
-                let u = null;
+                let c = null;
                 DomElement.cancelBubble(s);
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
@@ -2639,10 +2641,13 @@ var Obj;
                 }
                 r.focus();
                 DomElement.selectAllText(r);
+                if (Is.defined(u)) {
+                    u.parentNode.removeChild(u);
+                }
                 r.onblur = () => {
                     i(t, false);
-                    if (Is.definedString(u)) {
-                        W(t, u);
+                    if (Is.definedString(c)) {
+                        W(t, c);
                     }
                 };
                 r.onkeydown = i => {
@@ -2658,7 +2663,7 @@ var Obj;
                             } else {
                                 delete n[o];
                             }
-                            u = e.text.itemDeletedText;
+                            c = e.text.itemDeletedText;
                         } else {
                             let r = Convert2.stringToDataTypeValue(l, s);
                             if (r !== null) {
@@ -2667,7 +2672,7 @@ var Obj;
                                 } else {
                                     n[o] = r;
                                 }
-                                u = e.text.valueUpdatedText;
+                                c = e.text.valueUpdatedText;
                                 Trigger.customEvent(t.events.onJsonEdit, t._currentView.element);
                             }
                         }

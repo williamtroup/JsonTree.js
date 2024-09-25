@@ -1441,6 +1441,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.urlValues ) {
                 let newUrlValue: string = value;
+                let openButton: HTMLSpanElement = null!;
 
                 if ( bindingOptions.maximumUrlLength! > 0 && newUrlValue.length > bindingOptions.maximumUrlLength! ) {
                     newUrlValue = `${newUrlValue.substring(0, bindingOptions.maximumUrlLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
@@ -1451,11 +1452,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.urlValues! && !preventEditing;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
-                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( value );
                 }
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUrlRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUrlRender!, valueElement );
@@ -1472,6 +1473,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.emailValues ) {
                 let newEmailValue: string = value;
+                let openButton: HTMLSpanElement = null!;
 
                 if ( bindingOptions.maximumEmailLength! > 0 && newEmailValue.length > bindingOptions.maximumEmailLength! ) {
                     newEmailValue = `${newEmailValue.substring(0, bindingOptions.maximumEmailLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
@@ -1482,11 +1484,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.emailValues! && !preventEditing;
 
                 if ( bindingOptions.showEmailOpenButtons ) {
-                    const openButton: HTMLSpanElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( `mailto:${value}` );
                 }
 
-                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
 
                 if ( Is.definedFunction( bindingOptions.events!.onEmailRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onEmailRender!, valueElement );
@@ -2047,7 +2049,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean ) : void {
+    function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean, openButton: HTMLSpanElement = null! ) : void {
         if ( allowEditing ) {
             propertyValue.ondblclick = ( e: MouseEvent ) => {
                 let statusBarMessage: string = null!;
@@ -2060,7 +2062,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.editMode = true;
 
                 propertyValue.classList.add( "editable" );
-
                 propertyValue.setAttribute( "contenteditable", "true" );
 
                 if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
@@ -2076,6 +2077,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyValue.focus();
 
                 DomElement.selectAllText( propertyValue );
+
+                if ( Is.defined( openButton ) ) {
+                    openButton.parentNode!.removeChild( openButton );
+                }
 
                 propertyValue.onblur = () => {
                     renderControlContainer( bindingOptions, false );
