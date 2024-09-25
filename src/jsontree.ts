@@ -1937,10 +1937,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;
 
                 for ( let jsonPathPartIndex = 0; jsonPathPartIndex < jsonPathPartsLength; jsonPathPartIndex++ ) {
-                    jsonPathParts[ jsonPathPartIndex ] = "..";
+                    jsonPathParts[ jsonPathPartIndex ] = bindingOptions.jsonPathAny!;
                 }
 
-                jsonPath = jsonPathParts.join( Char.backslash );
+                jsonPath = jsonPathParts.join( bindingOptions.jsonPathSeparator! );
             }
 
             if ( bindingOptions.valueToolTips!.hasOwnProperty( jsonPath ) ) {

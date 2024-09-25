@@ -661,6 +661,8 @@ var Binding;
             t.maximumUrlLength = Default.getNumber(t.maximumUrlLength, 0);
             t.maximumEmailLength = Default.getNumber(t.maximumEmailLength, 0);
             t.showCssStylesForHtmlObjects = Default.getBoolean(t.showCssStylesForHtmlObjects, false);
+            t.jsonPathAny = Default.getString(t.jsonPathAny, "..");
+            t.jsonPathSeparator = Default.getString(t.jsonPathSeparator, "\\");
             t = r(t);
             t = l(t);
             t = i(t);
@@ -1240,7 +1242,7 @@ var Obj;
             e._currentView.contentPanelsDataIndex = 0;
             s(n, r, e, null, o[0], 1, false);
         }
-        C(e);
+        A(e);
         P(e);
         oe(e);
         e._currentView.initialized = true;
@@ -1252,7 +1254,7 @@ var Obj;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
-                n.onclick = () => A(o);
+                n.onclick = () => C(o);
             }
         } else {
             s.onscroll = () => d(s, o, r);
@@ -1643,7 +1645,7 @@ var Obj;
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function C(t) {
+    function A(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => O(t);
@@ -1661,7 +1663,7 @@ var Obj;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => A(t);
+                n.onclick = () => C(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const r = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1673,7 +1675,7 @@ var Obj;
             }
         }
     }
-    function A(e) {
+    function C(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -2525,12 +2527,12 @@ var Obj;
                 console.log(t);
             }
             if (!e.valueToolTips.hasOwnProperty(t)) {
-                const e = t.split("\\");
-                const n = e.length - 1;
-                for (let t = 0; t < n; t++) {
-                    e[t] = "..";
+                const n = t.split("\\");
+                const o = n.length - 1;
+                for (let t = 0; t < o; t++) {
+                    n[t] = e.jsonPathAny;
                 }
-                t = e.join("\\");
+                t = n.join(e.jsonPathSeparator);
             }
             if (e.valueToolTips.hasOwnProperty(t)) {
                 ToolTip.add(n, e, e.valueToolTips[t], "jsontree-js-tooltip-value");

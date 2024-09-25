@@ -154,6 +154,8 @@ export type BindingOptions = {
 	maximumUrlLength?: number;
 	maximumEmailLength?: number;
 	showCssStylesForHtmlObjects?: boolean;
+	jsonPathAny?: string;
+	jsonPathSeparator?: string;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;

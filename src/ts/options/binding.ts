@@ -29,6 +29,7 @@ import {
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
+import { Char } from "../data/enum";
 
 
 export namespace Binding {
@@ -122,6 +123,8 @@ export namespace Binding {
             options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
             options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
             options.showCssStylesForHtmlObjects = Default.getBoolean( options.showCssStylesForHtmlObjects, false );
+            options.jsonPathAny = Default.getString( options.jsonPathAny, ".." );
+            options.jsonPathSeparator = Default.getString( options.jsonPathSeparator, Char.backslash );
 
             options = getPaging( options );
             options = getTitle( options );
