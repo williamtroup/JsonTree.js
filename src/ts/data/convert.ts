@@ -48,7 +48,11 @@ export namespace Convert {
         let result: any = null;
 
         if ( Is.definedBoolean( oldValue ) ) {
-            result = newValue.toLowerCase() === "true";
+            if ( newValue.toLowerCase().trim() === "true" ) {
+                result = true;
+            } else if ( newValue.toLowerCase().trim() === "false" ) {
+                result = false;
+            }
 
         } else if ( Is.definedFloat( oldValue ) && !isNaN( +newValue ) ) {
             result = parseFloat( newValue );

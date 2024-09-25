@@ -177,7 +177,11 @@ var Convert2;
     function stringToDataTypeValue(e, t) {
         let n = null;
         if (Is.definedBoolean(e)) {
-            n = t.toLowerCase() === "true";
+            if (t.toLowerCase().trim() === "true") {
+                n = true;
+            } else if (t.toLowerCase().trim() === "false") {
+                n = false;
+            }
         } else if (Is.definedFloat(e) && !isNaN(+t)) {
             n = parseFloat(t);
         } else if (Is.definedNumber(e) && !isNaN(+t)) {
