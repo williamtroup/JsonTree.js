@@ -1887,13 +1887,12 @@ var Obj;
             let m = null;
             G(c, n);
             if (n.paging.enabled && Is.definedNumber(l)) {
-                let e = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
+                let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
-                    e = `[${e}]${" "}:`;
-                } else {
-                    e = `${e}${" "}:`;
+                    t = `[${t}]`;
                 }
-                DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", e, f);
+                DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", t, f);
+                DomElement.createWithHTML(u, "span", "split", e.text.propertyColonCharacter, f);
             }
             if (n.showObjectSizes && a > 0) {
                 if (r === "html") {

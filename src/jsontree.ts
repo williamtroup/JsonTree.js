@@ -1051,12 +1051,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
-                    dataArrayIndex = `[${dataArrayIndex}]${Char.space}:`;
-                } else {
-                    dataArrayIndex = `${dataArrayIndex}${Char.space}:`;
+                    dataArrayIndex = `[${dataArrayIndex}]`;
                 }
 
                 DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, titleText );
+                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter!, titleText );
             }
     
             if ( bindingOptions.showObjectSizes && propertyCount > 0 ) {

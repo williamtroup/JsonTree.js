@@ -669,6 +669,11 @@ div.json-tree-js {
             font-weight: var(--json-tree-js-bold-weight-light);
         }
 
+        span.split {
+            margin-right: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-bold-weight-light);
+        }
+
         span.opening-symbol,
         span.closed-symbols {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
@@ -759,6 +764,7 @@ div.json-tree-js {
             span.split {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 margin-right: calc( var(--json-tree-js-spacing) / 2 );
+                font-weight: var(--json-tree-js-bold-weight-light);
             }
 
             span.type,
