@@ -672,7 +672,6 @@ div.json-tree-js {
         span.opening-symbol,
         span.closed-symbols {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
-            margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-bold-weight-light);
             color: var(--json-tree-js-color-snow-white) !important;
         }
@@ -732,7 +731,6 @@ div.json-tree-js {
         span.opening-symbol,
         span.closed-symbols {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
-            margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-bold-weight-light);
             color: var(--json-tree-js-color-snow-white) !important;
         }
