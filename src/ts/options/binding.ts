@@ -252,6 +252,7 @@ export namespace Binding {
             options.allowEditing!.emailValues = Default.getBoolean( options.allowEditing!.emailValues, defaultFlag );
             options.allowEditing!.regExpValues = Default.getBoolean( options.allowEditing!.regExpValues, defaultFlag );
             options.allowEditing!.symbolValues = Default.getBoolean( options.allowEditing!.symbolValues, defaultFlag );
+            options.allowEditing!.imageValues = Default.getBoolean( options.allowEditing!.imageValues, defaultFlag );
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 

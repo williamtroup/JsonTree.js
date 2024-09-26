@@ -286,6 +286,7 @@ export type BindingOptionsAllowEditing = {
 	emailValues?: boolean;
 	regExpValues?: boolean;
 	symbolValues?: boolean;
+	imageValues?: boolean;
 	propertyNames?: boolean;
 	bulk?: boolean;
 };

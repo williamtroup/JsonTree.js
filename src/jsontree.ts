@@ -1631,6 +1631,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.imageValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.create( objectTypeValue, "span", valueClass );
+                allowEditing = bindingOptions.allowEditing!.imageValues! && !preventEditing;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 const image: HTMLImageElement = DomElement.create( valueElement, "img" ) as HTMLImageElement;
                 image.src = value.src;
@@ -2079,6 +2082,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     propertyValue.innerText = originalPropertyValue.source;
                 } else if ( Is.definedSymbol( originalPropertyValue ) ) {
                     propertyValue.innerText = Convert.symbolToString( originalPropertyValue );
+                } else if ( Is.definedImage( originalPropertyValue ) ) {
+                    propertyValue.innerText = originalPropertyValue.src;
                 } else {
                     propertyValue.innerText = originalPropertyValue.toString();
                 }

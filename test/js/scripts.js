@@ -132,6 +132,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             emailValues: true,
             regExpValues: true,
             symbolValues: true,
+            imageValues: true,
             propertyNames: true,
             bulk: true,
         },

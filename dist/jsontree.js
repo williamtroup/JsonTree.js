@@ -199,6 +199,9 @@ var Convert2;
                 n = new RegExp(t);
             } else if (Is.definedSymbol(e)) {
                 n = Symbol(t);
+            } else if (Is.definedImage(e)) {
+                n = new Image;
+                n.src = t;
             }
         } catch (e) {
             n = null;
@@ -783,6 +786,7 @@ var Binding;
             e.allowEditing.emailValues = Default.getBoolean(e.allowEditing.emailValues, t);
             e.allowEditing.regExpValues = Default.getBoolean(e.allowEditing.regExpValues, t);
             e.allowEditing.symbolValues = Default.getBoolean(e.allowEditing.symbolValues, t);
+            e.allowEditing.imageValues = Default.getBoolean(e.allowEditing.imageValues, t);
             e.allowEditing.propertyNames = Default.getBoolean(e.allowEditing.propertyNames, t);
             e.allowEditing.bulk = Default.getBoolean(e.allowEditing.bulk, t);
             return e;
@@ -2317,6 +2321,8 @@ var Obj;
             if (!o.ignore.imageValues) {
                 g = o.showValueColors ? `${x} value` : "value";
                 m = DomElement.create(d, "span", g);
+                y = o.allowEditing.imageValues && !c;
+                X(o, t, l, r, m, a, y);
                 const e = DomElement.create(m, "img");
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
@@ -2646,6 +2652,8 @@ var Obj;
                     r.innerText = l.source;
                 } else if (Is.definedSymbol(l)) {
                     r.innerText = Convert2.symbolToString(l);
+                } else if (Is.definedImage(l)) {
+                    r.innerText = l.src;
                 } else {
                     r.innerText = l.toString();
                 }

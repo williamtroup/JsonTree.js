@@ -75,6 +75,10 @@ export namespace Convert {
     
             } else if ( Is.definedSymbol( oldValue ) ) {
                 result = Symbol( newValue );
+
+            } else if ( Is.definedImage( oldValue ) ) {
+                result = new Image();
+                result.src = newValue;
             }
 
         } catch ( e: any ) {
