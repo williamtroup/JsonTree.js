@@ -72,7 +72,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showArrayIndexBrackets: true,
         showOpeningClosingCurlyBraces: false,
         showOpeningClosingSquaredBrackets: false,
-        showCommas: false,
+        showCommas: true,
         showArrowToggles: true,
         openInFullScreenMode: columnSize > 1,
         useZeroIndexingForArrays: true,

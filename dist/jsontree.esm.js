@@ -640,7 +640,7 @@ var Binding;
             t.showAllAsClosed = Default.getBoolean(t.showAllAsClosed, false);
             t.sortPropertyNames = Default.getBoolean(t.sortPropertyNames, true);
             t.sortPropertyNamesInAlphabeticalOrder = Default.getBoolean(t.sortPropertyNamesInAlphabeticalOrder, true);
-            t.showCommas = Default.getBoolean(t.showCommas, false);
+            t.showCommas = Default.getBoolean(t.showCommas, true);
             t.reverseArrayValues = Default.getBoolean(t.reverseArrayValues, false);
             t.addArrayIndexPadding = Default.getBoolean(t.addArrayIndexPadding, false);
             t.showValueColors = Default.getBoolean(t.showValueColors, true);

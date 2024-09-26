@@ -94,7 +94,7 @@ export namespace Binding {
             options.showAllAsClosed = Default.getBoolean( options.showAllAsClosed, false );
             options.sortPropertyNames = Default.getBoolean( options.sortPropertyNames, true );
             options.sortPropertyNamesInAlphabeticalOrder = Default.getBoolean( options.sortPropertyNamesInAlphabeticalOrder, true );
-            options.showCommas = Default.getBoolean( options.showCommas, false );
+            options.showCommas = Default.getBoolean( options.showCommas, true );
             options.reverseArrayValues = Default.getBoolean( options.reverseArrayValues, false );
             options.addArrayIndexPadding = Default.getBoolean( options.addArrayIndexPadding, false );
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
