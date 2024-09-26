@@ -1203,6 +1203,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 nameElement.innerHTML = `\"${name}\"`;
             }
 
+            if ( isArrayItem && !bindingOptions.showChildIndexes ) {
+                nameElement.parentNode!.removeChild( nameElement );
+                nameElement = null!;
+            }
+
         } else {
             nameElement.parentNode!.removeChild( nameElement );
             nameElement = null!;
@@ -1216,11 +1221,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             typeElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "type-color" : "type", Char.empty ) as HTMLSpanElement;
         }
 
-        if ( !isForEmptyProperties && bindingOptions.showValueColors && bindingOptions.showPropertyNameAndIndexColors  ) {
+        if ( Is.defined( nameElement ) && !isForEmptyProperties && bindingOptions.showValueColors && bindingOptions.showPropertyNameAndIndexColors  ) {
             nameElement.classList.add( parentType );
         }
 
-        if ( !isForEmptyProperties ) {
+        if ( Is.defined( nameElement ) && !isForEmptyProperties ) {
             DomElement.createWithHTML( objectTypeValue, "span", "split", _configuration.text!.propertyColonCharacter! );
 
             if ( !preventEditing ) {

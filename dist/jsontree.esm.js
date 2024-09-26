@@ -671,6 +671,7 @@ var Binding;
             t.showCssStylesForHtmlObjects = Default.getBoolean(t.showCssStylesForHtmlObjects, false);
             t.jsonPathAny = Default.getString(t.jsonPathAny, "..");
             t.jsonPathSeparator = Default.getString(t.jsonPathSeparator, "\\");
+            t.showChildIndexes = Default.getBoolean(t.showChildIndexes, true);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -2005,6 +2006,10 @@ var Obj;
             } else {
                 b.innerHTML = `"${l}"`;
             }
+            if (a && !o.showChildIndexes) {
+                b.parentNode.removeChild(b);
+                b = null;
+            }
         } else {
             b.parentNode.removeChild(b);
             b = null;
@@ -2015,10 +2020,10 @@ var Obj;
         if (o.showDataTypes) {
             w = DomElement.createWithHTML(d, "span", o.showValueColors ? "type-color" : "type", "");
         }
-        if (!h && o.showValueColors && o.showPropertyNameAndIndexColors) {
+        if (Is.defined(b) && !h && o.showValueColors && o.showPropertyNameAndIndexColors) {
             b.classList.add(u);
         }
-        if (!h) {
+        if (Is.defined(b) && !h) {
             DomElement.createWithHTML(d, "span", "split", e.text.propertyColonCharacter);
             if (!c) {
                 Q(o, t, l, b, a);

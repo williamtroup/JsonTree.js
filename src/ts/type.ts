@@ -156,6 +156,7 @@ export type BindingOptions = {
 	showCssStylesForHtmlObjects?: boolean;
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
+	showChildIndexes?: boolean;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;

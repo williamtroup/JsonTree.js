@@ -125,6 +125,7 @@ export namespace Binding {
             options.showCssStylesForHtmlObjects = Default.getBoolean( options.showCssStylesForHtmlObjects, false );
             options.jsonPathAny = Default.getString( options.jsonPathAny, ".." );
             options.jsonPathSeparator = Default.getString( options.jsonPathSeparator, Char.backslash );
+            options.showChildIndexes = Default.getBoolean( options.showChildIndexes, true );
 
             options = getPaging( options );
             options = getTitle( options );
