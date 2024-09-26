@@ -1912,6 +1912,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( assignClickEvent ) {
                     addValueElementToolTip( bindingOptions, jsonPath, nameElement, typeElement, valueElement );
                     addValueClickEvent( bindingOptions, valueElement, value, dataType, allowEditing );
+                    
+                } else {
+                    valueElement.ondblclick = DomElement.cancelBubble;
                 }
             }
         }

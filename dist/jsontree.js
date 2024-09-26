@@ -2523,6 +2523,8 @@ var Obj;
                 if (D) {
                     K(o, s, b, w, m);
                     q(o, m, r, x, y);
+                } else {
+                    m.ondblclick = DomElement.cancelBubble;
                 }
             }
         }
