@@ -2243,6 +2243,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( Is.defined( arrow ) ) {
             arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
+            arrow.ondblclick = DomElement.cancelBubble;
         }
 
         conditionFunc( isClosed );

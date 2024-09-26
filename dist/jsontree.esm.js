@@ -2772,6 +2772,7 @@ var Obj;
         }
         if (Is.defined(t)) {
             t.onclick = () => f(t.className === "down-arrow");
+            t.ondblclick = DomElement.cancelBubble;
         }
         f(g);
         e._currentView.contentPanelsIndex++;
