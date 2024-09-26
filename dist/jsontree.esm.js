@@ -1890,6 +1890,8 @@ var Obj;
                 let e = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     e = `[${e}]${" "}:`;
+                } else {
+                    e = `${e}${" "}:`;
                 }
                 DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", e, f);
             }

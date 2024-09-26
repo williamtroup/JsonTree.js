@@ -1052,6 +1052,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                 if ( bindingOptions.showArrayIndexBrackets ) {
                     dataArrayIndex = `[${dataArrayIndex}]${Char.space}:`;
+                } else {
+                    dataArrayIndex = `${dataArrayIndex}${Char.space}:`;
                 }
 
                 DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, titleText );
