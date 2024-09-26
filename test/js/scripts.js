@@ -90,6 +90,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         maximumEmailLength: 0,
         showStringQuotes: true,
         showCssStylesForHtmlObjects: false,
+        jsonIndentSpaces: 8,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 5 > Array Index 1",
