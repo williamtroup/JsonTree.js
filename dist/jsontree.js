@@ -703,7 +703,7 @@ var Binding;
         function r(e) {
             e.title = Default.getObject(e.title, {});
             e.title.text = Default.getAnyString(e.title.text, "JsonTree.js");
-            e.title.showTreeControls = Default.getBoolean(e.title.showTreeControls, true);
+            e.title.showCloseOpenAllButtons = Default.getBoolean(e.title.showCloseOpenAllButtons, true);
             e.title.showCopyButton = Default.getBoolean(e.title.showCopyButton, true);
             e.title.enableFullScreenToggling = Default.getBoolean(e.title.enableFullScreenToggling, true);
             e.title.showFullScreenButton = Default.getBoolean(e.title.showFullScreenButton, true);
@@ -1548,7 +1548,7 @@ var Obj;
         Trigger.customEvent(t.events.onCopy, r);
     }
     function D(t, n) {
-        if (Is.definedString(t.title.text) || t.title.showTreeControls || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
+        if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
                 o.ondblclick = () => v(t);
@@ -1569,7 +1569,7 @@ var Obj;
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
-            if (t.title.showTreeControls && Is.defined(n)) {
+            if (t.title.showCloseOpenAllButtons && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
                 n.onclick = () => V(t);
                 n.ondblclick = DomElement.cancelBubble;

@@ -575,7 +575,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlTitleBar( bindingOptions: BindingOptions, data: any ) : void {
-        if ( Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showTreeControls || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.paging!.enabled || bindingOptions.title!.enableFullScreenToggling ) {
+        if ( Is.definedString( bindingOptions.title!.text ) || bindingOptions.title!.showCloseOpenAllButtons || bindingOptions.title!.showCopyButton || bindingOptions.sideMenu!.enabled || bindingOptions.paging!.enabled || bindingOptions.title!.enableFullScreenToggling ) {
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "title-bar" );
 
             if ( bindingOptions.title!.enableFullScreenToggling ) {
@@ -604,7 +604,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyAllButtonText! );
             }
 
-            if ( bindingOptions.title!.showTreeControls && Is.defined( data ) ) {
+            if ( bindingOptions.title!.showCloseOpenAllButtons && Is.defined( data ) ) {
                 const openAllButton: HTMLButtonElement = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAll( bindingOptions );
                 openAllButton.ondblclick = DomElement.cancelBubble;

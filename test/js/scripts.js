@@ -109,7 +109,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         },
         title: {
             showCopyButton: true,
-            showTreeControls: true,
+            showCloseOpenAllButtons: true,
             enableFullScreenToggling: true,
             showFullScreenButton: true,
         },

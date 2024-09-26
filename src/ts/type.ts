@@ -221,7 +221,7 @@ export type BindingOptionsParse = {
 
 export type BindingOptionsTitle = {
     text?: string;
-    showTreeControls?: boolean;
+    showCloseOpenAllButtons?: boolean;
     showCopyButton?: boolean;
 	enableFullScreenToggling?: boolean;
 	showFullScreenButton?: boolean;
