@@ -2571,7 +2571,7 @@ var Obj;
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
-                l.classList.add("editable");
+                l.classList.add("editable-name");
                 if (r) {
                     s = Arr.getIndexFromBrackets(l.innerHTML);
                     l.innerHTML = s.toString();

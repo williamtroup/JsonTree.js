@@ -783,7 +783,8 @@ div.json-tree-js {
                 }
             }
 
-            span.editable {
+            span.editable,
+            span.editable-name {
                 display: inline-block;
                 background-color: var(--json-tree-js-editable-background-color) !important;
                 color: var(--json-tree-js-editable-text-color) !important;
@@ -793,10 +794,13 @@ div.json-tree-js {
                 padding: calc( var(--json-tree-js-spacing) / 2 ) !important;
                 border-radius: var(--json-tree-js-border-radius-editable) !important;
                 max-width: 250px;
-                min-width: 70px;
                 cursor: text !important;
                 overflow: scroll;
                 vertical-align: middle;
+            }
+
+            span.editable {
+                min-width: 70px;
             }
 
             span.main-title {

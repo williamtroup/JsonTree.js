@@ -1978,7 +1978,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.valueClickTimerId = 0;
                 bindingOptions._currentView.editMode = true;
 
-                propertyName.classList.add( "editable" );
+                propertyName.classList.add( "editable-name" );
 
                 if ( isArrayItem ) {
                     originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
