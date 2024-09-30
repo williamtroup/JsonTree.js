@@ -1961,6 +1961,7 @@ var ContextMenu;
             ee(n, f, o, r, false);
             H(n, o, f);
             R(n, o, f);
+            le(n, u, false, o, o, null, false, null);
         }
     }
     function z(t, n, o, l) {
@@ -1988,6 +1989,7 @@ var ContextMenu;
         ee(n, u, o, l, false);
         H(n, o, u);
         R(n, o, u);
+        le(n, i, false, o, o, null, false, null);
     }
     function J(t, n, o, l, r, i, a, s, u, c, d, f, g) {
         let m = true;

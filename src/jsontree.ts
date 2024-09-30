@@ -1083,6 +1083,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             addValueClickEvent( bindingOptions, titleText, data, dataType, false );
             addFooterSizeStatus( bindingOptions, data, titleText );
             addFooterLengthStatus( bindingOptions, data, titleText );
+            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
         }
     }
 
@@ -1117,6 +1118,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         addValueClickEvent( bindingOptions, titleText, data, dataType, false );
         addFooterSizeStatus( bindingOptions, data, titleText );
         addFooterLengthStatus( bindingOptions, data, titleText );
+        renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : boolean {
