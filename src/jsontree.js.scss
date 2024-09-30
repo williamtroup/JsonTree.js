@@ -92,6 +92,15 @@
     --json-tree-js-button-background-color-active: #616b79;
     --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
 
+    // Context Menu
+    --json-tree-js-context-menu-background-color: var(--json-tree-js-container-background-color);
+    --json-tree-js-context-menu-border-color: var(--json-tree-js-container-border-color);
+    --json-tree-js-context-menu-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-context-menu-item-background-color-hover: var(--json-tree-js-container-border-color);
+    --json-tree-js-context-menu-item-text-color-hover: var(--json-tree-js-color-snow-white);
+    --json-tree-js-context-menu-item-background-color-active: var(--json-tree-js-button-background-color-active);
+    --json-tree-js-context-menu-item-text-color-active: var(--json-tree-js-color-snow-white);
+
     // Button
     --json-tree-js-setting-panel-background-color: var(--json-tree-js-button-background-color);
 
@@ -939,9 +948,9 @@ div.jsontree-js-context-menu {
     font-family: var(--json-tree-js-default-font);
     animation: fade-in-animation var(--json-tree-js-animation-length);
     position: absolute;
-    background-color: var(--json-tree-js-color-dark-black);
-    border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
-    color: var(--json-tree-js-tooltip-text-color);
+    background-color: var(--json-tree-js-context-menu-background-color);
+    border: var(--json-tree-js-border-size) solid var(--json-tree-js-context-menu-border-color);
+    color: var(--json-tree-js-context-menu-text-color);
     border-radius: var(--json-tree-js-border-radius);
     z-index: 2000;
     max-width: 300px;
@@ -954,7 +963,7 @@ div.jsontree-js-context-menu {
         border-bottom: var(--json-tree-js-border-size) dotted var(--json-tree-js-tooltip-border-color);
         padding: var(--json-tree-js-spacing);
         transition: var(--json-tree-js-transition);
-        transition-property: background-color;
+        transition-property: background-color, color;
         padding-right: 40px;
 
         span.symbol {
@@ -966,9 +975,15 @@ div.jsontree-js-context-menu {
             font-weight: var(--json-tree-js-bold-weight-light);
         }
 
+        &:active {
+            background: var(--json-tree-js-context-menu-item-background-color-active) !important;
+            color: var(--json-tree-js-context-menu-item-text-color-active) !important;
+        }
+
         &:hover {
             cursor: pointer;
-            background-color: var(--json-tree-js-tooltip-background-color);
+            background: var(--json-tree-js-context-menu-item-background-color-hover);
+            color: var(--json-tree-js-context-menu-item-text-color-hover);
         }
 
         &:last-child {
