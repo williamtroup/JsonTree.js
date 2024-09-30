@@ -206,7 +206,7 @@ export type PublicApi = {
 	 *
 	 * @param       {string}    elementId                                   The JsonTree.js element ID.
 	 *
-	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 * @returns     {Object}                                                The binding options.
 	 */
 	getBindingOptions: ( elementId: string ) => BindingOptions;
 
