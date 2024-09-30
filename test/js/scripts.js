@@ -300,7 +300,7 @@ function testFunctionName( message ) {
     console.log( message );
 }
 
-function onValueClickEvent( value, type ) {
+function onValueClickEvent( _, value, type ) {
     if ( typeof value === "function" ) {
         value = "function";
     } else if ( value === null ) {

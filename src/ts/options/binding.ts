@@ -312,7 +312,6 @@ export namespace Binding {
             options.events!.onUrlRender = Default.getFunction( options.events!.onUrlRender, null! );
             options.events!.onImageRender = Default.getFunction( options.events!.onImageRender, null! );
             options.events!.onEmailRender = Default.getFunction( options.events!.onEmailRender, null! );
-            options.events!.onHtmlRender = Default.getFunction( options.events!.onHtmlRender, null! );
             options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );

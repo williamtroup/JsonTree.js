@@ -564,7 +564,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         navigator.clipboard.writeText( copyDataJson );
 
         setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
-        Trigger.customEvent( bindingOptions.events!.onCopy!, copyDataJson );
+        Trigger.customEvent( bindingOptions.events!.onCopy!, bindingOptions._currentView.element, copyDataJson );
     }
 
     
@@ -675,7 +675,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             ToolTip.hide( bindingOptions );
             updateFooterDisplay( bindingOptions );
-            Trigger.customEvent( bindingOptions.events!.onFullScreenChange!, bindingOptions._currentView.element.classList.contains( "full-screen" ) );
+            Trigger.customEvent( bindingOptions.events!.onFullScreenChange!, bindingOptions._currentView.element, bindingOptions._currentView.element.classList.contains( "full-screen" ) );
         }
     }
 
@@ -691,7 +691,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         navigator.clipboard.writeText( copyDataJson );
 
         setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
-        Trigger.customEvent( bindingOptions.events!.onCopyAll!, copyDataJson );
+        Trigger.customEvent( bindingOptions.events!.onCopyAll!, bindingOptions._currentView.element, copyDataJson );
     }
 
     function onOpenAll( bindingOptions: BindingOptions ) : void {
@@ -1253,7 +1253,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onNullRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNullRender!, bindingOptions._currentView.element, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1270,7 +1270,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUndefinedRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, bindingOptions._currentView.element, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1290,7 +1290,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
     
                     if ( Is.definedFunction( bindingOptions.events!.onLambdaRender ) ) {
-                        Trigger.customEvent( bindingOptions.events!.onLambdaRender!, valueElement );
+                        Trigger.customEvent( bindingOptions.events!.onLambdaRender!, bindingOptions._currentView.element, valueElement );
                     }
                 
                     createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1307,7 +1307,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
     
                     if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
-                        Trigger.customEvent( bindingOptions.events!.onFunctionRender!, valueElement );
+                        Trigger.customEvent( bindingOptions.events!.onFunctionRender!, bindingOptions._currentView.element, valueElement );
                     }
                 
                     createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1328,7 +1328,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onBooleanRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onBooleanRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1350,7 +1350,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onFloatRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onFloatRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onFloatRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1370,7 +1370,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onNumberRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onNumberRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1390,7 +1390,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onBigIntRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onBigIntRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1410,7 +1410,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onGuidRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onGuidRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onGuidRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1434,7 +1434,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onColorRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onColorRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onColorRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1466,7 +1466,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUrlRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUrlRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onUrlRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1498,7 +1498,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
 
                 if ( Is.definedFunction( bindingOptions.events!.onEmailRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onEmailRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onEmailRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1555,7 +1555,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
         
                         if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                            Trigger.customEvent( bindingOptions.events!.onStringRender!, valueElement );
+                            Trigger.customEvent( bindingOptions.events!.onStringRender!, bindingOptions._currentView.element, valueElement );
                         }
                         
                         createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1577,7 +1577,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onDateRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onDateRender!, bindingOptions._currentView.element, valueElement );
                 }
     
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1597,7 +1597,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onSymbolRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onSymbolRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1617,7 +1617,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
 
                 if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onRegExpRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onRegExpRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1640,7 +1640,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 image.src = value.src;
 
                 if ( Is.definedFunction( bindingOptions.events!.onImageRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onImageRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onImageRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -1879,7 +1879,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUnknownRender!, valueElement );
+                    Trigger.customEvent( bindingOptions.events!.onUnknownRender!, bindingOptions._currentView.element, valueElement );
                 }
 
                 createComma( bindingOptions, objectTypeValue, isLastItem );
@@ -2153,14 +2153,14 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( allowEditing ) {
                     bindingOptions._currentView.valueClickTimerId = setTimeout( () => {
                         if ( !bindingOptions._currentView.editMode ) {
-                            Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
+                            Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
                         }
                     }, bindingOptions.editingValueClickDelay );
 
                 } else {
                     valueElement.ondblclick = DomElement.cancelBubble;
 
-                    Trigger.customEvent( bindingOptions.events!.onValueClick!, value, type );
+                    Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
                 }
             };
 
