@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Luxembourgish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Luxembourgish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "Funktioun",
         "sideMenuButtonText": "Menu weisen",
         "closeButtonText": "Zoumaachen",
-        "showTypesText": "Aarte weisen",
         "selectAllText": "Wielt All",
         "selectNoneText": "Wielt Keen",
         "importButtonText": "Import",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Multiple Dateie ginn als Array verbonnen",
         "exportButtonText": "Export",
         "noPropertiesText": "Et gi keng Eegeschafte fir ze gesinn.",
-        "openText": "oppen"
+        "openText": "oppen",
+        "showDataTypesText": "Show Daten Zorte",
+        "htmlText": "html",
+        "waitingText": "Waart ...",
+        "pageOfText": "Säit {0} vun {1}",
+        "sizeText": "Gréisst: {0}",
+        "copiedText": "JSON op Clipboard kopéiert.",
+        "exportedText": "JSON exportéiert.",
+        "importedText": "{0} JSON Dateien importéiert.",
+        "ignoreDataTypesUpdated": "Ignoréieren Daten Zorte aktualiséiert.",
+        "lengthText": "Längt: {0}",
+        "valueUpdatedText": "Wäert aktualiséiert.",
+        "jsonUpdatedText": "JSON aktualiséiert.",
+        "nameUpdatedText": "Property Numm aktualiséiert.",
+        "indexUpdatedText": "Array Index aktualiséiert.",
+        "itemDeletedText": "Element geläscht.",
+        "arrayJsonItemDeleted": "Array JSON Element geläscht.",
+        "dataTypeText": "Datentyp: {0}",
+        "editButtonText": "Edit",
+        "moveRightButtonText": "Riicht réckelen",
+        "moveLeftButtonText": "Beweegt lénks",
+        "removeButtonText": "Ewechzehuelen",
+        "switchToPagesText": "Wiesselt op Säiten"
     }
 } );

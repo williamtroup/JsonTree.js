@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Thai | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Thai | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "การทำงาน",
         "sideMenuButtonText": "แสดงเมนู",
         "closeButtonText": "ปิด",
-        "showTypesText": "แสดงประเภท",
         "selectAllText": "เลือกทั้งหมด",
         "selectNoneText": "เลือกไม่มี",
         "importButtonText": "นำเข้า",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "ไฟล์หลายไฟล์จะถูกรวมเข้าด้วยกันเป็นอาร์เรย์",
         "exportButtonText": "ส่งออก",
         "noPropertiesText": "ไม่มีคุณสมบัติให้ดู",
-        "openText": "เปิด"
+        "openText": "เปิด",
+        "showDataTypesText": "แสดงประเภทข้อมูล",
+        "htmlText": "html",
+        "waitingText": "ซึ่งรอคอย...",
+        "pageOfText": "หน้า {0} จาก {1}",
+        "sizeText": "ขนาด: {0}",
+        "copiedText": "คัดลอก JSON ไปยังคลิปบอร์ดแล้ว",
+        "exportedText": "JSON ส่งออกแล้ว",
+        "importedText": "นำเข้าไฟล์ JSON {0} ไฟล์",
+        "ignoreDataTypesUpdated": "ละเว้นประเภทข้อมูลที่อัปเดต",
+        "lengthText": "ความยาว: {0}",
+        "valueUpdatedText": "อัปเดตค่าแล้ว",
+        "jsonUpdatedText": "อัปเดต JSON แล้ว",
+        "nameUpdatedText": "อัปเดตชื่อคุณสมบัติแล้ว",
+        "indexUpdatedText": "อัปเดตดัชนีอาร์เรย์แล้ว",
+        "itemDeletedText": "ลบรายการแล้ว",
+        "arrayJsonItemDeleted": "ลบรายการ Array JSON แล้ว",
+        "dataTypeText": "ประเภทข้อมูล: {0}",
+        "editButtonText": "แก้ไข",
+        "moveRightButtonText": "เลื่อนไปทางขวา",
+        "moveLeftButtonText": "เลื่อนไปทางซ้าย",
+        "removeButtonText": "ลบ",
+        "switchToPagesText": "สลับไปที่หน้า"
     }
 } );

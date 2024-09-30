@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -37,13 +37,25 @@ export namespace Is {
         }
     
         export function date( dateTimeString: string ) {
-            return !isNaN( +new Date( dateTimeString ) );
+            const regExp: RegExp = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
+
+            return dateTimeString.match( regExp );
         }
 
         export function guid( value: string ) : boolean {
             const regex: RegExp = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
             return regex.test( value );
+        }
+
+        export function bigInt( value: string ) : boolean {
+            let result: boolean = value.endsWith( "n" );
+
+            if ( result ) {
+                result = !isNaN( +value.substring( 0, value.length - 1 ) );
+            }
+
+            return result;
         }
     }
 
@@ -76,7 +88,7 @@ export namespace Is {
     }
 
     export function definedArray( object: any ) : boolean {
-        return definedObject( object ) && object instanceof Array;
+        return object !== null && object !== undefined && object instanceof Array;
     }
 
     export function definedDate( object: any ) : boolean {
@@ -105,6 +117,10 @@ export namespace Is {
 
     export function definedImage( object: any ) : boolean {
         return defined( object ) && object instanceof Image;
+    }
+
+    export function definedHtml( object: any ) : boolean {
+        return defined( object ) && object instanceof HTMLElement;
     }
 
     export function definedUrl( data: string ) : boolean {

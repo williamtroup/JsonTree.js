@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Norwegian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Norwegian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funksjon",
         "sideMenuButtonText": "Vis meny",
         "closeButtonText": "Lukke",
-        "showTypesText": "Vis typer",
         "selectAllText": "Velg alle",
         "selectNoneText": "Velg Ingen",
         "importButtonText": "Import",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Flere filer vil bli satt sammen som en matrise",
         "exportButtonText": "Eksport",
         "noPropertiesText": "Det er ingen eiendommer å se.",
-        "openText": "åpne"
+        "openText": "åpne",
+        "showDataTypesText": "Vis datatyper",
+        "htmlText": "html",
+        "waitingText": "Venter...",
+        "pageOfText": "Side {0} av {1}",
+        "sizeText": "Størrelse: {0}",
+        "copiedText": "JSON kopiert til utklippstavlen.",
+        "exportedText": "JSON eksportert.",
+        "importedText": "{0} JSON-filer importert.",
+        "ignoreDataTypesUpdated": "Ignorer datatyper oppdatert.",
+        "lengthText": "Lengde: {0}",
+        "valueUpdatedText": "Verdi oppdatert.",
+        "jsonUpdatedText": "JSON oppdatert.",
+        "nameUpdatedText": "Eiendomsnavnet er oppdatert.",
+        "indexUpdatedText": "Array-indeksen er oppdatert.",
+        "itemDeletedText": "Element slettet.",
+        "arrayJsonItemDeleted": "Array JSON element slettet.",
+        "dataTypeText": "Datatype: {0}",
+        "editButtonText": "Redigere",
+        "moveRightButtonText": "Flytt til høyre",
+        "moveLeftButtonText": "Flytt til venstre",
+        "removeButtonText": "Fjerne",
+        "switchToPagesText": "Bytt til sider"
     }
 } );

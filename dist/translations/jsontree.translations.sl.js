@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Slovenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Slovenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkcijo",
         "sideMenuButtonText": "Pokaži meni",
         "closeButtonText": "Zapri",
-        "showTypesText": "Prikaži vrste",
         "selectAllText": "Izberite Vse",
         "selectNoneText": "Izberite Brez",
         "importButtonText": "Uvozi",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Več datotek bo združenih v matriko",
         "exportButtonText": "Izvozi",
         "noPropertiesText": "Ni lastnosti za ogled.",
-        "openText": "odprto"
+        "openText": "odprto",
+        "showDataTypesText": "Prikaži vrste podatkov",
+        "htmlText": "html",
+        "waitingText": "čakanje ...",
+        "pageOfText": "Stran {0} od {1}",
+        "sizeText": "Velikost: {0}",
+        "copiedText": "JSON kopiran v odložišče.",
+        "exportedText": "JSON izvožen.",
+        "importedText": "{0} Uvoženih datotek JSON.",
+        "ignoreDataTypesUpdated": "Prezri posodobljene vrste podatkov.",
+        "lengthText": "Dolžina: {0}",
+        "valueUpdatedText": "Vrednost posodobljena.",
+        "jsonUpdatedText": "JSON posodobljen.",
+        "nameUpdatedText": "Ime nepremičnine posodobljeno.",
+        "indexUpdatedText": "Indeks polja je posodobljen.",
+        "itemDeletedText": "Element izbrisan.",
+        "arrayJsonItemDeleted": "Element polja JSON je izbrisan.",
+        "dataTypeText": "Vrsta podatkov: {0}",
+        "editButtonText": "Uredi",
+        "moveRightButtonText": "Premakni se desno",
+        "moveLeftButtonText": "Premakni se levo",
+        "removeButtonText": "Odstrani",
+        "switchToPagesText": "Preklopi na strani"
     }
 } );

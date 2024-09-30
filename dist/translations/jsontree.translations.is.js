@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Icelandic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Icelandic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "virka",
         "sideMenuButtonText": "Sýna valmynd",
         "closeButtonText": "Loka",
-        "showTypesText": "Sýna tegundir",
         "selectAllText": "Veldu Allt",
         "selectNoneText": "Veldu Ekkert",
         "importButtonText": "Innflutningur",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Margar skrár verða sameinaðar sem fylki",
         "exportButtonText": "Útflutningur",
         "noPropertiesText": "Það eru engar eignir til að skoða.",
-        "openText": "opið"
+        "openText": "opið",
+        "showDataTypesText": "Sýna gagnategundir",
+        "htmlText": "html",
+        "waitingText": "Bíður...",
+        "pageOfText": "Síða {0} af {1}",
+        "sizeText": "Stærð: {0}",
+        "copiedText": "JSON afritað á klippiborð.",
+        "exportedText": "JSON flutt út.",
+        "importedText": "{0} JSON skrár fluttar inn.",
+        "ignoreDataTypesUpdated": "Hunsa gagnategundir uppfærðar.",
+        "lengthText": "Lengd: {0}",
+        "valueUpdatedText": "Gildi uppfært.",
+        "jsonUpdatedText": "JSON uppfært.",
+        "nameUpdatedText": "Heiti eignar uppfært.",
+        "indexUpdatedText": "Fylkisvísitala uppfærð.",
+        "itemDeletedText": "Atriði eytt.",
+        "arrayJsonItemDeleted": "Array JSON atriði eytt.",
+        "dataTypeText": "Gagnategund: {0}",
+        "editButtonText": "Breyta",
+        "moveRightButtonText": "Færðu til hægri",
+        "moveLeftButtonText": "Færðu til vinstri",
+        "removeButtonText": "Fjarlægja",
+        "switchToPagesText": "Skiptu yfir í síður"
     }
 } );

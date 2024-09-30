@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -13,6 +13,11 @@
 
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
+export type FunctionName = {
+	name: string;
+	isLambda: boolean;
+};
 
 export type StringToJson = {
     parsed: boolean;
@@ -35,6 +40,7 @@ export type ConfigurationText = {
 	arrayText?: string;
 	mapText?: string;
 	setText?: string;
+	htmlText?: string;
 	closeAllButtonText?: string;
 	openAllButtonText?: string;
 	copyAllButtonText?: string;
@@ -52,7 +58,7 @@ export type ConfigurationText = {
 	monthNamesAbbreviated?: string[];
 	closeAllButtonSymbolText?: string;
 	openAllButtonSymbolText?: string;
-	copyAllButtonSymbolText?: string;
+	copyButtonSymbolText?: string;
 	backButtonText?: string;
 	nextButtonText?: string;
 	backButtonSymbolText?: string;
@@ -63,7 +69,7 @@ export type ConfigurationText = {
 	sideMenuButtonText?: string;
 	closeButtonSymbolText?: string;
 	closeButtonText?: string;
-	showTypesText?: string;
+	showDataTypesText?: string;
 	selectAllText?: string;
 	selectNoneText?: string;
 	importButtonSymbolText?: string;
@@ -81,12 +87,37 @@ export type ConfigurationText = {
 	noPropertiesText?: string;
 	openText?: string;
 	openSymbolText?: string;
+	waitingText?: string;
+	pageOfText?: string;
+	sizeText?: string;
+	copiedText?: string;
+	exportedText?: string;
+	importedText?: string;
+	ignoreDataTypesUpdated?: string;
+	lengthText?: string;
+	valueUpdatedText?: string;
+	jsonUpdatedText?: string;
+	nameUpdatedText?: string;
+	indexUpdatedText?: string;
+	itemDeletedText?: string;
+	arrayJsonItemDeleted?: string;
+	dataTypeText?: string;
+	editSymbolButtonText?: string;
+	editButtonText?: string;
+	moveRightSymbolButtonText?: string;
+	moveRightButtonText?: string;
+	moveLeftSymbolButtonText?: string;
+	moveLeftButtonText?: string;
+	removeSymbolButtonText?: string;
+	removeButtonText?: string;
+	switchToPagesSymbolText?: string;
+	switchToPagesText?: string;
 };
 
 export type BindingOptions = {
     _currentView: BindingOptionsCurrentView;
 	data?: any;
-	showCounts?: boolean;
+	showObjectSizes?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
 	showArrowToggles?: boolean;
@@ -100,8 +131,6 @@ export type BindingOptions = {
 	showValueColors?: boolean;
 	maximumDecimalPlaces?: number;
 	maximumStringLength?: number;
-	showArrayItemsAsSeparateObjects?: boolean;
-	copyOnlyCurrentPage?: boolean;
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
@@ -112,7 +141,7 @@ export type BindingOptions = {
 	openInFullScreenMode?: boolean;
 	valueToolTips?: Record<string, string>;
 	editingValueClickDelay?: number;
-	showTypes?: boolean;
+	showDataTypes?: boolean;
 	logJsonValueToolTipPaths?: boolean;
 	exportFilenameFormat?: string;
 	showPropertyNameQuotes?: boolean;
@@ -120,9 +149,20 @@ export type BindingOptions = {
 	showPropertyNameAndIndexColors?: boolean;
 	showUrlOpenButtons?: boolean;
 	showEmailOpenButtons?: boolean;
+	minimumArrayIndexPadding?: number;
+	arrayIndexPaddingCharacter?: string;
+	maximumUrlLength?: number;
+	maximumEmailLength?: number;
+	showCssStylesForHtmlObjects?: boolean;
+	jsonPathAny?: string;
+	jsonPathSeparator?: string;
+	showChildIndexes?: boolean;
+	controlPanel?: BindingOptionsControlPanel;
+	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
 	allowEditing?: BindingOptionsAllowEditing | boolean | any;
 	title?: BindingOptionsTitle;
+	footer?: BindingOptionsFooter;
 	ignore?: BindingOptionsIgnore;
 	tooltip?: BindingOptionsTooltip;
 	parse?: BindingOptionsParse;
@@ -141,6 +181,7 @@ export type BindingOptionsCurrentView = {
 	idSet: boolean;
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
+	contentPanelsDataIndex: number;
 	backButton: HTMLButtonElement;
 	nextButton: HTMLButtonElement;
 	disabledBackground: HTMLElement;
@@ -149,9 +190,28 @@ export type BindingOptionsCurrentView = {
 	toggleFullScreenButton: HTMLButtonElement;
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
-	isBulkEditingEnabled: boolean;
 	initialized: boolean;
+	contentColumns: HTMLElement[];
+	footer: HTMLElement;
+	footerStatusText: HTMLElement;
+	footerDataTypeText: HTMLElement;
+	footerLengthText: HTMLElement;
+	footerSizeText: HTMLElement;
+	footerPageText: HTMLElement;
+	footerStatusTextTimerId: number;
+	columnDragging: boolean;
+	columnDraggingDataIndex: number;
+	dataTypeCounts: Record<string, number>;
+	contentControlButtons: HTMLElement[];
 };
+
+export type BindingOptionsPaging = {
+	enabled?: boolean;
+	columnsPerPage?: number;
+	startPage?: number;
+	synchronizeScrolling?: boolean;
+	allowColumnReordering?: boolean;
+}
 
 export type BindingOptionsParse = {
     stringsToDates?: boolean;
@@ -161,11 +221,30 @@ export type BindingOptionsParse = {
 
 export type BindingOptionsTitle = {
     text?: string;
-    showTreeControls?: boolean;
+    showCloseOpenAllButtons?: boolean;
     showCopyButton?: boolean;
 	enableFullScreenToggling?: boolean;
 	showFullScreenButton?: boolean;
 };
+
+export type BindingOptionsFooter = {
+    enabled?: boolean;
+	showDataTypes?: boolean;
+	showLengths?: boolean;
+	showSizes?: boolean;
+	showPageOf?: boolean;
+	statusResetDelay?: number;
+};
+
+export type BindingOptionsControlPanel = {
+	enabled?: boolean;
+	showCopyButton?: boolean;
+	showMovingButtons?: boolean;
+	showRemoveButton?: boolean;
+	showEditButton?: boolean;
+	showCloseOpenAllButtons?: boolean;
+	showSwitchToPagesButton?: boolean;
+}
 
 export type BindingOptionsIgnore = {
     nullValues?: boolean;
@@ -190,6 +269,8 @@ export type BindingOptionsIgnore = {
 	urlValues?: boolean;
 	imageValues?: boolean;
 	emailValues?: boolean;
+	htmlValues?: boolean;
+	lambdaValues?: boolean;
 };
 
 export type BindingOptionsAllowEditing = {
@@ -203,6 +284,9 @@ export type BindingOptionsAllowEditing = {
 	colorValues?: boolean;
 	urlValues?: boolean;
 	emailValues?: boolean;
+	regExpValues?: boolean;
+	symbolValues?: boolean;
+	imageValues?: boolean;
 	propertyNames?: boolean;
 	bulk?: boolean;
 };
@@ -217,6 +301,8 @@ export type BindingOptionsSideMenu = {
 	showImportButton?: boolean;
 	showExportButton?: boolean;
 	titleText?: string;
+	showAvailableDataTypeCounts?: boolean;
+	showOnlyDataTypesAvailable?: boolean;
 };
 
 export type BindingOptionsAutoClose = {
@@ -224,38 +310,42 @@ export type BindingOptionsAutoClose = {
 	arraySize: number;
 	mapSize: number;
 	setSize: number;
+	htmlSize: number;
 };
 
 export type BindingOptionsEvents = {
-    onBeforeRender?: ( element: HTMLElement ) => void;
-    onRenderComplete?: ( element: HTMLElement ) => void;
-    onValueClick?: ( value: any, type: string ) => void;
-    onOpenAll?: ( element: HTMLElement ) => void;
-    onCloseAll?: ( element: HTMLElement ) => void;
-    onDestroy?: ( element: HTMLElement ) => void;
-    onRefresh?: ( element: HTMLElement ) => void;
-    onCopyAll?: ( data: string ) => void;
-    onBooleanRender?: ( element: HTMLElement ) => void;
-    onDateRender?: ( element: HTMLElement ) => void;
-    onNumberRender?: ( element: HTMLElement ) => void;
-    onFloatRender?: ( element: HTMLElement ) => void;
-    onFunctionRender?: ( element: HTMLElement ) => void;
-    onNullRender?: ( element: HTMLElement ) => void;
-    onStringRender?: ( element: HTMLElement ) => void;
-    onUnknownRender?: ( element: HTMLElement ) => void;
-	onBigIntRender?: ( element: HTMLElement ) => void;
-	onSymbolRender?: ( element: HTMLElement ) => void;
-	onUndefinedRender?: ( element: HTMLElement ) => void;
-	onGuidRender?: ( element: HTMLElement ) => void;
-	onColorRender?: ( element: HTMLElement ) => void;
-	onRegExpRender?: ( element: HTMLElement ) => void;
-	onUrlRender?: ( element: HTMLElement ) => void;
-	onImageRender?: ( element: HTMLElement ) => void;
-	onEmailRender?: ( element: HTMLElement ) => void;
-	onBackPage?: ( element: HTMLElement ) => void;
-	onNextPage?: ( element: HTMLElement ) => void;
-	onSetJson?: ( element: HTMLElement ) => void;
+    onBeforeRender?: ( jsonTreeElement: HTMLElement ) => void;
+    onRenderComplete?: ( jsonTreeElement: HTMLElement ) => void;
+    onValueClick?: ( jsonTreeElement: HTMLElement, value: any, type: string ) => void;
+    onOpenAll?: ( jsonTreeElement: HTMLElement ) => void;
+    onCloseAll?: ( jsonTreeElement: HTMLElement ) => void;
+    onDestroy?: ( jsonTreeElement: HTMLElement ) => void;
+    onRefresh?: ( jsonTreeElement: HTMLElement ) => void;
+    onCopyAll?: ( jsonTreeElement: HTMLElement, data: string ) => void;
+    onBooleanRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onDateRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onNumberRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onFloatRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onFunctionRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onNullRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onStringRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+    onUnknownRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onBigIntRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onSymbolRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onUndefinedRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onGuidRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onColorRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onRegExpRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onUrlRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onImageRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onEmailRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onLambdaRender?: ( jsonTreeElement: HTMLElement, valueElement: HTMLElement ) => void;
+	onBackPage?: ( jsonTreeElement: HTMLElement ) => void;
+	onNextPage?: ( jsonTreeElement: HTMLElement ) => void;
+	onSetJson?: ( jsonTreeElement: HTMLElement ) => void;
+	onJsonEdit?: ( jsonTreeElement: HTMLElement ) => void;
+	onExport?: ( jsonTreeElement: HTMLElement ) => void;
+	onCopy?: ( jsonTreeElement: HTMLElement, data: string ) => void;
+	onFullScreenChange?: ( jsonTreeElement: HTMLElement, enabled: boolean ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
-	onJsonEdit?: ( element: HTMLElement ) => void;
-	onExport?: ( element: HTMLElement ) => void;
 };

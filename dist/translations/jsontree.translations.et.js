@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Estonian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Estonian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funktsiooni",
         "sideMenuButtonText": "Kuva menüü",
         "closeButtonText": "Sule",
-        "showTypesText": "Näituse tüübid",
         "selectAllText": "Valige Kõik",
         "selectNoneText": "Valige Puudub",
         "importButtonText": "Import",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Mitu faili liidetakse massiivina",
         "exportButtonText": "Ekspordi",
         "noPropertiesText": "Vaatamiseks pole atribuute.",
-        "openText": "avatud"
+        "openText": "avatud",
+        "showDataTypesText": "Kuva andmetüübid",
+        "htmlText": "html",
+        "waitingText": "Ootan...",
+        "pageOfText": "Leht {0}/{1}",
+        "sizeText": "Suurus: {0}",
+        "copiedText": "JSON kopeeriti lõikelauale.",
+        "exportedText": "JSON eksporditud.",
+        "importedText": "Imporditi {0} JSON-faili.",
+        "ignoreDataTypesUpdated": "Ignoreeri andmetüüpe värskendati.",
+        "lengthText": "Pikkus: {0}",
+        "valueUpdatedText": "Väärtust värskendati.",
+        "jsonUpdatedText": "JSON-i värskendati.",
+        "nameUpdatedText": "Kinnisvara nimi värskendatud.",
+        "indexUpdatedText": "Massiiviindeksit värskendati.",
+        "itemDeletedText": "Üksus kustutatud.",
+        "arrayJsonItemDeleted": "Massiivi JSON-üksus on kustutatud.",
+        "dataTypeText": "Andmetüüp: {0}",
+        "editButtonText": "Muuda",
+        "moveRightButtonText": "Liigu paremale",
+        "moveLeftButtonText": "Liiguta vasakule",
+        "removeButtonText": "Eemalda",
+        "switchToPagesText": "Lülitu lehtedele"
     }
 } );

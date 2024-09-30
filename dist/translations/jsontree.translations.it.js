@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Italian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Italian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funzione",
         "sideMenuButtonText": "Mostra Menù",
         "closeButtonText": "Vicino",
-        "showTypesText": "Mostra tipi",
         "selectAllText": "Seleziona tutto",
         "selectNoneText": "Seleziona Nessuno",
         "importButtonText": "Importare",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Più file verranno uniti come un array",
         "exportButtonText": "Esportare",
         "noPropertiesText": "Non ci sono immobili da visualizzare.",
-        "openText": "aprire"
+        "openText": "aprire",
+        "showDataTypesText": "Mostra tipi di dati",
+        "htmlText": "html",
+        "waitingText": "In attesa...",
+        "pageOfText": "Pagina {0} di {1}",
+        "sizeText": "Taglia: {0}",
+        "copiedText": "JSON copiato negli appunti.",
+        "exportedText": "JSON esportato.",
+        "importedText": "{0} file JSON importati.",
+        "ignoreDataTypesUpdated": "Ignora i tipi di dati aggiornati.",
+        "lengthText": "Lunghezza: {0}",
+        "valueUpdatedText": "Valore aggiornato.",
+        "jsonUpdatedText": "JSON aggiornato.",
+        "nameUpdatedText": "Nome della proprietà aggiornato.",
+        "indexUpdatedText": "Indice dell'array aggiornato.",
+        "itemDeletedText": "Elemento eliminato.",
+        "arrayJsonItemDeleted": "Elemento JSON dell'array eliminato.",
+        "dataTypeText": "Tipo di dati: {0}",
+        "editButtonText": "Modificare",
+        "moveRightButtonText": "Muoviti a destra",
+        "moveLeftButtonText": "Sposta a sinistra",
+        "removeButtonText": "Rimuovere",
+        "switchToPagesText": "Passa alle pagine"
     }
 } );

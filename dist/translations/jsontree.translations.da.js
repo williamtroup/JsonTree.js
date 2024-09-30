@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Danish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Danish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "fungere",
         "sideMenuButtonText": "Vis menu",
         "closeButtonText": "Tæt",
-        "showTypesText": "Vis typer",
         "selectAllText": "Vælg alle",
         "selectNoneText": "Vælg Ingen",
         "importButtonText": "Importere",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Flere filer vil blive samlet som et array",
         "exportButtonText": "Eksportere",
         "noPropertiesText": "Der er ingen ejendomme at se.",
-        "openText": "åben"
+        "openText": "åben",
+        "showDataTypesText": "Vis datatyper",
+        "htmlText": "html",
+        "waitingText": "Venter...",
+        "pageOfText": "Side {0} af {1}",
+        "sizeText": "Størrelse: {0}",
+        "copiedText": "JSON kopieret til udklipsholder.",
+        "exportedText": "JSON eksporteret.",
+        "importedText": "{0} JSON-filer importeret.",
+        "ignoreDataTypesUpdated": "Ignorer opdaterede datatyper.",
+        "lengthText": "Længde: {0}",
+        "valueUpdatedText": "Værdi opdateret.",
+        "jsonUpdatedText": "JSON opdateret.",
+        "nameUpdatedText": "Ejendommens navn er opdateret.",
+        "indexUpdatedText": "Array-indeks opdateret.",
+        "itemDeletedText": "Varen er slettet.",
+        "arrayJsonItemDeleted": "Array JSON element slettet.",
+        "dataTypeText": "Datatype: {0}",
+        "editButtonText": "Redigere",
+        "moveRightButtonText": "Flyt til højre",
+        "moveLeftButtonText": "Flyt til venstre",
+        "removeButtonText": "Fjerne",
+        "switchToPagesText": "Skift til sider"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Esperanto | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Esperanto | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkcio",
         "sideMenuButtonText": "Montru Menuon",
         "closeButtonText": "Fermu",
-        "showTypesText": "Montru Tipojn",
         "selectAllText": "Elektu Ĉiujn",
         "selectNoneText": "Elektu Neniun",
         "importButtonText": "Importi",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Multoblaj dosieroj estos kunigitaj kiel tabelo",
         "exportButtonText": "Eksporto",
         "noPropertiesText": "Ne estas posedaĵoj por vidi.",
-        "openText": "malfermita"
+        "openText": "malfermita",
+        "showDataTypesText": "Montru Datumtipojn",
+        "htmlText": "html",
+        "waitingText": "Atendante...",
+        "pageOfText": "Paĝo {0} el {1}",
+        "sizeText": "Grandeco: {0}",
+        "copiedText": "JSON kopiita al tondujo.",
+        "exportedText": "JSON eksportita.",
+        "importedText": "{0} JSON-dosieroj importitaj.",
+        "ignoreDataTypesUpdated": "Ignoru datumtipojn ĝisdatigitajn.",
+        "lengthText": "Longo: {0}",
+        "valueUpdatedText": "Valoro ĝisdatigita.",
+        "jsonUpdatedText": "JSON ĝisdatigita.",
+        "nameUpdatedText": "Nomo de posedaĵo ĝisdatigita.",
+        "indexUpdatedText": "Tabelindekso ĝisdatigita.",
+        "itemDeletedText": "Ero forigita.",
+        "arrayJsonItemDeleted": "Tabelo JSON-aĵo forigita.",
+        "dataTypeText": "Tipo de datumoj: {0}",
+        "editButtonText": "Redakti",
+        "moveRightButtonText": "Movu Dekstren",
+        "moveLeftButtonText": "Movu Maldekstren",
+        "removeButtonText": "Forigi",
+        "switchToPagesText": "Ŝanĝu al Paĝoj"
     }
 } );

@@ -4,11 +4,14 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        api.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
+
+
+import { type BindingOptions } from "./type";
 
 
 export type PublicApi = {
@@ -97,6 +100,47 @@ export type PublicApi = {
 	 */
 	closeAll: ( elementId: string ) => PublicApi;
 
+	/**
+	 * backPage().
+	 *
+	 * Moves back a page (if array paging is enabled).
+	 *
+	 * @public
+	 * @fires       onBackPage
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	backPage: ( elementId: string ) => PublicApi;
+
+	/**
+	 * nextPage().
+	 *
+	 * Moves forward a page (if array paging is enabled).
+	 *
+	 * @public
+	 * @fires       onNextPage
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	nextPage: ( elementId: string ) => PublicApi;
+
+	/**
+	 * getPageNumber().
+	 *
+	 * Returns the current page number (if array paging is enabled).
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID that should be updated.
+	 *
+	 * @returns     {number}                                                The array page number.
+	 */
+	getPageNumber: ( elementId: string ) => number;
+	
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,6 +175,40 @@ export type PublicApi = {
 	 * @returns     {any}                                                	The JSON that is being displayed.
 	 */
 	getJson: ( elementId: string ) => any;
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Manage Binding Options
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+	/**
+	 * updateBindingOptions().
+	 *
+	 * Updates the binding options that are assigned to a specific element.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 * @param       {Options}   newOptions                            		All the binding options that should be set (refer to "Binding Options" documentation for properties).
+	 *
+	 * @returns     {Object}                                                The JsonTree.js class instance.
+	 */
+	updateBindingOptions: ( elementId: string, newOptions: any ) => PublicApi;
+
+	/**
+	 * getBindingOptions().
+	 *
+	 * Gets the binding options that are assigned to a specific element.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 *
+	 * @returns     {Object}                                                The binding options.
+	 */
+	getBindingOptions: ( elementId: string ) => BindingOptions;
 
 
     /*
@@ -183,7 +261,7 @@ export type PublicApi = {
 	 *
 	 * @returns     {Object}                                                The JsonTree.js class instance.
 	 */
-	setConfiguration: ( configuration: any ) => PublicApi;
+	setConfiguration: ( newConfiguration: any ) => PublicApi;
 
 
     /*

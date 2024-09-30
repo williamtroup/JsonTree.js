@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Finnish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Finnish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "toiminto",
         "sideMenuButtonText": "Näytä valikko",
         "closeButtonText": "Lähellä",
-        "showTypesText": "Näytä tyypit",
         "selectAllText": "Valitse Kaikki",
         "selectNoneText": "Valitse Ei mitään",
         "importButtonText": "Tuoda",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
         "exportButtonText": "Viedä",
         "noPropertiesText": "Ei ole näkyviä kiinteistöjä.",
-        "openText": "avata"
+        "openText": "avata",
+        "showDataTypesText": "Näytä tietotyypit",
+        "htmlText": "html",
+        "waitingText": "Odotetaan...",
+        "pageOfText": "Sivu {0}/{1}",
+        "sizeText": "Koko: {0}",
+        "copiedText": "JSON kopioitu leikepöydälle.",
+        "exportedText": "JSON viety.",
+        "importedText": "{0} JSON-tiedostoa tuotu.",
+        "ignoreDataTypesUpdated": "Ohita tietotyypit päivitetty.",
+        "lengthText": "Pituus: {0}",
+        "valueUpdatedText": "Arvo päivitetty.",
+        "jsonUpdatedText": "JSON päivitetty.",
+        "nameUpdatedText": "Kiinteistön nimi päivitetty.",
+        "indexUpdatedText": "Array-indeksi päivitetty.",
+        "itemDeletedText": "Kohde poistettu.",
+        "arrayJsonItemDeleted": "Array JSON -kohde poistettu.",
+        "dataTypeText": "Tietotyyppi: {0}",
+        "editButtonText": "Muokata",
+        "moveRightButtonText": "Siirrä oikealle",
+        "moveLeftButtonText": "Siirrä vasemmalle",
+        "removeButtonText": "Poistaa",
+        "switchToPagesText": "Vaihda sivuille"
     }
 } );

@@ -4,14 +4,19 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        default.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
-import { type StringToJson, type Configuration } from "../type";
+import {
+    type StringToJson,
+    type Configuration,
+    type FunctionName } from "../type";
+
+import { Convert } from "./convert";
 import { Char } from "./enum";
 import { Is } from "./is";
 
@@ -45,6 +50,14 @@ export namespace Default {
         return Is.definedObject( value ) ? value : defaultValue;
     }
 
+    export function getNumberMinimum( value: any, defaultValue: number, minimum: number ) : number {
+        return Is.definedNumber( value ) ? ( value >= minimum ? value : minimum ) : defaultValue;
+    }
+
+    export function getNumberMaximum( value: any, defaultValue: number, maximum: number ) : number {
+        return Is.definedNumber( value ) ? ( value > maximum ? maximum : value ) : defaultValue;
+    }
+
     export function getStringOrArray( value: any, defaultValue: string[] ) : string[] {
         let result: string[] = defaultValue;
 
@@ -64,72 +77,28 @@ export namespace Default {
         return result;
     }
 
-    export function getFixedFloatPlacesValue( value: number, decimalPlaces: number ) : string {
-        const regExp: RegExp = new RegExp( `^-?\\d+(?:.\\d{0,${decimalPlaces || -1}})?` );
-    
-        return value.toString().match( regExp )?.[ 0 ] || Char.empty;
-    }
+    export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
+        let name: string;
+        let isLambda: boolean = false;
 
-    export function getFunctionName( value: any, configuration: Configuration ) : string {
-        let result: string;
         const valueParts: string[] = value.toString().split( "(" );
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
         const functionBrackets: string = "()";
 
-        result = `${valueNameParts.join(Char.space)}${functionBrackets}`;
+        name = `${valueNameParts.join(Char.space)}${functionBrackets}`;
 
-        if ( result.trim() === functionBrackets ) {
-            result = `${configuration.text!.functionText!}${functionBrackets}`;
+        if ( name.trim() === functionBrackets ) {
+            name = `${configuration.text!.functionText!}${functionBrackets}`;
+            isLambda = true;
         }
 
-        return result;
+        return {
+            name: name,
+            isLambda: isLambda
+        } as FunctionName;
     }
 
-    export function getObjectFromString( objectString: any, configuration: Configuration ) : StringToJson {
-        const result: StringToJson = {
-            parsed: true,
-            object: null
-        } as StringToJson;
-
-        try {
-            if ( Is.definedString( objectString ) ) {
-                result.object = JSON.parse( objectString );
-            }
-
-        } catch ( e1: any ) {
-            try {
-                result.object = eval( `(${objectString})` );
-
-                if ( Is.definedFunction( result.object ) ) {
-                    result.object = result.object();
-                }
-                
-            } catch ( e2: any ) {
-                if ( !configuration.safeMode ) {
-                    console.error( configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
-                    result.parsed = false;
-                }
-                
-                result.object = null;
-            }
-        }
-
-        return result;
-    }
-
-    export function getObjectFromMap( map: Map<any, any> ) : object {
-        const result: object = Object.fromEntries( map.entries() );
-    
-        return result;
-    }
-
-    export function getArrayFromSet( set: Set<any> ) : any[] {
-        const result: any[] = Array.from( set.values() );
-    
-        return result;
-    }
-
-    export function getObjectFromUrl( url: string, configuration: Configuration, callback: Function ) : void {
+    export function getObjectFromUrl( url: string, configuration: Configuration, callback: ( object: any ) => void ) : void {
         const request: XMLHttpRequest = new XMLHttpRequest();
         request.open( "GET", url, true );
         request.send();
@@ -137,7 +106,7 @@ export namespace Default {
         request.onreadystatechange = () => {
             if ( request.readyState === 4 && request.status === 200 ) {
                 const data: string = request.responseText;
-                const dataJson: StringToJson = Default.getObjectFromString( data, configuration );
+                const dataJson: StringToJson = Convert.jsonStringToObject( data, configuration );
 
                 if ( dataJson.parsed ) {
                     callback( dataJson.object );

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        tooltip.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -36,7 +36,7 @@ export namespace ToolTip {
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string, tooltipClass: string = "jsontree-js-tooltip" ) : void {
         if ( element !== null ) {
-            element.onmousemove = ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass );
+            element.addEventListener( "mousemove", ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass ) );
         }
     }
 

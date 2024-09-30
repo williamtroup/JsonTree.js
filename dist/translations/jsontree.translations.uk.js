@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Ukrainian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Ukrainian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "функція",
         "sideMenuButtonText": "Показати меню",
         "closeButtonText": "Закрити",
-        "showTypesText": "Показати типи",
         "selectAllText": "Виберіть усі",
         "selectNoneText": "Виберіть Немає",
         "importButtonText": "Імпорт",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Кілька файлів буде об’єднано в масив",
         "exportButtonText": "Експорт",
         "noPropertiesText": "Немає властивостей для перегляду.",
-        "openText": "ВІДЧИНЕНО"
+        "openText": "ВІДЧИНЕНО",
+        "showDataTypesText": "Показати типи даних",
+        "htmlText": "html",
+        "waitingText": "Очікування...",
+        "pageOfText": "Сторінка {0} з {1}",
+        "sizeText": "Розмір: {0}",
+        "copiedText": "JSON скопійовано в буфер обміну.",
+        "exportedText": "JSON експортовано.",
+        "importedText": "Імпортовано файлів JSON: {0}.",
+        "ignoreDataTypesUpdated": "Ігнорувати оновлені типи даних.",
+        "lengthText": "Тривалість: {0}",
+        "valueUpdatedText": "Значення оновлено.",
+        "jsonUpdatedText": "JSON оновлено.",
+        "nameUpdatedText": "Назву властивості оновлено.",
+        "indexUpdatedText": "Оновлено індекс масиву.",
+        "itemDeletedText": "Пункт видалено.",
+        "arrayJsonItemDeleted": "Елемент масиву JSON видалено.",
+        "dataTypeText": "Тип даних: {0}",
+        "editButtonText": "Редагувати",
+        "moveRightButtonText": "Рух праворуч",
+        "moveLeftButtonText": "Рух ліворуч",
+        "removeButtonText": "видалити",
+        "switchToPagesText": "Перейти на сторінки"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Irish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Irish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "feidhm",
         "sideMenuButtonText": "Taispeáin Roghchlár",
         "closeButtonText": "Dún",
-        "showTypesText": "Taispeáin Cineálacha",
         "selectAllText": "Roghnaigh Uile",
         "selectNoneText": "Roghnaigh Dada",
         "importButtonText": "Iompórtáil",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
         "exportButtonText": "Easpórtáil",
         "noPropertiesText": "Níl aon airíonna le feiceáil.",
-        "openText": "oscailte"
+        "openText": "oscailte",
+        "showDataTypesText": "Taispeáin Cineálacha Sonraí",
+        "htmlText": "html",
+        "waitingText": "Ag fanacht...",
+        "pageOfText": "Leathanach {0} de {1}",
+        "sizeText": "Méid: {0}",
+        "copiedText": "Chóipeáil JSON chuig an ngearrthaisce.",
+        "exportedText": "Easpórtáil JSON.",
+        "importedText": "Iompórtáladh {0} comhad JSON.",
+        "ignoreDataTypesUpdated": "Déan neamhaird de chineálacha sonraí nuashonraithe.",
+        "lengthText": "Fad: {0}",
+        "valueUpdatedText": "Luach nuashonraithe.",
+        "jsonUpdatedText": "Nuashonraíodh JSON.",
+        "nameUpdatedText": "Nuashonraíodh ainm na maoine.",
+        "indexUpdatedText": "Innéacs eagar nuashonraithe.",
+        "itemDeletedText": "Scriosadh an mhír.",
+        "arrayJsonItemDeleted": "Scriosadh mír Array JSON.",
+        "dataTypeText": "Cineál Sonraí: {0}",
+        "editButtonText": "Cuir in eagar",
+        "moveRightButtonText": "Bog ar dheis",
+        "moveLeftButtonText": "Bog ar Chlé",
+        "removeButtonText": "Bain",
+        "switchToPagesText": "Athraigh go Leathanaigh"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Romanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funcţie",
         "sideMenuButtonText": "Afișați meniul",
         "closeButtonText": "Aproape",
-        "showTypesText": "Afișați tipuri",
         "selectAllText": "Selectați Toate",
         "selectNoneText": "Selectați Niciunul",
         "importButtonText": "Import",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Mai multe fișiere vor fi unite ca o matrice",
         "exportButtonText": "Export",
         "noPropertiesText": "Nu există proprietăți de vizualizat.",
-        "openText": "deschide"
+        "openText": "deschide",
+        "showDataTypesText": "Afișați tipurile de date",
+        "htmlText": "html",
+        "waitingText": "Aşteptare...",
+        "pageOfText": "Pagina {0} din {1}",
+        "sizeText": "Dimensiune: {0}",
+        "copiedText": "JSON a fost copiat în clipboard.",
+        "exportedText": "JSON exportat.",
+        "importedText": "{0} fișiere JSON importate.",
+        "ignoreDataTypesUpdated": "Ignorați tipurile de date actualizate.",
+        "lengthText": "Lungime: {0}",
+        "valueUpdatedText": "Valoare actualizată.",
+        "jsonUpdatedText": "JSON a fost actualizat.",
+        "nameUpdatedText": "Numele proprietății a fost actualizat.",
+        "indexUpdatedText": "Indexul matricei a fost actualizat.",
+        "itemDeletedText": "Element șters.",
+        "arrayJsonItemDeleted": "Elementul JSON din matrice a fost șters.",
+        "dataTypeText": "Tip de date: {0}",
+        "editButtonText": "Edita",
+        "moveRightButtonText": "Mută-te la dreapta",
+        "moveLeftButtonText": "Mutați la stânga",
+        "removeButtonText": "Elimina",
+        "switchToPagesText": "Comutați la pagini"
     }
 } );

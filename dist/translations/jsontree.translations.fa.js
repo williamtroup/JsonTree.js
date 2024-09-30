@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Farsi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Farsi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "تابع",
         "sideMenuButtonText": "نمایش منو",
         "closeButtonText": "بستن",
-        "showTypesText": "نمایش انواع",
         "selectAllText": "همه را انتخاب کنید",
         "selectNoneText": "هیچکدام را انتخاب کنید",
         "importButtonText": "واردات",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "چندین فایل به عنوان یک آرایه به یکدیگر ملحق می شوند",
         "exportButtonText": "صادرات",
         "noPropertiesText": "هیچ خاصیتی برای مشاهده وجود ندارد",
-        "openText": "باز کردن"
+        "openText": "باز کردن",
+        "showDataTypesText": "نمایش انواع داده ها",
+        "htmlText": "html",
+        "waitingText": "در انتظار...",
+        "pageOfText": "صفحه {0} از {1}",
+        "sizeText": "اندازه: {0}",
+        "copiedText": "JSON در کلیپ بورد کپی شد.",
+        "exportedText": "JSON صادر شد.",
+        "importedText": "{0} فایل JSON وارد شد.",
+        "ignoreDataTypesUpdated": "انواع داده های به روز شده را نادیده بگیرید.",
+        "lengthText": "طول: {0}",
+        "valueUpdatedText": "ارزش به روز شد.",
+        "jsonUpdatedText": "JSON به روز شد.",
+        "nameUpdatedText": "نام ملک به روز شد.",
+        "indexUpdatedText": "فهرست آرایه به روز شد.",
+        "itemDeletedText": "مورد حذف شد",
+        "arrayJsonItemDeleted": "مورد آرایه JSON حذف شد.",
+        "dataTypeText": "نوع داده: {0}",
+        "editButtonText": "ویرایش کنید",
+        "moveRightButtonText": "حرکت به راست",
+        "moveLeftButtonText": "حرکت به چپ",
+        "removeButtonText": "حذف کنید",
+        "switchToPagesText": "سوئیچ به صفحات"
     }
 } );

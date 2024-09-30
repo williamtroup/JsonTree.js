@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Armenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Armenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ֆունկցիան",
         "sideMenuButtonText": "Ցուցադրել ընտրացանկը",
         "closeButtonText": "Փակել",
-        "showTypesText": "Ցույց տալ տեսակները",
         "selectAllText": "Ընտրեք Բոլորը",
         "selectNoneText": "Ընտրեք Ոչ մեկը",
         "importButtonText": "Ներմուծում",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Բազմաթիվ ֆայլեր կմիանան որպես զանգված",
         "exportButtonText": "Արտահանում",
         "noPropertiesText": "Դիտելու հատկություններ չկան:",
-        "openText": "բացել"
+        "openText": "բացել",
+        "showDataTypesText": "Ցույց տալ տվյալների տեսակները",
+        "htmlText": "html",
+        "waitingText": "Սպասում...",
+        "pageOfText": "Էջ {0} {1}-ից",
+        "sizeText": "Չափը՝ {0}",
+        "copiedText": "JSON-ը պատճենվեց սեղմատախտակում:",
+        "exportedText": "JSON-ն արտահանվել է:",
+        "importedText": "Ներմուծվել է {0} JSON ֆայլ:",
+        "ignoreDataTypesUpdated": "Անտեսեք թարմացված տվյալների տեսակները:",
+        "lengthText": "Երկարությունը՝ {0}",
+        "valueUpdatedText": "Արժեքը թարմացվել է:",
+        "jsonUpdatedText": "JSON-ը թարմացվել է:",
+        "nameUpdatedText": "Սեփականության անվանումը թարմացվել է:",
+        "indexUpdatedText": "Զանգվածի ինդեքսը թարմացվել է:",
+        "itemDeletedText": "Տարրը ջնջված է:",
+        "arrayJsonItemDeleted": "Array JSON տարրը ջնջվել է:",
+        "dataTypeText": "Տվյալների տեսակը՝ {0}",
+        "editButtonText": "Խմբագրել",
+        "moveRightButtonText": "Տեղափոխեք աջ",
+        "moveLeftButtonText": "Տեղափոխեք ձախ",
+        "removeButtonText": "Հեռացնել",
+        "switchToPagesText": "Անցում դեպի Էջեր"
     }
 } );

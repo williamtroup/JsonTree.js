@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Hebrew | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Hebrew | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "פוּנקצִיָה",
         "sideMenuButtonText": "הצג תפריט",
         "closeButtonText": "לִסְגוֹר",
-        "showTypesText": "הצג סוגים",
         "selectAllText": "בחר הכל",
         "selectNoneText": "בחר ללא",
         "importButtonText": "יְבוּא",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
         "exportButtonText": "יְצוּא",
         "noPropertiesText": "אין נכסים לצפייה.",
-        "openText": "לִפְתוֹחַ"
+        "openText": "לִפְתוֹחַ",
+        "showDataTypesText": "הצג סוגי נתונים",
+        "htmlText": "html",
+        "waitingText": "הַמתָנָה...",
+        "pageOfText": "עמוד {0} מתוך {1}",
+        "sizeText": "גודל: {0}",
+        "copiedText": "JSON הועתק ללוח.",
+        "exportedText": "JSON מיוצא.",
+        "importedText": "{0} קובצי JSON יובאו.",
+        "ignoreDataTypesUpdated": "התעלם מסוגי נתונים שעודכנו.",
+        "lengthText": "אורך: {0}",
+        "valueUpdatedText": "הערך עודכן.",
+        "jsonUpdatedText": "JSON עודכן.",
+        "nameUpdatedText": "שם הנכס עודכן.",
+        "indexUpdatedText": "אינדקס המערך עודכן.",
+        "itemDeletedText": "הפריט נמחק.",
+        "arrayJsonItemDeleted": "פריט JSON של מערך נמחק.",
+        "dataTypeText": "סוג נתונים: {0}",
+        "editButtonText": "לַעֲרוֹך",
+        "moveRightButtonText": "זז ימינה",
+        "moveLeftButtonText": "זז שמאלה",
+        "removeButtonText": "לְהַסִיר",
+        "switchToPagesText": "עבור לדפים"
     }
 } );

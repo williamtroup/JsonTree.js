@@ -2,15 +2,15 @@
 JsonTree.js
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=JsonTree.js%2C%20a%20free%20JavaScript%json%20treeview&url=https://github.com/williamtroup/JsonTree.js&hashtags=javascript,treeview,json)
-[![npm](https://img.shields.io/badge/npmjs-v3.1.1-blue)](https://www.npmjs.com/package/jjsontree.js)
-[![nuget](https://img.shields.io/badge/nuget-v3.1.1-purple)](https://www.nuget.org/packages/jJsonTree.js/)
+[![npm](https://img.shields.io/badge/npmjs-v4.0.0-blue)](https://www.npmjs.com/package/jjsontree.js)
+[![nuget](https://img.shields.io/badge/nuget-v4.0.0-purple)](https://www.nuget.org/packages/jJsonTree.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/JsonTree.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/JsonTree.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 </h1>
 
 > <p align="center">🔗 A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.</p>
-> <p align="center">v3.1.1</p>
+> <p align="center">v4.0.0</p>
 <br />
 
 ![JsonTree.js](docs/images/main.png)
@@ -20,25 +20,34 @@ JsonTree.js
 <h1>What features does JsonTree.js have?</h1>
 
 - 😏 Zero-dependencies and extremely lightweight!
-- 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
+- 🦾 100% TypeScript, allowing greater support for React, Angular, and other libraries!
 - 💻 Full API available via public functions.
+- 🎏 52 language translations available!
 - 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
-- 🔍 20 types supported by default (such as Object, Array, primitive types, and even Sets and Maps).
-- 🔣 Support to show the data types, array/object counts, comas, and opening symbols!
+- 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
+- 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
-- 📂 Close/Open all nodes.
+- 📂 Close and open all objects, arrays, sets, and maps.
 - 🚀 Clickable values via custom triggers!
 - ⭐ Custom value rendering.
-- 📃 Array paging support (show array objects on different pages)!
+- 📃 Array paging, with configurable column count support (show array objects on different pages)!
 - 💧 Drag & Drop JSON files support!
 - 📋 Copy to clipboard (all JSON, or just the current page).
 - ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
 - 🔠 Keyboard navigation keys support!
 - 🎥 Toggle between regular and full-screen views.
 - ❓ Assign tooltips to any JSON value!
+- 💁 Show value/key memory sizes, page numbers, and status updates in the footer!
 <br />
 <br />
+
+
+<h1>Where can I view the examples?</h1>
+
+You can view all the examples [here](https://www.william-troup.com/jsontree-js/examples/index.html).
+<br>
+<br>
 
 
 <h1>Where can I find the documentation?</h1>
@@ -67,7 +76,8 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `float` Floats
 - `null` Nulls
 - `symbol` Symbols
-- `function` Functions and Lambdas
+- `function` Functions
+- `lambda` Lambdas
 - `undefined` Undefined
 - `color` Colors
 - `guid` GUIDs
@@ -77,6 +87,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `url` URLs
 - `image` Images
 - `email` Emails
+- `html` HTML
 - `any` Unknown
 <br>
 <br>
@@ -135,6 +146,7 @@ All modern browsers (such as Google Chrome, FireFox, and Opera) are fully suppor
 - `th` Thai
 - `tr` Turkish
 - `uk` Ukrainian
+- `vi` Vietnamese
 <br>
 <br>
 
@@ -159,8 +171,8 @@ Or, you can download the latest zipped up version [here](https://www.william-tro
 Or, you can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.1.1/dist/jsontree.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@3.1.1/dist/jsontree.js.min.css
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@4.0.0/dist/jsontree.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/JsonTree.js@4.0.0/dist/jsontree.js.min.css
 ```
 <br>
 <br>
@@ -194,7 +206,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. DOM Element Binding:
 
 ```markdown
-<div id="tree-1" data-jsontree-js="{ 'showCounts': true, 'data': [ true, false, 5, 10, 'A String' ] }">
+<div id="tree-1" data-jsontree-js="{ 'showObjectSizes': true, 'data': [ true, false, 5, 10, 'A String' ] }">
     Your HTML.
 </div>
 ```

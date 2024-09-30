@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        arr.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -25,7 +25,13 @@ export namespace Arr {
         let result: string = index.toString();
     
         if ( bindingOptions.addArrayIndexPadding ) {
-            result = Str.padNumber( parseInt( result ), largestValue.toString().length );
+            let paddingLength = largestValue.toString().length;
+
+            if ( paddingLength < ( bindingOptions.minimumArrayIndexPadding! + 1 ) ) {
+                paddingLength = bindingOptions.minimumArrayIndexPadding! + 1;
+            }
+
+            result = Str.padNumber( parseInt( result ), paddingLength, bindingOptions.arrayIndexPaddingCharacter );
         }
 
         if ( bindingOptions.showArrayIndexBrackets ) {

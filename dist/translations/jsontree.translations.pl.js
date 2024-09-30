@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Portuguese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Portuguese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkcjonować",
         "sideMenuButtonText": "Pokaż menu",
         "closeButtonText": "Zamknąć",
-        "showTypesText": "Pokaż typy",
         "selectAllText": "Wybierz wszystko",
         "selectNoneText": "Wybierz opcję Brak",
         "importButtonText": "Import",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Wiele plików zostanie połączonych w tablicę",
         "exportButtonText": "Eksport",
         "noPropertiesText": "Brak właściwości do wyświetlenia.",
-        "openText": "Otwarte"
+        "openText": "Otwarte",
+        "showDataTypesText": "Pokaż typy danych",
+        "htmlText": "HTML",
+        "waitingText": "Czekanie...",
+        "pageOfText": "Strona {0} z {1}",
+        "sizeText": "Rozmiar: {0}",
+        "copiedText": "JSON skopiowany do schowka.",
+        "exportedText": "Wyeksportowano JSON.",
+        "importedText": "Zaimportowano {0} plików JSON.",
+        "ignoreDataTypesUpdated": "Ignoruj ​​zaktualizowane typy danych.",
+        "lengthText": "Długość: {0}",
+        "valueUpdatedText": "Wartość zaktualizowana.",
+        "jsonUpdatedText": "Zaktualizowano JSON.",
+        "nameUpdatedText": "Zaktualizowano nazwę usługi.",
+        "indexUpdatedText": "Zaktualizowano indeks tablicy.",
+        "itemDeletedText": "Element usunięty.",
+        "arrayJsonItemDeleted": "Usunięto element tablicy JSON.",
+        "dataTypeText": "Typ danych: {0}",
+        "editButtonText": "Redagować",
+        "moveRightButtonText": "Przejdź w prawo",
+        "moveLeftButtonText": "Przesuń w lewo",
+        "removeButtonText": "Usunąć",
+        "switchToPagesText": "Przełącz na strony"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Telugu | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ఫంక్షన్",
         "sideMenuButtonText": "మెనుని చూపించు",
         "closeButtonText": "మూసివేయి",
-        "showTypesText": "రకాలను చూపించు",
         "selectAllText": "అన్నీ ఎంచుకోండి",
         "selectNoneText": "ఏదీ లేదు ఎంచుకోండి",
         "importButtonText": "దిగుమతి",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "అనేక ఫైల్‌లు శ్రేణిగా చేర్చబడతాయి",
         "exportButtonText": "ఎగుమతి చేయండి",
         "noPropertiesText": "వీక్షించడానికి ప్రాపర్టీలు లేవు.",
-        "openText": "తెరవండి"
+        "openText": "తెరవండి",
+        "showDataTypesText": "డేటా రకాలను చూపించు",
+        "htmlText": "html",
+        "waitingText": "వేచి ఉంది...",
+        "pageOfText": "{1}లో {0}వ పేజీ",
+        "sizeText": "పరిమాణం: {0}",
+        "copiedText": "JSON క్లిప్‌బోర్డ్‌కి కాపీ చేయబడింది.",
+        "exportedText": "JSON ఎగుమతి చేయబడింది.",
+        "importedText": "{0} JSON ఫైల్‌లు దిగుమతి చేయబడ్డాయి.",
+        "ignoreDataTypesUpdated": "నవీకరించబడిన డేటా రకాలను విస్మరించండి.",
+        "lengthText": "పొడవు: {0}",
+        "valueUpdatedText": "విలువ నవీకరించబడింది.",
+        "jsonUpdatedText": "JSON నవీకరించబడింది.",
+        "nameUpdatedText": "ఆస్తి పేరు నవీకరించబడింది.",
+        "indexUpdatedText": "అర్రే సూచిక నవీకరించబడింది.",
+        "itemDeletedText": "అంశం తొలగించబడింది.",
+        "arrayJsonItemDeleted": "అర్రే JSON అంశం తొలగించబడింది.",
+        "dataTypeText": "డేటా రకం: {0}",
+        "editButtonText": "సవరించు",
+        "moveRightButtonText": "కుడివైపుకి తరలించు",
+        "moveLeftButtonText": "ఎడమకు తరలించు",
+        "removeButtonText": "తొలగించు",
+        "switchToPagesText": "పేజీలకు మారండి"
     }
 } );

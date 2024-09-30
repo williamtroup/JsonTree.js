@@ -18,7 +18,7 @@
         </div>
 
         <div class="contents">
-            <div id="json-tree-1" data-jsontree-js="bindingOptions()"></div>
+            <div id="json-tree-1" data-jsontree-js="bindingOptions( true, true, true, 1 )"></div>
             <br />
             <br />
             <div id="json-tree-2"></div>
@@ -36,10 +36,19 @@
             <button class="btn btn-primary" onclick="$jsontree.openAll( 'json-tree-1' );">Open All</button>
             <button class="btn btn-primary" onclick="$jsontree.closeAll( 'json-tree-1' );">Close All</button>
             <br>
+            <button class="btn btn-primary" onclick="$jsontree.backPage( 'json-tree-1' );">Back Page</button>
+            <button class="btn btn-primary" onclick="$jsontree.nextPage( 'json-tree-1' );">Next Page</button>
+            <button class="btn btn-primary" onclick="console.log( $jsontree.getPageNumber( 'json-tree-1' ) );">Get Page Number</button>
+            <br>
 
             <h2>Manage Data:</h2>
             <button class="btn btn-primary" onclick="setJson();">Set JSON</button>
             <button class="btn btn-primary" onclick="console.log( $jsontree.getJson( 'json-tree-1' ) );">Get JSON</button>
+            <br>
+
+            <h2>Manage Binding Options:</h2>
+            <button class="btn btn-primary" onclick="updateBindingOptions();">Update Binding Options</button>
+            <button class="btn btn-primary" onclick="console.log( $jsontree.getBindingOptions( 'json-tree-1' ) );">Get Binding Options</button>
             <br>
 
             <h2>Destroy:</h2>

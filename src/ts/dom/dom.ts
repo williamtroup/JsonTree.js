@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v3.1.1
+ * @version     v4.0.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -17,6 +17,22 @@ import { Is } from "../data/is";
 
 
 export namespace DomElement {
+    export function find( tagTypes: string[], func: ( element: HTMLElement ) => boolean ) : void {
+        const tagTypesLength: number = tagTypes.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
+            const elements: HTMLElement[] = [].slice.call( domElements );
+            const elementsLength: number = elements.length;
+
+            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+                if ( !func( elements[ elementIndex ] ) ) {
+                    break;
+                }
+            }
+        }
+    }
+
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
@@ -27,10 +43,12 @@ export namespace DomElement {
             result.className = className;
         }
 
-        if ( Is.defined( beforeNode ) ) {
-            container.insertBefore( result, beforeNode );
-        } else {
-            container.appendChild( result );
+        if ( Is.defined( container ) ) {
+            if ( Is.defined( beforeNode ) ) {
+                container.insertBefore( result, beforeNode );
+            } else {
+                container.appendChild( result );
+            }
         }
 
         return result;
@@ -50,14 +68,6 @@ export namespace DomElement {
         let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
 
         return result;
-    }
-
-    export function addClass( element: HTMLElement, className: string ) : void {
-        element.classList.add( className );
-    }
-
-    export function removeClass( element: HTMLElement, className: string ) : void {
-        element.classList.remove( className );
     }
 
     export function cancelBubble( e: Event ) : void {
@@ -119,7 +129,7 @@ export namespace DomElement {
         selection.addRange( range );
     }
 
-    export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean, spanClass: string ) : HTMLInputElement {
+    export function createCheckBox( container: HTMLElement, labelText: string, name: string, checked: boolean, spanClass: string, additionalText: string ) : HTMLInputElement {
         const lineContainer: HTMLElement = create( container, "div", "checkbox" );
         const label: HTMLElement = create( lineContainer, "label", "checkbox" );
         const input: HTMLInputElement = create( label, "input" ) as HTMLInputElement;
@@ -127,9 +137,14 @@ export namespace DomElement {
         input.type = "checkbox";
         input.name = name;
         input.checked = checked;
+        input.autocomplete = "off";
 
         create( label, "span", "check-mark" );
         createWithHTML( label, "span", `text ${spanClass}`, labelText );
+
+        if ( Is.definedString( additionalText ) ) {
+            createWithHTML( label, "span", `additional-text`, additionalText );
+        }
         
         return input;
     }

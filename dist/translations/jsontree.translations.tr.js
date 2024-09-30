@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Turkish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Turkish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "işlev",
         "sideMenuButtonText": "Menüyü Göster",
         "closeButtonText": "Kapalı",
-        "showTypesText": "Türleri Göster",
         "selectAllText": "Tümünü Seç",
         "selectNoneText": "Yok'u seçin",
         "importButtonText": "İçe aktarmak",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
         "exportButtonText": "İhracat",
         "noPropertiesText": "Görüntülenecek mülk yok.",
-        "openText": "açık"
+        "openText": "açık",
+        "showDataTypesText": "Veri Türlerini Göster",
+        "htmlText": "HTML",
+        "waitingText": "Beklemek...",
+        "pageOfText": "Sayfa {0} / {1}",
+        "sizeText": "Boyut: {0}",
+        "copiedText": "JSON panoya kopyalandı.",
+        "exportedText": "JSON dışa aktarıldı.",
+        "importedText": "{0} JSON dosyası içe aktarıldı.",
+        "ignoreDataTypesUpdated": "Güncellenen veri türlerini yoksay.",
+        "lengthText": "Uzunluk: {0}",
+        "valueUpdatedText": "Değer güncellendi.",
+        "jsonUpdatedText": "JSON güncellendi.",
+        "nameUpdatedText": "Mülk adı güncellendi.",
+        "indexUpdatedText": "Dizi dizini güncellendi.",
+        "itemDeletedText": "Öğe silindi.",
+        "arrayJsonItemDeleted": "Dizi JSON öğesi silindi.",
+        "dataTypeText": "Veri Türü: {0}",
+        "editButtonText": "Düzenlemek",
+        "moveRightButtonText": "Sağa Taşı",
+        "moveLeftButtonText": "Sola Taşı",
+        "removeButtonText": "Kaldırmak",
+        "switchToPagesText": "Sayfalara Geç"
     }
 } );

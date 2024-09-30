@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Slovak | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Slovak | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkciu",
         "sideMenuButtonText": "Zobraziť menu",
         "closeButtonText": "Zavrieť",
-        "showTypesText": "Zobraziť typy",
         "selectAllText": "Vyberte možnosť Všetky",
         "selectNoneText": "Vyberte možnosť Žiadne",
         "importButtonText": "Importovať",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Viacero súborov sa spojí ako pole",
         "exportButtonText": "Exportovať",
         "noPropertiesText": "Nie sú k dispozícii žiadne vlastnosti na zobrazenie.",
-        "openText": "OTVORENÉ"
+        "openText": "OTVORENÉ",
+        "showDataTypesText": "Zobraziť typy údajov",
+        "htmlText": "html",
+        "waitingText": "Čakanie...",
+        "pageOfText": "Strana {0} z {1}",
+        "sizeText": "Veľkosť: {0}",
+        "copiedText": "JSON bol skopírovaný do schránky.",
+        "exportedText": "JSON bol exportovaný.",
+        "importedText": "Počet importovaných súborov JSON: {0}.",
+        "ignoreDataTypesUpdated": "Ignorovať aktualizované typy údajov.",
+        "lengthText": "Dĺžka: {0}",
+        "valueUpdatedText": "Hodnota bola aktualizovaná.",
+        "jsonUpdatedText": "JSON bol aktualizovaný.",
+        "nameUpdatedText": "Názov vlastnosti bol aktualizovaný.",
+        "indexUpdatedText": "Index poľa bol aktualizovaný.",
+        "itemDeletedText": "Položka bola odstránená.",
+        "arrayJsonItemDeleted": "Položka JSON poľa bola odstránená.",
+        "dataTypeText": "Typ údajov: {0}",
+        "editButtonText": "Upraviť",
+        "moveRightButtonText": "Presunúť doprava",
+        "moveLeftButtonText": "Posunúť doľava",
+        "removeButtonText": "Odstrániť",
+        "switchToPagesText": "Prepnúť na stránky"
     }
 } );

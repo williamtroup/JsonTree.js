@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "関数",
         "sideMenuButtonText": "メニューを表示",
         "closeButtonText": "近い",
-        "showTypesText": "ショータイプ",
         "selectAllText": "すべて選択",
         "selectNoneText": "なしを選択します",
         "importButtonText": "輸入",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
         "exportButtonText": "輸出",
         "noPropertiesText": "表示できる物件はありません。",
-        "openText": "開ける"
+        "openText": "開ける",
+        "showDataTypesText": "データ型を表示",
+        "htmlText": "html",
+        "waitingText": "待っている...",
+        "pageOfText": "ページ {0}/{1}",
+        "sizeText": "サイズ: {0}",
+        "copiedText": "JSON がクリップボードにコピーされました。",
+        "exportedText": "JSONがエクスポートされました。",
+        "importedText": "{0} 個の JSON ファイルがインポートされました。",
+        "ignoreDataTypesUpdated": "更新されたデータ型を無視します。",
+        "lengthText": "長さ: {0}",
+        "valueUpdatedText": "値が更新されました。",
+        "jsonUpdatedText": "JSONが更新されました。",
+        "nameUpdatedText": "物件名を更新しました。",
+        "indexUpdatedText": "配列インデックスが更新されました。",
+        "itemDeletedText": "項目が削除されました。",
+        "arrayJsonItemDeleted": "配列 JSON 項目が削除されました。",
+        "dataTypeText": "データ型: {0}",
+        "editButtonText": "編集",
+        "moveRightButtonText": "右に移動",
+        "moveLeftButtonText": "左に移動",
+        "removeButtonText": "取り除く",
+        "switchToPagesText": "ページに切り替える"
     }
 } );

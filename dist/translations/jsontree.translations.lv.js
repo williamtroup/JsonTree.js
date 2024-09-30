@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Latvian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkciju",
         "sideMenuButtonText": "Rādīt izvēlni",
         "closeButtonText": "Aizvērt",
-        "showTypesText": "Rādījumu veidi",
         "selectAllText": "Atlasiet visu",
         "selectNoneText": "Atlasiet Nav",
         "importButtonText": "Importēt",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
         "exportButtonText": "Eksportēt",
         "noPropertiesText": "Nav apskatāmo īpašumu.",
-        "openText": "atvērts"
+        "openText": "atvērts",
+        "showDataTypesText": "Rādīt datu tipus",
+        "htmlText": "html",
+        "waitingText": "Gaida...",
+        "pageOfText": "{0}. lapa no {1}",
+        "sizeText": "Izmērs: {0}",
+        "copiedText": "JSON kopēts starpliktuvē.",
+        "exportedText": "JSON eksportēts.",
+        "importedText": "Importēti {0} JSON faili.",
+        "ignoreDataTypesUpdated": "Ignorēt atjauninātos datu tipus.",
+        "lengthText": "Garums: {0}",
+        "valueUpdatedText": "Vērtība atjaunināta.",
+        "jsonUpdatedText": "JSON atjaunināts.",
+        "nameUpdatedText": "Īpašuma nosaukums ir atjaunināts.",
+        "indexUpdatedText": "Masīva indekss ir atjaunināts.",
+        "itemDeletedText": "Vienums izdzēsts.",
+        "arrayJsonItemDeleted": "Masīva JSON vienums ir izdzēsts.",
+        "dataTypeText": "Datu tips: {0}",
+        "editButtonText": "Rediģēt",
+        "moveRightButtonText": "Pārvietot pa labi",
+        "moveLeftButtonText": "Pārvietot pa kreisi",
+        "removeButtonText": "Noņemt",
+        "switchToPagesText": "Pārslēgties uz lapām"
     }
 } );

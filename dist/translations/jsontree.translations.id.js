@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Indonesian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Indonesian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "fungsi",
         "sideMenuButtonText": "Tampilkan Menu",
         "closeButtonText": "Menutup",
-        "showTypesText": "Jenis Pertunjukan",
         "selectAllText": "Pilih Semua",
         "selectNoneText": "Pilih Tidak Ada",
         "importButtonText": "Impor",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Beberapa file akan digabungkan sebagai sebuah array",
         "exportButtonText": "Ekspor",
         "noPropertiesText": "Tidak ada properti untuk dilihat.",
-        "openText": "membuka"
+        "openText": "membuka",
+        "showDataTypesText": "Tampilkan Tipe Data",
+        "htmlText": "html",
+        "waitingText": "Menunggu...",
+        "pageOfText": "Halaman {0} dari {1}",
+        "sizeText": "Ukuran: {0}",
+        "copiedText": "JSON disalin ke papan klip.",
+        "exportedText": "JSON diekspor.",
+        "importedText": "{0} File JSON diimpor.",
+        "ignoreDataTypesUpdated": "Abaikan tipe data yang diperbarui.",
+        "lengthText": "Panjangnya: {0}",
+        "valueUpdatedText": "Nilai diperbarui.",
+        "jsonUpdatedText": "JSON diperbarui.",
+        "nameUpdatedText": "Nama properti diperbarui.",
+        "indexUpdatedText": "Indeks array diperbarui.",
+        "itemDeletedText": "Barang dihapus.",
+        "arrayJsonItemDeleted": "Item array JSON dihapus.",
+        "dataTypeText": "Tipe Data: {0}",
+        "editButtonText": "Sunting",
+        "moveRightButtonText": "Bergerak ke Kanan",
+        "moveLeftButtonText": "Pindah ke Kiri",
+        "removeButtonText": "Menghapus",
+        "switchToPagesText": "Beralih Ke Halaman"
     }
 } );

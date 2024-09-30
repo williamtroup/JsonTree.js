@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Hungarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Hungarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkció",
         "sideMenuButtonText": "Menü megjelenítése",
         "closeButtonText": "Közeli",
-        "showTypesText": "Show Types",
         "selectAllText": "Válassza az Összes lehetőséget",
         "selectNoneText": "Válassza a Nincs lehetőséget",
         "importButtonText": "Importálás",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Több fájl tömbként fog egyesülni",
         "exportButtonText": "Export",
         "noPropertiesText": "Nincsenek megtekinthető ingatlanok.",
-        "openText": "nyitott"
+        "openText": "nyitott",
+        "showDataTypesText": "Adattípusok megjelenítése",
+        "htmlText": "html",
+        "waitingText": "Várakozás...",
+        "pageOfText": "{1}/{0}. oldal",
+        "sizeText": "Méret: {0}",
+        "copiedText": "JSON a vágólapra másolva.",
+        "exportedText": "JSON exportálva.",
+        "importedText": "{0} JSON-fájl importálva.",
+        "ignoreDataTypesUpdated": "Az adattípusok figyelmen kívül hagyása frissítve.",
+        "lengthText": "Hossz: {0}",
+        "valueUpdatedText": "Érték frissítve.",
+        "jsonUpdatedText": "JSON frissítve.",
+        "nameUpdatedText": "Az ingatlan neve frissítve.",
+        "indexUpdatedText": "A tömb indexe frissítve.",
+        "itemDeletedText": "Elem törölve.",
+        "arrayJsonItemDeleted": "A tömb JSON-eleme törölve.",
+        "dataTypeText": "Adattípus: {0}",
+        "editButtonText": "Szerkesztés",
+        "moveRightButtonText": "Mozgás Jobbra",
+        "moveLeftButtonText": "Mozgás balra",
+        "removeButtonText": "Távolítsa el",
+        "switchToPagesText": "Váltás oldalakra"
     }
 } );

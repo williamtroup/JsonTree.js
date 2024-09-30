@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Frisian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funksje",
         "sideMenuButtonText": "Menu sjen litte",
         "closeButtonText": "Slute",
-        "showTypesText": "Soarten sjen litte",
         "selectAllText": "Selektearje alles",
         "selectNoneText": "Selektearje Gjin",
         "importButtonText": "Ymport",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Meardere bestannen sille wurde gearfoege as in array",
         "exportButtonText": "Eksportearje",
         "noPropertiesText": "D'r binne gjin eigenskippen om te besjen.",
-        "openText": "iepen"
+        "openText": "iepen",
+        "showDataTypesText": "Gegevenstypen sjen litte",
+        "htmlText": "html",
+        "waitingText": "Wachtsje...",
+        "pageOfText": "Side {0} fan {1}",
+        "sizeText": "Grutte: {0}",
+        "copiedText": "JSON kopiearre nei klamboerd.",
+        "exportedText": "JSON eksportearre.",
+        "importedText": "{0} JSON-bestannen ymportearre.",
+        "ignoreDataTypesUpdated": "Negearje bywurke gegevenstypen.",
+        "lengthText": "Lengte: {0}",
+        "valueUpdatedText": "Wearde bywurke.",
+        "jsonUpdatedText": "JSON bywurke.",
+        "nameUpdatedText": "Eigendom namme bywurke.",
+        "indexUpdatedText": "Array yndeks bywurke.",
+        "itemDeletedText": "Item wiske.",
+        "arrayJsonItemDeleted": "Array JSON-item wiske.",
+        "dataTypeText": "Gegevenstype: {0}",
+        "editButtonText": "Bewurkje",
+        "moveRightButtonText": "Rjochts ferpleatse",
+        "moveLeftButtonText": "Ferpleats nei lofts",
+        "removeButtonText": "Fuortsmite",
+        "switchToPagesText": "Wikselje nei siden"
     }
 } );

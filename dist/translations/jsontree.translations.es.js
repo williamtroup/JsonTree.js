@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Spanish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Spanish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "función",
         "sideMenuButtonText": "Mostrar menú",
         "closeButtonText": "Cerca",
-        "showTypesText": "Tipos de espectáculos",
         "selectAllText": "Seleccionar todo",
         "selectNoneText": "Seleccionar Ninguno",
         "importButtonText": "Importar",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Se unirán varios archivos como una matriz",
         "exportButtonText": "Exportar",
         "noPropertiesText": "No hay propiedades para ver.",
-        "openText": "abierto"
+        "openText": "abierto",
+        "showDataTypesText": "Mostrar tipos de datos",
+        "htmlText": "HTML",
+        "waitingText": "Espera...",
+        "pageOfText": "Página {0} de {1}",
+        "sizeText": "Tamaño: {0}",
+        "copiedText": "JSON copiado al portapapeles.",
+        "exportedText": "JSON exportado.",
+        "importedText": "{0} Archivos JSON importados.",
+        "ignoreDataTypesUpdated": "Ignorar los tipos de datos actualizados.",
+        "lengthText": "Longitud: {0}",
+        "valueUpdatedText": "Valor actualizado.",
+        "jsonUpdatedText": "JSON actualizado.",
+        "nameUpdatedText": "Nombre de la propiedad actualizado.",
+        "indexUpdatedText": "Índice de matriz actualizado.",
+        "itemDeletedText": "Artículo eliminado.",
+        "arrayJsonItemDeleted": "Elemento JSON de matriz eliminado.",
+        "dataTypeText": "Tipo de datos: {0}",
+        "editButtonText": "Editar",
+        "moveRightButtonText": "Mover a la derecha",
+        "moveLeftButtonText": "Mover a la izquierda",
+        "removeButtonText": "Eliminar",
+        "switchToPagesText": "Cambiar a páginas"
     }
 } );

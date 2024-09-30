@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Georgian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Georgian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "ფუნქცია",
         "sideMenuButtonText": "მენიუს ჩვენება",
         "closeButtonText": "დახურვა",
-        "showTypesText": "ტიპების ჩვენება",
         "selectAllText": "აირჩიეთ ყველა",
         "selectNoneText": "აირჩიეთ არცერთი",
         "importButtonText": "იმპორტი",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "მრავალი ფაილი შეუერთდება მასივის სახით",
         "exportButtonText": "ექსპორტი",
         "noPropertiesText": "სანახავი თვისებები არ არის.",
-        "openText": "გახსნა"
+        "openText": "გახსნა",
+        "showDataTypesText": "მონაცემთა ტიპების ჩვენება",
+        "htmlText": "html",
+        "waitingText": "ელოდება...",
+        "pageOfText": "გვერდი {0} / {1}-დან",
+        "sizeText": "ზომა: {0}",
+        "copiedText": "JSON კოპირებულია ბუფერში.",
+        "exportedText": "JSON ექსპორტირებულია.",
+        "importedText": "იმპორტირებულია {0} JSON ფაილი.",
+        "ignoreDataTypesUpdated": "განახლებული მონაცემთა ტიპების იგნორირება.",
+        "lengthText": "სიგრძე: {0}",
+        "valueUpdatedText": "ღირებულება განახლებულია.",
+        "jsonUpdatedText": "JSON განახლებულია.",
+        "nameUpdatedText": "ქონების სახელი განახლებულია.",
+        "indexUpdatedText": "მასივის ინდექსი განახლებულია.",
+        "itemDeletedText": "ელემენტი წაიშალა.",
+        "arrayJsonItemDeleted": "მასივის JSON ელემენტი წაიშალა.",
+        "dataTypeText": "მონაცემთა ტიპი: {0}",
+        "editButtonText": "რედაქტირება",
+        "moveRightButtonText": "გადაადგილება მარჯვნივ",
+        "moveLeftButtonText": "გადაადგილება მარცხნივ",
+        "removeButtonText": "ამოღება",
+        "switchToPagesText": "გვერდებზე გადართვა"
     }
 } );

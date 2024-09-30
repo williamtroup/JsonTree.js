@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Arabic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Arabic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "وظيفة",
         "sideMenuButtonText": "عرض القائمة",
         "closeButtonText": "يغلق",
-        "showTypesText": "إظهار الأنواع",
         "selectAllText": "حدد الكل",
         "selectNoneText": "حدد لا شيء",
         "importButtonText": "يستورد",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
         "exportButtonText": "يصدّر",
         "noPropertiesText": "لا توجد خصائص لعرضها.",
-        "openText": "يفتح"
+        "openText": "يفتح",
+        "showDataTypesText": "إظهار أنواع البيانات",
+        "htmlText": "أتش تي أم أل",
+        "waitingText": "منتظر...",
+        "pageOfText": "الصفحة {0} من {1}",
+        "sizeText": "الحجم: {0}",
+        "copiedText": "تم نسخ JSON إلى الحافظة.",
+        "exportedText": "تم تصدير JSON.",
+        "importedText": "{0} تم استيراد ملفات JSON.",
+        "ignoreDataTypesUpdated": "تجاهل أنواع البيانات المحدثة.",
+        "lengthText": "الطول: {0}",
+        "valueUpdatedText": "تم تحديث القيمة.",
+        "jsonUpdatedText": "تم تحديث JSON.",
+        "nameUpdatedText": "تم تحديث اسم الخاصية.",
+        "indexUpdatedText": "تم تحديث فهرس الصفيف.",
+        "itemDeletedText": "تم حذف العنصر.",
+        "arrayJsonItemDeleted": "تم حذف عنصر الصفيف JSON.",
+        "dataTypeText": "نوع البيانات: {0}",
+        "editButtonText": "يحرر",
+        "moveRightButtonText": "تحرك لليمين",
+        "moveLeftButtonText": "تحرك لليسار",
+        "removeButtonText": "يزيل",
+        "switchToPagesText": "التبديل إلى الصفحات"
     }
 } );

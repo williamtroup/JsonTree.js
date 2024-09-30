@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Swedish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Swedish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "fungera",
         "sideMenuButtonText": "Visa meny",
         "closeButtonText": "Nära",
-        "showTypesText": "Visa typer",
         "selectAllText": "Välj Alla",
         "selectNoneText": "Välj Ingen",
         "importButtonText": "Importera",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Flera filer kommer att sammanfogas som en array",
         "exportButtonText": "Exportera",
         "noPropertiesText": "Det finns inga fastigheter att se.",
-        "openText": "öppna"
+        "openText": "öppna",
+        "showDataTypesText": "Visa datatyper",
+        "htmlText": "html",
+        "waitingText": "Väntan...",
+        "pageOfText": "Sida {0} av {1}",
+        "sizeText": "Storlek: {0}",
+        "copiedText": "JSON kopierades till urklipp.",
+        "exportedText": "JSON exporteras.",
+        "importedText": "{0} JSON-filer importerade.",
+        "ignoreDataTypesUpdated": "Ignorera uppdaterade datatyper.",
+        "lengthText": "Längd: {0}",
+        "valueUpdatedText": "Värdet uppdaterat.",
+        "jsonUpdatedText": "JSON uppdaterad.",
+        "nameUpdatedText": "Egendomens namn har uppdaterats.",
+        "indexUpdatedText": "Arrayindex uppdaterat.",
+        "itemDeletedText": "Objekt raderade.",
+        "arrayJsonItemDeleted": "Array JSON-objekt har tagits bort.",
+        "dataTypeText": "Datatyp: {0}",
+        "editButtonText": "Redigera",
+        "moveRightButtonText": "Flytta höger",
+        "moveLeftButtonText": "Flytta vänster",
+        "removeButtonText": "Ta bort",
+        "switchToPagesText": "Byt till sidor"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Dutch | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Dutch | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "functie",
         "sideMenuButtonText": "Toon menu",
         "closeButtonText": "Dichtbij",
-        "showTypesText": "Typen weergeven",
         "selectAllText": "Selecteer Alles",
         "selectNoneText": "Selecteer Geen",
         "importButtonText": "Importeren",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Meerdere bestanden worden samengevoegd als een array",
         "exportButtonText": "Exporteren",
         "noPropertiesText": "Er zijn geen eigendommen om te bekijken.",
-        "openText": "open"
+        "openText": "open",
+        "showDataTypesText": "Gegevenstypen weergeven",
+        "htmlText": "html",
+        "waitingText": "Wachten...",
+        "pageOfText": "Pagina {0} van {1}",
+        "sizeText": "Maat: {0}",
+        "copiedText": "JSON gekopieerd naar klembord.",
+        "exportedText": "JSON geëxporteerd.",
+        "importedText": "{0} JSON-bestanden geïmporteerd.",
+        "ignoreDataTypesUpdated": "Negeer bijgewerkte gegevenstypen.",
+        "lengthText": "Lengte: {0}",
+        "valueUpdatedText": "Waarde bijgewerkt.",
+        "jsonUpdatedText": "JSON bijgewerkt.",
+        "nameUpdatedText": "Propertynaam bijgewerkt.",
+        "indexUpdatedText": "Array-index bijgewerkt.",
+        "itemDeletedText": "Artikel verwijderd.",
+        "arrayJsonItemDeleted": "Array JSON-item verwijderd.",
+        "dataTypeText": "Gegevenstype: {0}",
+        "editButtonText": "Bewerking",
+        "moveRightButtonText": "Ga naar rechts",
+        "moveLeftButtonText": "Ga naar links",
+        "removeButtonText": "Verwijderen",
+        "switchToPagesText": "Schakel over naar pagina's"
     }
 } );

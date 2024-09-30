@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Greek | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Greek | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "λειτουργία",
         "sideMenuButtonText": "Εμφάνιση μενού",
         "closeButtonText": "Κοντά",
-        "showTypesText": "Εμφάνιση τύπων",
         "selectAllText": "Επιλέξτε Όλα",
         "selectNoneText": "Επιλέξτε Κανένα",
         "importButtonText": "Εισαγωγή",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
         "exportButtonText": "Εξαγωγή",
         "noPropertiesText": "Δεν υπάρχουν ιδιότητες για προβολή.",
-        "openText": "ανοιχτό"
+        "openText": "ανοιχτό",
+        "showDataTypesText": "Εμφάνιση τύπων δεδομένων",
+        "htmlText": "html",
+        "waitingText": "Αναμονή...",
+        "pageOfText": "Σελίδα {0} από {1}",
+        "sizeText": "Μέγεθος: {0}",
+        "copiedText": "Το JSON αντιγράφηκε στο πρόχειρο.",
+        "exportedText": "JSON εξήχθη.",
+        "importedText": "Εισήχθησαν {0} αρχεία JSON.",
+        "ignoreDataTypesUpdated": "Αγνοήστε τους τύπους δεδομένων που ενημερώθηκαν.",
+        "lengthText": "Μήκος: {0}",
+        "valueUpdatedText": "Η τιμή ενημερώθηκε.",
+        "jsonUpdatedText": "Το JSON ενημερώθηκε.",
+        "nameUpdatedText": "Το όνομα του ακινήτου ενημερώθηκε.",
+        "indexUpdatedText": "Το ευρετήριο συστοιχίας ενημερώθηκε.",
+        "itemDeletedText": "Το στοιχείο διαγράφηκε.",
+        "arrayJsonItemDeleted": "Το στοιχείο JSON πίνακα διαγράφηκε.",
+        "dataTypeText": "Τύπος δεδομένων: {0}",
+        "editButtonText": "Εκδίδω",
+        "moveRightButtonText": "Μετακίνηση Δεξιά",
+        "moveLeftButtonText": "Μετακίνηση Αριστερά",
+        "removeButtonText": "Αφαιρώ",
+        "switchToPagesText": "Μετάβαση σε σελίδες"
     }
 } );

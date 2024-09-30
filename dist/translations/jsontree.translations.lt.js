@@ -1,4 +1,4 @@
-/*! JsonTree.js v3.1.1 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.0.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -67,7 +67,6 @@ $jsontree.setConfiguration( {
         "functionText": "funkcija",
         "sideMenuButtonText": "Rodyti meniu",
         "closeButtonText": "Uždaryti",
-        "showTypesText": "Rodyti tipai",
         "selectAllText": "Pasirinkite Viskas",
         "selectNoneText": "Pasirinkite Nėra",
         "importButtonText": "Importuoti",
@@ -77,6 +76,28 @@ $jsontree.setConfiguration( {
         "dragAndDropDescriptionText": "Keli failai bus sujungti kaip masyvas",
         "exportButtonText": "Eksportuoti",
         "noPropertiesText": "Nėra nuosavybės, kurią būtų galima peržiūrėti.",
-        "openText": "atviras"
+        "openText": "atviras",
+        "showDataTypesText": "Rodyti duomenų tipus",
+        "htmlText": "html",
+        "waitingText": "Laukiama...",
+        "pageOfText": "{0} puslapis iš {1}",
+        "sizeText": "Dydis: {0}",
+        "copiedText": "JSON nukopijuotas į iškarpinę.",
+        "exportedText": "JSON eksportuotas.",
+        "importedText": "Importuoti {0} JSON failai.",
+        "ignoreDataTypesUpdated": "Ignoruoti duomenų tipus atnaujinti.",
+        "lengthText": "Ilgis: {0}",
+        "valueUpdatedText": "Vertė atnaujinta.",
+        "jsonUpdatedText": "JSON atnaujintas.",
+        "nameUpdatedText": "Nuosavybės pavadinimas atnaujintas.",
+        "indexUpdatedText": "Masyvo indeksas atnaujintas.",
+        "itemDeletedText": "Elementas ištrintas.",
+        "arrayJsonItemDeleted": "Masyvo JSON elementas ištrintas.",
+        "dataTypeText": "Duomenų tipas: {0}",
+        "editButtonText": "Redaguoti",
+        "moveRightButtonText": "Judėti į dešinę",
+        "moveLeftButtonText": "Perkelti į kairę",
+        "removeButtonText": "Pašalinti",
+        "switchToPagesText": "Perjungti į puslapius"
     }
 } );
