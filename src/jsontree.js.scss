@@ -929,6 +929,57 @@ div.json-tree-js {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Context Menu
+    -------------------------------------------------------------------------
+*/
+
+div.jsontree-js-context-menu {
+    @include no-selection-allowed;
+    @include box-sizing;
+    font-family: var(--json-tree-js-default-font);
+    animation: fade-in-animation var(--json-tree-js-animation-length);
+    position: absolute;
+    background-color: var(--json-tree-js-tooltip-background-color);
+    border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
+    color: var(--json-tree-js-tooltip-text-color);
+    border-radius: var(--json-tree-js-border-radius);
+    z-index: 2000;
+    max-width: 300px;
+    font-size: var(--json-tree-js-spacing-font-size);
+    font-weight: var(--json-tree-js-bold-weight-light);
+    overflow: hidden;
+    display: none;
+
+    div.context-menu-item {
+        border-bottom: var(--json-tree-js-border-size) dotted var(--json-tree-js-tooltip-border-color);
+        padding: var(--json-tree-js-spacing);
+        transition: var(--json-tree-js-transition);
+        transition-property: background-color;
+        padding-right: 40px;
+
+        span.symbol {
+            margin-right: var(--json-tree-js-spacing);
+            font-weight: var(--json-tree-js-bold-weight-heavy);
+        }
+
+        span.text {
+            font-weight: var(--json-tree-js-bold-weight-light);
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--json-tree-js-color-dark-black);
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - ToolTip
     -------------------------------------------------------------------------
 */

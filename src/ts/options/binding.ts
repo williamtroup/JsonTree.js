@@ -69,6 +69,7 @@ export namespace Binding {
             bindingOptions._currentView.columnDraggingDataIndex = 0;
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
             bindingOptions._currentView.contentControlButtons = [];
+            bindingOptions._currentView.contextMenu = null!;
 
             if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions._currentView.dataArrayCurrentIndex > ( bindingOptions.data.length - 1 ) ) {
                 bindingOptions._currentView.dataArrayCurrentIndex = 0;
