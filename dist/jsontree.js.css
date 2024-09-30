@@ -599,10 +599,6 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
   min-height: 30px;
   text-align: center;
 }
-div.json-tree-js div.contents div.contents-column div.column-control-buttons button:last-child,
-div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:last-child {
-  margin-bottom: 0;
-}
 div.json-tree-js div.contents div.contents-column:last-child,
 div.json-tree-js div.contents div.contents-column-multiple:last-child {
   padding-right: 0;

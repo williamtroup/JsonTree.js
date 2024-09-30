@@ -538,10 +538,6 @@ div.json-tree-js {
                     margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
 
                     @include symbol-buttons;
-
-                    &:last-child {
-                        margin-bottom: 0;
-                    }
                 }
             }
 
