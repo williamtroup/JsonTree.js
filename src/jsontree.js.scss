@@ -939,7 +939,7 @@ div.jsontree-js-context-menu {
     font-family: var(--json-tree-js-default-font);
     animation: fade-in-animation var(--json-tree-js-animation-length);
     position: absolute;
-    background-color: var(--json-tree-js-tooltip-background-color);
+    background-color: var(--json-tree-js-color-dark-black);
     border: var(--json-tree-js-border-size) solid var(--json-tree-js-tooltip-border-color);
     color: var(--json-tree-js-tooltip-text-color);
     border-radius: var(--json-tree-js-border-radius);
@@ -968,7 +968,7 @@ div.jsontree-js-context-menu {
 
         &:hover {
             cursor: pointer;
-            background-color: var(--json-tree-js-color-dark-black);
+            background-color: var(--json-tree-js-tooltip-background-color);
         }
 
         &:last-child {
