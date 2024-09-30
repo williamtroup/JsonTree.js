@@ -289,6 +289,7 @@ div.json-tree-js div.footer-bar {
 }
 div.json-tree-js div.footer-bar div.status-text {
   flex-grow: 1;
+  text-align: left !important;
 }
 div.json-tree-js div.footer-bar div.status-value-data-type,
 div.json-tree-js div.footer-bar div.status-value-length,
