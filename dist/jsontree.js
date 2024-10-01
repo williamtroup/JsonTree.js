@@ -2971,7 +2971,7 @@ var ContextMenu;
     }
     function fe(t) {
         const n = (n, o) => Convert2.stringifyJson(n, o, e, t.showCssStylesForHtmlObjects);
-        let o = JSON.stringify(t.data, n, t.jsonIndentSpaces);
+        const o = JSON.stringify(t.data, n, t.jsonIndentSpaces);
         if (Is.definedString(o)) {
             const n = DomElement.create(document.body, "a");
             n.style.display = "none";
