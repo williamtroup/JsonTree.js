@@ -724,6 +724,7 @@ var Binding;
             t = f(t);
             t = g(t);
             t = m(t);
+            t = p(t);
             return t;
         }
         t.get = o;
@@ -767,6 +768,11 @@ var Binding;
             return e;
         }
         function s(e) {
+            e.lineNumbers = Default.getObject(e.lineNumbers, {});
+            e.lineNumbers.enabled = Default.getBoolean(e.lineNumbers.enabled, true);
+            return e;
+        }
+        function u(e) {
             e.ignore = Default.getObject(e.ignore, {});
             e.ignore.nullValues = Default.getBoolean(e.ignore.nullValues, false);
             e.ignore.functionValues = Default.getBoolean(e.ignore.functionValues, false);
@@ -794,13 +800,13 @@ var Binding;
             e.ignore.lambdaValues = Default.getBoolean(e.ignore.lambdaValues, false);
             return e;
         }
-        function u(e) {
+        function c(e) {
             e.tooltip = Default.getObject(e.tooltip, {});
             e.tooltip.delay = Default.getNumber(e.tooltip.delay, 750);
             e.tooltip.offset = Default.getNumber(e.tooltip.offset, 0);
             return e;
         }
-        function c(e) {
+        function d(e) {
             e.parse = Default.getObject(e.parse, {});
             e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
             e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
@@ -808,7 +814,7 @@ var Binding;
             e.parse.stringsToSymbols = Default.getBoolean(e.parse.stringsToSymbols, false);
             return e;
         }
-        function d(e) {
+        function f(e) {
             let t = Default.getBoolean(e.allowEditing, true);
             e.allowEditing = Default.getObject(e.allowEditing, {});
             e.allowEditing.booleanValues = Default.getBoolean(e.allowEditing.booleanValues, t);
@@ -828,7 +834,7 @@ var Binding;
             e.allowEditing.bulk = Default.getBoolean(e.allowEditing.bulk, t);
             return e;
         }
-        function f(e) {
+        function g(e) {
             e.sideMenu = Default.getObject(e.sideMenu, {});
             e.sideMenu.enabled = Default.getBoolean(e.sideMenu.enabled, true);
             e.sideMenu.showImportButton = Default.getBoolean(e.sideMenu.showImportButton, true);
@@ -838,7 +844,7 @@ var Binding;
             e.sideMenu.showOnlyDataTypesAvailable = Default.getBoolean(e.sideMenu.showOnlyDataTypesAvailable, false);
             return e;
         }
-        function g(e) {
+        function m(e) {
             e.autoClose = Default.getObject(e.autoClose, {});
             e.autoClose.objectSize = Default.getNumber(e.autoClose.objectSize, 0);
             e.autoClose.arraySize = Default.getNumber(e.autoClose.arraySize, 0);
@@ -847,7 +853,7 @@ var Binding;
             e.autoClose.htmlSize = Default.getNumber(e.autoClose.htmlSize, 0);
             return e;
         }
-        function m(e) {
+        function p(e) {
             e.events = Default.getObject(e.events, {});
             e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
             e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -1381,7 +1387,7 @@ var ContextMenu;
                 $(n, o, t, l, "object");
             }
             x(o, u, t, l);
-            p(e, n, u);
+            p(e, n, u, o);
             if (Is.defined(r)) {
                 u.scrollTop = r;
             }
@@ -1528,24 +1534,28 @@ var ContextMenu;
             W(t, e.text.jsonUpdatedText);
         }
     }
-    function p(e, t, n) {
-        let o = 1;
-        let l = 0;
-        let r = 0;
-        DomElement.findByClassNames(n, [ "object-type-title", "object-type-value-title" ], (n => {
-            const i = DomElement.getOffset(n, t).top;
-            if (o === 1) {
-                l = i;
-            }
-            const a = DomElement.create(e, "div", "contents-column-line-number");
-            a.style.top = i - l + "px";
-            a.innerHTML = `${o.toString()}.`;
-            r = Math.max(r, a.offsetWidth);
-            o++;
-            return true;
-        }));
-        e.style.height = `${t.offsetHeight}px`;
-        e.style.width = `${r}px`;
+    function p(e, t, n, o) {
+        if (o.lineNumbers.enabled) {
+            let o = 1;
+            let l = 0;
+            let r = 0;
+            DomElement.findByClassNames(n, [ "object-type-title", "object-type-value-title" ], (n => {
+                const i = DomElement.getOffset(n, t).top;
+                if (o === 1) {
+                    l = i;
+                }
+                const a = DomElement.create(e, "div", "contents-column-line-number");
+                a.style.top = i - l + "px";
+                a.innerHTML = `${o.toString()}.`;
+                r = Math.max(r, a.offsetWidth);
+                o++;
+                return true;
+            }));
+            e.style.height = `${t.offsetHeight}px`;
+            e.style.width = `${r}px`;
+        } else {
+            e.parentNode.removeChild(e);
+        }
     }
     function x(t, n, o, l) {
         const r = DomElement.create(n, "div", "column-control-buttons");

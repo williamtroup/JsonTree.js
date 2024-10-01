@@ -25,7 +25,8 @@ import {
     type BindingOptionsAutoClose, 
     type BindingOptionsPaging, 
     type BindingOptionsFooter, 
-    type BindingOptionsControlPanel } from "../type";
+    type BindingOptionsControlPanel, 
+    type BindingOptionsLineNumbers } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -132,6 +133,7 @@ export namespace Binding {
             options = getTitle( options );
             options = getFooter( options );
             options = getControlPanel( options );
+            options = getLineNumbers( options );
             options = getIgnore( options );
             options = getToolTip( options );
             options = getParse( options );
@@ -186,6 +188,13 @@ export namespace Binding {
             options.controlPanel!.showEditButton = Default.getBoolean( options.controlPanel!.showEditButton, true );
             options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
+
+            return options;
+        }
+
+        function getLineNumbers( options: BindingOptions ) : BindingOptions {
+            options.lineNumbers = Default.getObject( options.lineNumbers, {} as BindingOptionsLineNumbers );
+            options.lineNumbers!.enabled = Default.getBoolean( options.lineNumbers!.enabled, true );
 
             return options;
         }

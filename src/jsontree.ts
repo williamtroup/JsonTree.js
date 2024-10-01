@@ -226,7 +226,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
-            renderControlColumnLineNumbers( lineNumbers, lines, contentsColumn );
+            renderControlColumnLineNumbers( lineNumbers, lines, contentsColumn, bindingOptions );
     
             if ( Is.defined( scrollTop ) ) {
                 contentsColumn.scrollTop = scrollTop;
@@ -430,30 +430,35 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlColumnLineNumbers( lineNumbers: HTMLElement, lines: HTMLElement, contentsColumn: HTMLElement ) : void {
-        let lineNumberCount: number = 1;
-        let firstLineTop: number = 0;
-        let largestLineNumberWidth: number = 0;
-
-        DomElement.findByClassNames( contentsColumn, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
-            const elementTop: number = DomElement.getOffset( element, lines ).top;
-
-            if ( lineNumberCount === 1 ) {
-                firstLineTop = elementTop;
-            }
-
-            const lineNumber: HTMLElement = DomElement.create( lineNumbers, "div", "contents-column-line-number" );
-            lineNumber.style.top = ( elementTop - firstLineTop ) + "px";
-            lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
-            
-            largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
-            lineNumberCount++;
+    function renderControlColumnLineNumbers( lineNumbers: HTMLElement, lines: HTMLElement, contentsColumn: HTMLElement, bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions.lineNumbers!.enabled ) {
+            let lineNumberCount: number = 1;
+            let firstLineTop: number = 0;
+            let largestLineNumberWidth: number = 0;
     
-            return true;
-        } );
+            DomElement.findByClassNames( contentsColumn, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
+                const elementTop: number = DomElement.getOffset( element, lines ).top;
+    
+                if ( lineNumberCount === 1 ) {
+                    firstLineTop = elementTop;
+                }
+    
+                const lineNumber: HTMLElement = DomElement.create( lineNumbers, "div", "contents-column-line-number" );
+                lineNumber.style.top = ( elementTop - firstLineTop ) + "px";
+                lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
+                
+                largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
+                lineNumberCount++;
+        
+                return true;
+            } );
+    
+            lineNumbers.style.height = `${lines.offsetHeight}px`;
+            lineNumbers.style.width = `${largestLineNumberWidth}px`;
 
-        lineNumbers.style.height = `${lines.offsetHeight}px`;
-        lineNumbers.style.width = `${largestLineNumberWidth}px`;
+        } else {
+            lineNumbers.parentNode!.removeChild( lineNumbers );
+        }
     }
 
 

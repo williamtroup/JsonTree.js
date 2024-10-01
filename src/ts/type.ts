@@ -157,6 +157,7 @@ export type BindingOptions = {
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
 	showChildIndexes?: boolean;
+	lineNumbers?: BindingOptionsLineNumbers;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
@@ -246,7 +247,11 @@ export type BindingOptionsControlPanel = {
 	showEditButton?: boolean;
 	showCloseOpenAllButtons?: boolean;
 	showSwitchToPagesButton?: boolean;
-}
+};
+
+export type BindingOptionsLineNumbers = {
+    enabled?: boolean;
+};
 
 export type BindingOptionsIgnore = {
     nullValues?: boolean;

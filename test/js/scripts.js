@@ -193,6 +193,10 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showEditButton: true,
             showCloseOpenAllButtons: true,
             showSwitchToPagesButton: true,
+        },
+        lineNumbers: {
+            enabled: true,
+            padNumbers: false,
         }
     };
 }
