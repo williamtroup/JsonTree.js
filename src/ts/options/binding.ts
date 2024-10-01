@@ -233,6 +233,7 @@ export namespace Binding {
             options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
+            options.parse!.stringsToSymbols = Default.getBoolean( options.parse!.stringsToSymbols, false );
 
             return options;
         }

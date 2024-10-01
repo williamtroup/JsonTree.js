@@ -218,6 +218,7 @@ export type BindingOptionsParse = {
     stringsToDates?: boolean;
 	stringsToBooleans?: boolean;
 	stringsToNumbers?: boolean;
+	stringsToSymbols?: boolean;
 };
 
 export type BindingOptionsTitle = {

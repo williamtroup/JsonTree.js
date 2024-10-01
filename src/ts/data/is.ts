@@ -57,6 +57,10 @@ export namespace Is {
 
             return result;
         }
+
+        export function symbol( value: string ) : boolean {
+            return value.startsWith( "Symbol(" ) && value.endsWith( ")" );
+        }
     }
 
     export function defined( value: any ) : boolean {

@@ -1544,6 +1544,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                     ignoredDataType = true;
 
+                } else if ( bindingOptions.parse!.stringsToSymbols && Is.String.symbol( value ) ) {
+                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    ignored = true;
+                    ignoredDataType = true;
+
                 } else {
                     let newStringValue: string = value;
 

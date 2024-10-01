@@ -104,6 +104,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             stringsToDates: true,
             stringsToBooleans: true,
             stringsToNumbers: true,
+            stringsToSymbols: true,
         },
         events: {
             onValueClick: onValueClickEvent,
@@ -281,6 +282,10 @@ function getData() {
                     value1: "123",
                     value2: "9.876",
                     value3: "986917361936291n",
+                },
+                symbols: {
+                    value1: "Symbol(id)",
+                    value2: "Symbol(name)",
                 },
             },
             booleans: [

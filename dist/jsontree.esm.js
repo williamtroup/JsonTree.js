@@ -66,6 +66,10 @@ var Is;
             return t;
         }
         e.bigInt = i;
+        function a(e) {
+            return e.startsWith("Symbol(") && e.endsWith(")");
+        }
+        e.symbol = a;
     })(t = e.String || (e.String = {}));
     function n(e) {
         return e !== null && e !== void 0 && e.toString() !== "";
@@ -770,6 +774,7 @@ var Binding;
             e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
             e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
             e.parse.stringsToNumbers = Default.getBoolean(e.parse.stringsToNumbers, false);
+            e.parse.stringsToSymbols = Default.getBoolean(e.parse.stringsToSymbols, false);
             return e;
         }
         function d(e) {
@@ -2300,6 +2305,10 @@ var ContextMenu;
                     x = true;
                 } else if (o.parse.stringsToDates && Is.String.date(r)) {
                     U(t, n, o, l, new Date(r), i, a, s, u, c);
+                    p = true;
+                    x = true;
+                } else if (o.parse.stringsToSymbols && Is.String.symbol(r)) {
+                    U(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c);
                     p = true;
                     x = true;
                 } else {
