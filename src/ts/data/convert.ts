@@ -18,7 +18,7 @@ import { Is } from "./is";
 
 
 export namespace Convert {
-    export function stringifyJson( _: string, value: any, configuration: Configuration ) : any {
+    export function stringifyJson( _: string, value: any, configuration: Configuration, addCssStyles: boolean ) : any {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
 
@@ -39,6 +39,9 @@ export namespace Convert {
             
         } else if ( Is.definedImage( value ) ) {
             value = value.src;
+
+        } else if ( Is.definedHtml( value ) ) {
+            value = htmlToObject( value, addCssStyles );
         }
 
         return value;

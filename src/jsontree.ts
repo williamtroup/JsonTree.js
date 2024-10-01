@@ -50,10 +50,6 @@ type JsonTreeData = Record<string, BindingOptions>;
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
     let _elements_Data_Count: number = 0;
 
-    let _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-        return Convert.stringifyJson( key, value, _configuration );
-    };
-
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -253,6 +249,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         bindingOptions._currentView.valueClickTimerId = 0;
         bindingOptions._currentView.editMode = true;
+
+        const _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+        };
 
         contentsColumn.classList.add( "editable" );
         contentsColumn.setAttribute( "contenteditable", "true" );
@@ -558,7 +558,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onCopy( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = _jsonStringifyReplacer;
+        let replaceFunction: any = ( key: string, value: any ) : any => {
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+        };
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
             replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
@@ -686,7 +688,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onTitleBarCopyAllClick( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = _jsonStringifyReplacer;
+        let replaceFunction: any = ( key: string, value: any ) : any => {
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+        };
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
             replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
@@ -2460,13 +2464,17 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function onExport( bindingOptions: BindingOptions ) : void {
-        let contents: string = JSON.stringify( bindingOptions.data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        const replaceFunction: any = ( key: string, value: any ) : any => {
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+        };
+
+        const contents: string = JSON.stringify( bindingOptions.data, replaceFunction, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );
             tempLink.style.display = "none";
             tempLink.setAttribute( "target", "_blank" );
-            tempLink.setAttribute( "href", `data:application/json;charset=utf-8,${encodeURIComponent(contents)}` );
+            tempLink.setAttribute( "href", `data:application/json;charset=utf-8,${encodeURIComponent( contents )}` );
             tempLink.setAttribute( "download", getExportFilename( bindingOptions ) );
             tempLink.click();
             
