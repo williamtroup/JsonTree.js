@@ -528,6 +528,27 @@ div.json-tree-js {
             overflow: auto;
             padding-right: var(--json-tree-js-spacing);
             margin-right: var(--json-tree-js-spacing);
+            white-space: nowrap;
+
+            div.contents-column-line-numbers {
+                position: relative;
+                vertical-align: top;
+                display: inline-block;
+                left: 0;
+
+                div.contents-column-line-number {
+                    position: absolute;
+                    left: 0;
+                    padding-right: calc( var(--json-tree-js-spacing) * 2 );
+                }
+            }
+
+            div.contents-column-lines {
+                vertical-align: top;
+                display: inline-block;
+                width: fit-content;
+                height: fit-content;
+            }
 
             div.column-control-buttons {
                 position: absolute;
@@ -566,6 +587,10 @@ div.json-tree-js {
             border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
             padding: var(--json-tree-js-spacing);
             border-radius: var(--json-tree-js-border-radius);
+
+            div.contents-column-line-numbers {
+                background-color: var(--json-tree-js-paging-column-background-color);
+            }
         }
 
         @include type-span-colors;
@@ -767,6 +792,10 @@ div.json-tree-js {
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
             margin-left: calc( var(--json-tree-js-spacing) * 2 );
+
+            div.object-type-value-title {
+                width: fit-content;
+            }
 
             img {
                 vertical-align: middle;

@@ -33,6 +33,22 @@ export namespace DomElement {
         }
     }
 
+    export function findByClassNames( baseElement: HTMLElement, classNames: string[], func: ( element: HTMLElement ) => boolean ) : void {
+        const tagTypesLength: number = classNames.length;
+
+        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
+            const domElements: HTMLCollectionOf<Element> = baseElement.getElementsByClassName( classNames[ tagTypeIndex ] );
+            const elements: HTMLElement[] = [].slice.call( domElements );
+            const elementsLength: number = elements.length;
+
+            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+                if ( !func( elements[ elementIndex ] ) ) {
+                    break;
+                }
+            }
+        }
+    }
+
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
@@ -147,5 +163,24 @@ export namespace DomElement {
         }
         
         return input;
+    }
+
+    export function getOffset( element: HTMLElement, topBaseElement: HTMLElement ) : Position {
+        const position: Position = {} as Position;
+        position.left = 0;
+        position.top = 0;
+
+        while ( element && !isNaN( element.offsetLeft ) && !isNaN( element.offsetTop ) ) {
+            position.left += element.offsetLeft - element.scrollLeft;
+            position.top += element.offsetTop - element.scrollTop;
+
+            element = element.offsetParent as HTMLElement;
+
+            if ( element === topBaseElement ) {
+                break;
+            }
+        }
+
+        return position;
     }
 }
