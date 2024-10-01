@@ -213,7 +213,7 @@ export type BindingOptionsPaging = {
 	startPage?: number;
 	synchronizeScrolling?: boolean;
 	allowColumnReordering?: boolean;
-}
+};
 
 export type BindingOptionsParse = {
     stringsToDates?: boolean;

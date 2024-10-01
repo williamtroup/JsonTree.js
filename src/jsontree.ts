@@ -435,20 +435,33 @@ type JsonTreeData = Record<string, BindingOptions>;
             let lineNumberCount: number = 1;
             let firstLineTop: number = 0;
             let largestLineNumberWidth: number = 0;
+            let lastLineNumber: HTMLElement = null!;
+            const globalSpacingUsed: number = DomElement.getStyleValueByName( contentsColumn, "padding-top", true );
     
             DomElement.findByClassNames( contentsColumn, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
-                const elementTop: number = DomElement.getOffset( element, lines ).top;
+                let elementTop: number = DomElement.getOffset( element, lines ).top;
     
                 if ( lineNumberCount === 1 ) {
                     firstLineTop = elementTop;
                 }
+
+                elementTop -= firstLineTop;
     
                 const lineNumber: HTMLElement = DomElement.create( lineNumbers, "div", "contents-column-line-number" );
-                lineNumber.style.top = ( elementTop - firstLineTop ) + "px";
+                lineNumber.style.top = `${elementTop}px`;
                 lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
+
+                if ( Is.defined( lastLineNumber ) ) {
+                    const lastTop: number = lastLineNumber.offsetTop + lastLineNumber.offsetHeight;
+
+                    if ( lastTop < elementTop ) {
+                        lastLineNumber.style.height = `${( lastLineNumber.offsetHeight + ( elementTop - lastTop ) - globalSpacingUsed )}px`;
+                    }
+                }
                 
                 largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
                 lineNumberCount++;
+                lastLineNumber = lineNumber;
         
                 return true;
             } );

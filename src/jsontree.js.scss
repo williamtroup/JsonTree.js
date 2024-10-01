@@ -538,6 +538,8 @@ div.json-tree-js {
 
                 div.contents-column-line-number {
                     position: absolute;
+                    display: flex;
+                    align-items: center;
                     left: 0;
                     padding-right: calc( var(--json-tree-js-spacing) * 2 );
                 }
