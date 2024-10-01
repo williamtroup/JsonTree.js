@@ -165,7 +165,7 @@ export namespace DomElement {
         return input;
     }
 
-    export function getOffset( element: HTMLElement, topBaseElement: HTMLElement ) : Position {
+    export function getOffset( element: HTMLElement ) : Position {
         const position: Position = {} as Position;
         position.left = 0;
         position.top = 0;
@@ -175,10 +175,6 @@ export namespace DomElement {
             position.top += element.offsetTop - element.scrollTop;
 
             element = element.offsetParent as HTMLElement;
-
-            if ( element === topBaseElement ) {
-                break;
-            }
         }
 
         return position;

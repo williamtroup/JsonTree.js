@@ -437,7 +437,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             let largestLineNumberWidth: number = 0;
     
             DomElement.findByClassNames( contentsColumn, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
-                let elementTop: number = DomElement.getOffset( element, lines ).top;
+                let elementTop: number = DomElement.getOffset( element ).top;
     
                 if ( lineNumberCount === 1 ) {
                     firstLineTop = elementTop;

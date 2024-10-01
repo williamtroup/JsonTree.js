@@ -526,19 +526,16 @@ var DomElement;
         return c;
     }
     e.createCheckBox = c;
-    function d(e, t) {
-        const n = {};
-        n.left = 0;
-        n.top = 0;
+    function d(e) {
+        const t = {};
+        t.left = 0;
+        t.top = 0;
         while (e && !isNaN(e.offsetLeft) && !isNaN(e.offsetTop)) {
-            n.left += e.offsetLeft - e.scrollLeft;
-            n.top += e.offsetTop - e.scrollTop;
+            t.left += e.offsetLeft - e.scrollLeft;
+            t.top += e.offsetTop - e.scrollTop;
             e = e.offsetParent;
-            if (e === t) {
-                break;
-            }
         }
-        return n;
+        return t;
     }
     e.getOffset = d;
 })(DomElement || (DomElement = {}));
@@ -1539,16 +1536,16 @@ var ContextMenu;
             let o = 1;
             let l = 0;
             let r = 0;
-            DomElement.findByClassNames(n, [ "object-type-title", "object-type-value-title" ], (n => {
-                let i = DomElement.getOffset(n, t).top;
+            DomElement.findByClassNames(n, [ "object-type-title", "object-type-value-title" ], (t => {
+                let n = DomElement.getOffset(t).top;
                 if (o === 1) {
-                    l = i;
+                    l = n;
                 }
-                i -= l;
-                const a = DomElement.create(e, "div", "contents-column-line-number");
-                a.style.top = `${i}px`;
-                a.innerHTML = `${o.toString()}.`;
-                r = Math.max(r, a.offsetWidth);
+                n -= l;
+                const i = DomElement.create(e, "div", "contents-column-line-number");
+                i.style.top = `${n}px`;
+                i.innerHTML = `${o.toString()}.`;
+                r = Math.max(r, i.offsetWidth);
                 o++;
                 return true;
             }));
