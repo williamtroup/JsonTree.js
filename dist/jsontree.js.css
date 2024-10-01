@@ -87,6 +87,7 @@
   --json-tree-js-spacing: 10px;
   --json-tree-js-spacing-font-size: 0.85rem;
   --json-tree-js-spacing-arrow-toggle-size: 12px;
+  --json-tree-js-spacing-title-bar: calc( ( var(--json-tree-js-spacing) / 2 ) + 2px );
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
 }
@@ -213,7 +214,7 @@ div.json-tree-js div.right-arrow {
 */
 div.json-tree-js div.title-bar {
   display: flex;
-  padding: calc(var(--json-tree-js-spacing) / 2);
+  padding: var(--json-tree-js-spacing-title-bar);
   background-color: var(--json-tree-js-color-dark-black);
   border-radius: var(--json-tree-js-border-radius);
   border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
@@ -229,7 +230,6 @@ div.json-tree-js div.title-bar button {
   padding-bottom: 5px;
   padding-left: 9px;
   padding-right: 9px;
-  margin: 3px;
   outline: none;
   transition: var(--json-tree-js-transition);
 }
@@ -269,7 +269,7 @@ div.json-tree-js div.title-bar div.controls {
   white-space: nowrap;
 }
 div.json-tree-js div.title-bar div.controls button {
-  margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+  margin-left: var(--json-tree-js-spacing-title-bar) !important;
 }
 div.json-tree-js div.title-bar div.controls button.copy-all {
   display: none;
@@ -346,7 +346,7 @@ div.json-tree-js div.side-menu {
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar {
   display: flex;
-  padding: calc(var(--json-tree-js-spacing) / 2);
+  padding: var(--json-tree-js-spacing-title-bar);
   background-color: var(--json-tree-js-color-dark-black);
   border-radius: var(--json-tree-js-border-radius);
   border-bottom: var(--json-tree-js-container-border-color) solid var(--json-tree-js-border-size);
@@ -376,7 +376,6 @@ div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-contr
   padding-bottom: 5px;
   padding-left: 9px;
   padding-right: 9px;
-  margin: 3px;
   outline: none;
   transition: var(--json-tree-js-transition);
 }
@@ -393,7 +392,7 @@ div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-contr
   color: var(--json-tree-js-button-text-color-hover);
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button {
-  margin-left: calc(var(--json-tree-js-spacing) / 2) !important;
+  margin-left: var(--json-tree-js-spacing-title-bar) !important;
   font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
@@ -566,7 +565,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
   border-bottom-left-radius: var(--json-tree-js-border-radius);
   border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
-  padding: calc(var(--json-tree-js-spacing) / 2);
+  padding: var(--json-tree-js-spacing-title-bar);
   z-index: 50;
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
@@ -579,7 +578,6 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
   padding-bottom: 5px;
   padding-left: 9px;
   padding-right: 9px;
-  margin: 3px;
   outline: none;
   transition: var(--json-tree-js-transition);
 }
@@ -600,11 +598,15 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
-  margin-bottom: calc(var(--json-tree-js-spacing) / 2);
+  margin-bottom: var(--json-tree-js-spacing-title-bar);
   font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
   text-align: center;
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:last-child,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:last-child {
+  margin-bottom: 0;
 }
 div.json-tree-js div.contents div.contents-column:last-child,
 div.json-tree-js div.contents div.contents-column-multiple:last-child {
