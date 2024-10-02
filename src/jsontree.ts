@@ -1305,7 +1305,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             objectTypeValue.classList.add( "last-item" );
         }
 
-        if ( bindingOptions.showDataTypes ) {
+        if ( bindingOptions.showDataTypes && !isForEmptyProperties ) {
             typeElement = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "type-color" : "type", Char.empty ) as HTMLSpanElement;
         }
 

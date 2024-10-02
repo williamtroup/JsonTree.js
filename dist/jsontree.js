@@ -2154,7 +2154,7 @@ var ContextMenu;
         if (i) {
             d.classList.add("last-item");
         }
-        if (o.showDataTypes) {
+        if (o.showDataTypes && !D) {
             h = DomElement.createWithHTML(f, "span", o.showValueColors ? "type-color" : "type", "");
         }
         if (Is.defined(w) && !D && o.showValueColors && o.showPropertyNameAndIndexColors) {
