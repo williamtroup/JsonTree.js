@@ -19,7 +19,7 @@ import {
     type ContentPanels, 
     type FunctionName, 
     type BindingOptionsCurrentView, 
-    ColumnLayout} from "./ts/type";
+    type ColumnLayout } from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
