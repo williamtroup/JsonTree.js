@@ -37,7 +37,7 @@ import { Arr } from "./ts/data/arr";
 import { Size } from "./ts/data/size";
 import { Obj } from "./ts/data/obj";
 import { Convert } from "./ts/data/convert";
-import { ContextMenu } from "./ts/area/menu";
+import { ContextMenu } from "./ts/area/context-menu";
 
 
 type JsonTreeData = Record<string, BindingOptions>;

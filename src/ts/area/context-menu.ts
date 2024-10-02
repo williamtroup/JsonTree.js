@@ -3,7 +3,7 @@
  * 
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
- * @file        menu.ts
+ * @file        context-menu.ts
  * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
