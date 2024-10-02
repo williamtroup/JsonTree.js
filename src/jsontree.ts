@@ -1184,7 +1184,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} size` : "size", `[${data.length}]` );
         }
 
-        if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+        if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
         }
@@ -1258,7 +1258,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             propertiesAdded = false;
 
         } else {
-            if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+            if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                 createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
             }
         }
@@ -1809,7 +1809,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${arrayValues.length}]` );
                 }
 
-                if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
@@ -1818,7 +1818,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true );
 
-                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
                     closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
@@ -1848,7 +1848,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${value.length}]` );
                 }
 
-                if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
@@ -1857,7 +1857,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false );
 
-                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
                     closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
