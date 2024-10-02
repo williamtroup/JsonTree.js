@@ -460,14 +460,17 @@ type JsonTreeData = Record<string, BindingOptions>;
                     elementTop -= firstLineTop;
         
                     const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
-                    lineNumber.style.top = `${elementTop}px`;
 
                     if ( bindingOptions.lineNumbers!.padNumbers ) {
                         lineNumber.innerHTML = `${Str.padNumber( lineNumberCount, valueElementsLength.toString().length )}.`;
                     } else {
                         lineNumber.innerHTML = `${lineNumberCount}.`;
                     }
-                    
+
+                    const newTop: number = elementTop + ( valueElement.offsetHeight / 2 ) - ( lineNumber.offsetHeight / 2 );
+
+                    lineNumber.style.top = `${newTop}px`;
+
                     largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
                 }
 

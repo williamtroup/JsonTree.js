@@ -1551,12 +1551,13 @@ var ContextMenu;
                     }
                     r -= o;
                     const s = DomElement.create(e.lineNumbers, "div", "contents-column-line-number");
-                    s.style.top = `${r}px`;
                     if (t.lineNumbers.padNumbers) {
                         s.innerHTML = `${Str.padNumber(n, i.toString().length)}.`;
                     } else {
                         s.innerHTML = `${n}.`;
                     }
+                    const u = r + a.offsetHeight / 2 - s.offsetHeight / 2;
+                    s.style.top = `${u}px`;
                     l = Math.max(l, s.offsetWidth);
                 }
                 n++;
