@@ -341,7 +341,7 @@ function onValueClickJsonReplacer( _, value ) {
 }
 
 function updateBindingOptions() {
-    var bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
+    const bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
     bindingOptions.showArrowToggles = false;
 
     $jsontree.updateBindingOptions( "json-tree-1", bindingOptions );
