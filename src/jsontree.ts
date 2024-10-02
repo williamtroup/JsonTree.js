@@ -18,7 +18,8 @@ import {
     type ContentPanelsForArrayIndex,
     type ContentPanels, 
     type FunctionName, 
-    type BindingOptionsCurrentView } from "./ts/type";
+    type BindingOptionsCurrentView, 
+    ColumnLayout} from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -142,7 +143,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.sideMenuChanged = false;
         bindingOptions._currentView.contentColumns = [];
         bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
-        bindingOptions._currentView.contentControlButtons = [];
 
         renderControlTitleBar( bindingOptions, data );
 
@@ -207,12 +207,19 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
                 contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
             }
-    
-            bindingOptions._currentView.contentColumns.push( contentsColumn );
 
             const lineNumbers: HTMLElement = DomElement.create( contentsColumn, "div", "contents-column-line-numbers" );
             const lines: HTMLElement = DomElement.create( contentsColumn, "div", "contents-column-lines" );
-    
+
+            const columnLayout: ColumnLayout = {
+                column: contentsColumn,
+                lineNumbers: lineNumbers,
+                lines: lines,
+                controlButtons: null!
+            };
+
+            bindingOptions._currentView.contentColumns.push( columnLayout );
+
             if ( Is.definedArray( data ) ) {
                 renderArray( lines, bindingOptions, data, DataType.array );
             } else if ( Is.definedSet( data ) ) {
@@ -226,7 +233,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
-            renderControlColumnLineNumbers( lineNumbers, lines, contentsColumn, bindingOptions );
+            renderControlColumnLineNumbers( columnLayout, bindingOptions );
     
             if ( Is.defined( scrollTop ) ) {
                 contentsColumn.scrollTop = scrollTop;
@@ -325,7 +332,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const contentColumnsLength: number = bindingOptions._currentView.contentColumns.length;
 
             for ( let contentColumnIndex: number = 0; contentColumnIndex < contentColumnsLength; contentColumnIndex++ ) {
-                result.push( bindingOptions._currentView.contentColumns[ contentColumnIndex ].scrollTop );
+                result.push( bindingOptions._currentView.contentColumns[ contentColumnIndex ].column.scrollTop );
             }
         }
 
@@ -341,19 +348,19 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnsLength: number = bindingOptions._currentView.contentColumns.length;
 
         if ( bindingOptions.controlPanel!.enabled ) {
-            const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ dataIndex ];
+            const controlButtons: HTMLElement = bindingOptions._currentView.contentColumns[ dataIndex ].controlButtons;
 
             if ( Is.defined( controlButtons ) ) {
-                controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ dataIndex ].scrollTop}px`;
-                controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ dataIndex ].scrollLeft}px`;
+                controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ dataIndex ].column.scrollTop}px`;
+                controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ dataIndex ].column.scrollLeft}px`;
             }
         }
 
         if ( bindingOptions.paging!.synchronizeScrolling ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
-                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+                    bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollTop = scrollTop;
+                    bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
                 }
             }
         }
@@ -361,11 +368,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.controlPanel!.enabled ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
+                    const controlButtons: HTMLElement = bindingOptions._currentView.contentColumns[ columnIndex ].controlButtons;
                     
                     if ( Is.defined( controlButtons ) ) {
-                        controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop}px`;
-                        controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft}px`;
+                        controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollTop}px`;
+                        controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollLeft}px`;
                     }
                 }
             }
@@ -430,36 +437,42 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlColumnLineNumbers( lineNumbers: HTMLElement, lines: HTMLElement, contentsColumn: HTMLElement, bindingOptions: BindingOptions ) : void {
+    function renderControlColumnLineNumbers( columnLayout: ColumnLayout, bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.lineNumbers!.enabled ) {
             let lineNumberCount: number = 1;
             let firstLineTop: number = 0;
             let largestLineNumberWidth: number = 0;
+
+            columnLayout.lineNumbers.innerHTML = Char.empty;
     
-            DomElement.findByClassNames( contentsColumn, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
-                let elementTop: number = DomElement.getOffset( element ).top;
+            DomElement.findByClassNames( columnLayout.column, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
+                if ( element.offsetHeight > 0 ) {
+                    let elementTop: number = DomElement.getOffset( element ).top;
     
-                if ( lineNumberCount === 1 ) {
-                    firstLineTop = elementTop;
+                    if ( lineNumberCount === 1 ) {
+                        firstLineTop = elementTop;
+                    }
+    
+                    elementTop -= firstLineTop;
+        
+                    const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
+                    lineNumber.style.top = `${elementTop}px`;
+                    lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
+                    
+                    largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
                 }
 
-                elementTop -= firstLineTop;
-    
-                const lineNumber: HTMLElement = DomElement.create( lineNumbers, "div", "contents-column-line-number" );
-                lineNumber.style.top = `${elementTop}px`;
-                lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
-                
-                largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
                 lineNumberCount++;
         
                 return true;
             } );
     
-            lineNumbers.style.height = `${lines.offsetHeight}px`;
-            lineNumbers.style.width = `${largestLineNumberWidth}px`;
+            columnLayout.lineNumbers.style.height = `${columnLayout.lines.offsetHeight}px`;
+            columnLayout.lineNumbers.style.width = `${largestLineNumberWidth}px`;
 
         } else {
-            lineNumbers.parentNode!.removeChild( lineNumbers );
+            columnLayout.lineNumbers.parentNode!.removeChild( columnLayout.lineNumbers );
+            columnLayout.lineNumbers = null!;
         }
     }
 
@@ -547,7 +560,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
-            bindingOptions._currentView.contentControlButtons.push( controlButtons );
+            bindingOptions._currentView.contentColumns[ dataIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
@@ -2245,12 +2258,13 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedBraces: HTMLElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
+        const columnLayout: ColumnLayout = bindingOptions._currentView.contentColumns[ dataArrayIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
         }
 
-        const hideFunc: Function = () : void => {
+        const hideFunc: Function = ( updateLineNumbers: boolean = true ) : void => {
             objectTypeContents.style.display = "none";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
 
@@ -2269,9 +2283,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.defined( coma ) ) {
                 coma.style.display = "inline-block";
             }
+
+            if ( updateLineNumbers ) {
+                renderControlColumnLineNumbers( columnLayout, bindingOptions );
+            }
         };
 
-        const showFunc: Function = () : void => {
+        const showFunc: Function = ( updateLineNumbers: boolean = true ) : void => {
             objectTypeContents.style.display = "block";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
@@ -2289,6 +2307,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( Is.defined( coma ) ) {
                 coma.style.display = "none";
+            }
+
+            if ( updateLineNumbers ) {
+                renderControlColumnLineNumbers( columnLayout, bindingOptions );
             }
         };
 
@@ -2328,7 +2350,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             arrow.ondblclick = DomElement.cancelBubble;
         }
 
-        conditionFunc( isClosed );
+        conditionFunc( isClosed, false );
 
         bindingOptions._currentView.contentPanelsIndex++;
     }

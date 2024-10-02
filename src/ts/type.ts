@@ -14,6 +14,13 @@
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 
+export type ColumnLayout = {
+	column: HTMLElement;
+	lineNumbers: HTMLElement;
+	lines: HTMLElement;
+	controlButtons: HTMLElement;
+};
+
 export type FunctionName = {
 	name: string;
 	isLambda: boolean;
@@ -192,7 +199,7 @@ export type BindingOptionsCurrentView = {
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
 	initialized: boolean;
-	contentColumns: HTMLElement[];
+	contentColumns: ColumnLayout[];
 	footer: HTMLElement;
 	footerStatusText: HTMLElement;
 	footerDataTypeText: HTMLElement;
@@ -203,7 +210,6 @@ export type BindingOptionsCurrentView = {
 	columnDragging: boolean;
 	columnDraggingDataIndex: number;
 	dataTypeCounts: Record<string, number>;
-	contentControlButtons: HTMLElement[];
 	contextMenu: HTMLElement;
 };
 
