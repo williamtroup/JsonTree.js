@@ -196,6 +196,7 @@ export namespace Binding {
             options.lineNumbers = Default.getObject( options.lineNumbers, {} as BindingOptionsLineNumbers );
             options.lineNumbers!.enabled = Default.getBoolean( options.lineNumbers!.enabled, true );
             options.lineNumbers!.padNumbers = Default.getBoolean( options.lineNumbers!.padNumbers, false );
+            options.lineNumbers!.addDots = Default.getBoolean( options.lineNumbers!.addDots, true );
 
             return options;
         }

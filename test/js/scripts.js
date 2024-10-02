@@ -197,6 +197,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         lineNumbers: {
             enabled: true,
             padNumbers: false,
+            addDots: true,
         }
     };
 }

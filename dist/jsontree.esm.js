@@ -766,6 +766,7 @@ var Binding;
             e.lineNumbers = Default.getObject(e.lineNumbers, {});
             e.lineNumbers.enabled = Default.getBoolean(e.lineNumbers.enabled, true);
             e.lineNumbers.padNumbers = Default.getBoolean(e.lineNumbers.padNumbers, false);
+            e.lineNumbers.addDots = Default.getBoolean(e.lineNumbers.addDots, true);
             return e;
         }
         function u(e) {
@@ -1553,13 +1554,14 @@ var ContextMenu;
                     }
                     r -= o;
                     const a = DomElement.create(e.lineNumbers, "div", "contents-column-line-number");
+                    const u = t.lineNumbers.addDots ? "." : "";
                     if (t.lineNumbers.padNumbers) {
-                        a.innerHTML = `${Str.padNumber(n, i.toString().length)}.`;
+                        a.innerHTML = `${Str.padNumber(n, i.toString().length)}${u}`;
                     } else {
-                        a.innerHTML = `${n}.`;
+                        a.innerHTML = `${n}${u}`;
                     }
-                    const u = r + s.offsetHeight / 2 - a.offsetHeight / 2;
-                    a.style.top = `${u}px`;
+                    const c = r + s.offsetHeight / 2 - a.offsetHeight / 2;
+                    a.style.top = `${c}px`;
                     l = Math.max(l, a.offsetWidth);
                 }
                 n++;
