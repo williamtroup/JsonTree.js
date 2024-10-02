@@ -478,8 +478,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             columnLayout.lineNumbers.style.width = `${largestLineNumberWidth}px`;
 
         } else {
-            columnLayout.lineNumbers.parentNode!.removeChild( columnLayout.lineNumbers );
-            columnLayout.lineNumbers = null!;
+            if ( Is.defined( columnLayout.lineNumbers ) ) {
+                columnLayout.lineNumbers.parentNode!.removeChild( columnLayout.lineNumbers );
+                columnLayout.lineNumbers = null!;
+            }
         }
     }
 

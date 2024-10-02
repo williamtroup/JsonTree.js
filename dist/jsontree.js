@@ -1566,8 +1566,10 @@ var ContextMenu;
             e.lineNumbers.style.height = `${e.lines.offsetHeight}px`;
             e.lineNumbers.style.width = `${l}px`;
         } else {
-            e.lineNumbers.parentNode.removeChild(e.lineNumbers);
-            e.lineNumbers = null;
+            if (Is.defined(e.lineNumbers)) {
+                e.lineNumbers.parentNode.removeChild(e.lineNumbers);
+                e.lineNumbers = null;
+            }
         }
     }
     function T(t, n, o, l) {
