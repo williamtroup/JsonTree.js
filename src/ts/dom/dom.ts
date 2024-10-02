@@ -33,23 +33,6 @@ export namespace DomElement {
         }
     }
 
-    export function getByClassNames( baseElement: HTMLElement, classNames: string[] ) : HTMLElement[] {
-        const result: HTMLElement[] = [];
-        const tagTypesLength: number = classNames.length;
-
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
-            const domElements: HTMLCollectionOf<Element> = baseElement.getElementsByClassName( classNames[ tagTypeIndex ] );
-            const elements: HTMLElement[] = [].slice.call( domElements );
-            const elementsLength: number = elements.length;
-
-            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                result.push( elements[ elementIndex ] );
-            }
-        }
-
-        return result;
-    }
-
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";

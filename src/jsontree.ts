@@ -443,13 +443,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             let lineNumberCount: number = 1;
             let firstLineTop: number = 0;
             let largestLineNumberWidth: number = 0;
-            const valueElements: HTMLElement[] = DomElement.getByClassNames( columnLayout.column, [ "object-type-title", "object-type-value-title" ] );
+            const valueElements: NodeListOf<Element> = columnLayout.column.querySelectorAll( ".object-type-title, .object-type-value-title, .object-type-end" );
             const valueElementsLength: number = valueElements.length;
 
             columnLayout.lineNumbers.innerHTML = Char.empty;
 
             for ( let valueElementIndex = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
-                const valueElement: HTMLElement = valueElements[ valueElementIndex ];
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
                 if ( valueElement.offsetHeight > 0 ) {
                     let elementTop: number = DomElement.getOffset( valueElement ).top;

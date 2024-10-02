@@ -417,21 +417,7 @@ var DomElement;
         }
     }
     e.find = t;
-    function n(e, t) {
-        const n = [];
-        const o = t.length;
-        for (let l = 0; l < o; l++) {
-            const o = e.getElementsByClassName(t[l]);
-            const r = [].slice.call(o);
-            const i = r.length;
-            for (let e = 0; e < i; e++) {
-                n.push(r[e]);
-            }
-        }
-        return n;
-    }
-    e.getByClassNames = n;
-    function o(e, t, n = "", o = null) {
+    function n(e, t, n = "", o = null) {
         const l = t.toLowerCase();
         const r = l === "text";
         let i = r ? document.createTextNode("") : document.createElement(l);
@@ -447,26 +433,26 @@ var DomElement;
         }
         return i;
     }
-    e.create = o;
-    function l(e, t, n, l, r = null) {
-        const i = o(e, t, n, r);
+    e.create = n;
+    function o(e, t, o, l, r = null) {
+        const i = n(e, t, o, r);
         i.innerHTML = l;
         return i;
     }
-    e.createWithHTML = l;
-    function r(e) {
+    e.createWithHTML = o;
+    function l(e) {
         const t = e.toLowerCase();
         const n = t === "text";
         let o = n ? document.createTextNode("") : document.createElement(t);
         return o;
     }
-    e.createWithNoContainer = r;
-    function i(e) {
+    e.createWithNoContainer = l;
+    function r(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    e.cancelBubble = i;
-    function a() {
+    e.cancelBubble = r;
+    function i() {
         const e = document.documentElement;
         const t = {
             left: e.scrollLeft - (e.clientLeft || 0),
@@ -474,11 +460,11 @@ var DomElement;
         };
         return t;
     }
-    e.getScrollPosition = a;
-    function s(e, t, n) {
+    e.getScrollPosition = i;
+    function a(e, t, n) {
         let o = e.pageX;
         let l = e.pageY;
-        const r = a();
+        const r = i();
         t.style.display = "block";
         if (o + t.offsetWidth > window.innerWidth) {
             o -= t.offsetWidth + n;
@@ -501,32 +487,32 @@ var DomElement;
         t.style.left = `${o}px`;
         t.style.top = `${l}px`;
     }
-    e.showElementAtMousePosition = s;
-    function u(e) {
+    e.showElementAtMousePosition = a;
+    function s(e) {
         const t = document.createRange();
         t.selectNodeContents(e);
         const n = window.getSelection();
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.selectAllText = u;
-    function c(e, t, n, r, i, a) {
-        const s = o(e, "div", "checkbox");
-        const u = o(s, "label", "checkbox");
-        const c = o(u, "input");
+    e.selectAllText = s;
+    function u(e, t, l, r, i, a) {
+        const s = n(e, "div", "checkbox");
+        const u = n(s, "label", "checkbox");
+        const c = n(u, "input");
         c.type = "checkbox";
-        c.name = n;
+        c.name = l;
         c.checked = r;
         c.autocomplete = "off";
-        o(u, "span", "check-mark");
-        l(u, "span", `text ${i}`, t);
+        n(u, "span", "check-mark");
+        o(u, "span", `text ${i}`, t);
         if (Is.definedString(a)) {
-            l(u, "span", `additional-text`, a);
+            o(u, "span", `additional-text`, a);
         }
         return c;
     }
-    e.createCheckBox = c;
-    function d(e) {
+    e.createCheckBox = u;
+    function c(e) {
         const t = {};
         t.left = 0;
         t.top = 0;
@@ -537,7 +523,7 @@ var DomElement;
         }
         return t;
     }
-    e.getOffset = d;
+    e.getOffset = c;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -1544,7 +1530,7 @@ var ContextMenu;
             let n = 1;
             let o = 0;
             let l = 0;
-            const r = DomElement.getByClassNames(e.column, [ "object-type-title", "object-type-value-title" ]);
+            const r = e.column.querySelectorAll(".object-type-title, .object-type-value-title, .object-type-end");
             const i = r.length;
             e.lineNumbers.innerHTML = "";
             for (let a = 0; a < i; a++) {
