@@ -568,7 +568,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.contents-column-l
   display: flex;
   align-items: center;
   left: 0;
-  padding-right: calc(var(--json-tree-js-spacing) * 2);
+  padding-right: var(--json-tree-js-spacing);
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-lines,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-lines {
