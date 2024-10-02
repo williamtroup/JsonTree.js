@@ -589,10 +589,6 @@ div.json-tree-js {
             border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
             padding: var(--json-tree-js-spacing);
             border-radius: var(--json-tree-js-border-radius);
-
-            div.contents-column-line-numbers {
-                background-color: var(--json-tree-js-paging-column-background-color);
-            }
         }
 
         @include type-span-colors;

@@ -642,9 +642,6 @@ div.json-tree-js div.contents div.contents-column-multiple {
   padding: var(--json-tree-js-spacing);
   border-radius: var(--json-tree-js-border-radius);
 }
-div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
-  background-color: var(--json-tree-js-paging-column-background-color);
-}
 div.json-tree-js div.contents span.array {
   color: var(--json-tree-js-color-array);
 }
