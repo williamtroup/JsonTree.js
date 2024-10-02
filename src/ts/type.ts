@@ -211,6 +211,7 @@ export type BindingOptionsCurrentView = {
 	columnDraggingDataIndex: number;
 	dataTypeCounts: Record<string, number>;
 	contextMenu: HTMLElement;
+	currentColumnBuildingIndex: number;
 };
 
 export type BindingOptionsPaging = {

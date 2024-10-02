@@ -219,6 +219,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             };
 
             bindingOptions._currentView.contentColumns.push( columnLayout );
+            bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.contentColumns.length - 1;
 
             if ( Is.definedArray( data ) ) {
                 renderArray( lines, bindingOptions, data, DataType.array );
@@ -232,8 +233,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 renderObject( lines, bindingOptions, data, dataIndex, DataType.object );
             }
 
-            renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
             renderControlColumnLineNumbers( columnLayout, bindingOptions );
+            renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
     
             if ( Is.defined( scrollTop ) ) {
                 contentsColumn.scrollTop = scrollTop;
@@ -572,7 +573,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
-            bindingOptions._currentView.contentColumns[ dataIndex ].controlButtons = controlButtons;
+            bindingOptions._currentView.contentColumns[ bindingOptions._currentView.currentColumnBuildingIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
@@ -2270,7 +2271,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedBraces: HTMLElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
-        const columnLayout: ColumnLayout = bindingOptions._currentView.contentColumns[ dataArrayIndex ];
+        const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+        const columnLayout: ColumnLayout = bindingOptions._currentView.contentColumns[ columnLayoutProcessingIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
