@@ -694,6 +694,8 @@ var Binding;
             t.jsonPathAny = Default.getString(t.jsonPathAny, "..");
             t.jsonPathSeparator = Default.getString(t.jsonPathSeparator, "\\");
             t.showChildIndexes = Default.getBoolean(t.showChildIndexes, true);
+            t.showClosedArraySquaredBrackets = Default.getBoolean(t.showClosedArraySquaredBrackets, true);
+            t.showClosedObjectCurlyBraces = Default.getBoolean(t.showClosedObjectCurlyBraces, true);
             t = l(t);
             t = r(t);
             t = i(t);
@@ -1329,7 +1331,7 @@ var ContextMenu;
             a(n, l, e, null, o[0], 1, false);
         }
         C(e);
-        j(e);
+        P(e);
         se(e);
         e._currentView.initialized = true;
     }
@@ -1702,7 +1704,7 @@ var ContextMenu;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => E(t);
+                o.onclick = () => B(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1711,7 +1713,7 @@ var ContextMenu;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.currentDataArrayPageIndex > 0) {
-                    t._currentView.backButton.onclick = () => B(t);
+                    t._currentView.backButton.onclick = () => E(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1770,13 +1772,13 @@ var ContextMenu;
         r(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function E(e) {
+    function B(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
         r(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function B(e) {
+    function E(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.currentDataArrayPageIndex -= e.paging.columnsPerPage;
             r(e, true);
@@ -1868,7 +1870,7 @@ var ContextMenu;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            const l = P(u, e, n, !d[`${e}Values`]);
+            const l = j(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
@@ -1883,7 +1885,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function P(e, t, n, o) {
+    function j(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -1904,7 +1906,7 @@ var ContextMenu;
         }
         return l;
     }
-    function j(t) {
+    function P(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
             k(t);
@@ -2035,6 +2037,8 @@ var ContextMenu;
             }
             if (n.showOpeningClosingCurlyBraces) {
                 g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
+            }
+            if (n.showClosedObjectCurlyBraces) {
                 m = DomElement.createWithHTML(u, "span", "closed-symbols", "{ ... }");
             }
             z(d, null, c, n, o, i, g, m, false, true, "", r, r !== "object");
@@ -2063,6 +2067,8 @@ var ContextMenu;
         }
         if (n.showOpeningClosingSquaredBrackets) {
             c = DomElement.createWithHTML(i, "span", "opening-symbol", "[");
+        }
+        if (n.showClosedArraySquaredBrackets) {
             d = DomElement.createWithHTML(i, "span", "closed-symbols", "[ ... ]");
         }
         U(s, null, a, n, o, c, d, false, true, "", l, l !== "array");
@@ -2076,18 +2082,18 @@ var ContextMenu;
         const p = i.length;
         const x = d !== "" ? p : 0;
         if (p === 0 && !l.ignore.emptyObjects) {
-            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+            q(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
             m = false;
         } else {
             for (let e = 0; e < p; e++) {
                 const t = i[e];
                 const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    Z(r, o, l, t, r[t], e === p - 1, false, n, f, g);
+                    q(r, o, l, t, r[t], e === p - 1, false, n, f, g);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+                q(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
                 m = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
@@ -2106,17 +2112,17 @@ var ContextMenu;
             for (let e = 0; e < m; e++) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
+                q(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
             }
         } else {
             for (let e = m; e--; ) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
+                q(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
             }
         }
         if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
+            q(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
             g = false;
         } else {
             if (l.showOpeningClosingSquaredBrackets) {
@@ -2126,7 +2132,7 @@ var ContextMenu;
         te(l, t, n, o, i, a, p, d);
         return g;
     }
-    function Z(t, n, o, l, r, i, a, s, u, c) {
+    function q(t, n, o, l, r, i, a, s, u, c) {
         const d = DomElement.create(n, "div", "object-type-value");
         const f = DomElement.create(d, "div", "object-type-value-title");
         const g = o.showArrowToggles ? DomElement.create(f, "div", "no-arrow") : null;
@@ -2366,23 +2372,23 @@ var ContextMenu;
             b = "string";
             if (!o.ignore.stringValues || D) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(r)) {
-                    Z(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u, c);
+                    q(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && Is.String.bigInt(r)) {
-                    Z(t, n, o, l, Convert2.stringToBigInt(r), i, a, s, u, c);
+                    q(t, n, o, l, Convert2.stringToBigInt(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(r)) {
-                    Z(t, n, o, l, parseFloat(r), i, a, s, u, c);
+                    q(t, n, o, l, parseFloat(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToDates && Is.String.date(r)) {
-                    Z(t, n, o, l, new Date(r), i, a, s, u, c);
+                    q(t, n, o, l, new Date(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToSymbols && Is.String.symbol(r)) {
-                    Z(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c);
+                    q(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else {
@@ -2492,6 +2498,8 @@ var ContextMenu;
                     }
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
+                    }
+                    if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
                     let m = ne(o, r, i);
@@ -2522,6 +2530,8 @@ var ContextMenu;
                 }
                 if (o.showOpeningClosingSquaredBrackets) {
                     a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
+                }
+                if (o.showClosedArraySquaredBrackets) {
                     u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
                 let c = ne(o, n, i);
@@ -2550,6 +2560,8 @@ var ContextMenu;
                 }
                 if (o.showOpeningClosingSquaredBrackets) {
                     l = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
+                }
+                if (o.showClosedArraySquaredBrackets) {
                     a = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
                 let u = ne(o, t, i);
@@ -2584,6 +2596,8 @@ var ContextMenu;
                     }
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(r, "span", "opening-symbol", "{");
+                    }
+                    if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
                     let m = ne(o, r, i);
@@ -2618,6 +2632,8 @@ var ContextMenu;
                     }
                     if (o.showOpeningClosingCurlyBraces) {
                         u = DomElement.createWithHTML(l, "span", "opening-symbol", "{");
+                    }
+                    if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
                     let m = ne(o, l, i);
@@ -2644,7 +2660,7 @@ var ContextMenu;
             }
         }
         if (!D && !T) {
-            q(o, b);
+            Z(o, b);
         }
         if (x) {
             n.removeChild(d);
@@ -2673,7 +2689,7 @@ var ContextMenu;
             }
         }
     }
-    function q(e, t) {
+    function Z(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
@@ -2938,6 +2954,10 @@ var ContextMenu;
             t.onclick = () => m(t.className === "down-arrow");
             t.ondblclick = DomElement.cancelBubble;
         }
+        if (Is.defined(r)) {
+            r.onclick = () => g();
+            r.ondblclick = DomElement.cancelBubble;
+        }
         m(x, false);
         e._currentView.contentPanelsIndex++;
     }
@@ -3090,13 +3110,13 @@ var ContextMenu;
                 v(o);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                B(o);
+                E(o);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
                 I(o);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                E(o);
+                B(o);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
                 V(o);
@@ -3162,7 +3182,7 @@ var ContextMenu;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                E(t[e]);
+                B(t[e]);
             }
             return we;
         },
@@ -3170,7 +3190,7 @@ var ContextMenu;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
-                    B(t[e]);
+                    E(t[e]);
                 }
             }
             return we;

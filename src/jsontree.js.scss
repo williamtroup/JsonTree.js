@@ -714,6 +714,16 @@ div.json-tree-js {
             font-weight: var(--json-tree-js-bold-weight-light);
             color: var(--json-tree-js-color-snow-white) !important;
         }
+
+        span.closed-symbols:hover {
+            transition: var(--json-tree-js-transition);
+            transition-property: opacity;
+
+            &:not(.no-hover):not(.editable):hover {
+                cursor: pointer;
+                opacity: 0.7;
+            }
+        }
     }
 }
 
@@ -772,6 +782,16 @@ div.json-tree-js {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-bold-weight-light);
             color: var(--json-tree-js-color-snow-white) !important;
+        }
+
+        span.closed-symbols:hover {
+            transition: var(--json-tree-js-transition);
+            transition-property: opacity;
+
+            &:not(.no-hover):not(.editable):hover {
+                cursor: pointer;
+                opacity: 0.7;
+            }
         }
 
         div.closing-symbol {

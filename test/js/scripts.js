@@ -72,6 +72,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showArrayIndexBrackets: true,
         showOpeningClosingCurlyBraces: false,
         showOpeningClosingSquaredBrackets: false,
+        showClosedArraySquaredBrackets: true,
+        showClosedObjectCurlyBraces: true,
         showCommas: true,
         showArrowToggles: true,
         openInFullScreenMode: columnSize > 1,

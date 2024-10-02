@@ -128,7 +128,8 @@ export namespace Binding {
             options.jsonPathAny = Default.getString( options.jsonPathAny, ".." );
             options.jsonPathSeparator = Default.getString( options.jsonPathSeparator, Char.backslash );
             options.showChildIndexes = Default.getBoolean( options.showChildIndexes, true );
-
+            options.showClosedArraySquaredBrackets = Default.getBoolean( options.showClosedArraySquaredBrackets, true );
+            options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
             options = getPaging( options );
             options = getTitle( options );
             options = getFooter( options );

@@ -164,6 +164,8 @@ export type BindingOptions = {
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
 	showChildIndexes?: boolean;
+	showClosedArraySquaredBrackets?: boolean;
+	showClosedObjectCurlyBraces?: boolean;
 	lineNumbers?: BindingOptionsLineNumbers;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
