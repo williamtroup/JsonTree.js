@@ -198,7 +198,7 @@ export type BindingOptionsCurrentView = {
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
 	initialized: boolean;
-	contentColumns: ColumnLayout[];
+	currentContentColumns: ColumnLayout[];
 	footer: HTMLElement;
 	footerStatusText: HTMLElement;
 	footerDataTypeText: HTMLElement;

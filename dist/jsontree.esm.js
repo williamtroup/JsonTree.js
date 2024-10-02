@@ -641,7 +641,7 @@ var Binding;
             o._currentView.fullScreenOn = false;
             o._currentView.dragAndDropBackground = null;
             o._currentView.initialized = false;
-            o._currentView.contentColumns = [];
+            o._currentView.currentContentColumns = [];
             o._currentView.footer = null;
             o._currentView.footerStatusText = null;
             o._currentView.footerDataTypeText = null;
@@ -1318,7 +1318,7 @@ var ContextMenu;
         e._currentView.editMode = false;
         e._currentView.contentPanelsIndex = 0;
         e._currentView.sideMenuChanged = false;
-        e._currentView.contentColumns = [];
+        e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
         D(e, n);
         const l = DomElement.create(e._currentView.element, "div", "contents");
@@ -1341,7 +1341,7 @@ var ContextMenu;
             e._currentView.contentPanelsDataIndex = 0;
             a(n, l, e, null, o[0], 1, false);
         }
-        _(e);
+        C(e);
         j(e);
         se(e);
         e._currentView.initialized = true;
@@ -1353,7 +1353,7 @@ var ContextMenu;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
-                n.onclick = () => C(o);
+                n.onclick = () => _(o);
             }
         } else {
             u.onscroll = () => c(u, o, l);
@@ -1375,8 +1375,8 @@ var ContextMenu;
                 lines: n,
                 controlButtons: null
             };
-            o._currentView.contentColumns.push(i);
-            o._currentView.currentColumnBuildingIndex = o._currentView.contentColumns.length - 1;
+            o._currentView.currentContentColumns.push(i);
+            o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
                 J(n, o, t, "array");
             } else if (Is.definedSet(t)) {
@@ -1458,9 +1458,9 @@ var ContextMenu;
         ToolTip.hide(e);
         ContextMenu.hide(e);
         if (e._currentView.editMode || e._currentView.sideMenuChanged) {
-            const n = e._currentView.contentColumns.length;
+            const n = e._currentView.currentContentColumns.length;
             for (let o = 0; o < n; o++) {
-                t.push(e._currentView.contentColumns[o].column.scrollTop);
+                t.push(e._currentView.currentContentColumns[o].column.scrollTop);
             }
         }
         return t;
@@ -1470,29 +1470,29 @@ var ContextMenu;
         ContextMenu.hide(t);
         const o = e.scrollTop;
         const l = e.scrollLeft;
-        const r = t._currentView.contentColumns.length;
+        const r = t._currentView.currentContentColumns.length;
         if (t.controlPanel.enabled) {
-            const e = t._currentView.contentColumns[n].controlButtons;
+            const e = t._currentView.currentContentColumns[n].controlButtons;
             if (Is.defined(e)) {
-                e.style.top = `${t._currentView.contentColumns[n].column.scrollTop}px`;
-                e.style.right = `-${t._currentView.contentColumns[n].column.scrollLeft}px`;
+                e.style.top = `${t._currentView.currentContentColumns[n].column.scrollTop}px`;
+                e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
             }
         }
         if (t.paging.synchronizeScrolling) {
             for (let e = 0; e < r; e++) {
                 if (n !== e) {
-                    t._currentView.contentColumns[e].column.scrollTop = o;
-                    t._currentView.contentColumns[e].column.scrollLeft = l;
+                    t._currentView.currentContentColumns[e].column.scrollTop = o;
+                    t._currentView.currentContentColumns[e].column.scrollLeft = l;
                 }
             }
         }
         if (t.controlPanel.enabled) {
             for (let e = 0; e < r; e++) {
                 if (n !== e) {
-                    const n = t._currentView.contentColumns[e].controlButtons;
+                    const n = t._currentView.currentContentColumns[e].controlButtons;
                     if (Is.defined(n)) {
-                        n.style.top = `${t._currentView.contentColumns[e].column.scrollTop}px`;
-                        n.style.right = `-${t._currentView.contentColumns[e].column.scrollLeft}px`;
+                        n.style.top = `${t._currentView.currentContentColumns[e].column.scrollTop}px`;
+                        n.style.right = `-${t._currentView.currentContentColumns[e].column.scrollLeft}px`;
                     }
                 }
             }
@@ -1630,7 +1630,7 @@ var ContextMenu;
             ToolTip.add(n, t, e.text.switchToPagesText);
         }
         if (r.innerHTML !== "") {
-            t._currentView.contentColumns[t._currentView.currentColumnBuildingIndex].controlButtons = r;
+            t._currentView.currentContentColumns[t._currentView.currentColumnBuildingIndex].controlButtons = r;
             n.style.minHeight = `${r.offsetHeight}px`;
         } else {
             n.removeChild(r);
@@ -1796,7 +1796,7 @@ var ContextMenu;
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function _(t) {
+    function C(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
             t._currentView.disabledBackground.onclick = () => M(t);
@@ -1814,7 +1814,7 @@ var ContextMenu;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => C(t);
+                n.onclick = () => _(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -1826,7 +1826,7 @@ var ContextMenu;
             }
         }
     }
-    function C(e) {
+    function _(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
@@ -2872,7 +2872,7 @@ var ContextMenu;
         const s = e._currentView.contentPanelsIndex;
         const u = e._currentView.contentPanelsDataIndex;
         const c = e._currentView.currentColumnBuildingIndex;
-        const d = e._currentView.contentColumns[c];
+        const d = e._currentView.currentContentColumns[c];
         if (!e._currentView.contentPanelsOpen.hasOwnProperty(u)) {
             e._currentView.contentPanelsOpen[u] = {};
         }

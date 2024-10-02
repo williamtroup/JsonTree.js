@@ -141,7 +141,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.editMode = false;
         bindingOptions._currentView.contentPanelsIndex = 0;
         bindingOptions._currentView.sideMenuChanged = false;
-        bindingOptions._currentView.contentColumns = [];
+        bindingOptions._currentView.currentContentColumns = [];
         bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
 
         renderControlTitleBar( bindingOptions, data );
@@ -218,8 +218,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 controlButtons: null!
             };
 
-            bindingOptions._currentView.contentColumns.push( columnLayout );
-            bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.contentColumns.length - 1;
+            bindingOptions._currentView.currentContentColumns.push( columnLayout );
+            bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
 
             if ( Is.definedArray( data ) ) {
                 renderArray( lines, bindingOptions, data, DataType.array );
@@ -330,10 +330,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         ContextMenu.hide( bindingOptions );
 
         if ( bindingOptions._currentView.editMode || bindingOptions._currentView.sideMenuChanged ) {
-            const contentColumnsLength: number = bindingOptions._currentView.contentColumns.length;
+            const contentColumnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
             for ( let contentColumnIndex: number = 0; contentColumnIndex < contentColumnsLength; contentColumnIndex++ ) {
-                result.push( bindingOptions._currentView.contentColumns[ contentColumnIndex ].column.scrollTop );
+                result.push( bindingOptions._currentView.currentContentColumns[ contentColumnIndex ].column.scrollTop );
             }
         }
 
@@ -346,22 +346,22 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         const scrollTop: number = column.scrollTop;
         const scrollLeft: number = column.scrollLeft;
-        const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
         if ( bindingOptions.controlPanel!.enabled ) {
-            const controlButtons: HTMLElement = bindingOptions._currentView.contentColumns[ dataIndex ].controlButtons;
+            const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ dataIndex ].controlButtons;
 
             if ( Is.defined( controlButtons ) ) {
-                controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ dataIndex ].column.scrollTop}px`;
-                controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ dataIndex ].column.scrollLeft}px`;
+                controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollTop}px`;
+                controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollLeft}px`;
             }
         }
 
         if ( bindingOptions.paging!.synchronizeScrolling ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollTop = scrollTop;
-                    bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
+                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop = scrollTop;
+                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
                 }
             }
         }
@@ -369,11 +369,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.controlPanel!.enabled ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    const controlButtons: HTMLElement = bindingOptions._currentView.contentColumns[ columnIndex ].controlButtons;
+                    const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons;
                     
                     if ( Is.defined( controlButtons ) ) {
-                        controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollTop}px`;
-                        controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].column.scrollLeft}px`;
+                        controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop}px`;
+                        controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft}px`;
                     }
                 }
             }
@@ -573,7 +573,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
-            bindingOptions._currentView.contentColumns[ bindingOptions._currentView.currentColumnBuildingIndex ].controlButtons = controlButtons;
+            bindingOptions._currentView.currentContentColumns[ bindingOptions._currentView.currentColumnBuildingIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
@@ -2272,7 +2272,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
         const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-        const columnLayout: ColumnLayout = bindingOptions._currentView.contentColumns[ columnLayoutProcessingIndex ];
+        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutProcessingIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;

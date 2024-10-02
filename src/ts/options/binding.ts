@@ -58,7 +58,7 @@ export namespace Binding {
             bindingOptions._currentView.fullScreenOn = false;
             bindingOptions._currentView.dragAndDropBackground = null!;
             bindingOptions._currentView.initialized = false;
-            bindingOptions._currentView.contentColumns = [];
+            bindingOptions._currentView.currentContentColumns = [];
             bindingOptions._currentView.footer = null!;
             bindingOptions._currentView.footerStatusText = null!;
             bindingOptions._currentView.footerDataTypeText = null!;
