@@ -180,7 +180,6 @@ export type BindingOptions = {
 
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
-	dataArrayCurrentIndex: number;
 	titleBarButtons: HTMLElement;
 	tooltip: HTMLElement;
 	tooltipTimerId: number;
@@ -211,6 +210,7 @@ export type BindingOptionsCurrentView = {
 	columnDraggingDataIndex: number;
 	dataTypeCounts: Record<string, number>;
 	contextMenu: HTMLElement;
+	currentDataArrayPageIndex: number;
 	currentColumnBuildingIndex: number;
 };
 

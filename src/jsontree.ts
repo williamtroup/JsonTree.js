@@ -153,10 +153,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
-            const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.dataArrayCurrentIndex + 1 ] );
+            const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.currentDataArrayPageIndex + 1 ] );
 
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
-                const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
+                const actualDataIndex: number = pageIndex + bindingOptions._currentView.currentDataArrayPageIndex;
                 const actualData: any = data[ actualDataIndex ];
 
                 bindingOptions._currentView.contentPanelsIndex = 0;
@@ -304,8 +304,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                             bindingOptions.data.splice( dataIndex, 1 );
                             statusBarMessage = _configuration.text!.arrayJsonItemDeleted!;
 
-                            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+                            if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
+                                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
                             }
                         }
                         
@@ -420,10 +420,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
             bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
 
-            if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
-                bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
-            } else if ( newIndex < bindingOptions._currentView.dataArrayCurrentIndex ) {
-                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
+            if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
+                bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
+            } else if ( newIndex < bindingOptions._currentView.currentDataArrayPageIndex ) {
+                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!;
             }
 
             renderControlContainer( bindingOptions );
@@ -615,8 +615,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.paging!.enabled ) {
             bindingOptions.data.splice( dataIndex, 1 );
 
-            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+            if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
+                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
             }
 
         } else {
@@ -701,7 +701,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
 
-                if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                if ( bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
                     bindingOptions._currentView.backButton.onclick = () => onBackPage( bindingOptions );
                 } else {
                     bindingOptions._currentView.backButton.disabled = true;
@@ -712,7 +712,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 
-                if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
+                if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
                     bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
                 } else {
                     bindingOptions._currentView.nextButton.disabled = true;
@@ -792,7 +792,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onBackPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
+            bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!;
     
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
@@ -801,7 +801,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onNextPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
+            bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
                         
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
@@ -1009,7 +1009,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function getFooterPageText( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.paging!.enabled ) {
-            const currentPage: number = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+            const currentPage: number = Math.ceil( ( bindingOptions._currentView.currentDataArrayPageIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             const totalPages: number = Math.ceil( bindingOptions.data.length / bindingOptions.paging!.columnsPerPage! );
             const currentReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", currentPage.toFixed() ).outerHTML;
             const totalReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", totalPages.toFixed() ).outerHTML;
@@ -2505,7 +2505,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             filesData.push( data );
 
             if ( filesRead === filesLength ) {
-                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
                 bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
     
@@ -2751,7 +2751,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
 
-                result = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+                result = Math.ceil( ( bindingOptions._currentView.currentDataArrayPageIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             }
     
             return result;
@@ -2781,7 +2781,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
-                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
                 bindingOptions.data = jsonObject;
 

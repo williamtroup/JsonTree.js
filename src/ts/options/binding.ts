@@ -41,7 +41,7 @@ export namespace Binding {
 
             bindingOptions._currentView = {} as BindingOptionsCurrentView;
             bindingOptions._currentView.element = element;
-            bindingOptions._currentView.dataArrayCurrentIndex = ( bindingOptions.paging!.startPage! - 1 ) * bindingOptions.paging!.columnsPerPage!;
+            bindingOptions._currentView.currentDataArrayPageIndex = ( bindingOptions.paging!.startPage! - 1 ) * bindingOptions.paging!.columnsPerPage!;
             bindingOptions._currentView.titleBarButtons = null!;
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
@@ -72,8 +72,8 @@ export namespace Binding {
             bindingOptions._currentView.contextMenu = null!;
             bindingOptions._currentView.currentColumnBuildingIndex = 0;
 
-            if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions._currentView.dataArrayCurrentIndex > ( bindingOptions.data.length - 1 ) ) {
-                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+            if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions._currentView.currentDataArrayPageIndex > ( bindingOptions.data.length - 1 ) ) {
+                bindingOptions._currentView.currentDataArrayPageIndex = 0;
             }
 
             for ( const key in allowEditing ) {
