@@ -208,8 +208,15 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
             }
 
-            const lineNumbers: HTMLElement = DomElement.create( contentsColumn, "div", "contents-column-line-numbers" );
-            const lines: HTMLElement = DomElement.create( contentsColumn, "div", "contents-column-lines" );
+            let renderValuesContainer: HTMLElement = contentsColumn;
+            let lineNumbers: HTMLElement = null!;
+            let lines: HTMLElement = null!;
+
+            if ( bindingOptions.lineNumbers!.enabled ) {
+                lineNumbers = DomElement.create( contentsColumn, "div", "contents-column-line-numbers" );
+                lines = DomElement.create( contentsColumn, "div", "contents-column-lines" );
+                renderValuesContainer = lines;
+            }
 
             const columnLayout: ColumnLayout = {
                 column: contentsColumn,
@@ -222,15 +229,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
 
             if ( Is.definedArray( data ) ) {
-                renderArray( lines, bindingOptions, data, DataType.array );
+                renderArray( renderValuesContainer, bindingOptions, data, DataType.array );
             } else if ( Is.definedSet( data ) ) {
-                renderArray( lines, bindingOptions, Convert.setToArray( data ), DataType.set );
+                renderArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
             } else if ( Is.definedHtml( data ) ) {
-                renderObject( lines, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
+                renderObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
             } else if ( Is.definedMap( data ) ) {
-                renderObject( lines, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
+                renderObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
             } else if ( Is.definedObject( data ) ) {
-                renderObject( lines, bindingOptions, data, dataIndex, DataType.object );
+                renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
             }
 
             renderControlColumnLineNumbers( columnLayout, bindingOptions );

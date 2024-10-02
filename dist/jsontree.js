@@ -1356,28 +1356,34 @@ var ContextMenu;
                 u.ondragover = e => e.preventDefault();
                 u.ondrop = () => g(o, l);
             }
-            const e = DomElement.create(u, "div", "contents-column-line-numbers");
-            const n = DomElement.create(u, "div", "contents-column-lines");
-            const i = {
+            let e = u;
+            let n = null;
+            let i = null;
+            if (o.lineNumbers.enabled) {
+                n = DomElement.create(u, "div", "contents-column-line-numbers");
+                i = DomElement.create(u, "div", "contents-column-lines");
+                e = i;
+            }
+            const m = {
                 column: u,
-                lineNumbers: e,
-                lines: n,
+                lineNumbers: n,
+                lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(i);
+            o._currentView.currentContentColumns.push(m);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
-                J(n, o, t, "array");
+                J(e, o, t, "array");
             } else if (Is.definedSet(t)) {
-                J(n, o, Convert2.setToArray(t), "set");
+                J(e, o, Convert2.setToArray(t), "set");
             } else if (Is.definedHtml(t)) {
-                $(n, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
+                $(e, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
             } else if (Is.definedMap(t)) {
-                $(n, o, Convert2.mapToObject(t), l, "map");
+                $(e, o, Convert2.mapToObject(t), l, "map");
             } else if (Is.definedObject(t)) {
-                $(n, o, t, l, "object");
+                $(e, o, t, l, "object");
             }
-            p(i, o);
+            p(m, o);
             x(o, u, t, l);
             if (Is.defined(r)) {
                 u.scrollTop = r;
