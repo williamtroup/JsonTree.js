@@ -257,6 +257,7 @@ export type BindingOptionsControlPanel = {
 
 export type BindingOptionsLineNumbers = {
     enabled?: boolean;
+	padNumbers?: boolean;
 };
 
 export type BindingOptionsIgnore = {

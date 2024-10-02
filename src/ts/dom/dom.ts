@@ -33,7 +33,8 @@ export namespace DomElement {
         }
     }
 
-    export function findByClassNames( baseElement: HTMLElement, classNames: string[], func: ( element: HTMLElement ) => boolean ) : void {
+    export function getByClassNames( baseElement: HTMLElement, classNames: string[] ) : HTMLElement[] {
+        const result: HTMLElement[] = [];
         const tagTypesLength: number = classNames.length;
 
         for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
@@ -42,11 +43,11 @@ export namespace DomElement {
             const elementsLength: number = elements.length;
 
             for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                if ( !func( elements[ elementIndex ] ) ) {
-                    break;
-                }
+                result.push( elements[ elementIndex ] );
             }
         }
+
+        return result;
     }
 
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {

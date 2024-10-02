@@ -415,20 +415,20 @@ var DomElement;
         }
     }
     e.find = t;
-    function n(e, t, n) {
+    function n(e, t) {
+        const n = [];
         const o = t.length;
         for (let l = 0; l < o; l++) {
             const o = e.getElementsByClassName(t[l]);
             const r = [].slice.call(o);
             const i = r.length;
             for (let e = 0; e < i; e++) {
-                if (!n(r[e])) {
-                    break;
-                }
+                n.push(r[e]);
             }
         }
+        return n;
     }
-    e.findByClassNames = n;
+    e.getByClassNames = n;
     function o(e, t, n = "", o = null) {
         const l = t.toLowerCase();
         const r = l === "text";
@@ -764,6 +764,7 @@ var Binding;
         function s(e) {
             e.lineNumbers = Default.getObject(e.lineNumbers, {});
             e.lineNumbers.enabled = Default.getBoolean(e.lineNumbers.enabled, true);
+            e.lineNumbers.padNumbers = Default.getBoolean(e.lineNumbers.padNumbers, false);
             return e;
         }
         function u(e) {
@@ -1535,27 +1536,33 @@ var ContextMenu;
     }
     function p(e, t) {
         if (t.lineNumbers.enabled) {
-            let t = 1;
-            let n = 0;
+            let n = 1;
             let o = 0;
+            let l = 0;
+            const r = DomElement.getByClassNames(e.column, [ "object-type-title", "object-type-value-title" ]);
+            const i = r.length;
             e.lineNumbers.innerHTML = "";
-            DomElement.findByClassNames(e.column, [ "object-type-title", "object-type-value-title" ], (l => {
-                if (l.offsetHeight > 0) {
-                    let r = DomElement.getOffset(l).top;
-                    if (t === 1) {
-                        n = r;
+            for (let a = 0; a < i; a++) {
+                const s = r[a];
+                if (s.offsetHeight > 0) {
+                    let r = DomElement.getOffset(s).top;
+                    if (n === 1) {
+                        o = r;
                     }
-                    r -= n;
-                    const i = DomElement.create(e.lineNumbers, "div", "contents-column-line-number");
-                    i.style.top = `${r}px`;
-                    i.innerHTML = `${t.toString()}.`;
-                    o = Math.max(o, i.offsetWidth);
+                    r -= o;
+                    const a = DomElement.create(e.lineNumbers, "div", "contents-column-line-number");
+                    a.style.top = `${r}px`;
+                    if (t.lineNumbers.padNumbers) {
+                        a.innerHTML = `${Str.padNumber(n, i.toString().length)}.`;
+                    } else {
+                        a.innerHTML = `${n}.`;
+                    }
+                    l = Math.max(l, a.offsetWidth);
                 }
-                t++;
-                return true;
-            }));
+                n++;
+            }
             e.lineNumbers.style.height = `${e.lines.offsetHeight}px`;
-            e.lineNumbers.style.width = `${o}px`;
+            e.lineNumbers.style.width = `${l}px`;
         } else {
             e.lineNumbers.parentNode.removeChild(e.lineNumbers);
             e.lineNumbers = null;

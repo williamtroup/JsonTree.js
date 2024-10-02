@@ -442,12 +442,16 @@ type JsonTreeData = Record<string, BindingOptions>;
             let lineNumberCount: number = 1;
             let firstLineTop: number = 0;
             let largestLineNumberWidth: number = 0;
+            const valueElements: HTMLElement[] = DomElement.getByClassNames( columnLayout.column, [ "object-type-title", "object-type-value-title" ] );
+            const valueElementsLength: number = valueElements.length;
 
             columnLayout.lineNumbers.innerHTML = Char.empty;
-    
-            DomElement.findByClassNames( columnLayout.column, [ "object-type-title", "object-type-value-title" ], ( element: HTMLElement ) => {
-                if ( element.offsetHeight > 0 ) {
-                    let elementTop: number = DomElement.getOffset( element ).top;
+
+            for ( let valueElementIndex = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ];
+
+                if ( valueElement.offsetHeight > 0 ) {
+                    let elementTop: number = DomElement.getOffset( valueElement ).top;
     
                     if ( lineNumberCount === 1 ) {
                         firstLineTop = elementTop;
@@ -457,15 +461,18 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                     const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
                     lineNumber.style.top = `${elementTop}px`;
-                    lineNumber.innerHTML = `${lineNumberCount.toString()}.`;
+
+                    if ( bindingOptions.lineNumbers!.padNumbers ) {
+                        lineNumber.innerHTML = `${Str.padNumber( lineNumberCount, valueElementsLength.toString().length )}.`;
+                    } else {
+                        lineNumber.innerHTML = `${lineNumberCount}.`;
+                    }
                     
                     largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
                 }
 
                 lineNumberCount++;
-        
-                return true;
-            } );
+            }
     
             columnLayout.lineNumbers.style.height = `${columnLayout.lines.offsetHeight}px`;
             columnLayout.lineNumbers.style.width = `${largestLineNumberWidth}px`;

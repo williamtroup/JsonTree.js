@@ -194,6 +194,7 @@ export namespace Binding {
         function getLineNumbers( options: BindingOptions ) : BindingOptions {
             options.lineNumbers = Default.getObject( options.lineNumbers, {} as BindingOptionsLineNumbers );
             options.lineNumbers!.enabled = Default.getBoolean( options.lineNumbers!.enabled, true );
+            options.lineNumbers!.padNumbers = Default.getBoolean( options.lineNumbers!.padNumbers, false );
 
             return options;
         }
