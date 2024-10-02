@@ -8,7 +8,7 @@ var _IMAGE_1 = null;
 
 ( () => {
     document.addEventListener( "DOMContentLoaded", function() {
-        document.title += " v" + $jsontree.getVersion();
+        document.title += ` v${$jsontree.getVersion()}`;
         document.getElementById( "header" ).innerText += ` - v${$jsontree.getVersion()}`;
     } );
 
