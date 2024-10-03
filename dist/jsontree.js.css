@@ -52,6 +52,8 @@
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
+  --json-tree-js-start-compare-highlight: #353e4b;
+  --json-tree-js-compare-highlight: #4a5768;
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
@@ -899,10 +901,10 @@ div.json-tree-js div.object-type-contents div.object-type-value div.compare-high
   transition-property: background-color;
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.start-compare-highlight {
-  background-color: gray;
+  background-color: var(--json-tree-js-start-compare-highlight);
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.compare-highlight {
-  background-color: #A3A300;
+  background-color: var(--json-tree-js-compare-highlight);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {

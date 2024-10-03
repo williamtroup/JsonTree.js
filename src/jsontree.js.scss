@@ -65,6 +65,10 @@
     --json-tree-js-editable-background-color: #2d333b;
     --json-tree-js-editable-border-color: #454c56;
 
+    // Colors - Value Comparisons
+    --json-tree-js-start-compare-highlight: #353e4b;
+    --json-tree-js-compare-highlight: #4a5768;
+
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
     --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
@@ -835,11 +839,11 @@ div.json-tree-js {
             }
 
             div.start-compare-highlight {
-                background-color: gray;
+                background-color: var(--json-tree-js-start-compare-highlight);
             }
 
             div.compare-highlight {
-                background-color: #A3A300;
+                background-color: var(--json-tree-js-compare-highlight);
             }
 
             span.data-type,
