@@ -2146,7 +2146,7 @@ var ContextMenu;
         let x = false;
         let T = false;
         let b = null;
-        let w = DomElement.create(f, "span", "title");
+        let w = DomElement.create(f, "span");
         let y = false;
         let h = null;
         const D = !Is.definedString(l);
@@ -2985,6 +2985,7 @@ var ContextMenu;
     }
     function re(e, t, n, l, r) {
         if (se(t)) {
+            e.classList.add("title-compare");
             e.onclick = e => {
                 DomElement.cancelBubble(e);
                 const i = t._currentView.currentContentColumns;

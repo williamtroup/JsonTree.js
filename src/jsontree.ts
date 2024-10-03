@@ -1295,7 +1295,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let ignored: boolean = false;
         let ignoredDataType: boolean = false;
         let dataType: string = null!;
-        let nameElement: HTMLSpanElement = DomElement.create( objectTypeValueTitle, "span", "title" );
+        let nameElement: HTMLSpanElement = DomElement.create( objectTypeValueTitle, "span" );
         let allowEditing: boolean = false;
         let typeElement: HTMLSpanElement = null!;
         const isForEmptyProperties: boolean = !Is.definedString( name );
@@ -2437,6 +2437,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function compareColumnValues( propertyNameElement: HTMLElement, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number ) : void {
         if ( isCompareColumnValuesEnabled( bindingOptions ) ) {
+            propertyNameElement.classList.add( "title-compare" );
+
             propertyNameElement.onclick = ( e: MouseEvent ) => {
                 DomElement.cancelBubble( e );
 
