@@ -1389,7 +1389,7 @@ var ContextMenu;
             } else if (Is.definedObject(t)) {
                 $(e, o, t, l, "object");
             }
-            p(m, o);
+            p(o._currentView.currentColumnBuildingIndex, o);
             x(o, u, t, l);
             if (Is.defined(r)) {
                 u.scrollTop = r;
@@ -1538,40 +1538,41 @@ var ContextMenu;
         }
     }
     function p(e, t) {
+        const n = t._currentView.currentContentColumns[e];
         if (t.lineNumbers.enabled) {
-            let n = 1;
+            let e = 1;
             let o = 0;
             let l = 0;
-            const r = e.column.querySelectorAll(".object-type-title, .object-type-value-title, .object-type-end");
+            const r = n.column.querySelectorAll(".object-type-title, .object-type-value-title, .object-type-end");
             const i = r.length;
-            e.lineNumbers.innerHTML = "";
+            n.lineNumbers.innerHTML = "";
             for (let s = 0; s < i; s++) {
                 const a = r[s];
                 if (a.offsetHeight > 0) {
                     let r = DomElement.getOffset(a).top;
-                    if (n === 1) {
+                    if (e === 1) {
                         o = r;
                     }
                     r -= o;
-                    const s = DomElement.create(e.lineNumbers, "div", "contents-column-line-number");
+                    const s = DomElement.create(n.lineNumbers, "div", "contents-column-line-number");
                     const u = t.lineNumbers.addDots ? "." : "";
                     if (t.lineNumbers.padNumbers) {
-                        s.innerHTML = `${Str.padNumber(n, i.toString().length)}${u}`;
+                        s.innerHTML = `${Str.padNumber(e, i.toString().length)}${u}`;
                     } else {
-                        s.innerHTML = `${n}${u}`;
+                        s.innerHTML = `${e}${u}`;
                     }
                     const c = r + a.offsetHeight / 2 - s.offsetHeight / 2;
                     s.style.top = `${c}px`;
                     l = Math.max(l, s.offsetWidth);
                 }
-                n++;
+                e++;
             }
-            e.lineNumbers.style.height = `${e.lines.offsetHeight}px`;
-            e.lineNumbers.style.width = `${l}px`;
+            n.lineNumbers.style.height = `${n.lines.offsetHeight}px`;
+            n.lineNumbers.style.width = `${l}px`;
         } else {
-            if (Is.defined(e.lineNumbers)) {
-                e.lineNumbers.parentNode.removeChild(e.lineNumbers);
-                e.lineNumbers = null;
+            if (Is.defined(n.lineNumbers)) {
+                n.lineNumbers.parentNode.removeChild(n.lineNumbers);
+                n.lineNumbers = null;
             }
         }
     }
@@ -2912,7 +2913,7 @@ var ContextMenu;
                 n.style.display = "inline-block";
             }
             if (i) {
-                p(d, e);
+                p(c, e);
             }
         };
         const g = (i = true) => {
@@ -2931,7 +2932,7 @@ var ContextMenu;
                 n.style.display = "none";
             }
             if (i) {
-                p(d, e);
+                p(c, e);
             }
         };
         const m = e => {
@@ -2992,35 +2993,49 @@ var ContextMenu;
         const i = t._currentView.currentContentColumns.length;
         let s = false;
         for (let e = 0; e < i; e++) {
-            const t = r[e].column.querySelectorAll(".object-type-value-title");
-            const n = t.length;
-            for (let r = 0; r < n; r++) {
-                const n = t[r];
-                n.classList.remove("start-compare-highlight");
-                n.classList.remove("compare-highlight");
+            const n = r[e].column.querySelectorAll(".object-type-value-title");
+            const i = n.length;
+            for (let t = 0; t < i; t++) {
+                const r = n[t];
+                r.classList.remove("start-compare-highlight");
+                r.classList.remove("compare-highlight");
                 if (e !== l) {
-                    const e = n.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
+                    const e = r.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
                     if (Is.definedString(e) && e === o) {
-                        n.classList.add("compare-highlight");
+                        r.classList.add("compare-highlight");
                         s = true;
                     }
                 }
             }
+            if (s) {
+                p(e, t);
+            }
         }
         if (s) {
             n.classList.add("start-compare-highlight");
+            p(l, t);
         }
     }
     function re(e) {
         const t = e._currentView.currentContentColumns;
         const n = e._currentView.currentContentColumns.length;
-        for (let e = 0; e < n; e++) {
-            const n = t[e].column.querySelectorAll(".object-type-value-title");
-            const o = n.length;
-            for (let e = 0; e < o; e++) {
-                const t = n[e];
-                t.classList.remove("start-compare-highlight");
-                t.classList.remove("compare-highlight");
+        for (let o = 0; o < n; o++) {
+            let n = false;
+            const l = t[o].column.querySelectorAll(".object-type-value-title");
+            const r = l.length;
+            for (let e = 0; e < r; e++) {
+                const t = l[e];
+                if (t.classList.contains("start-compare-highlight")) {
+                    t.classList.remove("start-compare-highlight");
+                    n = true;
+                }
+                if (t.classList.contains("compare-highlight")) {
+                    t.classList.remove("compare-highlight");
+                    n = true;
+                }
+            }
+            if (n) {
+                p(o, e);
             }
         }
     }

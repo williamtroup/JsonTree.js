@@ -244,7 +244,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
             }
 
-            renderControlColumnLineNumbers( columnLayout, bindingOptions );
+            renderControlColumnLineNumbers( bindingOptions._currentView.currentColumnBuildingIndex, bindingOptions );
             renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
     
             if ( Is.defined( scrollTop ) ) {
@@ -449,7 +449,9 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderControlColumnLineNumbers( columnLayout: ColumnLayout, bindingOptions: BindingOptions ) : void {
+    function renderControlColumnLineNumbers( columnLayoutIndex: number, bindingOptions: BindingOptions ) : void {
+        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutIndex ];
+
         if ( bindingOptions.lineNumbers!.enabled ) {
             let lineNumberCount: number = 1;
             let firstLineTop: number = 0;
@@ -2333,7 +2335,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( updateLineNumbers ) {
-                renderControlColumnLineNumbers( columnLayout, bindingOptions );
+                renderControlColumnLineNumbers( columnLayoutProcessingIndex, bindingOptions );
             }
         };
 
@@ -2358,7 +2360,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( updateLineNumbers ) {
-                renderControlColumnLineNumbers( columnLayout, bindingOptions );
+                renderControlColumnLineNumbers( columnLayoutProcessingIndex, bindingOptions );
             }
         };
 
@@ -2464,10 +2466,16 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
                 }
             }
+
+            if ( elementsHighlighted ) {
+                renderControlColumnLineNumbers( columnIndex, bindingOptions );
+            }
         }
 
         if ( elementsHighlighted ) {
             objectTypeValueTitle.classList.add( "start-compare-highlight" );
+
+            renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
         }
     }
 
@@ -2476,14 +2484,27 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
         for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            let classesRemoved: boolean = false;
+
             const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
             const valueElementsLength: number = valueElements.length;
 
             for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
-                valueElement.classList.remove( "start-compare-highlight" );
-                valueElement.classList.remove( "compare-highlight" );
+                if ( valueElement.classList.contains( "start-compare-highlight" ) ) {
+                    valueElement.classList.remove( "start-compare-highlight" );
+                    classesRemoved = true;
+                }
+
+                if ( valueElement.classList.contains( "compare-highlight" ) ) {
+                    valueElement.classList.remove( "compare-highlight" );
+                    classesRemoved = true;
+                }
+            }
+
+            if ( classesRemoved ) {
+                renderControlColumnLineNumbers( columnIndex, bindingOptions );
             }
         }
     }
