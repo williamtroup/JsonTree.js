@@ -179,6 +179,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             startPage: 1,
             synchronizeScrolling: false,
             allowColumnReordering: true,
+            allowValueComparisons: false,
         },
         footer: {
             enabled: true,
@@ -304,6 +305,21 @@ function getData() {
             value1: false,
             value2: "This is a string for page 3",
             value3: new Date(),
+            value4: {
+                value1: 1,
+                value2: 1.3,
+                value3: Symbol( "id1" )
+            }
+        },
+        {
+            value1: true,
+            value2: "This is a string for page 4",
+            value3: new Date(),
+            value4: {
+                value1: 2,
+                value2: 1.6,
+                value3: Symbol( "id2" )
+            }
         },
     ]
 }

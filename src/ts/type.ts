@@ -222,6 +222,7 @@ export type BindingOptionsPaging = {
 	startPage?: number;
 	synchronizeScrolling?: boolean;
 	allowColumnReordering?: boolean;
+	allowValueComparisons?: boolean;
 };
 
 export type BindingOptionsParse = {

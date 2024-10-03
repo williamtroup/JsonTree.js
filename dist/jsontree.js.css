@@ -891,6 +891,19 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
 }
+div.json-tree-js div.object-type-contents div.object-type-value div.start-compare-highlight,
+div.json-tree-js div.object-type-contents div.object-type-value div.compare-highlight {
+  padding: calc(var(--json-tree-js-spacing) / 2);
+  border-radius: var(--json-tree-js-border-radius);
+  transition: var(--json-tree-js-transition);
+  transition-property: background-color;
+}
+div.json-tree-js div.object-type-contents div.object-type-value div.start-compare-highlight {
+  background-color: gray;
+}
+div.json-tree-js div.object-type-contents div.object-type-value div.compare-highlight {
+  background-color: #A3A300;
+}
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
   margin-left: calc(var(--json-tree-js-spacing) / 2);

@@ -825,6 +825,23 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-bold-weight-light);
             }
 
+            div.start-compare-highlight,
+            div.compare-highlight {
+                padding: calc( var(--json-tree-js-spacing) / 2 );
+                
+                border-radius: var(--json-tree-js-border-radius);
+                transition: var(--json-tree-js-transition);
+                transition-property: background-color;
+            }
+
+            div.start-compare-highlight {
+                background-color: gray;
+            }
+
+            div.compare-highlight {
+                background-color: #A3A300;
+            }
+
             span.data-type,
             span.data-type-color {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );

@@ -113,6 +113,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             _elements_Data_Count++;
         }
 
+        if ( bindingOptions.paging!.allowValueComparisons ) {
+            window.addEventListener( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
+        }
+
         renderControlContainer( bindingOptions );
         buildDocumentEvents( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
@@ -1343,6 +1347,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addFooterSizeStatus( bindingOptions, name, nameElement );
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
+
+            if ( bindingOptions.paging!.allowValueComparisons ) {
+                const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
+                nameElement.onclick = ( e: MouseEvent ) => compareColumnValues( e, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex );
+            }
         }
 
         if ( value === null ) {
@@ -2423,6 +2433,69 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Compare Paging-Column Values
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function compareColumnValues( e: MouseEvent, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number ) : void {
+        DomElement.cancelBubble( e );
+
+        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+
+        let elementsHighlighted: boolean = false;
+
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+            const valueElementsLength: number = valueElements.length;
+
+            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+
+                valueElement.classList.remove( "start-compare-highlight" );
+
+                if ( columnIndex !== currentColumnIndex ) {
+                    const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
+
+                    if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
+                        valueElement.classList.add( "compare-highlight" );
+                        elementsHighlighted = true;
+
+                    } else {
+                        valueElement.classList.remove( "compare-highlight" );
+                    }
+
+                } else {
+                    valueElement.classList.remove( "compare-highlight" );
+                }
+            }
+        }
+
+        if ( elementsHighlighted ) {
+            objectTypeValueTitle.classList.add( "start-compare-highlight" );
+        }
+    }
+
+    function removeCompareColumnValueClasses( bindingOptions: BindingOptions ) : void {
+        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+            const valueElementsLength: number = valueElements.length;
+
+            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+
+                valueElement.classList.remove( "start-compare-highlight" );
+                valueElement.classList.remove( "compare-highlight" );
+            }
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Render:  Value Context Menu
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -2674,6 +2747,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         buildDocumentEvents( bindingOptions, false );
+
+        if ( bindingOptions.paging!.allowValueComparisons ) {
+            window.removeEventListener( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
+        }
 
         ToolTip.assignToEvents( bindingOptions, false );
         ContextMenu.assignToEvents( bindingOptions, false );
