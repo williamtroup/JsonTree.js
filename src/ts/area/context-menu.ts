@@ -48,7 +48,7 @@ export namespace ContextMenu {
 
     export function remove( bindingOptions: BindingOptions ) : void {
         if ( Is.defined( bindingOptions._currentView.contextMenu ) ) {
-            bindingOptions._currentView.contextMenu.parentNode!.removeChild( bindingOptions._currentView.contextMenu )
+            bindingOptions._currentView.contextMenu.parentNode!.removeChild( bindingOptions._currentView.contextMenu );
         }
     }
 
