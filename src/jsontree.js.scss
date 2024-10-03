@@ -825,14 +825,14 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-bold-weight-light);
             }
 
-            span.type,
-            span.type-color {
+            span.data-type,
+            span.data-type-color {
                 margin-left: calc( var(--json-tree-js-spacing) / 2 );
                 font-style: italic;
                 font-size: smaller;
             }
 
-            span.type-color {
+            span.data-type-color {
                 color: var(--json-tree-js-color-light-gray);
             }
 

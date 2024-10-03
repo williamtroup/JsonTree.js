@@ -891,13 +891,13 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.type,
-div.json-tree-js div.object-type-contents div.object-type-value span.type-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
+div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-style: italic;
   font-size: smaller;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.type-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
   color: var(--json-tree-js-color-light-gray);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.value,

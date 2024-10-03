@@ -1319,7 +1319,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.showDataTypes && !isForEmptyProperties ) {
-            typeElement = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "type-color" : "type", Char.empty ) as HTMLSpanElement;
+            typeElement = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "data-type-color" : "data-type", Char.empty ) as HTMLSpanElement;
         }
 
         if ( Is.defined( nameElement ) && !isForEmptyProperties && bindingOptions.showValueColors && bindingOptions.showPropertyNameAndIndexColors  ) {

@@ -2165,7 +2165,7 @@ var ContextMenu;
             d.classList.add("last-item");
         }
         if (o.showDataTypes && !D) {
-            h = DomElement.createWithHTML(f, "span", o.showValueColors ? "type-color" : "type", "");
+            h = DomElement.createWithHTML(f, "span", o.showValueColors ? "data-type-color" : "data-type", "");
         }
         if (Is.defined(w) && !D && o.showValueColors && o.showPropertyNameAndIndexColors) {
             w.classList.add(u);
