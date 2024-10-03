@@ -28,7 +28,7 @@ JsonTree.js
 - 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
 - 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
-- 📂 Close and open all objects, arrays, sets, and maps.
+- 📂 Close and open all objects, arrays, sets, maps, and HTML objects.
 - 🚀 Clickable values via custom triggers!
 - ⭐ Custom value rendering.
 - 📃 Array paging, with configurable column count support (show array objects on different pages)!
