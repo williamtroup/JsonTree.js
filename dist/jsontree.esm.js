@@ -418,7 +418,7 @@ var DomElement;
     function n(e, t, n = "", o = null) {
         const l = t.toLowerCase();
         const r = l === "text";
-        let i = r ? document.createTextNode("") : document.createElement(l);
+        const i = r ? document.createTextNode("") : document.createElement(l);
         if (Is.defined(n)) {
             i.className = n;
         }
@@ -441,7 +441,7 @@ var DomElement;
     function l(e) {
         const t = e.toLowerCase();
         const n = t === "text";
-        let o = n ? document.createTextNode("") : document.createElement(t);
+        const o = n ? document.createTextNode("") : document.createElement(t);
         return o;
     }
     e.createWithNoContainer = l;
@@ -653,7 +653,7 @@ var Binding;
         }
         t.getForNewInstance = n;
         function o(e) {
-            let t = Default.getObject(e, {});
+            const t = Default.getObject(e, {});
             t.showObjectSizes = Default.getBoolean(t.showObjectSizes, true);
             t.useZeroIndexingForArrays = Default.getBoolean(t.useZeroIndexingForArrays, true);
             t.dateTimeFormat = Default.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
@@ -696,18 +696,18 @@ var Binding;
             t.showChildIndexes = Default.getBoolean(t.showChildIndexes, true);
             t.showClosedArraySquaredBrackets = Default.getBoolean(t.showClosedArraySquaredBrackets, true);
             t.showClosedObjectCurlyBraces = Default.getBoolean(t.showClosedObjectCurlyBraces, true);
-            t = l(t);
-            t = r(t);
-            t = i(t);
-            t = a(t);
-            t = s(t);
-            t = u(t);
-            t = c(t);
-            t = d(t);
-            t = f(t);
-            t = g(t);
-            t = m(t);
-            t = p(t);
+            t.paging = l(t);
+            t.title = r(t);
+            t.footer = i(t);
+            t.controlPanel = a(t);
+            t.lineNumbers = s(t);
+            t.ignore = u(t);
+            t.tooltip = c(t);
+            t.parse = d(t);
+            t.allowEditing = f(t);
+            t.sideMenu = g(t);
+            t.autoClose = m(t);
+            t.events = p(t);
             return t;
         }
         t.get = o;
@@ -718,7 +718,7 @@ var Binding;
             e.paging.startPage = Default.getNumberMinimum(e.paging.startPage, 1, 1);
             e.paging.synchronizeScrolling = Default.getBoolean(e.paging.synchronizeScrolling, false);
             e.paging.allowColumnReordering = Default.getBoolean(e.paging.allowColumnReordering, true);
-            return e;
+            return e.paging;
         }
         function r(e) {
             e.title = Default.getObject(e.title, {});
@@ -727,7 +727,7 @@ var Binding;
             e.title.showCopyButton = Default.getBoolean(e.title.showCopyButton, true);
             e.title.enableFullScreenToggling = Default.getBoolean(e.title.enableFullScreenToggling, true);
             e.title.showFullScreenButton = Default.getBoolean(e.title.showFullScreenButton, true);
-            return e;
+            return e.title;
         }
         function i(e) {
             e.footer = Default.getObject(e.footer, {});
@@ -737,7 +737,7 @@ var Binding;
             e.footer.showSizes = Default.getBoolean(e.footer.showSizes, true);
             e.footer.showPageOf = Default.getBoolean(e.footer.showPageOf, true);
             e.footer.statusResetDelay = Default.getNumber(e.footer.statusResetDelay, 5e3);
-            return e;
+            return e.footer;
         }
         function a(e) {
             e.controlPanel = Default.getObject(e.controlPanel, {});
@@ -748,14 +748,14 @@ var Binding;
             e.controlPanel.showEditButton = Default.getBoolean(e.controlPanel.showEditButton, true);
             e.controlPanel.showCloseOpenAllButtons = Default.getBoolean(e.controlPanel.showCloseOpenAllButtons, true);
             e.controlPanel.showSwitchToPagesButton = Default.getBoolean(e.controlPanel.showSwitchToPagesButton, true);
-            return e;
+            return e.controlPanel;
         }
         function s(e) {
             e.lineNumbers = Default.getObject(e.lineNumbers, {});
             e.lineNumbers.enabled = Default.getBoolean(e.lineNumbers.enabled, true);
             e.lineNumbers.padNumbers = Default.getBoolean(e.lineNumbers.padNumbers, false);
             e.lineNumbers.addDots = Default.getBoolean(e.lineNumbers.addDots, true);
-            return e;
+            return e.lineNumbers;
         }
         function u(e) {
             e.ignore = Default.getObject(e.ignore, {});
@@ -783,13 +783,13 @@ var Binding;
             e.ignore.emailValues = Default.getBoolean(e.ignore.emailValues, false);
             e.ignore.htmlValues = Default.getBoolean(e.ignore.htmlValues, false);
             e.ignore.lambdaValues = Default.getBoolean(e.ignore.lambdaValues, false);
-            return e;
+            return e.ignore;
         }
         function c(e) {
             e.tooltip = Default.getObject(e.tooltip, {});
             e.tooltip.delay = Default.getNumber(e.tooltip.delay, 750);
             e.tooltip.offset = Default.getNumber(e.tooltip.offset, 0);
-            return e;
+            return e.tooltip;
         }
         function d(e) {
             e.parse = Default.getObject(e.parse, {});
@@ -797,7 +797,7 @@ var Binding;
             e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
             e.parse.stringsToNumbers = Default.getBoolean(e.parse.stringsToNumbers, false);
             e.parse.stringsToSymbols = Default.getBoolean(e.parse.stringsToSymbols, false);
-            return e;
+            return e.parse;
         }
         function f(e) {
             let t = Default.getBoolean(e.allowEditing, true);
@@ -817,7 +817,7 @@ var Binding;
             e.allowEditing.imageValues = Default.getBoolean(e.allowEditing.imageValues, t);
             e.allowEditing.propertyNames = Default.getBoolean(e.allowEditing.propertyNames, t);
             e.allowEditing.bulk = Default.getBoolean(e.allowEditing.bulk, t);
-            return e;
+            return e.allowEditing;
         }
         function g(e) {
             e.sideMenu = Default.getObject(e.sideMenu, {});
@@ -827,7 +827,7 @@ var Binding;
             e.sideMenu.titleText = Default.getAnyString(e.sideMenu.titleText, e.title.text);
             e.sideMenu.showAvailableDataTypeCounts = Default.getBoolean(e.sideMenu.showAvailableDataTypeCounts, true);
             e.sideMenu.showOnlyDataTypesAvailable = Default.getBoolean(e.sideMenu.showOnlyDataTypesAvailable, false);
-            return e;
+            return e.sideMenu;
         }
         function m(e) {
             e.autoClose = Default.getObject(e.autoClose, {});
@@ -836,7 +836,7 @@ var Binding;
             e.autoClose.mapSize = Default.getNumber(e.autoClose.mapSize, 0);
             e.autoClose.setSize = Default.getNumber(e.autoClose.setSize, 0);
             e.autoClose.htmlSize = Default.getNumber(e.autoClose.htmlSize, 0);
-            return e;
+            return e.autoClose;
         }
         function p(e) {
             e.events = Default.getObject(e.events, {});
@@ -871,7 +871,7 @@ var Binding;
             e.events.onLambdaRender = Default.getFunction(e.events.onLambdaRender, null);
             e.events.onCopy = Default.getFunction(e.events.onCopy, null);
             e.events.onFullScreenChange = Default.getFunction(e.events.onFullScreenChange, null);
-            return e;
+            return e.events;
         }
     })(t = e.Options || (e.Options = {}));
 })(Binding || (Binding = {}));
@@ -882,10 +882,10 @@ var Config;
     let t;
     (e => {
         function t(e = null) {
-            let t = Default.getObject(e, {});
+            const t = Default.getObject(e, {});
             t.safeMode = Default.getBoolean(t.safeMode, true);
             t.domElementTypes = Default.getStringOrArray(t.domElementTypes, [ "*" ]);
-            t = n(t);
+            t.text = n(t);
             return t;
         }
         e.get = t;
@@ -975,7 +975,7 @@ var Config;
             if (Is.invalidOptionArray(e.text.monthNamesAbbreviated, 12)) {
                 e.text.monthNamesAbbreviated = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
             }
-            return e;
+            return e.text;
         }
     })(t = e.Options || (e.Options = {}));
 })(Config || (Config = {}));
@@ -1005,8 +1005,8 @@ var ToolTip;
     }
     e.renderControl = t;
     function n(e, t = true) {
-        let n = t ? window.addEventListener : window.removeEventListener;
-        let o = t ? document.addEventListener : document.removeEventListener;
+        const n = t ? window.addEventListener : window.removeEventListener;
+        const o = t ? document.addEventListener : document.removeEventListener;
         n("mousemove", (() => r(e)));
         o("scroll", (() => r(e)));
     }
@@ -1088,83 +1088,83 @@ var Arr;
 var Size;
 
 (e => {
-    function t(e) {
-        let t = null;
-        const n = o(e);
-        if (n > 0) {
-            const e = Math.floor(Math.log(n) / Math.log(1024));
-            return `${Convert2.numberToFloatWithDecimalPlaces(n / Math.pow(1024, e), 2)} ${" KMGTP".charAt(e)}B`;
+    function t(e, t) {
+        let n = null;
+        const l = o(e, t);
+        if (l > 0) {
+            const e = Math.floor(Math.log(l) / Math.log(1024));
+            return `${Convert2.numberToFloatWithDecimalPlaces(l / Math.pow(1024, e), 2)} ${" KMGTP".charAt(e)}B`;
         }
-        return t;
+        return n;
     }
     e.of = t;
-    function n(t) {
-        let n = 0;
-        if (Is.defined(t)) {
-            if (Is.definedDate(t)) {
-                n = t.toString().length;
-            } else if (Is.definedImage(t)) {
-                n = t.src.length;
-            } else if (Is.definedRegExp(t)) {
-                n = t.source.length;
-            } else if (Is.definedSet(t)) {
-                n = e.length(Convert2.setToArray(t));
-            } else if (Is.definedMap(t)) {
-                n = e.length(Convert2.mapToObject(t));
-            } else if (Is.definedHtml(t)) {
-                n = e.length(Convert2.htmlToObject(t));
-            } else if (Is.definedArray(t)) {
-                n = t.length;
-            } else if (Is.definedObject(t)) {
-                for (const e in t) {
-                    if (t.hasOwnProperty(e)) {
-                        n++;
+    function n(e, t) {
+        let o = 0;
+        if (Is.defined(e)) {
+            if (Is.definedDate(e)) {
+                o = e.toString().length;
+            } else if (Is.definedImage(e)) {
+                o = e.src.length;
+            } else if (Is.definedRegExp(e)) {
+                o = e.source.length;
+            } else if (Is.definedSet(e)) {
+                o = n(Convert2.setToArray(e), t);
+            } else if (Is.definedMap(e)) {
+                o = n(Convert2.mapToObject(e), t);
+            } else if (Is.definedHtml(e)) {
+                o = n(Convert2.htmlToObject(e, t), t);
+            } else if (Is.definedArray(e)) {
+                o = e.length;
+            } else if (Is.definedObject(e)) {
+                for (const t in e) {
+                    if (e.hasOwnProperty(t)) {
+                        o++;
                     }
                 }
             } else {
-                if (!Is.definedFunction(t) && !Is.definedSymbol(t)) {
-                    n = t.toString().length;
+                if (!Is.definedFunction(e) && !Is.definedSymbol(e)) {
+                    o = e.toString().length;
+                }
+            }
+        }
+        return o;
+    }
+    e.length = n;
+    function o(e, t) {
+        let n = 0;
+        if (Is.defined(e)) {
+            if (Is.definedNumber(e)) {
+                n = 8;
+            } else if (Is.definedString(e)) {
+                n = e.length * 2;
+            } else if (Is.definedBoolean(e)) {
+                n = 4;
+            } else if (Is.definedBigInt(e)) {
+                n = o(e.toString(), t);
+            } else if (Is.definedRegExp(e)) {
+                n = o(e.toString(), t);
+            } else if (Is.definedDate(e)) {
+                n = o(e.toString(), t);
+            } else if (Is.definedSet(e)) {
+                n = o(Convert2.setToArray(e), t);
+            } else if (Is.definedMap(e)) {
+                n = o(Convert2.mapToObject(e), t);
+            } else if (Is.definedHtml(e)) {
+                n = o(Convert2.htmlToObject(e, t), t);
+            } else if (Is.definedArray(e)) {
+                const l = e.length;
+                for (let r = 0; r < l; r++) {
+                    n += o(e[r], t);
+                }
+            } else if (Is.definedObject(e)) {
+                for (const l in e) {
+                    if (e.hasOwnProperty(l)) {
+                        n += o(l, t) + o(e[l], t);
+                    }
                 }
             }
         }
         return n;
-    }
-    e.length = n;
-    function o(e) {
-        let t = 0;
-        if (Is.defined(e)) {
-            if (Is.definedNumber(e)) {
-                t = 8;
-            } else if (Is.definedString(e)) {
-                t = e.length * 2;
-            } else if (Is.definedBoolean(e)) {
-                t = 4;
-            } else if (Is.definedBigInt(e)) {
-                t = o(e.toString());
-            } else if (Is.definedRegExp(e)) {
-                t = o(e.toString());
-            } else if (Is.definedDate(e)) {
-                t = o(e.toString());
-            } else if (Is.definedSet(e)) {
-                t = o(Convert2.setToArray(e));
-            } else if (Is.definedMap(e)) {
-                t = o(Convert2.mapToObject(e));
-            } else if (Is.definedHtml(e)) {
-                t = o(Convert2.htmlToObject(e));
-            } else if (Is.definedArray(e)) {
-                const n = e.length;
-                for (let l = 0; l < n; l++) {
-                    t += o(e[l]);
-                }
-            } else if (Is.definedObject(e)) {
-                for (const n in e) {
-                    if (e.hasOwnProperty(n)) {
-                        t += o(n) + o(e[n]);
-                    }
-                }
-            }
-        }
-        return t;
     }
 })(Size || (Size = {}));
 
@@ -1205,8 +1205,8 @@ var ContextMenu;
     }
     e.renderControl = t;
     function n(e, t = true) {
-        let n = t ? window.addEventListener : window.removeEventListener;
-        let o = t ? document.addEventListener : document.removeEventListener;
+        const n = t ? window.addEventListener : window.removeEventListener;
+        const o = t ? document.addEventListener : document.removeEventListener;
         n("contextmenu", (() => l(e)));
         n("click", (() => l(e)));
         o("scroll", (() => l(e)));
@@ -1861,8 +1861,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => L(n, o, true);
-        s.onclick = () => L(n, o, false);
+        a.onclick = () => j(n, o, true);
+        s.onclick = () => j(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -1870,13 +1870,13 @@ var ContextMenu;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            const l = j(u, e, n, !d[`${e}Values`]);
+            const l = L(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
         }));
     }
-    function L(e, t, n) {
+    function j(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -1885,7 +1885,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function j(e, t, n, o) {
+    function L(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -1960,7 +1960,7 @@ var ContextMenu;
     }
     function R(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
-            const l = Size.length(n);
+            const l = Size.length(n, t.showCssStylesForHtmlObjects);
             if (l > 0) {
                 o.addEventListener("mousemove", (() => {
                     const n = DomElement.createWithHTML(null, "span", "status-count", l.toString()).outerHTML;
@@ -1977,7 +1977,7 @@ var ContextMenu;
     }
     function H(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
-            const l = Size.of(n);
+            const l = Size.of(n, t.showCssStylesForHtmlObjects);
             if (Is.definedString(l)) {
                 o.addEventListener("mousemove", (() => {
                     const n = DomElement.createWithHTML(null, "span", "status-count", l.toString()).outerHTML;
@@ -2502,7 +2502,7 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    let m = ne(o, r, i);
+                    const m = ne(o, r, i);
                     const x = z(g, m, a, o, t, n, u, c, true, i, s, b, true);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
@@ -2534,7 +2534,7 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
-                let c = ne(o, n, i);
+                const c = ne(o, n, i);
                 const m = U(g, c, l, o, t, a, u, true, i, s, b, true);
                 if (!m && o.showOpeningClosingSquaredBrackets) {
                     a.parentNode.removeChild(a);
@@ -2564,7 +2564,7 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     a = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
-                let u = ne(o, t, i);
+                const u = ne(o, t, i);
                 const c = U(g, u, n, o, r, l, a, true, i, s, b, false);
                 if (!c && o.showOpeningClosingSquaredBrackets) {
                     l.parentNode.removeChild(l);
@@ -2600,7 +2600,7 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    let m = ne(o, r, i);
+                    const m = ne(o, r, i);
                     const x = z(g, m, a, o, t, n, u, c, true, i, s, b, true);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
@@ -2636,7 +2636,7 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
-                    let m = ne(o, l, i);
+                    const m = ne(o, l, i);
                     const x = z(g, m, a, o, r, t, u, c, true, i, s, b, false);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
@@ -2969,7 +2969,7 @@ var ContextMenu;
         return o;
     }
     function oe(e, t, n, o, l) {
-        let r = DomElement.create(t, "div", "closing-symbol");
+        const r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
         }

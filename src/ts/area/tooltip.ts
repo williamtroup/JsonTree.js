@@ -27,8 +27,8 @@ export namespace ToolTip {
     }
 
     export function assignToEvents( bindingOptions: BindingOptions, add: boolean = true ) : void {
-        let addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
-        let addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
+        const addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
+        const addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
 
         addEventListener_Window( "mousemove", () => hide( bindingOptions ) );
         addEventListener_Document( "scroll", () => hide( bindingOptions ) );

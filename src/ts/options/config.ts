@@ -19,16 +19,16 @@ import { Is } from "../data/is";
 export namespace Config {
     export namespace Options {
         export function get( newConfiguration: any = null ) : Configuration {
-            let configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
+            const configuration: Configuration = Default.getObject( newConfiguration, {} as Configuration );
             configuration.safeMode = Default.getBoolean( configuration.safeMode, true );
             configuration.domElementTypes = Default.getStringOrArray( configuration.domElementTypes, [ "*" ] );
     
-            configuration = getText( configuration );
+            configuration.text = getText( configuration );
 
             return configuration;
         }
     
-        function getText( configuration: Configuration ) : Configuration {
+        function getText( configuration: Configuration ) : ConfigurationText {
             configuration.text = Default.getObject( configuration.text, {} as ConfigurationText );
             configuration.text!.objectText = Default.getAnyString( configuration.text!.objectText, "object" );
             configuration.text!.arrayText = Default.getAnyString( configuration.text!.arrayText, "array" );
@@ -161,7 +161,7 @@ export namespace Config {
                 ];
             }
 
-            return configuration;
+            return configuration.text!;
         }
     }
 }

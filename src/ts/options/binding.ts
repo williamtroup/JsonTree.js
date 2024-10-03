@@ -87,7 +87,7 @@ export namespace Binding {
         }
 
         export function get( newOptions: any ) : BindingOptions {
-            let options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
+            const options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
             options.showObjectSizes = Default.getBoolean( options.showObjectSizes, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
@@ -130,23 +130,24 @@ export namespace Binding {
             options.showChildIndexes = Default.getBoolean( options.showChildIndexes, true );
             options.showClosedArraySquaredBrackets = Default.getBoolean( options.showClosedArraySquaredBrackets, true );
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
-            options = getPaging( options );
-            options = getTitle( options );
-            options = getFooter( options );
-            options = getControlPanel( options );
-            options = getLineNumbers( options );
-            options = getIgnore( options );
-            options = getToolTip( options );
-            options = getParse( options );
-            options = getAllowEditing( options );
-            options = getSideMenu( options );
-            options = getAutoClose( options );
-            options = getCustomTriggers( options );
+
+            options.paging = getPaging( options );
+            options.title = getTitle( options );
+            options.footer = getFooter( options );
+            options.controlPanel = getControlPanel( options );
+            options.lineNumbers = getLineNumbers( options );
+            options.ignore = getIgnore( options );
+            options.tooltip = getToolTip( options );
+            options.parse = getParse( options );
+            options.allowEditing = getAllowEditing( options );
+            options.sideMenu = getSideMenu( options );
+            options.autoClose = getAutoClose( options );
+            options.events = getCustomTriggers( options );
     
             return options;
         }
         
-        function getPaging( options: BindingOptions ) : BindingOptions {
+        function getPaging( options: BindingOptions ) : BindingOptionsPaging {
             options.paging = Default.getObject( options.paging, {} as BindingOptionsPaging );
             options.paging!.enabled = Default.getBoolean( options.paging!.enabled, true );
             options.paging!.columnsPerPage = Default.getNumberMaximum( options.paging!.columnsPerPage, 1, 6 );
@@ -154,10 +155,10 @@ export namespace Binding {
             options.paging!.synchronizeScrolling = Default.getBoolean( options.paging!.synchronizeScrolling, false );
             options.paging!.allowColumnReordering = Default.getBoolean( options.paging!.allowColumnReordering, true );
 
-            return options;
+            return options.paging!;
         }
     
-        function getTitle( options: BindingOptions ) : BindingOptions {
+        function getTitle( options: BindingOptions ) : BindingOptionsTitle {
             options.title = Default.getObject( options.title, {} as BindingOptionsTitle );
             options.title!.text = Default.getAnyString( options.title!.text, "JsonTree.js" );
             options.title!.showCloseOpenAllButtons = Default.getBoolean( options.title!.showCloseOpenAllButtons, true );
@@ -165,10 +166,10 @@ export namespace Binding {
             options.title!.enableFullScreenToggling = Default.getBoolean( options.title!.enableFullScreenToggling, true );
             options.title!.showFullScreenButton = Default.getBoolean( options.title!.showFullScreenButton, true );
 
-            return options;
+            return options.title!;
         }
 
-        function getFooter( options: BindingOptions ) : BindingOptions {
+        function getFooter( options: BindingOptions ) : BindingOptionsFooter {
             options.footer = Default.getObject( options.footer, {} as BindingOptionsFooter );
             options.footer!.enabled = Default.getBoolean( options.footer!.enabled, true );
             options.footer!.showDataTypes = Default.getBoolean( options.footer!.showDataTypes, true );
@@ -177,10 +178,10 @@ export namespace Binding {
             options.footer!.showPageOf = Default.getBoolean( options.footer!.showPageOf, true );
             options.footer!.statusResetDelay = Default.getNumber( options.footer!.statusResetDelay, 5000 );
 
-            return options;
+            return options.footer!;
         }
 
-        function getControlPanel( options: BindingOptions ) : BindingOptions {
+        function getControlPanel( options: BindingOptions ) : BindingOptionsControlPanel {
             options.controlPanel = Default.getObject( options.controlPanel, {} as BindingOptionsControlPanel );
             options.controlPanel!.enabled = Default.getBoolean( options.controlPanel!.enabled, true );
             options.controlPanel!.showCopyButton = Default.getBoolean( options.controlPanel!.showCopyButton, true );
@@ -190,19 +191,19 @@ export namespace Binding {
             options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
 
-            return options;
+            return options.controlPanel!;
         }
 
-        function getLineNumbers( options: BindingOptions ) : BindingOptions {
+        function getLineNumbers( options: BindingOptions ) : BindingOptionsLineNumbers {
             options.lineNumbers = Default.getObject( options.lineNumbers, {} as BindingOptionsLineNumbers );
             options.lineNumbers!.enabled = Default.getBoolean( options.lineNumbers!.enabled, true );
             options.lineNumbers!.padNumbers = Default.getBoolean( options.lineNumbers!.padNumbers, false );
             options.lineNumbers!.addDots = Default.getBoolean( options.lineNumbers!.addDots, true );
 
-            return options;
+            return options.lineNumbers!;
         }
     
-        function getIgnore( options: BindingOptions ) : BindingOptions {
+        function getIgnore( options: BindingOptions ) : BindingOptionsIgnore {
             options.ignore = Default.getObject( options.ignore, {} as BindingOptionsIgnore );
             options.ignore!.nullValues = Default.getBoolean( options.ignore!.nullValues, false );
             options.ignore!.functionValues = Default.getBoolean( options.ignore!.functionValues, false );
@@ -229,28 +230,28 @@ export namespace Binding {
             options.ignore!.htmlValues = Default.getBoolean( options.ignore!.htmlValues, false );
             options.ignore!.lambdaValues = Default.getBoolean( options.ignore!.lambdaValues, false );
 
-            return options;
+            return options.ignore!;
         }
 
-        function getToolTip( options: BindingOptions ) : BindingOptions {
+        function getToolTip( options: BindingOptions ) : BindingOptionsTooltip {
             options.tooltip = Default.getObject( options.tooltip, {} as BindingOptionsTooltip );
             options.tooltip!.delay = Default.getNumber( options.tooltip!.delay, 750 );
             options.tooltip!.offset = Default.getNumber( options.tooltip!.offset, 0 );
 
-            return options;
+            return options.tooltip!;
         }
 
-        function getParse( options: BindingOptions ) : BindingOptions {
+        function getParse( options: BindingOptions ) : BindingOptionsParse {
             options.parse = Default.getObject( options.parse, {} as BindingOptionsParse );
             options.parse!.stringsToDates = Default.getBoolean( options.parse!.stringsToDates, false );
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
             options.parse!.stringsToSymbols = Default.getBoolean( options.parse!.stringsToSymbols, false );
 
-            return options;
+            return options.parse!;
         }
 
-        function getAllowEditing( options: BindingOptions ) : BindingOptions {
+        function getAllowEditing( options: BindingOptions ) : BindingOptionsAllowEditing {
             let defaultFlag: boolean = Default.getBoolean( options.allowEditing, true );
 
             options.allowEditing = Default.getObject( options.allowEditing, {} as BindingOptionsAllowEditing );
@@ -270,10 +271,10 @@ export namespace Binding {
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 
-            return options;
+            return options.allowEditing!;
         }
 
-        function getSideMenu( options: BindingOptions ) : BindingOptions {
+        function getSideMenu( options: BindingOptions ) : BindingOptionsSideMenu {
             options.sideMenu = Default.getObject( options.sideMenu, {} as BindingOptionsSideMenu );
             options.sideMenu!.enabled = Default.getBoolean( options.sideMenu!.enabled, true );
             options.sideMenu!.showImportButton = Default.getBoolean( options.sideMenu!.showImportButton, true );
@@ -282,10 +283,10 @@ export namespace Binding {
             options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
 
-            return options;
+            return options.sideMenu!;
         }
 
-        function getAutoClose( options: BindingOptions ) : BindingOptions {
+        function getAutoClose( options: BindingOptions ) : BindingOptionsAutoClose {
             options.autoClose = Default.getObject( options.autoClose, {} as BindingOptionsAutoClose );
             options.autoClose!.objectSize = Default.getNumber( options.autoClose!.objectSize, 0 );
             options.autoClose!.arraySize = Default.getNumber( options.autoClose!.arraySize, 0 );
@@ -293,10 +294,10 @@ export namespace Binding {
             options.autoClose!.setSize = Default.getNumber( options.autoClose!.setSize, 0 );
             options.autoClose!.htmlSize = Default.getNumber( options.autoClose!.htmlSize, 0 );
 
-            return options;
+            return options.autoClose!;
         }
     
-        function getCustomTriggers( options: BindingOptions ) : BindingOptions {
+        function getCustomTriggers( options: BindingOptions ) : BindingOptionsEvents {
             options.events = Default.getObject( options.events, {} as BindingOptionsEvents );
             options.events!.onBeforeRender = Default.getFunction( options.events!.onBeforeRender, null! );
             options.events!.onRenderComplete = Default.getFunction( options.events!.onRenderComplete, null! );
@@ -330,7 +331,7 @@ export namespace Binding {
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
 
-            return options;
+            return options.events!;
         }
     }
 }

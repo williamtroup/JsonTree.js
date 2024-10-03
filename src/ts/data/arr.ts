@@ -25,7 +25,7 @@ export namespace Arr {
         let result: string = index.toString();
     
         if ( bindingOptions.addArrayIndexPadding ) {
-            let paddingLength = largestValue.toString().length;
+            let paddingLength: number = largestValue.toString().length;
 
             if ( paddingLength < ( bindingOptions.minimumArrayIndexPadding! + 1 ) ) {
                 paddingLength = bindingOptions.minimumArrayIndexPadding! + 1;

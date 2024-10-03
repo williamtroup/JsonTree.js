@@ -27,8 +27,8 @@ export namespace ContextMenu {
     }
 
     export function assignToEvents( bindingOptions: BindingOptions, add: boolean = true ) : void {
-        let addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
-        let addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
+        const addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
+        const addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
 
         addEventListener_Window( "contextmenu", () => hide( bindingOptions ) );
         addEventListener_Window( "click", () => hide( bindingOptions ) );

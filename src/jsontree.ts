@@ -1053,7 +1053,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addFooterLengthStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
         if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showLengths ) {
-            const length: number = Size.length( value );
+            const length: number = Size.length( value, bindingOptions.showCssStylesForHtmlObjects! );
 
             if ( length > 0 ) {
                 valueElement.addEventListener( "mousemove", () => {
@@ -1075,7 +1075,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addFooterSizeStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
         if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showSizes ) {
-            const size: string = Size.of( value );
+            const size: string = Size.of( value, bindingOptions.showCssStylesForHtmlObjects! );
 
             if ( Is.definedString( size ) ) {
                 valueElement.addEventListener( "mousemove", () => {
@@ -1789,8 +1789,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1833,8 +1832,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
 
-                let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                
+                const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
@@ -1875,8 +1873,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
 
-                let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                
+                const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
@@ -1925,8 +1922,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
 
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1975,8 +1971,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -2414,7 +2409,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
-        let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
+        const symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
         if ( ( addNoArrow && bindingOptions.showArrowToggles ) || bindingOptions.showOpenedObjectArrayBorders ) {
             DomElement.create( symbolContainer, "div", "no-arrow" );

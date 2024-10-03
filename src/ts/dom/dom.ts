@@ -36,8 +36,7 @@ export namespace DomElement {
     export function create( container: HTMLElement, type: string, className: string = Char.empty, beforeNode: HTMLElement = null! ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
-
-        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+        const result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
 
         if ( Is.defined( className ) ) {
             result.className = className;
@@ -64,8 +63,7 @@ export namespace DomElement {
     export function createWithNoContainer( type: string ) : HTMLElement {
         const nodeType: string = type.toLowerCase();
         const isText: boolean = nodeType === "text";
-
-        let result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
+        const result: any = isText ? document.createTextNode( Char.empty ) : document.createElement( nodeType );
 
         return result;
     }

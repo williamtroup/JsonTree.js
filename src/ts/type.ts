@@ -324,11 +324,11 @@ export type BindingOptionsSideMenu = {
 };
 
 export type BindingOptionsAutoClose = {
-	objectSize: number;
-	arraySize: number;
-	mapSize: number;
-	setSize: number;
-	htmlSize: number;
+	objectSize?: number;
+	arraySize?: number;
+	mapSize?: number;
+	setSize?: number;
+	htmlSize?: number;
 };
 
 export type BindingOptionsEvents = {

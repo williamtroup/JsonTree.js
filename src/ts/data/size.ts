@@ -16,9 +16,9 @@ import { Is } from "./is";
 
 
 export namespace Size {
-    export function of( value: any ) : string {
+    export function of( value: any, addCssStyles: boolean ) : string {
         let result: string = null!;
-        const bytes: number = getSize( value );
+        const bytes: number = getSize( value, addCssStyles );
 
         if ( bytes > 0 ) {
             const type: number = Math.floor( Math.log( bytes ) / Math.log( 1024 ) );
@@ -29,49 +29,49 @@ export namespace Size {
         return result;
     }
 
-    export function length( value: any ) : number {
-        let length: number = 0;
+    export function length( value: any, addCssStyles: boolean ) : number {
+        let result: number = 0;
 
         if ( Is.defined( value ) ) {
             if ( Is.definedDate( value ) ) {
-                length = value.toString().length;
+                result = value.toString().length;
 
             } else if ( Is.definedImage( value ) ) {
-                length = value.src.length;
+                result = value.src.length;
 
             } else if ( Is.definedRegExp( value ) ) {
-                length = value.source.length;
+                result = value.source.length;
                 
             } else if ( Is.definedSet( value ) ) {
-                length = Size.length( Convert.setToArray( value ) );
+                result = length( Convert.setToArray( value ), addCssStyles );
 
             } else if ( Is.definedMap( value ) ) {
-                length = Size.length( Convert.mapToObject( value ) );
+                result = length( Convert.mapToObject( value ), addCssStyles );
 
             } else if ( Is.definedHtml( value ) ) {
-                length = Size.length( Convert.htmlToObject( value ) );
+                result = length( Convert.htmlToObject( value, addCssStyles ), addCssStyles );
 
             } else if ( Is.definedArray( value ) ) {
-                length = value.length;
+                result = value.length;
                 
             } else if ( Is.definedObject( value ) ) {
                 for ( const itemKey in value ) {
                     if ( value.hasOwnProperty( itemKey ) ) {
-                        length++;
+                        result++;
                     }
                 }
 
             } else {
                 if ( !Is.definedFunction( value ) && !Is.definedSymbol( value ) ) {
-                    length = value.toString().length;
+                    result = value.toString().length;
                 }
             }
         }
 
-        return length;
+        return result;
     }
 
-    function getSize( value: any ) : number {
+    function getSize( value: any, addCssStyles: boolean ) : number {
         let bytes: number = 0;
 
         if ( Is.defined( value ) ) {
@@ -85,34 +85,34 @@ export namespace Size {
                 bytes = 4;
 
             } else if ( Is.definedBigInt( value ) ) {
-                bytes = getSize( value.toString() );
+                bytes = getSize( value.toString(), addCssStyles );
             
             } else if ( Is.definedRegExp( value ) ) {
-                bytes = getSize( value.toString() );
+                bytes = getSize( value.toString(), addCssStyles );
             
             } else if ( Is.definedDate( value ) ) {
-                bytes = getSize( value.toString() );
+                bytes = getSize( value.toString(), addCssStyles );
             
             } else if ( Is.definedSet( value ) ) {
-                bytes = getSize( Convert.setToArray( value ) );
+                bytes = getSize( Convert.setToArray( value ), addCssStyles );
 
             } else if ( Is.definedMap( value ) ) {
-                bytes = getSize( Convert.mapToObject( value ) );
+                bytes = getSize( Convert.mapToObject( value ), addCssStyles );
 
             } else if ( Is.definedHtml( value ) ) {
-                bytes = getSize( Convert.htmlToObject( value ) );
+                bytes = getSize( Convert.htmlToObject( value, addCssStyles ), addCssStyles );
 
             } else if ( Is.definedArray( value ) ) {
                 const arrayLength: number = value.length;
 
                 for ( let arrayIndex: number = 0; arrayIndex < arrayLength; arrayIndex++ ) {
-                    bytes += getSize( value[ arrayIndex ] );
+                    bytes += getSize( value[ arrayIndex ], addCssStyles );
                 }
                 
             } else if ( Is.definedObject( value ) ) {
                 for ( const itemKey in value ) {
                     if ( value.hasOwnProperty( itemKey ) ) {
-                        bytes += ( getSize( itemKey ) + getSize( value[ itemKey ] ) );
+                        bytes += ( getSize( itemKey, addCssStyles ) + getSize( value[ itemKey ], addCssStyles ) );
                     }
                 }
             }
