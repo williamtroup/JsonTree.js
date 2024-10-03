@@ -11,14 +11,14 @@
  */
 
 
-import { type StringToJson, type Configuration } from "../type";
+import { type StringToJson, type Configuration, type BindingOptions } from "../type";
 import { Default } from "./default";
 import { Char } from "./enum";
 import { Is } from "./is";
 
 
 export namespace Convert {
-    export function stringifyJson( _: string, value: any, configuration: Configuration, addCssStyles: boolean ) : any {
+    export function stringifyJson( _: string, value: any, configuration: Configuration, bindingOptions: BindingOptions ) : any {
         if ( Is.definedBigInt( value ) ) {
             value = value.toString();
 
@@ -41,7 +41,7 @@ export namespace Convert {
             value = value.src;
 
         } else if ( Is.definedHtml( value ) ) {
-            value = htmlToObject( value, addCssStyles );
+            value = htmlToObject( value, bindingOptions.showCssStylesForHtmlObjects! );
         }
 
         return value;

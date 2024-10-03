@@ -273,7 +273,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.editMode = true;
 
         const _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
         };
 
         contentsColumn.classList.add( "editable" );
@@ -642,7 +642,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onCopy( bindingOptions: BindingOptions, data: any ) : void {
         let replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
         };
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
@@ -772,7 +772,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onTitleBarCopyAllClick( bindingOptions: BindingOptions, data: any ) : void {
         let replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
         };
 
         if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
@@ -2680,7 +2680,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onExport( bindingOptions: BindingOptions ) : void {
         const replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions.showCssStylesForHtmlObjects! );
+            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
         };
 
         const contents: string = JSON.stringify( bindingOptions.data, replaceFunction, bindingOptions.jsonIndentSpaces );
