@@ -536,7 +536,7 @@ div.json-tree-js div.editable {
   cursor: text !important;
   outline: none;
   box-shadow: none;
-  white-space: pre;
+  white-space: pre !important;
 }
 div.json-tree-js div.contents {
   display: flex;
