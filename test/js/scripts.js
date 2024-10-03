@@ -179,7 +179,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             startPage: 1,
             synchronizeScrolling: false,
             allowColumnReordering: true,
-            allowValueComparisons: true,
+            allowValueComparisons: false,
         },
         footer: {
             enabled: true,
