@@ -2191,7 +2191,7 @@ var ContextMenu;
                 H(o, l, w);
                 R(o, l, w);
             }
-            if (o.paging.allowValueComparisons) {
+            if (o.paging.enabled && o.paging.columnsPerPage > 1 && o.paging.allowValueComparisons) {
                 const e = o._currentView.currentColumnBuildingIndex;
                 w.onclick = t => le(t, o, f, a, e);
             }
@@ -3202,7 +3202,7 @@ var ContextMenu;
             e._currentView.element.removeAttribute("id");
         }
         Te(e, false);
-        if (e.paging.allowValueComparisons) {
+        if (e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowValueComparisons) {
             window.removeEventListener("click", (() => re(e)));
         }
         ToolTip.assignToEvents(e, false);

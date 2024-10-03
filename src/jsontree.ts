@@ -1350,7 +1350,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
 
-            if ( bindingOptions.paging!.allowValueComparisons ) {
+            if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons ) {
                 const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
                 nameElement.onclick = ( e: MouseEvent ) => compareColumnValues( e, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex );
@@ -2764,7 +2764,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         buildDocumentEvents( bindingOptions, false );
 
-        if ( bindingOptions.paging!.allowValueComparisons ) {
+        if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons ) {
             window.removeEventListener( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
         }
 
