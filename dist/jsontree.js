@@ -2997,16 +2997,13 @@ var ContextMenu;
             for (let r = 0; r < n; r++) {
                 const n = t[r];
                 n.classList.remove("start-compare-highlight");
+                n.classList.remove("compare-highlight");
                 if (e !== l) {
                     const e = n.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
                     if (Is.definedString(e) && e === o) {
                         n.classList.add("compare-highlight");
                         s = true;
-                    } else {
-                        n.classList.remove("compare-highlight");
                     }
-                } else {
-                    n.classList.remove("compare-highlight");
                 }
             }
         }

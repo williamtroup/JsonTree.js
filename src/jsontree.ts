@@ -2453,6 +2453,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
                 valueElement.classList.remove( "start-compare-highlight" );
+                valueElement.classList.remove( "compare-highlight" );
 
                 if ( columnIndex !== currentColumnIndex ) {
                     const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
@@ -2460,13 +2461,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
                         valueElement.classList.add( "compare-highlight" );
                         elementsHighlighted = true;
-
-                    } else {
-                        valueElement.classList.remove( "compare-highlight" );
                     }
-
-                } else {
-                    valueElement.classList.remove( "compare-highlight" );
                 }
             }
         }
