@@ -1243,15 +1243,16 @@ var ContextMenu;
     let e = {};
     let t = {};
     let n = 0;
-    function o() {
+    let o = false;
+    function l() {
         DomElement.find(e.domElementTypes, (t => {
             let n = true;
             if (Is.defined(t) && t.hasAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME)) {
                 const o = t.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
                 if (Is.definedString(o)) {
-                    const r = Convert2.jsonStringToObject(o, e);
-                    if (r.parsed && Is.definedObject(r.object)) {
-                        l(Binding.Options.getForNewInstance(r.object, t));
+                    const l = Convert2.jsonStringToObject(o, e);
+                    if (l.parsed && Is.definedObject(l.object)) {
+                        r(Binding.Options.getForNewInstance(l.object, t));
                     } else {
                         if (!e.safeMode) {
                             console.error(e.text.attributeNotValidErrorText.replace("{{attribute_name}}", Constants.JSONTREE_JS_ATTRIBUTE_NAME));
@@ -1268,7 +1269,7 @@ var ContextMenu;
             return n;
         }));
     }
-    function l(e) {
+    function r(e) {
         Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
         ToolTip.renderControl(e);
         ContextMenu.renderControl(e);
@@ -1287,24 +1288,24 @@ var ContextMenu;
             n++;
         }
         if (e.paging.allowValueComparisons) {
-            window.addEventListener("click", (() => re(e)));
+            window.addEventListener("click", (() => ie(e)));
         }
-        r(e);
-        Te(e);
+        i(e);
+        be(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
-    function r(n, o = false) {
+    function i(n, o = false) {
         let l = t[n._currentView.element.id].data;
         if (Is.definedUrl(l)) {
             Default.getObjectFromUrl(l, e, (e => {
-                i(n, o, e);
+                s(n, o, e);
             }));
         } else {
-            i(n, o, l);
+            s(n, o, l);
         }
     }
-    function i(e, t, n) {
-        const o = u(e);
+    function s(e, t, n) {
+        const o = c(e);
         ToolTip.hide(e);
         ContextMenu.hide(e);
         e._currentView.element.innerHTML = "";
@@ -1313,7 +1314,7 @@ var ContextMenu;
         e._currentView.sideMenuChanged = false;
         e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
-        D(e, n);
+        v(e, n);
         const l = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             l.classList.add("page-switch");
@@ -1322,85 +1323,85 @@ var ContextMenu;
             const t = Is.defined(n[e._currentView.currentDataArrayPageIndex + 1]);
             for (let r = 0; r < e.paging.columnsPerPage; r++) {
                 const i = r + e._currentView.currentDataArrayPageIndex;
-                const a = n[i];
+                const s = n[i];
                 e._currentView.contentPanelsIndex = 0;
                 e._currentView.contentPanelsDataIndex = i;
-                if (Is.defined(a)) {
-                    s(a, l, e, i, o[r], e.paging.columnsPerPage, t);
+                if (Is.defined(s)) {
+                    a(s, l, e, i, o[r], e.paging.columnsPerPage, t);
                 }
             }
         } else {
             e._currentView.contentPanelsIndex = 0;
             e._currentView.contentPanelsDataIndex = 0;
-            s(n, l, e, null, o[0], 1, false);
+            a(n, l, e, null, o[0], 1, false);
         }
-        I(e);
-        P(e);
-        ce(e);
+        _(e);
+        N(e);
+        de(e);
         e._currentView.initialized = true;
     }
-    function s(t, n, o, l, r, i, s) {
-        const u = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+    function a(t, n, o, l, r, i, s) {
+        const a = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
         if (!Is.defined(t)) {
-            const t = DomElement.create(u, "div", "no-json");
+            const t = DomElement.create(a, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
-                n.onclick = () => _(o);
+                n.onclick = () => A(o);
             }
         } else {
-            u.onscroll = () => c(u, o, l);
+            a.onscroll = () => d(a, o, l);
             if (o.paging.enabled && Is.definedNumber(l)) {
-                u.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
+                a.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
             if (s && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing.bulk) {
-                u.setAttribute("draggable", "true");
-                u.ondragstart = () => d(u, o, l);
-                u.ondragend = () => f(u, o);
-                u.ondragover = e => e.preventDefault();
-                u.ondrop = () => g(o, l);
+                a.setAttribute("draggable", "true");
+                a.ondragstart = () => f(a, o, l);
+                a.ondragend = () => g(a, o);
+                a.ondragover = e => e.preventDefault();
+                a.ondrop = () => m(o, l);
             }
-            let e = u;
+            let e = a;
             let n = null;
             let i = null;
             if (o.lineNumbers.enabled) {
-                n = DomElement.create(u, "div", "contents-column-line-numbers");
-                i = DomElement.create(u, "div", "contents-column-lines");
+                n = DomElement.create(a, "div", "contents-column-line-numbers");
+                i = DomElement.create(a, "div", "contents-column-lines");
                 e = i;
             }
-            const m = {
-                column: u,
+            const c = {
+                column: a,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(m);
+            o._currentView.currentContentColumns.push(c);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
-                J(e, o, t, "array");
+                z(e, o, t, "array");
             } else if (Is.definedSet(t)) {
-                J(e, o, Convert2.setToArray(t), "set");
+                z(e, o, Convert2.setToArray(t), "set");
             } else if (Is.definedHtml(t)) {
-                $(e, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
+                J(e, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
             } else if (Is.definedMap(t)) {
-                $(e, o, Convert2.mapToObject(t), l, "map");
+                J(e, o, Convert2.mapToObject(t), l, "map");
             } else if (Is.definedObject(t)) {
-                $(e, o, t, l, "object");
+                J(e, o, t, l, "object");
             }
-            p(o._currentView.currentColumnBuildingIndex, o);
-            x(o, u, t, l);
+            x(o._currentView.currentColumnBuildingIndex, o);
+            T(o, a, t, l);
             if (Is.defined(r)) {
-                u.scrollTop = r;
+                a.scrollTop = r;
             }
             o._currentView.titleBarButtons.style.display = "block";
             if (o.allowEditing.bulk) {
-                u.ondblclick = e => {
-                    a(e, o, t, u, l);
+                a.ondblclick = e => {
+                    u(e, o, t, a, l);
                 };
             }
         }
     }
-    function a(t, n, o, l, i) {
+    function u(t, n, o, l, r) {
         let s = null;
         if (Is.defined(t)) {
             DomElement.cancelBubble(t);
@@ -1416,33 +1417,33 @@ var ContextMenu;
         l.focus();
         DomElement.selectAllText(l);
         l.onblur = () => {
-            r(n, false);
+            i(n, false);
             if (Is.definedString(s)) {
-                W(n, s);
+                $(n, s);
             }
         };
         l.onkeydown = t => {
             if (t.code === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (we(t) && t.code === "Enter") {
+            } else if (he(t) && t.code === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
-                const r = Convert2.jsonStringToObject(o, e);
-                if (r.parsed) {
+                const i = Convert2.jsonStringToObject(o, e);
+                if (i.parsed) {
                     s = e.text.jsonUpdatedText;
                     if (n.paging.enabled) {
-                        if (Is.defined(r.object)) {
-                            n.data[i] = r.object;
+                        if (Is.defined(i.object)) {
+                            n.data[r] = i.object;
                         } else {
-                            n.data.splice(i, 1);
+                            n.data.splice(r, 1);
                             s = e.text.arrayJsonItemDeleted;
-                            if (i === n._currentView.currentDataArrayPageIndex && n._currentView.currentDataArrayPageIndex > 0) {
+                            if (r === n._currentView.currentDataArrayPageIndex && n._currentView.currentDataArrayPageIndex > 0) {
                                 n._currentView.currentDataArrayPageIndex -= n.paging.columnsPerPage;
                             }
                         }
                     } else {
-                        n.data = r.object;
+                        n.data = i.object;
                     }
                 }
                 l.setAttribute("contenteditable", "false");
@@ -1452,7 +1453,7 @@ var ContextMenu;
             }
         };
     }
-    function u(e) {
+    function c(e) {
         const t = [];
         ToolTip.hide(e);
         ContextMenu.hide(e);
@@ -1464,7 +1465,7 @@ var ContextMenu;
         }
         return t;
     }
-    function c(e, t, n) {
+    function d(e, t, n) {
         ToolTip.hide(t);
         ContextMenu.hide(t);
         const o = e.scrollTop;
@@ -1497,23 +1498,23 @@ var ContextMenu;
             }
         }
     }
-    function d(e, t, n) {
+    function f(e, t, n) {
         t._currentView.columnDragging = true;
         t._currentView.columnDraggingDataIndex = n;
         e.classList.add("draggable-item");
     }
-    function f(e, t) {
+    function g(e, t) {
         t._currentView.columnDragging = false;
         e.classList.remove("draggable-item");
     }
-    function g(e, t) {
+    function m(e, t) {
         e._currentView.columnDragging = false;
-        m(e, e._currentView.columnDraggingDataIndex, t);
+        p(e, e._currentView.columnDraggingDataIndex, t);
     }
-    function m(t, n, o) {
+    function p(t, n, o) {
         if (n !== o) {
             const l = t.data[o];
-            const i = t.data[n];
+            const r = t.data[n];
             let s = t._currentView.contentPanelsOpen[o];
             let a = t._currentView.contentPanelsOpen[n];
             if (!Is.defined(s)) {
@@ -1522,7 +1523,7 @@ var ContextMenu;
             if (!Is.defined(a)) {
                 a = {};
             }
-            t.data[o] = i;
+            t.data[o] = r;
             t.data[n] = l;
             t._currentView.contentPanelsOpen[o] = a;
             t._currentView.contentPanelsOpen[n] = s;
@@ -1531,11 +1532,11 @@ var ContextMenu;
             } else if (o < t._currentView.currentDataArrayPageIndex) {
                 t._currentView.currentDataArrayPageIndex -= t.paging.columnsPerPage;
             }
-            r(t);
-            W(t, e.text.jsonUpdatedText);
+            i(t);
+            $(t, e.text.jsonUpdatedText);
         }
     }
-    function p(e, t) {
+    function x(e, t) {
         const n = t._currentView.currentContentColumns[e];
         if (t.lineNumbers.enabled) {
             let e = 1;
@@ -1574,13 +1575,13 @@ var ContextMenu;
             }
         }
     }
-    function x(t, n, o, l) {
+    function T(t, n, o, l) {
         const r = DomElement.create(n, "div", "column-control-buttons");
         r.ondblclick = DomElement.cancelBubble;
         const i = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
         if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
             const i = DomElement.createWithHTML(r, "button", "edit", e.text.editSymbolButtonText);
-            i.onclick = () => a(null, t, o, n, l);
+            i.onclick = () => u(null, t, o, n, l);
             i.ondblclick = DomElement.cancelBubble;
             ToolTip.add(i, t, e.text.editButtonText);
         }
@@ -1590,7 +1591,7 @@ var ContextMenu;
             if (l + 1 > t.data.length - 1) {
                 n.disabled = true;
             } else {
-                n.onclick = () => m(t, l, l + 1);
+                n.onclick = () => p(t, l, l + 1);
             }
             ToolTip.add(n, t, e.text.moveRightButtonText);
             const o = DomElement.createWithHTML(r, "button", "move-left", e.text.moveLeftSymbolButtonText);
@@ -1598,35 +1599,35 @@ var ContextMenu;
             if (l - 1 < 0) {
                 o.disabled = true;
             } else {
-                o.onclick = () => m(t, l, l - 1);
+                o.onclick = () => p(t, l, l - 1);
             }
             ToolTip.add(o, t, e.text.moveLeftButtonText);
         }
         if (i && t.controlPanel.showCopyButton) {
             const n = DomElement.createWithHTML(r, "button", "copy", e.text.copyButtonSymbolText);
-            n.onclick = () => h(t, o);
+            n.onclick = () => D(t, o);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.copyButtonText);
         }
         if (i && t.controlPanel.showCloseOpenAllButtons) {
             const n = DomElement.createWithHTML(r, "button", "open-all", e.text.openAllButtonSymbolText);
-            n.onclick = () => b(t, l);
+            n.onclick = () => w(t, l);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.openAllButtonText);
             const o = DomElement.createWithHTML(r, "button", "close-all", e.text.closeAllButtonSymbolText);
-            o.onclick = () => w(t, l);
+            o.onclick = () => y(t, l);
             o.ondblclick = DomElement.cancelBubble;
             ToolTip.add(o, t, e.text.closeAllButtonText);
         }
         if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
             const n = DomElement.createWithHTML(r, "button", "remove", e.text.removeSymbolButtonText);
-            n.onclick = () => y(t, l);
+            n.onclick = () => h(t, l);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.removeButtonText);
         }
         if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
             const n = DomElement.createWithHTML(r, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
-            n.onclick = () => T(t);
+            n.onclick = () => b(t);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.switchToPagesText);
         }
@@ -1637,29 +1638,29 @@ var ContextMenu;
             n.removeChild(r);
         }
     }
-    function T(e) {
+    function b(e) {
         e.paging.enabled = true;
-        r(e);
+        i(e);
     }
-    function b(e, t) {
+    function w(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
                 n[e] = false;
             }
         }
-        r(e);
+        i(e);
     }
-    function w(e, t) {
+    function y(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
                 n[e] = true;
             }
         }
-        r(e);
+        i(e);
     }
-    function y(t, n) {
+    function h(t, n) {
         if (t.paging.enabled) {
             t.data.splice(n, 1);
             if (n === t._currentView.currentDataArrayPageIndex && t._currentView.currentDataArrayPageIndex > 0) {
@@ -1668,28 +1669,28 @@ var ContextMenu;
         } else {
             t.data = null;
         }
-        r(t);
-        W(t, e.text.arrayJsonItemDeleted);
+        i(t);
+        $(t, e.text.arrayJsonItemDeleted);
     }
-    function h(t, n) {
+    function D(t, n) {
         let o = (n, o) => Convert2.stringifyJson(n, o, e, t.showCssStylesForHtmlObjects);
         if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
             o = t.events.onCopyJsonReplacer;
         }
         let l = JSON.stringify(n, o, t.jsonIndentSpaces);
         navigator.clipboard.writeText(l);
-        W(t, e.text.copiedText);
+        $(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopy, t._currentView.element, l);
     }
-    function D(t, n) {
+    function v(t, n) {
         if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => v(t);
+                o.ondblclick = () => S(t);
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => A(t);
+                n.onclick = () => M(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -1699,17 +1700,17 @@ var ContextMenu;
             }
             if (t.title.showCopyButton && Is.defined(n)) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyButtonSymbolText);
-                o.onclick = () => S(t, n);
+                o.onclick = () => V(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
             if (t.title.showCloseOpenAllButtons && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
-                n.onclick = () => V(t);
+                n.onclick = () => B(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => B(t);
+                o.onclick = () => E(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1718,7 +1719,7 @@ var ContextMenu;
                 t._currentView.backButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
                 if (t._currentView.currentDataArrayPageIndex > 0) {
-                    t._currentView.backButton.onclick = () => E(t);
+                    t._currentView.backButton.onclick = () => C(t);
                 } else {
                     t._currentView.backButton.disabled = true;
                 }
@@ -1726,7 +1727,7 @@ var ContextMenu;
                 t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
                 if (t._currentView.currentDataArrayPageIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextButton.onclick = () => C(t);
+                    t._currentView.nextButton.onclick = () => I(t);
                 } else {
                     t._currentView.nextButton.disabled = true;
                 }
@@ -1738,13 +1739,13 @@ var ContextMenu;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => v(t);
+                t._currentView.toggleFullScreenButton.onclick = () => S(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function v(t) {
+    function S(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 t._currentView.element.classList.remove("full-screen");
@@ -1757,50 +1758,50 @@ var ContextMenu;
             }
             ToolTip.hide(t);
             ContextMenu.hide(t);
-            k(t);
+            F(t);
             Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element, t._currentView.element.classList.contains("full-screen"));
         }
     }
-    function S(t, n) {
+    function V(t, n) {
         let o = (n, o) => Convert2.stringifyJson(n, o, e, t.showCssStylesForHtmlObjects);
         if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
             o = t.events.onCopyJsonReplacer;
         }
         let l = JSON.stringify(n, o, t.jsonIndentSpaces);
         navigator.clipboard.writeText(l);
-        W(t, e.text.copiedText);
+        $(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, t._currentView.element, l);
     }
-    function V(e) {
+    function B(e) {
         e.showAllAsClosed = false;
         e._currentView.contentPanelsOpen = {};
-        r(e);
+        i(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function B(e) {
+    function E(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
-        r(e);
+        i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function E(e) {
+    function C(e) {
         if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
             e._currentView.currentDataArrayPageIndex -= e.paging.columnsPerPage;
-            r(e, true);
+            i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
-    function C(e) {
+    function I(e) {
         if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
             e._currentView.currentDataArrayPageIndex += e.paging.columnsPerPage;
-            r(e, true);
+            i(e, true);
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function I(t) {
+    function _(t) {
         if (t.sideMenu.enabled) {
             t._currentView.disabledBackground = DomElement.create(t._currentView.element, "div", "side-menu-disabled-background");
-            t._currentView.disabledBackground.onclick = () => M(t);
+            t._currentView.disabledBackground.onclick = () => O(t);
             t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
             const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
             if (Is.definedString(t.sideMenu.titleText)) {
@@ -1810,33 +1811,33 @@ var ContextMenu;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => pe(t);
+                n.onclick = () => xe(t);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => _(t);
+                n.onclick = () => A(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
-            l.onclick = () => M(t);
+            l.onclick = () => O(t);
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                O(e, t);
+                L(e, t);
             }
         }
     }
-    function _(e) {
+    function A(e) {
         const t = DomElement.createWithNoContainer("input");
         t.type = "file";
         t.accept = ".json";
         t.multiple = true;
-        M(e);
-        t.onchange = () => ge(t.files, e);
+        O(e);
+        t.onchange = () => me(t.files, e);
         t.click();
     }
-    function A(e) {
+    function M(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -1844,7 +1845,7 @@ var ContextMenu;
             ContextMenu.hide(e);
         }
     }
-    function M(t) {
+    function O(t) {
         if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
             t._currentView.sideMenu.classList.remove("side-menu-open");
             t._currentView.disabledBackground.style.display = "none";
@@ -1852,13 +1853,13 @@ var ContextMenu;
             ContextMenu.hide(t);
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
-                    r(t);
-                    W(t, e.text.ignoreDataTypesUpdated);
+                    i(t);
+                    $(t, e.text.ignoreDataTypesUpdated);
                 }), 500);
             }
         }
     }
-    function O(t, n) {
+    function L(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -1866,8 +1867,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => L(n, o, true);
-        a.onclick = () => L(n, o, false);
+        s.onclick = () => j(n, o, true);
+        a.onclick = () => j(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -1875,13 +1876,13 @@ var ContextMenu;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            const l = j(u, e, n, !d[`${e}Values`]);
+            const l = P(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
         }));
     }
-    function L(e, t, n) {
+    function j(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -1890,7 +1891,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function j(e, t, n, o) {
+    function P(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -1911,10 +1912,10 @@ var ContextMenu;
         }
         return l;
     }
-    function P(t) {
+    function N(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
-            k(t);
+            F(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
             if (t.footer.showDataTypes) {
                 t._currentView.footerDataTypeText = DomElement.create(t._currentView.footer, "div", "status-value-data-type");
@@ -1930,11 +1931,11 @@ var ContextMenu;
             }
             if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.footer.showPageOf) {
                 t._currentView.footerPageText = DomElement.create(t._currentView.footer, "div", "status-page-index");
-                N(t);
+                k(t);
             }
         }
     }
-    function N(t) {
+    function k(t) {
         if (t.paging.enabled) {
             const n = Math.ceil((t._currentView.currentDataArrayPageIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
@@ -1944,12 +1945,12 @@ var ContextMenu;
             t._currentView.footerPageText.innerHTML = i;
         }
     }
-    function k(e) {
+    function F(e) {
         if (Is.defined(e._currentView.footer)) {
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function F(t, n, o) {
+    function R(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -1963,7 +1964,7 @@ var ContextMenu;
             }));
         }
     }
-    function R(t, n, o) {
+    function H(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const l = Size.length(n, t.showCssStylesForHtmlObjects);
             if (l > 0) {
@@ -1980,7 +1981,7 @@ var ContextMenu;
             }
         }
     }
-    function H(t, n, o) {
+    function W(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
             const l = Size.of(n, t.showCssStylesForHtmlObjects);
             if (Is.definedString(l)) {
@@ -1997,7 +1998,7 @@ var ContextMenu;
             }
         }
     }
-    function W(t, n) {
+    function $(t, n) {
         if (t.footer.enabled) {
             t._currentView.footerStatusText.innerHTML = n;
             clearTimeout(t._currentView.footerStatusTextTimerId);
@@ -2006,7 +2007,7 @@ var ContextMenu;
             }), t.footer.statusResetDelay);
         }
     }
-    function $(t, n, o, l, r) {
+    function J(t, n, o, l, r) {
         const i = Obj.getPropertyNames(o, n);
         const s = i.length;
         if (s !== 0 || !n.ignore.emptyObjects) {
@@ -2024,7 +2025,7 @@ var ContextMenu;
             const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} main-title` : "main-title", a);
             let g = null;
             let m = null;
-            Y(c, n);
+            G(c, n);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -2046,14 +2047,14 @@ var ContextMenu;
             if (n.showClosedObjectCurlyBraces) {
                 m = DomElement.createWithHTML(u, "span", "closed-symbols", "{ ... }");
             }
-            z(d, null, c, n, o, i, g, m, false, true, "", r, r !== "object");
-            ee(n, f, o, r, false);
+            U(d, null, c, n, o, i, g, m, false, true, "", r, r !== "object");
+            te(n, f, o, r, false);
+            W(n, o, f);
             H(n, o, f);
-            R(n, o, f);
-            ie(n, u, false, o, o, null, false, null);
+            se(n, u, false, o, o, null, false, null);
         }
     }
-    function J(t, n, o, l) {
+    function z(t, n, o, l) {
         let r = null;
         if (l === "set") {
             r = e.text.setText;
@@ -2066,7 +2067,7 @@ var ContextMenu;
         const u = DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} main-title` : "main-title", r);
         let c = null;
         let d = null;
-        Y(s, n);
+        G(s, n);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
@@ -2076,40 +2077,40 @@ var ContextMenu;
         if (n.showClosedArraySquaredBrackets) {
             d = DomElement.createWithHTML(i, "span", "closed-symbols", "[ ... ]");
         }
-        U(a, null, s, n, o, c, d, false, true, "", l, l !== "array");
-        ee(n, u, o, l, false);
+        q(a, null, s, n, o, c, d, false, true, "", l, l !== "array");
+        te(n, u, o, l, false);
+        W(n, o, u);
         H(n, o, u);
-        R(n, o, u);
-        ie(n, i, false, o, o, null, false, null);
+        se(n, i, false, o, o, null, false, null);
     }
-    function z(t, n, o, l, r, i, s, a, u, c, d, f, g) {
+    function U(t, n, o, l, r, i, s, a, u, c, d, f, g) {
         let m = true;
         const p = i.length;
         const x = d !== "" ? p : 0;
         if (p === 0 && !l.ignore.emptyObjects) {
-            q(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
             m = false;
         } else {
             for (let e = 0; e < p; e++) {
                 const t = i[e];
                 const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    q(r, o, l, t, r[t], e === p - 1, false, n, f, g);
+                    Z(r, o, l, t, r[t], e === p - 1, false, n, f, g);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                q(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+                Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
                 m = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
-                    oe(l, o, "}", u, c);
+                    le(l, o, "}", u, c);
                 }
             }
         }
-        te(l, t, n, o, s, a, x, f);
+        ne(l, t, n, o, s, a, x, f);
         return m;
     }
-    function U(t, n, o, l, r, i, s, a, u, c, d, f) {
+    function q(t, n, o, l, r, i, s, a, u, c, d, f) {
         let g = true;
         const m = r.length;
         const p = c !== "" ? m : 0;
@@ -2117,27 +2118,27 @@ var ContextMenu;
             for (let e = 0; e < m; e++) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                q(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
+                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
             }
         } else {
             for (let e = m; e--; ) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                q(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
+                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
             }
         }
         if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-            q(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
+            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
             g = false;
         } else {
             if (l.showOpeningClosingSquaredBrackets) {
-                oe(l, o, "]", a, u);
+                le(l, o, "]", a, u);
             }
         }
-        te(l, t, n, o, i, s, p, d);
+        ne(l, t, n, o, i, s, p, d);
         return g;
     }
-    function q(t, n, o, l, r, i, s, a, u, c) {
+    function Z(t, n, o, l, r, i, s, a, u, c) {
         const d = DomElement.create(n, "div", "object-type-value");
         const f = DomElement.create(d, "div", "object-type-value-title");
         const g = o.showArrowToggles ? DomElement.create(f, "div", "no-arrow") : null;
@@ -2178,7 +2179,7 @@ var ContextMenu;
         if (Is.defined(w) && !D) {
             DomElement.createWithHTML(f, "span", "split", e.text.propertyColonCharacter);
             if (!c) {
-                K(o, t, l, w, s);
+                Q(o, t, l, w, s);
             } else {
                 w.ondblclick = DomElement.cancelBubble;
             }
@@ -2186,12 +2187,12 @@ var ContextMenu;
                 f.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, a);
             }
             if (!s) {
+                W(o, l, w);
                 H(o, l, w);
-                R(o, l, w);
             }
             if (o.paging.enabled && o.paging.columnsPerPage > 1 && o.paging.allowValueComparisons) {
                 const e = o._currentView.currentColumnBuildingIndex;
-                w.onclick = t => le(t, o, f, a, e);
+                w.onclick = t => re(t, o, f, a, e);
             }
         }
         if (r === null) {
@@ -2202,7 +2203,7 @@ var ContextMenu;
                 if (Is.definedFunction(o.events.onNullRender)) {
                     Trigger.customEvent(o.events.onNullRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2214,7 +2215,7 @@ var ContextMenu;
                 if (Is.definedFunction(o.events.onUndefinedRender)) {
                     Trigger.customEvent(o.events.onUndefinedRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2228,7 +2229,7 @@ var ContextMenu;
                     if (Is.definedFunction(o.events.onLambdaRender)) {
                         Trigger.customEvent(o.events.onLambdaRender, o._currentView.element, p);
                     }
-                    ne(o, f, i);
+                    oe(o, f, i);
                 } else {
                     x = true;
                 }
@@ -2240,7 +2241,7 @@ var ContextMenu;
                     if (Is.definedFunction(o.events.onFunctionRender)) {
                         Trigger.customEvent(o.events.onFunctionRender, o._currentView.element, p);
                     }
-                    ne(o, f, i);
+                    oe(o, f, i);
                 } else {
                     x = true;
                 }
@@ -2251,11 +2252,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
                 y = o.allowEditing.booleanValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2266,11 +2267,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, e);
                 y = o.allowEditing.floatValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2280,11 +2281,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
                 y = o.allowEditing.numberValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2294,11 +2295,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
                 y = o.allowEditing.bigIntValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2308,11 +2309,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
                 y = o.allowEditing.guidValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2325,11 +2326,11 @@ var ContextMenu;
                 if (o.showValueColors) {
                     p.style.color = r;
                 }
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2347,11 +2348,11 @@ var ContextMenu;
                     S = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     S.onclick = () => window.open(r);
                 }
-                Q(o, t, l, r, p, s, y, S);
+                X(o, t, l, r, p, s, y, S);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2369,11 +2370,11 @@ var ContextMenu;
                     S = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     S.onclick = () => window.open(`mailto:${r}`);
                 }
-                Q(o, t, l, r, p, s, y, S);
+                X(o, t, l, r, p, s, y, S);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2381,23 +2382,23 @@ var ContextMenu;
             b = "string";
             if (!o.ignore.stringValues || D) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(r)) {
-                    q(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, s, a, u, c);
+                    Z(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && Is.String.bigInt(r)) {
-                    q(t, n, o, l, Convert2.stringToBigInt(r), i, s, a, u, c);
+                    Z(t, n, o, l, Convert2.stringToBigInt(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(r)) {
-                    q(t, n, o, l, parseFloat(r), i, s, a, u, c);
+                    Z(t, n, o, l, parseFloat(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToDates && Is.String.date(r)) {
-                    q(t, n, o, l, new Date(r), i, s, a, u, c);
+                    Z(t, n, o, l, new Date(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToSymbols && Is.String.symbol(r)) {
-                    q(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, s, a, u, c);
+                    Z(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else {
@@ -2416,11 +2417,11 @@ var ContextMenu;
                     }
                     p = DomElement.createWithHTML(f, "span", m, n);
                     if (!D) {
-                        Q(o, t, l, r, p, s, y);
+                        X(o, t, l, r, p, s, y);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, o._currentView.element, p);
                         }
-                        ne(o, f, i);
+                        oe(o, f, i);
                     }
                 }
             } else {
@@ -2432,11 +2433,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 y = o.allowEditing.dateValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2446,11 +2447,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.toString());
                 y = o.allowEditing.symbolValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2460,11 +2461,11 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.source.toString());
                 y = o.allowEditing.regExpValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onRegExpRender)) {
                     Trigger.customEvent(o.events.onRegExpRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2474,13 +2475,13 @@ var ContextMenu;
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.create(f, "span", m);
                 y = o.allowEditing.imageValues && !c;
-                Q(o, t, l, r, p, s, y);
+                X(o, t, l, r, p, s, y);
                 const e = DomElement.create(p, "img");
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
                     Trigger.customEvent(o.events.onImageRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
@@ -2497,7 +2498,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    Y(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2511,8 +2512,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const m = ne(o, r, i);
-                    const x = z(g, m, s, o, t, n, u, c, true, i, a, b, true);
+                    const m = oe(o, r, i);
+                    const x = U(g, m, s, o, t, n, u, c, true, i, a, b, true);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2529,7 +2530,7 @@ var ContextMenu;
                 const l = DomElement.create(d, "div", "object-type-contents");
                 let s = null;
                 let u = null;
-                Y(l, o);
+                G(l, o);
                 if (i) {
                     l.classList.add("last-item");
                 }
@@ -2543,8 +2544,8 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
-                const c = ne(o, n, i);
-                const m = U(g, c, l, o, t, s, u, true, i, a, b, true);
+                const c = oe(o, n, i);
+                const m = q(g, c, l, o, t, s, u, true, i, a, b, true);
                 if (!m && o.showOpeningClosingSquaredBrackets) {
                     s.parentNode.removeChild(s);
                     u.parentNode.removeChild(u);
@@ -2559,7 +2560,7 @@ var ContextMenu;
                 const n = DomElement.create(d, "div", "object-type-contents");
                 let l = null;
                 let s = null;
-                Y(n, o);
+                G(n, o);
                 if (i) {
                     n.classList.add("last-item");
                 }
@@ -2573,8 +2574,8 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     s = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
-                const u = ne(o, t, i);
-                const c = U(g, u, n, o, r, l, s, true, i, a, b, false);
+                const u = oe(o, t, i);
+                const c = q(g, u, n, o, r, l, s, true, i, a, b, false);
                 if (!c && o.showOpeningClosingSquaredBrackets) {
                     l.parentNode.removeChild(l);
                     s.parentNode.removeChild(s);
@@ -2595,7 +2596,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    Y(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2609,8 +2610,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const m = ne(o, r, i);
-                    const x = z(g, m, s, o, t, n, u, c, true, i, a, b, true);
+                    const m = oe(o, r, i);
+                    const x = U(g, m, s, o, t, n, u, c, true, i, a, b, true);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2631,7 +2632,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    Y(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2645,8 +2646,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
-                    const m = ne(o, l, i);
-                    const x = z(g, m, s, o, r, t, u, c, true, i, a, b, false);
+                    const m = oe(o, l, i);
+                    const x = U(g, m, s, o, r, t, u, c, true, i, a, b, false);
                     if (!x && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2663,23 +2664,23 @@ var ContextMenu;
                 if (Is.definedFunction(o.events.onUnknownRender)) {
                     Trigger.customEvent(o.events.onUnknownRender, o._currentView.element, p);
                 }
-                ne(o, f, i);
+                oe(o, f, i);
             } else {
                 x = true;
             }
         }
         if (!D && !T) {
-            Z(o, b);
+            Y(o, b);
         }
         if (x) {
             n.removeChild(d);
         } else {
             if (Is.defined(p)) {
                 if (!D) {
+                    W(o, r, p);
                     H(o, r, p);
-                    R(o, r, p);
-                    F(o, b, p);
-                    ie(o, p, y, t, r, l, s, S);
+                    R(o, b, p);
+                    se(o, p, y, t, r, l, s, S);
                 }
                 if (Is.defined(h)) {
                     if (b !== "null" && b !== "undefined" && b !== "array" && b !== "object" && b !== "map" && b !== "set") {
@@ -2690,21 +2691,21 @@ var ContextMenu;
                     }
                 }
                 if (v) {
-                    G(o, a, w, h, p);
-                    ee(o, p, r, b, y);
+                    K(o, a, w, h, p);
+                    te(o, p, r, b, y);
                 } else {
                     p.ondblclick = DomElement.cancelBubble;
                 }
             }
         }
     }
-    function Z(e, t) {
+    function Y(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
         e._currentView.dataTypeCounts[t]++;
     }
-    function Y(e, t) {
+    function G(e, t) {
         if (t.showOpenedObjectArrayBorders) {
             e.classList.add("object-border");
             if (!t.showArrowToggles) {
@@ -2713,7 +2714,7 @@ var ContextMenu;
             DomElement.create(e, "div", "object-border-bottom");
         }
     }
-    function G(e, t, n, o, l) {
+    function K(e, t, n, o, l) {
         if (Is.definedObject(e.valueToolTips)) {
             if (e.logJsonValueToolTipPaths) {
                 console.log(t);
@@ -2733,7 +2734,7 @@ var ContextMenu;
             }
         }
     }
-    function K(t, n, o, l, i) {
+    function Q(t, n, o, l, r) {
         if (t.allowEditing.propertyNames) {
             l.ondblclick = s => {
                 DomElement.cancelBubble(s);
@@ -2743,7 +2744,7 @@ var ContextMenu;
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
                 l.classList.add("editable-name");
-                if (i) {
+                if (r) {
                     a = Arr.getIndexFromBrackets(l.innerHTML);
                     l.innerHTML = a.toString();
                 } else {
@@ -2753,19 +2754,19 @@ var ContextMenu;
                 l.focus();
                 DomElement.selectAllText(l);
                 l.onblur = () => {
-                    r(t, false);
+                    i(t, false);
                     if (Is.definedString(u)) {
-                        W(t, u);
+                        $(t, u);
                     }
                 };
-                l.onkeydown = r => {
-                    if (r.code === "Escape") {
-                        r.preventDefault();
+                l.onkeydown = i => {
+                    if (i.code === "Escape") {
+                        i.preventDefault();
                         l.setAttribute("contenteditable", "false");
-                    } else if (r.code === "Enter") {
-                        r.preventDefault();
+                    } else if (i.code === "Enter") {
+                        i.preventDefault();
                         const s = l.innerText;
-                        if (i) {
+                        if (r) {
                             if (Is.definedString(s) && !isNaN(+s)) {
                                 let o = +s;
                                 if (!t.useZeroIndexingForArrays) {
@@ -2802,14 +2803,14 @@ var ContextMenu;
             };
         }
     }
-    function Q(e, t, n, o, l, r, i, s = null) {
+    function X(e, t, n, o, l, r, i, s = null) {
         if (i) {
             l.ondblclick = i => {
-                X(i, e, t, n, o, l, r, s);
+                ee(i, e, t, n, o, l, r, s);
             };
         }
     }
-    function X(t, n, o, l, i, s, a, u = null) {
+    function ee(t, n, o, l, r, s, a, u = null) {
         let c = null;
         DomElement.cancelBubble(t);
         clearTimeout(n._currentView.valueClickTimerId);
@@ -2817,16 +2818,16 @@ var ContextMenu;
         n._currentView.editMode = true;
         s.classList.add("editable");
         s.setAttribute("contenteditable", "true");
-        if (Is.definedDate(i) && !n.includeTimeZoneInDateTimeEditing) {
-            s.innerText = JSON.stringify(i).replace(/['"]+/g, "");
-        } else if (Is.definedRegExp(i)) {
-            s.innerText = i.source;
-        } else if (Is.definedSymbol(i)) {
-            s.innerText = Convert2.symbolToString(i);
-        } else if (Is.definedImage(i)) {
-            s.innerText = i.src;
+        if (Is.definedDate(r) && !n.includeTimeZoneInDateTimeEditing) {
+            s.innerText = JSON.stringify(r).replace(/['"]+/g, "");
+        } else if (Is.definedRegExp(r)) {
+            s.innerText = r.source;
+        } else if (Is.definedSymbol(r)) {
+            s.innerText = Convert2.symbolToString(r);
+        } else if (Is.definedImage(r)) {
+            s.innerText = r.src;
         } else {
-            s.innerText = i.toString();
+            s.innerText = r.toString();
         }
         s.focus();
         DomElement.selectAllText(s);
@@ -2834,9 +2835,9 @@ var ContextMenu;
             u.parentNode.removeChild(u);
         }
         s.onblur = () => {
-            r(n, false);
+            i(n, false);
             if (Is.definedString(c)) {
-                W(n, c);
+                $(n, c);
             }
         };
         s.onkeydown = t => {
@@ -2845,8 +2846,8 @@ var ContextMenu;
                 s.setAttribute("contenteditable", "false");
             } else if (t.code === "Enter") {
                 t.preventDefault();
-                const r = s.innerText;
-                if (r.trim() === "") {
+                const i = s.innerText;
+                if (i.trim() === "") {
                     if (a) {
                         o.splice(Arr.getIndexFromBrackets(l), 1);
                     } else {
@@ -2854,7 +2855,7 @@ var ContextMenu;
                     }
                     c = e.text.itemDeletedText;
                 } else {
-                    let t = Convert2.stringToDataTypeValue(i, r);
+                    let t = Convert2.stringToDataTypeValue(r, i);
                     if (t !== null) {
                         if (a) {
                             o[Arr.getIndexFromBrackets(l)] = t;
@@ -2869,7 +2870,7 @@ var ContextMenu;
             }
         };
     }
-    function ee(e, t, n, o, l) {
+    function te(e, t, n, o, l) {
         if (Is.definedFunction(e.events.onValueClick)) {
             t.onclick = () => {
                 if (l) {
@@ -2887,7 +2888,7 @@ var ContextMenu;
             t.classList.add("no-hover");
         }
     }
-    function te(e, t, n, o, l, r, i, s) {
+    function ne(e, t, n, o, l, r, i, s) {
         const a = e._currentView.contentPanelsIndex;
         const u = e._currentView.contentPanelsDataIndex;
         const c = e._currentView.currentColumnBuildingIndex;
@@ -2911,7 +2912,7 @@ var ContextMenu;
                 n.style.display = "inline-block";
             }
             if (i) {
-                p(c, e);
+                x(c, e);
             }
         };
         const g = (i = true) => {
@@ -2930,7 +2931,7 @@ var ContextMenu;
                 n.style.display = "none";
             }
             if (i) {
-                p(c, e);
+                x(c, e);
             }
         };
         const m = e => {
@@ -2940,24 +2941,24 @@ var ContextMenu;
                 g();
             }
         };
-        let x = e.showAllAsClosed;
+        let p = e.showAllAsClosed;
         if (e._currentView.contentPanelsOpen[u].hasOwnProperty(a)) {
-            x = e._currentView.contentPanelsOpen[u][a];
+            p = e._currentView.contentPanelsOpen[u][a];
         } else {
             if (!e._currentView.initialized) {
                 if (s === "object" && e.autoClose.objectSize > 0 && i >= e.autoClose.objectSize) {
-                    x = true;
+                    p = true;
                 } else if (s === "array" && e.autoClose.arraySize > 0 && i >= e.autoClose.arraySize) {
-                    x = true;
+                    p = true;
                 } else if (s === "map" && e.autoClose.mapSize > 0 && i >= e.autoClose.mapSize) {
-                    x = true;
+                    p = true;
                 } else if (s === "set" && e.autoClose.setSize > 0 && i >= e.autoClose.setSize) {
-                    x = true;
+                    p = true;
                 } else if (s === "html" && e.autoClose.htmlSize > 0 && i >= e.autoClose.htmlSize) {
-                    x = true;
+                    p = true;
                 }
             }
-            e._currentView.contentPanelsOpen[u][a] = x;
+            e._currentView.contentPanelsOpen[u][a] = p;
         }
         if (Is.defined(t)) {
             t.onclick = () => m(t.className === "down-arrow");
@@ -2967,54 +2968,56 @@ var ContextMenu;
             r.onclick = () => g();
             r.ondblclick = DomElement.cancelBubble;
         }
-        m(x, false);
+        m(p, false);
         e._currentView.contentPanelsIndex++;
     }
-    function ne(e, t, n) {
+    function oe(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function oe(e, t, n, o, l) {
+    function le(e, t, n, o, l) {
         const r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", "no-arrow");
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);
-        ne(e, r, l);
+        oe(e, r, l);
     }
-    function le(e, t, n, o, l) {
+    function re(e, t, n, l, r) {
         DomElement.cancelBubble(e);
-        const r = t._currentView.currentContentColumns;
-        const i = t._currentView.currentContentColumns.length;
-        let s = false;
-        for (let e = 0; e < i; e++) {
-            const n = r[e].column.querySelectorAll(".object-type-value-title");
-            const i = n.length;
-            for (let t = 0; t < i; t++) {
-                const r = n[t];
-                r.classList.remove("start-compare-highlight");
-                r.classList.remove("compare-highlight");
-                if (e !== l) {
-                    const e = r.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
-                    if (Is.definedString(e) && e === o) {
-                        r.classList.add("compare-highlight");
-                        s = true;
+        const i = t._currentView.currentContentColumns;
+        const s = t._currentView.currentContentColumns.length;
+        let a = false;
+        for (let e = 0; e < s; e++) {
+            const n = i[e].column.querySelectorAll(".object-type-value-title");
+            const s = n.length;
+            for (let t = 0; t < s; t++) {
+                const i = n[t];
+                if (!o) {
+                    i.classList.remove("start-compare-highlight");
+                    i.classList.remove("compare-highlight");
+                }
+                if (e !== r) {
+                    const e = i.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
+                    if (Is.definedString(e) && e === l) {
+                        i.classList.add("compare-highlight");
+                        a = true;
                     }
                 }
             }
-            if (s) {
-                p(e, t);
+            if (a) {
+                x(e, t);
             }
         }
-        if (s) {
+        if (a) {
             n.classList.add("start-compare-highlight");
-            p(l, t);
+            x(r, t);
         }
     }
-    function re(e) {
+    function ie(e) {
         const t = e._currentView.currentContentColumns;
         const n = e._currentView.currentContentColumns.length;
         for (let o = 0; o < n; o++) {
@@ -3033,49 +3036,49 @@ var ContextMenu;
                 }
             }
             if (n) {
-                p(o, e);
+                x(o, e);
             }
         }
     }
-    function ie(t, n, o, l, r, i, s, a) {
+    function se(t, n, o, l, r, i, s, a) {
         n.oncontextmenu = u => {
             DomElement.cancelBubble(u);
             t._currentView.contextMenu.innerHTML = "";
             if (o) {
                 const o = ContextMenu.addMenuItem(t, e.text.editSymbolButtonText, e.text.editButtonText);
-                o.onclick = e => se(e, t, n, l, i, r, s, a);
+                o.onclick = e => ae(e, t, n, l, i, r, s, a);
             }
             const c = ContextMenu.addMenuItem(t, e.text.copyButtonSymbolText, e.text.copyButtonText);
-            c.onclick = e => ae(e, t, r);
+            c.onclick = e => ue(e, t, r);
             if (o) {
                 const n = ContextMenu.addMenuItem(t, e.text.removeSymbolButtonText, e.text.removeButtonText);
-                n.onclick = e => ue(e, t, l, i, s);
+                n.onclick = e => ce(e, t, l, i, s);
             }
             DomElement.showElementAtMousePosition(u, t._currentView.contextMenu, 0);
         };
     }
-    function se(e, t, n, o, l, r, i, s) {
+    function ae(e, t, n, o, l, r, i, s) {
         DomElement.cancelBubble(e);
-        X(e, t, o, l, r, n, i, s);
+        ee(e, t, o, l, r, n, i, s);
         ContextMenu.hide(t);
     }
-    function ae(e, t, n) {
+    function ue(e, t, n) {
         DomElement.cancelBubble(e);
-        h(t, n);
+        D(t, n);
         ContextMenu.hide(t);
     }
-    function ue(t, n, o, l, i) {
+    function ce(t, n, o, l, r) {
         DomElement.cancelBubble(t);
-        if (i) {
+        if (r) {
             o.splice(Arr.getIndexFromBrackets(l), 1);
         } else {
             delete o[l];
         }
         ContextMenu.hide(n);
-        r(n, false);
-        W(n, e.text.itemDeletedText);
+        i(n, false);
+        $(n, e.text.itemDeletedText);
     }
-    function ce(t) {
+    function de(t) {
         if (t.fileDroppingEnabled) {
             const n = DomElement.create(t._currentView.element, "div", "drag-and-drop-background");
             const o = DomElement.create(n, "div", "notice-text");
@@ -3083,39 +3086,39 @@ var ContextMenu;
             DomElement.createWithHTML(o, "p", "notice-text-title", e.text.dragAndDropTitleText);
             DomElement.createWithHTML(o, "p", "notice-text-description", e.text.dragAndDropDescriptionText);
             t._currentView.dragAndDropBackground = n;
-            t._currentView.element.ondragover = () => de(t, n);
-            t._currentView.element.ondragenter = () => de(t, n);
+            t._currentView.element.ondragover = () => fe(t, n);
+            t._currentView.element.ondragenter = () => fe(t, n);
             n.ondragover = DomElement.cancelBubble;
             n.ondragenter = DomElement.cancelBubble;
             n.ondragleave = () => n.style.display = "none";
-            n.ondrop = e => fe(e, t);
+            n.ondrop = e => ge(e, t);
         }
     }
-    function de(e, t) {
+    function fe(e, t) {
         if (!e._currentView.columnDragging) {
             t.style.display = "block";
         }
     }
-    function fe(e, t) {
+    function ge(e, t) {
         DomElement.cancelBubble(e);
         t._currentView.dragAndDropBackground.style.display = "none";
         if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-            ge(e.dataTransfer.files, t);
+            me(e.dataTransfer.files, t);
         }
     }
-    function ge(t, n) {
+    function me(t, n) {
         const o = t.length;
         let l = 0;
-        let i = [];
+        let r = [];
         const s = t => {
             l++;
-            i.push(t);
+            r.push(t);
             if (l === o) {
                 n._currentView.currentDataArrayPageIndex = 0;
                 n._currentView.contentPanelsOpen = {};
-                n.data = i.length === 1 ? i[0] : i;
-                r(n);
-                W(n, e.text.importedText.replace("{0}", o.toString()));
+                n.data = r.length === 1 ? r[0] : r;
+                i(n);
+                $(n, e.text.importedText.replace("{0}", o.toString()));
                 Trigger.customEvent(n.events.onSetJson, n._currentView.element);
             }
         };
@@ -3123,11 +3126,11 @@ var ContextMenu;
             const n = t[e];
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
-                me(n, s);
+                pe(n, s);
             }
         }
     }
-    function me(t, n) {
+    function pe(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
@@ -3139,7 +3142,7 @@ var ContextMenu;
         };
         o.readAsText(t);
     }
-    function pe(t) {
+    function xe(t) {
         const n = (n, o) => Convert2.stringifyJson(n, o, e, t.showCssStylesForHtmlObjects);
         const o = JSON.stringify(t.data, n, t.jsonIndentSpaces);
         if (Is.definedString(o)) {
@@ -3147,50 +3150,55 @@ var ContextMenu;
             n.style.display = "none";
             n.setAttribute("target", "_blank");
             n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
-            n.setAttribute("download", xe(t));
+            n.setAttribute("download", Te(t));
             n.click();
             document.body.removeChild(n);
-            M(t);
-            W(t, e.text.exportedText);
+            O(t);
+            $(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }
-    function xe(t) {
+    function Te(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
         return o;
     }
-    function Te(e, t = true) {
+    function be(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        n("keydown", (t => be(t, e)));
+        n("keydown", (t => we(t, e)));
+        n("keyup", (e => ye(e)));
     }
-    function be(e, o) {
-        if (o.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(o._currentView.element.id) && !o._currentView.editMode) {
-            if (we(e) && e.code === "F11") {
+    function we(e, l) {
+        o = he(e);
+        if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
+            if (he(e) && e.code === "F11") {
                 e.preventDefault();
-                v(o);
+                S(l);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                E(o);
+                C(l);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
-                C(o);
+                I(l);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                B(o);
+                E(l);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
-                V(o);
+                B(l);
             } else if (e.code === "Escape") {
                 e.preventDefault();
-                M(o);
+                O(l);
             }
         }
     }
-    function we(e) {
+    function ye(e) {
+        o = he(e);
+    }
+    function he(e) {
         return e.ctrlKey || e.metaKey;
     }
-    function ye(e) {
+    function De(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -3199,9 +3207,9 @@ var ContextMenu;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        Te(e, false);
+        be(e, false);
         if (e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowValueComparisons) {
-            window.removeEventListener("click", (() => re(e)));
+            window.removeEventListener("click", (() => ie(e)));
         }
         ToolTip.assignToEvents(e, false);
         ContextMenu.assignToEvents(e, false);
@@ -3209,64 +3217,64 @@ var ContextMenu;
         ContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const he = {
+    const ve = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
-                r(n);
+                i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return he;
+            return ve;
         },
         refreshAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
                     const n = t[e];
-                    r(n);
+                    i(n);
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return he;
+            return ve;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
-                l(Binding.Options.getForNewInstance(t, e));
+                r(Binding.Options.getForNewInstance(t, e));
             }
-            return he;
+            return ve;
         },
         renderAll: function() {
-            o();
-            return he;
+            l();
+            return ve;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                V(t[e]);
+                B(t[e]);
             }
-            return he;
+            return ve;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                B(t[e]);
+                E(t[e]);
             }
-            return he;
+            return ve;
         },
         backPage: function(e) {
-            if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                const n = t[e];
-                if (n.paging.enabled) {
-                    E(t[e]);
-                }
-            }
-            return he;
-        },
-        nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
                     C(t[e]);
                 }
             }
-            return he;
+            return ve;
+        },
+        nextPage: function(e) {
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const n = t[e];
+                if (n.paging.enabled) {
+                    I(t[e]);
+                }
+            }
+            return ve;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -3287,14 +3295,14 @@ var ContextMenu;
                 } else {
                     l = o;
                 }
-                const i = t[n];
-                i._currentView.currentDataArrayPageIndex = 0;
-                i._currentView.contentPanelsOpen = {};
-                i.data = l;
-                r(i);
-                Trigger.customEvent(i.events.onSetJson, i._currentView.element);
+                const r = t[n];
+                r._currentView.currentDataArrayPageIndex = 0;
+                r._currentView.contentPanelsOpen = {};
+                r.data = l;
+                i(r);
+                Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return he;
+            return ve;
         },
         getJson: function(e) {
             let n = null;
@@ -3307,13 +3315,13 @@ var ContextMenu;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const o = t[e];
                 const l = o.data;
-                const i = o._currentView;
+                const r = o._currentView;
                 t[e] = Binding.Options.get(n);
                 t[e].data = l;
-                t[e]._currentView = i;
-                r(t[e]);
+                t[e]._currentView = r;
+                i(t[e]);
             }
-            return he;
+            return ve;
         },
         getBindingOptions: function(e) {
             let n = null;
@@ -3324,21 +3332,21 @@ var ContextMenu;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                ye(t[e]);
+                De(t[e]);
                 delete t[e];
                 n--;
             }
-            return he;
+            return ve;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    ye(t[e]);
+                    De(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return he;
+            return ve;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -3354,7 +3362,7 @@ var ContextMenu;
                     e = Config.Options.get(o);
                 }
             }
-            return he;
+            return ve;
         },
         getIds: function() {
             const e = [];
@@ -3371,9 +3379,9 @@ var ContextMenu;
     };
     (() => {
         e = Config.Options.get();
-        document.addEventListener("DOMContentLoaded", (() => o()));
+        document.addEventListener("DOMContentLoaded", (() => l()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = he;
+            window.$jsontree = ve;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

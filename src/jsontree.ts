@@ -51,6 +51,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
     let _elements_Data_Count: number = 0;
 
+    // Variables: Global Keys
+    let _key_Control_Pressed: boolean = false;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2454,8 +2457,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
-                valueElement.classList.remove( "start-compare-highlight" );
-                valueElement.classList.remove( "compare-highlight" );
+                if ( !_key_Control_Pressed ) {
+                    valueElement.classList.remove( "start-compare-highlight" );
+                    valueElement.classList.remove( "compare-highlight" );
+                }
 
                 if ( columnIndex !== currentColumnIndex ) {
                     const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
@@ -2708,9 +2713,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
 
         documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
+        documentFunc( "keyup", ( e: KeyboardEvent ) => onWindowKeyUp( e ) );
     }
 
     function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        _key_Control_Pressed = isCommandKey( e );
+
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
             if ( isCommandKey( e ) && e.code === KeyCode.f11 ) {
                 e.preventDefault();
@@ -2737,6 +2745,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                 onSideMenuClose( bindingOptions );
             }
         }
+    }
+
+    function onWindowKeyUp( e: KeyboardEvent ) : void {
+        _key_Control_Pressed = isCommandKey( e );
     }
 
     function isCommandKey( e: KeyboardEvent ) : boolean {
