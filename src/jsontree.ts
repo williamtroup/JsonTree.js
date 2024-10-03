@@ -116,10 +116,6 @@ type JsonTreeData = Record<string, BindingOptions>;
             _elements_Data_Count++;
         }
 
-        if ( bindingOptions.paging!.allowValueComparisons ) {
-            window.addEventListener( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
-        }
-
         renderControlContainer( bindingOptions );
         buildDocumentEvents( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onRenderComplete!, bindingOptions._currentView.element );
@@ -1305,6 +1301,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const isForEmptyProperties: boolean = !Is.definedString( name );
         let assignClickEvent: boolean = true;
         let openButton: HTMLSpanElement = null!;
+        const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
         if ( !isForEmptyProperties ) {
             if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
@@ -1353,11 +1350,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
 
-            if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons ) {
-                const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-
-                nameElement.onclick = ( e: MouseEvent ) => compareColumnValues( e, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex );
-            }
+            compareColumnValues( nameElement, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex );
         }
 
         if ( value === null ) {
@@ -2442,76 +2435,86 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function compareColumnValues( e: MouseEvent, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number ) : void {
-        DomElement.cancelBubble( e );
+    function compareColumnValues( propertyNameElement: HTMLElement, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number ) : void {
+        if ( isCompareColumnValuesEnabled( bindingOptions ) ) {
+            propertyNameElement.onclick = ( e: MouseEvent ) => {
+                DomElement.cancelBubble( e );
 
-        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
-        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
-
-        let elementsHighlighted: boolean = false;
-
-        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
-            const valueElementsLength: number = valueElements.length;
-
-            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
-                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
-
-                if ( !_key_Control_Pressed ) {
-                    valueElement.classList.remove( "start-compare-highlight" );
-                    valueElement.classList.remove( "compare-highlight" );
-                }
-
-                if ( columnIndex !== currentColumnIndex ) {
-                    const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
-
-                    if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
-                        valueElement.classList.add( "compare-highlight" );
-                        elementsHighlighted = true;
+                const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+                const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+        
+                let elementsHighlighted: boolean = false;
+        
+                for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                    const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+                    const valueElementsLength: number = valueElements.length;
+        
+                    for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                        const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+        
+                        if ( !_key_Control_Pressed ) {
+                            valueElement.classList.remove( "start-compare-highlight" );
+                            valueElement.classList.remove( "compare-highlight" );
+                        }
+        
+                        if ( columnIndex !== currentColumnIndex ) {
+                            const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
+        
+                            if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
+                                valueElement.classList.add( "compare-highlight" );
+                                elementsHighlighted = true;
+                            }
+                        }
+                    }
+        
+                    if ( elementsHighlighted ) {
+                        renderControlColumnLineNumbers( columnIndex, bindingOptions );
                     }
                 }
-            }
-
-            if ( elementsHighlighted ) {
-                renderControlColumnLineNumbers( columnIndex, bindingOptions );
-            }
-        }
-
-        if ( elementsHighlighted ) {
-            objectTypeValueTitle.classList.add( "start-compare-highlight" );
-
-            renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
+        
+                if ( elementsHighlighted ) {
+                    objectTypeValueTitle.classList.add( "start-compare-highlight" );
+        
+                    renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
+                }
+            };
         }
     }
 
     function removeCompareColumnValueClasses( bindingOptions: BindingOptions ) : void {
-        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
-        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
-
-        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-            let classesRemoved: boolean = false;
-
-            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
-            const valueElementsLength: number = valueElements.length;
-
-            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
-                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
-
-                if ( valueElement.classList.contains( "start-compare-highlight" ) ) {
-                    valueElement.classList.remove( "start-compare-highlight" );
-                    classesRemoved = true;
+        if ( isCompareColumnValuesEnabled( bindingOptions ) ) {
+            const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+            const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+    
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                let classesRemoved: boolean = false;
+    
+                const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+                const valueElementsLength: number = valueElements.length;
+    
+                for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                    const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+    
+                    if ( valueElement.classList.contains( "start-compare-highlight" ) ) {
+                        valueElement.classList.remove( "start-compare-highlight" );
+                        classesRemoved = true;
+                    }
+    
+                    if ( valueElement.classList.contains( "compare-highlight" ) ) {
+                        valueElement.classList.remove( "compare-highlight" );
+                        classesRemoved = true;
+                    }
                 }
-
-                if ( valueElement.classList.contains( "compare-highlight" ) ) {
-                    valueElement.classList.remove( "compare-highlight" );
-                    classesRemoved = true;
+    
+                if ( classesRemoved ) {
+                    renderControlColumnLineNumbers( columnIndex, bindingOptions );
                 }
-            }
-
-            if ( classesRemoved ) {
-                renderControlColumnLineNumbers( columnIndex, bindingOptions );
             }
         }
+    }
+
+    function isCompareColumnValuesEnabled( bindingOptions: BindingOptions ) : boolean {
+        return bindingOptions.paging!.enabled! && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons!;
     }
 
 
@@ -2523,6 +2526,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderValueContextMenuItems( bindingOptions: BindingOptions, valueElement: HTMLSpanElement, allowEditing: boolean, data: any, value: any, propertyName: string, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
         valueElement.oncontextmenu = ( e: MouseEvent ) => {
+            removeCompareColumnValueClasses( bindingOptions )
             DomElement.cancelBubble( e );
 
             bindingOptions._currentView.contextMenu.innerHTML = Char.empty;
@@ -2711,9 +2715,12 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
         const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+        const windowFunc: Function = addEvents ? window.addEventListener : window.removeEventListener;
 
         documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
         documentFunc( "keyup", ( e: KeyboardEvent ) => onWindowKeyUp( e ) );
+        documentFunc( "contextmenu", ( e: KeyboardEvent ) => removeCompareColumnValueClasses( bindingOptions ) );
+        windowFunc( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
     }
 
     function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
@@ -2775,10 +2782,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         buildDocumentEvents( bindingOptions, false );
-
-        if ( bindingOptions.paging!.enabled && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons ) {
-            window.removeEventListener( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
-        }
 
         ToolTip.assignToEvents( bindingOptions, false );
         ContextMenu.assignToEvents( bindingOptions, false );
