@@ -25,6 +25,7 @@
 - 🚀 Clickable values via custom triggers!
 - ⭐ Custom value rendering.
 - 📃 Array paging, with configurable column count support (show array objects on different pages)!
+- 💥 Compare the property name and index values in multiple page columns!
 - 💧 Drag & Drop JSON files support!
 - 📋 Copy to clipboard (all JSON, a specific page, or a specific JSON value).
 - ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
