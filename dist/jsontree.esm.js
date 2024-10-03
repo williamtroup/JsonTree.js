@@ -673,7 +673,6 @@ var Binding;
             t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
             t.showOpeningClosingCurlyBraces = Default.getBoolean(t.showOpeningClosingCurlyBraces, false);
             t.showOpeningClosingSquaredBrackets = Default.getBoolean(t.showOpeningClosingSquaredBrackets, false);
-            t.includeTimeZoneInDateTimeEditing = Default.getBoolean(t.includeTimeZoneInDateTimeEditing, true);
             t.shortcutKeysEnabled = Default.getBoolean(t.shortcutKeysEnabled, true);
             t.openInFullScreenMode = Default.getBoolean(t.openInFullScreenMode, false);
             t.valueToolTips = Default.getObject(t.valueToolTips, null);
@@ -2085,18 +2084,18 @@ var ContextMenu;
         const p = i.length;
         const x = d !== "" ? p : 0;
         if (p === 0 && !l.ignore.emptyObjects) {
-            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+            Y(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
             m = false;
         } else {
             for (let e = 0; e < p; e++) {
                 const t = i[e];
                 const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    Z(r, o, l, t, r[t], e === p - 1, false, n, f, g);
+                    Y(r, o, l, t, r[t], e === p - 1, false, n, f, g);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+                Y(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
                 m = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
@@ -2115,17 +2114,17 @@ var ContextMenu;
             for (let e = 0; e < m; e++) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
+                Y(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
             }
         } else {
             for (let e = m; e--; ) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
+                Y(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
             }
         }
         if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
+            Y(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
             g = false;
         } else {
             if (l.showOpeningClosingSquaredBrackets) {
@@ -2135,7 +2134,7 @@ var ContextMenu;
         ne(l, t, n, o, i, a, p, d);
         return g;
     }
-    function Z(t, n, o, l, r, i, a, s, u, c) {
+    function Y(t, n, o, l, r, i, a, s, u, c) {
         const d = DomElement.create(n, "div", "object-type-value");
         const f = DomElement.create(d, "div", "object-type-value-title");
         const g = o.showArrowToggles ? DomElement.create(f, "div", "no-arrow") : null;
@@ -2377,23 +2376,23 @@ var ContextMenu;
             b = "string";
             if (!o.ignore.stringValues || D) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(r)) {
-                    Z(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u, c);
+                    Y(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && Is.String.bigInt(r)) {
-                    Z(t, n, o, l, Convert2.stringToBigInt(r), i, a, s, u, c);
+                    Y(t, n, o, l, Convert2.stringToBigInt(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(r)) {
-                    Z(t, n, o, l, parseFloat(r), i, a, s, u, c);
+                    Y(t, n, o, l, parseFloat(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToDates && Is.String.date(r)) {
-                    Z(t, n, o, l, new Date(r), i, a, s, u, c);
+                    Y(t, n, o, l, new Date(r), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToSymbols && Is.String.symbol(r)) {
-                    Z(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c);
+                    Y(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c);
                     x = true;
                     T = true;
                 } else {
@@ -2665,7 +2664,7 @@ var ContextMenu;
             }
         }
         if (!D && !T) {
-            Y(o, b);
+            Z(o, b);
         }
         if (x) {
             n.removeChild(d);
@@ -2694,7 +2693,7 @@ var ContextMenu;
             }
         }
     }
-    function Y(e, t) {
+    function Z(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
@@ -2813,7 +2812,7 @@ var ContextMenu;
         n._currentView.editMode = true;
         a.classList.add("editable");
         a.setAttribute("contenteditable", "true");
-        if (Is.definedDate(r) && !n.includeTimeZoneInDateTimeEditing) {
+        if (Is.definedDate(r)) {
             a.innerText = JSON.stringify(r).replace(/['"]+/g, "");
         } else if (Is.definedRegExp(r)) {
             a.innerText = r.source;
