@@ -143,7 +143,7 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
-	includeTimeZoneInDateTimeEditing?: boolean;
+	includeTimeZoneInDates?: boolean;
 	shortcutKeysEnabled?: boolean;
 	openInFullScreenMode?: boolean;
 	valueToolTips?: Record<string, string>;

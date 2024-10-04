@@ -2190,7 +2190,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         propertyValue.classList.add( "editable" );
         propertyValue.setAttribute( "contenteditable", "true" );
 
-        if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
+        if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDates ) {
             propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
         } else if ( Is.definedRegExp( originalPropertyValue ) ) {
             propertyValue.innerText = originalPropertyValue.source;

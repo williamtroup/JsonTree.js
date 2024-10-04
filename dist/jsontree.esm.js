@@ -162,7 +162,7 @@ var Convert2;
     function toJsonStringifyClone(e, t, n) {
         let o = null;
         if (Is.definedDate(e)) {
-            if (!n.includeTimeZoneInDateTimeEditing) {
+            if (!n.includeTimeZoneInDates) {
                 o = JSON.stringify(e).replace(/['"]+/g, "");
             } else {
                 o = e.toString();
@@ -706,7 +706,7 @@ var Binding;
             t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
             t.showOpeningClosingCurlyBraces = Default.getBoolean(t.showOpeningClosingCurlyBraces, false);
             t.showOpeningClosingSquaredBrackets = Default.getBoolean(t.showOpeningClosingSquaredBrackets, false);
-            t.includeTimeZoneInDateTimeEditing = Default.getBoolean(t.includeTimeZoneInDateTimeEditing, true);
+            t.includeTimeZoneInDates = Default.getBoolean(t.includeTimeZoneInDates, true);
             t.shortcutKeysEnabled = Default.getBoolean(t.shortcutKeysEnabled, true);
             t.openInFullScreenMode = Default.getBoolean(t.openInFullScreenMode, false);
             t.valueToolTips = Default.getObject(t.valueToolTips, null);
@@ -2837,7 +2837,7 @@ var ContextMenu;
         n._currentView.editMode = true;
         s.classList.add("editable");
         s.setAttribute("contenteditable", "true");
-        if (Is.definedDate(r) && !n.includeTimeZoneInDateTimeEditing) {
+        if (Is.definedDate(r) && !n.includeTimeZoneInDates) {
             s.innerText = JSON.stringify(r).replace(/['"]+/g, "");
         } else if (Is.definedRegExp(r)) {
             s.innerText = r.source;

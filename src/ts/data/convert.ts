@@ -22,7 +22,7 @@ export namespace Convert {
         let result: any = null!;
 
         if ( Is.definedDate( object ) ) {
-            if ( !bindingOptions.includeTimeZoneInDateTimeEditing ) {
+            if ( !bindingOptions.includeTimeZoneInDates ) {
                 result = JSON.stringify( object ).replace( /['"]+/g, Char.empty );
             } else {
                 result = object.toString();
