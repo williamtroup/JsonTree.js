@@ -2496,7 +2496,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function isCompareColumnValuesEnabled( bindingOptions: BindingOptions ) : boolean {
-        return bindingOptions.paging!.enabled! && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowValueComparisons!;
+        return bindingOptions.paging!.enabled! && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowComparisons!;
     }
 
 

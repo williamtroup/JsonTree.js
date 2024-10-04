@@ -154,7 +154,7 @@ export namespace Binding {
             options.paging!.startPage = Default.getNumberMinimum( options.paging!.startPage, 1, 1 );
             options.paging!.synchronizeScrolling = Default.getBoolean( options.paging!.synchronizeScrolling, false );
             options.paging!.allowColumnReordering = Default.getBoolean( options.paging!.allowColumnReordering, true );
-            options.paging!.allowValueComparisons = Default.getBoolean( options.paging!.allowValueComparisons, false );
+            options.paging!.allowComparisons = Default.getBoolean( options.paging!.allowComparisons, false );
 
             return options.paging!;
         }

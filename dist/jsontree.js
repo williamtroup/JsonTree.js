@@ -755,7 +755,7 @@ var Binding;
             e.paging.startPage = Default.getNumberMinimum(e.paging.startPage, 1, 1);
             e.paging.synchronizeScrolling = Default.getBoolean(e.paging.synchronizeScrolling, false);
             e.paging.allowColumnReordering = Default.getBoolean(e.paging.allowColumnReordering, true);
-            e.paging.allowValueComparisons = Default.getBoolean(e.paging.allowValueComparisons, false);
+            e.paging.allowComparisons = Default.getBoolean(e.paging.allowComparisons, false);
             return e.paging;
         }
         function r(e) {
@@ -3071,7 +3071,7 @@ var ContextMenu;
         }
     }
     function se(e) {
-        return e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowValueComparisons;
+        return e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowComparisons;
     }
     function ae(t, n, o, l, r, i, s, a) {
         n.oncontextmenu = u => {
