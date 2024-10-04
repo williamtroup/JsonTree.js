@@ -213,11 +213,11 @@ function getData() {
             value3: new Date(),
             value4: 5,
             value7: null,
-            value9: 3.1415926535,
-            value10: 9007199254740991n,
-            value11: Symbol( "id" ),
-            value12: undefined,
-            value13: {
+            value8: 3.1415926535,
+            value9: 9007199254740991n,
+            value10: Symbol( "id" ),
+            value11: undefined,
+            value12: {
                 lambda: ( message ) => {
                     console.log( message );
                 },
@@ -226,15 +226,15 @@ function getData() {
                     console.log( message );
                 }
             },
-            value14: "rgb(144, 238, 144)",
-            value15: crypto.randomUUID(),
-            value16: new RegExp( "ab+c" ),
-            value17: _MAP_1,
-            value18: _SET_1,
-            value19: "https://www.william-troup.com",
-            value20: "william@troup.uk",
-            value21: _IMAGE_1,
-            value22: _HTML_ELEMENT_1,
+            value13: "rgb(144, 238, 144)",
+            value14: crypto.randomUUID(),
+            value15: new RegExp( "ab+c" ),
+            value16: _MAP_1,
+            value17: _SET_1,
+            value18: "https://www.william-troup.com",
+            value19: "william@troup.uk",
+            value20: _IMAGE_1,
+            value21: _HTML_ELEMENT_1,
             value5: [
                 true,
                 "This is another string",
