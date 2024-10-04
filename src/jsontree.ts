@@ -272,14 +272,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.valueClickTimerId = 0;
         bindingOptions._currentView.editMode = true;
 
-        const _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
-        };
-
         contentsColumn.classList.add( "editable" );
         contentsColumn.setAttribute( "contenteditable", "true" );
         contentsColumn.setAttribute( "draggable", "false" );
-        contentsColumn.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        contentsColumn.innerText = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
         contentsColumn.focus();
 
         DomElement.selectAllText( contentsColumn );
@@ -641,15 +637,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onCopy( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
-        };
-
-        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
-            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
-        }
-
-        let copyDataJson: string  = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        const copyDataJson: string  = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         navigator.clipboard.writeText( copyDataJson );
 
@@ -771,15 +759,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onTitleBarCopyAllClick( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
-        };
-
-        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
-            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
-        }
-
-        let copyDataJson: string = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        const copyDataJson: string = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         navigator.clipboard.writeText( copyDataJson );
 
@@ -2210,7 +2190,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         propertyValue.classList.add( "editable" );
         propertyValue.setAttribute( "contenteditable", "true" );
 
-        if ( Is.definedDate( originalPropertyValue ) ) {
+        if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
             propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
         } else if ( Is.definedRegExp( originalPropertyValue ) ) {
             propertyValue.innerText = originalPropertyValue.source;
@@ -2679,11 +2659,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function onExport( bindingOptions: BindingOptions ) : void {
-        const replaceFunction: any = ( key: string, value: any ) : any => {
-            return Convert.stringifyJson( key, value, _configuration, bindingOptions );
-        };
-
-        const contents: string = JSON.stringify( bindingOptions.data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( bindingOptions.data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );

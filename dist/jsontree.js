@@ -161,27 +161,60 @@ var Is;
 var Convert2;
 
 (Convert => {
-    function stringifyJson(e, t, n, o) {
-        if (Is.definedBigInt(t)) {
-            t = t.toString();
-        } else if (Is.definedSymbol(t)) {
-            t = symbolToString(t);
-        } else if (Is.definedFunction(t)) {
-            t = Default.getFunctionName(t, n).name;
-        } else if (Is.definedMap(t)) {
-            t = mapToObject(t);
-        } else if (Is.definedSet(t)) {
-            t = setToArray(t);
-        } else if (Is.definedRegExp(t)) {
-            t = t.source;
-        } else if (Is.definedImage(t)) {
-            t = t.src;
-        } else if (Is.definedHtml(t)) {
-            t = htmlToObject(t, o.showCssStylesForHtmlObjects);
+    function toJsonStringifyClone(e, t, n) {
+        let o = null;
+        if (Is.definedDate(e)) {
+            if (!n.includeTimeZoneInDateTimeEditing) {
+                o = JSON.stringify(e).replace(/['"]+/g, "");
+            } else {
+                o = e.toString();
+            }
+        } else if (Is.definedSymbol(e)) {
+            o = symbolToString(e);
+        } else if (Is.definedBigInt(e)) {
+            o = e.toString();
+        } else if (Is.definedFunction(e)) {
+            o = Default.getFunctionName(e, t).name;
+        } else if (Is.definedRegExp(e)) {
+            o = e.source;
+        } else if (Is.definedImage(e)) {
+            o = e.src;
+        } else if (Is.definedHtml(e)) {
+            o = htmlToObject(e, n.showCssStylesForHtmlObjects);
+        } else if (Is.definedArray(e)) {
+            o = [];
+            const l = e.length;
+            for (let r = 0; r < l; r++) {
+                o.push(toJsonStringifyClone(e[r], t, n));
+            }
+        } else if (Is.definedSet(e)) {
+            o = [];
+            const l = setToArray(e);
+            const r = l.length;
+            for (let e = 0; e < r; e++) {
+                o.push(toJsonStringifyClone(l[e], t, n));
+            }
+        } else if (Is.definedMap(e)) {
+            o = {};
+            const l = mapToObject(e);
+            for (const e in l) {
+                if (l.hasOwnProperty(e)) {
+                    o[e] = toJsonStringifyClone(l[e], t, n);
+                }
+            }
+        } else if (Is.definedObject(e)) {
+            o = {};
+            for (const l in e) {
+                if (e.hasOwnProperty(l)) {
+                    o[l] = toJsonStringifyClone(e[l], t, n);
+                }
+            }
+        } else {
+            o = e;
         }
-        return t;
+        return o;
     }
-    Convert.stringifyJson = stringifyJson;
+    Convert.toJsonStringifyClone = toJsonStringifyClone;
     function stringToDataTypeValue(e, t) {
         let n = null;
         try {
@@ -675,6 +708,7 @@ var Binding;
             t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
             t.showOpeningClosingCurlyBraces = Default.getBoolean(t.showOpeningClosingCurlyBraces, false);
             t.showOpeningClosingSquaredBrackets = Default.getBoolean(t.showOpeningClosingSquaredBrackets, false);
+            t.includeTimeZoneInDateTimeEditing = Default.getBoolean(t.includeTimeZoneInDateTimeEditing, true);
             t.shortcutKeysEnabled = Default.getBoolean(t.shortcutKeysEnabled, true);
             t.openInFullScreenMode = Default.getBoolean(t.openInFullScreenMode, false);
             t.valueToolTips = Default.getObject(t.valueToolTips, null);
@@ -1407,11 +1441,10 @@ var ContextMenu;
         clearTimeout(n._currentView.valueClickTimerId);
         n._currentView.valueClickTimerId = 0;
         n._currentView.editMode = true;
-        const a = (t, o) => Convert2.stringifyJson(t, o, e, n);
         l.classList.add("editable");
         l.setAttribute("contenteditable", "true");
         l.setAttribute("draggable", "false");
-        l.innerText = JSON.stringify(o, a, n.jsonIndentSpaces);
+        l.innerText = JSON.stringify(Convert2.toJsonStringifyClone(o, e, n), n.events.onCopyJsonReplacer, n.jsonIndentSpaces);
         l.focus();
         DomElement.selectAllText(l);
         l.onblur = () => {
@@ -1671,14 +1704,10 @@ var ContextMenu;
         $(t, e.text.arrayJsonItemDeleted);
     }
     function D(t, n) {
-        let o = (n, o) => Convert2.stringifyJson(n, o, e, t);
-        if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
-            o = t.events.onCopyJsonReplacer;
-        }
-        let l = JSON.stringify(n, o, t.jsonIndentSpaces);
-        navigator.clipboard.writeText(l);
+        const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+        navigator.clipboard.writeText(o);
         $(t, e.text.copiedText);
-        Trigger.customEvent(t.events.onCopy, t._currentView.element, l);
+        Trigger.customEvent(t.events.onCopy, t._currentView.element, o);
     }
     function v(t, n) {
         if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
@@ -1761,14 +1790,10 @@ var ContextMenu;
         }
     }
     function V(t, n) {
-        let o = (n, o) => Convert2.stringifyJson(n, o, e, t);
-        if (Is.definedFunction(t.events.onCopyJsonReplacer)) {
-            o = t.events.onCopyJsonReplacer;
-        }
-        let l = JSON.stringify(n, o, t.jsonIndentSpaces);
-        navigator.clipboard.writeText(l);
+        const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+        navigator.clipboard.writeText(o);
         $(t, e.text.copiedText);
-        Trigger.customEvent(t.events.onCopyAll, t._currentView.element, l);
+        Trigger.customEvent(t.events.onCopyAll, t._currentView.element, o);
     }
     function B(e) {
         e.showAllAsClosed = false;
@@ -2086,18 +2111,18 @@ var ContextMenu;
         const p = i.length;
         const x = d !== "" ? p : 0;
         if (p === 0 && !l.ignore.emptyObjects) {
-            Y(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
             m = false;
         } else {
             for (let e = 0; e < p; e++) {
                 const t = i[e];
                 const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    Y(r, o, l, t, r[t], e === p - 1, false, n, f, g);
+                    Z(r, o, l, t, r[t], e === p - 1, false, n, f, g);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                Y(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
+                Z(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g);
                 m = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
@@ -2116,17 +2141,17 @@ var ContextMenu;
             for (let e = 0; e < m; e++) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Y(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
+                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === m - 1, true, n, d, f);
             }
         } else {
             for (let e = m; e--; ) {
                 const t = Arr.getIndex(e, l);
                 const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                Y(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
+                Z(r, o, l, Arr.getIndexName(l, t, m), r[e], e === 0, true, n, d, f);
             }
         }
         if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-            Y(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
+            Z(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f);
             g = false;
         } else {
             if (l.showOpeningClosingSquaredBrackets) {
@@ -2136,7 +2161,7 @@ var ContextMenu;
         ne(l, t, n, o, i, s, p, d);
         return g;
     }
-    function Y(t, n, o, l, r, i, s, a, u, c) {
+    function Z(t, n, o, l, r, i, s, a, u, c) {
         const d = DomElement.create(n, "div", "object-type-value");
         const f = DomElement.create(d, "div", "object-type-value-title");
         const g = o.showArrowToggles ? DomElement.create(f, "div", "no-arrow") : null;
@@ -2378,23 +2403,23 @@ var ContextMenu;
             b = "string";
             if (!o.ignore.stringValues || D) {
                 if (o.parse.stringsToBooleans && Is.String.boolean(r)) {
-                    Y(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, s, a, u, c);
+                    Z(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && Is.String.bigInt(r)) {
-                    Y(t, n, o, l, Convert2.stringToBigInt(r), i, s, a, u, c);
+                    Z(t, n, o, l, Convert2.stringToBigInt(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToNumbers && !isNaN(r)) {
-                    Y(t, n, o, l, parseFloat(r), i, s, a, u, c);
+                    Z(t, n, o, l, parseFloat(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToDates && Is.String.date(r)) {
-                    Y(t, n, o, l, new Date(r), i, s, a, u, c);
+                    Z(t, n, o, l, new Date(r), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else if (o.parse.stringsToSymbols && Is.String.symbol(r)) {
-                    Y(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, s, a, u, c);
+                    Z(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, s, a, u, c);
                     x = true;
                     T = true;
                 } else {
@@ -2666,7 +2691,7 @@ var ContextMenu;
             }
         }
         if (!D && !T) {
-            Z(o, b);
+            Y(o, b);
         }
         if (x) {
             n.removeChild(d);
@@ -2695,7 +2720,7 @@ var ContextMenu;
             }
         }
     }
-    function Z(e, t) {
+    function Y(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
@@ -2814,7 +2839,7 @@ var ContextMenu;
         n._currentView.editMode = true;
         s.classList.add("editable");
         s.setAttribute("contenteditable", "true");
-        if (Is.definedDate(r)) {
+        if (Is.definedDate(r) && !n.includeTimeZoneInDateTimeEditing) {
             s.innerText = JSON.stringify(r).replace(/['"]+/g, "");
         } else if (Is.definedRegExp(r)) {
             s.innerText = r.source;
@@ -3150,16 +3175,15 @@ var ContextMenu;
         o.readAsText(t);
     }
     function Te(t) {
-        const n = (n, o) => Convert2.stringifyJson(n, o, e, t);
-        const o = JSON.stringify(t.data, n, t.jsonIndentSpaces);
-        if (Is.definedString(o)) {
-            const n = DomElement.create(document.body, "a");
-            n.style.display = "none";
-            n.setAttribute("target", "_blank");
-            n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
-            n.setAttribute("download", be(t));
-            n.click();
-            document.body.removeChild(n);
+        const n = JSON.stringify(Convert2.toJsonStringifyClone(t.data, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+        if (Is.definedString(n)) {
+            const o = DomElement.create(document.body, "a");
+            o.style.display = "none";
+            o.setAttribute("target", "_blank");
+            o.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(n)}`);
+            o.setAttribute("download", be(t));
+            o.click();
+            document.body.removeChild(o);
             O(t);
             $(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);

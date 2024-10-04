@@ -107,6 +107,7 @@ export namespace Binding {
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
             options.showOpeningClosingCurlyBraces = Default.getBoolean( options.showOpeningClosingCurlyBraces, false );
             options.showOpeningClosingSquaredBrackets = Default.getBoolean( options.showOpeningClosingSquaredBrackets, false );
+            options.includeTimeZoneInDateTimeEditing = Default.getBoolean( options.includeTimeZoneInDateTimeEditing, true );
             options.shortcutKeysEnabled = Default.getBoolean( options.shortcutKeysEnabled, true );
             options.openInFullScreenMode = Default.getBoolean( options.openInFullScreenMode, false );
             options.valueToolTips = Default.getObject( options.valueToolTips, null! );

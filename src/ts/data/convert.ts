@@ -18,33 +18,78 @@ import { Is } from "./is";
 
 
 export namespace Convert {
-    export function stringifyJson( _: string, value: any, configuration: Configuration, bindingOptions: BindingOptions ) : any {
-        if ( Is.definedBigInt( value ) ) {
-            value = value.toString();
+    export function toJsonStringifyClone( object: any, configuration: Configuration, bindingOptions: BindingOptions ) : any {
+        let result: any = null!;
 
-        } else if ( Is.definedSymbol( value ) ) {
-            value = symbolToString( value );
+        if ( Is.definedDate( object ) ) {
+            if ( !bindingOptions.includeTimeZoneInDateTimeEditing ) {
+                result = JSON.stringify( object ).replace( /['"]+/g, Char.empty );
+            } else {
+                result = object.toString();
+            }
 
-        } else if ( Is.definedFunction( value ) ) {
-            value = Default.getFunctionName( value, configuration ).name;
+        } else if ( Is.definedSymbol( object ) ) {
+            result = symbolToString( object );
 
-        } else if ( Is.definedMap( value ) ) {
-            value = mapToObject( value );
+        } else if ( Is.definedBigInt( object ) ) {
+            result = object.toString();
 
-        } else if ( Is.definedSet( value ) ) {
-            value = setToArray( value );
+        } else if ( Is.definedFunction( object ) ) {
+            result = Default.getFunctionName( object, configuration ).name;
 
-        } else if ( Is.definedRegExp( value ) ) {
-            value = value.source;
+        } else if ( Is.definedRegExp( object ) ) {
+            result = object.source;
             
-        } else if ( Is.definedImage( value ) ) {
-            value = value.src;
+        } else if ( Is.definedImage( object ) ) {
+            result = object.src;
 
-        } else if ( Is.definedHtml( value ) ) {
-            value = htmlToObject( value, bindingOptions.showCssStylesForHtmlObjects! );
+        } else if ( Is.definedHtml( object ) ) {
+            result = htmlToObject( object, bindingOptions.showCssStylesForHtmlObjects! );
+
+        } else if ( Is.definedArray( object ) ) {
+            result = [];
+
+            const arrayLength: number = object.length;
+
+            for ( let arrayIndex: number = 0; arrayIndex < arrayLength; arrayIndex++ ) {
+                result.push( toJsonStringifyClone( object[ arrayIndex ], configuration, bindingOptions ) );
+            }
+
+        } else if ( Is.definedSet( object ) ) {
+            result = [];
+
+            const array: Array<any> = setToArray( object );
+            const arrayLength: number = array.length;
+
+            for ( let arrayIndex: number = 0; arrayIndex < arrayLength; arrayIndex++ ) {
+                result.push( toJsonStringifyClone( array[ arrayIndex ], configuration, bindingOptions ) );
+            }
+
+        } else if ( Is.definedMap( object ) ) {
+            result = {};
+
+            const obj: any = mapToObject( object );
+
+            for ( const key in obj ) {
+                if ( obj.hasOwnProperty( key ) ) {
+                    result[ key ] = toJsonStringifyClone( obj[ key ], configuration, bindingOptions );
+                }
+            }
+
+        } else if ( Is.definedObject( object ) ) {
+            result = {};
+
+            for ( const key in object ) {
+                if ( object.hasOwnProperty( key ) ) {
+                    result[ key ] = toJsonStringifyClone( object[ key ], configuration, bindingOptions );
+                }
+            }
+            
+        } else {
+            result = object;
         }
 
-        return value;
+        return result;
     }
 
     export function stringToDataTypeValue( oldValue: any, newValue: string ) : any {
