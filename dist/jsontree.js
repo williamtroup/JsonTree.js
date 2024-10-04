@@ -163,7 +163,9 @@ var Convert2;
 (Convert => {
     function toJsonStringifyClone(e, t, n) {
         let o = null;
-        if (Is.definedDate(e)) {
+        if (!Is.defined(e)) {
+            o = null;
+        } else if (Is.definedDate(e)) {
             if (!n.includeTimeZoneInDates) {
                 o = JSON.stringify(e).replace(/['"]+/g, "");
             } else {

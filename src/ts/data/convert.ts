@@ -21,7 +21,10 @@ export namespace Convert {
     export function toJsonStringifyClone( object: any, configuration: Configuration, bindingOptions: BindingOptions ) : any {
         let result: any = null!;
 
-        if ( Is.definedDate( object ) ) {
+        if ( !Is.defined( object ) ) {
+            result = null;
+
+        } else if ( Is.definedDate( object ) ) {
             if ( !bindingOptions.includeTimeZoneInDates ) {
                 result = JSON.stringify( object ).replace( /['"]+/g, Char.empty );
             } else {
