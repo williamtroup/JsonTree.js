@@ -2422,6 +2422,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             propertyNameElement.onclick = ( e: MouseEvent ) => {
                 DomElement.cancelBubble( e );
 
+                const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "start-compare-highlight" );
                 const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
                 const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
         
@@ -2443,7 +2444,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                             const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
         
                             if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
-                                valueElement.classList.add( "compare-highlight" );
+                                if ( !itemIsSelected ) {
+                                    valueElement.classList.add( "compare-highlight" );
+                                } else {
+                                    valueElement.classList.remove( "compare-highlight" );
+                                }
+                                
                                 elementsHighlighted = true;
                             }
                         }
@@ -2455,7 +2461,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
         
                 if ( elementsHighlighted ) {
-                    objectTypeValueTitle.classList.add( "start-compare-highlight" );
+                    if ( !itemIsSelected ) {
+                        objectTypeValueTitle.classList.add( "start-compare-highlight" );
+                    } else {
+                        objectTypeValueTitle.classList.remove( "start-compare-highlight" );
+                    }
         
                     renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
                 }

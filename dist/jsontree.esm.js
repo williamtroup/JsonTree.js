@@ -3012,32 +3012,41 @@ var ContextMenu;
             e.classList.add("title-compare");
             e.onclick = e => {
                 DomElement.cancelBubble(e);
-                const i = t._currentView.currentContentColumns;
-                const s = t._currentView.currentContentColumns.length;
-                let a = false;
-                for (let e = 0; e < s; e++) {
-                    const n = i[e].column.querySelectorAll(".object-type-value-title");
-                    const s = n.length;
-                    for (let t = 0; t < s; t++) {
-                        const i = n[t];
+                const i = n.classList.contains("start-compare-highlight");
+                const s = t._currentView.currentContentColumns;
+                const a = t._currentView.currentContentColumns.length;
+                let u = false;
+                for (let e = 0; e < a; e++) {
+                    const n = s[e].column.querySelectorAll(".object-type-value-title");
+                    const a = n.length;
+                    for (let t = 0; t < a; t++) {
+                        const s = n[t];
                         if (!o) {
-                            i.classList.remove("start-compare-highlight");
-                            i.classList.remove("compare-highlight");
+                            s.classList.remove("start-compare-highlight");
+                            s.classList.remove("compare-highlight");
                         }
                         if (e !== r) {
-                            const e = i.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
+                            const e = s.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
                             if (Is.definedString(e) && e === l) {
-                                i.classList.add("compare-highlight");
-                                a = true;
+                                if (!i) {
+                                    s.classList.add("compare-highlight");
+                                } else {
+                                    s.classList.remove("compare-highlight");
+                                }
+                                u = true;
                             }
                         }
                     }
-                    if (a) {
+                    if (u) {
                         x(e, t);
                     }
                 }
-                if (a) {
-                    n.classList.add("start-compare-highlight");
+                if (u) {
+                    if (!i) {
+                        n.classList.add("start-compare-highlight");
+                    } else {
+                        n.classList.remove("start-compare-highlight");
+                    }
                     x(r, t);
                 }
             };
