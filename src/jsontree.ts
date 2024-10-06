@@ -2321,7 +2321,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const showFunc: Function = ( updateLineNumbers: boolean = true ) : void => {
+        const showFunc: Function = ( e: MouseEvent, updateLineNumbers: boolean = true ) : void => {
+            if ( Is.defined( e ) ) {
+                DomElement.cancelBubble( e );
+
+                if ( !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
+            }
+            
             objectTypeContents.style.display = "block";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
@@ -2346,11 +2354,19 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const conditionFunc: Function = ( condition: boolean ) : void => {
+        const conditionFunc: Function = ( e: MouseEvent, condition: boolean ) : void => {
+            if ( Is.defined( e ) ) {
+                DomElement.cancelBubble( e );
+
+                if ( !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
+            }
+
             if ( condition ) {
                 hideFunc();
             } else {
-                showFunc();
+                showFunc( null );
             }
         }
 
@@ -2378,16 +2394,16 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
+            arrow.onclick = ( e: MouseEvent ) => conditionFunc( e, arrow.className === "down-arrow" );
             arrow.ondblclick = DomElement.cancelBubble;
         }
 
         if ( Is.defined( closedSymbols ) ) {
-            closedSymbols.onclick = () => showFunc();
+            closedSymbols.onclick = ( e: MouseEvent ) => showFunc( e );
             closedSymbols.ondblclick = DomElement.cancelBubble;
         }
 
-        conditionFunc( isClosed, false );
+        conditionFunc( null, isClosed, false );
 
         bindingOptions._currentView.contentPanelsIndex++;
     }
@@ -2481,33 +2497,35 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function removeSelectedItemsAndComparedProperties( bindingOptions: BindingOptions ) : void {
-        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
-        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
-
-        bindingOptions._currentView.selectedValues = [];
-
-        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-            let classesRemoved: boolean = false;
-
-            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
-            const valueElementsLength: number = valueElements.length;
-
-            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
-                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
-
-                if ( valueElement.classList.contains( "highlight-selected" ) ) {
-                    valueElement.classList.remove( "highlight-selected" );
-                    classesRemoved = true;
+        if ( bindingOptions._currentView.selectedValues.length > 0 ) {
+            const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+            const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+    
+            bindingOptions._currentView.selectedValues = [];
+    
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                let classesRemoved: boolean = false;
+    
+                const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+                const valueElementsLength: number = valueElements.length;
+    
+                for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                    const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+    
+                    if ( valueElement.classList.contains( "highlight-selected" ) ) {
+                        valueElement.classList.remove( "highlight-selected" );
+                        classesRemoved = true;
+                    }
+    
+                    if ( isCompareColumnValuesEnabled( bindingOptions ) && valueElement.classList.contains( "highlight-compare" ) ) {
+                        valueElement.classList.remove( "highlight-compare" );
+                        classesRemoved = true;
+                    }
                 }
-
-                if ( isCompareColumnValuesEnabled( bindingOptions ) && valueElement.classList.contains( "highlight-compare" ) ) {
-                    valueElement.classList.remove( "highlight-compare" );
-                    classesRemoved = true;
+    
+                if ( classesRemoved ) {
+                    renderControlColumnLineNumbers( columnIndex, bindingOptions );
                 }
-            }
-
-            if ( classesRemoved ) {
-                renderControlColumnLineNumbers( columnIndex, bindingOptions );
             }
         }
     }

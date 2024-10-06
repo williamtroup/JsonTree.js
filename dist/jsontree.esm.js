@@ -2922,87 +2922,99 @@ var ContextMenu;
             n.classList.add("no-hover");
         }
     }
-    function ne(e, t, n, o, l, r, i, s) {
-        const a = e._currentView.contentPanelsIndex;
-        const u = e._currentView.contentPanelsDataIndex;
-        const c = e._currentView.currentColumnBuildingIndex;
-        const d = e._currentView.currentContentColumns[c];
-        if (!e._currentView.contentPanelsOpen.hasOwnProperty(u)) {
-            e._currentView.contentPanelsOpen[u] = {};
+    function ne(e, t, n, l, r, i, s, a) {
+        const u = e._currentView.contentPanelsIndex;
+        const c = e._currentView.contentPanelsDataIndex;
+        const d = e._currentView.currentColumnBuildingIndex;
+        const f = e._currentView.currentContentColumns[d];
+        if (!e._currentView.contentPanelsOpen.hasOwnProperty(c)) {
+            e._currentView.contentPanelsOpen[c] = {};
         }
-        const f = (i = true) => {
-            o.style.display = "none";
-            e._currentView.contentPanelsOpen[u][a] = true;
+        const g = (o = true) => {
+            l.style.display = "none";
+            e._currentView.contentPanelsOpen[c][u] = true;
             if (Is.defined(t)) {
                 t.className = "right-arrow";
-            }
-            if (Is.defined(l)) {
-                l.style.display = "none";
-            }
-            if (Is.defined(r)) {
-                r.style.display = "inline-block";
-            }
-            if (Is.defined(n)) {
-                n.style.display = "inline-block";
-            }
-            if (i) {
-                x(c, e);
-            }
-        };
-        const g = (i = true) => {
-            o.style.display = "block";
-            e._currentView.contentPanelsOpen[u][a] = false;
-            if (Is.defined(t)) {
-                t.className = "down-arrow";
-            }
-            if (Is.defined(l)) {
-                l.style.display = "inline-block";
             }
             if (Is.defined(r)) {
                 r.style.display = "none";
             }
+            if (Is.defined(i)) {
+                i.style.display = "inline-block";
+            }
+            if (Is.defined(n)) {
+                n.style.display = "inline-block";
+            }
+            if (o) {
+                x(d, e);
+            }
+        };
+        const m = (s, a = true) => {
+            if (Is.defined(s)) {
+                DomElement.cancelBubble(s);
+                if (!o) {
+                    ie(e);
+                }
+            }
+            l.style.display = "block";
+            e._currentView.contentPanelsOpen[c][u] = false;
+            if (Is.defined(t)) {
+                t.className = "down-arrow";
+            }
+            if (Is.defined(r)) {
+                r.style.display = "inline-block";
+            }
+            if (Is.defined(i)) {
+                i.style.display = "none";
+            }
             if (Is.defined(n)) {
                 n.style.display = "none";
             }
-            if (i) {
-                x(c, e);
+            if (a) {
+                x(d, e);
             }
         };
-        const m = e => {
-            if (e) {
-                f();
-            } else {
-                g();
-            }
-        };
-        let p = e.showAllAsClosed;
-        if (e._currentView.contentPanelsOpen[u].hasOwnProperty(a)) {
-            p = e._currentView.contentPanelsOpen[u][a];
-        } else {
-            if (!e._currentView.initialized) {
-                if (s === "object" && e.autoClose.objectSize > 0 && i >= e.autoClose.objectSize) {
-                    p = true;
-                } else if (s === "array" && e.autoClose.arraySize > 0 && i >= e.autoClose.arraySize) {
-                    p = true;
-                } else if (s === "map" && e.autoClose.mapSize > 0 && i >= e.autoClose.mapSize) {
-                    p = true;
-                } else if (s === "set" && e.autoClose.setSize > 0 && i >= e.autoClose.setSize) {
-                    p = true;
-                } else if (s === "html" && e.autoClose.htmlSize > 0 && i >= e.autoClose.htmlSize) {
-                    p = true;
+        const p = (t, n) => {
+            if (Is.defined(t)) {
+                DomElement.cancelBubble(t);
+                if (!o) {
+                    ie(e);
                 }
             }
-            e._currentView.contentPanelsOpen[u][a] = p;
+            if (n) {
+                g();
+            } else {
+                m(null);
+            }
+        };
+        let T = e.showAllAsClosed;
+        if (e._currentView.contentPanelsOpen[c].hasOwnProperty(u)) {
+            T = e._currentView.contentPanelsOpen[c][u];
+        } else {
+            if (!e._currentView.initialized) {
+                if (a === "object" && e.autoClose.objectSize > 0 && s >= e.autoClose.objectSize) {
+                    T = true;
+                } else if (a === "array" && e.autoClose.arraySize > 0 && s >= e.autoClose.arraySize) {
+                    T = true;
+                } else if (a === "map" && e.autoClose.mapSize > 0 && s >= e.autoClose.mapSize) {
+                    T = true;
+                } else if (a === "set" && e.autoClose.setSize > 0 && s >= e.autoClose.setSize) {
+                    T = true;
+                } else if (a === "html" && e.autoClose.htmlSize > 0 && s >= e.autoClose.htmlSize) {
+                    T = true;
+                }
+            }
+            e._currentView.contentPanelsOpen[c][u] = T;
         }
         if (Is.defined(t)) {
-            t.onclick = () => m(t.className === "down-arrow");
+            t.onclick = e => p(e, t.className === "down-arrow");
             t.ondblclick = DomElement.cancelBubble;
         }
-        if (Is.defined(r)) {
-            r.onclick = () => g();
-            r.ondblclick = DomElement.cancelBubble;
+        if (Is.defined(i)) {
+            i.onclick = e => m(e);
+            i.ondblclick = DomElement.cancelBubble;
         }
-        m(p, false);
+        p(null, T, false);
         e._currentView.contentPanelsIndex++;
     }
     function oe(e, t, n) {
@@ -3066,26 +3078,28 @@ var ContextMenu;
         };
     }
     function ie(e) {
-        const t = e._currentView.currentContentColumns;
-        const n = e._currentView.currentContentColumns.length;
-        e._currentView.selectedValues = [];
-        for (let o = 0; o < n; o++) {
-            let n = false;
-            const l = t[o].column.querySelectorAll(".object-type-value-title");
-            const r = l.length;
-            for (let t = 0; t < r; t++) {
-                const o = l[t];
-                if (o.classList.contains("highlight-selected")) {
-                    o.classList.remove("highlight-selected");
-                    n = true;
+        if (e._currentView.selectedValues.length > 0) {
+            const t = e._currentView.currentContentColumns;
+            const n = e._currentView.currentContentColumns.length;
+            e._currentView.selectedValues = [];
+            for (let o = 0; o < n; o++) {
+                let n = false;
+                const l = t[o].column.querySelectorAll(".object-type-value-title");
+                const r = l.length;
+                for (let t = 0; t < r; t++) {
+                    const o = l[t];
+                    if (o.classList.contains("highlight-selected")) {
+                        o.classList.remove("highlight-selected");
+                        n = true;
+                    }
+                    if (se(e) && o.classList.contains("highlight-compare")) {
+                        o.classList.remove("highlight-compare");
+                        n = true;
+                    }
                 }
-                if (se(e) && o.classList.contains("highlight-compare")) {
-                    o.classList.remove("highlight-compare");
-                    n = true;
+                if (n) {
+                    x(o, e);
                 }
-            }
-            if (n) {
-                x(o, e);
             }
         }
     }
