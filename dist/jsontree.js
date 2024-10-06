@@ -2224,7 +2224,7 @@ var ContextMenu;
                 W(o, l, w);
                 H(o, l, w);
             }
-            re(w, o, f, a, S, r);
+            re(o, f, a, S, r);
         }
         if (r === null) {
             b = "null";
@@ -3017,29 +3017,28 @@ var ContextMenu;
         DomElement.createWithHTML(r, "div", "object-type-end", n);
         oe(e, r, l);
     }
-    function re(e, t, n, l, r, i) {
-        e.classList.add("title-selector");
-        e.onclick = e => {
-            DomElement.cancelBubble(e);
-            const s = n.classList.contains("highlight-selected");
-            const a = t._currentView.currentContentColumns;
-            const u = t._currentView.currentContentColumns.length;
+    function re(e, t, n, l, r) {
+        t.onclick = i => {
+            DomElement.cancelBubble(i);
+            const s = t.classList.contains("highlight-selected");
+            const a = e._currentView.currentContentColumns;
+            const u = e._currentView.currentContentColumns.length;
             let c = false;
             if (!o) {
-                t._currentView.selectedValues = [];
+                e._currentView.selectedValues = [];
             }
-            for (let e = 0; e < u; e++) {
-                const n = a[e].column.querySelectorAll(".object-type-value-title");
-                const i = n.length;
+            for (let t = 0; t < u; t++) {
+                const r = a[t].column.querySelectorAll(".object-type-value-title");
+                const i = r.length;
                 for (let a = 0; a < i; a++) {
-                    const i = n[a];
+                    const i = r[a];
                     if (!o) {
                         i.classList.remove("highlight-selected");
                         i.classList.remove("highlight-compare");
                     }
-                    if (se(t) && e !== r) {
+                    if (se(e) && t !== l) {
                         const e = i.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
-                        if (Is.definedString(e) && e === l) {
+                        if (Is.definedString(e) && e === n) {
                             if (!s) {
                                 i.classList.add("highlight-compare");
                             } else {
@@ -3050,17 +3049,17 @@ var ContextMenu;
                     }
                 }
                 if (c) {
-                    x(e, t);
+                    x(t, e);
                 }
             }
             if (!s) {
-                n.classList.add("highlight-selected");
-                t._currentView.selectedValues.push(i);
+                t.classList.add("highlight-selected");
+                e._currentView.selectedValues.push(r);
             } else {
-                n.classList.remove("highlight-selected");
-                t._currentView.selectedValues.splice(t._currentView.selectedValues.indexOf(i), 1);
+                t.classList.remove("highlight-selected");
+                e._currentView.selectedValues.splice(e._currentView.selectedValues.indexOf(r), 1);
             }
-            x(r, t);
+            x(l, e);
         };
     }
     function ie(e) {

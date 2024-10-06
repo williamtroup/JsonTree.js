@@ -861,12 +861,10 @@ div.json-tree-js div.object-type-contents span.closed-symbols {
   font-weight: var(--json-tree-js-bold-weight-light);
   color: var(--json-tree-js-color-snow-white) !important;
 }
-div.json-tree-js div.object-type-contents span.title-selector,
 div.json-tree-js div.object-type-contents span.closed-symbols {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
-div.json-tree-js div.object-type-contents span.title-selector:not(.no-hover):not(.editable):hover,
 div.json-tree-js div.object-type-contents span.closed-symbols:not(.no-hover):not(.editable):hover {
   cursor: pointer;
   opacity: 0.7;

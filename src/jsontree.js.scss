@@ -788,7 +788,6 @@ div.json-tree-js {
             color: var(--json-tree-js-color-snow-white) !important;
         }
 
-        span.title-selector,
         span.closed-symbols {
             transition: var(--json-tree-js-transition);
             transition-property: opacity;
@@ -833,7 +832,6 @@ div.json-tree-js {
             div.highlight-selected,
             div.highlight-compare {
                 padding: calc( var(--json-tree-js-spacing) / 2 );
-                
                 border-radius: var(--json-tree-js-border-radius);
                 transition: var(--json-tree-js-transition);
                 transition-property: background-color;

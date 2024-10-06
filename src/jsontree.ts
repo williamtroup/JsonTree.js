@@ -1330,7 +1330,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
 
-            selectItemAndCompareProperties( nameElement, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex, value );
+            selectItemAndCompareProperties( bindingOptions, objectTypeValueTitle, jsonPath, columnIndex, value );
         }
 
         if ( value === null ) {
@@ -2415,10 +2415,8 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function selectItemAndCompareProperties( propertyNameElement: HTMLElement, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number, data: any ) : void {
-        propertyNameElement.classList.add( "title-selector" );
-
-        propertyNameElement.onclick = ( e: MouseEvent ) => {
+    function selectItemAndCompareProperties( bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number, data: any ) : void {
+        objectTypeValueTitle.onclick = ( e: MouseEvent ) => {
             DomElement.cancelBubble( e );
 
             const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" );
