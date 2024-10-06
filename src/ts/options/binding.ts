@@ -131,6 +131,7 @@ export namespace Binding {
             options.showChildIndexes = Default.getBoolean( options.showChildIndexes, true );
             options.showClosedArraySquaredBrackets = Default.getBoolean( options.showClosedArraySquaredBrackets, true );
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
+            options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
 
             options.paging = getPaging( options );
             options.title = getTitle( options );

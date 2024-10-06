@@ -2261,17 +2261,23 @@ type JsonTreeData = Record<string, BindingOptions>;
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, allowEditing: boolean ) : void {
         if ( Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
+                let clickValue: any = value;
+
+                if ( bindingOptions.convertClickedValuesToString ) {
+                    clickValue = JSON.stringify( Convert.toJsonStringifyClone( value, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
+                }
+
                 if ( allowEditing ) {
                     bindingOptions._currentView.valueClickTimerId = setTimeout( () => {
                         if ( !bindingOptions._currentView.editMode ) {
-                            Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
+                            Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, clickValue, type );
                         }
                     }, bindingOptions.editingValueClickDelay );
 
                 } else {
                     valueElement.ondblclick = DomElement.cancelBubble;
 
-                    Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
+                    Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, clickValue, type );
                 }
             };
 

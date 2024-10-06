@@ -734,6 +734,7 @@ var Binding;
             t.showChildIndexes = Default.getBoolean(t.showChildIndexes, true);
             t.showClosedArraySquaredBrackets = Default.getBoolean(t.showClosedArraySquaredBrackets, true);
             t.showClosedObjectCurlyBraces = Default.getBoolean(t.showClosedObjectCurlyBraces, true);
+            t.convertClickedValuesToString = Default.getBoolean(t.convertClickedValuesToString, false);
             t.paging = l(t);
             t.title = r(t);
             t.footer = i(t);
@@ -2901,22 +2902,26 @@ var ContextMenu;
             }
         };
     }
-    function te(e, t, n, o, l) {
-        if (Is.definedFunction(e.events.onValueClick)) {
-            t.onclick = () => {
-                if (l) {
-                    e._currentView.valueClickTimerId = setTimeout((() => {
-                        if (!e._currentView.editMode) {
-                            Trigger.customEvent(e.events.onValueClick, e._currentView.element, n, o);
+    function te(t, n, o, l, r) {
+        if (Is.definedFunction(t.events.onValueClick)) {
+            n.onclick = () => {
+                let i = o;
+                if (t.convertClickedValuesToString) {
+                    i = JSON.stringify(Convert2.toJsonStringifyClone(o, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+                }
+                if (r) {
+                    t._currentView.valueClickTimerId = setTimeout((() => {
+                        if (!t._currentView.editMode) {
+                            Trigger.customEvent(t.events.onValueClick, t._currentView.element, i, l);
                         }
-                    }), e.editingValueClickDelay);
+                    }), t.editingValueClickDelay);
                 } else {
-                    t.ondblclick = DomElement.cancelBubble;
-                    Trigger.customEvent(e.events.onValueClick, e._currentView.element, n, o);
+                    n.ondblclick = DomElement.cancelBubble;
+                    Trigger.customEvent(t.events.onValueClick, t._currentView.element, i, l);
                 }
             };
         } else {
-            t.classList.add("no-hover");
+            n.classList.add("no-hover");
         }
     }
     function ne(e, t, n, o, l, r, i, s) {
