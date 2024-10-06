@@ -66,8 +66,9 @@
     --json-tree-js-editable-border-color: #454c56;
 
     // Colors - Highlights
-    --json-tree-js-highlight-selected: #353e4b;
-    --json-tree-js-highlight-compare: #4a5768;
+    --json-tree-js-highlight-selected-color: #353e4b;
+    --json-tree-js-highlight-compare-color: #4a5768;
+    --json-tree-js-highlight-selected-border-color: #97a4b5;
 
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
@@ -834,15 +835,16 @@ div.json-tree-js {
                 padding: calc( var(--json-tree-js-spacing) / 2 );
                 border-radius: var(--json-tree-js-border-radius);
                 transition: var(--json-tree-js-transition);
-                transition-property: background-color;
+                transition-property: background-color, border, padding;
             }
 
             div.highlight-selected {
-                background-color: var(--json-tree-js-highlight-selected);
+                background-color: var(--json-tree-js-highlight-selected-color);
+                border: var(--json-tree-js-border-size) dashed var(--json-tree-js-highlight-selected-border-color);
             }
 
             div.highlight-compare {
-                background-color: var(--json-tree-js-highlight-compare);
+                background-color: var(--json-tree-js-highlight-compare-color);
             }
 
             span.data-type,

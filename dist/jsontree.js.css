@@ -52,8 +52,9 @@
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
-  --json-tree-js-highlight-selected: #353e4b;
-  --json-tree-js-highlight-compare: #4a5768;
+  --json-tree-js-highlight-selected-color: #353e4b;
+  --json-tree-js-highlight-compare-color: #4a5768;
+  --json-tree-js-highlight-selected-border-color: #97a4b5;
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
@@ -898,13 +899,14 @@ div.json-tree-js div.object-type-contents div.object-type-value div.highlight-co
   padding: calc(var(--json-tree-js-spacing) / 2);
   border-radius: var(--json-tree-js-border-radius);
   transition: var(--json-tree-js-transition);
-  transition-property: background-color;
+  transition-property: background-color, border, padding;
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected {
-  background-color: var(--json-tree-js-highlight-selected);
+  background-color: var(--json-tree-js-highlight-selected-color);
+  border: var(--json-tree-js-border-size) dashed var(--json-tree-js-highlight-selected-border-color);
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare {
-  background-color: var(--json-tree-js-highlight-compare);
+  background-color: var(--json-tree-js-highlight-compare-color);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {

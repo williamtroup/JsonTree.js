@@ -32,8 +32,9 @@
     --json-tree-js-editable-background-color: var(--json-tree-js-color-snow-white);
 
     /* Colors - Highlights */
-    --json-tree-js-highlight-selected: #aba0a0;
-    --json-tree-js-highlight-compare: #c3bbbb;
+    --json-tree-js-highlight-selected-color: #aba0a0;
+    --json-tree-js-highlight-compare-color: #c3bbbb;
+    --json-tree-js-highlight-selected-border-color: var(--json-tree-js-color-black);
 
     /* ToolTip */
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
