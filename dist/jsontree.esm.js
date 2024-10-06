@@ -1878,6 +1878,7 @@ var ContextMenu;
         }
     }
     function O(t) {
+        let n = false;
         if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
             t._currentView.sideMenu.classList.remove("side-menu-open");
             t._currentView.disabledBackground.style.display = "none";
@@ -1889,7 +1890,9 @@ var ContextMenu;
                     $(t, e.text.ignoreDataTypesUpdated);
                 }), 500);
             }
+            n = true;
         }
+        return n;
     }
     function L(t, n) {
         const o = [];
@@ -3265,7 +3268,9 @@ var ContextMenu;
                 B(l);
             } else if (e.code === "Escape") {
                 e.preventDefault();
-                O(l);
+                if (!O(l) && !o) {
+                    ie(l);
+                }
             }
         }
     }

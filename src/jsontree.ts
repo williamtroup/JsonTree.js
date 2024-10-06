@@ -872,7 +872,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onSideMenuClose( bindingOptions: BindingOptions ) : void {
+    function onSideMenuClose( bindingOptions: BindingOptions ) : boolean {
+        let closed: boolean = false;
+
         if ( bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
             bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "none";
@@ -886,7 +888,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     setFooterStatusText( bindingOptions, _configuration.text!.ignoreDataTypesUpdated! );
                 }, 500 );
             }
+
+            closed = true;
         }
+
+        return closed;
     }
 
     function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {
@@ -2773,7 +2779,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             } else if ( ev.code === KeyCode.escape ) {
                 ev.preventDefault();
-                onSideMenuClose( bindingOptions );
+
+                if ( !onSideMenuClose( bindingOptions ) && !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
             }
         }
     }
