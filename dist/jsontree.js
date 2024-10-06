@@ -856,6 +856,13 @@ var Binding;
             e.allowEditing.imageValues = Default.getBoolean(e.allowEditing.imageValues, t);
             e.allowEditing.propertyNames = Default.getBoolean(e.allowEditing.propertyNames, t);
             e.allowEditing.bulk = Default.getBoolean(e.allowEditing.bulk, t);
+            const n = e.allowEditing;
+            for (const t in n) {
+                if (n.hasOwnProperty(t) && !n[t]) {
+                    e.allowEditing.bulk = false;
+                    break;
+                }
+            }
             return e.allowEditing;
         }
         function g(e) {

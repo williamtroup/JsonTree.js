@@ -273,6 +273,15 @@ export namespace Binding {
             options.allowEditing!.propertyNames = Default.getBoolean( options.allowEditing!.propertyNames, defaultFlag );
             options.allowEditing!.bulk = Default.getBoolean( options.allowEditing!.bulk, defaultFlag );
 
+            const properties: any = options.allowEditing;
+
+            for ( const property in properties ) {
+                if ( properties.hasOwnProperty( property ) && !properties[ property ] ) {
+                    options.allowEditing!.bulk = false;
+                    break;
+                }
+            }
+
             return options.allowEditing!;
         }
 
