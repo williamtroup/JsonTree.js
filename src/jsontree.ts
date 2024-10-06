@@ -207,7 +207,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.setAttribute( "draggable", "true" );
                 contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
                 contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );
-                contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
+                contentsColumn.ondragover = ( ev: DragEvent ) => ev.preventDefault();
                 contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
             }
 
@@ -253,18 +253,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "block";
     
             if ( bindingOptions.allowEditing!.bulk ) {
-                contentsColumn.ondblclick = ( e: MouseEvent ) => {
-                    enableContentsColumnEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
+                contentsColumn.ondblclick = ( ev: MouseEvent ) => {
+                    enableContentsColumnEditMode( ev, bindingOptions, data, contentsColumn, dataIndex );
                 };
             }
         }
     }
 
-    function enableContentsColumnEditMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, contentsColumn: HTMLElement, dataIndex: number ) : void {
+    function enableContentsColumnEditMode( ev: MouseEvent, bindingOptions: BindingOptions, data: any, contentsColumn: HTMLElement, dataIndex: number ) : void {
         let statusBarMessage: string = null!;
 
-        if ( Is.defined( e ) ) {
-            DomElement.cancelBubble( e );
+        if ( Is.defined( ev ) ) {
+            DomElement.cancelBubble( ev );
         }
 
         clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -288,13 +288,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        contentsColumn.onkeydown = ( e: KeyboardEvent ) => {
-            if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
+        contentsColumn.onkeydown = ( ev: KeyboardEvent ) => {
+            if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
                 contentsColumn.setAttribute( "contenteditable", "false" );
 
-            } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
-                e.preventDefault();
+            } else if ( isCommandKey( ev ) && ev.code === KeyCode.enter ) {
+                ev.preventDefault();
 
                 const newValue: string = contentsColumn.innerText;
                 const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
@@ -322,8 +322,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 contentsColumn.setAttribute( "contenteditable", "false" );
                 
-            } else if ( e.code === KeyCode.enter ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.enter ) {
+                ev.preventDefault();
                 document.execCommand( "insertLineBreak" );    
             }
         };
@@ -2073,8 +2073,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing!.propertyNames ) {
-            propertyName.ondblclick = ( e: MouseEvent ) => {
-                DomElement.cancelBubble( e );
+            propertyName.ondblclick = ( ev: MouseEvent ) => {
+                DomElement.cancelBubble( ev );
 
                 let originalArrayIndex: number = 0;
                 let statusBarMessage: string = null!;
@@ -2108,13 +2108,13 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
                 };
     
-                propertyName.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code === KeyCode.escape ) {
-                        e.preventDefault();
+                propertyName.onkeydown = ( ev: KeyboardEvent ) => {
+                    if ( ev.code === KeyCode.escape ) {
+                        ev.preventDefault();
                         propertyName.setAttribute( "contenteditable", "false" );
 
-                    } else if ( e.code === KeyCode.enter ) {
-                        e.preventDefault();
+                    } else if ( ev.code === KeyCode.enter ) {
+                        ev.preventDefault();
     
                         const newPropertyName: string = propertyName.innerText;
 
@@ -2171,16 +2171,16 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean, openButton: HTMLSpanElement = null! ) : void {
         if ( allowEditing ) {
-            propertyValue.ondblclick = ( e: MouseEvent ) => {
-                enableValueEditingMode( e, bindingOptions, data, originalPropertyName, originalPropertyValue, propertyValue, isArrayItem, openButton );
+            propertyValue.ondblclick = ( ev: MouseEvent ) => {
+                enableValueEditingMode( ev, bindingOptions, data, originalPropertyName, originalPropertyValue, propertyValue, isArrayItem, openButton );
             };
         }
     }
 
-    function enableValueEditingMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, openButton: HTMLSpanElement = null! ) : void {
+    function enableValueEditingMode( ev: MouseEvent, bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, openButton: HTMLSpanElement = null! ) : void {
         let statusBarMessage: string = null!;
 
-        DomElement.cancelBubble( e );
+        DomElement.cancelBubble( ev );
 
         clearTimeout( bindingOptions._currentView.valueClickTimerId );
 
@@ -2218,13 +2218,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        propertyValue.onkeydown = ( e: KeyboardEvent ) => {
-            if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
+        propertyValue.onkeydown = ( ev: KeyboardEvent ) => {
+            if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
                 propertyValue.setAttribute( "contenteditable", "false" );
                 
-            } else if ( e.code === KeyCode.enter ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.enter ) {
+                ev.preventDefault();
 
                 const newPropertyValue: string = propertyValue.innerText;
 
@@ -2321,9 +2321,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const showFunc: Function = ( e: MouseEvent, updateLineNumbers: boolean = true ) : void => {
-            if ( Is.defined( e ) ) {
-                DomElement.cancelBubble( e );
+        const showFunc: Function = ( ev: MouseEvent, updateLineNumbers: boolean = true ) : void => {
+            if ( Is.defined( ev ) ) {
+                DomElement.cancelBubble( ev );
 
                 if ( !_key_Control_Pressed ) {
                     removeSelectedItemsAndComparedProperties( bindingOptions );
@@ -2354,9 +2354,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const conditionFunc: Function = ( e: MouseEvent, condition: boolean ) : void => {
-            if ( Is.defined( e ) ) {
-                DomElement.cancelBubble( e );
+        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean ) : void => {
+            if ( Is.defined( ev ) ) {
+                DomElement.cancelBubble( ev );
 
                 if ( !_key_Control_Pressed ) {
                     removeSelectedItemsAndComparedProperties( bindingOptions );
@@ -2394,12 +2394,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = ( e: MouseEvent ) => conditionFunc( e, arrow.className === "down-arrow" );
+            arrow.onclick = ( ev: MouseEvent ) => conditionFunc( ev, arrow.className === "down-arrow" );
             arrow.ondblclick = DomElement.cancelBubble;
         }
 
         if ( Is.defined( closedSymbols ) ) {
-            closedSymbols.onclick = ( e: MouseEvent ) => showFunc( e );
+            closedSymbols.onclick = ( ev: MouseEvent ) => showFunc( ev );
             closedSymbols.ondblclick = DomElement.cancelBubble;
         }
 
@@ -2438,8 +2438,8 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function selectItemAndCompareProperties( bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number, data: any ) : void {
-        objectTypeValueTitle.onclick = ( e: MouseEvent ) => {
-            DomElement.cancelBubble( e );
+        objectTypeValueTitle.onclick = ( ev: MouseEvent ) => {
+            DomElement.cancelBubble( ev );
 
             const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" ) && _key_Control_Pressed;
             const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
@@ -2542,38 +2542,38 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderValueContextMenuItems( bindingOptions: BindingOptions, valueElement: HTMLSpanElement, allowEditing: boolean, data: any, value: any, propertyName: string, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
-        valueElement.oncontextmenu = ( e: MouseEvent ) => {
-            DomElement.cancelBubble( e );
+        valueElement.oncontextmenu = ( ev: MouseEvent ) => {
+            DomElement.cancelBubble( ev );
 
             bindingOptions._currentView.contextMenu.innerHTML = Char.empty;
 
             if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
                 const editMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.editSymbolButtonText!, _configuration.text!.editButtonText! );
-                editMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemEdit( e, bindingOptions, valueElement, data, propertyName, value, isArrayItem, openButton );
+                editMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemEdit( ev, bindingOptions, valueElement, data, propertyName, value, isArrayItem, openButton );
             }
             
             const copyMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.copyButtonSymbolText!, _configuration.text!.copyButtonText! );
-            copyMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemCopy( e, bindingOptions, value );
+            copyMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemCopy( ev, bindingOptions, value );
 
             if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
                 const removeMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.removeSymbolButtonText!, _configuration.text!.removeButtonText! );
-                removeMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemRemove( e, bindingOptions, data, propertyName, isArrayItem );
+                removeMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemRemove( ev, bindingOptions, data, propertyName, isArrayItem );
             }
 
-            DomElement.showElementAtMousePosition( e, bindingOptions._currentView.contextMenu, 0 );
+            DomElement.showElementAtMousePosition( ev, bindingOptions._currentView.contextMenu, 0 );
         };
     }
 
-    function onContextMenuItemEdit( e: MouseEvent, bindingOptions: BindingOptions, valueElement: HTMLSpanElement, data: any, propertyName: string, value: any, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
-        DomElement.cancelBubble( e );
+    function onContextMenuItemEdit( ev: MouseEvent, bindingOptions: BindingOptions, valueElement: HTMLSpanElement, data: any, propertyName: string, value: any, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
+        DomElement.cancelBubble( ev );
 
-        enableValueEditingMode( e, bindingOptions, data, propertyName, value, valueElement, isArrayItem, openButton );
+        enableValueEditingMode( ev, bindingOptions, data, propertyName, value, valueElement, isArrayItem, openButton );
 
         ContextMenu.hide( bindingOptions );
     }
 
-    function onContextMenuItemCopy( e: MouseEvent, bindingOptions: BindingOptions, value: any ) : void {
-        DomElement.cancelBubble( e );
+    function onContextMenuItemCopy( ev: MouseEvent, bindingOptions: BindingOptions, value: any ) : void {
+        DomElement.cancelBubble( ev );
 
         let copyValue: any = value;
 
@@ -2586,8 +2586,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         ContextMenu.hide( bindingOptions );
     }
 
-    function onContextMenuItemRemove( e: MouseEvent, bindingOptions: BindingOptions, data: any, propertyName: string, isArrayItem: boolean ) : void {
-        DomElement.cancelBubble( e );
+    function onContextMenuItemRemove( ev: MouseEvent, bindingOptions: BindingOptions, data: any, propertyName: string, isArrayItem: boolean ) : void {
+        DomElement.cancelBubble( ev );
 
         if ( isArrayItem ) {
             data.splice( Arr.getIndexFromBrackets( propertyName ), 1 );
@@ -2624,7 +2624,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dragAndDropBackground.ondragover = DomElement.cancelBubble;
             dragAndDropBackground.ondragenter = DomElement.cancelBubble;
             dragAndDropBackground.ondragleave = () => dragAndDropBackground.style.display = "none";
-            dragAndDropBackground.ondrop = ( e: DragEvent ) => onDropFiles( e, bindingOptions );
+            dragAndDropBackground.ondrop = ( ev: DragEvent ) => onDropFiles( ev, bindingOptions );
         }
     }
 
@@ -2634,13 +2634,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onDropFiles( e: DragEvent, bindingOptions: BindingOptions ) : void {
-        DomElement.cancelBubble( e );
+    function onDropFiles( ev: DragEvent, bindingOptions: BindingOptions ) : void {
+        DomElement.cancelBubble( ev );
 
         bindingOptions._currentView.dragAndDropBackground.style.display = "none";
 
-        if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
-            importFromFiles( e.dataTransfer!.files, bindingOptions );
+        if ( Is.defined( window.FileReader ) && ev.dataTransfer!.files.length > 0 ) {
+            importFromFiles( ev.dataTransfer!.files, bindingOptions );
         }
     }
 
@@ -2680,8 +2680,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         reader.onloadend = () => onFileLoad( renderData );
     
-        reader.onload = ( e: ProgressEvent<FileReader> ) => {
-            const json: StringToJson = Convert.jsonStringToObject( e.target!.result, _configuration );
+        reader.onload = ( ev: ProgressEvent<FileReader> ) => {
+            const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
                 renderData = json.object;
@@ -2735,9 +2735,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
         const windowFunc: Function = addEvents ? window.addEventListener : window.removeEventListener;
 
-        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
-        documentFunc( "keyup", ( e: KeyboardEvent ) => onWindowKeyUp( e ) );
-        documentFunc( "contextmenu", ( e: KeyboardEvent ) => onDocumentContextMenuOrClick( bindingOptions ) );
+        documentFunc( "keydown", ( ev: KeyboardEvent ) => onWindowKeyDown( ev, bindingOptions ) );
+        documentFunc( "keyup", ( ev: KeyboardEvent ) => onWindowKeyUp( ev ) );
+        documentFunc( "contextmenu", () => onDocumentContextMenuOrClick( bindingOptions ) );
         windowFunc( "click", () => onDocumentContextMenuOrClick( bindingOptions ) );
     }
 
@@ -2747,43 +2747,43 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
-        _key_Control_Pressed = isCommandKey( e );
+    function onWindowKeyDown( ev: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        _key_Control_Pressed = isCommandKey( ev );
 
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
-            if ( isCommandKey( e ) && e.code === KeyCode.f11 ) {
-                e.preventDefault();
+            if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
+                ev.preventDefault();
                 onTitleBarDblClick( bindingOptions );
 
-            } else if ( e.code === KeyCode.left ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.left ) {
+                ev.preventDefault();
                 onBackPage( bindingOptions );
 
-            } else if ( e.code === KeyCode.right ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.right ) {
+                ev.preventDefault();
                 onNextPage( bindingOptions );
 
-            } else if ( e.code === KeyCode.up ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.up ) {
+                ev.preventDefault();
                 onCloseAll( bindingOptions );
 
-            } else if ( e.code === KeyCode.down ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.down ) {
+                ev.preventDefault();
                 onOpenAll( bindingOptions );
 
-            } else if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
                 onSideMenuClose( bindingOptions );
             }
         }
     }
 
-    function onWindowKeyUp( e: KeyboardEvent ) : void {
-        _key_Control_Pressed = isCommandKey( e );
+    function onWindowKeyUp( ev: KeyboardEvent ) : void {
+        _key_Control_Pressed = isCommandKey( ev );
     }
 
-    function isCommandKey( e: KeyboardEvent ) : boolean {
-        return e.ctrlKey || e.metaKey;
+    function isCommandKey( ev: KeyboardEvent ) : boolean {
+        return ev.ctrlKey || ev.metaKey;
     }
 
 

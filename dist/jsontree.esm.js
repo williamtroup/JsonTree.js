@@ -311,7 +311,7 @@ var Convert2;
             if (Is.definedString(objectString)) {
                 result.object = JSON.parse(objectString);
             }
-        } catch (e1) {
+        } catch (exception1) {
             try {
                 result.object = eval(`(${objectString})`);
                 if (Is.definedFunction(result.object)) {
@@ -319,7 +319,7 @@ var Convert2;
                 }
             } catch (e) {
                 if (!configuration.safeMode) {
-                    console.error(configuration.text.objectErrorText.replace("{{error_1}}", e1.message).replace("{{error_2}}", e.message));
+                    console.error(configuration.text.objectErrorText.replace("{{error_1}}", exception1.message).replace("{{error_2}}", e.message));
                     result.parsed = false;
                 }
                 result.object = null;
@@ -3237,7 +3237,7 @@ var ContextMenu;
         const o = t ? window.addEventListener : window.removeEventListener;
         n("keydown", (t => he(t, e)));
         n("keyup", (e => De(e)));
-        n("contextmenu", (t => ye(e)));
+        n("contextmenu", (() => ye(e)));
         o("click", (() => ye(e)));
     }
     function ye(e) {

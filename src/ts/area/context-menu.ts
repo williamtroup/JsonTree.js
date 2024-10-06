@@ -35,9 +35,9 @@ export namespace ContextMenu {
         addEventListener_Document( "scroll", () => hide( bindingOptions ) );
     }
 
-    export function show( e: MouseEvent, bindingOptions: BindingOptions ) : void {
-        DomElement.cancelBubble( e );
-        DomElement.showElementAtMousePosition( e, bindingOptions._currentView.contextMenu, 0 );
+    export function show( ev: MouseEvent, bindingOptions: BindingOptions ) : void {
+        DomElement.cancelBubble( ev );
+        DomElement.showElementAtMousePosition( ev, bindingOptions._currentView.contextMenu, 0 );
     }
 
     export function hide( bindingOptions: BindingOptions ) : void {

@@ -36,12 +36,12 @@ export namespace ToolTip {
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string, tooltipClass: string = "jsontree-js-tooltip" ) : void {
         if ( element !== null ) {
-            element.addEventListener( "mousemove", ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass ) );
+            element.addEventListener( "mousemove", ( ev: MouseEvent ) => show( ev, bindingOptions, text, tooltipClass ) );
         }
     }
 
-    export function show( e: MouseEvent, bindingOptions: BindingOptions, text: string, tooltipClass: string ) : void {
-        DomElement.cancelBubble( e );
+    export function show( ev: MouseEvent, bindingOptions: BindingOptions, text: string, tooltipClass: string ) : void {
+        DomElement.cancelBubble( ev );
         hide( bindingOptions );
 
         bindingOptions._currentView.tooltipTimerId = setTimeout( () => {
@@ -49,7 +49,7 @@ export namespace ToolTip {
             bindingOptions._currentView.tooltip.innerHTML = text;
             bindingOptions._currentView.tooltip.style.display = "block";
 
-            DomElement.showElementAtMousePosition( e, bindingOptions._currentView.tooltip, bindingOptions.tooltip!.offset! );
+            DomElement.showElementAtMousePosition( ev, bindingOptions._currentView.tooltip, bindingOptions.tooltip!.offset! );
         }, bindingOptions.tooltip!.delay );
     }
 

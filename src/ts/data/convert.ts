@@ -132,7 +132,7 @@ export namespace Convert {
                 result.src = newValue;
             }
 
-        } catch ( e: any ) {
+        } catch ( exception: any ) {
             result = null!
         }
 
@@ -218,7 +218,7 @@ export namespace Convert {
                 result.object = JSON.parse( objectString );
             }
 
-        } catch ( e1: any ) {
+        } catch ( exception1: any ) {
             try {
                 result.object = eval( `(${objectString})` );
 
@@ -226,9 +226,9 @@ export namespace Convert {
                     result.object = result.object();
                 }
                 
-            } catch ( e2: any ) {
+            } catch ( exception2: any ) {
                 if ( !configuration.safeMode ) {
-                    console.error( configuration.text!.objectErrorText!.replace( "{{error_1}}",  e1.message ).replace( "{{error_2}}",  e2.message ) );
+                    console.error( configuration.text!.objectErrorText!.replace( "{{error_1}}",  exception1.message ).replace( "{{error_2}}",  exception2.message ) );
                     result.parsed = false;
                 }
                 
