@@ -2441,7 +2441,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         objectTypeValueTitle.onclick = ( e: MouseEvent ) => {
             DomElement.cancelBubble( e );
 
-            const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" );
+            const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" ) && _key_Control_Pressed;
             const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
             const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
     

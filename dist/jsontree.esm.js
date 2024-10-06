@@ -3035,7 +3035,7 @@ var ContextMenu;
     function re(e, t, n, l, r) {
         t.onclick = i => {
             DomElement.cancelBubble(i);
-            const s = t.classList.contains("highlight-selected");
+            const s = t.classList.contains("highlight-selected") && o;
             const a = e._currentView.currentContentColumns;
             const u = e._currentView.currentContentColumns.length;
             let c = false;
