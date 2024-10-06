@@ -65,9 +65,9 @@
     --json-tree-js-editable-background-color: #2d333b;
     --json-tree-js-editable-border-color: #454c56;
 
-    // Colors - Value Comparisons
-    --json-tree-js-start-compare-highlight: #353e4b;
-    --json-tree-js-compare-highlight: #4a5768;
+    // Colors - Highlights
+    --json-tree-js-highlight-selected: #353e4b;
+    --json-tree-js-highlight-compare: #4a5768;
 
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
@@ -788,7 +788,7 @@ div.json-tree-js {
             color: var(--json-tree-js-color-snow-white) !important;
         }
 
-        span.title-compare,
+        span.title-selector,
         span.closed-symbols {
             transition: var(--json-tree-js-transition);
             transition-property: opacity;
@@ -830,8 +830,8 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-bold-weight-light);
             }
 
-            div.start-compare-highlight,
-            div.compare-highlight {
+            div.highlight-selected,
+            div.highlight-compare {
                 padding: calc( var(--json-tree-js-spacing) / 2 );
                 
                 border-radius: var(--json-tree-js-border-radius);
@@ -839,12 +839,12 @@ div.json-tree-js {
                 transition-property: background-color;
             }
 
-            div.start-compare-highlight {
-                background-color: var(--json-tree-js-start-compare-highlight);
+            div.highlight-selected {
+                background-color: var(--json-tree-js-highlight-selected);
             }
 
-            div.compare-highlight {
-                background-color: var(--json-tree-js-compare-highlight);
+            div.highlight-compare {
+                background-color: var(--json-tree-js-highlight-compare);
             }
 
             span.data-type,

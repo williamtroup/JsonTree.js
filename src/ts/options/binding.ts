@@ -71,6 +71,7 @@ export namespace Binding {
             bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
             bindingOptions._currentView.contextMenu = null!;
             bindingOptions._currentView.currentColumnBuildingIndex = 0;
+            bindingOptions._currentView.selectedValues = [];
 
             if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions._currentView.currentDataArrayPageIndex > ( bindingOptions.data.length - 1 ) ) {
                 bindingOptions._currentView.currentDataArrayPageIndex = 0;

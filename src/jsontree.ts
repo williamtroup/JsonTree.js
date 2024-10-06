@@ -1330,7 +1330,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
 
-            compareColumnValues( nameElement, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex );
+            selectItemAndCompareProperties( nameElement, bindingOptions, objectTypeValueTitle, jsonPath, columnIndex, value );
         }
 
         if ( value === null ) {
@@ -2411,96 +2411,99 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Compare Paging-Column Values
+     * Render:  Selected Items / Property Comparisons
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function compareColumnValues( propertyNameElement: HTMLElement, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number ) : void {
-        if ( isCompareColumnValuesEnabled( bindingOptions ) ) {
-            propertyNameElement.classList.add( "title-compare" );
+    function selectItemAndCompareProperties( propertyNameElement: HTMLElement, bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number, data: any ) : void {
+        propertyNameElement.classList.add( "title-selector" );
 
-            propertyNameElement.onclick = ( e: MouseEvent ) => {
-                DomElement.cancelBubble( e );
+        propertyNameElement.onclick = ( e: MouseEvent ) => {
+            DomElement.cancelBubble( e );
 
-                const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "start-compare-highlight" );
-                const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
-                const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
-        
-                let elementsHighlighted: boolean = false;
-        
-                for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                    const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
-                    const valueElementsLength: number = valueElements.length;
-        
-                    for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
-                        const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
-        
-                        if ( !_key_Control_Pressed ) {
-                            valueElement.classList.remove( "start-compare-highlight" );
-                            valueElement.classList.remove( "compare-highlight" );
-                        }
-        
-                        if ( columnIndex !== currentColumnIndex ) {
-                            const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
-        
-                            if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
-                                if ( !itemIsSelected ) {
-                                    valueElement.classList.add( "compare-highlight" );
-                                } else {
-                                    valueElement.classList.remove( "compare-highlight" );
-                                }
-                                
-                                elementsHighlighted = true;
-                            }
-                        }
-                    }
-        
-                    if ( elementsHighlighted ) {
-                        renderControlColumnLineNumbers( columnIndex, bindingOptions );
-                    }
-                }
-        
-                if ( elementsHighlighted ) {
-                    if ( !itemIsSelected ) {
-                        objectTypeValueTitle.classList.add( "start-compare-highlight" );
-                    } else {
-                        objectTypeValueTitle.classList.remove( "start-compare-highlight" );
-                    }
-        
-                    renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
-                }
-            };
-        }
-    }
-
-    function removeCompareColumnValueClasses( bindingOptions: BindingOptions ) : void {
-        if ( isCompareColumnValuesEnabled( bindingOptions ) ) {
+            const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" );
             const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
             const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
     
-            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                let classesRemoved: boolean = false;
+            let elementsHighlighted: boolean = false;
+
+            if ( !_key_Control_Pressed ) {
+                bindingOptions._currentView.selectedValues = [];
+            }
     
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
                 const valueElementsLength: number = valueElements.length;
     
                 for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                     const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
     
-                    if ( valueElement.classList.contains( "start-compare-highlight" ) ) {
-                        valueElement.classList.remove( "start-compare-highlight" );
-                        classesRemoved = true;
+                    if ( !_key_Control_Pressed ) {
+                        valueElement.classList.remove( "highlight-selected" );
+                        valueElement.classList.remove( "highlight-compare" );
                     }
     
-                    if ( valueElement.classList.contains( "compare-highlight" ) ) {
-                        valueElement.classList.remove( "compare-highlight" );
-                        classesRemoved = true;
+                    if ( isCompareColumnValuesEnabled( bindingOptions ) && columnIndex !== currentColumnIndex ) {
+                        const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
+    
+                        if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
+                            if ( !itemIsSelected ) {
+                                valueElement.classList.add( "highlight-compare" );
+                            } else {
+                                valueElement.classList.remove( "highlight-compare" );
+                            }
+                            
+                            elementsHighlighted = true;
+                        }
                     }
                 }
     
-                if ( classesRemoved ) {
+                if ( elementsHighlighted ) {
                     renderControlColumnLineNumbers( columnIndex, bindingOptions );
                 }
+            }
+    
+            if ( !itemIsSelected ) {
+                objectTypeValueTitle.classList.add( "highlight-selected" );
+                bindingOptions._currentView.selectedValues.push( data );
+
+            } else {
+                objectTypeValueTitle.classList.remove( "highlight-selected" );
+                bindingOptions._currentView.selectedValues.splice( bindingOptions._currentView.selectedValues.indexOf( data ), 1 );
+            }
+
+            renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
+        };
+    }
+
+    function removeSelectedItemsAndComparedProperties( bindingOptions: BindingOptions ) : void {
+        const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+
+        bindingOptions._currentView.selectedValues = [];
+
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            let classesRemoved: boolean = false;
+
+            const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+            const valueElementsLength: number = valueElements.length;
+
+            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+
+                if ( valueElement.classList.contains( "highlight-selected" ) ) {
+                    valueElement.classList.remove( "highlight-selected" );
+                    classesRemoved = true;
+                }
+
+                if ( isCompareColumnValuesEnabled( bindingOptions ) && valueElement.classList.contains( "highlight-compare" ) ) {
+                    valueElement.classList.remove( "highlight-compare" );
+                    classesRemoved = true;
+                }
+            }
+
+            if ( classesRemoved ) {
+                renderControlColumnLineNumbers( columnIndex, bindingOptions );
             }
         }
     }
@@ -2518,12 +2521,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderValueContextMenuItems( bindingOptions: BindingOptions, valueElement: HTMLSpanElement, allowEditing: boolean, data: any, value: any, propertyName: string, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
         valueElement.oncontextmenu = ( e: MouseEvent ) => {
-            removeCompareColumnValueClasses( bindingOptions )
             DomElement.cancelBubble( e );
 
             bindingOptions._currentView.contextMenu.innerHTML = Char.empty;
 
-            if ( allowEditing ) {
+            if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
                 const editMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.editSymbolButtonText!, _configuration.text!.editButtonText! );
                 editMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemEdit( e, bindingOptions, valueElement, data, propertyName, value, isArrayItem, openButton );
             }
@@ -2531,7 +2533,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const copyMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.copyButtonSymbolText!, _configuration.text!.copyButtonText! );
             copyMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemCopy( e, bindingOptions, value );
 
-            if ( allowEditing ) {
+            if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
                 const removeMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.removeSymbolButtonText!, _configuration.text!.removeButtonText! );
                 removeMenuItem.onclick = ( e: MouseEvent )  => onContextMenuItemRemove( e, bindingOptions, data, propertyName, isArrayItem );
             }
@@ -2551,7 +2553,13 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onContextMenuItemCopy( e: MouseEvent, bindingOptions: BindingOptions, value: any ) : void {
         DomElement.cancelBubble( e );
 
-        onCopy( bindingOptions, value );
+        let copyValue: any = value;
+
+        if ( bindingOptions._currentView.selectedValues.length !== 0 ) {
+            copyValue = bindingOptions._currentView.selectedValues;
+        }
+
+        onCopy( bindingOptions, copyValue );
 
         ContextMenu.hide( bindingOptions );
     }
@@ -2707,8 +2715,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
         documentFunc( "keyup", ( e: KeyboardEvent ) => onWindowKeyUp( e ) );
-        documentFunc( "contextmenu", ( e: KeyboardEvent ) => removeCompareColumnValueClasses( bindingOptions ) );
-        windowFunc( "click", () => removeCompareColumnValueClasses( bindingOptions ) );
+        documentFunc( "contextmenu", ( e: KeyboardEvent ) => onDocumentContextMenuOrClick( bindingOptions ) );
+        windowFunc( "click", () => onDocumentContextMenuOrClick( bindingOptions ) );
+    }
+
+    function onDocumentContextMenuOrClick( bindingOptions: BindingOptions ) : void {
+        if ( !_key_Control_Pressed ) {
+            removeSelectedItemsAndComparedProperties( bindingOptions );
+        }
     }
 
     function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {

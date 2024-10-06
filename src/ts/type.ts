@@ -214,6 +214,7 @@ export type BindingOptionsCurrentView = {
 	contextMenu: HTMLElement;
 	currentDataArrayPageIndex: number;
 	currentColumnBuildingIndex: number;
+	selectedValues: any[];
 };
 
 export type BindingOptionsPaging = {

@@ -52,8 +52,8 @@
   --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-editable-background-color: #2d333b;
   --json-tree-js-editable-border-color: #454c56;
-  --json-tree-js-start-compare-highlight: #353e4b;
-  --json-tree-js-compare-highlight: #4a5768;
+  --json-tree-js-highlight-selected: #353e4b;
+  --json-tree-js-highlight-compare: #4a5768;
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
@@ -861,12 +861,12 @@ div.json-tree-js div.object-type-contents span.closed-symbols {
   font-weight: var(--json-tree-js-bold-weight-light);
   color: var(--json-tree-js-color-snow-white) !important;
 }
-div.json-tree-js div.object-type-contents span.title-compare,
+div.json-tree-js div.object-type-contents span.title-selector,
 div.json-tree-js div.object-type-contents span.closed-symbols {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
-div.json-tree-js div.object-type-contents span.title-compare:not(.no-hover):not(.editable):hover,
+div.json-tree-js div.object-type-contents span.title-selector:not(.no-hover):not(.editable):hover,
 div.json-tree-js div.object-type-contents span.closed-symbols:not(.no-hover):not(.editable):hover {
   cursor: pointer;
   opacity: 0.7;
@@ -895,18 +895,18 @@ div.json-tree-js div.object-type-contents div.object-type-value span.split {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.start-compare-highlight,
-div.json-tree-js div.object-type-contents div.object-type-value div.compare-highlight {
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected,
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare {
   padding: calc(var(--json-tree-js-spacing) / 2);
   border-radius: var(--json-tree-js-border-radius);
   transition: var(--json-tree-js-transition);
   transition-property: background-color;
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.start-compare-highlight {
-  background-color: var(--json-tree-js-start-compare-highlight);
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected {
+  background-color: var(--json-tree-js-highlight-selected);
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.compare-highlight {
-  background-color: var(--json-tree-js-compare-highlight);
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare {
+  background-color: var(--json-tree-js-highlight-compare);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
