@@ -27,7 +27,7 @@
 - 📃 Array paging, with configurable column count support (show array objects on different pages)!
 - 💥 Compare the property name and index values in multiple page columns!
 - 💧 Drag & Drop JSON files support!
-- 📋 Copy to clipboard (all JSON, a specific page, or a specific JSON value).
+- 📋 Copy to clipboard (all JSON, a specific page, a specific JSON value, or selected JSON values).
 - ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
 - 🔠 Keyboard navigation keys support!
 - 🎥 Toggle between regular and full-screen views.
