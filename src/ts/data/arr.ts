@@ -13,6 +13,7 @@
 
 import { type BindingOptions } from "../type";
 import { Char } from "./enum";
+import { Is } from "./is";
 import { Str } from "./str";
 
 
@@ -54,4 +55,20 @@ export namespace Arr {
 
         arrayData.splice( newIndex, 0, arrayData.splice( oldIndex, 1 )[ 0 ] );
     };
+
+    export function removeNullOrUndefinedEntries( data: Array<any> ) : Array<any> {
+        let result: Array<any> = [];
+
+        const dataLength: number = data.length;
+
+        for ( let dataIndex: number = 0; dataIndex < dataLength; dataIndex++ ) {
+            const value: any = data[ dataIndex ];
+
+            if ( Is.defined( value ) ) {
+                result.push( value );
+            }
+        }
+
+        return result;
+    }
 }

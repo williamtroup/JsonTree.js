@@ -1128,6 +1128,18 @@ var Arr;
         e.splice(n, 0, e.splice(t, 1)[0]);
     }
     e.moveIndex = l;
+    function r(e) {
+        let t = [];
+        const n = e.length;
+        for (let o = 0; o < n; o++) {
+            const n = e[o];
+            if (Is.defined(n)) {
+                t.push(n);
+            }
+        }
+        return t;
+    }
+    e.removeNullOrUndefinedEntries = r;
 })(Arr || (Arr = {}));
 
 var Size;
@@ -1355,26 +1367,29 @@ var ContextMenu;
         const o = c(e);
         ToolTip.hide(e);
         ContextMenu.hide(e);
+        e.data = n;
         e._currentView.element.innerHTML = "";
         e._currentView.editMode = false;
         e._currentView.contentPanelsIndex = 0;
         e._currentView.sideMenuChanged = false;
         e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
-        V(e, n);
+        v(e, n);
         const l = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             l.classList.add("page-switch");
         }
         if (e.paging.enabled && Is.definedArray(n)) {
             const t = Is.defined(n[e._currentView.currentDataArrayPageIndex + 1]);
-            for (let r = 0; r < e.paging.columnsPerPage; r++) {
-                const i = r + e._currentView.currentDataArrayPageIndex;
-                const s = n[i];
-                e._currentView.contentPanelsIndex = 0;
-                e._currentView.contentPanelsDataIndex = i;
-                if (Is.defined(s)) {
-                    a(s, l, e, i, o[r], e.paging.columnsPerPage, t);
+            const r = Arr.removeNullOrUndefinedEntries(n);
+            e.data = r;
+            for (let n = 0; n < e.paging.columnsPerPage; n++) {
+                const i = n + e._currentView.currentDataArrayPageIndex;
+                if (i <= r.length - 1) {
+                    const s = r[i];
+                    e._currentView.contentPanelsIndex = 0;
+                    e._currentView.contentPanelsDataIndex = i;
+                    a(s, l, e, i, o[n], e.paging.columnsPerPage, t);
                 }
             }
         } else {
@@ -1474,7 +1489,7 @@ var ContextMenu;
             if (t.code === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (Ve(t) && t.code === "Enter") {
+            } else if (ve(t) && t.code === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
@@ -1726,11 +1741,11 @@ var ContextMenu;
         $(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopy, t._currentView.element, o);
     }
-    function V(t, n) {
+    function v(t, n) {
         if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => v(t);
+                o.ondblclick = () => V(t);
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
@@ -1783,13 +1798,13 @@ var ContextMenu;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => v(t);
+                t._currentView.toggleFullScreenButton.onclick = () => V(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function v(t) {
+    function V(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 t._currentView.element.classList.remove("full-screen");
@@ -2194,8 +2209,8 @@ var ContextMenu;
         let y = false;
         let h = null;
         const D = !Is.definedString(l);
-        let V = true;
-        let v = null;
+        let v = true;
+        let V = null;
         const S = o._currentView.currentColumnBuildingIndex;
         if (!D) {
             if (s || !o.showPropertyNameQuotes) {
@@ -2386,10 +2401,10 @@ var ContextMenu;
                 p = DomElement.createWithHTML(f, "span", m, n);
                 y = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
-                    v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    v.onclick = () => window.open(r);
+                    V = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    V.onclick = () => window.open(r);
                 }
-                X(o, t, l, r, p, s, y, v);
+                X(o, t, l, r, p, s, y, V);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, o._currentView.element, p);
                 }
@@ -2408,10 +2423,10 @@ var ContextMenu;
                 p = DomElement.createWithHTML(f, "span", m, n);
                 y = o.allowEditing.emailValues && !c;
                 if (o.showEmailOpenButtons) {
-                    v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    v.onclick = () => window.open(`mailto:${r}`);
+                    V = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    V.onclick = () => window.open(`mailto:${r}`);
                 }
-                X(o, t, l, r, p, s, y, v);
+                X(o, t, l, r, p, s, y, V);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, o._currentView.element, p);
                 }
@@ -2454,7 +2469,7 @@ var ContextMenu;
                     } else {
                         m = "no-properties-text";
                         y = false;
-                        V = false;
+                        v = false;
                     }
                     p = DomElement.createWithHTML(f, "span", m, n);
                     if (!D) {
@@ -2721,7 +2736,7 @@ var ContextMenu;
                     W(o, r, p);
                     H(o, r, p);
                     R(o, b, p);
-                    ae(o, p, y, t, r, l, s, v);
+                    ae(o, p, y, t, r, l, s, V);
                 }
                 if (Is.defined(h)) {
                     if (b !== "null" && b !== "undefined" && b !== "array" && b !== "object" && b !== "map" && b !== "set") {
@@ -2731,7 +2746,7 @@ var ContextMenu;
                         h = null;
                     }
                 }
-                if (V) {
+                if (v) {
                     K(o, a, w, h, p);
                     te(o, p, r, b, y);
                 } else {
@@ -3258,11 +3273,11 @@ var ContextMenu;
         }
     }
     function he(e, l) {
-        o = Ve(e);
+        o = ve(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ve(e) && e.code === "F11") {
+            if (ve(e) && e.code === "F11") {
                 e.preventDefault();
-                v(l);
+                V(l);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
                 C(l);
@@ -3284,12 +3299,12 @@ var ContextMenu;
         }
     }
     function De(e) {
-        o = Ve(e);
-    }
-    function Ve(e) {
-        return e.ctrlKey || e.metaKey;
+        o = ve(e);
     }
     function ve(e) {
+        return e.ctrlKey || e.metaKey;
+    }
+    function Ve(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         if (e._currentView.element.className.trim() === "") {
@@ -3420,7 +3435,7 @@ var ContextMenu;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                ve(t[e]);
+                Ve(t[e]);
                 delete t[e];
                 n--;
             }
@@ -3429,7 +3444,7 @@ var ContextMenu;
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    ve(t[e]);
+                    Ve(t[e]);
                 }
             }
             t = {};

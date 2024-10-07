@@ -140,6 +140,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         ToolTip.hide( bindingOptions );
         ContextMenu.hide( bindingOptions );
 
+        bindingOptions.data = data;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.editMode = false;
         bindingOptions._currentView.contentPanelsIndex = 0;
@@ -157,15 +158,19 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
             const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.currentDataArrayPageIndex + 1 ] );
+            const updatedData: Array<any> = Arr.removeNullOrUndefinedEntries( data );
+
+            bindingOptions.data = updatedData;
 
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
                 const actualDataIndex: number = pageIndex + bindingOptions._currentView.currentDataArrayPageIndex;
-                const actualData: any = data[ actualDataIndex ];
 
-                bindingOptions._currentView.contentPanelsIndex = 0;
-                bindingOptions._currentView.contentPanelsDataIndex = actualDataIndex;
+                if ( actualDataIndex <= updatedData.length - 1 ) {
+                    const actualData: any = updatedData[ actualDataIndex ];
 
-                if ( Is.defined( actualData ) ) {
+                    bindingOptions._currentView.contentPanelsIndex = 0;
+                    bindingOptions._currentView.contentPanelsDataIndex = actualDataIndex;
+    
                     renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage!, allowColumnReordering );
                 }
             }
