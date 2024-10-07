@@ -8,7 +8,7 @@ var _IMAGE_1 = null;
 
 ( () => {
     document.addEventListener( "DOMContentLoaded", function() {
-        document.title += " v" + $jsontree.getVersion();
+        document.title += ` v${$jsontree.getVersion()}`;
         document.getElementById( "header" ).innerText += ` - v${$jsontree.getVersion()}`;
     } );
 
@@ -72,6 +72,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showArrayIndexBrackets: true,
         showOpeningClosingCurlyBraces: false,
         showOpeningClosingSquaredBrackets: false,
+        showClosedArraySquaredBrackets: true,
+        showClosedObjectCurlyBraces: true,
         showCommas: true,
         showArrowToggles: true,
         openInFullScreenMode: columnSize > 1,
@@ -92,7 +94,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showCssStylesForHtmlObjects: false,
         jsonIndentSpaces: 8,
         showChildIndexes: true,
-        includeTimeZoneInDateTimeEditing: true,
+        includeTimeZoneInDates: true,
+        convertClickedValuesToString: false,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 5 > Array Index 1",
@@ -104,6 +107,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             stringsToDates: true,
             stringsToBooleans: true,
             stringsToNumbers: true,
+            stringsToSymbols: true,
         },
         events: {
             onValueClick: onValueClickEvent,
@@ -176,6 +180,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             startPage: 1,
             synchronizeScrolling: false,
             allowColumnReordering: true,
+            allowComparisons: false,
         },
         footer: {
             enabled: true,
@@ -192,6 +197,11 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showEditButton: true,
             showCloseOpenAllButtons: true,
             showSwitchToPagesButton: true,
+        },
+        lineNumbers: {
+            enabled: true,
+            padNumbers: false,
+            addDots: true,
         }
     };
 }
@@ -204,11 +214,11 @@ function getData() {
             value3: new Date(),
             value4: 5,
             value7: null,
-            value9: 3.1415926535,
-            value10: 9007199254740991n,
-            value11: Symbol( "id" ),
-            value12: undefined,
-            value13: {
+            value8: 3.1415926535,
+            value9: 9007199254740991n,
+            value10: Symbol( "id" ),
+            value11: undefined,
+            value12: {
                 lambda: ( message ) => {
                     console.log( message );
                 },
@@ -217,15 +227,15 @@ function getData() {
                     console.log( message );
                 }
             },
-            value14: "rgb(144, 238, 144)",
-            value15: crypto.randomUUID(),
-            value16: new RegExp( "ab+c" ),
-            value17: _MAP_1,
-            value18: _SET_1,
-            value19: "https://www.william-troup.com",
-            value20: "william@troup.uk",
-            value21: _IMAGE_1,
-            value22: _HTML_ELEMENT_1,
+            value13: "rgb(144, 238, 144)",
+            value14: crypto.randomUUID(),
+            value15: new RegExp( "ab+c" ),
+            value16: _MAP_1,
+            value17: _SET_1,
+            value18: "https://www.william-troup.com",
+            value19: "william@troup.uk",
+            value20: _IMAGE_1,
+            value21: _HTML_ELEMENT_1,
             value5: [
                 true,
                 "This is another string",
@@ -282,6 +292,10 @@ function getData() {
                     value2: "9.876",
                     value3: "986917361936291n",
                 },
+                symbols: {
+                    value1: "Symbol(id)",
+                    value2: "Symbol(name)",
+                },
             },
             booleans: [
                 true,
@@ -292,7 +306,26 @@ function getData() {
             value1: false,
             value2: "This is a string for page 3",
             value3: new Date(),
+            value4: {
+                value1: 1,
+                value2: 1.3,
+                value3: Symbol( "id1" )
+            }
         },
+        {
+            value1: true,
+            value2: "This is a string for page 4",
+            value3: new Date(),
+            value4: {
+                value1: 2,
+                value2: 1.6,
+                value3: Symbol( "id2" )
+            }
+        },
+        true,
+        false,
+        null,
+        undefined
     ]
 }
 
@@ -331,7 +364,7 @@ function onValueClickJsonReplacer( _, value ) {
 }
 
 function updateBindingOptions() {
-    var bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
+    const bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
     bindingOptions.showArrowToggles = false;
 
     $jsontree.updateBindingOptions( "json-tree-1", bindingOptions );

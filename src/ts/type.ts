@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.0.0
+ * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -13,6 +13,13 @@
 
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
+export type ColumnLayout = {
+	column: HTMLElement;
+	lineNumbers: HTMLElement;
+	lines: HTMLElement;
+	controlButtons: HTMLElement;
+};
 
 export type FunctionName = {
 	name: string;
@@ -136,7 +143,7 @@ export type BindingOptions = {
 	showArrayIndexBrackets?: boolean;
 	showOpeningClosingCurlyBraces?: boolean;
 	showOpeningClosingSquaredBrackets?: boolean;
-	includeTimeZoneInDateTimeEditing?: boolean;
+	includeTimeZoneInDates?: boolean;
 	shortcutKeysEnabled?: boolean;
 	openInFullScreenMode?: boolean;
 	valueToolTips?: Record<string, string>;
@@ -157,6 +164,10 @@ export type BindingOptions = {
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
 	showChildIndexes?: boolean;
+	showClosedArraySquaredBrackets?: boolean;
+	showClosedObjectCurlyBraces?: boolean;
+	convertClickedValuesToString?: boolean;
+	lineNumbers?: BindingOptionsLineNumbers;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
@@ -172,7 +183,6 @@ export type BindingOptions = {
 
 export type BindingOptionsCurrentView = {
     element: HTMLElement;
-	dataArrayCurrentIndex: number;
 	titleBarButtons: HTMLElement;
 	tooltip: HTMLElement;
 	tooltipTimerId: number;
@@ -191,7 +201,7 @@ export type BindingOptionsCurrentView = {
 	fullScreenOn: boolean;
 	dragAndDropBackground: HTMLElement;
 	initialized: boolean;
-	contentColumns: HTMLElement[];
+	currentContentColumns: ColumnLayout[];
 	footer: HTMLElement;
 	footerStatusText: HTMLElement;
 	footerDataTypeText: HTMLElement;
@@ -202,7 +212,10 @@ export type BindingOptionsCurrentView = {
 	columnDragging: boolean;
 	columnDraggingDataIndex: number;
 	dataTypeCounts: Record<string, number>;
-	contentControlButtons: HTMLElement[];
+	contextMenu: HTMLElement;
+	currentDataArrayPageIndex: number;
+	currentColumnBuildingIndex: number;
+	selectedValues: any[];
 };
 
 export type BindingOptionsPaging = {
@@ -211,12 +224,14 @@ export type BindingOptionsPaging = {
 	startPage?: number;
 	synchronizeScrolling?: boolean;
 	allowColumnReordering?: boolean;
-}
+	allowComparisons?: boolean;
+};
 
 export type BindingOptionsParse = {
     stringsToDates?: boolean;
 	stringsToBooleans?: boolean;
 	stringsToNumbers?: boolean;
+	stringsToSymbols?: boolean;
 };
 
 export type BindingOptionsTitle = {
@@ -244,7 +259,13 @@ export type BindingOptionsControlPanel = {
 	showEditButton?: boolean;
 	showCloseOpenAllButtons?: boolean;
 	showSwitchToPagesButton?: boolean;
-}
+};
+
+export type BindingOptionsLineNumbers = {
+    enabled?: boolean;
+	padNumbers?: boolean;
+	addDots?: boolean;
+};
 
 export type BindingOptionsIgnore = {
     nullValues?: boolean;
@@ -306,11 +327,11 @@ export type BindingOptionsSideMenu = {
 };
 
 export type BindingOptionsAutoClose = {
-	objectSize: number;
-	arraySize: number;
-	mapSize: number;
-	setSize: number;
-	htmlSize: number;
+	objectSize?: number;
+	arraySize?: number;
+	mapSize?: number;
+	setSize?: number;
+	htmlSize?: number;
 };
 
 export type BindingOptionsEvents = {

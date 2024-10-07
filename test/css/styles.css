@@ -44,7 +44,7 @@ div.contents {
     padding: 10px;
 }
 
-button {
+button.ctrl-button {
     margin: 3px !important;
 }
 

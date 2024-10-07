@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v4.0.0
+ * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -56,6 +56,10 @@ export namespace Is {
             }
 
             return result;
+        }
+
+        export function symbol( value: string ) : boolean {
+            return value.startsWith( "Symbol(" ) && value.endsWith( ")" );
         }
     }
 

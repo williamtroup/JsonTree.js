@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.0.0
+ * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -18,7 +18,8 @@ import {
     type ContentPanelsForArrayIndex,
     type ContentPanels, 
     type FunctionName, 
-    type BindingOptionsCurrentView } from "./ts/type";
+    type BindingOptionsCurrentView, 
+    type ColumnLayout } from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -36,6 +37,7 @@ import { Arr } from "./ts/data/arr";
 import { Size } from "./ts/data/size";
 import { Obj } from "./ts/data/obj";
 import { Convert } from "./ts/data/convert";
+import { ContextMenu } from "./ts/area/context-menu";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -49,9 +51,8 @@ type JsonTreeData = Record<string, BindingOptions>;
     let _elements_Data: JsonTreeData = {} as JsonTreeData;
     let _elements_Data_Count: number = 0;
 
-    let _jsonStringifyReplacer: any = ( key: string, value: any ) : any => {
-        return Convert.stringifyJson( key, value, _configuration );
-    };
+    // Variables: Global Keys
+    let _key_Control_Pressed: boolean = false;
 
 
     /*
@@ -95,6 +96,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderControl( bindingOptions: BindingOptions ) : void {
         Trigger.customEvent( bindingOptions.events!.onBeforeRender!, bindingOptions._currentView.element );
         ToolTip.renderControl( bindingOptions );
+        ContextMenu.renderControl( bindingOptions );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
             bindingOptions._currentView.element.id = crypto.randomUUID();
@@ -136,14 +138,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         const scrollTopsForColumns: number[] = getContentColumnScrollTops( bindingOptions );
         
         ToolTip.hide( bindingOptions );
+        ContextMenu.hide( bindingOptions );
 
+        bindingOptions.data = data;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.editMode = false;
         bindingOptions._currentView.contentPanelsIndex = 0;
         bindingOptions._currentView.sideMenuChanged = false;
-        bindingOptions._currentView.contentColumns = [];
+        bindingOptions._currentView.currentContentColumns = [];
         bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
-        bindingOptions._currentView.contentControlButtons = [];
 
         renderControlTitleBar( bindingOptions, data );
 
@@ -154,16 +157,20 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( bindingOptions.paging!.enabled && Is.definedArray( data ) ) {
-            const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.dataArrayCurrentIndex + 1 ] );
+            const allowColumnReordering: boolean = Is.defined( data[ bindingOptions._currentView.currentDataArrayPageIndex + 1 ] );
+            const updatedData: Array<any> = Arr.removeNullOrUndefinedEntries( data );
+
+            bindingOptions.data = updatedData;
 
             for ( let pageIndex: number = 0; pageIndex < bindingOptions.paging!.columnsPerPage!; pageIndex++ ) {
-                const actualDataIndex: number = pageIndex + bindingOptions._currentView.dataArrayCurrentIndex;
-                const actualData: any = data[ actualDataIndex ];
+                const actualDataIndex: number = pageIndex + bindingOptions._currentView.currentDataArrayPageIndex;
 
-                bindingOptions._currentView.contentPanelsIndex = 0;
-                bindingOptions._currentView.contentPanelsDataIndex = actualDataIndex;
+                if ( actualDataIndex <= updatedData.length - 1 ) {
+                    const actualData: any = updatedData[ actualDataIndex ];
 
-                if ( Is.defined( actualData ) ) {
+                    bindingOptions._currentView.contentPanelsIndex = 0;
+                    bindingOptions._currentView.contentPanelsDataIndex = actualDataIndex;
+    
                     renderControlContentsPanel( actualData, contents, bindingOptions, actualDataIndex, scrollTopsForColumns[ pageIndex ], bindingOptions.paging!.columnsPerPage!, allowColumnReordering );
                 }
             }
@@ -205,24 +212,45 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.setAttribute( "draggable", "true" );
                 contentsColumn.ondragstart = () => onContentsColumnDragStart( contentsColumn, bindingOptions, dataIndex );
                 contentsColumn.ondragend = () => onContentsColumnDragEnd( contentsColumn, bindingOptions );
-                contentsColumn.ondragover = ( e: DragEvent ) => e.preventDefault();
+                contentsColumn.ondragover = ( ev: DragEvent ) => ev.preventDefault();
                 contentsColumn.ondrop = () => onContentsColumnDrop( bindingOptions, dataIndex );
             }
-    
-            bindingOptions._currentView.contentColumns.push( contentsColumn );
-    
-            if ( Is.definedArray( data ) ) {
-                renderArray( contentsColumn, bindingOptions, data, DataType.array );
-            } else if ( Is.definedSet( data ) ) {
-                renderArray( contentsColumn, bindingOptions, Convert.setToArray( data ), DataType.set );
-            } else if ( Is.definedHtml( data ) ) {
-                renderObject( contentsColumn, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
-            } else if ( Is.definedMap( data ) ) {
-                renderObject( contentsColumn, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
-            } else if ( Is.definedObject( data ) ) {
-                renderObject( contentsColumn, bindingOptions, data, dataIndex, DataType.object );
+
+            let renderValuesContainer: HTMLElement = contentsColumn;
+            let lineNumbers: HTMLElement = null!;
+            let lines: HTMLElement = null!;
+
+            if ( bindingOptions.lineNumbers!.enabled ) {
+                lineNumbers = DomElement.create( contentsColumn, "div", "contents-column-line-numbers" );
+                lines = DomElement.create( contentsColumn, "div", "contents-column-lines" );
+                renderValuesContainer = lines;
             }
 
+            const columnLayout: ColumnLayout = {
+                column: contentsColumn,
+                lineNumbers: lineNumbers,
+                lines: lines,
+                controlButtons: null!
+            };
+
+            bindingOptions._currentView.currentContentColumns.push( columnLayout );
+            bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
+
+            if ( Is.definedArray( data ) ) {
+                renderArray( renderValuesContainer, bindingOptions, data, DataType.array );
+            } else if ( Is.definedSet( data ) ) {
+                renderArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
+            } else if ( Is.definedHtml( data ) ) {
+                renderObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
+            } else if ( Is.definedMap( data ) ) {
+                renderObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
+            } else if ( Is.definedObject( data ) ) {
+                renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
+            } else {
+                renderObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
+            }
+
+            renderControlColumnLineNumbers( bindingOptions._currentView.currentColumnBuildingIndex, bindingOptions );
             renderControlContentsControlButtons( bindingOptions, contentsColumn, data, dataIndex );
     
             if ( Is.defined( scrollTop ) ) {
@@ -232,18 +260,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.titleBarButtons.style.display = "block";
     
             if ( bindingOptions.allowEditing!.bulk ) {
-                contentsColumn.ondblclick = ( e: MouseEvent ) => {
-                    enableContentsColumnEditMode( e, bindingOptions, data, contentsColumn, dataIndex );
+                contentsColumn.ondblclick = ( ev: MouseEvent ) => {
+                    enableContentsColumnEditMode( ev, bindingOptions, data, contentsColumn, dataIndex );
                 };
             }
         }
     }
 
-    function enableContentsColumnEditMode( e: MouseEvent, bindingOptions: BindingOptions, data: any, contentsColumn: HTMLElement, dataIndex: number ) : void {
+    function enableContentsColumnEditMode( ev: MouseEvent, bindingOptions: BindingOptions, data: any, contentsColumn: HTMLElement, dataIndex: number ) : void {
         let statusBarMessage: string = null!;
 
-        if ( Is.defined( e ) ) {
-            DomElement.cancelBubble( e );
+        if ( Is.defined( ev ) ) {
+            DomElement.cancelBubble( ev );
         }
 
         clearTimeout( bindingOptions._currentView.valueClickTimerId );
@@ -254,7 +282,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         contentsColumn.classList.add( "editable" );
         contentsColumn.setAttribute( "contenteditable", "true" );
         contentsColumn.setAttribute( "draggable", "false" );
-        contentsColumn.innerText = JSON.stringify( data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        contentsColumn.innerText = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
         contentsColumn.focus();
 
         DomElement.selectAllText( contentsColumn );
@@ -267,13 +295,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        contentsColumn.onkeydown = ( e: KeyboardEvent ) => {
-            if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
+        contentsColumn.onkeydown = ( ev: KeyboardEvent ) => {
+            if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
                 contentsColumn.setAttribute( "contenteditable", "false" );
 
-            } else if ( isCommandKey( e ) && e.code === KeyCode.enter ) {
-                e.preventDefault();
+            } else if ( isCommandKey( ev ) && ev.code === KeyCode.enter ) {
+                ev.preventDefault();
 
                 const newValue: string = contentsColumn.innerText;
                 const newData: StringToJson = Convert.jsonStringToObject( newValue, _configuration );
@@ -289,8 +317,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                             bindingOptions.data.splice( dataIndex, 1 );
                             statusBarMessage = _configuration.text!.arrayJsonItemDeleted!;
 
-                            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+                            if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
+                                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
                             }
                         }
                         
@@ -301,8 +329,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 contentsColumn.setAttribute( "contenteditable", "false" );
                 
-            } else if ( e.code === KeyCode.enter ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.enter ) {
+                ev.preventDefault();
                 document.execCommand( "insertLineBreak" );    
             }
         };
@@ -312,12 +340,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         const result: number[] = [];
         
         ToolTip.hide( bindingOptions );
+        ContextMenu.hide( bindingOptions );
 
         if ( bindingOptions._currentView.editMode || bindingOptions._currentView.sideMenuChanged ) {
-            const contentColumnsLength: number = bindingOptions._currentView.contentColumns.length;
+            const contentColumnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
             for ( let contentColumnIndex: number = 0; contentColumnIndex < contentColumnsLength; contentColumnIndex++ ) {
-                result.push( bindingOptions._currentView.contentColumns[ contentColumnIndex ].scrollTop );
+                result.push( bindingOptions._currentView.currentContentColumns[ contentColumnIndex ].column.scrollTop );
             }
         }
 
@@ -326,25 +355,26 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onContentsColumnScroll( column: HTMLElement, bindingOptions: BindingOptions, dataIndex: number ) : void {
         ToolTip.hide( bindingOptions );
+        ContextMenu.hide( bindingOptions );
 
         const scrollTop: number = column.scrollTop;
         const scrollLeft: number = column.scrollLeft;
-        const columnsLength: number = bindingOptions._currentView.contentColumns.length;
+        const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
         if ( bindingOptions.controlPanel!.enabled ) {
-            const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ dataIndex ];
+            const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ dataIndex ].controlButtons;
 
             if ( Is.defined( controlButtons ) ) {
-                controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ dataIndex ].scrollTop}px`;
-                controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ dataIndex ].scrollLeft}px`;
+                controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollTop}px`;
+                controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollLeft}px`;
             }
         }
 
         if ( bindingOptions.paging!.synchronizeScrolling ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop = scrollTop;
-                    bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft = scrollLeft;
+                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop = scrollTop;
+                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
                 }
             }
         }
@@ -352,11 +382,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.controlPanel!.enabled ) {
             for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
                 if ( dataIndex !== columnIndex ) {
-                    const controlButtons: HTMLElement = bindingOptions._currentView.contentControlButtons[ columnIndex ];
+                    const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons;
                     
                     if ( Is.defined( controlButtons ) ) {
-                        controlButtons.style.top = `${bindingOptions._currentView.contentColumns[ columnIndex ].scrollTop}px`;
-                        controlButtons.style.right = `-${bindingOptions._currentView.contentColumns[ columnIndex ].scrollLeft}px`;
+                        controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop}px`;
+                        controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft}px`;
                     }
                 }
             }
@@ -403,14 +433,75 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
             bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
 
-            if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
-                bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
-            } else if ( newIndex < bindingOptions._currentView.dataArrayCurrentIndex ) {
-                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
+            if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
+                bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
+            } else if ( newIndex < bindingOptions._currentView.currentDataArrayPageIndex ) {
+                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!;
             }
 
             renderControlContainer( bindingOptions );
             setFooterStatusText( bindingOptions, _configuration.text!.jsonUpdatedText! );
+        }
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Line Numbers
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlColumnLineNumbers( columnLayoutIndex: number, bindingOptions: BindingOptions ) : void {
+        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutIndex ];
+
+        if ( bindingOptions.lineNumbers!.enabled ) {
+            let lineNumberCount: number = 1;
+            let firstLineTop: number = 0;
+            let largestLineNumberWidth: number = 0;
+            const valueElements: NodeListOf<Element> = columnLayout.column.querySelectorAll( ".object-type-title, .object-type-value-title, .object-type-end" );
+            const valueElementsLength: number = valueElements.length;
+
+            columnLayout.lineNumbers.innerHTML = Char.empty;
+
+            for ( let valueElementIndex = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+
+                if ( valueElement.offsetHeight > 0 ) {
+                    let elementTop: number = DomElement.getOffset( valueElement ).top;
+    
+                    if ( lineNumberCount === 1 ) {
+                        firstLineTop = elementTop;
+                    }
+    
+                    elementTop -= firstLineTop;
+        
+                    const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
+                    const lineNumberDot: string = bindingOptions.lineNumbers!.addDots ? "." : Char.empty;
+
+                    if ( bindingOptions.lineNumbers!.padNumbers ) {
+                        lineNumber.innerHTML = `${Str.padNumber( lineNumberCount, valueElementsLength.toString().length )}${lineNumberDot}`;
+                    } else {
+                        lineNumber.innerHTML = `${lineNumberCount}${lineNumberDot}`;
+                    }
+
+                    const newTop: number = elementTop + ( valueElement.offsetHeight / 2 ) - ( lineNumber.offsetHeight / 2 );
+
+                    lineNumber.style.top = `${newTop}px`;
+
+                    largestLineNumberWidth = Math.max( largestLineNumberWidth, lineNumber.offsetWidth );
+                }
+
+                lineNumberCount++;
+            }
+    
+            columnLayout.lineNumbers.style.height = `${columnLayout.lines.offsetHeight}px`;
+            columnLayout.lineNumbers.style.width = `${largestLineNumberWidth}px`;
+
+        } else {
+            if ( Is.defined( columnLayout.lineNumbers ) ) {
+                columnLayout.lineNumbers.parentNode!.removeChild( columnLayout.lineNumbers );
+                columnLayout.lineNumbers = null!;
+            }
         }
     }
 
@@ -498,7 +589,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
-            bindingOptions._currentView.contentControlButtons.push( controlButtons );
+            bindingOptions._currentView.currentContentColumns[ bindingOptions._currentView.currentColumnBuildingIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
@@ -540,8 +631,8 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.paging!.enabled ) {
             bindingOptions.data.splice( dataIndex, 1 );
 
-            if ( dataIndex === bindingOptions._currentView.dataArrayCurrentIndex && bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
-                bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!
+            if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
+                bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
             }
 
         } else {
@@ -553,13 +644,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onCopy( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = _jsonStringifyReplacer;
-
-        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
-            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
-        }
-
-        let copyDataJson: string  = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        const copyDataJson: string  = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         navigator.clipboard.writeText( copyDataJson );
 
@@ -624,7 +709,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
 
-                if ( bindingOptions._currentView.dataArrayCurrentIndex > 0 ) {
+                if ( bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
                     bindingOptions._currentView.backButton.onclick = () => onBackPage( bindingOptions );
                 } else {
                     bindingOptions._currentView.backButton.disabled = true;
@@ -635,7 +720,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
 
-                if ( ( bindingOptions._currentView.dataArrayCurrentIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
+                if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
                     bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
                 } else {
                     bindingOptions._currentView.nextButton.disabled = true;
@@ -674,19 +759,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
             
             ToolTip.hide( bindingOptions );
+            ContextMenu.hide( bindingOptions );
             updateFooterDisplay( bindingOptions );
             Trigger.customEvent( bindingOptions.events!.onFullScreenChange!, bindingOptions._currentView.element, bindingOptions._currentView.element.classList.contains( "full-screen" ) );
         }
     }
 
     function onTitleBarCopyAllClick( bindingOptions: BindingOptions, data: any ) : void {
-        let replaceFunction: any = _jsonStringifyReplacer;
-
-        if ( Is.definedFunction( bindingOptions.events!.onCopyJsonReplacer ) ) {
-            replaceFunction = bindingOptions.events!.onCopyJsonReplacer!;
-        }
-
-        let copyDataJson: string = JSON.stringify( data, replaceFunction, bindingOptions.jsonIndentSpaces );
+        const copyDataJson: string = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         navigator.clipboard.writeText( copyDataJson );
 
@@ -712,7 +792,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onBackPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex -= bindingOptions.paging!.columnsPerPage!;
+            bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!;
     
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onBackPage!, bindingOptions._currentView.element );
@@ -721,7 +801,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function onNextPage( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
-            bindingOptions._currentView.dataArrayCurrentIndex += bindingOptions.paging!.columnsPerPage!;
+            bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
                         
             renderControlContainer( bindingOptions, true );
             Trigger.customEvent( bindingOptions.events!.onNextPage!, bindingOptions._currentView.element );
@@ -795,15 +875,19 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.disabledBackground.style.display = "block";
 
             ToolTip.hide( bindingOptions );
+            ContextMenu.hide( bindingOptions );
         }
     }
 
-    function onSideMenuClose( bindingOptions: BindingOptions ) : void {
+    function onSideMenuClose( bindingOptions: BindingOptions ) : boolean {
+        let closed: boolean = false;
+
         if ( bindingOptions._currentView.sideMenu.classList.contains( "side-menu-open" ) ) {
             bindingOptions._currentView.sideMenu.classList.remove( "side-menu-open" );
             bindingOptions._currentView.disabledBackground.style.display = "none";
 
             ToolTip.hide( bindingOptions );
+            ContextMenu.hide( bindingOptions );
     
             if ( bindingOptions._currentView.sideMenuChanged ) {
                 setTimeout( () => {
@@ -811,7 +895,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     setFooterStatusText( bindingOptions, _configuration.text!.ignoreDataTypesUpdated! );
                 }, 500 );
             }
+
+            closed = true;
         }
+
+        return closed;
     }
 
     function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {
@@ -927,7 +1015,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function getFooterPageText( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.paging!.enabled ) {
-            const currentPage: number = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+            const currentPage: number = Math.ceil( ( bindingOptions._currentView.currentDataArrayPageIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             const totalPages: number = Math.ceil( bindingOptions.data.length / bindingOptions.paging!.columnsPerPage! );
             const currentReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", currentPage.toFixed() ).outerHTML;
             const totalReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", totalPages.toFixed() ).outerHTML;
@@ -963,7 +1051,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addFooterLengthStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
         if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showLengths ) {
-            const length: number = Size.length( value );
+            const length: number = Size.length( value, bindingOptions.showCssStylesForHtmlObjects! );
 
             if ( length > 0 ) {
                 valueElement.addEventListener( "mousemove", () => {
@@ -985,7 +1073,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function addFooterSizeStatus( bindingOptions: BindingOptions, value: any, valueElement: HTMLElement ) : void {
         if ( bindingOptions.footer!.enabled && bindingOptions.footer!.showSizes ) {
-            const size: string = Size.of( value );
+            const size: string = Size.of( value, bindingOptions.showCssStylesForHtmlObjects! );
 
             if ( Is.definedString( size ) ) {
                 valueElement.addEventListener( "mousemove", () => {
@@ -1068,6 +1156,9 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                 openingBrace = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement;
+            }
+
+            if ( bindingOptions.showClosedObjectCurlyBraces ) {
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
@@ -1075,6 +1166,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             addValueClickEvent( bindingOptions, titleText, data, dataType, false );
             addFooterSizeStatus( bindingOptions, data, titleText );
             addFooterLengthStatus( bindingOptions, data, titleText );
+            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
         }
     }
 
@@ -1100,8 +1192,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} size` : "size", `[${data.length}]` );
         }
 
-        if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+        if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
             openingBracket = DomElement.createWithHTML( objectTypeTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
+        }
+
+        if ( bindingOptions.showClosedArraySquaredBrackets ) {
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
         }
 
@@ -1109,6 +1204,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         addValueClickEvent( bindingOptions, titleText, data, dataType, false );
         addFooterSizeStatus( bindingOptions, data, titleText );
         addFooterLengthStatus( bindingOptions, data, titleText );
+        renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
 
     function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : boolean {
@@ -1173,7 +1269,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             propertiesAdded = false;
 
         } else {
-            if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+            if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                 createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
             }
         }
@@ -1185,18 +1281,21 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
-        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValue, "div", "no-arrow" ) : null!;
+        const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValueTitle, "div", "no-arrow" ) : null!;
         let valueClass: string = null!;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
         let ignoredDataType: boolean = false;
         let dataType: string = null!;
-        let nameElement: HTMLSpanElement = DomElement.create( objectTypeValue, "span", "title" );
+        let nameElement: HTMLSpanElement = DomElement.create( objectTypeValueTitle, "span" );
         let allowEditing: boolean = false;
         let typeElement: HTMLSpanElement = null!;
         const isForEmptyProperties: boolean = !Is.definedString( name );
         let assignClickEvent: boolean = true;
-        
+        let openButton: HTMLSpanElement = null!;
+        const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
         if ( !isForEmptyProperties ) {
             if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
                 nameElement.innerHTML = name;
@@ -1218,8 +1317,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             objectTypeValue.classList.add( "last-item" );
         }
 
-        if ( bindingOptions.showDataTypes ) {
-            typeElement = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "type-color" : "type", Char.empty ) as HTMLSpanElement;
+        if ( bindingOptions.showDataTypes && !isForEmptyProperties ) {
+            typeElement = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "data-type-color" : "data-type", Char.empty ) as HTMLSpanElement;
         }
 
         if ( Is.defined( nameElement ) && !isForEmptyProperties && bindingOptions.showValueColors && bindingOptions.showPropertyNameAndIndexColors  ) {
@@ -1227,7 +1326,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.defined( nameElement ) && !isForEmptyProperties ) {
-            DomElement.createWithHTML( objectTypeValue, "span", "split", _configuration.text!.propertyColonCharacter! );
+            DomElement.createWithHTML( objectTypeValueTitle, "span", "split", _configuration.text!.propertyColonCharacter! );
 
             if ( !preventEditing ) {
                 makePropertyNameEditable( bindingOptions, data, name, nameElement, isArrayItem );
@@ -1236,13 +1335,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( Is.definedString( jsonPath ) ) {
-                objectTypeValue.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, jsonPath );
+                objectTypeValueTitle.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, jsonPath );
             }
 
             if ( !isArrayItem ) {
                 addFooterSizeStatus( bindingOptions, name, nameElement );
                 addFooterLengthStatus( bindingOptions, name, nameElement );
             }
+
+            selectItemAndCompareProperties( bindingOptions, objectTypeValueTitle, jsonPath, columnIndex, value );
         }
 
         if ( value === null ) {
@@ -1250,13 +1351,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.nullValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value undefined-or-null` : "value undefined-or-null";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "null" );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, "null" );
 
                 if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onNullRender!, bindingOptions._currentView.element, valueElement );
                 }
 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1267,13 +1368,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.undefinedValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value undefined-or-null` : "value undefined-or-null";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, "undefined" );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, "undefined" );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUndefinedRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, bindingOptions._currentView.element, valueElement );
                 }
 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1287,13 +1388,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( !bindingOptions.ignore!.lambdaValues ) {
                     valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
-                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
+                    valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, functionName.name );
     
                     if ( Is.definedFunction( bindingOptions.events!.onLambdaRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onLambdaRender!, bindingOptions._currentView.element, valueElement );
                     }
                 
-                    createComma( bindingOptions, objectTypeValue, isLastItem );
+                    createComma( bindingOptions, objectTypeValueTitle, isLastItem );
     
                 } else {
                     ignored = true;
@@ -1304,13 +1405,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( !bindingOptions.ignore!.functionValues ) {
                     valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
-                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, functionName.name );
+                    valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, functionName.name );
     
                     if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
                         Trigger.customEvent( bindingOptions.events!.onFunctionRender!, bindingOptions._currentView.element, valueElement );
                     }
                 
-                    createComma( bindingOptions, objectTypeValue, isLastItem );
+                    createComma( bindingOptions, objectTypeValueTitle, isLastItem );
     
                 } else {
                     ignored = true;
@@ -1322,7 +1423,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.booleanValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
                 allowEditing = bindingOptions.allowEditing!.booleanValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1331,7 +1432,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onBooleanRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1344,7 +1445,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const newValue: string = Convert.numberToFloatWithDecimalPlaces( value, bindingOptions.maximumDecimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newValue );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newValue );
                 allowEditing = bindingOptions.allowEditing!.floatValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1353,7 +1454,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onFloatRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1364,7 +1465,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.numberValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
                 allowEditing = bindingOptions.allowEditing!.numberValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1373,7 +1474,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onNumberRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1384,7 +1485,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
                 allowEditing = bindingOptions.allowEditing!.bigIntValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1393,7 +1494,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onBigIntRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1404,7 +1505,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.guidValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
                 allowEditing = bindingOptions.allowEditing!.guidValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1413,7 +1514,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onGuidRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1424,7 +1525,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.colorValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
                 allowEditing = bindingOptions.allowEditing!.colorValues! && !preventEditing;
 
                 if ( bindingOptions.showValueColors ) {
@@ -1437,7 +1538,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onColorRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1448,18 +1549,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.urlValues ) {
                 let newUrlValue: string = value;
-                let openButton: HTMLSpanElement = null!;
 
                 if ( bindingOptions.maximumUrlLength! > 0 && newUrlValue.length > bindingOptions.maximumUrlLength! ) {
                     newUrlValue = `${newUrlValue.substring(0, bindingOptions.maximumUrlLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newUrlValue );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newUrlValue );
                 allowEditing = bindingOptions.allowEditing!.urlValues! && !preventEditing;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
-                    openButton = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( value );
                 }
 
@@ -1469,7 +1569,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onUrlRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1480,18 +1580,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.emailValues ) {
                 let newEmailValue: string = value;
-                let openButton: HTMLSpanElement = null!;
 
                 if ( bindingOptions.maximumEmailLength! > 0 && newEmailValue.length > bindingOptions.maximumEmailLength! ) {
                     newEmailValue = `${newEmailValue.substring(0, bindingOptions.maximumEmailLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newEmailValue );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newEmailValue );
                 allowEditing = bindingOptions.allowEditing!.emailValues! && !preventEditing;
 
                 if ( bindingOptions.showEmailOpenButtons ) {
-                    openButton = DomElement.createWithHTML( objectTypeValue, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
+                    openButton = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
                     openButton.onclick = () => window.open( `mailto:${value}` );
                 }
 
@@ -1501,7 +1600,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onEmailRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1531,6 +1630,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                     ignoredDataType = true;
 
+                } else if ( bindingOptions.parse!.stringsToSymbols && Is.String.symbol( value ) ) {
+                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    ignored = true;
+                    ignoredDataType = true;
+
                 } else {
                     let newStringValue: string = value;
 
@@ -1549,7 +1653,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         assignClickEvent = false;
                     }
 
-                    valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, newStringValue );
+                    valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newStringValue );
 
                     if ( !isForEmptyProperties ) {
                         makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1558,7 +1662,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             Trigger.customEvent( bindingOptions.events!.onStringRender!, bindingOptions._currentView.element, valueElement );
                         }
                         
-                        createComma( bindingOptions, objectTypeValue, isLastItem );
+                        createComma( bindingOptions, objectTypeValueTitle, isLastItem );
                     }
                 }
 
@@ -1571,7 +1675,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
                 allowEditing = bindingOptions.allowEditing!.dateValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1580,7 +1684,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onDateRender!, bindingOptions._currentView.element, valueElement );
                 }
     
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1591,7 +1695,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.symbolValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value.toString() );
                 allowEditing = bindingOptions.allowEditing!.symbolValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1600,7 +1704,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onSymbolRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1611,7 +1715,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.regexpValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.source.toString() );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value.source.toString() );
                 allowEditing = bindingOptions.allowEditing!.regExpValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1620,7 +1724,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onRegExpRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1631,7 +1735,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.imageValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.create( objectTypeValue, "span", valueClass );
+                valueElement = DomElement.create( objectTypeValueTitle, "span", valueClass );
                 allowEditing = bindingOptions.allowEditing!.imageValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1643,7 +1747,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     Trigger.customEvent( bindingOptions.events!.onImageRender!, bindingOptions._currentView.element, valueElement );
                 }
                 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1661,7 +1765,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                 } else {
 
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? dataType : Char.empty );
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValueTitle, "span", bindingOptions.showValueColors ? dataType : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
                     let closedBraces: HTMLSpanElement = null!;
@@ -1680,11 +1784,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement;
+                    }
+
+                    if ( bindingOptions.showClosedObjectCurlyBraces ) {
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1702,7 +1808,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.setValues ) {
                 const arrayValues: any[] = Convert.setToArray( value );
-                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? dataType : Char.empty );
+                const objectTitle: HTMLElement = DomElement.create( objectTypeValueTitle, "span", bindingOptions.showValueColors ? dataType : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
                 let closedBrackets: HTMLSpanElement = null!;
@@ -1719,16 +1825,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${arrayValues.length}]` );
                 }
 
-                if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
+                }
+
+                if ( bindingOptions.showClosedArraySquaredBrackets ) {
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
 
-                let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                
+                const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true );
 
-                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
                     closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
@@ -1741,7 +1849,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.array;
 
             if ( !bindingOptions.ignore!.arrayValues ) {
-                const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? dataType : Char.empty );
+                const objectTitle: HTMLElement = DomElement.create( objectTypeValueTitle, "span", bindingOptions.showValueColors ? dataType : Char.empty );
                 const arrayTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                 let openingBracket: HTMLSpanElement = null!;
                 let closedBrackets: HTMLSpanElement = null!;
@@ -1758,16 +1866,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                     DomElement.createWithHTML( objectTitle, "span", "size", `[${value.length}]` );
                 }
 
-                if ( bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "[" ) as HTMLSpanElement;
+                }
+
+                if ( bindingOptions.showClosedArraySquaredBrackets ) {
                     closedBrackets = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
                 }
 
-                let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                
+                const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                 const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false );
 
-                if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
+                if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
                     closedBrackets.parentNode!.removeChild( closedBrackets );
                 }
@@ -1788,7 +1898,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                 } else {
 
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? dataType : Char.empty );
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValueTitle, "span", bindingOptions.showValueColors ? dataType : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
                     let closedBraces: HTMLSpanElement = null!;
@@ -1807,11 +1917,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement;
+                    }
+
+                    if ( bindingOptions.showClosedObjectCurlyBraces ) {
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
 
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1835,7 +1947,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     ignored = true;
                 } else {
 
-                    const objectTitle: HTMLElement = DomElement.create( objectTypeValue, "span", bindingOptions.showValueColors ? dataType : Char.empty );
+                    const objectTitle: HTMLElement = DomElement.create( objectTypeValueTitle, "span", bindingOptions.showValueColors ? dataType : Char.empty );
                     const objectTypeContents: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-contents" );
                     let openingBrace: HTMLSpanElement = null!;
                     let closedBraces: HTMLSpanElement = null!;
@@ -1854,11 +1966,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace = DomElement.createWithHTML( objectTitle, "span", "opening-symbol", "{" ) as HTMLSpanElement;
+                    }
+
+                    if ( bindingOptions.showClosedObjectCurlyBraces ) {
                         closedBraces = DomElement.createWithHTML( objectTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
                     }
     
-                    let coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-
+                    const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
                     const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
@@ -1876,13 +1990,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.unknownValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
-                valueElement = DomElement.createWithHTML( objectTypeValue, "span", valueClass, value.toString() );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value.toString() );
 
                 if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
                     Trigger.customEvent( bindingOptions.events!.onUnknownRender!, bindingOptions._currentView.element, valueElement );
                 }
 
-                createComma( bindingOptions, objectTypeValue, isLastItem );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
                 ignored = true;
@@ -1902,6 +2016,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     addFooterSizeStatus( bindingOptions, value, valueElement );
                     addFooterLengthStatus( bindingOptions, value, valueElement );
                     addFooterDataTypeStatus( bindingOptions, dataType, valueElement );
+                    renderValueContextMenuItems( bindingOptions, valueElement, allowEditing, data, value, name, isArrayItem, openButton );
                 }
 
                 if ( Is.defined( typeElement ) ) {
@@ -1971,8 +2086,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyNameEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, propertyName: HTMLSpanElement, isArrayItem: boolean ) : void {
         if ( bindingOptions.allowEditing!.propertyNames ) {
-            propertyName.ondblclick = ( e: MouseEvent ) => {
-                DomElement.cancelBubble( e );
+            propertyName.ondblclick = ( ev: MouseEvent ) => {
+                DomElement.cancelBubble( ev );
 
                 let originalArrayIndex: number = 0;
                 let statusBarMessage: string = null!;
@@ -2006,18 +2121,18 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
                 };
     
-                propertyName.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code === KeyCode.escape ) {
-                        e.preventDefault();
+                propertyName.onkeydown = ( ev: KeyboardEvent ) => {
+                    if ( ev.code === KeyCode.escape ) {
+                        ev.preventDefault();
                         propertyName.setAttribute( "contenteditable", "false" );
 
-                    } else if ( e.code === KeyCode.enter ) {
-                        e.preventDefault();
+                    } else if ( ev.code === KeyCode.enter ) {
+                        ev.preventDefault();
     
                         const newPropertyName: string = propertyName.innerText;
 
                         if ( isArrayItem ) {
-                            if ( !isNaN( +newPropertyName ) ) {
+                            if ( Is.definedString( newPropertyName ) && !isNaN( +newPropertyName ) ) {
                                 let newArrayIndex: number = +newPropertyName;
 
                                 if ( !bindingOptions.useZeroIndexingForArrays ) {
@@ -2030,6 +2145,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                                     Arr.moveIndex( data, originalArrayIndex, newArrayIndex );
                                     Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
                                 }
+                                
+                            } else {
+                                data.splice( Arr.getIndexFromBrackets( originalPropertyName ), 1 );
+    
+                                statusBarMessage = _configuration.text!.itemDeletedText!;
                             }
 
                         } else {
@@ -2064,103 +2184,113 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function makePropertyValueEditable( bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, allowEditing: boolean, openButton: HTMLSpanElement = null! ) : void {
         if ( allowEditing ) {
-            propertyValue.ondblclick = ( e: MouseEvent ) => {
-                let statusBarMessage: string = null!;
-
-                DomElement.cancelBubble( e );
-
-                clearTimeout( bindingOptions._currentView.valueClickTimerId );
-
-                bindingOptions._currentView.valueClickTimerId = 0;
-                bindingOptions._currentView.editMode = true;
-
-                propertyValue.classList.add( "editable" );
-                propertyValue.setAttribute( "contenteditable", "true" );
-
-                if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDateTimeEditing ) {
-                    propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
-                } else if ( Is.definedRegExp( originalPropertyValue ) ) {
-                    propertyValue.innerText = originalPropertyValue.source;
-                } else if ( Is.definedSymbol( originalPropertyValue ) ) {
-                    propertyValue.innerText = Convert.symbolToString( originalPropertyValue );
-                } else if ( Is.definedImage( originalPropertyValue ) ) {
-                    propertyValue.innerText = originalPropertyValue.src;
-                } else {
-                    propertyValue.innerText = originalPropertyValue.toString();
-                }
-                
-                propertyValue.focus();
-
-                DomElement.selectAllText( propertyValue );
-
-                if ( Is.defined( openButton ) ) {
-                    openButton.parentNode!.removeChild( openButton );
-                }
-
-                propertyValue.onblur = () => {
-                    renderControlContainer( bindingOptions, false );
-
-                    if ( Is.definedString( statusBarMessage ) ) {
-                        setFooterStatusText( bindingOptions, statusBarMessage );
-                    }
-                };
-    
-                propertyValue.onkeydown = ( e: KeyboardEvent ) => {
-                    if ( e.code === KeyCode.escape ) {
-                        e.preventDefault();
-                        propertyValue.setAttribute( "contenteditable", "false" );
-                        
-                    } else if ( e.code === KeyCode.enter ) {
-                        e.preventDefault();
-    
-                        const newPropertyValue: string = propertyValue.innerText;
-    
-                        if ( newPropertyValue.trim() === Char.empty ) {
-                            if ( isArrayItem ) {
-                                data.splice( Arr.getIndexFromBrackets( originalPropertyName ), 1 );
-                            } else {
-                                delete data[ originalPropertyName ];
-                            }
-
-                            statusBarMessage = _configuration.text!.itemDeletedText!;
-    
-                        } else {
-                            let newDataPropertyValue: any = Convert.stringToDataTypeValue( originalPropertyValue, newPropertyValue );
-
-                            if ( newDataPropertyValue !== null ) {
-                                if ( isArrayItem ) {
-                                    data[ Arr.getIndexFromBrackets( originalPropertyName ) ] = newDataPropertyValue;
-                                } else {
-                                    data[ originalPropertyName ] = newDataPropertyValue;
-                                }
-
-                                statusBarMessage = _configuration.text!.valueUpdatedText!;
-
-                                Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
-                            }
-                        }
-
-                        propertyValue.setAttribute( "contenteditable", "false" );
-                    }
-                };
+            propertyValue.ondblclick = ( ev: MouseEvent ) => {
+                enableValueEditingMode( ev, bindingOptions, data, originalPropertyName, originalPropertyValue, propertyValue, isArrayItem, openButton );
             };
         }
+    }
+
+    function enableValueEditingMode( ev: MouseEvent, bindingOptions: BindingOptions, data: any, originalPropertyName: string, originalPropertyValue: any, propertyValue: HTMLSpanElement, isArrayItem: boolean, openButton: HTMLSpanElement = null! ) : void {
+        let statusBarMessage: string = null!;
+
+        DomElement.cancelBubble( ev );
+
+        clearTimeout( bindingOptions._currentView.valueClickTimerId );
+
+        bindingOptions._currentView.valueClickTimerId = 0;
+        bindingOptions._currentView.editMode = true;
+
+        propertyValue.classList.add( "editable" );
+        propertyValue.setAttribute( "contenteditable", "true" );
+
+        if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDates ) {
+            propertyValue.innerText = JSON.stringify( originalPropertyValue ).replace( /['"]+/g, Char.empty );
+        } else if ( Is.definedRegExp( originalPropertyValue ) ) {
+            propertyValue.innerText = originalPropertyValue.source;
+        } else if ( Is.definedSymbol( originalPropertyValue ) ) {
+            propertyValue.innerText = Convert.symbolToString( originalPropertyValue );
+        } else if ( Is.definedImage( originalPropertyValue ) ) {
+            propertyValue.innerText = originalPropertyValue.src;
+        } else {
+            propertyValue.innerText = originalPropertyValue.toString();
+        }
+        
+        propertyValue.focus();
+
+        DomElement.selectAllText( propertyValue );
+
+        if ( Is.defined( openButton ) ) {
+            openButton.parentNode!.removeChild( openButton );
+        }
+
+        propertyValue.onblur = () => {
+            renderControlContainer( bindingOptions, false );
+
+            if ( Is.definedString( statusBarMessage ) ) {
+                setFooterStatusText( bindingOptions, statusBarMessage );
+            }
+        };
+
+        propertyValue.onkeydown = ( ev: KeyboardEvent ) => {
+            if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
+                propertyValue.setAttribute( "contenteditable", "false" );
+                
+            } else if ( ev.code === KeyCode.enter ) {
+                ev.preventDefault();
+
+                const newPropertyValue: string = propertyValue.innerText;
+
+                if ( newPropertyValue.trim() === Char.empty ) {
+                    if ( isArrayItem ) {
+                        data.splice( Arr.getIndexFromBrackets( originalPropertyName ), 1 );
+                    } else {
+                        delete data[ originalPropertyName ];
+                    }
+
+                    statusBarMessage = _configuration.text!.itemDeletedText!;
+
+                } else {
+                    let newDataPropertyValue: any = Convert.stringToDataTypeValue( originalPropertyValue, newPropertyValue );
+
+                    if ( newDataPropertyValue !== null ) {
+                        if ( isArrayItem ) {
+                            data[ Arr.getIndexFromBrackets( originalPropertyName ) ] = newDataPropertyValue;
+                        } else {
+                            data[ originalPropertyName ] = newDataPropertyValue;
+                        }
+
+                        statusBarMessage = _configuration.text!.valueUpdatedText!;
+
+                        Trigger.customEvent( bindingOptions.events!.onJsonEdit!, bindingOptions._currentView.element );
+                    }
+                }
+
+                propertyValue.setAttribute( "contenteditable", "false" );
+            }
+        };
     }
 
     function addValueClickEvent( bindingOptions: BindingOptions, valueElement: HTMLElement, value: any, type: string, allowEditing: boolean ) : void {
         if ( Is.definedFunction( bindingOptions.events!.onValueClick ) ) {
             valueElement.onclick = () => {
+                let clickValue: any = value;
+
+                if ( bindingOptions.convertClickedValuesToString ) {
+                    clickValue = JSON.stringify( Convert.toJsonStringifyClone( value, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
+                }
+
                 if ( allowEditing ) {
                     bindingOptions._currentView.valueClickTimerId = setTimeout( () => {
                         if ( !bindingOptions._currentView.editMode ) {
-                            Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
+                            Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, clickValue, type );
                         }
                     }, bindingOptions.editingValueClickDelay );
 
                 } else {
                     valueElement.ondblclick = DomElement.cancelBubble;
 
-                    Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, value, type );
+                    Trigger.customEvent( bindingOptions.events!.onValueClick!, bindingOptions._currentView.element, clickValue, type );
                 }
             };
 
@@ -2169,15 +2299,17 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedBraces: HTMLElement, dataLength: number, dataType: string ) : void {
+    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedSymbols: HTMLElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
+        const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutProcessingIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
         }
 
-        const hideFunc: Function = () : void => {
+        const hideFunc: Function = ( updateLineNumbers: boolean = true ) : void => {
             objectTypeContents.style.display = "none";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
 
@@ -2189,16 +2321,28 @@ type JsonTreeData = Record<string, BindingOptions>;
                 openingSymbol.style.display = "none";
             }
 
-            if ( Is.defined( closedBraces ) ) {
-                closedBraces.style.display = "inline-block";
+            if ( Is.defined( closedSymbols ) ) {
+                closedSymbols.style.display = "inline-block";
             }
 
             if ( Is.defined( coma ) ) {
                 coma.style.display = "inline-block";
             }
+
+            if ( updateLineNumbers ) {
+                renderControlColumnLineNumbers( columnLayoutProcessingIndex, bindingOptions );
+            }
         };
 
-        const showFunc: Function = () : void => {
+        const showFunc: Function = ( ev: MouseEvent, updateLineNumbers: boolean = true ) : void => {
+            if ( Is.defined( ev ) ) {
+                DomElement.cancelBubble( ev );
+
+                if ( !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
+            }
+            
             objectTypeContents.style.display = "block";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
@@ -2210,20 +2354,32 @@ type JsonTreeData = Record<string, BindingOptions>;
                 openingSymbol.style.display = "inline-block";
             }
 
-            if ( Is.defined( closedBraces ) ) {
-                closedBraces.style.display = "none";
+            if ( Is.defined( closedSymbols ) ) {
+                closedSymbols.style.display = "none";
             }
 
             if ( Is.defined( coma ) ) {
                 coma.style.display = "none";
             }
+
+            if ( updateLineNumbers ) {
+                renderControlColumnLineNumbers( columnLayoutProcessingIndex, bindingOptions );
+            }
         };
 
-        const conditionFunc: Function = ( condition: boolean ) : void => {
+        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean ) : void => {
+            if ( Is.defined( ev ) ) {
+                DomElement.cancelBubble( ev );
+
+                if ( !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
+            }
+
             if ( condition ) {
                 hideFunc();
             } else {
-                showFunc();
+                showFunc( null );
             }
         }
 
@@ -2251,11 +2407,16 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = () => conditionFunc( arrow.className === "down-arrow" );
+            arrow.onclick = ( ev: MouseEvent ) => conditionFunc( ev, arrow.className === "down-arrow" );
             arrow.ondblclick = DomElement.cancelBubble;
         }
 
-        conditionFunc( isClosed );
+        if ( Is.defined( closedSymbols ) ) {
+            closedSymbols.onclick = ( ev: MouseEvent ) => showFunc( ev );
+            closedSymbols.ondblclick = DomElement.cancelBubble;
+        }
+
+        conditionFunc( null, isClosed, false );
 
         bindingOptions._currentView.contentPanelsIndex++;
     }
@@ -2271,7 +2432,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
-        let symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
+        const symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
         if ( ( addNoArrow && bindingOptions.showArrowToggles ) || bindingOptions.showOpenedObjectArrayBorders ) {
             DomElement.create( symbolContainer, "div", "no-arrow" );
@@ -2280,6 +2441,177 @@ type JsonTreeData = Record<string, BindingOptions>;
         DomElement.createWithHTML( symbolContainer, "div", "object-type-end", symbol );
 
         createComma( bindingOptions, symbolContainer, isLastItem )
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Selected Items / Property Comparisons
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function selectItemAndCompareProperties( bindingOptions: BindingOptions, objectTypeValueTitle: HTMLElement, jsonPath: string, currentColumnIndex: number, data: any ) : void {
+        objectTypeValueTitle.onclick = ( ev: MouseEvent ) => {
+            DomElement.cancelBubble( ev );
+
+            const itemIsSelected: boolean = objectTypeValueTitle.classList.contains( "highlight-selected" ) && _key_Control_Pressed;
+            const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+            const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+    
+            let elementsHighlighted: boolean = false;
+
+            if ( !_key_Control_Pressed ) {
+                bindingOptions._currentView.selectedValues = [];
+            }
+    
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+                const valueElementsLength: number = valueElements.length;
+    
+                for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                    const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+    
+                    if ( !_key_Control_Pressed ) {
+                        valueElement.classList.remove( "highlight-selected" );
+                        valueElement.classList.remove( "highlight-compare" );
+                    }
+    
+                    if ( isCompareColumnValuesEnabled( bindingOptions ) && columnIndex !== currentColumnIndex ) {
+                        const valueJsonPath: string = valueElement.getAttribute( Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME )!;
+    
+                        if ( Is.definedString( valueJsonPath ) && valueJsonPath === jsonPath ) {
+                            if ( !itemIsSelected ) {
+                                valueElement.classList.add( "highlight-compare" );
+                            } else {
+                                valueElement.classList.remove( "highlight-compare" );
+                            }
+                            
+                            elementsHighlighted = true;
+                        }
+                    }
+                }
+    
+                if ( elementsHighlighted ) {
+                    renderControlColumnLineNumbers( columnIndex, bindingOptions );
+                }
+            }
+    
+            if ( !itemIsSelected ) {
+                objectTypeValueTitle.classList.add( "highlight-selected" );
+                bindingOptions._currentView.selectedValues.push( data );
+
+            } else {
+                objectTypeValueTitle.classList.remove( "highlight-selected" );
+                bindingOptions._currentView.selectedValues.splice( bindingOptions._currentView.selectedValues.indexOf( data ), 1 );
+            }
+
+            renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
+        };
+    }
+
+    function removeSelectedItemsAndComparedProperties( bindingOptions: BindingOptions ) : void {
+        if ( bindingOptions._currentView.selectedValues.length > 0 ) {
+            const columns: ColumnLayout[] = bindingOptions._currentView.currentContentColumns;
+            const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
+    
+            bindingOptions._currentView.selectedValues = [];
+    
+            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+                let classesRemoved: boolean = false;
+    
+                const valueElements: NodeListOf<Element> = columns[ columnIndex ].column.querySelectorAll( ".object-type-value-title" );
+                const valueElementsLength: number = valueElements.length;
+    
+                for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+                    const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
+    
+                    if ( valueElement.classList.contains( "highlight-selected" ) ) {
+                        valueElement.classList.remove( "highlight-selected" );
+                        classesRemoved = true;
+                    }
+    
+                    if ( isCompareColumnValuesEnabled( bindingOptions ) && valueElement.classList.contains( "highlight-compare" ) ) {
+                        valueElement.classList.remove( "highlight-compare" );
+                        classesRemoved = true;
+                    }
+                }
+    
+                if ( classesRemoved ) {
+                    renderControlColumnLineNumbers( columnIndex, bindingOptions );
+                }
+            }
+        }
+    }
+
+    function isCompareColumnValuesEnabled( bindingOptions: BindingOptions ) : boolean {
+        return bindingOptions.paging!.enabled! && bindingOptions.paging!.columnsPerPage! > 1 && bindingOptions.paging!.allowComparisons!;
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Value Context Menu
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderValueContextMenuItems( bindingOptions: BindingOptions, valueElement: HTMLSpanElement, allowEditing: boolean, data: any, value: any, propertyName: string, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
+        valueElement.oncontextmenu = ( ev: MouseEvent ) => {
+            DomElement.cancelBubble( ev );
+
+            bindingOptions._currentView.contextMenu.innerHTML = Char.empty;
+
+            if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
+                const editMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.editSymbolButtonText!, _configuration.text!.editButtonText! );
+                editMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemEdit( ev, bindingOptions, valueElement, data, propertyName, value, isArrayItem, openButton );
+            }
+            
+            const copyMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.copyButtonSymbolText!, _configuration.text!.copyButtonText! );
+            copyMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemCopy( ev, bindingOptions, value );
+
+            if ( allowEditing && bindingOptions._currentView.selectedValues.length <= 1 ) {
+                const removeMenuItem: HTMLElement = ContextMenu.addMenuItem( bindingOptions, _configuration.text!.removeSymbolButtonText!, _configuration.text!.removeButtonText! );
+                removeMenuItem.onclick = ( ev: MouseEvent )  => onContextMenuItemRemove( ev, bindingOptions, data, propertyName, isArrayItem );
+            }
+
+            DomElement.showElementAtMousePosition( ev, bindingOptions._currentView.contextMenu, 0 );
+        };
+    }
+
+    function onContextMenuItemEdit( ev: MouseEvent, bindingOptions: BindingOptions, valueElement: HTMLSpanElement, data: any, propertyName: string, value: any, isArrayItem: boolean, openButton: HTMLSpanElement ) : void {
+        DomElement.cancelBubble( ev );
+
+        enableValueEditingMode( ev, bindingOptions, data, propertyName, value, valueElement, isArrayItem, openButton );
+
+        ContextMenu.hide( bindingOptions );
+    }
+
+    function onContextMenuItemCopy( ev: MouseEvent, bindingOptions: BindingOptions, value: any ) : void {
+        DomElement.cancelBubble( ev );
+
+        let copyValue: any = value;
+
+        if ( bindingOptions._currentView.selectedValues.length !== 0 ) {
+            copyValue = bindingOptions._currentView.selectedValues;
+        }
+
+        onCopy( bindingOptions, copyValue );
+
+        ContextMenu.hide( bindingOptions );
+    }
+
+    function onContextMenuItemRemove( ev: MouseEvent, bindingOptions: BindingOptions, data: any, propertyName: string, isArrayItem: boolean ) : void {
+        DomElement.cancelBubble( ev );
+
+        if ( isArrayItem ) {
+            data.splice( Arr.getIndexFromBrackets( propertyName ), 1 );
+        } else {
+            delete data[ propertyName ];
+        }
+
+        ContextMenu.hide( bindingOptions );
+
+        renderControlContainer( bindingOptions, false );
+        setFooterStatusText( bindingOptions, _configuration.text!.itemDeletedText! );
     }
 
 
@@ -2305,7 +2637,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dragAndDropBackground.ondragover = DomElement.cancelBubble;
             dragAndDropBackground.ondragenter = DomElement.cancelBubble;
             dragAndDropBackground.ondragleave = () => dragAndDropBackground.style.display = "none";
-            dragAndDropBackground.ondrop = ( e: DragEvent ) => onDropFiles( e, bindingOptions );
+            dragAndDropBackground.ondrop = ( ev: DragEvent ) => onDropFiles( ev, bindingOptions );
         }
     }
 
@@ -2315,13 +2647,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onDropFiles( e: DragEvent, bindingOptions: BindingOptions ) : void {
-        DomElement.cancelBubble( e );
+    function onDropFiles( ev: DragEvent, bindingOptions: BindingOptions ) : void {
+        DomElement.cancelBubble( ev );
 
         bindingOptions._currentView.dragAndDropBackground.style.display = "none";
 
-        if ( Is.defined( window.FileReader ) && e.dataTransfer!.files.length > 0 ) {
-            importFromFiles( e.dataTransfer!.files, bindingOptions );
+        if ( Is.defined( window.FileReader ) && ev.dataTransfer!.files.length > 0 ) {
+            importFromFiles( ev.dataTransfer!.files, bindingOptions );
         }
     }
 
@@ -2335,7 +2667,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             filesData.push( data );
 
             if ( filesRead === filesLength ) {
-                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
                 bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
     
@@ -2361,8 +2693,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         reader.onloadend = () => onFileLoad( renderData );
     
-        reader.onload = ( e: ProgressEvent<FileReader> ) => {
-            const json: StringToJson = Convert.jsonStringToObject( e.target!.result, _configuration );
+        reader.onload = ( ev: ProgressEvent<FileReader> ) => {
+            const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
                 renderData = json.object;
@@ -2380,13 +2712,13 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function onExport( bindingOptions: BindingOptions ) : void {
-        let contents: string = JSON.stringify( bindingOptions.data, _jsonStringifyReplacer, bindingOptions.jsonIndentSpaces );
+        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( bindingOptions.data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );
             tempLink.style.display = "none";
             tempLink.setAttribute( "target", "_blank" );
-            tempLink.setAttribute( "href", `data:application/json;charset=utf-8,${encodeURIComponent(contents)}` );
+            tempLink.setAttribute( "href", `data:application/json;charset=utf-8,${encodeURIComponent( contents )}` );
             tempLink.setAttribute( "download", getExportFilename( bindingOptions ) );
             tempLink.click();
             
@@ -2414,41 +2746,61 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function buildDocumentEvents( bindingOptions: BindingOptions, addEvents: boolean = true ) : void {
         const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
+        const windowFunc: Function = addEvents ? window.addEventListener : window.removeEventListener;
 
-        documentFunc( "keydown", ( e: KeyboardEvent ) => onWindowKeyDown( e, bindingOptions ) );
+        documentFunc( "keydown", ( ev: KeyboardEvent ) => onDocumentKeyDown( ev, bindingOptions ) );
+        documentFunc( "keyup", ( ev: KeyboardEvent ) => onDocumentKeyUp( ev ) );
+        documentFunc( "contextmenu", () => onWindowContextMenuOrClick( bindingOptions ) );
+        windowFunc( "click", () => onWindowContextMenuOrClick( bindingOptions ) );
+        windowFunc( "focus", () => _key_Control_Pressed = false );
     }
 
-    function onWindowKeyDown( e: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+    function onWindowContextMenuOrClick( bindingOptions: BindingOptions ) : void {
+        if ( !_key_Control_Pressed ) {
+            removeSelectedItemsAndComparedProperties( bindingOptions );
+        }
+    }
+
+    function onDocumentKeyDown( ev: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+        _key_Control_Pressed = isCommandKey( ev );
+
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
-            if ( isCommandKey( e ) && e.code === KeyCode.f11 ) {
-                e.preventDefault();
+            if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
+                ev.preventDefault();
                 onTitleBarDblClick( bindingOptions );
 
-            } else if ( e.code === KeyCode.left ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.left ) {
+                ev.preventDefault();
                 onBackPage( bindingOptions );
 
-            } else if ( e.code === KeyCode.right ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.right ) {
+                ev.preventDefault();
                 onNextPage( bindingOptions );
 
-            } else if ( e.code === KeyCode.up ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.up ) {
+                ev.preventDefault();
                 onCloseAll( bindingOptions );
 
-            } else if ( e.code === KeyCode.down ) {
-                e.preventDefault();
+            } else if ( ev.code === KeyCode.down ) {
+                ev.preventDefault();
                 onOpenAll( bindingOptions );
 
-            } else if ( e.code === KeyCode.escape ) {
-                e.preventDefault();
-                onSideMenuClose( bindingOptions );
+            } else if ( ev.code === KeyCode.escape ) {
+                ev.preventDefault();
+
+                if ( !onSideMenuClose( bindingOptions ) && !_key_Control_Pressed ) {
+                    removeSelectedItemsAndComparedProperties( bindingOptions );
+                }
             }
         }
     }
 
-    function isCommandKey( e: KeyboardEvent ) : boolean {
-        return e.ctrlKey || e.metaKey;
+    function onDocumentKeyUp( ev: KeyboardEvent ) : void {
+        _key_Control_Pressed = isCommandKey( ev );
+    }
+
+    function isCommandKey( ev: KeyboardEvent ) : boolean {
+        return ev.ctrlKey || ev.metaKey;
     }
 
 
@@ -2473,7 +2825,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         buildDocumentEvents( bindingOptions, false );
 
         ToolTip.assignToEvents( bindingOptions, false );
+        ContextMenu.assignToEvents( bindingOptions, false );
         ToolTip.remove( bindingOptions );
+        ContextMenu.remove( bindingOptions );
         Trigger.customEvent( bindingOptions.events!.onDestroy!, bindingOptions._currentView.element );
     }
 
@@ -2575,7 +2929,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
 
-                result = Math.ceil( ( bindingOptions._currentView.dataArrayCurrentIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
+                result = Math.ceil( ( bindingOptions._currentView.currentDataArrayPageIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             }
     
             return result;
@@ -2605,7 +2959,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
     
-                bindingOptions._currentView.dataArrayCurrentIndex = 0;
+                bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
                 bindingOptions.data = jsonObject;
 
@@ -2737,7 +3091,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.0.0";
+            return "4.1.0";
         }
     };
 

@@ -30,7 +30,6 @@ $minimum-width: 768px;
         padding-bottom: 5px;
         padding-left: 9px;
         padding-right: 9px;
-        margin: 3px;
         outline: none;
         transition: var(--json-tree-js-transition);
 
@@ -85,11 +84,11 @@ $minimum-width: 768px;
     }
 
     span.string {
-        color: var(--json-tree-js-color-string)
+        color: var(--json-tree-js-color-string);
     }
 
     span.date {
-        color: var(--json-tree-js-color-date)
+        color: var(--json-tree-js-color-date);
     }
 
     span.symbol {

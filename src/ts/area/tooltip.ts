@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        tooltip.ts
- * @version     v4.0.0
+ * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -27,8 +27,8 @@ export namespace ToolTip {
     }
 
     export function assignToEvents( bindingOptions: BindingOptions, add: boolean = true ) : void {
-        let addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
-        let addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
+        const addEventListener_Window: Function = add ? window.addEventListener : window.removeEventListener;
+        const addEventListener_Document: Function = add ? document.addEventListener : document.removeEventListener;
 
         addEventListener_Window( "mousemove", () => hide( bindingOptions ) );
         addEventListener_Document( "scroll", () => hide( bindingOptions ) );
@@ -36,12 +36,12 @@ export namespace ToolTip {
 
     export function add( element: HTMLElement, bindingOptions: BindingOptions, text: string, tooltipClass: string = "jsontree-js-tooltip" ) : void {
         if ( element !== null ) {
-            element.addEventListener( "mousemove", ( e: MouseEvent ) => show( e, bindingOptions, text, tooltipClass ) );
+            element.addEventListener( "mousemove", ( ev: MouseEvent ) => show( ev, bindingOptions, text, tooltipClass ) );
         }
     }
 
-    export function show( e: MouseEvent, bindingOptions: BindingOptions, text: string, tooltipClass: string ) : void {
-        DomElement.cancelBubble( e );
+    export function show( ev: MouseEvent, bindingOptions: BindingOptions, text: string, tooltipClass: string ) : void {
+        DomElement.cancelBubble( ev );
         hide( bindingOptions );
 
         bindingOptions._currentView.tooltipTimerId = setTimeout( () => {
@@ -49,7 +49,7 @@ export namespace ToolTip {
             bindingOptions._currentView.tooltip.innerHTML = text;
             bindingOptions._currentView.tooltip.style.display = "block";
 
-            DomElement.showElementAtMousePosition( e, bindingOptions._currentView.tooltip, bindingOptions.tooltip!.offset! );
+            DomElement.showElementAtMousePosition( ev, bindingOptions._currentView.tooltip, bindingOptions.tooltip!.offset! );
         }, bindingOptions.tooltip!.delay );
     }
 
@@ -68,7 +68,7 @@ export namespace ToolTip {
 
     export function remove( bindingOptions: BindingOptions ) : void {
         if ( Is.defined( bindingOptions._currentView.tooltip ) ) {
-            bindingOptions._currentView.tooltip.parentNode!.removeChild( bindingOptions._currentView.tooltip )
+            bindingOptions._currentView.tooltip.parentNode!.removeChild( bindingOptions._currentView.tooltip );
         }
     }
 }

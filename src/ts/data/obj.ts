@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        obj.ts
- * @version     v4.0.0
+ * @version     v4.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -38,5 +38,12 @@ export namespace Obj {
         }
 
         return properties;
+    }
+
+    export function createFromValue( value: any ) : any {
+        const object: any = {};
+        object[ crypto.randomUUID() ] = value;
+
+        return object;
     }
 }
