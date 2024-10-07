@@ -322,6 +322,8 @@ function getData() {
                 value3: Symbol( "id2" )
             }
         },
+        true,
+        false
     ]
 }
 

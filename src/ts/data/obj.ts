@@ -39,4 +39,11 @@ export namespace Obj {
 
         return properties;
     }
+
+    export function createFromValue( value: any ) : any {
+        const object: any = {};
+        object[ crypto.randomUUID() ] = value;
+
+        return object;
+    }
 }

@@ -241,6 +241,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 renderObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
             } else if ( Is.definedObject( data ) ) {
                 renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
+            } else {
+                renderObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
             }
 
             renderControlColumnLineNumbers( bindingOptions._currentView.currentColumnBuildingIndex, bindingOptions );
