@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -3091,7 +3091,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.1.0";
+            return "4.2.0";
         }
     };
 
