@@ -2741,19 +2741,19 @@ type JsonTreeData = Record<string, BindingOptions>;
         const documentFunc: Function = addEvents ? document.addEventListener : document.removeEventListener;
         const windowFunc: Function = addEvents ? window.addEventListener : window.removeEventListener;
 
-        documentFunc( "keydown", ( ev: KeyboardEvent ) => onWindowKeyDown( ev, bindingOptions ) );
-        documentFunc( "keyup", ( ev: KeyboardEvent ) => onWindowKeyUp( ev ) );
-        documentFunc( "contextmenu", () => onDocumentContextMenuOrClick( bindingOptions ) );
-        windowFunc( "click", () => onDocumentContextMenuOrClick( bindingOptions ) );
+        documentFunc( "keydown", ( ev: KeyboardEvent ) => onDocumentKeyDown( ev, bindingOptions ) );
+        documentFunc( "keyup", ( ev: KeyboardEvent ) => onDocumentKeyUp( ev ) );
+        documentFunc( "contextmenu", () => onWindowContextMenuOrClick( bindingOptions ) );
+        windowFunc( "click", () => onWindowContextMenuOrClick( bindingOptions ) );
     }
 
-    function onDocumentContextMenuOrClick( bindingOptions: BindingOptions ) : void {
+    function onWindowContextMenuOrClick( bindingOptions: BindingOptions ) : void {
         if ( !_key_Control_Pressed ) {
             removeSelectedItemsAndComparedProperties( bindingOptions );
         }
     }
 
-    function onWindowKeyDown( ev: KeyboardEvent, bindingOptions: BindingOptions ) : void {
+    function onDocumentKeyDown( ev: KeyboardEvent, bindingOptions: BindingOptions ) : void {
         _key_Control_Pressed = isCommandKey( ev );
 
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
@@ -2787,7 +2787,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onWindowKeyUp( ev: KeyboardEvent ) : void {
+    function onDocumentKeyUp( ev: KeyboardEvent ) : void {
         _key_Control_Pressed = isCommandKey( ev );
     }
 
