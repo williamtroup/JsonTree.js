@@ -557,6 +557,7 @@ div.json-tree-js div.contents div.contents-column-multiple {
   padding-right: var(--json-tree-js-spacing);
   margin-right: var(--json-tree-js-spacing);
   white-space: nowrap;
+  text-align: left;
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
