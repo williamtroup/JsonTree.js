@@ -3245,11 +3245,12 @@ var ContextMenu;
     }
     function we(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
-        const o = t ? window.addEventListener : window.removeEventListener;
+        const l = t ? window.addEventListener : window.removeEventListener;
         n("keydown", (t => he(t, e)));
         n("keyup", (e => De(e)));
         n("contextmenu", (() => ye(e)));
-        o("click", (() => ye(e)));
+        l("click", (() => ye(e)));
+        l("focus", (() => o = false));
     }
     function ye(e) {
         if (!o) {

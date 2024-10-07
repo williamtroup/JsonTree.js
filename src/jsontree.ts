@@ -2747,6 +2747,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         documentFunc( "keyup", ( ev: KeyboardEvent ) => onDocumentKeyUp( ev ) );
         documentFunc( "contextmenu", () => onWindowContextMenuOrClick( bindingOptions ) );
         windowFunc( "click", () => onWindowContextMenuOrClick( bindingOptions ) );
+        windowFunc( "focus", () => _key_Control_Pressed = false );
     }
 
     function onWindowContextMenuOrClick( bindingOptions: BindingOptions ) : void {
