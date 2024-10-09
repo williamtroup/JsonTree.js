@@ -150,10 +150,10 @@ var Is;
         return t.test(e);
     }
     e.definedEmail = w;
-    function h(e, t = 1) {
+    function y(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = h;
+    e.invalidOptionArray = y;
 })(Is || (Is = {}));
 
 var Convert2;
@@ -557,6 +557,15 @@ var DomElement;
         return t;
     }
     e.getOffset = c;
+    function d(e, t, n = false) {
+        const o = getComputedStyle(e);
+        let l = o.getPropertyValue(t);
+        if (n) {
+            l = parseFloat(l);
+        }
+        return l;
+    }
+    e.getStyleValueByName = d;
 })(DomElement || (DomElement = {}));
 
 var Str;
@@ -1680,7 +1689,7 @@ var ContextMenu;
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.openAllButtonText);
             const o = DomElement.createWithHTML(i, "button", "close-all", e.text.closeAllButtonSymbolText);
-            o.onclick = () => h(t, l);
+            o.onclick = () => y(t, l);
             o.ondblclick = DomElement.cancelBubble;
             ToolTip.add(o, t, e.text.closeAllButtonText);
         }
@@ -1691,7 +1700,7 @@ var ContextMenu;
         }
         if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
             const n = DomElement.createWithHTML(i, "button", "remove", e.text.removeSymbolButtonText);
-            n.onclick = () => y(t, l);
+            n.onclick = () => h(t, l);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.removeButtonText);
         }
@@ -1702,8 +1711,10 @@ var ContextMenu;
             ToolTip.add(n, t, e.text.switchToPagesText);
         }
         if (i.innerHTML !== "") {
+            const e = DomElement.getStyleValueByName(n, "padding-left", true);
             t._currentView.currentContentColumns[r].controlButtons = i;
             n.style.minHeight = `${i.offsetHeight}px`;
+            n.style.paddingRight = `${i.offsetWidth + e}px`;
         } else {
             n.removeChild(i);
         }
@@ -1721,7 +1732,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function h(e, t) {
+    function y(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
@@ -1730,7 +1741,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function y(t, n) {
+    function h(t, n) {
         if (t.paging.enabled) {
             t.data.splice(n, 1);
             if (n === t._currentView.currentDataArrayPageIndex && t._currentView.currentDataArrayPageIndex > 0) {
@@ -2213,8 +2224,8 @@ var ContextMenu;
         let T = false;
         let b = null;
         let w = DomElement.create(f, "span");
-        let h = false;
-        let y = null;
+        let y = false;
+        let h = null;
         const D = !Is.definedString(l);
         let V = true;
         let v = null;
@@ -2237,7 +2248,7 @@ var ContextMenu;
             d.classList.add("last-item");
         }
         if (o.showDataTypes && !D) {
-            y = DomElement.createWithHTML(f, "span", o.showValueColors ? "data-type-color" : "data-type", "");
+            h = DomElement.createWithHTML(f, "span", o.showValueColors ? "data-type-color" : "data-type", "");
         }
         if (Is.defined(w) && !D && o.showValueColors && o.showPropertyNameAndIndexColors) {
             w.classList.add(u);
@@ -2314,8 +2325,8 @@ var ContextMenu;
             if (!o.ignore.booleanValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                h = o.allowEditing.booleanValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.booleanValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, o._currentView.element, p);
                 }
@@ -2329,8 +2340,8 @@ var ContextMenu;
                 const e = Convert2.numberToFloatWithDecimalPlaces(r, o.maximumDecimalPlaces);
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, e);
-                h = o.allowEditing.floatValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.floatValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, o._currentView.element, p);
                 }
@@ -2343,8 +2354,8 @@ var ContextMenu;
             if (!o.ignore.numberValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                h = o.allowEditing.numberValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.numberValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, o._currentView.element, p);
                 }
@@ -2357,8 +2368,8 @@ var ContextMenu;
             if (!o.ignore.bigintValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                h = o.allowEditing.bigIntValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.bigIntValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, p);
                 }
@@ -2371,8 +2382,8 @@ var ContextMenu;
             if (!o.ignore.guidValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                h = o.allowEditing.guidValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.guidValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, o._currentView.element, p);
                 }
@@ -2385,11 +2396,11 @@ var ContextMenu;
             if (!o.ignore.colorValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                h = o.allowEditing.colorValues && !c;
+                y = o.allowEditing.colorValues && !c;
                 if (o.showValueColors) {
                     p.style.color = r;
                 }
-                X(o, t, l, r, p, s, h);
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, o._currentView.element, p);
                 }
@@ -2406,12 +2417,12 @@ var ContextMenu;
                 }
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, n);
-                h = o.allowEditing.urlValues && !c;
+                y = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
                     v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(r);
                 }
-                X(o, t, l, r, p, s, h, v);
+                X(o, t, l, r, p, s, y, v);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, o._currentView.element, p);
                 }
@@ -2428,12 +2439,12 @@ var ContextMenu;
                 }
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, n);
-                h = o.allowEditing.emailValues && !c;
+                y = o.allowEditing.emailValues && !c;
                 if (o.showEmailOpenButtons) {
                     v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(`mailto:${r}`);
                 }
-                X(o, t, l, r, p, s, h, v);
+                X(o, t, l, r, p, s, y, v);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, o._currentView.element, p);
                 }
@@ -2472,15 +2483,15 @@ var ContextMenu;
                         }
                         n = o.showStringQuotes ? `"${n}"` : n;
                         m = o.showValueColors ? `${b} value` : "value";
-                        h = o.allowEditing.stringValues && !c;
+                        y = o.allowEditing.stringValues && !c;
                     } else {
                         m = "no-properties-text";
-                        h = false;
+                        y = false;
                         V = false;
                     }
                     p = DomElement.createWithHTML(f, "span", m, n);
                     if (!D) {
-                        X(o, t, l, r, p, s, h);
+                        X(o, t, l, r, p, s, y);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, o._currentView.element, p);
                         }
@@ -2495,8 +2506,8 @@ var ContextMenu;
             if (!o.ignore.dateValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
-                h = o.allowEditing.dateValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.dateValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, o._currentView.element, p);
                 }
@@ -2509,8 +2520,8 @@ var ContextMenu;
             if (!o.ignore.symbolValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.toString());
-                h = o.allowEditing.symbolValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.symbolValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, p);
                 }
@@ -2523,8 +2534,8 @@ var ContextMenu;
             if (!o.ignore.regexpValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.source.toString());
-                h = o.allowEditing.regExpValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.regExpValues && !c;
+                X(o, t, l, r, p, s, y);
                 if (Is.definedFunction(o.events.onRegExpRender)) {
                     Trigger.customEvent(o.events.onRegExpRender, o._currentView.element, p);
                 }
@@ -2537,8 +2548,8 @@ var ContextMenu;
             if (!o.ignore.imageValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.create(f, "span", m);
-                h = o.allowEditing.imageValues && !c;
-                X(o, t, l, r, p, s, h);
+                y = o.allowEditing.imageValues && !c;
+                X(o, t, l, r, p, s, y);
                 const e = DomElement.create(p, "img");
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
@@ -2743,19 +2754,19 @@ var ContextMenu;
                     W(o, r, p);
                     H(o, r, p);
                     R(o, b, p);
-                    ae(o, p, h, t, r, l, s, v);
+                    ae(o, p, y, t, r, l, s, v);
                 }
-                if (Is.defined(y)) {
+                if (Is.defined(h)) {
                     if (b !== "null" && b !== "undefined" && b !== "array" && b !== "object" && b !== "map" && b !== "set") {
-                        y.innerHTML = `(${b})`;
+                        h.innerHTML = `(${b})`;
                     } else {
-                        y.parentNode.removeChild(y);
-                        y = null;
+                        h.parentNode.removeChild(h);
+                        h = null;
                     }
                 }
                 if (V) {
-                    K(o, a, w, y, p);
-                    te(o, p, r, b, h);
+                    K(o, a, w, h, p);
+                    te(o, p, r, b, y);
                 } else {
                     p.ondblclick = DomElement.cancelBubble;
                 }
@@ -3280,18 +3291,18 @@ var ContextMenu;
     function we(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
-        n("keydown", (t => ye(t, e)));
+        n("keydown", (t => he(t, e)));
         n("keyup", (e => De(e)));
-        n("contextmenu", (() => he(e)));
-        l("click", (() => he(e)));
+        n("contextmenu", (() => ye(e)));
+        l("click", (() => ye(e)));
         l("focus", (() => o = false));
     }
-    function he(e) {
+    function ye(e) {
         if (!o) {
             ie(e);
         }
     }
-    function ye(e, l) {
+    function he(e, l) {
         o = Ve(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
             if (Ve(e) && e.code === "F11") {

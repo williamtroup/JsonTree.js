@@ -597,8 +597,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
+            const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
+
             bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
+            contentsColumn.style.paddingRight = `${controlButtons.offsetWidth + paddingLeft}px`;
 
         } else {
             contentsColumn.removeChild( controlButtons );

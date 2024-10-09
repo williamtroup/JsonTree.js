@@ -161,4 +161,15 @@ export namespace DomElement {
 
         return position;
     }
+
+    export function getStyleValueByName( element: any, stylePropertyName: string, toNumber: boolean = false ) : any {
+        const styles: CSSStyleDeclaration = getComputedStyle( element );
+        let style: any = styles.getPropertyValue( stylePropertyName );
+        
+        if ( toNumber ) {
+            style = parseFloat( style );
+        }
+
+        return style;
+    }
 }
