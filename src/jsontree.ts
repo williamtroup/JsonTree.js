@@ -103,7 +103,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.idSet = true;
         }
 
-        bindingOptions._currentView.element.className = "json-tree-js";
+        bindingOptions._currentView.element.classList.add( "json-tree-js" );
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
 
         if ( bindingOptions.openInFullScreenMode ) {
@@ -2863,6 +2863,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function destroyElement( bindingOptions: BindingOptions ) : void {
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.classList.remove( "json-tree-js" );
+        bindingOptions._currentView.element.classList.remove( "full-screen" );
 
         if ( bindingOptions._currentView.element.className.trim() === Char.empty ) {
             bindingOptions._currentView.element.removeAttribute( "class" );
