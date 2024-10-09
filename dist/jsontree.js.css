@@ -94,6 +94,7 @@
   --json-tree-js-spacing-title-bar: calc( ( var(--json-tree-js-spacing) / 2 ) + 2px );
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
+  --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
 }
 
 /*
@@ -894,7 +895,7 @@ div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
   margin-top: calc(var(--json-tree-js-spacing) / 2);
   margin-bottom: calc(var(--json-tree-js-spacing) / 2);
-  margin-left: calc(var(--json-tree-js-spacing) * 2);
+  margin-left: var(--json-tree-js-indentation-size);
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.object-type-value-title {
   width: fit-content;
