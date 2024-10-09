@@ -58,7 +58,8 @@ function createImages() {
 
 function bindingOptions( showValueColors = true, allowValueToolTips = true, showPaging = false, columnSize = 1 ) {
     return {
-        data: getData(),
+        data: getArrayData(),
+        //data: getObjectData(),
         //data: null,
         //data: _MAP_1,
         //data: [ _MAP_1, _MAP_2 ],
@@ -206,7 +207,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
     };
 }
 
-function getData() {
+function getArrayData() {
     return [
         {
             value1: true,
@@ -327,6 +328,21 @@ function getData() {
         null,
         undefined
     ]
+}
+
+function getObjectData() {
+    return {
+        value1: true,
+        value2: "This is a string for page 2",
+        value3: new Date(),
+        value4: 5,
+        value5: null,
+        value6: {
+            value1: 2,
+            value2: 1.6,
+            value3: Symbol( "id2" )
+        }
+    };
 }
 
 function testFunctionName( message ) {

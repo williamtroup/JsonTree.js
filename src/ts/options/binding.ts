@@ -132,7 +132,7 @@ export namespace Binding {
             options.showClosedArraySquaredBrackets = Default.getBoolean( options.showClosedArraySquaredBrackets, true );
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
             options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
-
+            options.rootName = Default.getString( options.rootName, "root" );
             options.paging = getPaging( options );
             options.title = getTitle( options );
             options.footer = getFooter( options );

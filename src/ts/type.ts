@@ -167,6 +167,7 @@ export type BindingOptions = {
 	showClosedArraySquaredBrackets?: boolean;
 	showClosedObjectCurlyBraces?: boolean;
 	convertClickedValuesToString?: boolean;
+	rootName?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;

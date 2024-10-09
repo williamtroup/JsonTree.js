@@ -1151,6 +1151,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
             const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+
+            if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) ) {
+                let rootName: string = bindingOptions.rootName!;
+
+                if ( bindingOptions.showPropertyNameQuotes ) {
+                    rootName = `\"${rootName}\"`;
+                }
+
+                DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
+                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter! );
+            }
+
             const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} main-title` : "main-title", mainTitle ) as HTMLSpanElement;
             let openingBrace: HTMLSpanElement = null!;
             let closedBraces: HTMLSpanElement = null!;

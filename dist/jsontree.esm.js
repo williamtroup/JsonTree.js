@@ -742,6 +742,7 @@ var Binding;
             t.showClosedArraySquaredBrackets = Default.getBoolean(t.showClosedArraySquaredBrackets, true);
             t.showClosedObjectCurlyBraces = Default.getBoolean(t.showClosedObjectCurlyBraces, true);
             t.convertClickedValuesToString = Default.getBoolean(t.convertClickedValuesToString, false);
+            t.rootName = Default.getString(t.rootName, "root");
             t.paging = l(t);
             t.title = r(t);
             t.footer = i(t);
@@ -1946,8 +1947,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => j(n, o, true);
-        a.onclick = () => j(n, o, false);
+        s.onclick = () => N(n, o, true);
+        a.onclick = () => N(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -1955,13 +1956,13 @@ var ContextMenu;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            const l = N(u, e, n, !d[`${e}Values`]);
+            const l = j(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
         }));
     }
-    function j(e, t, n) {
+    function N(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -1970,7 +1971,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function N(e, t, n, o) {
+    function j(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -2101,10 +2102,18 @@ var ContextMenu;
             const u = DomElement.create(t, "div", "object-type-title");
             const c = DomElement.create(t, "div", "object-type-contents last-item");
             const d = n.showArrowToggles ? DomElement.create(u, "div", "down-arrow") : null;
+            if (!n.paging.enabled || !Is.definedNumber(l)) {
+                let t = n.rootName;
+                if (n.showPropertyNameQuotes) {
+                    t = `"${t}"`;
+                }
+                DomElement.createWithHTML(u, "span", "root-name", t);
+                DomElement.createWithHTML(u, "span", "split", e.text.propertyColonCharacter);
+            }
             const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} main-title` : "main-title", a);
             let g = null;
             let m = null;
-            K(c, n);
+            G(c, n);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -2146,7 +2155,7 @@ var ContextMenu;
         const u = DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} main-title` : "main-title", r);
         let c = null;
         let d = null;
-        K(s, n);
+        G(s, n);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
@@ -2575,7 +2584,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    K(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2607,7 +2616,7 @@ var ContextMenu;
                 const l = DomElement.create(d, "div", "object-type-contents");
                 let s = null;
                 let u = null;
-                K(l, o);
+                G(l, o);
                 if (i) {
                     l.classList.add("last-item");
                 }
@@ -2637,7 +2646,7 @@ var ContextMenu;
                 const n = DomElement.create(d, "div", "object-type-contents");
                 let l = null;
                 let s = null;
-                K(n, o);
+                G(n, o);
                 if (i) {
                     n.classList.add("last-item");
                 }
@@ -2673,7 +2682,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    K(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2709,7 +2718,7 @@ var ContextMenu;
                     const s = DomElement.create(d, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    K(s, o);
+                    G(s, o);
                     if (i) {
                         s.classList.add("last-item");
                     }
@@ -2747,7 +2756,7 @@ var ContextMenu;
             }
         }
         if (!D && !T) {
-            G(o, b);
+            Q(o, b);
         }
         if (x) {
             n.removeChild(d);
@@ -2768,7 +2777,7 @@ var ContextMenu;
                     }
                 }
                 if (V) {
-                    Q(o, a, w, h, p);
+                    K(o, a, w, h, p);
                     ne(o, p, r, b, y);
                 } else {
                     p.ondblclick = DomElement.cancelBubble;
@@ -2776,13 +2785,13 @@ var ContextMenu;
             }
         }
     }
-    function G(e, t) {
+    function Q(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
         e._currentView.dataTypeCounts[t]++;
     }
-    function K(e, t) {
+    function G(e, t) {
         if (t.showOpenedObjectArrayBorders) {
             e.classList.add("object-border");
             if (!t.showArrowToggles) {
@@ -2791,7 +2800,7 @@ var ContextMenu;
             DomElement.create(e, "div", "object-border-bottom");
         }
     }
-    function Q(e, t, n, o, l) {
+    function K(e, t, n, o, l) {
         if (Is.definedObject(e.valueToolTips)) {
             if (e.logJsonValueToolTipPaths) {
                 console.log(t);

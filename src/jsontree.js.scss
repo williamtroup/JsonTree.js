@@ -717,6 +717,11 @@ div.json-tree-js {
             }
         }
 
+        span.root-name {
+            margin-right: calc( var(--json-tree-js-spacing) / 2 );
+            font-weight: var(--json-tree-js-bold-weight-light);
+        }
+
         span.data-array-index {
             margin-right: calc( var(--json-tree-js-spacing) / 2 );
             font-weight: var(--json-tree-js-bold-weight-light);

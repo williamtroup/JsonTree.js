@@ -804,6 +804,10 @@ div.json-tree-js div.object-type-title span.main-title:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
 }
+div.json-tree-js div.object-type-title span.root-name {
+  margin-right: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-bold-weight-light);
+}
 div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
