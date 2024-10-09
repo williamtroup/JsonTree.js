@@ -32,7 +32,6 @@
     // Colors
     --json-tree-js-color-dark-black: #1c2128;
     --json-tree-js-color-black: #3b3a3a;
-    --json-tree-js-color-white: #F5F5F5;
     --json-tree-js-color-snow-white: #F5F5F5;
     --json-tree-js-color-light-gray: #BBBBBB;
 
@@ -70,10 +69,13 @@
     --json-tree-js-highlight-compare-color: #4a5768;
     --json-tree-js-highlight-selected-border-color: #97a4b5;
 
+    // Colors - Drag & Drop
+    --json-tree-js-drag-and-drop-color: #F5F5F5;
+
     // ToolTip
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
     --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
 
     // Side Menu
     --json-tree-js-side-menu-width: 320px;
@@ -91,7 +93,7 @@
     // Button
     --json-tree-js-button-background-color: #2d333b;
     --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-button-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
     --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
     --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
     --json-tree-js-button-background-color-active: #616b79;
@@ -100,7 +102,7 @@
     // Context Menu
     --json-tree-js-context-menu-background-color: var(--json-tree-js-container-background-color);
     --json-tree-js-context-menu-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-context-menu-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-context-menu-text-color: var(--json-tree-js-color-snow-white);
     --json-tree-js-context-menu-item-background-color-hover: var(--json-tree-js-container-border-color);
     --json-tree-js-context-menu-item-text-color-hover: var(--json-tree-js-color-snow-white);
     --json-tree-js-context-menu-item-background-color-active: var(--json-tree-js-button-background-color-active);
@@ -110,10 +112,10 @@
     --json-tree-js-setting-panel-background-color: var(--json-tree-js-button-background-color);
 
     // CheckBox
-    --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-white);
+    --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-snow-white);
     --json-tree-js-checkbox-background-color: var(--json-tree-js-setting-panel-background-color);
     --json-tree-js-checkbox-border-color-checked: var(--json-tree-js-checkbox-background-color-checked);
-    --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
+    --json-tree-js-checkbox-border-color: var(--json-tree-js-color-snow-white);
 
     // Borders
     --json-tree-js-border-radius-editable: 0.25rem;
@@ -146,7 +148,7 @@ div.json-tree-js {
     position: relative;
     border-radius: var(--json-tree-js-border-radius);
     background-color: var(--json-tree-js-container-background-color);
-    color: var(--json-tree-js-color-white);
+    color: var(--json-tree-js-color-snow-white);
     border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
     font-size: var(--json-tree-js-spacing-font-size);
     font-weight: var(--json-tree-js-bold-weight-light);
@@ -247,13 +249,13 @@ div.json-tree-js {
     div.down-arrow {
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
-        border-top: 8px solid var(--json-tree-js-color-white);
+        border-top: 8px solid var(--json-tree-js-color-snow-white);
     }
 
     div.right-arrow {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
-        border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-white);
+        border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-snow-white);
     }
 }
 
@@ -392,7 +394,7 @@ div.json-tree-js {
         z-index: 1500;
         transition: var(--json-tree-js-transition); 
         background-color: var(--json-tree-js-container-background-color);
-        border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-white);
+        border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
         border-radius: var(--json-tree-js-border-radius);
         width: var(--json-tree-js-side-menu-width);
         left: calc( 0px - ( var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width) ) );
@@ -456,7 +458,7 @@ div.json-tree-js {
                         font-weight: var(--json-tree-js-title-bold-weight);
                         font-size: 0.9rem;
                         margin: 3px;
-                        color: var(--json-tree-js-color-white);
+                        color: var(--json-tree-js-color-snow-white);
                     }
 
                     div.settings-panel-control-buttons {
@@ -465,7 +467,7 @@ div.json-tree-js {
 
                         div.settings-panel-control-button {
                             margin-left: calc( var(--json-tree-js-spacing) / 2 );
-                            border: 4px solid var(--json-tree-js-color-white);
+                            border: 4px solid var(--json-tree-js-color-snow-white);
                             height: 15px;
                             width: 15px;
                             border-radius: var(--json-tree-js-border-radius-editable);
@@ -480,7 +482,7 @@ div.json-tree-js {
                         }
     
                         div.settings-panel-fill {
-                            background-color: var(--json-tree-js-color-white);
+                            background-color: var(--json-tree-js-color-snow-white);
                         }
                     }
                 }
@@ -658,6 +660,7 @@ div.json-tree-js {
         z-index: 1000;
         display: none;
         text-align: center;
+        color: var(--json-tree-js-drag-and-drop-color);
 
         div.notice-text {
             position: absolute;
@@ -919,7 +922,7 @@ div.json-tree-js {
             }
 
             span.comma {
-                color: var(--json-tree-js-color-white);
+                color: var(--json-tree-js-color-snow-white);
                 font-weight: var(--json-tree-js-bold-weight-medium);
                 margin-left: 2px;
             }
@@ -959,7 +962,7 @@ div.json-tree-js {
             padding-left: 20px;
             padding-top: 1px;
             padding-bottom: 2px;
-            color: var(--json-tree-js-color-white);
+            color: var(--json-tree-js-color-snow-white);
     
             input {
                 display: none !important;

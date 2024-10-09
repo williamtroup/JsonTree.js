@@ -2,7 +2,6 @@
     /* Colors */
     --json-tree-js-color-dark-black: #1c2128;
     --json-tree-js-color-black: #3b3a3a;
-    --json-tree-js-color-white: #F5F5F5;
     --json-tree-js-color-snow-white: #F5F5F5;
     --json-tree-js-color-light-gray: #BBBBBB;
 
@@ -30,7 +29,7 @@
     /* ToolTip */
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
     --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
 
     /* Containers */
     --json-tree-js-container-background-color: #22272e;
@@ -43,7 +42,7 @@
     /* Button */
     --json-tree-js-button-background-color: #2d333b;
     --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-button-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
     --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
     --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
     --json-tree-js-button-background-color-active: #616b79;
