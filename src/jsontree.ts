@@ -513,6 +513,7 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, contentsColumn: HTMLElement, data: any, dataIndex: number ) : void {
+        const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
         const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
         controlButtons.ondblclick = DomElement.cancelBubble;
 
@@ -572,6 +573,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
         }
 
+        if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
+            const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+            importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
+
+            ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
+        }
+
         if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
             const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
             removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
@@ -589,7 +597,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( controlButtons.innerHTML !== Char.empty ) {
-            bindingOptions._currentView.currentContentColumns[ bindingOptions._currentView.currentColumnBuildingIndex ].controlButtons = controlButtons;
+            bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
             contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
 
         } else {
@@ -857,7 +865,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onSideMenuImportClick( bindingOptions: BindingOptions ) : void {
+    function onSideMenuImportClick( bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         const input: HTMLInputElement = DomElement.createWithNoContainer( "input" ) as HTMLInputElement;
         input.type = "file";
         input.accept = ".json";
@@ -865,7 +873,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         onSideMenuClose( bindingOptions );
 
-        input.onchange = () => importFromFiles( input.files!, bindingOptions );
+        input.onchange = () => importFromFiles( input.files!, bindingOptions, insertDataIndex );
         input.click();
     }
 
@@ -2657,7 +2665,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function importFromFiles( files: FileList, bindingOptions: BindingOptions ) : void {
+    function importFromFiles( files: FileList, bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         const filesLength: number = files.length;
         let filesRead: number = 0;
         let filesData: any[] = [];
@@ -2667,9 +2675,25 @@ type JsonTreeData = Record<string, BindingOptions>;
             filesData.push( data );
 
             if ( filesRead === filesLength ) {
-                bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
-                bindingOptions.data = filesData.length === 1 ? filesData[ 0 ] : filesData;
+
+                const filesDataLength: number = filesData.length;
+
+                if ( Is.definedNumber( insertDataIndex ) ) {
+                    for ( let filesDataIndex: number = 0; filesDataIndex < filesDataLength; filesDataIndex++ ) {
+                        if ( insertDataIndex > bindingOptions.data.length - 1 ) {
+                            bindingOptions.data.push( filesData[ filesDataIndex ] );
+                        } else {
+                            bindingOptions.data.splice( insertDataIndex, 0, filesData[ filesDataIndex ] );
+                        }
+                    }
+
+                    bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
+
+                } else {
+                    bindingOptions._currentView.currentDataArrayPageIndex = 0;
+                    bindingOptions.data = filesDataLength === 1 ? filesData[ 0 ] : filesData;
+                }
     
                 renderControlContainer( bindingOptions );
                 setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );

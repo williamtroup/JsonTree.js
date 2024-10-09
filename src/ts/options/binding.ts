@@ -193,6 +193,7 @@ export namespace Binding {
             options.controlPanel!.showEditButton = Default.getBoolean( options.controlPanel!.showEditButton, true );
             options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
+            options.controlPanel!.showImportButton = Default.getBoolean( options.controlPanel!.showImportButton, true );
 
             return options.controlPanel!;
         }
