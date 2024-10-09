@@ -182,6 +182,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             renderControlContentsPanel( data, contents, bindingOptions, null!, scrollTopsForColumns[ 0 ], 1, false );
         }
 
+        renderControlDisabledBackground( bindingOptions );
         renderControlSideMenu( bindingOptions );
         renderControlFooterBar( bindingOptions );
         renderControlDragAndDrop( bindingOptions );
@@ -822,14 +823,24 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Disabled Background
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function renderControlDisabledBackground( bindingOptions: BindingOptions ) : void {
+        bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "disabled-background" );
+        bindingOptions._currentView.disabledBackground.onclick = () => onSideMenuClose( bindingOptions );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Render:  Side Menu
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
     function renderControlSideMenu( bindingOptions: BindingOptions ) : void {
         if ( bindingOptions.sideMenu!.enabled ) {
-            bindingOptions._currentView.disabledBackground = DomElement.create( bindingOptions._currentView.element, "div", "side-menu-disabled-background" );
-            bindingOptions._currentView.disabledBackground.onclick = () => onSideMenuClose( bindingOptions );
             bindingOptions._currentView.sideMenu = DomElement.create( bindingOptions._currentView.element, "div", "side-menu" );
 
             const titleBar: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-title-bar" );

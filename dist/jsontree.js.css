@@ -318,10 +318,10 @@ div.json-tree-js div.footer-bar span.status-count {
 
 /*
     -------------------------------------------------------------------------
-    JsonTree.js - Side Menu
+    JsonTree.js - Disabled Background
     -------------------------------------------------------------------------
 */
-div.json-tree-js div.side-menu-disabled-background {
+div.json-tree-js div.disabled-background {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.3);
   top: 0;
@@ -331,6 +331,12 @@ div.json-tree-js div.side-menu-disabled-background {
   z-index: 1000;
   display: none;
 }
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Side Menu
+    -------------------------------------------------------------------------
+*/
 div.json-tree-js div.side-menu {
   display: flex;
   flex-direction: column;
