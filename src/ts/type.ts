@@ -136,8 +136,7 @@ export type BindingOptions = {
 	reverseArrayValues?: boolean;
 	addArrayIndexPadding?: boolean;
 	showValueColors?: boolean;
-	maximumDecimalPlaces?: number;
-	maximumStringLength?: number;
+
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
@@ -158,8 +157,6 @@ export type BindingOptions = {
 	showEmailOpenButtons?: boolean;
 	minimumArrayIndexPadding?: number;
 	arrayIndexPaddingCharacter?: string;
-	maximumUrlLength?: number;
-	maximumEmailLength?: number;
 	showCssStylesForHtmlObjects?: boolean;
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
@@ -169,6 +166,7 @@ export type BindingOptions = {
 	convertClickedValuesToString?: boolean;
 	rootName?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
+	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
@@ -217,6 +215,15 @@ export type BindingOptionsCurrentView = {
 	currentDataArrayPageIndex: number;
 	currentColumnBuildingIndex: number;
 	selectedValues: any[];
+};
+
+export type BindingOptionsMaximum = {
+	decimalPlaces?: number;
+	stringLength?: number;
+	urlLength?: number;
+	emailLength?: number;
+	numberLength?: number;
+	bigIntLength?: number;
 };
 
 export type BindingOptionsPaging = {

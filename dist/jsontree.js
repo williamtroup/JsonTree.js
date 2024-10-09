@@ -152,10 +152,10 @@ var Is;
         return t.test(e);
     }
     e.definedEmail = w;
-    function y(e, t = 1) {
+    function h(e, t = 1) {
         return !u(e) || e.length < t;
     }
-    e.invalidOptionArray = y;
+    e.invalidOptionArray = h;
 })(Is || (Is = {}));
 
 var Convert2;
@@ -713,8 +713,6 @@ var Binding;
             t.reverseArrayValues = Default.getBoolean(t.reverseArrayValues, false);
             t.addArrayIndexPadding = Default.getBoolean(t.addArrayIndexPadding, false);
             t.showValueColors = Default.getBoolean(t.showValueColors, true);
-            t.maximumDecimalPlaces = Default.getNumber(t.maximumDecimalPlaces, 2);
-            t.maximumStringLength = Default.getNumber(t.maximumStringLength, 0);
             t.fileDroppingEnabled = Default.getBoolean(t.fileDroppingEnabled, true);
             t.jsonIndentSpaces = Default.getNumber(t.jsonIndentSpaces, 8);
             t.showArrayIndexBrackets = Default.getBoolean(t.showArrayIndexBrackets, true);
@@ -735,8 +733,6 @@ var Binding;
             t.showEmailOpenButtons = Default.getBoolean(t.showEmailOpenButtons, true);
             t.minimumArrayIndexPadding = Default.getNumber(t.minimumArrayIndexPadding, 0);
             t.arrayIndexPaddingCharacter = Default.getString(t.arrayIndexPaddingCharacter, "0");
-            t.maximumUrlLength = Default.getNumber(t.maximumUrlLength, 0);
-            t.maximumEmailLength = Default.getNumber(t.maximumEmailLength, 0);
             t.showCssStylesForHtmlObjects = Default.getBoolean(t.showCssStylesForHtmlObjects, false);
             t.jsonPathAny = Default.getString(t.jsonPathAny, "..");
             t.jsonPathSeparator = Default.getString(t.jsonPathSeparator, "\\");
@@ -745,22 +741,33 @@ var Binding;
             t.showClosedObjectCurlyBraces = Default.getBoolean(t.showClosedObjectCurlyBraces, true);
             t.convertClickedValuesToString = Default.getBoolean(t.convertClickedValuesToString, false);
             t.rootName = Default.getString(t.rootName, "root");
-            t.paging = l(t);
-            t.title = r(t);
-            t.footer = i(t);
-            t.controlPanel = s(t);
-            t.lineNumbers = a(t);
-            t.ignore = u(t);
-            t.tooltip = c(t);
-            t.parse = d(t);
-            t.allowEditing = f(t);
-            t.sideMenu = g(t);
-            t.autoClose = m(t);
-            t.events = p(t);
+            t.maximum = l(t);
+            t.paging = r(t);
+            t.title = i(t);
+            t.footer = s(t);
+            t.controlPanel = a(t);
+            t.lineNumbers = u(t);
+            t.ignore = c(t);
+            t.tooltip = d(t);
+            t.parse = f(t);
+            t.allowEditing = g(t);
+            t.sideMenu = m(t);
+            t.autoClose = p(t);
+            t.events = x(t);
             return t;
         }
         t.get = o;
         function l(e) {
+            e.maximum = Default.getObject(e.maximum, {});
+            e.maximum.decimalPlaces = Default.getNumber(e.maximum.decimalPlaces, 2);
+            e.maximum.stringLength = Default.getNumber(e.maximum.stringLength, 0);
+            e.maximum.urlLength = Default.getNumber(e.maximum.urlLength, 0);
+            e.maximum.emailLength = Default.getNumber(e.maximum.emailLength, 0);
+            e.maximum.numberLength = Default.getNumber(e.maximum.numberLength, 0);
+            e.maximum.bigIntLength = Default.getNumber(e.maximum.bigIntLength, 0);
+            return e.maximum;
+        }
+        function r(e) {
             e.paging = Default.getObject(e.paging, {});
             e.paging.enabled = Default.getBoolean(e.paging.enabled, true);
             e.paging.columnsPerPage = Default.getNumberMaximum(e.paging.columnsPerPage, 1, 6);
@@ -770,7 +777,7 @@ var Binding;
             e.paging.allowComparisons = Default.getBoolean(e.paging.allowComparisons, false);
             return e.paging;
         }
-        function r(e) {
+        function i(e) {
             e.title = Default.getObject(e.title, {});
             e.title.text = Default.getAnyString(e.title.text, "JsonTree.js");
             e.title.showCloseOpenAllButtons = Default.getBoolean(e.title.showCloseOpenAllButtons, true);
@@ -779,7 +786,7 @@ var Binding;
             e.title.showFullScreenButton = Default.getBoolean(e.title.showFullScreenButton, true);
             return e.title;
         }
-        function i(e) {
+        function s(e) {
             e.footer = Default.getObject(e.footer, {});
             e.footer.enabled = Default.getBoolean(e.footer.enabled, true);
             e.footer.showDataTypes = Default.getBoolean(e.footer.showDataTypes, true);
@@ -789,7 +796,7 @@ var Binding;
             e.footer.statusResetDelay = Default.getNumber(e.footer.statusResetDelay, 5e3);
             return e.footer;
         }
-        function s(e) {
+        function a(e) {
             e.controlPanel = Default.getObject(e.controlPanel, {});
             e.controlPanel.enabled = Default.getBoolean(e.controlPanel.enabled, true);
             e.controlPanel.showCopyButton = Default.getBoolean(e.controlPanel.showCopyButton, true);
@@ -801,14 +808,14 @@ var Binding;
             e.controlPanel.showImportButton = Default.getBoolean(e.controlPanel.showImportButton, true);
             return e.controlPanel;
         }
-        function a(e) {
+        function u(e) {
             e.lineNumbers = Default.getObject(e.lineNumbers, {});
             e.lineNumbers.enabled = Default.getBoolean(e.lineNumbers.enabled, true);
             e.lineNumbers.padNumbers = Default.getBoolean(e.lineNumbers.padNumbers, false);
             e.lineNumbers.addDots = Default.getBoolean(e.lineNumbers.addDots, true);
             return e.lineNumbers;
         }
-        function u(e) {
+        function c(e) {
             e.ignore = Default.getObject(e.ignore, {});
             e.ignore.nullValues = Default.getBoolean(e.ignore.nullValues, false);
             e.ignore.functionValues = Default.getBoolean(e.ignore.functionValues, false);
@@ -836,13 +843,13 @@ var Binding;
             e.ignore.lambdaValues = Default.getBoolean(e.ignore.lambdaValues, false);
             return e.ignore;
         }
-        function c(e) {
+        function d(e) {
             e.tooltip = Default.getObject(e.tooltip, {});
             e.tooltip.delay = Default.getNumber(e.tooltip.delay, 750);
             e.tooltip.offset = Default.getNumber(e.tooltip.offset, 0);
             return e.tooltip;
         }
-        function d(e) {
+        function f(e) {
             e.parse = Default.getObject(e.parse, {});
             e.parse.stringsToDates = Default.getBoolean(e.parse.stringsToDates, false);
             e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
@@ -850,7 +857,7 @@ var Binding;
             e.parse.stringsToSymbols = Default.getBoolean(e.parse.stringsToSymbols, false);
             return e.parse;
         }
-        function f(e) {
+        function g(e) {
             let t = Default.getBoolean(e.allowEditing, true);
             e.allowEditing = Default.getObject(e.allowEditing, {});
             e.allowEditing.booleanValues = Default.getBoolean(e.allowEditing.booleanValues, t);
@@ -877,7 +884,7 @@ var Binding;
             }
             return e.allowEditing;
         }
-        function g(e) {
+        function m(e) {
             e.sideMenu = Default.getObject(e.sideMenu, {});
             e.sideMenu.enabled = Default.getBoolean(e.sideMenu.enabled, true);
             e.sideMenu.showImportButton = Default.getBoolean(e.sideMenu.showImportButton, true);
@@ -887,7 +894,7 @@ var Binding;
             e.sideMenu.showOnlyDataTypesAvailable = Default.getBoolean(e.sideMenu.showOnlyDataTypesAvailable, false);
             return e.sideMenu;
         }
-        function m(e) {
+        function p(e) {
             e.autoClose = Default.getObject(e.autoClose, {});
             e.autoClose.objectSize = Default.getNumber(e.autoClose.objectSize, 0);
             e.autoClose.arraySize = Default.getNumber(e.autoClose.arraySize, 0);
@@ -896,7 +903,7 @@ var Binding;
             e.autoClose.htmlSize = Default.getNumber(e.autoClose.htmlSize, 0);
             return e.autoClose;
         }
-        function p(e) {
+        function x(e) {
             e.events = Default.getObject(e.events, {});
             e.events.onBeforeRender = Default.getFunction(e.events.onBeforeRender, null);
             e.events.onRenderComplete = Default.getFunction(e.events.onRenderComplete, null);
@@ -1363,7 +1370,7 @@ var ContextMenu;
             n++;
         }
         i(e);
-        ye(e);
+        he(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -1693,7 +1700,7 @@ var ContextMenu;
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.openAllButtonText);
             const o = DomElement.createWithHTML(i, "button", "close-all", e.text.closeAllButtonSymbolText);
-            o.onclick = () => y(t, l);
+            o.onclick = () => h(t, l);
             o.ondblclick = DomElement.cancelBubble;
             ToolTip.add(o, t, e.text.closeAllButtonText);
         }
@@ -1704,7 +1711,7 @@ var ContextMenu;
         }
         if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
             const n = DomElement.createWithHTML(i, "button", "remove", e.text.removeSymbolButtonText);
-            n.onclick = () => h(t, l);
+            n.onclick = () => y(t, l);
             n.ondblclick = DomElement.cancelBubble;
             ToolTip.add(n, t, e.text.removeButtonText);
         }
@@ -1736,7 +1743,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function y(e, t) {
+    function h(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
@@ -1745,7 +1752,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function h(t, n) {
+    function y(t, n) {
         if (t.paging.enabled) {
             t.data.splice(n, 1);
             if (n === t._currentView.currentDataArrayPageIndex && t._currentView.currentDataArrayPageIndex > 0) {
@@ -1949,8 +1956,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => j(n, o, true);
-        a.onclick = () => j(n, o, false);
+        s.onclick = () => N(n, o, true);
+        a.onclick = () => N(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -1958,13 +1965,13 @@ var ContextMenu;
         const d = n.ignore;
         c.sort();
         c.forEach(((e, t) => {
-            const l = N(u, e, n, !d[`${e}Values`]);
+            const l = j(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
         }));
     }
-    function j(e, t, n) {
+    function N(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -1973,7 +1980,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function N(e, t, n, o) {
+    function j(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -2046,7 +2053,7 @@ var ContextMenu;
             }));
         }
     }
-    function W(t, n, o) {
+    function $(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const l = Size.length(n, t.showCssStylesForHtmlObjects);
             if (l > 0) {
@@ -2063,7 +2070,7 @@ var ContextMenu;
             }
         }
     }
-    function $(t, n, o) {
+    function W(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
             const l = Size.of(n, t.showCssStylesForHtmlObjects);
             if (Is.definedString(l)) {
@@ -2139,8 +2146,8 @@ var ContextMenu;
             }
             q(d, null, c, n, o, i, g, m, false, true, "", r, r !== "object");
             ne(n, f, o, r, false);
-            $(n, o, f);
             W(n, o, f);
+            $(n, o, f);
             ue(n, u, false, o, o, null, false, null);
         }
     }
@@ -2169,8 +2176,8 @@ var ContextMenu;
         }
         Z(a, null, s, n, o, c, d, false, true, "", l, l !== "array");
         ne(n, u, o, l, false);
-        $(n, o, u);
         W(n, o, u);
+        $(n, o, u);
         ue(n, i, false, o, o, null, false, null);
     }
     function q(t, n, o, l, r, i, s, a, u, c, d, f, g) {
@@ -2238,8 +2245,8 @@ var ContextMenu;
         let T = false;
         let b = null;
         let w = DomElement.create(f, "span");
-        let y = false;
-        let h = null;
+        let h = false;
+        let y = null;
         const D = !Is.definedString(l);
         let V = true;
         let v = null;
@@ -2262,7 +2269,7 @@ var ContextMenu;
             d.classList.add("last-item");
         }
         if (o.showDataTypes && !D) {
-            h = DomElement.createWithHTML(f, "span", o.showValueColors ? "data-type-color" : "data-type", "");
+            y = DomElement.createWithHTML(f, "span", o.showValueColors ? "data-type-color" : "data-type", "");
         }
         if (Is.defined(w) && !D && o.showValueColors && o.showPropertyNameAndIndexColors) {
             w.classList.add(u);
@@ -2278,8 +2285,8 @@ var ContextMenu;
                 f.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, a);
             }
             if (!s) {
-                $(o, l, w);
                 W(o, l, w);
+                $(o, l, w);
             }
             ie(o, f, a, S, r);
         }
@@ -2339,8 +2346,8 @@ var ContextMenu;
             if (!o.ignore.booleanValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                y = o.allowEditing.booleanValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.booleanValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onBooleanRender)) {
                     Trigger.customEvent(o.events.onBooleanRender, o._currentView.element, p);
                 }
@@ -2351,11 +2358,11 @@ var ContextMenu;
         } else if (Is.definedFloat(r)) {
             b = "float";
             if (!o.ignore.floatValues) {
-                const e = Convert2.numberToFloatWithDecimalPlaces(r, o.maximumDecimalPlaces);
+                const e = Convert2.numberToFloatWithDecimalPlaces(r, o.maximum.decimalPlaces);
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, e);
-                y = o.allowEditing.floatValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.floatValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onFloatRender)) {
                     Trigger.customEvent(o.events.onFloatRender, o._currentView.element, p);
                 }
@@ -2366,10 +2373,14 @@ var ContextMenu;
         } else if (Is.definedNumber(r)) {
             b = "number";
             if (!o.ignore.numberValues) {
+                let n = r.toString();
+                if (o.maximum.numberLength > 0 && n.length > o.maximum.numberLength) {
+                    n = `${n.substring(0, o.maximum.numberLength)}${" "}${e.text.ellipsisText}${" "}`;
+                }
                 m = o.showValueColors ? `${b} value` : "value";
-                p = DomElement.createWithHTML(f, "span", m, r);
-                y = o.allowEditing.numberValues && !c;
-                ee(o, t, l, r, p, s, y);
+                p = DomElement.createWithHTML(f, "span", m, n);
+                h = o.allowEditing.numberValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onNumberRender)) {
                     Trigger.customEvent(o.events.onNumberRender, o._currentView.element, p);
                 }
@@ -2380,10 +2391,14 @@ var ContextMenu;
         } else if (Is.definedBigInt(r)) {
             b = "bigint";
             if (!o.ignore.bigintValues) {
+                let n = r.toString();
+                if (o.maximum.bigIntLength > 0 && n.length > o.maximum.bigIntLength) {
+                    n = `${n.substring(0, o.maximum.bigIntLength)}${" "}${e.text.ellipsisText}${" "}`;
+                }
                 m = o.showValueColors ? `${b} value` : "value";
-                p = DomElement.createWithHTML(f, "span", m, r);
-                y = o.allowEditing.bigIntValues && !c;
-                ee(o, t, l, r, p, s, y);
+                p = DomElement.createWithHTML(f, "span", m, n);
+                h = o.allowEditing.bigIntValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onBigIntRender)) {
                     Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, p);
                 }
@@ -2396,8 +2411,8 @@ var ContextMenu;
             if (!o.ignore.guidValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                y = o.allowEditing.guidValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.guidValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onGuidRender)) {
                     Trigger.customEvent(o.events.onGuidRender, o._currentView.element, p);
                 }
@@ -2410,11 +2425,11 @@ var ContextMenu;
             if (!o.ignore.colorValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r);
-                y = o.allowEditing.colorValues && !c;
+                h = o.allowEditing.colorValues && !c;
                 if (o.showValueColors) {
                     p.style.color = r;
                 }
-                ee(o, t, l, r, p, s, y);
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onColorRender)) {
                     Trigger.customEvent(o.events.onColorRender, o._currentView.element, p);
                 }
@@ -2426,17 +2441,17 @@ var ContextMenu;
             b = "url";
             if (!o.ignore.urlValues) {
                 let n = r;
-                if (o.maximumUrlLength > 0 && n.length > o.maximumUrlLength) {
-                    n = `${n.substring(0, o.maximumUrlLength)}${" "}${e.text.ellipsisText}${" "}`;
+                if (o.maximum.urlLength > 0 && n.length > o.maximum.urlLength) {
+                    n = `${n.substring(0, o.maximum.urlLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, n);
-                y = o.allowEditing.urlValues && !c;
+                h = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
                     v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(r);
                 }
-                ee(o, t, l, r, p, s, y, v);
+                ee(o, t, l, r, p, s, h, v);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, o._currentView.element, p);
                 }
@@ -2448,17 +2463,17 @@ var ContextMenu;
             b = "email";
             if (!o.ignore.emailValues) {
                 let n = r;
-                if (o.maximumEmailLength > 0 && n.length > o.maximumEmailLength) {
-                    n = `${n.substring(0, o.maximumEmailLength)}${" "}${e.text.ellipsisText}${" "}`;
+                if (o.maximum.emailLength > 0 && n.length > o.maximum.emailLength) {
+                    n = `${n.substring(0, o.maximum.emailLength)}${" "}${e.text.ellipsisText}${" "}`;
                 }
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, n);
-                y = o.allowEditing.emailValues && !c;
+                h = o.allowEditing.emailValues && !c;
                 if (o.showEmailOpenButtons) {
                     v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(`mailto:${r}`);
                 }
-                ee(o, t, l, r, p, s, y, v);
+                ee(o, t, l, r, p, s, h, v);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, o._currentView.element, p);
                 }
@@ -2492,20 +2507,20 @@ var ContextMenu;
                 } else {
                     let n = r;
                     if (!D) {
-                        if (o.maximumStringLength > 0 && n.length > o.maximumStringLength) {
-                            n = `${n.substring(0, o.maximumStringLength)}${" "}${e.text.ellipsisText}${" "}`;
+                        if (o.maximum.stringLength > 0 && n.length > o.maximum.stringLength) {
+                            n = `${n.substring(0, o.maximum.stringLength)}${" "}${e.text.ellipsisText}${" "}`;
                         }
                         n = o.showStringQuotes ? `"${n}"` : n;
                         m = o.showValueColors ? `${b} value` : "value";
-                        y = o.allowEditing.stringValues && !c;
+                        h = o.allowEditing.stringValues && !c;
                     } else {
                         m = "no-properties-text";
-                        y = false;
+                        h = false;
                         V = false;
                     }
                     p = DomElement.createWithHTML(f, "span", m, n);
                     if (!D) {
-                        ee(o, t, l, r, p, s, y);
+                        ee(o, t, l, r, p, s, h);
                         if (Is.definedFunction(o.events.onStringRender)) {
                             Trigger.customEvent(o.events.onStringRender, o._currentView.element, p);
                         }
@@ -2520,8 +2535,8 @@ var ContextMenu;
             if (!o.ignore.dateValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
-                y = o.allowEditing.dateValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.dateValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onDateRender)) {
                     Trigger.customEvent(o.events.onDateRender, o._currentView.element, p);
                 }
@@ -2534,8 +2549,8 @@ var ContextMenu;
             if (!o.ignore.symbolValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.toString());
-                y = o.allowEditing.symbolValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.symbolValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onSymbolRender)) {
                     Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, p);
                 }
@@ -2548,8 +2563,8 @@ var ContextMenu;
             if (!o.ignore.regexpValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.createWithHTML(f, "span", m, r.source.toString());
-                y = o.allowEditing.regExpValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.regExpValues && !c;
+                ee(o, t, l, r, p, s, h);
                 if (Is.definedFunction(o.events.onRegExpRender)) {
                     Trigger.customEvent(o.events.onRegExpRender, o._currentView.element, p);
                 }
@@ -2562,8 +2577,8 @@ var ContextMenu;
             if (!o.ignore.imageValues) {
                 m = o.showValueColors ? `${b} value` : "value";
                 p = DomElement.create(f, "span", m);
-                y = o.allowEditing.imageValues && !c;
-                ee(o, t, l, r, p, s, y);
+                h = o.allowEditing.imageValues && !c;
+                ee(o, t, l, r, p, s, h);
                 const e = DomElement.create(p, "img");
                 e.src = r.src;
                 if (Is.definedFunction(o.events.onImageRender)) {
@@ -2765,22 +2780,22 @@ var ContextMenu;
         } else {
             if (Is.defined(p)) {
                 if (!D) {
-                    $(o, r, p);
                     W(o, r, p);
+                    $(o, r, p);
                     H(o, b, p);
-                    ue(o, p, y, t, r, l, s, v);
+                    ue(o, p, h, t, r, l, s, v);
                 }
-                if (Is.defined(h)) {
+                if (Is.defined(y)) {
                     if (b !== "null" && b !== "undefined" && b !== "array" && b !== "object" && b !== "map" && b !== "set") {
-                        h.innerHTML = `(${b})`;
+                        y.innerHTML = `(${b})`;
                     } else {
-                        h.parentNode.removeChild(h);
-                        h = null;
+                        y.parentNode.removeChild(y);
+                        y = null;
                     }
                 }
                 if (V) {
-                    K(o, a, w, h, p);
-                    ne(o, p, r, b, y);
+                    K(o, a, w, y, p);
+                    ne(o, p, r, b, h);
                 } else {
                     p.ondblclick = DomElement.cancelBubble;
                 }
@@ -3302,16 +3317,16 @@ var ContextMenu;
         const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
         return o;
     }
-    function ye(e, t = true) {
+    function he(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
         n("keydown", (t => De(t, e)));
         n("keyup", (e => Ve(e)));
-        n("contextmenu", (() => he(e)));
-        l("click", (() => he(e)));
+        n("contextmenu", (() => ye(e)));
+        l("click", (() => ye(e)));
         l("focus", (() => o = false));
     }
-    function he(e) {
+    function ye(e) {
         if (!o) {
             se(e);
         }
@@ -3358,7 +3373,7 @@ var ContextMenu;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        ye(e, false);
+        he(e, false);
         ToolTip.assignToEvents(e, false);
         ContextMenu.assignToEvents(e, false);
         ToolTip.remove(e);

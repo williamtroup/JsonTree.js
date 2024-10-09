@@ -1476,7 +1476,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.float;
 
             if ( !bindingOptions.ignore!.floatValues ) {
-                const newValue: string = Convert.numberToFloatWithDecimalPlaces( value, bindingOptions.maximumDecimalPlaces! );
+                const newValue: string = Convert.numberToFloatWithDecimalPlaces( value, bindingOptions.maximum!.decimalPlaces! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newValue );
@@ -1498,8 +1498,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.number;
 
             if ( !bindingOptions.ignore!.numberValues ) {
+                let newNumberValue: string = value.toString();
+
+                if ( bindingOptions.maximum!.numberLength! > 0 && newNumberValue.length > bindingOptions.maximum!.numberLength! ) {
+                    newNumberValue = `${newNumberValue.substring( 0, bindingOptions.maximum!.numberLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+                }
+
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newNumberValue );
                 allowEditing = bindingOptions.allowEditing!.numberValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1518,8 +1524,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.bigint;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
+                let newBigIntValue: string = value.toString();
+
+                if ( bindingOptions.maximum!.bigIntLength! > 0 && newBigIntValue.length > bindingOptions.maximum!.bigIntLength! ) {
+                    newBigIntValue = `${newBigIntValue.substring( 0, bindingOptions.maximum!.bigIntLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+                }
+
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValue );
                 allowEditing = bindingOptions.allowEditing!.bigIntValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1584,8 +1596,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.urlValues ) {
                 let newUrlValue: string = value;
 
-                if ( bindingOptions.maximumUrlLength! > 0 && newUrlValue.length > bindingOptions.maximumUrlLength! ) {
-                    newUrlValue = `${newUrlValue.substring(0, bindingOptions.maximumUrlLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+                if ( bindingOptions.maximum!.urlLength! > 0 && newUrlValue.length > bindingOptions.maximum!.urlLength! ) {
+                    newUrlValue = `${newUrlValue.substring( 0, bindingOptions.maximum!.urlLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
@@ -1615,8 +1627,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !bindingOptions.ignore!.emailValues ) {
                 let newEmailValue: string = value;
 
-                if ( bindingOptions.maximumEmailLength! > 0 && newEmailValue.length > bindingOptions.maximumEmailLength! ) {
-                    newEmailValue = `${newEmailValue.substring(0, bindingOptions.maximumEmailLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+                if ( bindingOptions.maximum!.emailLength! > 0 && newEmailValue.length > bindingOptions.maximum!.emailLength! ) {
+                    newEmailValue = `${newEmailValue.substring( 0, bindingOptions.maximum!.emailLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                 }
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
@@ -1673,8 +1685,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let newStringValue: string = value;
 
                     if ( !isForEmptyProperties ) {
-                        if ( bindingOptions.maximumStringLength! > 0 && newStringValue.length > bindingOptions.maximumStringLength! ) {
-                            newStringValue = `${newStringValue.substring(0, bindingOptions.maximumStringLength)}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+                        if ( bindingOptions.maximum!.stringLength! > 0 && newStringValue.length > bindingOptions.maximum!.stringLength! ) {
+                            newStringValue = `${newStringValue.substring( 0, bindingOptions.maximum!.stringLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                         }
         
                         newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;
