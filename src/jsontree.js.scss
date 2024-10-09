@@ -536,6 +536,10 @@ div.json-tree-js {
             white-space: nowrap;
             text-align: left;
 
+            &:has(> div.column-control-buttons) {
+                padding-right: calc( 32px + ( var(--json-tree-js-border-size) * 4 ) + ( var(--json-tree-js-spacing-title-bar) * 2 ) + ( var(--json-tree-js-spacing) * 2 ) );
+            }
+
             div.contents-column-line-numbers {
                 position: relative;
                 vertical-align: top;

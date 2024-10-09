@@ -559,6 +559,10 @@ div.json-tree-js div.contents div.contents-column-multiple {
   white-space: nowrap;
   text-align: left;
 }
+div.json-tree-js div.contents div.contents-column:has(> div.column-control-buttons),
+div.json-tree-js div.contents div.contents-column-multiple:has(> div.column-control-buttons) {
+  padding-right: calc(32px + var(--json-tree-js-border-size) * 4 + var(--json-tree-js-spacing-title-bar) * 2 + var(--json-tree-js-spacing) * 2);
+}
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
   position: relative;
