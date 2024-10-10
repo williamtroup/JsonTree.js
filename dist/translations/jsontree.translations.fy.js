@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Frisian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Rjochts ferpleatse",
         "moveLeftButtonText": "Ferpleats nei lofts",
         "removeButtonText": "Fuortsmite",
-        "switchToPagesText": "Wikselje nei siden"
+        "switchToPagesText": "Wikselje nei siden",
+        "clearJsonText": "JSON wiskje",
+        "maximumInspectionLevelsReached": "Maksimale ynspeksjenivo's binne berikt."
     }
 } );

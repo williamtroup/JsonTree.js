@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - German | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - German | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Nach rechts bewegen",
         "moveLeftButtonText": "Nach links bewegen",
         "removeButtonText": "Entfernen",
-        "switchToPagesText": "Zu Seiten wechseln"
+        "switchToPagesText": "Zu Seiten wechseln",
+        "clearJsonText": "JSON löschen",
+        "maximumInspectionLevelsReached": "Die maximale Inspektionsstufe wurde erreicht."
     }
 } );

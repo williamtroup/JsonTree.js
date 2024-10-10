@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Romanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Mută-te la dreapta",
         "moveLeftButtonText": "Mutați la stânga",
         "removeButtonText": "Elimina",
-        "switchToPagesText": "Comutați la pagini"
+        "switchToPagesText": "Comutați la pagini",
+        "clearJsonText": "Ștergeți JSON",
+        "maximumInspectionLevelsReached": "Au fost atinse nivelurile maxime de inspecție."
     }
 } );

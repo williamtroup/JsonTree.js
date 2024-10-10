@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Tagalog | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Tagalog | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Ilipat Pakanan",
         "moveLeftButtonText": "Lumipat sa Kaliwa",
         "removeButtonText": "Alisin",
-        "switchToPagesText": "Lumipat Sa Mga Pahina"
+        "switchToPagesText": "Lumipat Sa Mga Pahina",
+        "clearJsonText": "I-clear ang JSON",
+        "maximumInspectionLevelsReached": "Naabot na ang pinakamataas na antas ng inspeksyon."
     }
 } );

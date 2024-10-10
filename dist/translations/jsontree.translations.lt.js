@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Judėti į dešinę",
         "moveLeftButtonText": "Perkelti į kairę",
         "removeButtonText": "Pašalinti",
-        "switchToPagesText": "Perjungti į puslapius"
+        "switchToPagesText": "Perjungti į puslapius",
+        "clearJsonText": "Išvalyti JSON",
+        "maximumInspectionLevelsReached": "Pasiektas maksimalus tikrinimo lygis."
     }
 } );

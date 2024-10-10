@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.1.0
+ * JsonTree.js Library v4.2.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -24,7 +24,6 @@
   --json-tree-js-title-bold-weight: var(--json-tree-js-bold-weight-heavy);
   --json-tree-js-color-dark-black: #1c2128;
   --json-tree-js-color-black: #3b3a3a;
-  --json-tree-js-color-white: #F5F5F5;
   --json-tree-js-color-snow-white: #F5F5F5;
   --json-tree-js-color-light-gray: #BBBBBB;
   --json-tree-js-color-array: #F28C28;
@@ -55,9 +54,10 @@
   --json-tree-js-highlight-selected-color: #353e4b;
   --json-tree-js-highlight-compare-color: #4a5768;
   --json-tree-js-highlight-selected-border-color: #97a4b5;
+  --json-tree-js-drag-and-drop-color: #F5F5F5;
   --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
-  --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+  --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-side-menu-width: 320px;
   --json-tree-js-side-menu-right-border-width: calc( var(--json-tree-js-border-size) * 12 );
   --json-tree-js-container-background-color: #22272e;
@@ -67,23 +67,24 @@
   --json-tree-js-paging-column-border-color: var(--json-tree-js-container-border-color);
   --json-tree-js-button-background-color: #2d333b;
   --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
-  --json-tree-js-button-text-color: var(--json-tree-js-color-white);
+  --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
   --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
   --json-tree-js-button-background-color-active: #616b79;
   --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
+  --json-tree-js-button-color-disabled: var(--json-tree-js-container-border-color);
   --json-tree-js-context-menu-background-color: var(--json-tree-js-container-background-color);
   --json-tree-js-context-menu-border-color: var(--json-tree-js-container-border-color);
-  --json-tree-js-context-menu-text-color: var(--json-tree-js-color-white);
+  --json-tree-js-context-menu-text-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-context-menu-item-background-color-hover: var(--json-tree-js-container-border-color);
   --json-tree-js-context-menu-item-text-color-hover: var(--json-tree-js-color-snow-white);
   --json-tree-js-context-menu-item-background-color-active: var(--json-tree-js-button-background-color-active);
   --json-tree-js-context-menu-item-text-color-active: var(--json-tree-js-color-snow-white);
   --json-tree-js-setting-panel-background-color: var(--json-tree-js-button-background-color);
-  --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-white);
+  --json-tree-js-checkbox-background-color-checked: var(--json-tree-js-color-snow-white);
   --json-tree-js-checkbox-background-color: var(--json-tree-js-setting-panel-background-color);
   --json-tree-js-checkbox-border-color-checked: var(--json-tree-js-checkbox-background-color-checked);
-  --json-tree-js-checkbox-border-color: var(--json-tree-js-color-white);
+  --json-tree-js-checkbox-border-color: var(--json-tree-js-color-snow-white);
   --json-tree-js-border-radius-editable: 0.25rem;
   --json-tree-js-border-radius: 0.5rem;
   --json-tree-js-border-size: 0.5px;
@@ -93,6 +94,7 @@
   --json-tree-js-spacing-title-bar: calc( ( var(--json-tree-js-spacing) / 2 ) + 2px );
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
+  --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
 }
 
 /*
@@ -114,7 +116,7 @@ div.json-tree-js {
   position: relative;
   border-radius: var(--json-tree-js-border-radius);
   background-color: var(--json-tree-js-container-background-color);
-  color: var(--json-tree-js-color-white);
+  color: var(--json-tree-js-color-snow-white);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-container-border-color);
   font-size: var(--json-tree-js-spacing-font-size);
   font-weight: var(--json-tree-js-bold-weight-light);
@@ -202,12 +204,12 @@ div.json-tree-js div.right-arrow:hover {
 div.json-tree-js div.down-arrow {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 8px solid var(--json-tree-js-color-white);
+  border-top: 8px solid var(--json-tree-js-color-snow-white);
 }
 div.json-tree-js div.right-arrow {
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-white);
+  border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-snow-white);
 }
 
 /*
@@ -237,7 +239,7 @@ div.json-tree-js div.title-bar button {
   transition: var(--json-tree-js-transition);
 }
 div.json-tree-js div.title-bar button:disabled {
-  color: var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-color-disabled);
 }
 div.json-tree-js div.title-bar button:not(.active):not(:disabled):active {
   background: var(--json-tree-js-button-background-color-active) !important;
@@ -318,10 +320,10 @@ div.json-tree-js div.footer-bar span.status-count {
 
 /*
     -------------------------------------------------------------------------
-    JsonTree.js - Side Menu
+    JsonTree.js - Disabled Background
     -------------------------------------------------------------------------
 */
-div.json-tree-js div.side-menu-disabled-background {
+div.json-tree-js div.disabled-background {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.3);
   top: 0;
@@ -331,6 +333,12 @@ div.json-tree-js div.side-menu-disabled-background {
   z-index: 1000;
   display: none;
 }
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Side Menu
+    -------------------------------------------------------------------------
+*/
 div.json-tree-js div.side-menu {
   display: flex;
   flex-direction: column;
@@ -340,7 +348,7 @@ div.json-tree-js div.side-menu {
   z-index: 1500;
   transition: var(--json-tree-js-transition);
   background-color: var(--json-tree-js-container-background-color);
-  border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-white);
+  border-right: var(--json-tree-js-side-menu-right-border-width) solid var(--json-tree-js-color-snow-white);
   border-radius: var(--json-tree-js-border-radius);
   width: var(--json-tree-js-side-menu-width);
   left: calc(0px - (var(--json-tree-js-side-menu-width) + var(--json-tree-js-side-menu-right-border-width)));
@@ -365,7 +373,7 @@ div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-bar-t
   margin-left: calc(var(--json-tree-js-spacing) / 2);
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls {
-  margin-left: calc(var(--json-tree-js-spacing) * 6);
+  margin-left: calc(var(--json-tree-js-spacing) * 3);
   flex-grow: 1;
   text-align: right;
   white-space: nowrap;
@@ -383,7 +391,7 @@ div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-contr
   transition: var(--json-tree-js-transition);
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button:disabled {
-  color: var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-color-disabled);
 }
 div.json-tree-js div.side-menu div.side-menu-title-bar div.side-menu-title-controls button:not(.active):not(:disabled):active {
   background: var(--json-tree-js-button-background-color-active) !important;
@@ -424,7 +432,7 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
   font-weight: var(--json-tree-js-title-bold-weight);
   font-size: 0.9rem;
   margin: 3px;
-  color: var(--json-tree-js-color-white);
+  color: var(--json-tree-js-color-snow-white);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons {
   flex-grow: 1;
@@ -432,7 +440,7 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons div.settings-panel-control-button {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
-  border: 4px solid var(--json-tree-js-color-white);
+  border: 4px solid var(--json-tree-js-color-snow-white);
   height: 15px;
   width: 15px;
   border-radius: var(--json-tree-js-border-radius-editable);
@@ -445,7 +453,7 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
   opacity: 0.7;
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-title-bar div.settings-panel-control-buttons div.settings-panel-fill {
-  background-color: var(--json-tree-js-color-white);
+  background-color: var(--json-tree-js-color-snow-white);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents {
   margin-top: var(--json-tree-js-spacing);
@@ -557,13 +565,15 @@ div.json-tree-js div.contents div.contents-column-multiple {
   padding-right: var(--json-tree-js-spacing);
   margin-right: var(--json-tree-js-spacing);
   white-space: nowrap;
+  text-align: left;
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
-  position: relative;
+  position: sticky;
   vertical-align: top;
   display: inline-block;
   left: 0;
+  z-index: 2;
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers div.contents-column-line-number,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers div.contents-column-line-number {
@@ -579,6 +589,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.contents-column-l
   display: inline-block;
   width: fit-content;
   height: fit-content;
+  z-index: 1;
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons {
@@ -609,7 +620,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button:disabled,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:disabled {
-  color: var(--json-tree-js-button-border-color);
+  color: var(--json-tree-js-button-color-disabled);
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button:not(.active):not(:disabled):active,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:not(.active):not(:disabled):active {
@@ -639,11 +650,22 @@ div.json-tree-js div.contents div.contents-column-multiple:last-child {
   padding-right: 0;
   margin-right: 0;
 }
+div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers {
+  background-color: var(--json-tree-js-container-background-color);
+}
 div.json-tree-js div.contents div.contents-column-multiple {
   background-color: var(--json-tree-js-paging-column-background-color);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   padding: var(--json-tree-js-spacing);
   border-radius: var(--json-tree-js-border-radius);
+}
+div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
+  background-color: var(--json-tree-js-paging-column-background-color);
+  margin-left: calc(-1 * var(--json-tree-js-spacing));
+  left: calc(-1 * var(--json-tree-js-spacing));
+}
+div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers div.contents-column-line-number {
+  padding-left: var(--json-tree-js-spacing);
 }
 div.json-tree-js div.contents span.array {
   color: var(--json-tree-js-color-array);
@@ -751,6 +773,7 @@ div.json-tree-js div.drag-and-drop-background {
   z-index: 1000;
   display: none;
   text-align: center;
+  color: var(--json-tree-js-drag-and-drop-color);
 }
 div.json-tree-js div.drag-and-drop-background div.notice-text {
   position: absolute;
@@ -794,6 +817,10 @@ div.json-tree-js div.object-type-title span.main-title {
 div.json-tree-js div.object-type-title span.main-title:not(.no-hover):hover {
   cursor: pointer;
   opacity: 0.7;
+}
+div.json-tree-js div.object-type-title span.root-name {
+  margin-right: calc(var(--json-tree-js-spacing) / 2);
+  font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.object-type-title span.data-array-index {
   margin-right: calc(var(--json-tree-js-spacing) / 2);
@@ -881,7 +908,7 @@ div.json-tree-js div.object-type-contents div.object-type-value {
   white-space: nowrap;
   margin-top: calc(var(--json-tree-js-spacing) / 2);
   margin-bottom: calc(var(--json-tree-js-spacing) / 2);
-  margin-left: calc(var(--json-tree-js-spacing) * 2);
+  margin-left: var(--json-tree-js-indentation-size);
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.object-type-value-title {
   width: fit-content;
@@ -961,7 +988,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.no-properti
   font-style: italic;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.comma {
-  color: var(--json-tree-js-color-white);
+  color: var(--json-tree-js-color-snow-white);
   font-weight: var(--json-tree-js-bold-weight-medium);
   margin-left: 2px;
 }
@@ -998,7 +1025,7 @@ div.json-tree-js div.checkbox label.checkbox {
   padding-left: 20px;
   padding-top: 1px;
   padding-bottom: 2px;
-  color: var(--json-tree-js-color-white);
+  color: var(--json-tree-js-color-snow-white);
 }
 div.json-tree-js div.checkbox label.checkbox input {
   display: none !important;

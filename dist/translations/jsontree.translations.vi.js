@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Vietnamese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Vietnamese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Di chuyển sang phải",
         "moveLeftButtonText": "Di chuyển sang trái",
         "removeButtonText": "Di dời",
-        "switchToPagesText": "Chuyển sang trang"
+        "switchToPagesText": "Chuyển sang trang",
+        "clearJsonText": "Xóa JSON",
+        "maximumInspectionLevelsReached": "Mức độ kiểm tra tối đa đã đạt được."
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Irish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Irish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Bog ar dheis",
         "moveLeftButtonText": "Bog ar Chlé",
         "removeButtonText": "Bain",
-        "switchToPagesText": "Athraigh go Leathanaigh"
+        "switchToPagesText": "Athraigh go Leathanaigh",
+        "clearJsonText": "Glan JSON",
+        "maximumInspectionLevelsReached": "Tá uasleibhéil iniúchta bainte amach."
     }
 } );

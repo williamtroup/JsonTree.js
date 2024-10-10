@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        config.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -102,6 +102,9 @@ export namespace Config {
             configuration.text!.removeButtonText = Default.getAnyString( configuration.text!.removeButtonText, "Remove" );
             configuration.text!.switchToPagesSymbolText = Default.getAnyString( configuration.text!.switchToPagesSymbolText, "☷" );
             configuration.text!.switchToPagesText = Default.getAnyString( configuration.text!.switchToPagesText, "Switch To Pages" );
+            configuration.text!.clearJsonSymbolText = Default.getAnyString( configuration.text!.clearJsonSymbolText, "⏎" );
+            configuration.text!.clearJsonText = Default.getAnyString( configuration.text!.clearJsonText, "Clear JSON" );
+            configuration.text!.maximumInspectionLevelsReached = Default.getAnyString( configuration.text!.maximumInspectionLevelsReached, "Maximum inspection levels has been reached." );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [

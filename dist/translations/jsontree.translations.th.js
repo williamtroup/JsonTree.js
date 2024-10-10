@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Thai | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Thai | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "เลื่อนไปทางขวา",
         "moveLeftButtonText": "เลื่อนไปทางซ้าย",
         "removeButtonText": "ลบ",
-        "switchToPagesText": "สลับไปที่หน้า"
+        "switchToPagesText": "สลับไปที่หน้า",
+        "clearJsonText": "ล้าง JSON",
+        "maximumInspectionLevelsReached": "ถึงระดับการตรวจสอบสูงสุดแล้ว"
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Estonian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Estonian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Liigu paremale",
         "moveLeftButtonText": "Liiguta vasakule",
         "removeButtonText": "Eemalda",
-        "switchToPagesText": "Lülitu lehtedele"
+        "switchToPagesText": "Lülitu lehtedele",
+        "clearJsonText": "Tühjendage JSON",
+        "maximumInspectionLevelsReached": "Ülevaatuse maksimumtasemed on saavutatud."
     }
 } );

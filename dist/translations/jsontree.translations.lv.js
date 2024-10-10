@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Latvian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Pārvietot pa labi",
         "moveLeftButtonText": "Pārvietot pa kreisi",
         "removeButtonText": "Noņemt",
-        "switchToPagesText": "Pārslēgties uz lapām"
+        "switchToPagesText": "Pārslēgties uz lapām",
+        "clearJsonText": "Notīrīt JSON",
+        "maximumInspectionLevelsReached": "Ir sasniegts maksimālais pārbaudes līmenis."
     }
 } );

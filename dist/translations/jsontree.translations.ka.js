@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Georgian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Georgian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "გადაადგილება მარჯვნივ",
         "moveLeftButtonText": "გადაადგილება მარცხნივ",
         "removeButtonText": "ამოღება",
-        "switchToPagesText": "გვერდებზე გადართვა"
+        "switchToPagesText": "გვერდებზე გადართვა",
+        "clearJsonText": "გაასუფთავეთ JSON",
+        "maximumInspectionLevelsReached": "ინსპექტირების მაქსიმალური დონე მიღწეულია."
     }
 } );

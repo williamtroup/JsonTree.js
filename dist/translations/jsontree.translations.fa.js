@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Farsi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Farsi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "حرکت به راست",
         "moveLeftButtonText": "حرکت به چپ",
         "removeButtonText": "حذف کنید",
-        "switchToPagesText": "سوئیچ به صفحات"
+        "switchToPagesText": "سوئیچ به صفحات",
+        "clearJsonText": "JSON را پاک کنید",
+        "maximumInspectionLevelsReached": "حداکثر سطوح بازرسی رسیده است."
     }
 } );

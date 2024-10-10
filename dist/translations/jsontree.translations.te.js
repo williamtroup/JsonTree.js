@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Telugu | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "కుడివైపుకి తరలించు",
         "moveLeftButtonText": "ఎడమకు తరలించు",
         "removeButtonText": "తొలగించు",
-        "switchToPagesText": "పేజీలకు మారండి"
+        "switchToPagesText": "పేజీలకు మారండి",
+        "clearJsonText": "JSONని క్లియర్ చేయండి",
+        "maximumInspectionLevelsReached": "గరిష్ట తనిఖీ స్థాయిలు చేరుకున్నాయి."
     }
 } );

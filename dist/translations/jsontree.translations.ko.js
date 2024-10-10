@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Korean | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Korean | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "오른쪽으로 이동",
         "moveLeftButtonText": "왼쪽으로 이동",
         "removeButtonText": "제거하다",
-        "switchToPagesText": "페이지로 전환"
+        "switchToPagesText": "페이지로 전환",
+        "clearJsonText": "JSON 지우기",
+        "maximumInspectionLevelsReached": "최대 검사 수준에 도달했습니다."
     }
 } );

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        api.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -175,6 +175,19 @@ export type PublicApi = {
 	 * @returns     {any}                                                	The JSON that is being displayed.
 	 */
 	getJson: ( elementId: string ) => any;
+
+	/**
+	 * getSelectedJsonValues().
+	 *
+	 * Returns the JSON values that are selected in the display.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 *
+	 * @returns     {any}                                                	The JSON values that are selected in the display.
+	 */
+	getSelectedJsonValues: ( elementId: string ) => any[];
 
 
     /*

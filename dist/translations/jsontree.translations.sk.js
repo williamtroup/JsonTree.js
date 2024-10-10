@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Slovak | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Slovak | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Presunúť doprava",
         "moveLeftButtonText": "Posunúť doľava",
         "removeButtonText": "Odstrániť",
-        "switchToPagesText": "Prepnúť na stránky"
+        "switchToPagesText": "Prepnúť na stránky",
+        "clearJsonText": "Vymazať JSON",
+        "maximumInspectionLevelsReached": "Boli dosiahnuté maximálne úrovne kontroly."
     }
 } );

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -160,5 +160,16 @@ export namespace DomElement {
         }
 
         return position;
+    }
+
+    export function getStyleValueByName( element: any, stylePropertyName: string, toNumber: boolean = false ) : any {
+        const styles: CSSStyleDeclaration = getComputedStyle( element );
+        let style: any = styles.getPropertyValue( stylePropertyName );
+        
+        if ( toNumber ) {
+            style = parseFloat( style );
+        }
+
+        return style;
     }
 }

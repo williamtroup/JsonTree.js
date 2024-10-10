@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Hebrew | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Hebrew | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "זז ימינה",
         "moveLeftButtonText": "זז שמאלה",
         "removeButtonText": "לְהַסִיר",
-        "switchToPagesText": "עבור לדפים"
+        "switchToPagesText": "עבור לדפים",
+        "clearJsonText": "נקה את JSON",
+        "maximumInspectionLevelsReached": "הושגו רמות פיקוח מקסימליות."
     }
 } );

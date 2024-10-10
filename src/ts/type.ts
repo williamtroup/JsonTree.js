@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -119,6 +119,9 @@ export type ConfigurationText = {
 	removeButtonText?: string;
 	switchToPagesSymbolText?: string;
 	switchToPagesText?: string;
+	clearJsonSymbolText?: string;
+	clearJsonText?: string;
+	maximumInspectionLevelsReached?: string;
 };
 
 export type BindingOptions = {
@@ -136,8 +139,6 @@ export type BindingOptions = {
 	reverseArrayValues?: boolean;
 	addArrayIndexPadding?: boolean;
 	showValueColors?: boolean;
-	maximumDecimalPlaces?: number;
-	maximumStringLength?: number;
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
@@ -158,8 +159,6 @@ export type BindingOptions = {
 	showEmailOpenButtons?: boolean;
 	minimumArrayIndexPadding?: number;
 	arrayIndexPaddingCharacter?: string;
-	maximumUrlLength?: number;
-	maximumEmailLength?: number;
 	showCssStylesForHtmlObjects?: boolean;
 	jsonPathAny?: string;
 	jsonPathSeparator?: string;
@@ -167,7 +166,9 @@ export type BindingOptions = {
 	showClosedArraySquaredBrackets?: boolean;
 	showClosedObjectCurlyBraces?: boolean;
 	convertClickedValuesToString?: boolean;
+	rootName?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
+	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;
 	paging?: BindingOptionsPaging;
 	autoClose?: BindingOptionsAutoClose;
@@ -218,6 +219,16 @@ export type BindingOptionsCurrentView = {
 	selectedValues: any[];
 };
 
+export type BindingOptionsMaximum = {
+	decimalPlaces?: number;
+	stringLength?: number;
+	urlLength?: number;
+	emailLength?: number;
+	numberLength?: number;
+	bigIntLength?: number;
+	inspectionLevels?: number;
+};
+
 export type BindingOptionsPaging = {
 	enabled?: boolean;
 	columnsPerPage?: number;
@@ -259,6 +270,7 @@ export type BindingOptionsControlPanel = {
 	showEditButton?: boolean;
 	showCloseOpenAllButtons?: boolean;
 	showSwitchToPagesButton?: boolean;
+	showImportButton?: boolean;
 };
 
 export type BindingOptionsLineNumbers = {
@@ -324,6 +336,7 @@ export type BindingOptionsSideMenu = {
 	titleText?: string;
 	showAvailableDataTypeCounts?: boolean;
 	showOnlyDataTypesAvailable?: boolean;
+	showClearJsonButton?: boolean;
 };
 
 export type BindingOptionsAutoClose = {
@@ -369,4 +382,5 @@ export type BindingOptionsEvents = {
 	onCopy?: ( jsonTreeElement: HTMLElement, data: string ) => void;
 	onFullScreenChange?: ( jsonTreeElement: HTMLElement, enabled: boolean ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
+	onSelectionChange?: ( jsonTreeElement: HTMLElement ) => void;
 };

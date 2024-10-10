@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Indonesian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Indonesian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Bergerak ke Kanan",
         "moveLeftButtonText": "Pindah ke Kiri",
         "removeButtonText": "Menghapus",
-        "switchToPagesText": "Beralih Ke Halaman"
+        "switchToPagesText": "Beralih Ke Halaman",
+        "clearJsonText": "Hapus JSON",
+        "maximumInspectionLevelsReached": "Tingkat inspeksi maksimum telah tercapai."
     }
 } );

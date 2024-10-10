@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Hungarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Hungarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Mozgás Jobbra",
         "moveLeftButtonText": "Mozgás balra",
         "removeButtonText": "Távolítsa el",
-        "switchToPagesText": "Váltás oldalakra"
+        "switchToPagesText": "Váltás oldalakra",
+        "clearJsonText": "JSON törlése",
+        "maximumInspectionLevelsReached": "Elérte a maximális ellenőrzési szintet."
     }
 } );

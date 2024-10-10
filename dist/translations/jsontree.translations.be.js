@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Belarusian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Belarusian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayHeaderNames": [
@@ -107,6 +107,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Рух направа",
         "moveLeftButtonText": "Рух налева",
         "removeButtonText": "Зняць",
-        "switchToPagesText": "Пераключыцца на старонкі"
+        "switchToPagesText": "Пераключыцца на старонкі",
+        "clearJsonText": "Ачысціць JSON",
+        "maximumInspectionLevelsReached": "Дасягнуты максімальныя ўзроўні праверкі."
     }
 } );

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Turkish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Turkish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Sağa Taşı",
         "moveLeftButtonText": "Sola Taşı",
         "removeButtonText": "Kaldırmak",
-        "switchToPagesText": "Sayfalara Geç"
+        "switchToPagesText": "Sayfalara Geç",
+        "clearJsonText": "JSON'u temizle",
+        "maximumInspectionLevelsReached": "Maksimum denetim seviyelerine ulaşıldı."
     }
 } );

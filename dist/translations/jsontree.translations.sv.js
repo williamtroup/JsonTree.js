@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Swedish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Swedish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Flytta höger",
         "moveLeftButtonText": "Flytta vänster",
         "removeButtonText": "Ta bort",
-        "switchToPagesText": "Byt till sidor"
+        "switchToPagesText": "Byt till sidor",
+        "clearJsonText": "Rensa JSON",
+        "maximumInspectionLevelsReached": "Maximala inspektionsnivåer har uppnåtts."
     }
 } );

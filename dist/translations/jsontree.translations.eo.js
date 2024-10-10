@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Esperanto | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Esperanto | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Movu Dekstren",
         "moveLeftButtonText": "Movu Maldekstren",
         "removeButtonText": "Forigi",
-        "switchToPagesText": "Ŝanĝu al Paĝoj"
+        "switchToPagesText": "Ŝanĝu al Paĝoj",
+        "clearJsonText": "Forigi JSON",
+        "maximumInspectionLevelsReached": "Maksimumaj inspektaj niveloj estis atingitaj."
     }
 } );

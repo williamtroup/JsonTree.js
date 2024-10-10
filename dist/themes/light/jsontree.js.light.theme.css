@@ -2,8 +2,7 @@
     /* Colors */
     --json-tree-js-color-dark-black: #d8d5d5;
     --json-tree-js-color-black: #F5F5F5;
-    --json-tree-js-color-white: #3b3a3a;
-    --json-tree-js-color-snow-white: #F5F5F5;
+    --json-tree-js-color-snow-white: #3b3a3a;
     --json-tree-js-color-light-gray: #818080;
 
     /* Colors - Types */
@@ -28,7 +27,7 @@
     --json-tree-js-color-link: #0047AB;
 
     /* Colors - Editable Fields */
-    --json-tree-js-editable-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-editable-text-color: var(--json-tree-js-color-snow-white);
     --json-tree-js-editable-background-color: var(--json-tree-js-color-snow-white);
 
     /* Colors - Highlights */
@@ -39,7 +38,7 @@
     /* ToolTip */
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);
     --json-tree-js-tooltip-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-white);
+    --json-tree-js-tooltip-text-color: var(--json-tree-js-color-snow-white);
 
     /* Containers */
     --json-tree-js-container-background-color: #e8e6e6;
@@ -53,11 +52,12 @@
     /* Button */
     --json-tree-js-button-background-color: #e8e6e6;
     --json-tree-js-button-border-color: var(--json-tree-js-container-border-color);
-    --json-tree-js-button-text-color: var(--json-tree-js-color-white);
-    --json-tree-js-button-background-color-hover: var(--json-tree-js-container-border-color);
+    --json-tree-js-button-text-color: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-background-color-hover: #cecaca;
     --json-tree-js-button-text-color-hover: var(--json-tree-js-color-snow-white);
-    --json-tree-js-button-background-color-active: #616b79;
+    --json-tree-js-button-background-color-active: #a9a2a2;
     --json-tree-js-button-text-color-active: var(--json-tree-js-color-snow-white);
+    --json-tree-js-button-color-disabled: var(--json-tree-js-button-background-color-hover);
 
     /* CheckBox */
     --json-tree-js-checkbox-background-color-checked: #818080;

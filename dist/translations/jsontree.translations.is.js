@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Icelandic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Icelandic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Færðu til hægri",
         "moveLeftButtonText": "Færðu til vinstri",
         "removeButtonText": "Fjarlægja",
-        "switchToPagesText": "Skiptu yfir í síður"
+        "switchToPagesText": "Skiptu yfir í síður",
+        "clearJsonText": "Hreinsaðu JSON",
+        "maximumInspectionLevelsReached": "Hámarksskoðunarstigum hefur verið náð."
     }
 } );

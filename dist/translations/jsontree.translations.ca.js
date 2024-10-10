@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Mou a la dreta",
         "moveLeftButtonText": "Mou a l'esquerra",
         "removeButtonText": "Eliminar",
-        "switchToPagesText": "Canvia a pàgines"
+        "switchToPagesText": "Canvia a pàgines",
+        "clearJsonText": "Esborra JSON",
+        "maximumInspectionLevelsReached": "S'han assolit els nivells màxims d'inspecció."
     }
 } );

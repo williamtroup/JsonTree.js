@@ -58,7 +58,8 @@ function createImages() {
 
 function bindingOptions( showValueColors = true, allowValueToolTips = true, showPaging = false, columnSize = 1 ) {
     return {
-        data: getData(),
+        data: getArrayData(),
+        //data: getObjectData(),
         //data: null,
         //data: _MAP_1,
         //data: [ _MAP_1, _MAP_2 ],
@@ -85,11 +86,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showPropertyNameQuotes: true,
         showPropertyNameAndIndexColors: true,
         addArrayIndexPadding: false,
-        maximumStringLength: 0,
         minimumArrayIndexPadding: 0,
         arrayIndexPaddingCharacter: "0",
-        maximumUrlLength: 0,
-        maximumEmailLength: 0,
         showStringQuotes: true,
         showCssStylesForHtmlObjects: false,
         jsonIndentSpaces: 8,
@@ -103,6 +101,15 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             "parsing\\booleans\\value1": "This is a boolean tooltip for Value 1 on Page 2",
             "..\\..\\arrayValue1": "This is a boolean tooltip shown for every array index",
         } : null,
+        maximum: {
+            decimalPlaces: 2,
+            stringLength: 0,
+            urlLength: 0,
+            emailLength: 0,
+            numberLength: 0,
+            bigIntLength: 0,
+            inspectionLevels: 10,
+        },
         parse: {
             stringsToDates: true,
             stringsToBooleans: true,
@@ -123,6 +130,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showImportButton: true,
             showAvailableDataTypeCounts: true,
             showOnlyDataTypesAvailable: false,
+            showExportButton: true,
         },
         allowEditing: {
             booleanValues: true,
@@ -197,6 +205,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showEditButton: true,
             showCloseOpenAllButtons: true,
             showSwitchToPagesButton: true,
+            showImportButton: true,
         },
         lineNumbers: {
             enabled: true,
@@ -206,7 +215,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
     };
 }
 
-function getData() {
+function getArrayData() {
     return [
         {
             value1: true,
@@ -327,6 +336,21 @@ function getData() {
         null,
         undefined
     ]
+}
+
+function getObjectData() {
+    return {
+        value1: true,
+        value2: "This is a string for page 2",
+        value3: new Date(),
+        value4: 5,
+        value5: null,
+        value6: {
+            value1: 2,
+            value2: 1.6,
+            value3: Symbol( "id2" )
+        }
+    };
 }
 
 function testFunctionName( message ) {

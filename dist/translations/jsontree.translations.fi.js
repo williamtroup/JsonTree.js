@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Finnish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Finnish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Siirrä oikealle",
         "moveLeftButtonText": "Siirrä vasemmalle",
         "removeButtonText": "Poistaa",
-        "switchToPagesText": "Vaihda sivuille"
+        "switchToPagesText": "Vaihda sivuille",
+        "clearJsonText": "Tyhjennä JSON",
+        "maximumInspectionLevelsReached": "Tarkastuksen enimmäistasot on saavutettu."
     }
 } );

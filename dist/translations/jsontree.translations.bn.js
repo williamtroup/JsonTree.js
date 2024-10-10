@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Bengali | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Bengali | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "ডানদিকে সরান",
         "moveLeftButtonText": "বামে সরান",
         "removeButtonText": "সরান",
-        "switchToPagesText": "পৃষ্ঠাগুলিতে স্যুইচ করুন"
+        "switchToPagesText": "পৃষ্ঠাগুলিতে স্যুইচ করুন",
+        "clearJsonText": "JSON সাফ করুন",
+        "maximumInspectionLevelsReached": "সর্বোচ্চ পরিদর্শন স্তরে পৌঁছেছে।"
     }
 } );

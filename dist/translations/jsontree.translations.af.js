@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Afrikaans | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Afrikaans | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Beweeg regs",
         "moveLeftButtonText": "Beweeg links",
         "removeButtonText": "Verwyder",
-        "switchToPagesText": "Skakel oor na bladsye"
+        "switchToPagesText": "Skakel oor na bladsye",
+        "clearJsonText": "Vee JSON uit",
+        "maximumInspectionLevelsReached": "Maksimum inspeksievlakke is bereik."
     }
 } );

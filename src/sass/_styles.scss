@@ -34,7 +34,7 @@ $minimum-width: 768px;
         transition: var(--json-tree-js-transition);
 
         &:disabled {
-            color: var(--json-tree-js-button-border-color);
+            color: var(--json-tree-js-button-color-disabled);
         }
 
         &:not(.active):not(:disabled):active {

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Danish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Danish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Flyt til højre",
         "moveLeftButtonText": "Flyt til venstre",
         "removeButtonText": "Fjerne",
-        "switchToPagesText": "Skift til sider"
+        "switchToPagesText": "Skift til sider",
+        "clearJsonText": "Ryd JSON",
+        "maximumInspectionLevelsReached": "Maksimale inspektionsniveauer er nået."
     }
 } );

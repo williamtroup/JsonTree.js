@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "右に移動",
         "moveLeftButtonText": "左に移動",
         "removeButtonText": "取り除く",
-        "switchToPagesText": "ページに切り替える"
+        "switchToPagesText": "ページに切り替える",
+        "clearJsonText": "JSONをクリアする",
+        "maximumInspectionLevelsReached": "最大検査レベルに達しました。"
     }
 } );

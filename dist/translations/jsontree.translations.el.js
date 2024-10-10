@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Greek | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Greek | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Μετακίνηση Δεξιά",
         "moveLeftButtonText": "Μετακίνηση Αριστερά",
         "removeButtonText": "Αφαιρώ",
-        "switchToPagesText": "Μετάβαση σε σελίδες"
+        "switchToPagesText": "Μετάβαση σε σελίδες",
+        "clearJsonText": "Εκκαθάριση JSON",
+        "maximumInspectionLevelsReached": "Επιτεύχθηκαν τα μέγιστα επίπεδα επιθεώρησης."
     }
 } );

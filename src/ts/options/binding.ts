@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v4.1.0
+ * @version     v4.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -26,7 +26,8 @@ import {
     type BindingOptionsPaging, 
     type BindingOptionsFooter, 
     type BindingOptionsControlPanel, 
-    type BindingOptionsLineNumbers } from "../type";
+    type BindingOptionsLineNumbers, 
+    BindingOptionsMaximum} from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -101,8 +102,6 @@ export namespace Binding {
             options.reverseArrayValues = Default.getBoolean( options.reverseArrayValues, false );
             options.addArrayIndexPadding = Default.getBoolean( options.addArrayIndexPadding, false );
             options.showValueColors = Default.getBoolean( options.showValueColors, true );
-            options.maximumDecimalPlaces = Default.getNumber( options.maximumDecimalPlaces, 2 );
-            options.maximumStringLength = Default.getNumber( options.maximumStringLength, 0 );
             options.fileDroppingEnabled = Default.getBoolean( options.fileDroppingEnabled, true );
             options.jsonIndentSpaces = Default.getNumber( options.jsonIndentSpaces, 8 );
             options.showArrayIndexBrackets = Default.getBoolean( options.showArrayIndexBrackets, true );
@@ -123,8 +122,6 @@ export namespace Binding {
             options.showEmailOpenButtons = Default.getBoolean( options.showEmailOpenButtons, true );
             options.minimumArrayIndexPadding = Default.getNumber( options.minimumArrayIndexPadding, 0 );
             options.arrayIndexPaddingCharacter = Default.getString( options.arrayIndexPaddingCharacter, "0" );
-            options.maximumUrlLength = Default.getNumber( options.maximumUrlLength, 0 );
-            options.maximumEmailLength = Default.getNumber( options.maximumEmailLength, 0 );
             options.showCssStylesForHtmlObjects = Default.getBoolean( options.showCssStylesForHtmlObjects, false );
             options.jsonPathAny = Default.getString( options.jsonPathAny, ".." );
             options.jsonPathSeparator = Default.getString( options.jsonPathSeparator, Char.backslash );
@@ -132,7 +129,9 @@ export namespace Binding {
             options.showClosedArraySquaredBrackets = Default.getBoolean( options.showClosedArraySquaredBrackets, true );
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
             options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
+            options.rootName = Default.getString( options.rootName, "root" );
 
+            options.maximum = getMaximum( options );
             options.paging = getPaging( options );
             options.title = getTitle( options );
             options.footer = getFooter( options );
@@ -147,6 +146,19 @@ export namespace Binding {
             options.events = getCustomTriggers( options );
     
             return options;
+        }
+
+        function getMaximum( options: BindingOptions ) : BindingOptionsMaximum {
+            options.maximum = Default.getObject( options.maximum, {} as BindingOptionsMaximum );
+            options.maximum!.decimalPlaces = Default.getNumber( options.maximum!.decimalPlaces, 2 );
+            options.maximum!.stringLength = Default.getNumber( options.maximum!.stringLength, 0 );
+            options.maximum!.urlLength = Default.getNumber( options.maximum!.urlLength, 0 );
+            options.maximum!.emailLength = Default.getNumber( options.maximum!.emailLength, 0 );
+            options.maximum!.numberLength = Default.getNumber( options.maximum!.numberLength, 0 );
+            options.maximum!.bigIntLength = Default.getNumber( options.maximum!.bigIntLength, 0 );
+            options.maximum!.inspectionLevels = Default.getNumber( options.maximum!.inspectionLevels, 10 );
+
+            return options.maximum!;
         }
         
         function getPaging( options: BindingOptions ) : BindingOptionsPaging {
@@ -193,6 +205,7 @@ export namespace Binding {
             options.controlPanel!.showEditButton = Default.getBoolean( options.controlPanel!.showEditButton, true );
             options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
+            options.controlPanel!.showImportButton = Default.getBoolean( options.controlPanel!.showImportButton, true );
 
             return options.controlPanel!;
         }
@@ -294,6 +307,7 @@ export namespace Binding {
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, options.title!.text! );
             options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
+            options.sideMenu!.showClearJsonButton = Default.getBoolean( options.sideMenu!.showClearJsonButton, true );
 
             return options.sideMenu!;
         }
@@ -342,6 +356,7 @@ export namespace Binding {
             options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
+            options.events!.onSelectionChange = Default.getFunction( options.events!.onSelectionChange, null! );
 
             return options.events!;
         }

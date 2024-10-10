@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.1.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.2.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Преместване надясно",
         "moveLeftButtonText": "Преместване наляво",
         "removeButtonText": "Премахнете",
-        "switchToPagesText": "Превключване към страници"
+        "switchToPagesText": "Превключване към страници",
+        "clearJsonText": "Изчистване на JSON",
+        "maximumInspectionLevelsReached": "Достигнати са максималните нива на проверка."
     }
 } );
