@@ -121,6 +121,7 @@ export type ConfigurationText = {
 	switchToPagesText?: string;
 	clearJsonSymbolText?: string;
 	clearJsonText?: string;
+	maximumInspectionLevelsReached?: string;
 };
 
 export type BindingOptions = {
@@ -225,6 +226,7 @@ export type BindingOptionsMaximum = {
 	emailLength?: number;
 	numberLength?: number;
 	bigIntLength?: number;
+	inspectionLevels?: number;
 };
 
 export type BindingOptionsPaging = {

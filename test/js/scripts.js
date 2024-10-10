@@ -108,6 +108,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             emailLength: 0,
             numberLength: 0,
             bigIntLength: 0,
+            inspectionLevels: 10,
         },
         parse: {
             stringsToDates: true,

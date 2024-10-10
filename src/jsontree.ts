@@ -1210,7 +1210,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
-            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object );
+            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
             addValueClickEvent( bindingOptions, titleText, data, dataType, false );
             addFooterSizeStatus( bindingOptions, data, titleText );
             addFooterLengthStatus( bindingOptions, data, titleText );
@@ -1230,6 +1230,18 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+        
+        if ( !bindingOptions.paging!.enabled ) {
+            let rootName: string = bindingOptions.rootName!;
+
+            if ( bindingOptions.showPropertyNameQuotes ) {
+                rootName = `\"${rootName}\"`;
+            }
+
+            DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
+            DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter! );
+        }
+        
         const titleText: HTMLSpanElement = DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} main-title` : "main-title", mainTitle );
         let openingBracket: HTMLSpanElement = null!;
         let closedBrackets: HTMLSpanElement = null!;
@@ -1248,20 +1260,24 @@ type JsonTreeData = Record<string, BindingOptions>;
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
         }
 
-        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array );
+        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array, 1 );
         addValueClickEvent( bindingOptions, titleText, data, dataType, false );
         addFooterSizeStatus( bindingOptions, data, titleText );
         addFooterLengthStatus( bindingOptions, data, titleText );
         renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
 
-    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : boolean {
+    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
         const propertiesLength: number = propertyNames.length;
         const propertiesLengthForAutoClose: number = jsonPath !== Char.empty ? propertiesLength : 0;
 
         if ( propertiesLength === 0 && !bindingOptions.ignore!.emptyObjects ) {
-            renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing );
+            renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing, indentationLevel );
+            propertiesAdded = false;
+
+        } else if ( bindingOptions.maximum!.inspectionLevels! > 0 && indentationLevel > bindingOptions.maximum!.inspectionLevels! ) {
+            renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.maximumInspectionLevelsReached!, true, false, Char.empty, parentType, preventEditing, indentationLevel );
             propertiesAdded = false;
         } else {
 
@@ -1270,12 +1286,12 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const newJsonPath: string = jsonPath === Char.empty ? propertyName : `${jsonPath}${Char.backslash}${propertyName}`;
     
                 if ( data.hasOwnProperty( propertyName ) ) {
-                    renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false, newJsonPath, parentType, preventEditing );
+                    renderValue( data, objectTypeContents, bindingOptions, propertyName, data[ propertyName ], propertyIndex === propertiesLength - 1, false, newJsonPath, parentType, preventEditing, indentationLevel );
                 }
             }
 
             if ( objectTypeContents.children.length === 0 || ( bindingOptions.showOpenedObjectArrayBorders && objectTypeContents.children.length === 1 ) ) {
-                renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing );
+                renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing, indentationLevel );
                 propertiesAdded = false;
 
             } else {
@@ -1290,35 +1306,41 @@ type JsonTreeData = Record<string, BindingOptions>;
         return propertiesAdded;
     }
 
-    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, closedBrackets: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : boolean {
+    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, closedBrackets: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
         const dataLength: number = data.length;
         const dataLengthForAutoClose: number = jsonPath !== Char.empty ? dataLength : 0;
 
-        if ( !bindingOptions.reverseArrayValues ) {
-            for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
-                const actualIndex: number = Arr.getIndex( dataIndex1, bindingOptions );
-                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
-
-                renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath, parentType, preventEditing );
-            }
-
-        } else {
-            for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
-                const actualIndex: number = Arr.getIndex( dataIndex2, bindingOptions );
-                const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
-
-                renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath, parentType, preventEditing );
-            }
-        }
-
-        if ( objectTypeContents.children.length === 0 || ( bindingOptions.showOpenedObjectArrayBorders && objectTypeContents.children.length === 1 ) ) {
-            renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing );
+        if ( bindingOptions.maximum!.inspectionLevels! > 0 && indentationLevel > bindingOptions.maximum!.inspectionLevels! ) {
+            renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.maximumInspectionLevelsReached!, true, false, Char.empty, parentType, preventEditing, indentationLevel );
             propertiesAdded = false;
-
         } else {
-            if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
-                createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
+
+            if ( !bindingOptions.reverseArrayValues ) {
+                for ( let dataIndex1: number = 0; dataIndex1 < dataLength; dataIndex1++ ) {
+                    const actualIndex: number = Arr.getIndex( dataIndex1, bindingOptions );
+                    const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
+    
+                    renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex1 ], dataIndex1 === dataLength - 1, true, newJsonPath, parentType, preventEditing, indentationLevel );
+                }
+    
+            } else {
+                for ( let dataIndex2: number = dataLength; dataIndex2--; ) {
+                    const actualIndex: number = Arr.getIndex( dataIndex2, bindingOptions );
+                    const newJsonPath: string = jsonPath === Char.empty ? actualIndex.toString() : `${jsonPath}${Char.backslash}${actualIndex}`;
+    
+                    renderValue( data, objectTypeContents, bindingOptions, Arr.getIndexName( bindingOptions, actualIndex, dataLength ), data[ dataIndex2 ], dataIndex2 === 0, true, newJsonPath, parentType, preventEditing, indentationLevel );
+                }
+            }
+    
+            if ( objectTypeContents.children.length === 0 || ( bindingOptions.showOpenedObjectArrayBorders && objectTypeContents.children.length === 1 ) ) {
+                renderValue( data, objectTypeContents, bindingOptions, Char.empty, _configuration.text!.noPropertiesText!, true, false, Char.empty, parentType, preventEditing, indentationLevel );
+                propertiesAdded = false;
+    
+            } else {
+                if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
+                    createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
+                }
             }
         }
 
@@ -1327,7 +1349,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         return propertiesAdded;
     }
 
-    function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean ) : void {
+    function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
         const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
         const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValueTitle, "div", "no-arrow" ) : null!;
@@ -1671,27 +1693,27 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.stringValues || isForEmptyProperties ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
-                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
                 } else if ( bindingOptions.parse!.stringsToNumbers && Is.String.bigInt( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Convert.stringToBigInt( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    renderValue( data, container, bindingOptions, name, Convert.stringToBigInt( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
                     
                 } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) ) {
-                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
                 } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
-                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
                 } else if ( bindingOptions.parse!.stringsToSymbols && Is.String.symbol( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing );
+                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
@@ -1851,7 +1873,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -1894,7 +1916,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true );
+                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -1935,7 +1957,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false );
+                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -1984,7 +2006,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
 
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -2033,7 +2055,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false );
+                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );

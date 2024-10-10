@@ -156,6 +156,7 @@ export namespace Binding {
             options.maximum!.emailLength = Default.getNumber( options.maximum!.emailLength, 0 );
             options.maximum!.numberLength = Default.getNumber( options.maximum!.numberLength, 0 );
             options.maximum!.bigIntLength = Default.getNumber( options.maximum!.bigIntLength, 0 );
+            options.maximum!.inspectionLevels = Default.getNumber( options.maximum!.inspectionLevels, 10 );
 
             return options.maximum!;
         }
