@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Rjochts ferpleatse",
         "moveLeftButtonText": "Ferpleats nei lofts",
         "removeButtonText": "Fuortsmite",
-        "switchToPagesText": "Wikselje nei siden"
+        "switchToPagesText": "Wikselje nei siden",
+        "clearJsonText": "JSON wiskje",
+        "maximumInspectionLevelsReached": "Maksimale ynspeksjenivo's binne berikt."
     }
 } );

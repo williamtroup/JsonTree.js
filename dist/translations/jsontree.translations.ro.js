@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Mută-te la dreapta",
         "moveLeftButtonText": "Mutați la stânga",
         "removeButtonText": "Elimina",
-        "switchToPagesText": "Comutați la pagini"
+        "switchToPagesText": "Comutați la pagini",
+        "clearJsonText": "Ștergeți JSON",
+        "maximumInspectionLevelsReached": "Au fost atinse nivelurile maxime de inspecție."
     }
 } );

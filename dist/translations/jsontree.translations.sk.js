@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Presunúť doprava",
         "moveLeftButtonText": "Posunúť doľava",
         "removeButtonText": "Odstrániť",
-        "switchToPagesText": "Prepnúť na stránky"
+        "switchToPagesText": "Prepnúť na stránky",
+        "clearJsonText": "Vymazať JSON",
+        "maximumInspectionLevelsReached": "Boli dosiahnuté maximálne úrovne kontroly."
     }
 } );

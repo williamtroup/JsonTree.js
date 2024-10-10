@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "เลื่อนไปทางขวา",
         "moveLeftButtonText": "เลื่อนไปทางซ้าย",
         "removeButtonText": "ลบ",
-        "switchToPagesText": "สลับไปที่หน้า"
+        "switchToPagesText": "สลับไปที่หน้า",
+        "clearJsonText": "ล้าง JSON",
+        "maximumInspectionLevelsReached": "ถึงระดับการตรวจสอบสูงสุดแล้ว"
     }
 } );

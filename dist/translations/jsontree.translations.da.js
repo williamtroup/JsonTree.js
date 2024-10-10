@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Flyt til højre",
         "moveLeftButtonText": "Flyt til venstre",
         "removeButtonText": "Fjerne",
-        "switchToPagesText": "Skift til sider"
+        "switchToPagesText": "Skift til sider",
+        "clearJsonText": "Ryd JSON",
+        "maximumInspectionLevelsReached": "Maksimale inspektionsniveauer er nået."
     }
 } );

@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "向右移动",
         "moveLeftButtonText": "向左移动",
         "removeButtonText": "消除",
-        "switchToPagesText": "切换到页面"
+        "switchToPagesText": "切换到页面",
+        "clearJsonText": "清除 JSON",
+        "maximumInspectionLevelsReached": "已达到最高检查级别。"
     }
 } );

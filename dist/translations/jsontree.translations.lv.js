@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Pārvietot pa labi",
         "moveLeftButtonText": "Pārvietot pa kreisi",
         "removeButtonText": "Noņemt",
-        "switchToPagesText": "Pārslēgties uz lapām"
+        "switchToPagesText": "Pārslēgties uz lapām",
+        "clearJsonText": "Notīrīt JSON",
+        "maximumInspectionLevelsReached": "Ir sasniegts maksimālais pārbaudes līmenis."
     }
 } );

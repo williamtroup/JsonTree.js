@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "ডানদিকে সরান",
         "moveLeftButtonText": "বামে সরান",
         "removeButtonText": "সরান",
-        "switchToPagesText": "পৃষ্ঠাগুলিতে স্যুইচ করুন"
+        "switchToPagesText": "পৃষ্ঠাগুলিতে স্যুইচ করুন",
+        "clearJsonText": "JSON সাফ করুন",
+        "maximumInspectionLevelsReached": "সর্বোচ্চ পরিদর্শন স্তরে পৌঁছেছে।"
     }
 } );

@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Ga naar rechts",
         "moveLeftButtonText": "Ga naar links",
         "removeButtonText": "Verwijderen",
-        "switchToPagesText": "Schakel over naar pagina's"
+        "switchToPagesText": "Schakel over naar pagina's",
+        "clearJsonText": "Wis JSON",
+        "maximumInspectionLevelsReached": "Het maximale inspectieniveau is bereikt."
     }
 } );

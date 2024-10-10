@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "זז ימינה",
         "moveLeftButtonText": "זז שמאלה",
         "removeButtonText": "לְהַסִיר",
-        "switchToPagesText": "עבור לדפים"
+        "switchToPagesText": "עבור לדפים",
+        "clearJsonText": "נקה את JSON",
+        "maximumInspectionLevelsReached": "הושגו רמות פיקוח מקסימליות."
     }
 } );

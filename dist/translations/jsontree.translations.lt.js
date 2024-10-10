@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Judėti į dešinę",
         "moveLeftButtonText": "Perkelti į kairę",
         "removeButtonText": "Pašalinti",
-        "switchToPagesText": "Perjungti į puslapius"
+        "switchToPagesText": "Perjungti į puslapius",
+        "clearJsonText": "Išvalyti JSON",
+        "maximumInspectionLevelsReached": "Pasiektas maksimalus tikrinimo lygis."
     }
 } );

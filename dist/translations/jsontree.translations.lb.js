@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Riicht réckelen",
         "moveLeftButtonText": "Beweegt lénks",
         "removeButtonText": "Ewechzehuelen",
-        "switchToPagesText": "Wiesselt op Säiten"
+        "switchToPagesText": "Wiesselt op Säiten",
+        "clearJsonText": "JSON läschen",
+        "maximumInspectionLevelsReached": "Maximal Inspektiounsniveauen sinn erreecht ginn."
     }
 } );

@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Sağa Taşı",
         "moveLeftButtonText": "Sola Taşı",
         "removeButtonText": "Kaldırmak",
-        "switchToPagesText": "Sayfalara Geç"
+        "switchToPagesText": "Sayfalara Geç",
+        "clearJsonText": "JSON'u temizle",
+        "maximumInspectionLevelsReached": "Maksimum denetim seviyelerine ulaşıldı."
     }
 } );

@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Liigu paremale",
         "moveLeftButtonText": "Liiguta vasakule",
         "removeButtonText": "Eemalda",
-        "switchToPagesText": "Lülitu lehtedele"
+        "switchToPagesText": "Lülitu lehtedele",
+        "clearJsonText": "Tühjendage JSON",
+        "maximumInspectionLevelsReached": "Ülevaatuse maksimumtasemed on saavutatud."
     }
 } );

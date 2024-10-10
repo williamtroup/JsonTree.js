@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "გადაადგილება მარჯვნივ",
         "moveLeftButtonText": "გადაადგილება მარცხნივ",
         "removeButtonText": "ამოღება",
-        "switchToPagesText": "გვერდებზე გადართვა"
+        "switchToPagesText": "გვერდებზე გადართვა",
+        "clearJsonText": "გაასუფთავეთ JSON",
+        "maximumInspectionLevelsReached": "ინსპექტირების მაქსიმალური დონე მიღწეულია."
     }
 } );

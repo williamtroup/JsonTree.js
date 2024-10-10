@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Di chuyển sang phải",
         "moveLeftButtonText": "Di chuyển sang trái",
         "removeButtonText": "Di dời",
-        "switchToPagesText": "Chuyển sang trang"
+        "switchToPagesText": "Chuyển sang trang",
+        "clearJsonText": "Xóa JSON",
+        "maximumInspectionLevelsReached": "Mức độ kiểm tra tối đa đã đạt được."
     }
 } );

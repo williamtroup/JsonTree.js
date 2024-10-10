@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Рух праворуч",
         "moveLeftButtonText": "Рух ліворуч",
         "removeButtonText": "видалити",
-        "switchToPagesText": "Перейти на сторінки"
+        "switchToPagesText": "Перейти на сторінки",
+        "clearJsonText": "Очистити JSON",
+        "maximumInspectionLevelsReached": "Досягнуто максимального рівня перевірки."
     }
 } );

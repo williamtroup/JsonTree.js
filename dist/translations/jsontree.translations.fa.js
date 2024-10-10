@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "حرکت به راست",
         "moveLeftButtonText": "حرکت به چپ",
         "removeButtonText": "حذف کنید",
-        "switchToPagesText": "سوئیچ به صفحات"
+        "switchToPagesText": "سوئیچ به صفحات",
+        "clearJsonText": "JSON را پاک کنید",
+        "maximumInspectionLevelsReached": "حداکثر سطوح بازرسی رسیده است."
     }
 } );

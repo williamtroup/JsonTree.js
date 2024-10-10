@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Μετακίνηση Δεξιά",
         "moveLeftButtonText": "Μετακίνηση Αριστερά",
         "removeButtonText": "Αφαιρώ",
-        "switchToPagesText": "Μετάβαση σε σελίδες"
+        "switchToPagesText": "Μετάβαση σε σελίδες",
+        "clearJsonText": "Εκκαθάριση JSON",
+        "maximumInspectionLevelsReached": "Επιτεύχθηκαν τα μέγιστα επίπεδα επιθεώρησης."
     }
 } );

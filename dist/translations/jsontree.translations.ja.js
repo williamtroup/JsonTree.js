@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "右に移動",
         "moveLeftButtonText": "左に移動",
         "removeButtonText": "取り除く",
-        "switchToPagesText": "ページに切り替える"
+        "switchToPagesText": "ページに切り替える",
+        "clearJsonText": "JSONをクリアする",
+        "maximumInspectionLevelsReached": "最大検査レベルに達しました。"
     }
 } );

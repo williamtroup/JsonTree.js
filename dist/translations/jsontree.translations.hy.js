@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Տեղափոխեք աջ",
         "moveLeftButtonText": "Տեղափոխեք ձախ",
         "removeButtonText": "Հեռացնել",
-        "switchToPagesText": "Անցում դեպի Էջեր"
+        "switchToPagesText": "Անցում դեպի Էջեր",
+        "clearJsonText": "Մաքրել JSON-ը",
+        "maximumInspectionLevelsReached": "Ստուգումների առավելագույն մակարդակը ձեռք է բերվել։"
     }
 } );

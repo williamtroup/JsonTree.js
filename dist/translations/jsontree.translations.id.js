@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Bergerak ke Kanan",
         "moveLeftButtonText": "Pindah ke Kiri",
         "removeButtonText": "Menghapus",
-        "switchToPagesText": "Beralih Ke Halaman"
+        "switchToPagesText": "Beralih Ke Halaman",
+        "clearJsonText": "Hapus JSON",
+        "maximumInspectionLevelsReached": "Tingkat inspeksi maksimum telah tercapai."
     }
 } );

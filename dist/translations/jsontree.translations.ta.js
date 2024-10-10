@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "வலதுபுறம் நகர்த்தவும்",
         "moveLeftButtonText": "இடதுபுறம் நகர்த்தவும்",
         "removeButtonText": "அகற்று",
-        "switchToPagesText": "பக்கங்களுக்கு மாறவும்"
+        "switchToPagesText": "பக்கங்களுக்கு மாறவும்",
+        "clearJsonText": "JSON ஐ அழிக்கவும்",
+        "maximumInspectionLevelsReached": "அதிகபட்ச ஆய்வு நிலைகள் எட்டப்பட்டுள்ளன."
     }
 } );

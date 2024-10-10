@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Premakni se desno",
         "moveLeftButtonText": "Premakni se levo",
         "removeButtonText": "Odstrani",
-        "switchToPagesText": "Preklopi na strani"
+        "switchToPagesText": "Preklopi na strani",
+        "clearJsonText": "Počisti JSON",
+        "maximumInspectionLevelsReached": "Dosežene so bile najvišje ravni inšpekcij."
     }
 } );

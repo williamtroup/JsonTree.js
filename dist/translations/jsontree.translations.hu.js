@@ -98,6 +98,8 @@ $jsontree.setConfiguration( {
         "moveRightButtonText": "Mozgás Jobbra",
         "moveLeftButtonText": "Mozgás balra",
         "removeButtonText": "Távolítsa el",
-        "switchToPagesText": "Váltás oldalakra"
+        "switchToPagesText": "Váltás oldalakra",
+        "clearJsonText": "JSON törlése",
+        "maximumInspectionLevelsReached": "Elérte a maximális ellenőrzési szintet."
     }
 } );
