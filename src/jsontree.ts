@@ -203,7 +203,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         } else {
             
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, dataIndex );
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, bindingOptions._currentView.currentColumnBuildingIndex );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );

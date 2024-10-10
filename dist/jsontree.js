@@ -1437,7 +1437,7 @@ var ContextMenu;
                 n.onclick = () => M(o);
             }
         } else {
-            a.onscroll = () => d(a, o, l);
+            a.onscroll = () => d(a, o, o._currentView.currentColumnBuildingIndex);
             if (o.paging.enabled && Is.definedNumber(l)) {
                 a.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
@@ -1556,9 +1556,6 @@ var ContextMenu;
     function d(e, t, n) {
         ToolTip.hide(t);
         ContextMenu.hide(t);
-        if (!Is.definedNumber(n)) {
-            n = 0;
-        }
         const o = e.scrollTop;
         const l = e.scrollLeft;
         const r = t._currentView.currentContentColumns.length;
