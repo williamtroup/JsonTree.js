@@ -10,7 +10,7 @@
         <repository type="git" url="https://github.com/williamtroup/JsonTree.js" branch="main" />
         <readme>README_NUGET.md</readme>
         <license type="expression">MIT</license>
-        <tags>javascript css html5 JsonTree.js treeview json visualize tree array editing</tags>
+        <tags>javascript css html5 JsonTree.js visualize array editing array-viewer base-16 component interactive interactive-json json json-component json-display json-inspector json-tree json-tree json-view json-viewer react react-component react-json theme tree tree-view treeview</tags>
         <icon>docs\images\icon.png</icon>
         <copyright>William Troup</copyright>
     </metadata>
