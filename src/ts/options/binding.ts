@@ -354,6 +354,7 @@ export namespace Binding {
             options.events!.onLambdaRender = Default.getFunction( options.events!.onLambdaRender, null! );
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
+            options.events!.onSelectionChange = Default.getFunction( options.events!.onSelectionChange, null! );
 
             return options.events!;
         }

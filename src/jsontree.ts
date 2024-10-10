@@ -2551,6 +2551,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.selectedValues.splice( bindingOptions._currentView.selectedValues.indexOf( data ), 1 );
             }
 
+            Trigger.customEvent( bindingOptions.events!.onSelectionChange!, bindingOptions._currentView.element );
             renderControlColumnLineNumbers( currentColumnIndex, bindingOptions );
         };
     }
@@ -2584,6 +2585,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                 if ( classesRemoved ) {
                     renderControlColumnLineNumbers( columnIndex, bindingOptions );
+                    Trigger.customEvent( bindingOptions.events!.onSelectionChange!, bindingOptions._currentView.element );
                 }
             }
         }

@@ -378,4 +378,5 @@ export type BindingOptionsEvents = {
 	onCopy?: ( jsonTreeElement: HTMLElement, data: string ) => void;
 	onFullScreenChange?: ( jsonTreeElement: HTMLElement, enabled: boolean ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
+	onSelectionChange?: ( jsonTreeElement: HTMLElement ) => void;
 };
