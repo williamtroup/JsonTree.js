@@ -1395,7 +1395,7 @@ var ContextMenu;
         e._currentView.sideMenuChanged = false;
         e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
-        v(e, n);
+        V(e, n);
         const l = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             l.classList.add("page-switch");
@@ -1511,7 +1511,7 @@ var ContextMenu;
             if (t.code === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (Ve(t) && t.code === "Enter") {
+            } else if (ve(t) && t.code === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
@@ -1771,11 +1771,11 @@ var ContextMenu;
         J(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopy, t._currentView.element, o);
     }
-    function v(t, n) {
+    function V(t, n) {
         if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => V(t);
+                o.ondblclick = () => v(t);
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
@@ -1828,13 +1828,13 @@ var ContextMenu;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => V(t);
+                t._currentView.toggleFullScreenButton.onclick = () => v(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function V(t) {
+    function v(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 t._currentView.element.classList.remove("full-screen");
@@ -2249,8 +2249,8 @@ var ContextMenu;
         let h = false;
         let y = null;
         const D = !Is.definedString(l);
-        let v = true;
-        let V = null;
+        let V = true;
+        let v = null;
         const S = o._currentView.currentColumnBuildingIndex;
         if (!D) {
             if (s || !o.showPropertyNameQuotes) {
@@ -2449,10 +2449,10 @@ var ContextMenu;
                 p = DomElement.createWithHTML(f, "span", m, n);
                 h = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
-                    V = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    V.onclick = () => window.open(r);
+                    v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    v.onclick = () => window.open(r);
                 }
-                ee(o, t, l, r, p, s, h, V);
+                ee(o, t, l, r, p, s, h, v);
                 if (Is.definedFunction(o.events.onUrlRender)) {
                     Trigger.customEvent(o.events.onUrlRender, o._currentView.element, p);
                 }
@@ -2471,10 +2471,10 @@ var ContextMenu;
                 p = DomElement.createWithHTML(f, "span", m, n);
                 h = o.allowEditing.emailValues && !c;
                 if (o.showEmailOpenButtons) {
-                    V = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    V.onclick = () => window.open(`mailto:${r}`);
+                    v = DomElement.createWithHTML(f, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
+                    v.onclick = () => window.open(`mailto:${r}`);
                 }
-                ee(o, t, l, r, p, s, h, V);
+                ee(o, t, l, r, p, s, h, v);
                 if (Is.definedFunction(o.events.onEmailRender)) {
                     Trigger.customEvent(o.events.onEmailRender, o._currentView.element, p);
                 }
@@ -2517,7 +2517,7 @@ var ContextMenu;
                     } else {
                         m = "no-properties-text";
                         h = false;
-                        v = false;
+                        V = false;
                     }
                     p = DomElement.createWithHTML(f, "span", m, n);
                     if (!D) {
@@ -2784,7 +2784,7 @@ var ContextMenu;
                     W(o, r, p);
                     $(o, r, p);
                     H(o, b, p);
-                    ue(o, p, h, t, r, l, s, V);
+                    ue(o, p, h, t, r, l, s, v);
                 }
                 if (Is.defined(y)) {
                     if (b !== "null" && b !== "undefined" && b !== "array" && b !== "object" && b !== "map" && b !== "set") {
@@ -2794,7 +2794,7 @@ var ContextMenu;
                         y = null;
                     }
                 }
-                if (v) {
+                if (V) {
                     K(o, a, w, y, p);
                     ne(o, p, r, b, h);
                 } else {
@@ -3324,7 +3324,7 @@ var ContextMenu;
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
         n("keydown", (t => De(t, e)));
-        n("keyup", (e => ve(e)));
+        n("keyup", (e => Ve(e)));
         n("contextmenu", (() => ye(e)));
         l("click", (() => ye(e)));
         l("focus", (() => o = false));
@@ -3335,11 +3335,11 @@ var ContextMenu;
         }
     }
     function De(e, l) {
-        o = Ve(e);
+        o = ve(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ve(e) && e.code === "F11") {
+            if (ve(e) && e.code === "F11") {
                 e.preventDefault();
-                V(l);
+                v(l);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
                 C(l);
@@ -3360,10 +3360,10 @@ var ContextMenu;
             }
         }
     }
-    function ve(e) {
-        o = Ve(e);
-    }
     function Ve(e) {
+        o = ve(e);
+    }
+    function ve(e) {
         return e.ctrlKey || e.metaKey;
     }
     function Se(e) {
@@ -3474,6 +3474,13 @@ var ContextMenu;
             let n = null;
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 n = t[e].data;
+            }
+            return n;
+        },
+        getSelectedJsonValues: function(e) {
+            let n = [];
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                n = t[e]._currentView.selectedValues;
             }
             return n;
         },

@@ -176,6 +176,19 @@ export type PublicApi = {
 	 */
 	getJson: ( elementId: string ) => any;
 
+	/**
+	 * getSelectedJsonValues().
+	 *
+	 * Returns the JSON values that are selected in the display.
+	 *
+	 * @public
+	 *
+	 * @param       {string}    elementId                                   The JsonTree.js element ID.
+	 *
+	 * @returns     {any}                                                	The JSON values that are selected in the display.
+	 */
+	getSelectedJsonValues: ( elementId: string ) => any[];
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

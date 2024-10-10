@@ -3045,6 +3045,16 @@ type JsonTreeData = Record<string, BindingOptions>;
             return result;
         },
 
+        getSelectedJsonValues: function ( elementId: string ) : any[] {
+            let result: any[] = [];
+
+            if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
+                result = _elements_Data[ elementId ]._currentView.selectedValues;
+            }
+
+            return result;
+        },
+
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
