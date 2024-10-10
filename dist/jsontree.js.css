@@ -569,10 +569,11 @@ div.json-tree-js div.contents div.contents-column-multiple {
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
-  position: relative;
+  position: sticky;
   vertical-align: top;
   display: inline-block;
   left: 0;
+  z-index: 2;
 }
 div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers div.contents-column-line-number,
 div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers div.contents-column-line-number {
@@ -588,6 +589,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.contents-column-l
   display: inline-block;
   width: fit-content;
   height: fit-content;
+  z-index: 1;
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons {
@@ -648,11 +650,22 @@ div.json-tree-js div.contents div.contents-column-multiple:last-child {
   padding-right: 0;
   margin-right: 0;
 }
+div.json-tree-js div.contents div.contents-column div.contents-column-line-numbers {
+  background-color: var(--json-tree-js-container-background-color);
+}
 div.json-tree-js div.contents div.contents-column-multiple {
   background-color: var(--json-tree-js-paging-column-background-color);
   border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   padding: var(--json-tree-js-spacing);
   border-radius: var(--json-tree-js-border-radius);
+}
+div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers {
+  background-color: var(--json-tree-js-paging-column-background-color);
+  margin-left: calc(-1 * var(--json-tree-js-spacing));
+  left: calc(-1 * var(--json-tree-js-spacing));
+}
+div.json-tree-js div.contents div.contents-column-multiple div.contents-column-line-numbers div.contents-column-line-number {
+  padding-left: var(--json-tree-js-spacing);
 }
 div.json-tree-js div.contents span.array {
   color: var(--json-tree-js-color-array);

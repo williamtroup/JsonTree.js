@@ -552,10 +552,11 @@ div.json-tree-js {
             text-align: left;
 
             div.contents-column-line-numbers {
-                position: relative;
+                position: sticky;
                 vertical-align: top;
                 display: inline-block;
                 left: 0;
+                z-index: 2;
 
                 div.contents-column-line-number {
                     position: absolute;
@@ -571,6 +572,7 @@ div.json-tree-js {
                 display: inline-block;
                 width: fit-content;
                 height: fit-content;
+                z-index: 1;
             }
 
             div.column-control-buttons {
@@ -605,11 +607,27 @@ div.json-tree-js {
             }
         }
 
+        div.contents-column {
+            div.contents-column-line-numbers {
+                background-color: var(--json-tree-js-container-background-color);
+            }
+        }
+
         div.contents-column-multiple {
             background-color: var(--json-tree-js-paging-column-background-color);
             border: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
             padding: var(--json-tree-js-spacing);
             border-radius: var(--json-tree-js-border-radius);
+
+            div.contents-column-line-numbers {
+                background-color: var(--json-tree-js-paging-column-background-color);
+                margin-left: calc( -1 * var(--json-tree-js-spacing) );
+                left: calc( -1 * var(--json-tree-js-spacing) );
+
+                div.contents-column-line-number {
+                    padding-left: var(--json-tree-js-spacing);
+                }
+            }
         }
 
         @include type-span-colors;
