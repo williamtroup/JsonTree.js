@@ -129,6 +129,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showImportButton: true,
             showAvailableDataTypeCounts: true,
             showOnlyDataTypesAvailable: false,
+            showExportButton: true,
         },
         allowEditing: {
             booleanValues: true,

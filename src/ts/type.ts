@@ -119,6 +119,8 @@ export type ConfigurationText = {
 	removeButtonText?: string;
 	switchToPagesSymbolText?: string;
 	switchToPagesText?: string;
+	clearJsonSymbolText?: string;
+	clearJsonText?: string;
 };
 
 export type BindingOptions = {
@@ -332,6 +334,7 @@ export type BindingOptionsSideMenu = {
 	titleText?: string;
 	showAvailableDataTypeCounts?: boolean;
 	showOnlyDataTypesAvailable?: boolean;
+	showClearJsonButton?: boolean;
 };
 
 export type BindingOptionsAutoClose = {

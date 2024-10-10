@@ -306,6 +306,7 @@ export namespace Binding {
             options.sideMenu!.titleText = Default.getAnyString( options.sideMenu!.titleText, options.title!.text! );
             options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
+            options.sideMenu!.showClearJsonButton = Default.getBoolean( options.sideMenu!.showClearJsonButton, true );
 
             return options.sideMenu!;
         }

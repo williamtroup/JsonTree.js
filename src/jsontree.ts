@@ -852,6 +852,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             
             const titleBarControls: HTMLElement = DomElement.create( titleBar, "div", "side-menu-title-controls" );
 
+            if ( bindingOptions.sideMenu!.showClearJsonButton && Is.definedObject( bindingOptions.data ) ) {
+                const clearJsonButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "clear-json", _configuration.text!.clearJsonSymbolText! ) as HTMLButtonElement;
+                clearJsonButton.onclick = () => onSideMenuClearJson( bindingOptions );
+    
+                ToolTip.add( clearJsonButton, bindingOptions, _configuration.text!.clearJsonText! );
+            }
+
             if ( bindingOptions.sideMenu!.showExportButton && Is.definedObject( bindingOptions.data ) ) {
                 const exportButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
                 exportButton.onclick = () => onExport( bindingOptions );
@@ -922,6 +929,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         return closed;
+    }
+
+    function onSideMenuClearJson( bindingOptions: BindingOptions ) : void {
+        bindingOptions.data = null;
+
+        renderControlContainer( bindingOptions );
+        setFooterStatusText( bindingOptions, _configuration.text!.jsonUpdatedText! );
     }
 
     function addSideMenuIgnoreTypes( contents: HTMLElement, bindingOptions: BindingOptions ) : void {

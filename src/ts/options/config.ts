@@ -102,6 +102,8 @@ export namespace Config {
             configuration.text!.removeButtonText = Default.getAnyString( configuration.text!.removeButtonText, "Remove" );
             configuration.text!.switchToPagesSymbolText = Default.getAnyString( configuration.text!.switchToPagesSymbolText, "☷" );
             configuration.text!.switchToPagesText = Default.getAnyString( configuration.text!.switchToPagesText, "Switch To Pages" );
+            configuration.text!.clearJsonSymbolText = Default.getAnyString( configuration.text!.clearJsonSymbolText, "⏎" );
+            configuration.text!.clearJsonText = Default.getAnyString( configuration.text!.clearJsonText, "Clear JSON" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
