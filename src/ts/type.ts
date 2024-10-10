@@ -136,7 +136,6 @@ export type BindingOptions = {
 	reverseArrayValues?: boolean;
 	addArrayIndexPadding?: boolean;
 	showValueColors?: boolean;
-
 	fileDroppingEnabled?: boolean;
 	jsonIndentSpaces?: number;
 	showArrayIndexBrackets?: boolean;
