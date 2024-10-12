@@ -76,7 +76,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         showClosedArraySquaredBrackets: true,
         showClosedObjectCurlyBraces: true,
         showCommas: true,
-        showArrowToggles: true,
+        showExpandIcons: true,
         openInFullScreenMode: columnSize > 1,
         useZeroIndexingForArrays: true,
         showObjectSizes: true,
@@ -393,7 +393,7 @@ function onValueClickJsonReplacer( _, value ) {
 
 function updateBindingOptions() {
     const bindingOptions = $jsontree.getBindingOptions( "json-tree-1" );
-    bindingOptions.showArrowToggles = false;
+    bindingOptions.showExpandIcons = false;
 
     $jsontree.updateBindingOptions( "json-tree-1", bindingOptions );
 }

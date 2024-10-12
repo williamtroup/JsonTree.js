@@ -222,8 +222,8 @@ div.json-tree-js div.no-square,
 div.json-tree-js div.opened-square,
 div.json-tree-js div.closed-square {
   display: inline-block;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   margin-right: calc(var(--json-tree-js-spacing));
   border-radius: var(--json-tree-js-border-radius-toggle);
 }
@@ -253,8 +253,8 @@ div.json-tree-js div.no-circle,
 div.json-tree-js div.opened-circle,
 div.json-tree-js div.closed-circle {
   display: inline-block;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   margin-right: calc(var(--json-tree-js-spacing));
   border-radius: 50%;
 }

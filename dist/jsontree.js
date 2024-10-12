@@ -708,7 +708,7 @@ var Binding;
             t.showObjectSizes = Default.getBoolean(t.showObjectSizes, true);
             t.useZeroIndexingForArrays = Default.getBoolean(t.useZeroIndexingForArrays, true);
             t.dateTimeFormat = Default.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
-            t.showArrowToggles = Default.getBoolean(t.showArrowToggles, true);
+            t.showExpandIcons = Default.getBoolean(t.showExpandIcons, true);
             t.showStringQuotes = Default.getBoolean(t.showStringQuotes, true);
             t.showAllAsClosed = Default.getBoolean(t.showAllAsClosed, false);
             t.sortPropertyNames = Default.getBoolean(t.sortPropertyNames, true);
@@ -2132,7 +2132,7 @@ var ContextMenu;
             }
             const u = DomElement.create(t, "div", "object-type-title");
             const c = DomElement.create(t, "div", "object-type-contents last-item");
-            const d = n.showArrowToggles ? DomElement.create(u, "div", `opened-${n.expandIconType}`) : null;
+            const d = n.showExpandIcons ? DomElement.create(u, "div", `opened-${n.expandIconType}`) : null;
             if (!n.paging.enabled || !Is.definedNumber(l)) {
                 let t = n.rootName;
                 if (n.showPropertyNameQuotes) {
@@ -2182,7 +2182,7 @@ var ContextMenu;
         }
         const i = DomElement.create(t, "div", "object-type-title");
         const s = DomElement.create(t, "div", "object-type-contents last-item");
-        const a = n.showArrowToggles ? DomElement.create(i, "div", `opened-${n.expandIconType}`) : null;
+        const a = n.showExpandIcons ? DomElement.create(i, "div", `opened-${n.expandIconType}`) : null;
         if (!n.paging.enabled) {
             let t = n.rootName;
             if (n.showPropertyNameQuotes) {
@@ -2276,7 +2276,7 @@ var ContextMenu;
     function Y(t, n, o, l, r, i, s, a, u, c, d) {
         const f = DomElement.create(n, "div", "object-type-value");
         const g = DomElement.create(f, "div", "object-type-value-title");
-        const m = o.showArrowToggles ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
+        const m = o.showExpandIcons ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
         let p = null;
         let x = null;
         let T = false;
@@ -2852,7 +2852,7 @@ var ContextMenu;
     function K(e, t) {
         if (t.showOpenedObjectArrayBorders) {
             e.classList.add("object-border");
-            if (!t.showArrowToggles) {
+            if (!t.showExpandIcons) {
                 e.classList.add("object-border-no-toggles");
             }
             DomElement.create(e, "div", "object-border-bottom");
@@ -3140,7 +3140,7 @@ var ContextMenu;
     }
     function ie(e, t, n, o, l) {
         const r = DomElement.create(t, "div", "closing-symbol");
-        if (o && e.showArrowToggles || e.showOpenedObjectArrayBorders) {
+        if (o && e.showExpandIcons || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", `no-${e.expandIconType}`);
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);

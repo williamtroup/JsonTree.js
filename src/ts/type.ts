@@ -130,7 +130,7 @@ export type BindingOptions = {
 	showObjectSizes?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
-	showArrowToggles?: boolean;
+	showExpandIcons?: boolean;
 	showStringQuotes?: boolean;
 	showAllAsClosed?: boolean;
 	sortPropertyNames?: boolean;

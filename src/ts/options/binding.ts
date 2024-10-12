@@ -93,7 +93,7 @@ export namespace Binding {
             options.showObjectSizes = Default.getBoolean( options.showObjectSizes, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
-            options.showArrowToggles = Default.getBoolean( options.showArrowToggles, true );
+            options.showExpandIcons = Default.getBoolean( options.showExpandIcons, true );
             options.showStringQuotes = Default.getBoolean( options.showStringQuotes, true );
             options.showAllAsClosed = Default.getBoolean( options.showAllAsClosed, false );
             options.sortPropertyNames = Default.getBoolean( options.sortPropertyNames, true );

@@ -1164,7 +1164,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
-            const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
+            const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
 
             if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) ) {
                 let rootName: string = bindingOptions.rootName!;
@@ -1210,7 +1210,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
-            renderObjectValues( arrow, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
+            renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
             addValueClickEvent( bindingOptions, titleText, data, dataType, false );
             addFooterSizeStatus( bindingOptions, data, titleText );
             addFooterLengthStatus( bindingOptions, data, titleText );
@@ -1229,7 +1229,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
-        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
+        const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
         
         if ( !bindingOptions.paging!.enabled ) {
             let rootName: string = bindingOptions.rootName!;
@@ -1260,14 +1260,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
         }
 
-        renderArrayValues( arrow, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array, 1 );
+        renderArrayValues( expandIcon, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array, 1 );
         addValueClickEvent( bindingOptions, titleText, data, dataType, false );
         addFooterSizeStatus( bindingOptions, data, titleText );
         addFooterLengthStatus( bindingOptions, data, titleText );
         renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
 
-    function renderObjectValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
+    function renderObjectValues( expandIcon: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoExpandIconToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
         const propertiesLength: number = propertyNames.length;
         const propertiesLengthForAutoClose: number = jsonPath !== Char.empty ? propertiesLength : 0;
@@ -1296,17 +1296,17 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             } else {
                 if ( bindingOptions.showOpeningClosingCurlyBraces ) {
-                    createClosingSymbol( bindingOptions, objectTypeContents, "}", addNoArrowToClosingSymbol, isLastItem );
+                    createClosingSymbol( bindingOptions, objectTypeContents, "}", addNoExpandIconToClosingSymbol, isLastItem );
                 }
             }
         }
 
-        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
+        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
 
         return propertiesAdded;
     }
 
-    function renderArrayValues( arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, closedBrackets: HTMLElement, addNoArrowToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
+    function renderArrayValues( expandIcon: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, openingBracket: HTMLSpanElement, closedBrackets: HTMLElement, addNoExpandIconToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
         const dataLength: number = data.length;
         const dataLengthForAutoClose: number = jsonPath !== Char.empty ? dataLength : 0;
@@ -1339,12 +1339,12 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             } else {
                 if ( bindingOptions.showOpeningClosingSquaredBrackets ) {
-                    createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoArrowToClosingSymbol, isLastItem );
+                    createClosingSymbol( bindingOptions, objectTypeContents, "]", addNoExpandIconToClosingSymbol, isLastItem );
                 }
             }
         }
 
-        addArrowEvent( bindingOptions, arrow, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
+        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
 
         return propertiesAdded;
     }
@@ -1352,7 +1352,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
         const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
-        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValueTitle, "div", `no-${bindingOptions.expandIconType}` ) : null!;
+        const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeValueTitle, "div", `no-${bindingOptions.expandIconType}` ) : null!;
         let valueClass: string = null!;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
@@ -1877,7 +1877,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
+                    const propertiesAdded: boolean = renderObjectValues( expandIcon, coma, objectTypeContents, bindingOptions, htmlObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -1920,7 +1920,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
+                const propertiesAdded: boolean = renderArrayValues( expandIcon, coma, arrayTypeContents, bindingOptions, arrayValues, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -1961,7 +1961,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                const propertiesAdded: boolean = renderArrayValues( arrow, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
+                const propertiesAdded: boolean = renderArrayValues( expandIcon, coma, arrayTypeContents, bindingOptions, value, openingBracket, closedBrackets, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
 
                 if ( !propertiesAdded && bindingOptions.showOpeningClosingSquaredBrackets ) {
                     openingBracket.parentNode!.removeChild( openingBracket );
@@ -2010,7 +2010,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
+                    const propertiesAdded: boolean = renderObjectValues( expandIcon, coma, objectTypeContents, bindingOptions, valueObject, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, true, indentationLevel + 1 );
 
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -2059,7 +2059,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     }
     
                     const coma: HTMLSpanElement = createComma( bindingOptions, objectTitle, isLastItem );
-                    const propertiesAdded: boolean = renderObjectValues( arrow, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
+                    const propertiesAdded: boolean = renderObjectValues( expandIcon, coma, objectTypeContents, bindingOptions, value, propertyNames, openingBrace, closedBraces, true, isLastItem, jsonPath, dataType, false, indentationLevel + 1 );
                     
                     if ( !propertiesAdded && bindingOptions.showOpeningClosingCurlyBraces ) {
                         openingBrace.parentNode!.removeChild( openingBrace );
@@ -2137,7 +2137,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         if ( bindingOptions.showOpenedObjectArrayBorders ) {
             objectContents.classList.add( "object-border" );
 
-            if ( !bindingOptions.showArrowToggles ) {
+            if ( !bindingOptions.showExpandIcons ) {
                 objectContents.classList.add( "object-border-no-toggles" );
             }
 
@@ -2385,7 +2385,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function addArrowEvent( bindingOptions: BindingOptions, arrow: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedSymbols: HTMLElement, dataLength: number, dataType: string ) : void {
+    function addExpandIconEvent( bindingOptions: BindingOptions, expandIcon: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, openingSymbol: HTMLSpanElement, closedSymbols: HTMLElement, dataLength: number, dataType: string ) : void {
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
         const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
@@ -2399,8 +2399,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             objectTypeContents.style.display = "none";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
 
-            if ( Is.defined( arrow ) ) {
-                arrow.className = `closed-${bindingOptions.expandIconType!}`;
+            if ( Is.defined( expandIcon ) ) {
+                expandIcon.className = `closed-${bindingOptions.expandIconType!}`;
             }
 
             if ( Is.defined( openingSymbol ) ) {
@@ -2432,8 +2432,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             objectTypeContents.style.display = "block";
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
-            if ( Is.defined( arrow ) ) {
-                arrow.className = `opened-${bindingOptions.expandIconType}`;
+            if ( Is.defined( expandIcon ) ) {
+                expandIcon.className = `opened-${bindingOptions.expandIconType}`;
             }
 
             if ( Is.defined( openingSymbol ) ) {
@@ -2492,9 +2492,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = isClosed;
         }
 
-        if ( Is.defined( arrow ) ) {
-            arrow.onclick = ( ev: MouseEvent ) => conditionFunc( ev, arrow.className === `opened-${bindingOptions.expandIconType!}` );
-            arrow.ondblclick = DomElement.cancelBubble;
+        if ( Is.defined( expandIcon ) ) {
+            expandIcon.onclick = ( ev: MouseEvent ) => conditionFunc( ev, expandIcon.className === `opened-${bindingOptions.expandIconType!}` );
+            expandIcon.ondblclick = DomElement.cancelBubble;
         }
 
         if ( Is.defined( closedSymbols ) ) {
@@ -2517,10 +2517,10 @@ type JsonTreeData = Record<string, BindingOptions>;
         return result;
     }
 
-    function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoArrow: boolean, isLastItem: boolean ) : void {
+    function createClosingSymbol( bindingOptions: BindingOptions, container: HTMLElement, symbol: string, addNoExpandIcon: boolean, isLastItem: boolean ) : void {
         const symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
-        if ( ( addNoArrow && bindingOptions.showArrowToggles ) || bindingOptions.showOpenedObjectArrayBorders ) {
+        if ( ( addNoExpandIcon && bindingOptions.showExpandIcons ) || bindingOptions.showOpenedObjectArrayBorders ) {
             DomElement.create( symbolContainer, "div", `no-${bindingOptions.expandIconType}` );
         }
         
