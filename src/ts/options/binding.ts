@@ -131,6 +131,7 @@ export namespace Binding {
             options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
             options.rootName = Default.getString( options.rootName, "root" );
             options.emptyStringValue = Default.getString( options.emptyStringValue, Char.empty );
+            options.expandIconType = Default.getString( options.expandIconType, "arrow" );
 
             options.maximum = getMaximum( options );
             options.paging = getPaging( options );

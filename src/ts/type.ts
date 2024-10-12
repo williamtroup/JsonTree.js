@@ -168,6 +168,7 @@ export type BindingOptions = {
 	convertClickedValuesToString?: boolean;
 	rootName?: string;
 	emptyStringValue?: string;
+	expandIconType?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
 	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;

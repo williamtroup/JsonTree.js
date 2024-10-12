@@ -1164,7 +1164,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
-            const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+            const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
 
             if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) ) {
                 let rootName: string = bindingOptions.rootName!;
@@ -1229,7 +1229,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
-        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", "down-arrow" ) : null!;
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
         
         if ( !bindingOptions.paging!.enabled ) {
             let rootName: string = bindingOptions.rootName!;
@@ -1352,7 +1352,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : void {
         const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
         const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
-        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValueTitle, "div", "no-arrow" ) : null!;
+        const arrow: HTMLElement = bindingOptions.showArrowToggles ? DomElement.create( objectTypeValueTitle, "div", `no-${bindingOptions.expandIconType}` ) : null!;
         let valueClass: string = null!;
         let valueElement: HTMLElement = null!;
         let ignored: boolean = false;
@@ -2138,7 +2138,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             objectContents.classList.add( "object-border" );
 
             if ( !bindingOptions.showArrowToggles ) {
-                objectContents.classList.add( "object-border-no-arrow-toggles" );
+                objectContents.classList.add( "object-border-no-toggles" );
             }
 
             DomElement.create( objectContents, "div", "object-border-bottom" );
@@ -2400,7 +2400,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = true;
 
             if ( Is.defined( arrow ) ) {
-                arrow.className = "right-arrow";
+                arrow.className = `closed-${bindingOptions.expandIconType!}`;
             }
 
             if ( Is.defined( openingSymbol ) ) {
@@ -2433,7 +2433,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ][ panelId ] = false;
 
             if ( Is.defined( arrow ) ) {
-                arrow.className = "down-arrow";
+                arrow.className = `opened-${bindingOptions.expandIconType}`;
             }
 
             if ( Is.defined( openingSymbol ) ) {
@@ -2493,7 +2493,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
 
         if ( Is.defined( arrow ) ) {
-            arrow.onclick = ( ev: MouseEvent ) => conditionFunc( ev, arrow.className === "down-arrow" );
+            arrow.onclick = ( ev: MouseEvent ) => conditionFunc( ev, arrow.className === `opened-${bindingOptions.expandIconType!}` );
             arrow.ondblclick = DomElement.cancelBubble;
         }
 
@@ -2521,7 +2521,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const symbolContainer: HTMLElement = DomElement.create( container, "div", "closing-symbol" );
         
         if ( ( addNoArrow && bindingOptions.showArrowToggles ) || bindingOptions.showOpenedObjectArrayBorders ) {
-            DomElement.create( symbolContainer, "div", "no-arrow" );
+            DomElement.create( symbolContainer, "div", `no-${bindingOptions.expandIconType}` );
         }
         
         DomElement.createWithHTML( symbolContainer, "div", "object-type-end", symbol );
