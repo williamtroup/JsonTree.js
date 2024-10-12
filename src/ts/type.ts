@@ -167,6 +167,7 @@ export type BindingOptions = {
 	showClosedObjectCurlyBraces?: boolean;
 	convertClickedValuesToString?: boolean;
 	rootName?: string;
+	emptyStringValue?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
 	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;

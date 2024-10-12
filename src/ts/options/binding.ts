@@ -130,6 +130,7 @@ export namespace Binding {
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
             options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
             options.rootName = Default.getString( options.rootName, "root" );
+            options.emptyStringValue = Default.getString( options.emptyStringValue, Char.empty );
 
             options.maximum = getMaximum( options );
             options.paging = getPaging( options );

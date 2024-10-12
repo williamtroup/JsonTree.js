@@ -1721,6 +1721,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     let newStringValue: string = value;
 
                     if ( !isForEmptyProperties ) {
+                        if ( !Is.definedString( newStringValue ) ) {
+                            newStringValue = bindingOptions.emptyStringValue!;
+                        }
+
                         if ( bindingOptions.maximum!.stringLength! > 0 && newStringValue.length > bindingOptions.maximum!.stringLength! ) {
                             newStringValue = `${newStringValue.substring( 0, bindingOptions.maximum!.stringLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
                         }
