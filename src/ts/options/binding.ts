@@ -90,6 +90,8 @@ export namespace Binding {
 
         export function get( newOptions: any ) : BindingOptions {
             const options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
+            options.id = Default.getString( options.id, Char.empty );
+            options.class = Default.getString( options.class, Char.empty );
             options.showObjectSizes = Default.getBoolean( options.showObjectSizes, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );

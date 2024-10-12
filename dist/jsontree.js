@@ -705,6 +705,8 @@ var Binding;
         t.getForNewInstance = n;
         function o(e) {
             const t = Default.getObject(e, {});
+            t.id = Default.getString(t.id, "");
+            t.class = Default.getString(t.class, "");
             t.showObjectSizes = Default.getBoolean(t.showObjectSizes, true);
             t.useZeroIndexingForArrays = Default.getBoolean(t.useZeroIndexingForArrays, true);
             t.dateTimeFormat = Default.getString(t.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}");
@@ -1368,11 +1370,22 @@ var ContextMenu;
         ToolTip.renderControl(e);
         ContextMenu.renderControl(e);
         if (!Is.definedString(e._currentView.element.id)) {
-            e._currentView.element.id = crypto.randomUUID();
+            if (Is.definedString(e.id)) {
+                e._currentView.element.id = e.id;
+            } else {
+                e._currentView.element.id = crypto.randomUUID();
+            }
             e._currentView.idSet = true;
         }
         e._currentView.element.classList.add("json-tree-js");
         e._currentView.element.removeAttribute(Constants.JSONTREE_JS_ATTRIBUTE_NAME);
+        if (Is.definedString(e.class)) {
+            const t = e.class.split(" ");
+            const n = t.length;
+            for (let o = 0; o < n; o++) {
+                e._currentView.element.classList.add(t[o].trim());
+            }
+        }
         if (e.openInFullScreenMode) {
             e._currentView.element.classList.add("full-screen");
             e._currentView.fullScreenOn = true;
@@ -3410,6 +3423,13 @@ var ContextMenu;
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         e._currentView.element.classList.remove("full-screen");
+        if (Is.definedString(e.class)) {
+            const t = e.class.split(" ");
+            const n = t.length;
+            for (let o = 0; o < n; o++) {
+                e._currentView.element.classList.remove(t[o].trim());
+            }
+        }
         if (e._currentView.element.className.trim() === "") {
             e._currentView.element.removeAttribute("class");
         }

@@ -127,6 +127,8 @@ export type ConfigurationText = {
 export type BindingOptions = {
     _currentView: BindingOptionsCurrentView;
 	data?: any;
+	id?: string;
+	class?: string;
 	showObjectSizes?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;

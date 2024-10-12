@@ -68,6 +68,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         //data: _HTML_ELEMENT_1,
         //data: [ _HTML_ELEMENT_1, _HTML_ELEMENT_2 ],
         //data: "https://william-troup.com/jsontree-js/test-data/test.json",
+        id: "",
+        class: "",
         showValueColors: showValueColors,
         sortPropertyNames: true,
         showArrayIndexBrackets: true,

@@ -99,12 +99,26 @@ type JsonTreeData = Record<string, BindingOptions>;
         ContextMenu.renderControl( bindingOptions );
 
         if ( !Is.definedString( bindingOptions._currentView.element.id ) ) {
-            bindingOptions._currentView.element.id = crypto.randomUUID();
+            if ( Is.definedString( bindingOptions.id ) ) {
+                bindingOptions._currentView.element.id = bindingOptions.id!;
+            } else {
+                bindingOptions._currentView.element.id = crypto.randomUUID();
+            }
+            
             bindingOptions._currentView.idSet = true;
         }
 
         bindingOptions._currentView.element.classList.add( "json-tree-js" );
         bindingOptions._currentView.element.removeAttribute( Constants.JSONTREE_JS_ATTRIBUTE_NAME );
+
+        if ( Is.definedString( bindingOptions.class ) ) {
+            const classes: string[] = bindingOptions.class!.split( Char.space );
+            const classesLength: number = classes.length;
+
+            for ( let classIndex: number = 0; classIndex < classesLength; classIndex++ ) {
+                bindingOptions._currentView.element.classList.add( classes[ classIndex ].trim() );
+            }
+        }
 
         if ( bindingOptions.openInFullScreenMode ) {
             bindingOptions._currentView.element.classList.add( "full-screen" );
@@ -2918,6 +2932,15 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.element.innerHTML = Char.empty;
         bindingOptions._currentView.element.classList.remove( "json-tree-js" );
         bindingOptions._currentView.element.classList.remove( "full-screen" );
+
+        if ( Is.definedString( bindingOptions.class ) ) {
+            const classes: string[] = bindingOptions.class!.split( Char.space );
+            const classesLength: number = classes.length;
+
+            for ( let classIndex: number = 0; classIndex < classesLength; classIndex++ ) {
+                bindingOptions._currentView.element.classList.remove( classes[ classIndex ].trim() );
+            }
+        }
 
         if ( bindingOptions._currentView.element.className.trim() === Char.empty ) {
             bindingOptions._currentView.element.removeAttribute( "class" );
