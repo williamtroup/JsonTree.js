@@ -63,8 +63,8 @@ export namespace Is {
         }
     }
 
-    export function defined( value: any ) : boolean {
-        return value !== null && value !== undefined && value.toString() !== Char.empty;
+    export function defined( object: any ) : boolean {
+        return object !== null && object !== undefined && object.toString() !== Char.empty;
     }
 
     export function definedObject( object: any ) : boolean {
@@ -77,6 +77,10 @@ export namespace Is {
 
     export function definedString( object: any ) : boolean {
         return defined( object ) && typeof object === "string";
+    }
+
+    export function definedStringAny( object: any ) : boolean {
+        return object !== null && object !== undefined && typeof object === "string";
     }
 
     export function definedFunction( object: any ) : boolean {

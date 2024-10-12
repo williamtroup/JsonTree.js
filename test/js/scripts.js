@@ -279,6 +279,7 @@ function getArrayData() {
                 object: {},
                 array: [],
                 html: document.createElement( "div" ),
+                string: "",
             },
         },
         document.getElementById( "header" ),
