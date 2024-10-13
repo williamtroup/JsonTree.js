@@ -100,6 +100,6 @@ $jsontree.setConfiguration( {
         "removeButtonText": "Remove",
         "switchToPagesText": "Switch To Pages",
         "clearJsonText": "Clear JSON",
-        "maximumInspectionLevelsReached": "Maximum inspection levels has been reached."
+        "maximumInspectionLevelsReached": "Maximum inspection levels have been reached."
     }
 } );
