@@ -50,8 +50,8 @@ export namespace Binding {
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.contentPanelsDataIndex = 0;
-            bindingOptions._currentView.backButton = null!;
-            bindingOptions._currentView.nextButton = null!;
+            bindingOptions._currentView.backPageButton = null!;
+            bindingOptions._currentView.nextPageButton = null!;
             bindingOptions._currentView.disabledBackground = null!;
             bindingOptions._currentView.sideMenu = null!;
             bindingOptions._currentView.sideMenuChanged = false;

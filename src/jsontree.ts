@@ -730,26 +730,26 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.paging!.enabled && Is.definedArray( data ) && data.length > 1 ) {
-                bindingOptions._currentView.backButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
-                bindingOptions._currentView.backButton.ondblclick = DomElement.cancelBubble;
+                bindingOptions._currentView.backPageButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "back-page", _configuration.text!.backButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.backPageButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( bindingOptions._currentView.backButton, bindingOptions, _configuration.text!.backButtonText! );
+                ToolTip.add( bindingOptions._currentView.backPageButton, bindingOptions, _configuration.text!.backButtonText! );
 
                 if ( bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
-                    bindingOptions._currentView.backButton.onclick = () => onBackPage( bindingOptions );
+                    bindingOptions._currentView.backPageButton.onclick = () => onBackPage( bindingOptions );
                 } else {
-                    bindingOptions._currentView.backButton.disabled = true;
+                    bindingOptions._currentView.backPageButton.disabled = true;
                 }
 
-                bindingOptions._currentView.nextButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
-                bindingOptions._currentView.nextButton.ondblclick = DomElement.cancelBubble;
+                bindingOptions._currentView.nextPageButton = DomElement.createWithHTML( bindingOptions._currentView.titleBarButtons, "button", "next-page", _configuration.text!.nextButtonSymbolText! ) as HTMLButtonElement;
+                bindingOptions._currentView.nextPageButton.ondblclick = DomElement.cancelBubble;
 
-                ToolTip.add( bindingOptions._currentView.nextButton, bindingOptions, _configuration.text!.nextButtonText! );
+                ToolTip.add( bindingOptions._currentView.nextPageButton, bindingOptions, _configuration.text!.nextButtonText! );
 
                 if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < data.length - 1 ) {
-                    bindingOptions._currentView.nextButton.onclick = () => onNextPage( bindingOptions );
+                    bindingOptions._currentView.nextPageButton.onclick = () => onNextPage( bindingOptions );
                 } else {
-                    bindingOptions._currentView.nextButton.disabled = true;
+                    bindingOptions._currentView.nextPageButton.disabled = true;
                 }
 
             } else {
@@ -817,7 +817,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onBackPage( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions._currentView.backButton !== null && !bindingOptions._currentView.backButton.disabled ) {
+        if ( bindingOptions._currentView.backPageButton !== null && !bindingOptions._currentView.backPageButton.disabled ) {
             bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!;
     
             renderControlContainer( bindingOptions, true );
@@ -826,7 +826,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onNextPage( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions._currentView.nextButton !== null && !bindingOptions._currentView.nextButton.disabled ) {
+        if ( bindingOptions._currentView.nextPageButton !== null && !bindingOptions._currentView.nextPageButton.disabled ) {
             bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
                         
             renderControlContainer( bindingOptions, true );

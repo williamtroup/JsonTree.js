@@ -667,8 +667,8 @@ var Binding;
             o._currentView.contentPanelsOpen = {};
             o._currentView.contentPanelsIndex = 0;
             o._currentView.contentPanelsDataIndex = 0;
-            o._currentView.backButton = null;
-            o._currentView.nextButton = null;
+            o._currentView.backPageButton = null;
+            o._currentView.nextPageButton = null;
             o._currentView.disabledBackground = null;
             o._currentView.sideMenu = null;
             o._currentView.sideMenuChanged = false;
@@ -1827,21 +1827,21 @@ var ContextMenu;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
             if (t.paging.enabled && Is.definedArray(n) && n.length > 1) {
-                t._currentView.backButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "back", e.text.backButtonSymbolText);
-                t._currentView.backButton.ondblclick = DomElement.cancelBubble;
-                ToolTip.add(t._currentView.backButton, t, e.text.backButtonText);
+                t._currentView.backPageButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "back-page", e.text.backButtonSymbolText);
+                t._currentView.backPageButton.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(t._currentView.backPageButton, t, e.text.backButtonText);
                 if (t._currentView.currentDataArrayPageIndex > 0) {
-                    t._currentView.backButton.onclick = () => I(t);
+                    t._currentView.backPageButton.onclick = () => I(t);
                 } else {
-                    t._currentView.backButton.disabled = true;
+                    t._currentView.backPageButton.disabled = true;
                 }
-                t._currentView.nextButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "next", e.text.nextButtonSymbolText);
-                t._currentView.nextButton.ondblclick = DomElement.cancelBubble;
-                ToolTip.add(t._currentView.nextButton, t, e.text.nextButtonText);
+                t._currentView.nextPageButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "next-page", e.text.nextButtonSymbolText);
+                t._currentView.nextPageButton.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(t._currentView.nextPageButton, t, e.text.nextButtonText);
                 if (t._currentView.currentDataArrayPageIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextButton.onclick = () => C(t);
+                    t._currentView.nextPageButton.onclick = () => C(t);
                 } else {
-                    t._currentView.nextButton.disabled = true;
+                    t._currentView.nextPageButton.disabled = true;
                 }
             } else {
                 if (Is.definedArray(n)) {
@@ -1893,14 +1893,14 @@ var ContextMenu;
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
     function I(e) {
-        if (e._currentView.backButton !== null && !e._currentView.backButton.disabled) {
+        if (e._currentView.backPageButton !== null && !e._currentView.backPageButton.disabled) {
             e._currentView.currentDataArrayPageIndex -= e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
     function C(e) {
-        if (e._currentView.nextButton !== null && !e._currentView.nextButton.disabled) {
+        if (e._currentView.nextPageButton !== null && !e._currentView.nextPageButton.disabled) {
             e._currentView.currentDataArrayPageIndex += e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
