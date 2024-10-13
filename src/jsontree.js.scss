@@ -343,6 +343,64 @@ div.json-tree-js {
 
 /*
     -------------------------------------------------------------------------
+    JsonTree.js - Opening/Closing Plus/Minus
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.no-plus-minus,
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: calc( var(--json-tree-js-spacing) );
+    }
+
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            margin-top: -1.5px;
+            background-color: var(--json-tree-js-color-snow-white);
+        }
+    }
+
+    div.closed-plus-minus {
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 3px;
+            height: 100%;
+            margin-left: -1.5px;
+            background-color: var(--json-tree-js-color-snow-white);
+        }
+    }
+
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        cursor: pointer;
+        transition: var(--json-tree-js-transition);
+        transition-property: opacity;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
     JsonTree.js - Title Bar
     -------------------------------------------------------------------------
 */
