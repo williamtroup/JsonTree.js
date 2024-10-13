@@ -12,6 +12,7 @@
 
 
 import { type Configuration } from "../type";
+import { Is } from "./is";
 import { Str } from "./str";
 
 
@@ -34,39 +35,40 @@ export namespace DateTime {
         return result;
     }
 
-    export function getCustomFormattedDateText( configuration: Configuration, date: Date , dateFormat: string) : string {
+    export function getCustomFormattedDateText( configuration: Configuration, date: Date , dateFormat: string ) : string {
+        const actualDate: Date = isNaN( +date ) ? new Date() : date;
         let result: string = dateFormat;
-        const weekDayNumber: number = getWeekdayNumber( date );
+        const weekDayNumber: number = getWeekdayNumber( actualDate );
 
-        result = result.replace( "{hh}", Str.padNumber( date.getHours(), 2 ) );
-        result = result.replace( "{h}", date.getHours().toString() );
+        result = result.replace( "{hh}", Str.padNumber( actualDate.getHours(), 2 ) );
+        result = result.replace( "{h}", actualDate.getHours().toString() );
     
-        result = result.replace( "{MM}", Str.padNumber( date.getMinutes(), 2 ) );
-        result = result.replace( "{M}", date.getMinutes().toString() );
+        result = result.replace( "{MM}", Str.padNumber( actualDate.getMinutes(), 2 ) );
+        result = result.replace( "{M}", actualDate.getMinutes().toString() );
     
-        result = result.replace( "{ss}", Str.padNumber( date.getSeconds(), 2 ) );
-        result = result.replace( "{s}", date.getSeconds().toString() );
+        result = result.replace( "{ss}", Str.padNumber( actualDate.getSeconds(), 2 ) );
+        result = result.replace( "{s}", actualDate.getSeconds().toString() );
 
-        result = result.replace( "{fff}", Str.padNumber( date.getMilliseconds(), 3 ) );
-        result = result.replace( "{ff}", Str.padNumber( date.getMilliseconds(), 2 ) );
-        result = result.replace( "{f}", date.getMilliseconds().toString() );
+        result = result.replace( "{fff}", Str.padNumber( actualDate.getMilliseconds(), 3 ) );
+        result = result.replace( "{ff}", Str.padNumber( actualDate.getMilliseconds(), 2 ) );
+        result = result.replace( "{f}", actualDate.getMilliseconds().toString() );
     
         result = result.replace( "{dddd}", configuration.text!.dayNames![ weekDayNumber ] );
         result = result.replace( "{ddd}", configuration.text!.dayNamesAbbreviated![ weekDayNumber ] );
-        result = result.replace( "{dd}", Str.padNumber( date.getDate() ) );
-        result = result.replace( "{d}", date.getDate().toString() );
+        result = result.replace( "{dd}", Str.padNumber( actualDate.getDate() ) );
+        result = result.replace( "{d}", actualDate.getDate().toString() );
     
-        result = result.replace( "{o}", getDayOrdinal( configuration, date.getDate() ) );
+        result = result.replace( "{o}", getDayOrdinal( configuration, actualDate.getDate() ) );
     
-        result = result.replace( "{mmmm}", configuration.text!.monthNames![ date.getMonth() ] );
-        result = result.replace( "{mmm}", configuration.text!.monthNamesAbbreviated![ date.getMonth() ] );
-        result = result.replace( "{mm}", Str.padNumber( date.getMonth() + 1 ) );
-        result = result.replace( "{m}", ( date.getMonth() + 1 ).toString() );
+        result = result.replace( "{mmmm}", configuration.text!.monthNames![ actualDate.getMonth() ] );
+        result = result.replace( "{mmm}", configuration.text!.monthNamesAbbreviated![ actualDate.getMonth() ] );
+        result = result.replace( "{mm}", Str.padNumber( actualDate.getMonth() + 1 ) );
+        result = result.replace( "{m}", ( actualDate.getMonth() + 1 ).toString() );
     
-        result = result.replace( "{yyyy}", date.getFullYear().toString() );
-        result = result.replace( "{yyy}", date.getFullYear().toString().substring( 1 ) );
-        result = result.replace( "{yy}", date.getFullYear().toString().substring( 2 ) );
-        result = result.replace( "{y}", Number.parseInt( date.getFullYear().toString().substring( 2 ) ).toString() );
+        result = result.replace( "{yyyy}", actualDate.getFullYear().toString() );
+        result = result.replace( "{yyy}", actualDate.getFullYear().toString().substring( 1 ) );
+        result = result.replace( "{yy}", actualDate.getFullYear().toString().substring( 2 ) );
+        result = result.replace( "{y}", Number.parseInt( actualDate.getFullYear().toString().substring( 2 ) ).toString() );
 
         return result;
     }

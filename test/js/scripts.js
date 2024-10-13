@@ -266,7 +266,7 @@ function getArrayData() {
                     true,
                     5,
                     10,
-                    new Date(),
+                    new Date( "Sun Oct 10 2024 12:00:00 GMT+0100 (British Summer Time)" ),
                     "#90ee90"
                 ]
             ],
@@ -285,6 +285,8 @@ function getArrayData() {
                 array: [],
                 html: document.createElement( "div" ),
                 string: "",
+                symbol: Symbol(),
+                invalidDate: new Date( "" ),
             },
         },
         document.getElementById( "header" ),
