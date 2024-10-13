@@ -302,6 +302,7 @@ div.json-tree-js div.closed-plus-minus::before {
   height: 3px;
   margin-top: -1.5px;
   background-color: var(--json-tree-js-color-snow-white);
+  border-radius: var(--json-tree-js-border-radius-toggle);
 }
 div.json-tree-js div.closed-plus-minus::after {
   content: "";
@@ -312,6 +313,7 @@ div.json-tree-js div.closed-plus-minus::after {
   height: 100%;
   margin-left: -1.5px;
   background-color: var(--json-tree-js-color-snow-white);
+  border-radius: var(--json-tree-js-border-radius-toggle);
 }
 div.json-tree-js div.opened-plus-minus,
 div.json-tree-js div.closed-plus-minus {

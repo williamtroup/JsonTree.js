@@ -370,6 +370,7 @@ div.json-tree-js {
             height: 3px;
             margin-top: -1.5px;
             background-color: var(--json-tree-js-color-snow-white);
+            border-radius: var(--json-tree-js-border-radius-toggle);
         }
     }
 
@@ -383,6 +384,7 @@ div.json-tree-js {
             height: 100%;
             margin-left: -1.5px;
             background-color: var(--json-tree-js-color-snow-white);
+            border-radius: var(--json-tree-js-border-radius-toggle);
         }
     }
 
