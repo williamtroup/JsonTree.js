@@ -18,7 +18,8 @@
 - 🎏 52 language translations available!
 - 📱 Fully styled in CSS/SASS, fully responsive, and compatible with the Bootstrap library!
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
-- 🔍 22 types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
+- 🔍 22 data types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
+- 🔍 Custom data types support.
 - 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
 - 📂 Close and open all objects, arrays, sets, maps, and HTML objects.
@@ -50,7 +51,7 @@ All the documentation can be found [here](https://www.william-troup.com/jsontree
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
 
 
-## What types are supported?
+## What data types are supported?
 
 - `boolean` Booleans
 - `number` Numbers

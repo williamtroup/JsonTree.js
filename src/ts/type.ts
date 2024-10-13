@@ -14,6 +14,13 @@
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 
+export type CustomDataType = {
+	class: string;
+	dataType: string;
+	html: string;
+	allowEditing: boolean;
+};
+
 export type ColumnLayout = {
 	column: HTMLElement;
 	lineNumbers: HTMLElement;
@@ -387,4 +394,5 @@ export type BindingOptionsEvents = {
 	onFullScreenChange?: ( jsonTreeElement: HTMLElement, enabled: boolean ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 	onSelectionChange?: ( jsonTreeElement: HTMLElement ) => void;
+	onCustomDataTypeRender?: ( jsonTreeElement: HTMLElement, value: any ) => CustomDataType | boolean;
 };

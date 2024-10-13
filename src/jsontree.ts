@@ -19,7 +19,8 @@ import {
     type ContentPanels, 
     type FunctionName, 
     type BindingOptionsCurrentView, 
-    type ColumnLayout } from "./ts/type";
+    type ColumnLayout, 
+    CustomDataType} from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";
@@ -973,6 +974,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const dataTypes: string[] = Object.keys( DataType );
         const ignore: any = bindingOptions.ignore;
 
+        for ( const dataType in bindingOptions._currentView.dataTypeCounts ) {
+            if ( dataTypes.indexOf( dataType ) === -1 ) {
+                dataTypes.push( dataType );
+            }
+        }
+
         dataTypes.sort();
 
         dataTypes.forEach( ( key: string, _: any ) => {
@@ -1430,7 +1437,27 @@ type JsonTreeData = Record<string, BindingOptions>;
             selectItemAndCompareProperties( bindingOptions, objectTypeValueTitle, jsonPath, columnIndex, value );
         }
 
-        if ( value === null ) {
+        const renderCustomDataType: any | CustomDataType = Trigger.customEvent( bindingOptions.events!.onCustomDataTypeRender!, bindingOptions._currentView.element, value );
+        
+        if ( Is.defined( renderCustomDataType ) && renderCustomDataType !== false ) {
+            dataType = renderCustomDataType.dataType;
+
+            const ignoreValues: any = bindingOptions.ignore;
+            const dataTypeKeyName: string = `${renderCustomDataType.dataType}Values`;
+
+            if ( !ignoreValues.hasOwnProperty( dataTypeKeyName ) || !ignoreValues[ dataTypeKeyName ] ) {
+                valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", renderCustomDataType.class, renderCustomDataType.html );
+                allowEditing = renderCustomDataType.allowEditing;
+
+                makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
+                createComma( bindingOptions, objectTypeValueTitle, isLastItem );
+
+            } else {
+                ignored = true;
+            }
+
+        } else if ( value === null ) {
             dataType = DataType.null;
 
             if ( !bindingOptions.ignore!.nullValues ) {

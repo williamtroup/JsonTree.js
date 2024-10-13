@@ -361,6 +361,7 @@ export namespace Binding {
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
             options.events!.onSelectionChange = Default.getFunction( options.events!.onSelectionChange, null! );
+            options.events!.onCustomDataTypeRender = Default.getFunction( options.events!.onCustomDataTypeRender, null! );
 
             return options.events!;
         }
