@@ -27,7 +27,7 @@ import {
     type BindingOptionsFooter, 
     type BindingOptionsControlPanel, 
     type BindingOptionsLineNumbers, 
-    BindingOptionsMaximum} from "../type";
+    type BindingOptionsMaximum } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";

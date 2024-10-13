@@ -12,7 +12,6 @@
 
 
 import { type Configuration } from "../type";
-import { Is } from "./is";
 import { Str } from "./str";
 
 

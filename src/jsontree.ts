@@ -20,7 +20,7 @@ import {
     type FunctionName, 
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
-    CustomDataType} from "./ts/type";
+    type CustomDataType } from "./ts/type";
     
 import { type PublicApi } from "./ts/api";
 import { Default } from "./ts/data/default";

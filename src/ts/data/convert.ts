@@ -11,7 +11,11 @@
  */
 
 
-import { type StringToJson, type Configuration, type BindingOptions } from "../type";
+import {
+    type StringToJson,
+    type Configuration,
+    type BindingOptions } from "../type";
+    
 import { Default } from "./default";
 import { Char } from "./enum";
 import { Is } from "./is";
