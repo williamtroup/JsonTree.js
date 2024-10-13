@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v4.2.0
+ * @version     v4.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -27,7 +27,7 @@ import {
     type BindingOptionsFooter, 
     type BindingOptionsControlPanel, 
     type BindingOptionsLineNumbers, 
-    BindingOptionsMaximum} from "../type";
+    type BindingOptionsMaximum } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -50,8 +50,8 @@ export namespace Binding {
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.contentPanelsDataIndex = 0;
-            bindingOptions._currentView.backButton = null!;
-            bindingOptions._currentView.nextButton = null!;
+            bindingOptions._currentView.backPageButton = null!;
+            bindingOptions._currentView.nextPageButton = null!;
             bindingOptions._currentView.disabledBackground = null!;
             bindingOptions._currentView.sideMenu = null!;
             bindingOptions._currentView.sideMenuChanged = false;
@@ -90,10 +90,12 @@ export namespace Binding {
 
         export function get( newOptions: any ) : BindingOptions {
             const options: BindingOptions = Default.getObject( newOptions, {} as BindingOptions );
+            options.id = Default.getString( options.id, Char.empty );
+            options.class = Default.getString( options.class, Char.empty );
             options.showObjectSizes = Default.getBoolean( options.showObjectSizes, true );
             options.useZeroIndexingForArrays = Default.getBoolean( options.useZeroIndexingForArrays, true );
             options.dateTimeFormat = Default.getString( options.dateTimeFormat, "{dd}{o} {mmmm} {yyyy} {hh}:{MM}:{ss}" );
-            options.showArrowToggles = Default.getBoolean( options.showArrowToggles, true );
+            options.showExpandIcons = Default.getBoolean( options.showExpandIcons, true );
             options.showStringQuotes = Default.getBoolean( options.showStringQuotes, true );
             options.showAllAsClosed = Default.getBoolean( options.showAllAsClosed, false );
             options.sortPropertyNames = Default.getBoolean( options.sortPropertyNames, true );
@@ -130,6 +132,8 @@ export namespace Binding {
             options.showClosedObjectCurlyBraces = Default.getBoolean( options.showClosedObjectCurlyBraces, true );
             options.convertClickedValuesToString = Default.getBoolean( options.convertClickedValuesToString, false );
             options.rootName = Default.getString( options.rootName, "root" );
+            options.emptyStringValue = Default.getString( options.emptyStringValue, Char.empty );
+            options.expandIconType = Default.getString( options.expandIconType, "arrow" );
 
             options.maximum = getMaximum( options );
             options.paging = getPaging( options );
@@ -357,6 +361,7 @@ export namespace Binding {
             options.events!.onCopy = Default.getFunction( options.events!.onCopy, null! );
             options.events!.onFullScreenChange = Default.getFunction( options.events!.onFullScreenChange, null! );
             options.events!.onSelectionChange = Default.getFunction( options.events!.onSelectionChange, null! );
+            options.events!.onCustomDataTypeRender = Default.getFunction( options.events!.onCustomDataTypeRender, null! );
 
             return options.events!;
         }

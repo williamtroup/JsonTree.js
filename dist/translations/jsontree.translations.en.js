@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.2.0 - English | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.3.0 - English | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -100,6 +100,6 @@ $jsontree.setConfiguration( {
         "removeButtonText": "Remove",
         "switchToPagesText": "Switch To Pages",
         "clearJsonText": "Clear JSON",
-        "maximumInspectionLevelsReached": "Maximum inspection levels has been reached."
+        "maximumInspectionLevelsReached": "Maximum inspection levels have been reached."
     }
 } );

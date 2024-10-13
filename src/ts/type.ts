@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.2.0
+ * @version     v4.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -13,6 +13,13 @@
 
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
+export type CustomDataType = {
+	class: string;
+	dataType: string;
+	html: string;
+	allowEditing: boolean;
+};
 
 export type ColumnLayout = {
 	column: HTMLElement;
@@ -127,10 +134,12 @@ export type ConfigurationText = {
 export type BindingOptions = {
     _currentView: BindingOptionsCurrentView;
 	data?: any;
+	id?: string;
+	class?: string;
 	showObjectSizes?: boolean;
 	useZeroIndexingForArrays?: boolean;
 	dateTimeFormat?: string;
-	showArrowToggles?: boolean;
+	showExpandIcons?: boolean;
 	showStringQuotes?: boolean;
 	showAllAsClosed?: boolean;
 	sortPropertyNames?: boolean;
@@ -167,6 +176,8 @@ export type BindingOptions = {
 	showClosedObjectCurlyBraces?: boolean;
 	convertClickedValuesToString?: boolean;
 	rootName?: string;
+	emptyStringValue?: string;
+	expandIconType?: string;
 	lineNumbers?: BindingOptionsLineNumbers;
 	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;
@@ -193,8 +204,8 @@ export type BindingOptionsCurrentView = {
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
 	contentPanelsDataIndex: number;
-	backButton: HTMLButtonElement;
-	nextButton: HTMLButtonElement;
+	backPageButton: HTMLButtonElement;
+	nextPageButton: HTMLButtonElement;
 	disabledBackground: HTMLElement;
 	sideMenu: HTMLElement;
 	sideMenuChanged: boolean;
@@ -383,4 +394,5 @@ export type BindingOptionsEvents = {
 	onFullScreenChange?: ( jsonTreeElement: HTMLElement, enabled: boolean ) => void;
 	onCopyJsonReplacer?: ( key: string, value: any ) => any;
 	onSelectionChange?: ( jsonTreeElement: HTMLElement ) => void;
+	onCustomDataTypeRender?: ( jsonTreeElement: HTMLElement, value: any ) => CustomDataType | boolean;
 };

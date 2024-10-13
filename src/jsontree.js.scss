@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.2.0
+ * JsonTree.js Library v4.3.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -122,11 +122,12 @@
     --json-tree-js-border-radius-editable: 0.25rem;
     --json-tree-js-border-radius: 0.5rem;
     --json-tree-js-border-size: 0.5px;
+    --json-tree-js-border-radius-toggle: 0.15rem;
 
     // Sizes
     --json-tree-js-spacing: 10px;
     --json-tree-js-spacing-font-size: 0.85rem;
-    --json-tree-js-spacing-arrow-toggle-size: 12px;
+    --json-tree-js-spacing-toggle-size: 12px;
     --json-tree-js-spacing-title-bar: calc( ( var(--json-tree-js-spacing) / 2 ) + 2px );
 
     // Transitions
@@ -223,20 +224,20 @@ div.full-screen {
 
 /*
     -------------------------------------------------------------------------
-    JsonTree.js - Arrows
+    JsonTree.js - Opening/Closing Arrows
     -------------------------------------------------------------------------
 */
 
 div.json-tree-js {
     div.no-arrow {
         display: inline-block;
-        width: var(--json-tree-js-spacing-arrow-toggle-size);
+        width: var(--json-tree-js-spacing-toggle-size);
         height: 8px;
         margin-right: calc( var(--json-tree-js-spacing) );
     }
 
-    div.down-arrow,
-    div.right-arrow {
+    div.opened-arrow,
+    div.closed-arrow {
         display: inline-block;
         width: 0;
         height: 0;
@@ -250,16 +251,152 @@ div.json-tree-js {
         }
     }
 
-    div.down-arrow {
+    div.opened-arrow {
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         border-top: 8px solid var(--json-tree-js-color-snow-white);
     }
 
-    div.right-arrow {
+    div.closed-arrow {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
-        border-left: var(--json-tree-js-spacing-arrow-toggle-size) solid var(--json-tree-js-color-snow-white);
+        border-left: var(--json-tree-js-spacing-toggle-size) solid var(--json-tree-js-color-snow-white);
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Opening/Closing Squares
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.no-square,
+    div.opened-square,
+    div.closed-square {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: calc( var(--json-tree-js-spacing) );
+        border-radius: var(--json-tree-js-border-radius-toggle);
+    }
+
+    div.opened-square {
+        border: 3px solid var(--json-tree-js-color-snow-white);
+    }
+
+    div.closed-square {
+        background-color: var(--json-tree-js-color-snow-white);
+    }
+
+    div.opened-square,
+    div.closed-square {
+        cursor: pointer;
+        transition: var(--json-tree-js-transition);
+        transition-property: opacity;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Opening/Closing Circles
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.no-circle,
+    div.opened-circle,
+    div.closed-circle {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: calc( var(--json-tree-js-spacing) );
+        border-radius: 50%;
+    }
+
+    div.opened-circle {
+        border: 3px solid var(--json-tree-js-color-snow-white);
+    }
+
+    div.closed-circle {
+        background-color: var(--json-tree-js-color-snow-white);
+    }
+
+    div.opened-circle,
+    div.closed-circle {
+        cursor: pointer;
+        transition: var(--json-tree-js-transition);
+        transition-property: opacity;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Opening/Closing Plus/Minus
+    -------------------------------------------------------------------------
+*/
+
+div.json-tree-js {
+    div.no-plus-minus,
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: calc( var(--json-tree-js-spacing) );
+    }
+
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            margin-top: -1.5px;
+            background-color: var(--json-tree-js-color-snow-white);
+            border-radius: var(--json-tree-js-border-radius-toggle);
+        }
+    }
+
+    div.closed-plus-minus {
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 3px;
+            height: 100%;
+            margin-left: -1.5px;
+            background-color: var(--json-tree-js-color-snow-white);
+            border-radius: var(--json-tree-js-border-radius-toggle);
+        }
+    }
+
+    div.opened-plus-minus,
+    div.closed-plus-minus {
+        cursor: pointer;
+        transition: var(--json-tree-js-transition);
+        transition-property: opacity;
+
+        &:hover {
+            opacity: 0.7;
+        }
     }
 }
 
@@ -799,7 +936,7 @@ div.json-tree-js {
         margin-left: 5px;
     }
 
-    div.object-border-no-arrow-toggles {
+    div.object-border-no-toggles {
         margin-left: var(--json-tree-js-border-size);
     }
 
@@ -808,7 +945,7 @@ div.json-tree-js {
         bottom: 0;
         left: var(--json-tree-js-border-size);
         height: var(--json-tree-js-border-size);
-        width: var(--json-tree-js-spacing-arrow-toggle-size);
+        width: var(--json-tree-js-spacing-toggle-size);
         border-bottom: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
     }
 }
