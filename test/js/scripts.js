@@ -114,6 +114,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             numberLength: 0,
             bigIntLength: 0,
             inspectionLevels: 10,
+            propertyNameLength: 0,
         },
         parse: {
             stringsToDates: true,

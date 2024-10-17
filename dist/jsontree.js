@@ -788,6 +788,7 @@ var Binding;
             e.maximum.numberLength = Default.getNumber(e.maximum.numberLength, 0);
             e.maximum.bigIntLength = Default.getNumber(e.maximum.bigIntLength, 0);
             e.maximum.inspectionLevels = Default.getNumber(e.maximum.inspectionLevels, 10);
+            e.maximum.propertyNameLength = Default.getNumber(e.maximum.propertyNameLength, 0);
             return e.maximum;
         }
         function r(e) {
@@ -1957,7 +1958,7 @@ var ContextMenu;
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                j(e, t);
+                N(e, t);
             }
         }
     }
@@ -2000,7 +2001,7 @@ var ContextMenu;
         i(t);
         z(t, e.text.jsonUpdatedText);
     }
-    function j(t, n) {
+    function N(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -2008,8 +2009,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => N(n, o, true);
-        a.onclick = () => N(n, o, false);
+        s.onclick = () => j(n, o, true);
+        a.onclick = () => j(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2028,7 +2029,7 @@ var ContextMenu;
             }
         }));
     }
-    function N(e, t, n) {
+    function j(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -2218,41 +2219,48 @@ var ContextMenu;
         }
     }
     function q(t, n, o, l) {
-        let r = null;
-        if (l === "set") {
-            r = e.text.setText;
-        } else if (l === "array") {
-            r = e.text.arrayText;
+        let r = o;
+        if (Is.definedImportedFilename(o)) {
+            r = r.object;
         }
-        const i = DomElement.create(t, "div", "object-type-title");
-        const s = DomElement.create(t, "div", "object-type-contents last-item");
-        const a = n.showExpandIcons ? DomElement.create(i, "div", `opened-${n.expandIconType}`) : null;
-        if (!n.paging.enabled) {
+        let i = null;
+        if (l === "set") {
+            i = e.text.setText;
+        } else if (l === "array") {
+            i = e.text.arrayText;
+        }
+        const s = DomElement.create(t, "div", "object-type-title");
+        const a = DomElement.create(t, "div", "object-type-contents last-item");
+        const u = n.showExpandIcons ? DomElement.create(s, "div", `opened-${n.expandIconType}`) : null;
+        if (!n.paging.enabled || Is.definedImportedFilename(o)) {
             let t = n.rootName;
+            if (Is.definedImportedFilename(o)) {
+                t = o.filename;
+            }
             if (n.showPropertyNameQuotes) {
                 t = `"${t}"`;
             }
-            DomElement.createWithHTML(i, "span", "root-name", t);
-            DomElement.createWithHTML(i, "span", "split", e.text.propertyColonCharacter);
+            DomElement.createWithHTML(s, "span", "root-name", t);
+            DomElement.createWithHTML(s, "span", "split", e.text.propertyColonCharacter);
         }
-        const u = DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} main-title` : "main-title", r);
-        let c = null;
+        const c = DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
         let d = null;
-        K(s, n);
+        let f = null;
+        K(a, n);
         if (n.showObjectSizes) {
-            DomElement.createWithHTML(i, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
+            DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
         if (n.showOpeningClosingSquaredBrackets) {
-            c = DomElement.createWithHTML(i, "span", "opening-symbol", "[");
+            d = DomElement.createWithHTML(s, "span", "opening-symbol", "[");
         }
         if (n.showClosedArraySquaredBrackets) {
-            d = DomElement.createWithHTML(i, "span", "closed-symbols", "[ ... ]");
+            f = DomElement.createWithHTML(s, "span", "closed-symbols", "[ ... ]");
         }
-        Q(a, null, s, n, o, c, d, false, true, "", l, l !== "array", 1);
-        oe(n, u, o, l, false);
-        J(n, o, u);
-        W(n, o, u);
-        ce(n, i, false, o, o, null, false, null);
+        Q(u, null, a, n, o, d, f, false, true, "", l, l !== "array", 1);
+        oe(n, c, o, l, false);
+        J(n, o, c);
+        W(n, o, c);
+        ce(n, s, false, o, o, null, false, null);
     }
     function Z(t, n, o, l, r, i, s, a, u, c, d, f, g, m) {
         let p = true;
@@ -2334,10 +2342,14 @@ var ContextMenu;
         let V = null;
         const E = o._currentView.currentColumnBuildingIndex;
         if (!v) {
+            let t = l;
+            if (o.maximum.propertyNameLength > 0 && t.length > o.maximum.propertyNameLength) {
+                t = `${t.substring(0, o.maximum.propertyNameLength)}${" "}${e.text.ellipsisText}${" "}`;
+            }
             if (s || !o.showPropertyNameQuotes) {
-                y.innerHTML = l;
+                y.innerHTML = t;
             } else {
-                y.innerHTML = `"${l}"`;
+                y.innerHTML = `"${t}"`;
             }
             if (s && !o.showChildIndexes) {
                 y.parentNode.removeChild(y);
@@ -2947,10 +2959,9 @@ var ContextMenu;
                 t._currentView.editMode = true;
                 l.classList.add("editable-name");
                 if (r) {
-                    a = Arr.getIndexFromBrackets(l.innerHTML);
-                    l.innerHTML = a.toString();
+                    l.innerHTML = Arr.getIndexFromBrackets(o).toString();
                 } else {
-                    l.innerHTML = l.innerHTML.replace(/['"]+/g, "");
+                    l.innerHTML = o;
                 }
                 l.setAttribute("contenteditable", "true");
                 l.focus();

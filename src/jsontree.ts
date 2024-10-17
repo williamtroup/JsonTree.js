@@ -1414,10 +1414,16 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
         if ( !isForEmptyProperties ) {
+            let nameValue: string = name;
+
+            if ( bindingOptions.maximum!.propertyNameLength! > 0 && nameValue.length > bindingOptions.maximum!.propertyNameLength! ) {
+                nameValue = `${nameValue.substring( 0, bindingOptions.maximum!.propertyNameLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
+            }
+
             if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
-                nameElement.innerHTML = name;
+                nameElement.innerHTML = nameValue;
             } else {
-                nameElement.innerHTML = `\"${name}\"`;
+                nameElement.innerHTML = `\"${nameValue}\"`;
             }
 
             if ( isArrayItem && !bindingOptions.showChildIndexes ) {
@@ -2253,12 +2259,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyName.classList.add( "editable-name" );
 
                 if ( isArrayItem ) {
-                    originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
-                    
-                    propertyName.innerHTML = originalArrayIndex.toString();
-                    
+                    propertyName.innerHTML = Arr.getIndexFromBrackets( originalPropertyName ).toString();
                 } else {
-                    propertyName.innerHTML = propertyName.innerHTML.replace( /['"]+/g, Char.empty );
+                    propertyName.innerHTML = originalPropertyName;
                 }
                 
                 propertyName.setAttribute( "contenteditable", "true" );
