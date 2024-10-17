@@ -1,5 +1,12 @@
 "use strict";
 
+var ImportedFilename = class {
+    constructor() {
+        this.filename = null;
+        this.object = null;
+    }
+};
+
 var DataType = (e => {
     e["null"] = "null";
     e["function"] = "function";
@@ -160,6 +167,10 @@ var Is;
         return !c(e) || e.length < t;
     }
     e.invalidOptionArray = w;
+    function D(e) {
+        return n(e) && e instanceof ImportedFilename;
+    }
+    e.definedImportedFilename = D;
 })(Is || (Is = {}));
 
 var Convert2;
@@ -169,6 +180,8 @@ var Convert2;
         let o = null;
         if (!Is.defined(e)) {
             o = null;
+        } else if (Is.definedImportedFilename(e)) {
+            o = e.object;
         } else if (Is.definedDate(e)) {
             if (!n.includeTimeZoneInDates) {
                 o = JSON.stringify(e).replace(/['"]+/g, "");
@@ -1446,7 +1459,7 @@ var ContextMenu;
         }
         _(e);
         A(e);
-        R(e);
+        F(e);
         me(e);
         e._currentView.initialized = true;
     }
@@ -1944,7 +1957,7 @@ var ContextMenu;
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                N(e, t);
+                j(e, t);
             }
         }
     }
@@ -1987,7 +2000,7 @@ var ContextMenu;
         i(t);
         z(t, e.text.jsonUpdatedText);
     }
-    function N(t, n) {
+    function j(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -1995,8 +2008,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const a = DomElement.create(i, "div", "settings-panel-control-button");
-        s.onclick = () => j(n, o, true);
-        a.onclick = () => j(n, o, false);
+        s.onclick = () => N(n, o, true);
+        a.onclick = () => N(n, o, false);
         ToolTip.add(s, n, e.text.selectAllText);
         ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2015,7 +2028,7 @@ var ContextMenu;
             }
         }));
     }
-    function j(e, t, n) {
+    function N(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -2045,7 +2058,7 @@ var ContextMenu;
         }
         return l;
     }
-    function R(t) {
+    function F(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
             H(t);
@@ -2064,11 +2077,11 @@ var ContextMenu;
             }
             if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.footer.showPageOf) {
                 t._currentView.footerPageText = DomElement.create(t._currentView.footer, "div", "status-page-index");
-                F(t);
+                R(t);
             }
         }
     }
-    function F(t) {
+    function R(t) {
         if (t.paging.enabled) {
             const n = Math.ceil((t._currentView.currentDataArrayPageIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
@@ -2141,58 +2154,67 @@ var ContextMenu;
         }
     }
     function U(t, n, o, l, r) {
-        const i = Obj.getPropertyNames(o, n);
-        const s = i.length;
-        if (s !== 0 || !n.ignore.emptyObjects) {
-            let a = null;
+        let i = o;
+        if (Is.definedImportedFilename(o)) {
+            i = i.object;
+        }
+        const s = Obj.getPropertyNames(i, n);
+        const a = s.length;
+        if (a !== 0 || !n.ignore.emptyObjects) {
+            let u = null;
             if (r === "object") {
-                a = e.text.objectText;
+                u = e.text.objectText;
             } else if (r === "map") {
-                a = e.text.mapText;
+                u = e.text.mapText;
             } else if (r === "html") {
-                a = e.text.htmlText;
+                u = e.text.htmlText;
             }
-            const u = DomElement.create(t, "div", "object-type-title");
-            const c = DomElement.create(t, "div", "object-type-contents last-item");
-            const d = n.showExpandIcons ? DomElement.create(u, "div", `opened-${n.expandIconType}`) : null;
-            if (!n.paging.enabled || !Is.definedNumber(l)) {
+            const c = DomElement.create(t, "div", "object-type-title");
+            const d = DomElement.create(t, "div", "object-type-contents last-item");
+            const f = n.showExpandIcons ? DomElement.create(c, "div", `opened-${n.expandIconType}`) : null;
+            let g = null;
+            if (!n.paging.enabled || !Is.definedNumber(l) || Is.definedImportedFilename(o)) {
                 let t = n.rootName;
+                if (Is.definedImportedFilename(o)) {
+                    t = o.filename;
+                }
                 if (n.showPropertyNameQuotes) {
                     t = `"${t}"`;
                 }
-                DomElement.createWithHTML(u, "span", "root-name", t);
-                DomElement.createWithHTML(u, "span", "split", e.text.propertyColonCharacter);
+                g = DomElement.createWithHTML(c, "span", "root-name", t);
+                DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter);
             }
-            const f = DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} main-title` : "main-title", a);
-            let g = null;
-            let m = null;
-            K(c, n);
+            const m = DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} main-title` : "main-title", u);
+            let p = null;
+            let x = null;
+            K(d, n);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
                     t = `[${t}]`;
                 }
-                DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", t, f);
-                DomElement.createWithHTML(u, "span", "split", e.text.propertyColonCharacter, f);
+                const o = Is.defined(g) ? g : m;
+                DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", t, o);
+                DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter, o);
             }
-            if (n.showObjectSizes && s > 0) {
+            if (n.showObjectSizes && a > 0) {
                 if (r === "html") {
-                    DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} size` : "size", `<${s}>`);
+                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `<${a}>`);
                 } else {
-                    DomElement.createWithHTML(u, "span", n.showValueColors ? `${r} size` : "size", `{${s}}`);
+                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `{${a}}`);
                 }
             }
             if (n.showOpeningClosingCurlyBraces) {
-                g = DomElement.createWithHTML(u, "span", "opening-symbol", "{");
+                p = DomElement.createWithHTML(c, "span", "opening-symbol", "{");
             }
             if (n.showClosedObjectCurlyBraces) {
-                m = DomElement.createWithHTML(u, "span", "closed-symbols", "{ ... }");
+                x = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
             }
-            Z(d, null, c, n, o, i, g, m, false, true, "", r, r !== "object", 1);
-            oe(n, f, o, r, false);
-            J(n, o, f);
-            W(n, o, f);
-            ce(n, u, false, o, o, null, false, null);
+            Z(f, null, d, n, i, s, p, x, false, true, "", r, r !== "object", 1);
+            oe(n, m, i, r, false);
+            J(n, i, m);
+            W(n, i, m);
+            ce(n, c, false, i, i, null, false, null);
         }
     }
     function q(t, n, o, l) {
@@ -3368,10 +3390,12 @@ var ContextMenu;
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l);
-        o.onload = t => {
-            const n = Convert2.jsonStringToObject(t.target.result, e);
-            if (n.parsed && Is.definedObject(n.object)) {
-                l = n.object;
+        o.onload = n => {
+            const o = Convert2.jsonStringToObject(n.target.result, e);
+            if (o.parsed && Is.definedObject(o.object)) {
+                l = new ImportedFilename;
+                l.filename = t.name;
+                l.object = o.object;
             }
         };
         o.readAsText(t);

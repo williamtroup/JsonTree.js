@@ -28,6 +28,9 @@ export namespace Convert {
         if ( !Is.defined( object ) ) {
             result = null;
 
+        } else if ( Is.definedImportedFilename( object ) ) {
+            result = object.object;
+
         } else if ( Is.definedDate( object ) ) {
             if ( !bindingOptions.includeTimeZoneInDates ) {
                 result = JSON.stringify( object ).replace( /['"]+/g, Char.empty );

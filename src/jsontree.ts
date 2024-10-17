@@ -21,8 +21,9 @@ import {
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
     type CustomDataType } from "./ts/type";
-    
+
 import { type PublicApi } from "./ts/api";
+import { ImportedFilename } from "./ts/type";  
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
@@ -1171,7 +1172,13 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number, dataType: string ) : void {
-        const propertyNames: string[] = Obj.getPropertyNames( data, bindingOptions );
+        let actualData: any = data;
+        
+        if ( Is.definedImportedFilename( data ) ) {
+            actualData = actualData.object;
+        }
+
+        const propertyNames: string[] = Obj.getPropertyNames( actualData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
@@ -1188,15 +1195,20 @@ type JsonTreeData = Record<string, BindingOptions>;
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
             const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
+            let rootNameTitle: HTMLSpanElement = null!;
 
-            if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) ) {
+            if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) || Is.definedImportedFilename( data ) ) {
                 let rootName: string = bindingOptions.rootName!;
+
+                if ( Is.definedImportedFilename( data ) ) {
+                    rootName = data.filename;
+                }
 
                 if ( bindingOptions.showPropertyNameQuotes ) {
                     rootName = `\"${rootName}\"`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
+                rootNameTitle = DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
                 DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter! );
             }
 
@@ -1213,8 +1225,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     dataArrayIndex = `[${dataArrayIndex}]`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, titleText );
-                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter!, titleText );
+                const beforeNode: HTMLSpanElement = Is.defined( rootNameTitle ) ? rootNameTitle : titleText;
+
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, beforeNode );
+                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter!, beforeNode );
             }
     
             if ( bindingOptions.showObjectSizes && propertyCount > 0 ) {
@@ -1233,15 +1247,21 @@ type JsonTreeData = Record<string, BindingOptions>;
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
-            renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
-            addValueClickEvent( bindingOptions, titleText, data, dataType, false );
-            addFooterSizeStatus( bindingOptions, data, titleText );
-            addFooterLengthStatus( bindingOptions, data, titleText );
-            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
+            renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, actualData, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
+            addValueClickEvent( bindingOptions, titleText, actualData, dataType, false );
+            addFooterSizeStatus( bindingOptions, actualData, titleText );
+            addFooterLengthStatus( bindingOptions, actualData, titleText );
+            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, actualData, actualData, null!, false, null! );
         }
     }
 
     function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataType: string ) : void {
+        let actualData: any = data;
+        
+        if ( Is.definedImportedFilename( data ) ) {
+            actualData = actualData.object;
+        }
+
         let mainTitle: string = null!;
 
         if ( dataType === DataType.set ) {
@@ -1254,8 +1274,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
         
-        if ( !bindingOptions.paging!.enabled ) {
+        if ( !bindingOptions.paging!.enabled || Is.definedImportedFilename( data ) ) {
             let rootName: string = bindingOptions.rootName!;
+
+            if ( Is.definedImportedFilename( data ) ) {
+                rootName = data.filename;
+            }
 
             if ( bindingOptions.showPropertyNameQuotes ) {
                 rootName = `\"${rootName}\"`;
@@ -2836,7 +2860,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function importFromJson( file: File, onFileLoad: ( data: any ) => void ) : void {
         const reader: FileReader = new FileReader();
-        let renderData: any = null as any;
+        let renderData: ImportedFilename = null!;
 
         reader.onloadend = () => onFileLoad( renderData );
     
@@ -2844,7 +2868,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
-                renderData = json.object;
+                renderData = new ImportedFilename();
+                renderData.filename = file.name;
+                renderData.object = json.object;
             }
         };
 

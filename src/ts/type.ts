@@ -14,6 +14,11 @@
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 
+export class ImportedFilename {
+	public filename: string = null!;
+	public object: string = null!;
+};
+
 export type CustomDataType = {
 	class: string;
 	dataType: string;

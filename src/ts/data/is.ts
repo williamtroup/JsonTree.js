@@ -11,6 +11,7 @@
  */
 
 
+import { ImportedFilename } from "../type";
 import { Char } from "./enum";
 
 
@@ -151,5 +152,9 @@ export namespace Is {
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
+    }
+
+    export function definedImportedFilename( object: any ) : boolean {
+        return defined( object ) && object instanceof ImportedFilename;
     }
 }
