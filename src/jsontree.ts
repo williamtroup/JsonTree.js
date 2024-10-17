@@ -529,98 +529,100 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, contentsColumn: HTMLElement, data: any, dataIndex: number ) : void {
-        const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-        const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
-        controlButtons.ondblclick = DomElement.cancelBubble;
-
-        const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
-
-        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
-            const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
-            editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
-            editButton.ondblclick = DomElement.cancelBubble;
+        if ( bindingOptions.controlPanel!.enabled ) {
+            const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+            const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
+            controlButtons.ondblclick = DomElement.cancelBubble;
     
-            ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
-            const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
-            moveRightButton.ondblclick = DomElement.cancelBubble;
-
-            if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
-                moveRightButton.disabled = true;
-            } else {
-                moveRightButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex + 1 );
-            }
+            const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
     
-            ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
-    
-            const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
-            moveLeftButton.ondblclick = DomElement.cancelBubble;
-
-            if ( ( dataIndex - 1 ) < 0 ) {
-                moveLeftButton.disabled = true;
-            } else {
-                moveLeftButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex - 1 );
-            }
-    
-            ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
-            const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
-            copyButton.onclick = () => onCopy( bindingOptions, data );
-            copyButton.ondblclick = DomElement.cancelBubble;
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
+                const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
+                editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
+                editButton.ondblclick = DomElement.cancelBubble;
         
-            ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
-            const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-            openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
-            openAllButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
-
-            const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-            closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
-            closeAllButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
-        }
-
-        if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
-            const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
-            importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
-
-            ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
-        }
-
-        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
-            const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
-            removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
-            removeButton.ondblclick = DomElement.cancelBubble;
+                ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
+            }
     
-            ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
-        }
-
-        if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
-            const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
-            switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
-            switchToPagesButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( switchToPagesButton, bindingOptions, _configuration.text!.switchToPagesText! );
-        }
-
-        if ( controlButtons.innerHTML !== Char.empty ) {
-            const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
-
-            bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
-            contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
-            contentsColumn.style.paddingRight = `${controlButtons.offsetWidth + paddingLeft}px`;
-
-        } else {
-            contentsColumn.removeChild( controlButtons );
+            if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
+                const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
+                moveRightButton.ondblclick = DomElement.cancelBubble;
+    
+                if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
+                    moveRightButton.disabled = true;
+                } else {
+                    moveRightButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex + 1 );
+                }
+        
+                ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
+        
+                const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
+                moveLeftButton.ondblclick = DomElement.cancelBubble;
+    
+                if ( ( dataIndex - 1 ) < 0 ) {
+                    moveLeftButton.disabled = true;
+                } else {
+                    moveLeftButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex - 1 );
+                }
+        
+                ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
+                copyButton.onclick = () => onCopy( bindingOptions, data );
+                copyButton.ondblclick = DomElement.cancelBubble;
+            
+                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
+                openAllButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
+    
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
+                closeAllButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
+            }
+    
+            if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
+                const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+                importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
+    
+                ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
+            }
+    
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
+                removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
+                removeButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
+            }
+    
+            if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
+                const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
+                switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
+                switchToPagesButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( switchToPagesButton, bindingOptions, _configuration.text!.switchToPagesText! );
+            }
+    
+            if ( controlButtons.innerHTML !== Char.empty ) {
+                const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
+    
+                bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
+                contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
+                contentsColumn.style.paddingRight = `${controlButtons.offsetWidth + paddingLeft}px`;
+    
+            } else {
+                contentsColumn.removeChild( controlButtons );
+            }
         }
     }
 

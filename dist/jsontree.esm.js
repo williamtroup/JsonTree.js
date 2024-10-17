@@ -1685,74 +1685,76 @@ var ContextMenu;
         }
     }
     function T(t, n, o, l) {
-        const r = t._currentView.currentColumnBuildingIndex;
-        const i = DomElement.create(n, "div", "column-control-buttons");
-        i.ondblclick = DomElement.cancelBubble;
-        const s = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
-        if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
-            const r = DomElement.createWithHTML(i, "button", "edit", e.text.editSymbolButtonText);
-            r.onclick = () => u(null, t, o, n, l);
-            r.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(r, t, e.text.editButtonText);
-        }
-        if (s && t.allowEditing.bulk && t.paging.allowColumnReordering && t.controlPanel.showMovingButtons) {
-            const n = DomElement.createWithHTML(i, "button", "move-right", e.text.moveRightSymbolButtonText);
-            n.ondblclick = DomElement.cancelBubble;
-            if (l + 1 > t.data.length - 1) {
-                n.disabled = true;
-            } else {
-                n.onclick = () => p(t, l, l + 1);
+        if (t.controlPanel.enabled) {
+            const r = t._currentView.currentColumnBuildingIndex;
+            const i = DomElement.create(n, "div", "column-control-buttons");
+            i.ondblclick = DomElement.cancelBubble;
+            const s = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
+            if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
+                const r = DomElement.createWithHTML(i, "button", "edit", e.text.editSymbolButtonText);
+                r.onclick = () => u(null, t, o, n, l);
+                r.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(r, t, e.text.editButtonText);
             }
-            ToolTip.add(n, t, e.text.moveRightButtonText);
-            const o = DomElement.createWithHTML(i, "button", "move-left", e.text.moveLeftSymbolButtonText);
-            o.ondblclick = DomElement.cancelBubble;
-            if (l - 1 < 0) {
-                o.disabled = true;
-            } else {
-                o.onclick = () => p(t, l, l - 1);
+            if (s && t.allowEditing.bulk && t.paging.allowColumnReordering && t.controlPanel.showMovingButtons) {
+                const n = DomElement.createWithHTML(i, "button", "move-right", e.text.moveRightSymbolButtonText);
+                n.ondblclick = DomElement.cancelBubble;
+                if (l + 1 > t.data.length - 1) {
+                    n.disabled = true;
+                } else {
+                    n.onclick = () => p(t, l, l + 1);
+                }
+                ToolTip.add(n, t, e.text.moveRightButtonText);
+                const o = DomElement.createWithHTML(i, "button", "move-left", e.text.moveLeftSymbolButtonText);
+                o.ondblclick = DomElement.cancelBubble;
+                if (l - 1 < 0) {
+                    o.disabled = true;
+                } else {
+                    o.onclick = () => p(t, l, l - 1);
+                }
+                ToolTip.add(o, t, e.text.moveLeftButtonText);
             }
-            ToolTip.add(o, t, e.text.moveLeftButtonText);
-        }
-        if (s && t.controlPanel.showCopyButton) {
-            const n = DomElement.createWithHTML(i, "button", "copy", e.text.copyButtonSymbolText);
-            n.onclick = () => D(t, o);
-            n.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(n, t, e.text.copyButtonText);
-        }
-        if (s && t.controlPanel.showCloseOpenAllButtons) {
-            const n = DomElement.createWithHTML(i, "button", "open-all", e.text.openAllButtonSymbolText);
-            n.onclick = () => h(t, l);
-            n.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(n, t, e.text.openAllButtonText);
-            const o = DomElement.createWithHTML(i, "button", "close-all", e.text.closeAllButtonSymbolText);
-            o.onclick = () => y(t, l);
-            o.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(o, t, e.text.closeAllButtonText);
-        }
-        if (t.paging.enabled && t.allowEditing.bulk && t.controlPanel.showImportButton) {
-            const n = DomElement.createWithHTML(i, "button", "import", e.text.importButtonSymbolText);
-            n.onclick = () => M(t, l + 1);
-            ToolTip.add(n, t, e.text.importButtonText);
-        }
-        if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
-            const n = DomElement.createWithHTML(i, "button", "remove", e.text.removeSymbolButtonText);
-            n.onclick = () => w(t, l);
-            n.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(n, t, e.text.removeButtonText);
-        }
-        if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
-            const n = DomElement.createWithHTML(i, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
-            n.onclick = () => b(t);
-            n.ondblclick = DomElement.cancelBubble;
-            ToolTip.add(n, t, e.text.switchToPagesText);
-        }
-        if (i.innerHTML !== "") {
-            const e = DomElement.getStyleValueByName(n, "padding-left", true);
-            t._currentView.currentContentColumns[r].controlButtons = i;
-            n.style.minHeight = `${i.offsetHeight}px`;
-            n.style.paddingRight = `${i.offsetWidth + e}px`;
-        } else {
-            n.removeChild(i);
+            if (s && t.controlPanel.showCopyButton) {
+                const n = DomElement.createWithHTML(i, "button", "copy", e.text.copyButtonSymbolText);
+                n.onclick = () => D(t, o);
+                n.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(n, t, e.text.copyButtonText);
+            }
+            if (s && t.controlPanel.showCloseOpenAllButtons) {
+                const n = DomElement.createWithHTML(i, "button", "open-all", e.text.openAllButtonSymbolText);
+                n.onclick = () => h(t, l);
+                n.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(n, t, e.text.openAllButtonText);
+                const o = DomElement.createWithHTML(i, "button", "close-all", e.text.closeAllButtonSymbolText);
+                o.onclick = () => y(t, l);
+                o.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(o, t, e.text.closeAllButtonText);
+            }
+            if (t.paging.enabled && t.allowEditing.bulk && t.controlPanel.showImportButton) {
+                const n = DomElement.createWithHTML(i, "button", "import", e.text.importButtonSymbolText);
+                n.onclick = () => M(t, l + 1);
+                ToolTip.add(n, t, e.text.importButtonText);
+            }
+            if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
+                const n = DomElement.createWithHTML(i, "button", "remove", e.text.removeSymbolButtonText);
+                n.onclick = () => w(t, l);
+                n.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(n, t, e.text.removeButtonText);
+            }
+            if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
+                const n = DomElement.createWithHTML(i, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
+                n.onclick = () => b(t);
+                n.ondblclick = DomElement.cancelBubble;
+                ToolTip.add(n, t, e.text.switchToPagesText);
+            }
+            if (i.innerHTML !== "") {
+                const e = DomElement.getStyleValueByName(n, "padding-left", true);
+                t._currentView.currentContentColumns[r].controlButtons = i;
+                n.style.minHeight = `${i.offsetHeight}px`;
+                n.style.paddingRight = `${i.offsetWidth + e}px`;
+            } else {
+                n.removeChild(i);
+            }
         }
     }
     function b(e) {
