@@ -10,6 +10,8 @@
  * @copyright   Bunoon 2024
  */
 
+import { Char } from "./enum";
+
 
 export namespace Str {
     export function padNumber( number: number, length: number = 1, paddingCharacter: string = "0" ) : string {
@@ -27,5 +29,15 @@ export namespace Str {
 
     export function capitalizeFirstLetter( string: string ) : string {
         return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+    }
+
+    export function getMaximumLengthDisplay( value: string, maximumLength: number, ellipsisText: string ) : string {
+        let newValue: string = value;
+
+        if ( maximumLength > 0 && newValue.length > maximumLength ) {
+            newValue = `${newValue.substring( 0, maximumLength )}${Char.space}${ellipsisText}${Char.space}`;
+        }
+
+        return newValue;
     }
 }

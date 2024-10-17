@@ -1414,11 +1414,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
         if ( !isForEmptyProperties ) {
-            let nameValue: string = name;
-
-            if ( bindingOptions.maximum!.propertyNameLength! > 0 && nameValue.length > bindingOptions.maximum!.propertyNameLength! ) {
-                nameValue = `${nameValue.substring( 0, bindingOptions.maximum!.propertyNameLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-            }
+            let nameValue: string = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.propertyNameLength!, _configuration.text!.ellipsisText! );
 
             if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
                 nameElement.innerHTML = nameValue;
@@ -1607,11 +1603,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.number;
 
             if ( !bindingOptions.ignore!.numberValues ) {
-                let newNumberValue: string = value.toString();
-
-                if ( bindingOptions.maximum!.numberLength! > 0 && newNumberValue.length > bindingOptions.maximum!.numberLength! ) {
-                    newNumberValue = `${newNumberValue.substring( 0, bindingOptions.maximum!.numberLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newNumberValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.numberLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newNumberValue );
@@ -1633,11 +1625,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.bigint;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
-                let newBigIntValue: string = value.toString();
-
-                if ( bindingOptions.maximum!.bigIntLength! > 0 && newBigIntValue.length > bindingOptions.maximum!.bigIntLength! ) {
-                    newBigIntValue = `${newBigIntValue.substring( 0, bindingOptions.maximum!.bigIntLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newBigIntValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValue );
@@ -1703,11 +1691,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.url;
 
             if ( !bindingOptions.ignore!.urlValues ) {
-                let newUrlValue: string = value;
-
-                if ( bindingOptions.maximum!.urlLength! > 0 && newUrlValue.length > bindingOptions.maximum!.urlLength! ) {
-                    newUrlValue = `${newUrlValue.substring( 0, bindingOptions.maximum!.urlLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newUrlValue: string = Str.getMaximumLengthDisplay( value, bindingOptions.maximum!.urlLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newUrlValue );
@@ -1734,11 +1718,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.email;
 
             if ( !bindingOptions.ignore!.emailValues ) {
-                let newEmailValue: string = value;
-
-                if ( bindingOptions.maximum!.emailLength! > 0 && newEmailValue.length > bindingOptions.maximum!.emailLength! ) {
-                    newEmailValue = `${newEmailValue.substring( 0, bindingOptions.maximum!.emailLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newEmailValue: string = Str.getMaximumLengthDisplay( value, bindingOptions.maximum!.emailLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newEmailValue );
@@ -1798,9 +1778,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             newStringValue = bindingOptions.emptyStringValue!;
                         }
 
-                        if ( bindingOptions.maximum!.stringLength! > 0 && newStringValue.length > bindingOptions.maximum!.stringLength! ) {
-                            newStringValue = `${newStringValue.substring( 0, bindingOptions.maximum!.stringLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                        }
+                        newStringValue = Str.getMaximumLengthDisplay( newStringValue, bindingOptions.maximum!.stringLength!, _configuration.text!.ellipsisText! );
         
                         newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;
                         valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
