@@ -313,6 +313,7 @@ export namespace Binding {
             options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
             options.sideMenu!.showClearJsonButton = Default.getBoolean( options.sideMenu!.showClearJsonButton, true );
+            options.sideMenu!.updateDisplayDelay = Default.getNumber( options.sideMenu!.updateDisplayDelay, 500 );
 
             return options.sideMenu!;
         }

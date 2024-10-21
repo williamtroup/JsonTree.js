@@ -923,6 +923,7 @@ var Binding;
             e.sideMenu.showAvailableDataTypeCounts = Default.getBoolean(e.sideMenu.showAvailableDataTypeCounts, true);
             e.sideMenu.showOnlyDataTypesAvailable = Default.getBoolean(e.sideMenu.showOnlyDataTypesAvailable, false);
             e.sideMenu.showClearJsonButton = Default.getBoolean(e.sideMenu.showClearJsonButton, true);
+            e.sideMenu.updateDisplayDelay = Default.getNumber(e.sideMenu.updateDisplayDelay, 500);
             return e.sideMenu;
         }
         function p(e) {
@@ -1996,7 +1997,7 @@ var ContextMenu;
                 setTimeout((() => {
                     i(t);
                     z(t, e.text.ignoreDataTypesUpdated);
-                }), 500);
+                }), t.sideMenu.updateDisplayDelay);
             }
             n = true;
         }

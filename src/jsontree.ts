@@ -940,7 +940,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 setTimeout( () => {
                     renderControlContainer( bindingOptions );
                     setFooterStatusText( bindingOptions, _configuration.text!.ignoreDataTypesUpdated! );
-                }, 500 );
+                }, bindingOptions.sideMenu!.updateDisplayDelay );
             }
 
             closed = true;

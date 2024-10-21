@@ -354,6 +354,7 @@ export type BindingOptionsSideMenu = {
 	showAvailableDataTypeCounts?: boolean;
 	showOnlyDataTypesAvailable?: boolean;
 	showClearJsonButton?: boolean;
+	updateDisplayDelay?: number;
 };
 
 export type BindingOptionsAutoClose = {
