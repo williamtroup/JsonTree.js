@@ -12,6 +12,7 @@
 
 
 import { type Configuration } from "../type";
+import { Is } from "./is";
 import { Str } from "./str";
 
 
@@ -29,6 +30,10 @@ export namespace DateTime {
             result = configuration.text!.ndText!;
         } else if ( value === 23 || value === 3 ) {
             result = configuration.text!.rdText!;
+        }
+
+        if ( Is.definedString( result ) ) {
+            result = `<sup>${result}</sup>`;
         }
 
         return result;

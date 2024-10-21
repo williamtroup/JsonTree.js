@@ -628,6 +628,9 @@ var DateTime;
         } else if (t === 23 || t === 3) {
             n = e.text.rdText;
         }
+        if (Is.definedString(n)) {
+            n = `<sup>${n}</sup>`;
+        }
         return n;
     }
     e.getDayOrdinal = n;
