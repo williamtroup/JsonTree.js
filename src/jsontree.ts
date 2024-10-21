@@ -254,17 +254,17 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
 
             if ( Is.definedArray( data ) ) {
-                renderArray( renderValuesContainer, bindingOptions, data, DataType.array );
+                renderRootArray( renderValuesContainer, bindingOptions, data, DataType.array );
             } else if ( Is.definedSet( data ) ) {
-                renderArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
+                renderRootArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
             } else if ( Is.definedHtml( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
+                renderRootObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
             } else if ( Is.definedMap( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
+                renderRootObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
             } else if ( Is.definedObject( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
+                renderRootObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
             } else {
-                renderObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
+                renderRootObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
             }
 
             renderControlColumnLineNumbers( bindingOptions._currentView.currentColumnBuildingIndex, bindingOptions );
@@ -1167,11 +1167,11 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Contents
+     * Render:  Roots
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number, dataType: string ) : void {
+    function renderRootObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number, dataType: string ) : void {
         let actualData: any = data;
         
         if ( Is.definedImportedFilename( data ) ) {
@@ -1255,7 +1255,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataType: string ) : void {
+    function renderRootArray( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataType: string ) : void {
         let actualData: any = data;
         
         if ( Is.definedImportedFilename( data ) ) {
@@ -1313,6 +1313,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         addFooterLengthStatus( bindingOptions, data, titleText );
         renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Contents
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
 
     function renderObjectValues( expandIcon: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoExpandIconToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
