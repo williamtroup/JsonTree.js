@@ -27,7 +27,7 @@ import { ImportedFilename } from "./ts/type";
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Char, DataType, KeyCode } from "./ts/data/enum";
+import { Char, DataType, KeyCode, Value } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
@@ -978,7 +978,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const ignore: any = bindingOptions.ignore;
 
         for ( const dataType in bindingOptions._currentView.dataTypeCounts ) {
-            if ( dataTypes.indexOf( dataType ) === -1 ) {
+            if ( dataTypes.indexOf( dataType ) === Value.notFound ) {
                 dataTypes.push( dataType );
             }
         }

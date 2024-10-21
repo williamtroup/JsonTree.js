@@ -21,6 +21,10 @@ export enum Char {
     underscore = "_",
 }
 
+export const enum Value {
+    notFound = -1,
+}
+
 export enum DataType {
     null = "null",
     function = "function",
