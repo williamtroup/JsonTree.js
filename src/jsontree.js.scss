@@ -1012,7 +1012,7 @@ div.json-tree-js {
                 padding: calc( var(--json-tree-js-spacing) / 2 );
                 border-radius: var(--json-tree-js-border-radius);
                 transition: var(--json-tree-js-transition);
-                transition-property: background-color, border, padding;
+                transition-property: background-color;
             }
 
             div.highlight-selected {

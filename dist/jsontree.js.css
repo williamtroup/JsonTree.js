@@ -1040,7 +1040,7 @@ div.json-tree-js div.object-type-contents div.object-type-value div.highlight-co
   padding: calc(var(--json-tree-js-spacing) / 2);
   border-radius: var(--json-tree-js-border-radius);
   transition: var(--json-tree-js-transition);
-  transition-property: background-color, border, padding;
+  transition-property: background-color;
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected {
   background-color: var(--json-tree-js-highlight-selected-color);
