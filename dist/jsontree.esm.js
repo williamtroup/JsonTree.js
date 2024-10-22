@@ -839,6 +839,7 @@ var Binding;
             e.controlPanel.showCloseOpenAllButtons = Default.getBoolean(e.controlPanel.showCloseOpenAllButtons, true);
             e.controlPanel.showSwitchToPagesButton = Default.getBoolean(e.controlPanel.showSwitchToPagesButton, true);
             e.controlPanel.showImportButton = Default.getBoolean(e.controlPanel.showImportButton, true);
+            e.controlPanel.showExportButton = Default.getBoolean(e.controlPanel.showExportButton, true);
             return e.controlPanel;
         }
         function u(e) {
@@ -1756,7 +1757,12 @@ var ContextMenu;
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
-            if (t.paging.enabled && t.allowEditing.bulk && t.controlPanel.showImportButton) {
+            if (a && t.controlPanel.showExportButton) {
+                const n = DomElement.createWithHTML(i, "button", "export", e.text.exportButtonSymbolText);
+                n.onclick = () => ye(t, o);
+                ToolTip.add(n, t, e.text.exportButtonText);
+            }
+            if (a && t.allowEditing.bulk && t.controlPanel.showImportButton) {
                 const n = DomElement.createWithHTML(i, "button", "import", e.text.importButtonSymbolText);
                 n.onclick = () => M(t, l + 1);
                 ToolTip.add(n, t, e.text.importButtonText);
@@ -1767,7 +1773,7 @@ var ContextMenu;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
-            if (!t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
+            if (!a && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
                 const n = DomElement.createWithHTML(i, "button", "switch-to-pages", e.text.switchToPagesSymbolText);
                 n.onclick = () => b(t);
                 n.ondblclick = DomElement.cancelBubble;
@@ -1847,11 +1853,11 @@ var ContextMenu;
             }
             if (t.title.showCloseOpenAllButtons && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
-                n.onclick = () => E(t);
+                n.onclick = () => B(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => B(t);
+                o.onclick = () => E(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1909,13 +1915,13 @@ var ContextMenu;
         z(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, t._currentView.element, o);
     }
-    function E(e) {
+    function B(e) {
         e.showAllAsClosed = false;
         e._currentView.contentPanelsOpen = {};
         i(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function B(e) {
+    function E(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
         i(e);
@@ -1955,7 +1961,7 @@ var ContextMenu;
             }
             if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => ye(t);
+                n.onclick = () => ye(t, t.data);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
@@ -2350,7 +2356,7 @@ var ContextMenu;
         const S = !Is.definedString(l);
         let V = true;
         let v = null;
-        const E = o._currentView.currentColumnBuildingIndex;
+        const B = o._currentView.currentColumnBuildingIndex;
         if (!S) {
             let t = Str.getMaximumLengthDisplay(l, o.maximum.propertyNameLength, e.text.ellipsisText);
             if (a || !o.showPropertyNameQuotes) {
@@ -2389,17 +2395,17 @@ var ContextMenu;
                 J(o, l, h);
                 $(o, l, h);
             }
-            ae(o, g, s, E, r);
+            ae(o, g, s, B, r);
         }
-        const B = Trigger.customEvent(o.events.onCustomDataTypeRender, o._currentView.element, r);
-        if (Is.defined(B) && B !== false) {
-            y = B.dataType;
+        const E = Trigger.customEvent(o.events.onCustomDataTypeRender, o._currentView.element, r);
+        if (Is.defined(E) && E !== false) {
+            y = E.dataType;
             const e = o.ignore;
-            const n = `${B.dataType}Values`;
+            const n = `${E.dataType}Values`;
             if (!e.hasOwnProperty(n) || !e[n]) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", B.class, B.html);
-                w = B.allowEditing;
+                x = DomElement.createWithHTML(g, "span", E.class, E.html);
+                w = E.allowEditing;
                 te(o, t, l, r, x, a, w);
                 re(o, g, i);
             } else {
@@ -3368,16 +3374,16 @@ var ContextMenu;
         };
         o.readAsText(t);
     }
-    function ye(t) {
-        const n = JSON.stringify(Convert2.toJsonStringifyClone(t.data, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
-        if (Is.definedString(n)) {
-            const o = DomElement.create(document.body, "a");
-            o.style.display = "none";
-            o.setAttribute("target", "_blank");
-            o.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(n)}`);
-            o.setAttribute("download", he(t));
-            o.click();
-            document.body.removeChild(o);
+    function ye(t, n) {
+        const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+        if (Is.definedString(o)) {
+            const n = DomElement.create(document.body, "a");
+            n.style.display = "none";
+            n.setAttribute("target", "_blank");
+            n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
+            n.setAttribute("download", he(t));
+            n.click();
+            document.body.removeChild(n);
             L(t);
             z(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
@@ -3416,10 +3422,10 @@ var ContextMenu;
                 C(l);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                B(l);
+                E(l);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
-                E(l);
+                B(l);
             } else if (e.code === "Escape") {
                 e.preventDefault();
                 if (!L(l) && !o) {
@@ -3434,7 +3440,7 @@ var ContextMenu;
     function ve(e) {
         return e.ctrlKey || e.metaKey;
     }
-    function Ee(e) {
+    function Be(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         e._currentView.element.classList.remove("full-screen");
@@ -3458,14 +3464,14 @@ var ContextMenu;
         ContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const Be = {
+    const Ee = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return Be;
+            return Ee;
         },
         refreshAll: function() {
             for (const e in t) {
@@ -3475,29 +3481,29 @@ var ContextMenu;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return Be;
+            return Ee;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return Be;
+            return Ee;
         },
         renderAll: function() {
             l();
-            return Be;
+            return Ee;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                E(t[e]);
+                B(t[e]);
             }
-            return Be;
+            return Ee;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                B(t[e]);
+                E(t[e]);
             }
-            return Be;
+            return Ee;
         },
         backPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3506,7 +3512,7 @@ var ContextMenu;
                     I(t[e]);
                 }
             }
-            return Be;
+            return Ee;
         },
         nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3515,7 +3521,7 @@ var ContextMenu;
                     C(t[e]);
                 }
             }
-            return Be;
+            return Ee;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -3543,7 +3549,7 @@ var ContextMenu;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return Be;
+            return Ee;
         },
         getJson: function(e) {
             let n = null;
@@ -3569,7 +3575,7 @@ var ContextMenu;
                 t[e]._currentView = r;
                 i(t[e]);
             }
-            return Be;
+            return Ee;
         },
         getBindingOptions: function(e) {
             let n = null;
@@ -3580,21 +3586,21 @@ var ContextMenu;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                Ee(t[e]);
+                Be(t[e]);
                 delete t[e];
                 n--;
             }
-            return Be;
+            return Ee;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    Ee(t[e]);
+                    Be(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return Be;
+            return Ee;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -3610,7 +3616,7 @@ var ContextMenu;
                     e = Config.Options.get(o);
                 }
             }
-            return Be;
+            return Ee;
         },
         getIds: function() {
             const e = [];
@@ -3629,7 +3635,7 @@ var ContextMenu;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => l()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = Be;
+            window.$jsontree = Ee;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

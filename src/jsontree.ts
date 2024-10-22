@@ -590,8 +590,15 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                 ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
             }
+
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showExportButton ) {
+                const exportButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
+                exportButton.onclick = () => onExport( bindingOptions, data );
     
-            if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
+                ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
                 const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
                 importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
     
@@ -606,7 +613,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
             }
     
-            if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
+            if ( !isPagingEnabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
                 const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
                 switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
                 switchToPagesButton.ondblclick = DomElement.cancelBubble;
@@ -879,7 +886,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.sideMenu!.showExportButton && Is.definedObject( bindingOptions.data ) ) {
                 const exportButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
-                exportButton.onclick = () => onExport( bindingOptions );
+                exportButton.onclick = () => onExport( bindingOptions, bindingOptions.data );
     
                 ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
             }
@@ -2806,8 +2813,8 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function onExport( bindingOptions: BindingOptions ) : void {
-        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( bindingOptions.data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
+    function onExport( bindingOptions: BindingOptions, data: any ) : void {
+        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );
