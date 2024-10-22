@@ -2449,7 +2449,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean ) : void => {
+        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean, updateLineNumbers: boolean = true ) : void => {
             if ( Is.defined( ev ) ) {
                 DomElement.cancelBubble( ev );
 
@@ -2459,9 +2459,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( condition ) {
-                hideFunc();
+                hideFunc( updateLineNumbers );
             } else {
-                showFunc( null );
+                showFunc( null, updateLineNumbers );
             }
         }
 

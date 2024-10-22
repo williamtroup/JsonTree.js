@@ -3120,7 +3120,7 @@ var ContextMenu;
                 x(d, e);
             }
         };
-        const p = (t, n) => {
+        const p = (t, n, l = true) => {
             if (Is.defined(t)) {
                 DomElement.cancelBubble(t);
                 if (!o) {
@@ -3128,9 +3128,9 @@ var ContextMenu;
                 }
             }
             if (n) {
-                g();
+                g(l);
             } else {
-                m(null);
+                m(null, l);
             }
         };
         let T = e.showAllAsClosed;
