@@ -269,6 +269,8 @@ export namespace Binding {
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
             options.parse!.stringsToSymbols = Default.getBoolean( options.parse!.stringsToSymbols, false );
+            options.parse!.stringsToFloats = Default.getBoolean( options.parse!.stringsToFloats, false );
+            options.parse!.stringsToBigInts = Default.getBoolean( options.parse!.stringsToBigInts, false );
 
             return options.parse!;
         }

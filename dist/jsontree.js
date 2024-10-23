@@ -895,6 +895,8 @@ var Binding;
             e.parse.stringsToBooleans = Default.getBoolean(e.parse.stringsToBooleans, false);
             e.parse.stringsToNumbers = Default.getBoolean(e.parse.stringsToNumbers, false);
             e.parse.stringsToSymbols = Default.getBoolean(e.parse.stringsToSymbols, false);
+            e.parse.stringsToFloats = Default.getBoolean(e.parse.stringsToFloats, false);
+            e.parse.stringsToBigInts = Default.getBoolean(e.parse.stringsToBigInts, false);
             return e.parse;
         }
         function g(e) {
@@ -1477,7 +1479,7 @@ var ContextMenu;
         }
         _(e);
         A(e);
-        H(e);
+        F(e);
         me(e);
         e._currentView.initialized = true;
     }
@@ -2081,7 +2083,7 @@ var ContextMenu;
         }
         return l;
     }
-    function H(t) {
+    function F(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
             R(t);
@@ -2100,11 +2102,11 @@ var ContextMenu;
             }
             if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.footer.showPageOf) {
                 t._currentView.footerPageText = DomElement.create(t._currentView.footer, "div", "status-page-index");
-                F(t);
+                H(t);
             }
         }
     }
-    function F(t) {
+    function H(t) {
         if (t.paging.enabled) {
             const n = Math.ceil((t._currentView.currentDataArrayPageIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
@@ -2575,24 +2577,22 @@ var ContextMenu;
         } else if (Is.definedStringAny(r)) {
             y = "string";
             if (!o.ignore.stringValues || S) {
+                let f = null;
                 if (o.parse.stringsToBooleans && Is.definedString(r) && Is.String.boolean(r)) {
-                    Y(t, n, o, l, Convert2.stringToBoolean(r), i, a, s, u, c, d);
-                    T = true;
-                    b = true;
-                } else if (o.parse.stringsToNumbers && Is.definedString(r) && Is.String.bigInt(r)) {
-                    Y(t, n, o, l, Convert2.stringToBigInt(r), i, a, s, u, c, d);
-                    T = true;
-                    b = true;
-                } else if (o.parse.stringsToNumbers && Is.definedString(r) && !isNaN(r)) {
-                    Y(t, n, o, l, parseFloat(r), i, a, s, u, c, d);
-                    T = true;
-                    b = true;
+                    f = Convert2.stringToBoolean(r);
+                } else if (o.parse.stringsToBigInts && Is.definedString(r) && Is.String.bigInt(r)) {
+                    f = Convert2.stringToBigInt(r);
+                } else if (o.parse.stringsToNumbers && Is.definedString(r) && !isNaN(r) && !Is.definedFloat(parseFloat(r))) {
+                    f = parseInt(r);
+                } else if (o.parse.stringsToFloats && Is.definedString(r) && !isNaN(r) && Is.definedFloat(parseFloat(r))) {
+                    f = parseFloat(r);
                 } else if (o.parse.stringsToDates && Is.definedString(r) && Is.String.date(r)) {
-                    Y(t, n, o, l, new Date(r), i, a, s, u, c, d);
-                    T = true;
-                    b = true;
+                    f = new Date(r);
                 } else if (o.parse.stringsToSymbols && Is.definedString(r) && Is.String.symbol(r)) {
-                    Y(t, n, o, l, Symbol(Convert2.symbolToString(r)), i, a, s, u, c, d);
+                    f = Symbol(Convert2.symbolToString(r));
+                }
+                if (Is.defined(f)) {
+                    Y(t, n, o, l, f, i, a, s, u, c, d);
                     T = true;
                     b = true;
                 } else {

@@ -121,6 +121,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             stringsToBooleans: true,
             stringsToNumbers: true,
             stringsToSymbols: true,
+            stringsToFloats: true,
+            stringsToBigInts: true,
         },
         events: {
             onValueClick: onValueClickEvent,

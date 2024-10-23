@@ -260,6 +260,8 @@ export type BindingOptionsParse = {
 	stringsToBooleans?: boolean;
 	stringsToNumbers?: boolean;
 	stringsToSymbols?: boolean;
+	stringsToFloats?: boolean;
+	stringsToBigInts?: boolean;
 };
 
 export type BindingOptionsTitle = {

@@ -1715,28 +1715,29 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.string;
 
             if ( !bindingOptions.ignore!.stringValues || isForEmptyProperties ) {
-                if ( bindingOptions.parse!.stringsToBooleans && Is.definedString( value ) && Is.String.boolean( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Convert.stringToBoolean( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
+                let parsedValue: any = null;
 
-                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && Is.String.bigInt( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Convert.stringToBigInt( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
+                if ( bindingOptions.parse!.stringsToBooleans && Is.definedString( value ) && Is.String.boolean( value ) ) {
+                    parsedValue = Convert.stringToBoolean( value );;
+
+                } else if ( bindingOptions.parse!.stringsToBigInts && Is.definedString( value ) && Is.String.bigInt( value ) ) {
+                    parsedValue = Convert.stringToBigInt( value );
                     
-                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && !isNaN( value ) ) {
-                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
+                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && !isNaN( value ) && !Is.definedFloat( parseFloat( value ) ) ) {
+                    parsedValue = parseInt( value );
+
+                } else if ( bindingOptions.parse!.stringsToFloats && Is.definedString( value ) && !isNaN( value ) && Is.definedFloat( parseFloat( value ) ) ) {
+                    parsedValue = parseFloat( value );
 
                 } else if ( bindingOptions.parse!.stringsToDates && Is.definedString( value ) && Is.String.date( value ) ) {
-                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
+                    parsedValue = new Date( value );
 
                 } else if ( bindingOptions.parse!.stringsToSymbols && Is.definedString( value ) && Is.String.symbol( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
+                    parsedValue = Symbol( Convert.symbolToString( value ) );
+                }
+
+                if ( Is.defined( parsedValue ) ) {
+                    renderValue( data, container, bindingOptions, name, parsedValue, isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
