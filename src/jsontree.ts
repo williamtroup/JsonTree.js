@@ -2751,39 +2751,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             filesData[ filename ] = data;
 
             if ( filesRead === filesLength ) {
-                bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
-
-                const keys: string[] = Object.keys( filesData ) as Array<string>;
-                keys.sort();
-
-                if ( Is.definedNumber( insertDataIndex ) ) {
-                    for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
-                        if ( insertDataIndex > bindingOptions.data.length - 1 ) {
-                            bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
-                        } else {
-                            bindingOptions.data.splice( insertDataIndex, 0, filesData[ keys[ keyIndex ] ] );
-                        }
-                    }
-
-                    bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
-                } else {
-
-                    bindingOptions._currentView.currentDataArrayPageIndex = 0;
-
-                    if ( filesRead === 1 ) {
-                        bindingOptions.data = filesData[ keys[ 0 ] ];
-                    } else {
-                        bindingOptions.data = [];
-
-                        for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
-                            bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
-                        }
-                    }
-                }
-    
-                renderControlContainer( bindingOptions );
-                setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );
-                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+                importLoadedFiles( bindingOptions, filesData, insertDataIndex, filesRead, filesLength );
             }
         };
 
@@ -2816,6 +2784,42 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         reader.readAsText( file );
+    }
+
+    function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, any>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        const keys: string[] = Object.keys( filesData ) as Array<string>;
+        keys.sort();
+
+        if ( Is.definedNumber( insertDataIndex ) ) {
+            for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+                if ( insertDataIndex > bindingOptions.data.length - 1 ) {
+                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                } else {
+                    bindingOptions.data.splice( insertDataIndex, 0, filesData[ keys[ keyIndex ] ] );
+                }
+            }
+
+            bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
+        } else {
+
+            bindingOptions._currentView.currentDataArrayPageIndex = 0;
+
+            if ( filesRead === 1 ) {
+                bindingOptions.data = filesData[ keys[ 0 ] ];
+            } else {
+                bindingOptions.data = [];
+
+                for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                }
+            }
+        }
+
+        renderControlContainer( bindingOptions );
+        setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );
+        Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
     }
 
 
