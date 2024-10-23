@@ -1715,26 +1715,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.string;
 
             if ( !bindingOptions.ignore!.stringValues || isForEmptyProperties ) {
-                let parsedValue: any = null;
-
-                if ( bindingOptions.parse!.stringsToBooleans && Is.definedString( value ) && Is.String.boolean( value ) ) {
-                    parsedValue = Convert.stringToBoolean( value );;
-
-                } else if ( bindingOptions.parse!.stringsToBigInts && Is.definedString( value ) && Is.String.bigInt( value ) ) {
-                    parsedValue = Convert.stringToBigInt( value );
-                    
-                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && !isNaN( value ) && !Is.definedFloat( parseFloat( value ) ) ) {
-                    parsedValue = parseInt( value );
-
-                } else if ( bindingOptions.parse!.stringsToFloats && Is.definedString( value ) && !isNaN( value ) && Is.definedFloat( parseFloat( value ) ) ) {
-                    parsedValue = parseFloat( value );
-
-                } else if ( bindingOptions.parse!.stringsToDates && Is.definedString( value ) && Is.String.date( value ) ) {
-                    parsedValue = new Date( value );
-
-                } else if ( bindingOptions.parse!.stringsToSymbols && Is.definedString( value ) && Is.String.symbol( value ) ) {
-                    parsedValue = Symbol( Convert.symbolToString( value ) );
-                }
+                const parsedValue: any = Convert.stringToParsedValue( value, bindingOptions );
 
                 if ( Is.defined( parsedValue ) ) {
                     renderValue( data, container, bindingOptions, name, parsedValue, isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );

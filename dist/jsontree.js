@@ -364,6 +364,27 @@ var Convert2;
         return e.toString().toLowerCase().trim() === "true";
     }
     Convert.stringToBoolean = stringToBoolean;
+    function stringToParsedValue(e, t) {
+        let n = null;
+        if (Is.definedString(e)) {
+            const o = parseFloat(e);
+            if (t.parse.stringsToBooleans && Is.String.boolean(e)) {
+                n = Convert.stringToBoolean(e);
+            } else if (t.parse.stringsToBigInts && Is.String.bigInt(e)) {
+                n = Convert.stringToBigInt(e);
+            } else if (t.parse.stringsToNumbers && !isNaN(e) && !Is.definedFloat(o)) {
+                n = parseInt(e);
+            } else if (t.parse.stringsToFloats && !isNaN(e) && Is.definedFloat(o)) {
+                n = o;
+            } else if (t.parse.stringsToDates && Is.String.date(e)) {
+                n = new Date(e);
+            } else if (t.parse.stringsToSymbols && Is.String.symbol(e)) {
+                n = Symbol(Convert.symbolToString(e));
+            }
+        }
+        return n;
+    }
+    Convert.stringToParsedValue = stringToParsedValue;
 })(Convert2 || (Convert2 = {}));
 
 var Default;
@@ -2577,20 +2598,7 @@ var ContextMenu;
         } else if (Is.definedStringAny(r)) {
             y = "string";
             if (!o.ignore.stringValues || S) {
-                let f = null;
-                if (o.parse.stringsToBooleans && Is.definedString(r) && Is.String.boolean(r)) {
-                    f = Convert2.stringToBoolean(r);
-                } else if (o.parse.stringsToBigInts && Is.definedString(r) && Is.String.bigInt(r)) {
-                    f = Convert2.stringToBigInt(r);
-                } else if (o.parse.stringsToNumbers && Is.definedString(r) && !isNaN(r) && !Is.definedFloat(parseFloat(r))) {
-                    f = parseInt(r);
-                } else if (o.parse.stringsToFloats && Is.definedString(r) && !isNaN(r) && Is.definedFloat(parseFloat(r))) {
-                    f = parseFloat(r);
-                } else if (o.parse.stringsToDates && Is.definedString(r) && Is.String.date(r)) {
-                    f = new Date(r);
-                } else if (o.parse.stringsToSymbols && Is.definedString(r) && Is.String.symbol(r)) {
-                    f = Symbol(Convert2.symbolToString(r));
-                }
+                const f = Convert2.stringToParsedValue(r, o);
                 if (Is.defined(f)) {
                     Y(t, n, o, l, f, i, a, s, u, c, d);
                     T = true;

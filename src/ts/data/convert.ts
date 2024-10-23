@@ -263,4 +263,33 @@ export namespace Convert {
     export function stringToBoolean( value: string ) : boolean {
         return value.toString().toLowerCase().trim() === "true";
     }
+
+    export function stringToParsedValue( value: any, bindingOptions: BindingOptions ) : any {
+        let parsedValue: any = null;
+
+        if ( Is.definedString( value ) ) {
+            const floatValue: number = parseFloat( value );
+
+            if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
+                parsedValue = Convert.stringToBoolean( value );;
+    
+            } else if ( bindingOptions.parse!.stringsToBigInts && Is.String.bigInt( value ) ) {
+                parsedValue = Convert.stringToBigInt( value );
+                
+            } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) && !Is.definedFloat( floatValue ) ) {
+                parsedValue = parseInt( value );
+    
+            } else if ( bindingOptions.parse!.stringsToFloats && !isNaN( value ) && Is.definedFloat( floatValue ) ) {
+                parsedValue = floatValue;
+    
+            } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
+                parsedValue = new Date( value );
+    
+            } else if ( bindingOptions.parse!.stringsToSymbols && Is.String.symbol( value ) ) {
+                parsedValue = Symbol( Convert.symbolToString( value ) );
+            }
+        }
+
+        return parsedValue;
+    }
 }
