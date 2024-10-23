@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -21,12 +21,13 @@ import {
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
     type CustomDataType } from "./ts/type";
-    
+
 import { type PublicApi } from "./ts/api";
+import { ImportedFilename } from "./ts/type";  
 import { Default } from "./ts/data/default";
 import { Is } from "./ts/data/is";
 import { DomElement } from "./ts/dom/dom";
-import { Char, DataType, KeyCode } from "./ts/data/enum";
+import { Char, DataType, KeyCode, Value } from "./ts/data/enum";
 import { DateTime } from "./ts/data/datetime";
 import { Constants } from "./ts/constant";
 import { Str } from "./ts/data/str";
@@ -253,17 +254,17 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
 
             if ( Is.definedArray( data ) ) {
-                renderArray( renderValuesContainer, bindingOptions, data, DataType.array );
+                renderRootArray( renderValuesContainer, bindingOptions, data, DataType.array );
             } else if ( Is.definedSet( data ) ) {
-                renderArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
+                renderRootArray( renderValuesContainer, bindingOptions, Convert.setToArray( data ), DataType.set );
             } else if ( Is.definedHtml( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
+                renderRootObject( renderValuesContainer, bindingOptions, Convert.htmlToObject( data, bindingOptions.showCssStylesForHtmlObjects! ), dataIndex, DataType.html );
             } else if ( Is.definedMap( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
+                renderRootObject( renderValuesContainer, bindingOptions, Convert.mapToObject( data ), dataIndex, DataType.map );
             } else if ( Is.definedObject( data ) ) {
-                renderObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
+                renderRootObject( renderValuesContainer, bindingOptions, data, dataIndex, DataType.object );
             } else {
-                renderObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
+                renderRootObject( renderValuesContainer, bindingOptions, Obj.createFromValue( data ), dataIndex, DataType.object );
             }
 
             renderControlColumnLineNumbers( bindingOptions._currentView.currentColumnBuildingIndex, bindingOptions );
@@ -492,7 +493,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     elementTop -= firstLineTop;
         
                     const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
-                    const lineNumberDot: string = bindingOptions.lineNumbers!.addDots ? "." : Char.empty;
+                    const lineNumberDot: string = bindingOptions.lineNumbers!.addDots ? Char.dot : Char.empty;
 
                     if ( bindingOptions.lineNumbers!.padNumbers ) {
                         lineNumber.innerHTML = `${Str.padNumber( lineNumberCount, valueElementsLength.toString().length )}${lineNumberDot}`;
@@ -529,98 +530,107 @@ type JsonTreeData = Record<string, BindingOptions>;
      */
 
     function renderControlContentsControlButtons( bindingOptions: BindingOptions, contentsColumn: HTMLElement, data: any, dataIndex: number ) : void {
-        const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-        const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
-        controlButtons.ondblclick = DomElement.cancelBubble;
-
-        const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
-
-        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
-            const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
-            editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
-            editButton.ondblclick = DomElement.cancelBubble;
+        if ( bindingOptions.controlPanel!.enabled ) {
+            const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+            const controlButtons: HTMLElement = DomElement.create( contentsColumn, "div", "column-control-buttons" );
+            controlButtons.ondblclick = DomElement.cancelBubble;
     
-            ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
-            const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
-            moveRightButton.ondblclick = DomElement.cancelBubble;
-
-            if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
-                moveRightButton.disabled = true;
-            } else {
-                moveRightButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex + 1 );
-            }
+            const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
     
-            ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
-    
-            const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
-            moveLeftButton.ondblclick = DomElement.cancelBubble;
-
-            if ( ( dataIndex - 1 ) < 0 ) {
-                moveLeftButton.disabled = true;
-            } else {
-                moveLeftButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex - 1 );
-            }
-    
-            ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
-            const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
-            copyButton.onclick = () => onCopy( bindingOptions, data );
-            copyButton.ondblclick = DomElement.cancelBubble;
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
+                const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
+                editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
+                editButton.ondblclick = DomElement.cancelBubble;
         
-            ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
-        }
-
-        if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
-            const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
-            openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
-            openAllButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
-
-            const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
-            closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
-            closeAllButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
-        }
-
-        if ( bindingOptions.paging!.enabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
-            const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
-            importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
-
-            ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
-        }
-
-        if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
-            const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
-            removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
-            removeButton.ondblclick = DomElement.cancelBubble;
+                ToolTip.add( editButton, bindingOptions, _configuration.text!.editButtonText! );
+            }
     
-            ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
-        }
+            if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
+                const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
+                moveRightButton.ondblclick = DomElement.cancelBubble;
+    
+                if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
+                    moveRightButton.disabled = true;
+                } else {
+                    moveRightButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex + 1 );
+                }
+        
+                ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
+        
+                const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
+                moveLeftButton.ondblclick = DomElement.cancelBubble;
+    
+                if ( ( dataIndex - 1 ) < 0 ) {
+                    moveLeftButton.disabled = true;
+                } else {
+                    moveLeftButton.onclick = () => moveDataArrayIndex( bindingOptions, dataIndex, dataIndex - 1 );
+                }
+        
+                ToolTip.add( moveLeftButton, bindingOptions, _configuration.text!.moveLeftButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
+                copyButton.onclick = () => onCopy( bindingOptions, data );
+                copyButton.ondblclick = DomElement.cancelBubble;
+            
+                ToolTip.add( copyButton, bindingOptions, _configuration.text!.copyButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
+                openAllButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
+    
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
+                closeAllButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( closeAllButton, bindingOptions, _configuration.text!.closeAllButtonText! );
+            }
 
-        if ( !bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
-            const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
-            switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
-            switchToPagesButton.ondblclick = DomElement.cancelBubble;
-
-            ToolTip.add( switchToPagesButton, bindingOptions, _configuration.text!.switchToPagesText! );
-        }
-
-        if ( controlButtons.innerHTML !== Char.empty ) {
-            const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
-
-            bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
-            contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
-            contentsColumn.style.paddingRight = `${controlButtons.offsetWidth + paddingLeft}px`;
-
-        } else {
-            contentsColumn.removeChild( controlButtons );
+            if ( isPagingEnabled && bindingOptions.controlPanel!.showExportButton ) {
+                const exportButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
+                exportButton.onclick = () => onExport( bindingOptions, data );
+    
+                ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
+            }
+    
+            if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
+                const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+                importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
+    
+                ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
+            }
+    
+            if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
+                removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
+                removeButton.ondblclick = DomElement.cancelBubble;
+        
+                ToolTip.add( removeButton, bindingOptions, _configuration.text!.removeButtonText! );
+            }
+    
+            if ( !isPagingEnabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
+                const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
+                switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
+                switchToPagesButton.ondblclick = DomElement.cancelBubble;
+    
+                ToolTip.add( switchToPagesButton, bindingOptions, _configuration.text!.switchToPagesText! );
+            }
+    
+            if ( controlButtons.innerHTML !== Char.empty ) {
+                const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
+    
+                bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
+                contentsColumn.style.minHeight = `${controlButtons.offsetHeight}px`;
+                contentsColumn.style.paddingRight = `${controlButtons.offsetWidth + paddingLeft}px`;
+    
+            } else {
+                contentsColumn.removeChild( controlButtons );
+            }
         }
     }
 
@@ -876,7 +886,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( bindingOptions.sideMenu!.showExportButton && Is.definedObject( bindingOptions.data ) ) {
                 const exportButton: HTMLButtonElement = DomElement.createWithHTML( titleBarControls, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
-                exportButton.onclick = () => onExport( bindingOptions );
+                exportButton.onclick = () => onExport( bindingOptions, bindingOptions.data );
     
                 ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
             }
@@ -937,7 +947,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 setTimeout( () => {
                     renderControlContainer( bindingOptions );
                     setFooterStatusText( bindingOptions, _configuration.text!.ignoreDataTypesUpdated! );
-                }, 500 );
+                }, bindingOptions.sideMenu!.updateDisplayDelay );
             }
 
             closed = true;
@@ -975,7 +985,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         const ignore: any = bindingOptions.ignore;
 
         for ( const dataType in bindingOptions._currentView.dataTypeCounts ) {
-            if ( dataTypes.indexOf( dataType ) === -1 ) {
+            if ( dataTypes.indexOf( dataType ) === Value.notFound ) {
                 dataTypes.push( dataType );
             }
         }
@@ -1164,12 +1174,18 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Render:  Contents
+     * Render:  Roots
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function renderObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number, dataType: string ) : void {
-        const propertyNames: string[] = Obj.getPropertyNames( data, bindingOptions );
+    function renderRootObject( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataIndex: number, dataType: string ) : void {
+        let actualData: any = data;
+        
+        if ( Is.definedImportedFilename( data ) ) {
+            actualData = actualData.object;
+        }
+
+        const propertyNames: string[] = Obj.getPropertyNames( actualData, bindingOptions );
         const propertyCount: number = propertyNames.length;
 
         if ( propertyCount !== 0 || !bindingOptions.ignore!.emptyObjects ) {
@@ -1186,15 +1202,20 @@ type JsonTreeData = Record<string, BindingOptions>;
             const objectTypeTitle: HTMLElement = DomElement.create( container, "div", "object-type-title" );
             const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
             const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
+            let rootNameTitle: HTMLSpanElement = null!;
 
-            if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) ) {
+            if ( !bindingOptions.paging!.enabled || !Is.definedNumber( dataIndex ) || Is.definedImportedFilename( data ) ) {
                 let rootName: string = bindingOptions.rootName!;
+
+                if ( Is.definedImportedFilename( data ) ) {
+                    rootName = data.filename;
+                }
 
                 if ( bindingOptions.showPropertyNameQuotes ) {
                     rootName = `\"${rootName}\"`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
+                rootNameTitle = DomElement.createWithHTML( objectTypeTitle, "span", "root-name", rootName );
                 DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter! );
             }
 
@@ -1211,8 +1232,10 @@ type JsonTreeData = Record<string, BindingOptions>;
                     dataArrayIndex = `[${dataArrayIndex}]`;
                 }
 
-                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, titleText );
-                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter!, titleText );
+                const beforeNode: HTMLSpanElement = Is.defined( rootNameTitle ) ? rootNameTitle : titleText;
+
+                DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} data-array-index` : "data-array-index", dataArrayIndex, beforeNode );
+                DomElement.createWithHTML( objectTypeTitle, "span", "split", _configuration.text!.propertyColonCharacter!, beforeNode );
             }
     
             if ( bindingOptions.showObjectSizes && propertyCount > 0 ) {
@@ -1231,15 +1254,21 @@ type JsonTreeData = Record<string, BindingOptions>;
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
-            renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, data, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
-            addValueClickEvent( bindingOptions, titleText, data, dataType, false );
-            addFooterSizeStatus( bindingOptions, data, titleText );
-            addFooterLengthStatus( bindingOptions, data, titleText );
-            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
+            renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, actualData, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
+            addValueClickEvent( bindingOptions, titleText, actualData, dataType, false );
+            addFooterSizeStatus( bindingOptions, actualData, titleText );
+            addFooterLengthStatus( bindingOptions, actualData, titleText );
+            renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, actualData, actualData, null!, false, null! );
         }
     }
 
-    function renderArray( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataType: string ) : void {
+    function renderRootArray( container: HTMLElement, bindingOptions: BindingOptions, data: any, dataType: string ) : void {
+        let actualData: any = data;
+        
+        if ( Is.definedImportedFilename( data ) ) {
+            actualData = actualData.object;
+        }
+
         let mainTitle: string = null!;
 
         if ( dataType === DataType.set ) {
@@ -1252,8 +1281,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const objectTypeContents: HTMLElement = DomElement.create( container, "div", "object-type-contents last-item" );
         const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeTitle, "div", `opened-${bindingOptions.expandIconType}` ) : null!;
         
-        if ( !bindingOptions.paging!.enabled ) {
+        if ( !bindingOptions.paging!.enabled || Is.definedImportedFilename( data ) ) {
             let rootName: string = bindingOptions.rootName!;
+
+            if ( Is.definedImportedFilename( data ) ) {
+                rootName = data.filename;
+            }
 
             if ( bindingOptions.showPropertyNameQuotes ) {
                 rootName = `\"${rootName}\"`;
@@ -1287,6 +1320,13 @@ type JsonTreeData = Record<string, BindingOptions>;
         addFooterLengthStatus( bindingOptions, data, titleText );
         renderValueContextMenuItems( bindingOptions, objectTypeTitle, false, data, data, null!, false, null! );
     }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Render:  Contents
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
 
     function renderObjectValues( expandIcon: HTMLElement, coma: HTMLSpanElement, objectTypeContents: HTMLElement, bindingOptions: BindingOptions, data: any, propertyNames: string[], openingBrace: HTMLSpanElement, closedBraces: HTMLElement, addNoExpandIconToClosingSymbol: boolean, isLastItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : boolean {
         let propertiesAdded: boolean = true;
@@ -1388,10 +1428,12 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
         if ( !isForEmptyProperties ) {
+            let nameValue: string = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.propertyNameLength!, _configuration.text!.ellipsisText! );
+
             if ( isArrayItem || !bindingOptions.showPropertyNameQuotes ) {
-                nameElement.innerHTML = name;
+                nameElement.innerHTML = nameValue;
             } else {
-                nameElement.innerHTML = `\"${name}\"`;
+                nameElement.innerHTML = `\"${nameValue}\"`;
             }
 
             if ( isArrayItem && !bindingOptions.showChildIndexes ) {
@@ -1464,10 +1506,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueClass = bindingOptions.showValueColors ? `${dataType} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, "null" );
 
-                if ( Is.definedFunction( bindingOptions.events!.onNullRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onNullRender!, bindingOptions._currentView.element, valueElement );
-                }
-
+                Trigger.customEvent( bindingOptions.events!.onNullRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1481,10 +1520,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueClass = bindingOptions.showValueColors ? `${dataType} value undefined-or-null` : "value undefined-or-null";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, "undefined" );
 
-                if ( Is.definedFunction( bindingOptions.events!.onUndefinedRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, bindingOptions._currentView.element, valueElement );
-                }
-
+                Trigger.customEvent( bindingOptions.events!.onUndefinedRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1501,10 +1537,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
                     valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, functionName.name );
     
-                    if ( Is.definedFunction( bindingOptions.events!.onLambdaRender ) ) {
-                        Trigger.customEvent( bindingOptions.events!.onLambdaRender!, bindingOptions._currentView.element, valueElement );
-                    }
-                
+                    Trigger.customEvent( bindingOptions.events!.onLambdaRender!, bindingOptions._currentView.element, valueElement );
                     createComma( bindingOptions, objectTypeValueTitle, isLastItem );
     
                 } else {
@@ -1518,10 +1551,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
                     valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, functionName.name );
     
-                    if ( Is.definedFunction( bindingOptions.events!.onFunctionRender ) ) {
-                        Trigger.customEvent( bindingOptions.events!.onFunctionRender!, bindingOptions._currentView.element, valueElement );
-                    }
-                
+                    Trigger.customEvent( bindingOptions.events!.onFunctionRender!, bindingOptions._currentView.element, valueElement );
                     createComma( bindingOptions, objectTypeValueTitle, isLastItem );
     
                 } else {
@@ -1538,11 +1568,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.booleanValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onBooleanRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onBooleanRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onBooleanRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1560,11 +1586,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.floatValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onFloatRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onFloatRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onFloatRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1575,22 +1597,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.number;
 
             if ( !bindingOptions.ignore!.numberValues ) {
-                let newNumberValue: string = value.toString();
-
-                if ( bindingOptions.maximum!.numberLength! > 0 && newNumberValue.length > bindingOptions.maximum!.numberLength! ) {
-                    newNumberValue = `${newNumberValue.substring( 0, bindingOptions.maximum!.numberLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newNumberValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.numberLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newNumberValue );
                 allowEditing = bindingOptions.allowEditing!.numberValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onNumberRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onNumberRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onNumberRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1601,22 +1615,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.bigint;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
-                let newBigIntValue: string = value.toString();
-
-                if ( bindingOptions.maximum!.bigIntLength! > 0 && newBigIntValue.length > bindingOptions.maximum!.bigIntLength! ) {
-                    newBigIntValue = `${newBigIntValue.substring( 0, bindingOptions.maximum!.bigIntLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newBigIntValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValue );
                 allowEditing = bindingOptions.allowEditing!.bigIntValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onBigIntRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onBigIntRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onBigIntRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1632,11 +1638,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.guidValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onGuidRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onGuidRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onGuidRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1656,11 +1658,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onColorRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onColorRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onColorRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1671,11 +1669,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.url;
 
             if ( !bindingOptions.ignore!.urlValues ) {
-                let newUrlValue: string = value;
-
-                if ( bindingOptions.maximum!.urlLength! > 0 && newUrlValue.length > bindingOptions.maximum!.urlLength! ) {
-                    newUrlValue = `${newUrlValue.substring( 0, bindingOptions.maximum!.urlLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newUrlValue: string = Str.getMaximumLengthDisplay( value, bindingOptions.maximum!.urlLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newUrlValue );
@@ -1687,11 +1681,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
-
-                if ( Is.definedFunction( bindingOptions.events!.onUrlRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUrlRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onUrlRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1702,11 +1692,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.email;
 
             if ( !bindingOptions.ignore!.emailValues ) {
-                let newEmailValue: string = value;
-
-                if ( bindingOptions.maximum!.emailLength! > 0 && newEmailValue.length > bindingOptions.maximum!.emailLength! ) {
-                    newEmailValue = `${newEmailValue.substring( 0, bindingOptions.maximum!.emailLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                }
+                let newEmailValue: string = Str.getMaximumLengthDisplay( value, bindingOptions.maximum!.emailLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newEmailValue );
@@ -1718,11 +1704,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
-
-                if ( Is.definedFunction( bindingOptions.events!.onEmailRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onEmailRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onEmailRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1733,28 +1715,10 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.string;
 
             if ( !bindingOptions.ignore!.stringValues || isForEmptyProperties ) {
-                if ( bindingOptions.parse!.stringsToBooleans && Is.definedString( value ) && Is.String.boolean( value ) ) {
-                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
+                const parsedValue: any = Convert.stringToParsedValue( value, bindingOptions );
 
-                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && Is.String.bigInt( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Convert.stringToBigInt( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
-                    
-                } else if ( bindingOptions.parse!.stringsToNumbers && Is.definedString( value ) && !isNaN( value ) ) {
-                    renderValue( data, container, bindingOptions, name, parseFloat( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
-
-                } else if ( bindingOptions.parse!.stringsToDates && Is.definedString( value ) && Is.String.date( value ) ) {
-                    renderValue( data, container, bindingOptions, name, new Date( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
-                    ignored = true;
-                    ignoredDataType = true;
-
-                } else if ( bindingOptions.parse!.stringsToSymbols && Is.definedString( value ) && Is.String.symbol( value ) ) {
-                    renderValue( data, container, bindingOptions, name, Symbol( Convert.symbolToString( value ) ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
+                if ( Is.defined( parsedValue ) ) {
+                    renderValue( data, container, bindingOptions, name, parsedValue, isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 
@@ -1766,9 +1730,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                             newStringValue = bindingOptions.emptyStringValue!;
                         }
 
-                        if ( bindingOptions.maximum!.stringLength! > 0 && newStringValue.length > bindingOptions.maximum!.stringLength! ) {
-                            newStringValue = `${newStringValue.substring( 0, bindingOptions.maximum!.stringLength )}${Char.space}${_configuration.text!.ellipsisText}${Char.space}`;
-                        }
+                        newStringValue = Str.getMaximumLengthDisplay( newStringValue, bindingOptions.maximum!.stringLength!, _configuration.text!.ellipsisText! );
         
                         newStringValue = bindingOptions.showStringQuotes ? `\"${newStringValue}\"` : newStringValue;
                         valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
@@ -1784,11 +1746,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                     if ( !isForEmptyProperties ) {
                         makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-        
-                        if ( Is.definedFunction( bindingOptions.events!.onStringRender ) ) {
-                            Trigger.customEvent( bindingOptions.events!.onStringRender!, bindingOptions._currentView.element, valueElement );
-                        }
-                        
+                        Trigger.customEvent( bindingOptions.events!.onStringRender!, bindingOptions._currentView.element, valueElement );
                         createComma( bindingOptions, objectTypeValueTitle, isLastItem );
                     }
                 }
@@ -1806,11 +1764,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.dateValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onDateRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onDateRender!, bindingOptions._currentView.element, valueElement );
-                }
-    
+                Trigger.customEvent( bindingOptions.events!.onDateRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1826,11 +1780,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.symbolValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onSymbolRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onSymbolRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onSymbolRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1846,11 +1796,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 allowEditing = bindingOptions.allowEditing!.regExpValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
-
-                if ( Is.definedFunction( bindingOptions.events!.onRegExpRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onRegExpRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onRegExpRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -1870,10 +1816,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const image: HTMLImageElement = DomElement.create( valueElement, "img" ) as HTMLImageElement;
                 image.src = value.src;
 
-                if ( Is.definedFunction( bindingOptions.events!.onImageRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onImageRender!, bindingOptions._currentView.element, valueElement );
-                }
-                
+                Trigger.customEvent( bindingOptions.events!.onImageRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -2119,10 +2062,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 valueClass = bindingOptions.showValueColors ? `${dataType} value non-value` : "value non-value";
                 valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value.toString() );
 
-                if ( Is.definedFunction( bindingOptions.events!.onUnknownRender ) ) {
-                    Trigger.customEvent( bindingOptions.events!.onUnknownRender!, bindingOptions._currentView.element, valueElement );
-                }
-
+                Trigger.customEvent( bindingOptions.events!.onUnknownRender!, bindingOptions._currentView.element, valueElement );
                 createComma( bindingOptions, objectTypeValueTitle, isLastItem );
 
             } else {
@@ -2227,12 +2167,9 @@ type JsonTreeData = Record<string, BindingOptions>;
                 propertyName.classList.add( "editable-name" );
 
                 if ( isArrayItem ) {
-                    originalArrayIndex = Arr.getIndexFromBrackets( propertyName.innerHTML );
-                    
-                    propertyName.innerHTML = originalArrayIndex.toString();
-                    
+                    propertyName.innerHTML = Arr.getIndexFromBrackets( originalPropertyName ).toString();
                 } else {
-                    propertyName.innerHTML = propertyName.innerHTML.replace( /['"]+/g, Char.empty );
+                    propertyName.innerHTML = originalPropertyName;
                 }
                 
                 propertyName.setAttribute( "contenteditable", "true" );
@@ -2430,7 +2367,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
         const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutProcessingIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
@@ -2494,7 +2430,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         };
 
-        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean ) : void => {
+        const conditionFunc: Function = ( ev: MouseEvent, condition: boolean, updateLineNumbers: boolean = true ) : void => {
             if ( Is.defined( ev ) ) {
                 DomElement.cancelBubble( ev );
 
@@ -2504,9 +2440,9 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( condition ) {
-                hideFunc();
+                hideFunc( updateLineNumbers );
             } else {
-                showFunc( null );
+                showFunc( null, updateLineNumbers );
             }
         }
 
@@ -2552,7 +2488,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let result: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCommas && !isLastItem ) {
-            result = DomElement.createWithHTML( objectTypeValue, "span", "comma", "," ) as HTMLSpanElement;
+            result = DomElement.createWithHTML( objectTypeValue, "span", "comma", Char.coma ) as HTMLSpanElement;
         }
 
         return result;
@@ -2787,66 +2723,84 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function importFromFiles( files: FileList, bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
-        const filesLength: number = files.length;
+        let filesLength: number = files.length;
         let filesRead: number = 0;
-        let filesData: any[] = [];
+        let filesData: Record<string, any> = {} as Record<string, any>;
 
-        const onFileLoad = ( data: any ) => {
+        const onFileLoad = ( data: any, filename: string ) : void => {
             filesRead++;
-            filesData.push( data );
+            filesData[ filename ] = data;
 
             if ( filesRead === filesLength ) {
-                bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
-
-                const filesDataLength: number = filesData.length;
-
-                if ( Is.definedNumber( insertDataIndex ) ) {
-                    for ( let filesDataIndex: number = 0; filesDataIndex < filesDataLength; filesDataIndex++ ) {
-                        if ( insertDataIndex > bindingOptions.data.length - 1 ) {
-                            bindingOptions.data.push( filesData[ filesDataIndex ] );
-                        } else {
-                            bindingOptions.data.splice( insertDataIndex, 0, filesData[ filesDataIndex ] );
-                        }
-                    }
-
-                    bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
-
-                } else {
-                    bindingOptions._currentView.currentDataArrayPageIndex = 0;
-                    bindingOptions.data = filesDataLength === 1 ? filesData[ 0 ] : filesData;
-                }
-    
-                renderControlContainer( bindingOptions );
-                setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );
-                Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
+                importLoadedFiles( bindingOptions, filesData, insertDataIndex, filesRead, filesLength );
             }
         };
 
         for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
             const file: File = files[ fileIndex ];
-            const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
+            const fileExtension: string = file!.name!.split( Char.dot )!.pop()!.toLowerCase();
 
             if ( fileExtension === "json" ) {
                 importFromJson( file, onFileLoad );
+            } else {
+                filesLength--;
             }
         }
     }
 
-    function importFromJson( file: File, onFileLoad: ( data: any ) => void ) : void {
+    function importFromJson( file: File, onFileLoad: ( data: any, filename: string ) => void ) : void {
         const reader: FileReader = new FileReader();
-        let renderData: any = null as any;
+        let renderData: ImportedFilename = null!;
 
-        reader.onloadend = () => onFileLoad( renderData );
+        reader.onloadend = () => onFileLoad( renderData, file.name );
     
         reader.onload = ( ev: ProgressEvent<FileReader> ) => {
             const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );
 
             if ( json.parsed && Is.definedObject( json.object ) ) {
-                renderData = json.object;
+                renderData = new ImportedFilename();
+                renderData.filename = file.name;
+                renderData.object = json.object;
             }
         };
 
         reader.readAsText( file );
+    }
+
+    function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, any>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
+        bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+
+        const keys: string[] = Object.keys( filesData ) as Array<string>;
+        keys.sort();
+
+        if ( Is.definedNumber( insertDataIndex ) ) {
+            for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+                if ( insertDataIndex > bindingOptions.data.length - 1 ) {
+                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                } else {
+                    bindingOptions.data.splice( insertDataIndex, 0, filesData[ keys[ keyIndex ] ] );
+                }
+            }
+
+            bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
+        } else {
+
+            bindingOptions._currentView.currentDataArrayPageIndex = 0;
+
+            if ( filesRead === 1 ) {
+                bindingOptions.data = filesData[ keys[ 0 ] ];
+            } else {
+                bindingOptions.data = [];
+
+                for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                }
+            }
+        }
+
+        renderControlContainer( bindingOptions );
+        setFooterStatusText( bindingOptions, _configuration.text!.importedText!.replace( "{0}", filesLength.toString() ) );
+        Trigger.customEvent( bindingOptions.events!.onSetJson!, bindingOptions._currentView.element );
     }
 
 
@@ -2856,8 +2810,8 @@ type JsonTreeData = Record<string, BindingOptions>;
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function onExport( bindingOptions: BindingOptions ) : void {
-        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( bindingOptions.data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
+    function onExport( bindingOptions: BindingOptions, data: any ) : void {
+        const contents: string = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
 
         if ( Is.definedString( contents ) ) {
             const tempLink: HTMLElement = DomElement.create( document.body, "a" );
@@ -3256,7 +3210,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.3.0";
+            return "4.4.0";
         }
     };
 

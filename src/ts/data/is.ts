@@ -4,13 +4,14 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        is.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
+import { ImportedFilename } from "../type";
 import { Char } from "./enum";
 
 
@@ -37,7 +38,7 @@ export namespace Is {
         }
     
         export function date( dateTimeString: string ) {
-            const regExp: RegExp = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/;
+            const regExp: RegExp = /\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[1-2]\d|3[0-1])T(?:[0-1]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+|)(?:Z|(?:\+|\-)(?:\d{2}):?(?:\d{2}))/;
 
             return dateTimeString.match( regExp );
         }
@@ -151,5 +152,9 @@ export namespace Is {
 
     export function invalidOptionArray( array: any, minimumLength: number = 1 ) : boolean {
         return !definedArray( array ) || array.length < minimumLength;
+    }
+
+    export function definedImportedFilename( object: any ) : boolean {
+        return defined( object ) && object instanceof ImportedFilename;
     }
 }

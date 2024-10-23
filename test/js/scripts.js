@@ -114,12 +114,15 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             numberLength: 0,
             bigIntLength: 0,
             inspectionLevels: 10,
+            propertyNameLength: 0,
         },
         parse: {
             stringsToDates: true,
             stringsToBooleans: true,
             stringsToNumbers: true,
             stringsToSymbols: true,
+            stringsToFloats: true,
+            stringsToBigInts: true,
         },
         events: {
             onValueClick: onValueClickEvent,
@@ -212,6 +215,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showCloseOpenAllButtons: true,
             showSwitchToPagesButton: true,
             showImportButton: true,
+            showExportButton: true,
         },
         lineNumbers: {
             enabled: true,

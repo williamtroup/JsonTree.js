@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        convert.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -27,6 +27,9 @@ export namespace Convert {
 
         if ( !Is.defined( object ) ) {
             result = null;
+
+        } else if ( Is.definedImportedFilename( object ) ) {
+            result = object.object;
 
         } else if ( Is.definedDate( object ) ) {
             if ( !bindingOptions.includeTimeZoneInDates ) {
@@ -255,5 +258,38 @@ export namespace Convert {
 
     export function symbolToString( value: Symbol ) : string {
         return value.toString().replace( "Symbol(", Char.empty ).replace( ")", Char.empty );
+    }
+
+    export function stringToBoolean( value: string ) : boolean {
+        return value.toString().toLowerCase().trim() === "true";
+    }
+
+    export function stringToParsedValue( value: any, bindingOptions: BindingOptions ) : any {
+        let parsedValue: any = null;
+
+        if ( Is.definedString( value ) ) {
+            const floatValue: number = parseFloat( value );
+
+            if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
+                parsedValue = Convert.stringToBoolean( value );;
+    
+            } else if ( bindingOptions.parse!.stringsToBigInts && Is.String.bigInt( value ) ) {
+                parsedValue = Convert.stringToBigInt( value );
+                
+            } else if ( bindingOptions.parse!.stringsToNumbers && !isNaN( value ) && !Is.definedFloat( floatValue ) ) {
+                parsedValue = parseInt( value );
+    
+            } else if ( bindingOptions.parse!.stringsToFloats && !isNaN( value ) && Is.definedFloat( floatValue ) ) {
+                parsedValue = floatValue;
+    
+            } else if ( bindingOptions.parse!.stringsToDates && Is.String.date( value ) ) {
+                parsedValue = new Date( value );
+    
+            } else if ( bindingOptions.parse!.stringsToSymbols && Is.String.symbol( value ) ) {
+                parsedValue = Symbol( Convert.symbolToString( value ) );
+            }
+        }
+
+        return parsedValue;
     }
 }

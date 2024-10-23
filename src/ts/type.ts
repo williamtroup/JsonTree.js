@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -13,6 +13,11 @@
 
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+
+export class ImportedFilename {
+	public filename: string = null!;
+	public object: string = null!;
+};
 
 export type CustomDataType = {
 	class: string;
@@ -238,6 +243,7 @@ export type BindingOptionsMaximum = {
 	numberLength?: number;
 	bigIntLength?: number;
 	inspectionLevels?: number;
+	propertyNameLength?: number;
 };
 
 export type BindingOptionsPaging = {
@@ -254,6 +260,8 @@ export type BindingOptionsParse = {
 	stringsToBooleans?: boolean;
 	stringsToNumbers?: boolean;
 	stringsToSymbols?: boolean;
+	stringsToFloats?: boolean;
+	stringsToBigInts?: boolean;
 };
 
 export type BindingOptionsTitle = {
@@ -282,6 +290,7 @@ export type BindingOptionsControlPanel = {
 	showCloseOpenAllButtons?: boolean;
 	showSwitchToPagesButton?: boolean;
 	showImportButton?: boolean;
+	showExportButton?: boolean;
 };
 
 export type BindingOptionsLineNumbers = {
@@ -348,6 +357,7 @@ export type BindingOptionsSideMenu = {
 	showAvailableDataTypeCounts?: boolean;
 	showOnlyDataTypesAvailable?: boolean;
 	showClearJsonButton?: boolean;
+	updateDisplayDelay?: number;
 };
 
 export type BindingOptionsAutoClose = {

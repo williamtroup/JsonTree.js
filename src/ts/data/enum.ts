@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        enum.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -19,6 +19,12 @@ export enum Char {
     backslash = "\\",
     dash = "_",
     underscore = "_",
+    dot = ".",
+    coma = ",",
+}
+
+export const enum Value {
+    notFound = -1,
 }
 
 export enum DataType {

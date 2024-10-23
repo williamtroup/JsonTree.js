@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -161,6 +161,7 @@ export namespace Binding {
             options.maximum!.numberLength = Default.getNumber( options.maximum!.numberLength, 0 );
             options.maximum!.bigIntLength = Default.getNumber( options.maximum!.bigIntLength, 0 );
             options.maximum!.inspectionLevels = Default.getNumber( options.maximum!.inspectionLevels, 10 );
+            options.maximum!.propertyNameLength = Default.getNumber( options.maximum!.propertyNameLength, 0 );
 
             return options.maximum!;
         }
@@ -210,6 +211,7 @@ export namespace Binding {
             options.controlPanel!.showCloseOpenAllButtons = Default.getBoolean( options.controlPanel!.showCloseOpenAllButtons, true );
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
             options.controlPanel!.showImportButton = Default.getBoolean( options.controlPanel!.showImportButton, true );
+            options.controlPanel!.showExportButton = Default.getBoolean( options.controlPanel!.showExportButton, true );
 
             return options.controlPanel!;
         }
@@ -267,6 +269,8 @@ export namespace Binding {
             options.parse!.stringsToBooleans = Default.getBoolean( options.parse!.stringsToBooleans, false );
             options.parse!.stringsToNumbers = Default.getBoolean( options.parse!.stringsToNumbers, false );
             options.parse!.stringsToSymbols = Default.getBoolean( options.parse!.stringsToSymbols, false );
+            options.parse!.stringsToFloats = Default.getBoolean( options.parse!.stringsToFloats, false );
+            options.parse!.stringsToBigInts = Default.getBoolean( options.parse!.stringsToBigInts, false );
 
             return options.parse!;
         }
@@ -312,6 +316,7 @@ export namespace Binding {
             options.sideMenu!.showAvailableDataTypeCounts = Default.getBoolean( options.sideMenu!.showAvailableDataTypeCounts, true );
             options.sideMenu!.showOnlyDataTypesAvailable = Default.getBoolean( options.sideMenu!.showOnlyDataTypesAvailable, false );
             options.sideMenu!.showClearJsonButton = Default.getBoolean( options.sideMenu!.showClearJsonButton, true );
+            options.sideMenu!.updateDisplayDelay = Default.getNumber( options.sideMenu!.updateDisplayDelay, 500 );
 
             return options.sideMenu!;
         }

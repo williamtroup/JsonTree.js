@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        datetime.ts
- * @version     v4.3.0
+ * @version     v4.4.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -12,6 +12,7 @@
 
 
 import { type Configuration } from "../type";
+import { Is } from "./is";
 import { Str } from "./str";
 
 
@@ -29,6 +30,10 @@ export namespace DateTime {
             result = configuration.text!.ndText!;
         } else if ( value === 23 || value === 3 ) {
             result = configuration.text!.rdText!;
+        }
+
+        if ( Is.definedString( result ) ) {
+            result = `<sup>${result}</sup>`;
         }
 
         return result;
