@@ -3325,7 +3325,7 @@ var ContextMenu;
         }
     }
     function Te(t, n, o = null) {
-        const l = t.length;
+        let l = t.length;
         let r = 0;
         let a = {};
         const s = (t, s) => {
@@ -3365,6 +3365,8 @@ var ContextMenu;
             const o = n.name.split(".").pop().toLowerCase();
             if (o === "json") {
                 be(n, s);
+            } else {
+                l--;
             }
         }
     }

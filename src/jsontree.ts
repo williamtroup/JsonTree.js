@@ -2742,7 +2742,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function importFromFiles( files: FileList, bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
-        const filesLength: number = files.length;
+        let filesLength: number = files.length;
         let filesRead: number = 0;
         let filesData: Record<string, any> = {} as Record<string, any>;
 
@@ -2793,6 +2793,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( fileExtension === "json" ) {
                 importFromJson( file, onFileLoad );
+            } else {
+                filesLength--;
             }
         }
     }
