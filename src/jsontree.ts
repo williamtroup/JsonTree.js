@@ -2745,7 +2745,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let filesRead: number = 0;
         let filesData: Record<string, any> = {} as Record<string, any>;
 
-        const onFileLoad = ( data: any, filename: string ) => {
+        const onFileLoad = ( data: any, filename: string ) : void => {
             filesRead++;
             filesData[ filename ] = data;
 
