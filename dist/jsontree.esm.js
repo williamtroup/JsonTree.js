@@ -3327,25 +3327,33 @@ var ContextMenu;
     function Te(t, n, o = null) {
         const l = t.length;
         let r = 0;
-        let a = [];
-        const s = t => {
+        let a = {};
+        const s = (t, s) => {
             r++;
-            a.push(t);
+            a[s] = t;
             if (r === l) {
                 n._currentView.contentPanelsOpen = {};
-                const t = a.length;
+                const t = Object.keys(a);
+                t.sort();
                 if (Is.definedNumber(o)) {
-                    for (let e = 0; e < t; e++) {
+                    for (let e = 0; e < r; e++) {
                         if (o > n.data.length - 1) {
-                            n.data.push(a[e]);
+                            n.data.push(a[t[e]]);
                         } else {
-                            n.data.splice(o, 0, a[e]);
+                            n.data.splice(o, 0, a[t[e]]);
                         }
                     }
                     n._currentView.currentDataArrayPageIndex = o - o % n.paging.columnsPerPage;
                 } else {
                     n._currentView.currentDataArrayPageIndex = 0;
-                    n.data = t === 1 ? a[0] : a;
+                    if (r === 1) {
+                        n.data = a[t[0]];
+                    } else {
+                        n.data = [];
+                        for (let e = 0; e < r; e++) {
+                            n.data.push(a[t[e]]);
+                        }
+                    }
                 }
                 i(n);
                 z(n, e.text.importedText.replace("{0}", l.toString()));
@@ -3363,7 +3371,7 @@ var ContextMenu;
     function be(t, n) {
         const o = new FileReader;
         let l = null;
-        o.onloadend = () => n(l);
+        o.onloadend = () => n(l, t.name);
         o.onload = n => {
             const o = Convert2.jsonStringToObject(n.target.result, e);
             if (o.parsed && Is.definedObject(o.object)) {

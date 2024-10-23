@@ -2744,31 +2744,41 @@ type JsonTreeData = Record<string, BindingOptions>;
     function importFromFiles( files: FileList, bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         const filesLength: number = files.length;
         let filesRead: number = 0;
-        let filesData: any[] = [];
+        let filesData: Record<string, any> = {} as Record<string, any>;
 
-        const onFileLoad = ( data: any ) => {
+        const onFileLoad = ( data: any, filename: string ) => {
             filesRead++;
-            filesData.push( data );
+            filesData[ filename ] = data;
 
             if ( filesRead === filesLength ) {
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
 
-                const filesDataLength: number = filesData.length;
+                const keys: string[] = Object.keys( filesData ) as Array<string>;
+                keys.sort();
 
                 if ( Is.definedNumber( insertDataIndex ) ) {
-                    for ( let filesDataIndex: number = 0; filesDataIndex < filesDataLength; filesDataIndex++ ) {
+                    for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
                         if ( insertDataIndex > bindingOptions.data.length - 1 ) {
-                            bindingOptions.data.push( filesData[ filesDataIndex ] );
+                            bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
                         } else {
-                            bindingOptions.data.splice( insertDataIndex, 0, filesData[ filesDataIndex ] );
+                            bindingOptions.data.splice( insertDataIndex, 0, filesData[ keys[ keyIndex ] ] );
                         }
                     }
 
                     bindingOptions._currentView.currentDataArrayPageIndex = insertDataIndex - ( insertDataIndex % bindingOptions.paging!.columnsPerPage! );
-
                 } else {
+
                     bindingOptions._currentView.currentDataArrayPageIndex = 0;
-                    bindingOptions.data = filesDataLength === 1 ? filesData[ 0 ] : filesData;
+
+                    if ( filesRead === 1 ) {
+                        bindingOptions.data = filesData[ keys[ 0 ] ];
+                    } else {
+                        bindingOptions.data = [];
+
+                        for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+                            bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                        }
+                    }
                 }
     
                 renderControlContainer( bindingOptions );
@@ -2787,11 +2797,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function importFromJson( file: File, onFileLoad: ( data: any ) => void ) : void {
+    function importFromJson( file: File, onFileLoad: ( data: any, filename: string ) => void ) : void {
         const reader: FileReader = new FileReader();
         let renderData: ImportedFilename = null!;
 
-        reader.onloadend = () => onFileLoad( renderData );
+        reader.onloadend = () => onFileLoad( renderData, file.name );
     
         reader.onload = ( ev: ProgressEvent<FileReader> ) => {
             const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );
