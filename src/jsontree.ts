@@ -493,7 +493,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                     elementTop -= firstLineTop;
         
                     const lineNumber: HTMLElement = DomElement.create( columnLayout.lineNumbers, "div", "contents-column-line-number" );
-                    const lineNumberDot: string = bindingOptions.lineNumbers!.addDots ? "." : Char.empty;
+                    const lineNumberDot: string = bindingOptions.lineNumbers!.addDots ? Char.dot : Char.empty;
 
                     if ( bindingOptions.lineNumbers!.padNumbers ) {
                         lineNumber.innerHTML = `${Str.padNumber( lineNumberCount, valueElementsLength.toString().length )}${lineNumberDot}`;
@@ -2507,7 +2507,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         let result: HTMLSpanElement = null!;
 
         if ( bindingOptions.showCommas && !isLastItem ) {
-            result = DomElement.createWithHTML( objectTypeValue, "span", "comma", "," ) as HTMLSpanElement;
+            result = DomElement.createWithHTML( objectTypeValue, "span", "comma", Char.coma ) as HTMLSpanElement;
         }
 
         return result;
@@ -2757,7 +2757,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
             const file: File = files[ fileIndex ];
-            const fileExtension: string = file!.name!.split( "." )!.pop()!.toLowerCase();
+            const fileExtension: string = file!.name!.split( Char.dot )!.pop()!.toLowerCase();
 
             if ( fileExtension === "json" ) {
                 importFromJson( file, onFileLoad );

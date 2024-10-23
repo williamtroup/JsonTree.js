@@ -19,6 +19,8 @@ export enum Char {
     backslash = "\\",
     dash = "_",
     underscore = "_",
+    dot = ".",
+    coma = ",",
 }
 
 export const enum Value {
