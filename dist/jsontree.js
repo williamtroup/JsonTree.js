@@ -3074,11 +3074,10 @@ var ContextMenu;
         const u = e._currentView.contentPanelsIndex;
         const c = e._currentView.contentPanelsDataIndex;
         const d = e._currentView.currentColumnBuildingIndex;
-        const f = e._currentView.currentContentColumns[d];
         if (!e._currentView.contentPanelsOpen.hasOwnProperty(c)) {
             e._currentView.contentPanelsOpen[c] = {};
         }
-        const g = (o = true) => {
+        const f = (o = true) => {
             l.style.display = "none";
             e._currentView.contentPanelsOpen[c][u] = true;
             if (Is.defined(t)) {
@@ -3097,7 +3096,7 @@ var ContextMenu;
                 x(d, e);
             }
         };
-        const m = (a, s = true) => {
+        const g = (a, s = true) => {
             if (Is.defined(a)) {
                 DomElement.cancelBubble(a);
                 if (!o) {
@@ -3122,7 +3121,7 @@ var ContextMenu;
                 x(d, e);
             }
         };
-        const p = (t, n, l = true) => {
+        const m = (t, n, l = true) => {
             if (Is.defined(t)) {
                 DomElement.cancelBubble(t);
                 if (!o) {
@@ -3130,39 +3129,39 @@ var ContextMenu;
                 }
             }
             if (n) {
-                g(l);
+                f(l);
             } else {
-                m(null, l);
+                g(null, l);
             }
         };
-        let T = e.showAllAsClosed;
+        let p = e.showAllAsClosed;
         if (e._currentView.contentPanelsOpen[c].hasOwnProperty(u)) {
-            T = e._currentView.contentPanelsOpen[c][u];
+            p = e._currentView.contentPanelsOpen[c][u];
         } else {
             if (!e._currentView.initialized) {
                 if (s === "object" && e.autoClose.objectSize > 0 && a >= e.autoClose.objectSize) {
-                    T = true;
+                    p = true;
                 } else if (s === "array" && e.autoClose.arraySize > 0 && a >= e.autoClose.arraySize) {
-                    T = true;
+                    p = true;
                 } else if (s === "map" && e.autoClose.mapSize > 0 && a >= e.autoClose.mapSize) {
-                    T = true;
+                    p = true;
                 } else if (s === "set" && e.autoClose.setSize > 0 && a >= e.autoClose.setSize) {
-                    T = true;
+                    p = true;
                 } else if (s === "html" && e.autoClose.htmlSize > 0 && a >= e.autoClose.htmlSize) {
-                    T = true;
+                    p = true;
                 }
             }
-            e._currentView.contentPanelsOpen[c][u] = T;
+            e._currentView.contentPanelsOpen[c][u] = p;
         }
         if (Is.defined(t)) {
-            t.onclick = n => p(n, t.className === `opened-${e.expandIconType}`);
+            t.onclick = n => m(n, t.className === `opened-${e.expandIconType}`);
             t.ondblclick = DomElement.cancelBubble;
         }
         if (Is.defined(i)) {
-            i.onclick = e => m(e);
+            i.onclick = e => g(e);
             i.ondblclick = DomElement.cancelBubble;
         }
-        p(null, T, false);
+        m(null, p, false);
         e._currentView.contentPanelsIndex++;
     }
     function re(e, t, n) {

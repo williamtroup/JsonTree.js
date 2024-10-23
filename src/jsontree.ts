@@ -2385,7 +2385,6 @@ type JsonTreeData = Record<string, BindingOptions>;
         const panelId: number = bindingOptions._currentView.contentPanelsIndex;
         const dataArrayIndex: number = bindingOptions._currentView.contentPanelsDataIndex;
         const columnLayoutProcessingIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
-        const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnLayoutProcessingIndex ];
 
         if ( !bindingOptions._currentView.contentPanelsOpen.hasOwnProperty( dataArrayIndex ) ) {
             bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ] = {} as ContentPanels;
