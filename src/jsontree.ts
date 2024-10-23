@@ -1716,7 +1716,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.stringValues || isForEmptyProperties ) {
                 if ( bindingOptions.parse!.stringsToBooleans && Is.definedString( value ) && Is.String.boolean( value ) ) {
-                    renderValue( data, container, bindingOptions, name, value.toString().toLowerCase().trim() === "true", isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
+                    renderValue( data, container, bindingOptions, name, Convert.stringToBoolean( value ), isLastItem, isArrayItem, jsonPath, parentType, preventEditing, indentationLevel );
                     ignored = true;
                     ignoredDataType = true;
 

@@ -360,6 +360,10 @@ var Convert2;
         return e.toString().replace("Symbol(", "").replace(")", "");
     }
     Convert.symbolToString = symbolToString;
+    function stringToBoolean(e) {
+        return e.toString().toLowerCase().trim() === "true";
+    }
+    Convert.stringToBoolean = stringToBoolean;
 })(Convert2 || (Convert2 = {}));
 
 var Default;
@@ -2572,7 +2576,7 @@ var ContextMenu;
             y = "string";
             if (!o.ignore.stringValues || S) {
                 if (o.parse.stringsToBooleans && Is.definedString(r) && Is.String.boolean(r)) {
-                    Y(t, n, o, l, r.toString().toLowerCase().trim() === "true", i, a, s, u, c, d);
+                    Y(t, n, o, l, Convert2.stringToBoolean(r), i, a, s, u, c, d);
                     T = true;
                     b = true;
                 } else if (o.parse.stringsToNumbers && Is.definedString(r) && Is.String.bigInt(r)) {

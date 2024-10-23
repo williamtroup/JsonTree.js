@@ -259,4 +259,8 @@ export namespace Convert {
     export function symbolToString( value: Symbol ) : string {
         return value.toString().replace( "Symbol(", Char.empty ).replace( ")", Char.empty );
     }
+
+    export function stringToBoolean( value: string ) : boolean {
+        return value.toString().toLowerCase().trim() === "true";
+    }
 }
