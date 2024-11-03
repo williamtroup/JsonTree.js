@@ -1504,6 +1504,7 @@ var ContextMenu;
     }
     function s(t, n, o, l, r, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        const c = o._currentView.currentColumnBuildingIndex;
         if (!Is.defined(t)) {
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1512,7 +1513,7 @@ var ContextMenu;
                 n.onclick = () => M(o);
             }
         } else {
-            s.onscroll = () => d(s, o, o._currentView.currentColumnBuildingIndex);
+            s.onscroll = () => d(s, o, c);
             if (o.paging.enabled && Is.definedNumber(l)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
@@ -1531,13 +1532,13 @@ var ContextMenu;
                 i = DomElement.create(s, "div", "contents-column-lines");
                 e = i;
             }
-            const c = {
+            const p = {
                 column: s,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(c);
+            o._currentView.currentContentColumns.push(p);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
                 q(e, o, t, "array");
@@ -1641,21 +1642,18 @@ var ContextMenu;
                 e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
             }
         }
-        if (t.paging.synchronizeScrolling) {
-            for (let e = 0; e < r; e++) {
-                if (n !== e) {
-                    t._currentView.currentContentColumns[e].column.scrollTop = o;
-                    t._currentView.currentContentColumns[e].column.scrollLeft = l;
+        for (let n = 0; n < r; n++) {
+            const r = t._currentView.currentContentColumns[n].column;
+            if (r !== e) {
+                if (t.paging.synchronizeScrolling) {
+                    t._currentView.currentContentColumns[n].column.scrollTop = o;
+                    t._currentView.currentContentColumns[n].column.scrollLeft = l;
                 }
-            }
-        }
-        if (t.controlPanel.enabled) {
-            for (let e = 0; e < r; e++) {
-                if (n !== e) {
-                    const n = t._currentView.currentContentColumns[e].controlButtons;
-                    if (Is.defined(n)) {
-                        n.style.top = `${t._currentView.currentContentColumns[e].column.scrollTop}px`;
-                        n.style.right = `-${t._currentView.currentContentColumns[e].column.scrollLeft}px`;
+                if (t.controlPanel.enabled) {
+                    const e = t._currentView.currentContentColumns[n].controlButtons;
+                    if (Is.defined(e)) {
+                        e.style.top = `${t._currentView.currentContentColumns[n].column.scrollTop}px`;
+                        e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
                     }
                 }
             }

@@ -208,6 +208,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
+        const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
         
         if ( !Is.defined( data ) ) {
             const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
@@ -219,7 +220,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         } else {
             
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, bindingOptions._currentView.currentColumnBuildingIndex );
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
@@ -387,20 +388,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         }
 
-        if ( bindingOptions.paging!.synchronizeScrolling ) {
-            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                if ( dataIndex !== columnIndex ) {
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            const otherColumn: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].column;
+
+            if ( otherColumn !== column ) {
+                if ( bindingOptions.paging!.synchronizeScrolling ) {
                     bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop = scrollTop;
                     bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
                 }
-            }
-        }
 
-        if ( bindingOptions.controlPanel!.enabled ) {
-            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                if ( dataIndex !== columnIndex ) {
+                if ( bindingOptions.controlPanel!.enabled ) {
                     const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons;
-                    
+                            
                     if ( Is.defined( controlButtons ) ) {
                         controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop}px`;
                         controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft}px`;
