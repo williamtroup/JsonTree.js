@@ -3652,7 +3652,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.4.0";
+            return "4.5.0";
         }
     };
     (() => {
