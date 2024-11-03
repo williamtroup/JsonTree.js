@@ -380,30 +380,26 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
         if ( bindingOptions.controlPanel!.enabled ) {
-            const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ dataIndex ].controlButtons;
+            const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ dataIndex ];
 
-            if ( Is.defined( controlButtons ) ) {
-                controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollTop}px`;
-                controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollLeft}px`;
+            if ( Is.defined( columnLayout.controlButtons ) ) {
+                columnLayout.controlButtons.style.top = `${columnLayout.column.scrollTop}px`;
+                columnLayout.controlButtons.style.right = `-${columnLayout.column.scrollLeft}px`;
             }
         }
 
         for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-            const otherColumn: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].column;
+            const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnIndex ];
 
-            if ( otherColumn !== column ) {
+            if ( columnLayout.column !== column ) {
                 if ( bindingOptions.paging!.synchronizeScrolling ) {
-                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop = scrollTop;
-                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
+                    columnLayout.column.scrollTop = scrollTop;
+                    columnLayout.column.scrollLeft = scrollLeft;
                 }
 
-                if ( bindingOptions.controlPanel!.enabled ) {
-                    const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons;
-                            
-                    if ( Is.defined( controlButtons ) ) {
-                        controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop}px`;
-                        controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft}px`;
-                    }
+                if ( bindingOptions.controlPanel!.enabled && Is.defined( columnLayout.controlButtons ) ) {
+                    columnLayout.controlButtons.style.top = `${columnLayout.column.scrollTop}px`;
+                    columnLayout.controlButtons.style.right = `-${columnLayout.column.scrollLeft}px`;
                 }
             }
         }

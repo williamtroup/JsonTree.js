@@ -1638,25 +1638,22 @@ var ContextMenu;
         const l = e.scrollLeft;
         const r = t._currentView.currentContentColumns.length;
         if (t.controlPanel.enabled) {
-            const e = t._currentView.currentContentColumns[n].controlButtons;
-            if (Is.defined(e)) {
-                e.style.top = `${t._currentView.currentContentColumns[n].column.scrollTop}px`;
-                e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
+            const e = t._currentView.currentContentColumns[n];
+            if (Is.defined(e.controlButtons)) {
+                e.controlButtons.style.top = `${e.column.scrollTop}px`;
+                e.controlButtons.style.right = `-${e.column.scrollLeft}px`;
             }
         }
         for (let n = 0; n < r; n++) {
-            const r = t._currentView.currentContentColumns[n].column;
-            if (r !== e) {
+            const r = t._currentView.currentContentColumns[n];
+            if (r.column !== e) {
                 if (t.paging.synchronizeScrolling) {
-                    t._currentView.currentContentColumns[n].column.scrollTop = o;
-                    t._currentView.currentContentColumns[n].column.scrollLeft = l;
+                    r.column.scrollTop = o;
+                    r.column.scrollLeft = l;
                 }
-                if (t.controlPanel.enabled) {
-                    const e = t._currentView.currentContentColumns[n].controlButtons;
-                    if (Is.defined(e)) {
-                        e.style.top = `${t._currentView.currentContentColumns[n].column.scrollTop}px`;
-                        e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
-                    }
+                if (t.controlPanel.enabled && Is.defined(r.controlButtons)) {
+                    r.controlButtons.style.top = `${r.column.scrollTop}px`;
+                    r.controlButtons.style.right = `-${r.column.scrollLeft}px`;
                 }
             }
         }
