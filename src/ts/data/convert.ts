@@ -17,7 +17,7 @@ import {
     type BindingOptions } from "../type";
     
 import { Default } from "./default";
-import { Char } from "./enum";
+import { Char, Value } from "./enum";
 import { Is } from "./is";
 
 
@@ -291,5 +291,17 @@ export namespace Convert {
         }
 
         return parsedValue;
+    }
+
+    export function symbolToSpacedOutString( value: Symbol ) : string {
+        let result: string = value.toString();
+
+        if ( result.indexOf( "()" ) === Value.notFound ) {
+            result = result.replace( "(", `(${Char.space}` ).replace( ")", `${Char.space})` );
+        } else {
+            result = result.replace( "()", Char.empty );
+        }
+
+        return result;
     }
 }

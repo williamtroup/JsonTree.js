@@ -385,6 +385,16 @@ var Convert2;
         return n;
     }
     Convert.stringToParsedValue = stringToParsedValue;
+    function symbolToSpacedOutString(e) {
+        let t = e.toString();
+        if (t.indexOf("()") === -1) {
+            t = t.replace("(", `(${" "}`).replace(")", `${" "})`);
+        } else {
+            t = t.replace("()", "");
+        }
+        return t;
+    }
+    Convert.symbolToSpacedOutString = symbolToSpacedOutString;
 })(Convert2 || (Convert2 = {}));
 
 var Default;
@@ -2646,7 +2656,7 @@ var ContextMenu;
             y = "symbol";
             if (!o.ignore.symbolValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, r.toString());
+                x = DomElement.createWithHTML(g, "span", p, Convert2.symbolToSpacedOutString(r));
                 w = o.allowEditing.symbolValues && !c;
                 te(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, x);
