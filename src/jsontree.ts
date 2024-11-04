@@ -1672,7 +1672,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
                     openButton = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
-                    openButton.onclick = () => window.open( value );
+                    openButton.onclick = () => {
+                        if ( bindingOptions.openUrlsInSameWindow ) {
+                            window.location = value;
+                        } else {
+                            window.open( value )
+                        }
+                    };
                 }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );

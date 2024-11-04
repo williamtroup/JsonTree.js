@@ -797,6 +797,7 @@ var Binding;
             t.rootName = Default.getString(t.rootName, "root");
             t.emptyStringValue = Default.getString(t.emptyStringValue, "");
             t.expandIconType = Default.getString(t.expandIconType, "arrow");
+            t.openUrlsInSameWindow = Default.getBoolean(t.openUrlsInSameWindow, false);
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
@@ -2563,7 +2564,13 @@ var ContextMenu;
                 w = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
                     v = DomElement.createWithHTML(g, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    v.onclick = () => window.open(r);
+                    v.onclick = () => {
+                        if (o.openUrlsInSameWindow) {
+                            window.location = r;
+                        } else {
+                            window.open(r);
+                        }
+                    };
                 }
                 te(o, t, l, r, x, a, w, v);
                 Trigger.customEvent(o.events.onUrlRender, o._currentView.element, x);
