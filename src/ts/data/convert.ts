@@ -119,7 +119,7 @@ export namespace Convert {
             } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
                 result = parseInt( newValue );
     
-            } else if ( Is.definedString( oldValue ) ) {
+            } else if ( Is.definedStringAny( oldValue ) ) {
                 result = newValue;
     
             } else if ( Is.definedDate( oldValue ) ) {

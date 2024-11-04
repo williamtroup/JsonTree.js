@@ -245,7 +245,7 @@ var Convert2;
                 n = parseFloat(t);
             } else if (Is.definedNumber(e) && !isNaN(+t)) {
                 n = parseInt(t);
-            } else if (Is.definedString(e)) {
+            } else if (Is.definedStringAny(e)) {
                 n = t;
             } else if (Is.definedDate(e)) {
                 n = new Date(t);
