@@ -3432,7 +3432,10 @@ var ContextMenu;
     function Ve(e, l) {
         o = Be(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Be(e) && e.code === "F11") {
+            if (Be(e) && e.code === "KeyC") {
+                e.preventDefault();
+                v(l, l.data);
+            } else if (Be(e) && e.code === "F11") {
                 e.preventDefault();
                 V(l);
             } else if (e.code === "ArrowLeft") {

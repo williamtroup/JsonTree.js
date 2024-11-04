@@ -2859,7 +2859,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         _key_Control_Pressed = isCommandKey( ev );
 
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
-            if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
+            if ( isCommandKey( ev ) && ev.code === KeyCode.C ) {
+                ev.preventDefault();
+                onTitleBarCopyAllClick( bindingOptions, bindingOptions.data );
+            
+            } else if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
                 ev.preventDefault();
                 onTitleBarDblClick( bindingOptions );
 
