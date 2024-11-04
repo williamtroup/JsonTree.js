@@ -364,7 +364,7 @@ var Convert2;
     Convert.stringToBoolean = stringToBoolean;
     function stringToParsedValue(e, t) {
         let n = null;
-        if (Is.definedString(e)) {
+        if (Is.definedString(e) && e.trim() !== "") {
             const o = parseFloat(e);
             if (t.parse.stringsToBooleans && Is.String.boolean(e)) {
                 n = Convert.stringToBoolean(e);

@@ -291,6 +291,7 @@ function getArrayData() {
                 array: [],
                 html: document.createElement( "div" ),
                 string: "",
+                blankString: "   ",
                 symbol: Symbol(),
                 invalidDate: new Date( "" ),
             },

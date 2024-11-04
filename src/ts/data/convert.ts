@@ -267,7 +267,7 @@ export namespace Convert {
     export function stringToParsedValue( value: any, bindingOptions: BindingOptions ) : any {
         let parsedValue: any = null;
 
-        if ( Is.definedString( value ) ) {
+        if ( Is.definedString( value ) && value.trim() !== Char.empty ) {
             const floatValue: number = parseFloat( value );
 
             if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
