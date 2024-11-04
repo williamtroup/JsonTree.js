@@ -450,19 +450,18 @@ var Default;
     }
     e.getStringOrArray = c;
     function d(e, t) {
-        let n;
-        let o = false;
-        const l = e.toString().split("(");
-        const r = l[0].split(" ");
-        const i = "()";
-        n = `${r.join(" ")}${i}`;
-        if (n.trim() === i) {
-            n = `${t.text.functionText}${i}`;
-            o = true;
+        const n = e.toString().split("(");
+        const o = n[0].split(" ");
+        const l = "()";
+        let r = `${o.join(" ")}${l}`;
+        let i = false;
+        if (r.trim() === l) {
+            r = `${t.text.functionText}${l}`;
+            i = true;
         }
         return {
-            name: n,
-            isLambda: o
+            name: r,
+            isLambda: i
         };
     }
     e.getFunctionName = d;

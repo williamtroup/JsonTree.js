@@ -78,14 +78,12 @@ export namespace Default {
     }
 
     export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
-        let name: string;
-        let isLambda: boolean = false;
-
         const valueParts: string[] = value.toString().split( "(" );
         const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
         const functionBrackets: string = "()";
 
-        name = `${valueNameParts.join(Char.space)}${functionBrackets}`;
+        let name: string = `${valueNameParts.join(Char.space)}${functionBrackets}`;
+        let isLambda: boolean = false;
 
         if ( name.trim() === functionBrackets ) {
             name = `${configuration.text!.functionText!}${functionBrackets}`;
