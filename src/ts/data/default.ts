@@ -14,11 +14,13 @@
 import {
     type StringToJson,
     type Configuration,
-    type FunctionName } from "../type";
+    type FunctionName, 
+    type BindingOptions } from "../type";
 
 import { Convert } from "./convert";
 import { Char } from "./enum";
 import { Is } from "./is";
+import { Str } from "./str";
 
 
 export namespace Default {
@@ -77,7 +79,7 @@ export namespace Default {
         return result;
     }
 
-    export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
+    export function getFunctionName( value: any, configuration: Configuration, bindingOptions: BindingOptions ) : FunctionName {
         const functionName = value.toString();
         const functionNameWithParameters: string = functionName.substring( 0, functionName.indexOf( ")" ) + 1 );
         let name: string = functionNameWithParameters.trim();
@@ -86,6 +88,12 @@ export namespace Default {
         if ( functionNameWithParameters[ 0 ] === "(" ) {
             name = `${configuration.text!.functionText!}${name}`;
             isLambda = true;
+        }
+
+        if ( !isLambda ) {
+            name = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.functionLength!, configuration.text!.ellipsisText! );
+        } else {
+            name = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.lambdaLength!, configuration.text!.ellipsisText! );
         }
 
         return {

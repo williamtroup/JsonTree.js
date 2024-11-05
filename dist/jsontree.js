@@ -397,6 +397,33 @@ var Convert2;
     Convert.symbolToSpacedOutString = symbolToSpacedOutString;
 })(Convert2 || (Convert2 = {}));
 
+var Str;
+
+(e => {
+    function t(e, t = 1, n = "0") {
+        const o = e.toString();
+        let l = o;
+        if (o.length < t) {
+            const e = t - o.length + 1;
+            l = `${Array(e).join(n)}${o}`;
+        }
+        return l;
+    }
+    e.padNumber = t;
+    function n(e) {
+        return `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
+    }
+    e.capitalizeFirstLetter = n;
+    function o(e, t, n) {
+        let o = e;
+        if (t > 0 && o.length > t) {
+            o = `${o.substring(0, t)}${" "}${n}${" "}`;
+        }
+        return o;
+    }
+    e.getMaximumLengthDisplay = o;
+})(Str || (Str = {}));
+
 var Default;
 
 (e => {
@@ -451,18 +478,23 @@ var Default;
         return n;
     }
     e.getStringOrArray = c;
-    function d(e, t) {
-        const n = e.toString();
-        const o = n.substring(0, n.indexOf(")") + 1);
-        let l = o.trim();
-        let r = false;
-        if (o[0] === "(") {
-            l = `${t.text.functionText}${l}`;
-            r = true;
+    function d(e, t, n) {
+        const o = e.toString();
+        const l = o.substring(0, o.indexOf(")") + 1);
+        let r = l.trim();
+        let i = false;
+        if (l[0] === "(") {
+            r = `${t.text.functionText}${r}`;
+            i = true;
+        }
+        if (!i) {
+            r = Str.getMaximumLengthDisplay(r, n.maximum.functionLength, t.text.ellipsisText);
+        } else {
+            r = Str.getMaximumLengthDisplay(r, n.maximum.lambdaLength, t.text.ellipsisText);
         }
         return {
-            name: l,
-            isLambda: r
+            name: r,
+            isLambda: i
         };
     }
     e.getFunctionName = d;
@@ -619,33 +651,6 @@ var DomElement;
     }
     e.getStyleValueByName = d;
 })(DomElement || (DomElement = {}));
-
-var Str;
-
-(e => {
-    function t(e, t = 1, n = "0") {
-        const o = e.toString();
-        let l = o;
-        if (o.length < t) {
-            const e = t - o.length + 1;
-            l = `${Array(e).join(n)}${o}`;
-        }
-        return l;
-    }
-    e.padNumber = t;
-    function n(e) {
-        return `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
-    }
-    e.capitalizeFirstLetter = n;
-    function o(e, t, n) {
-        let o = e;
-        if (t > 0 && o.length > t) {
-            o = `${o.substring(0, t)}${" "}${n}${" "}`;
-        }
-        return o;
-    }
-    e.getMaximumLengthDisplay = o;
-})(Str || (Str = {}));
 
 var DateTime;
 
@@ -834,6 +839,8 @@ var Binding;
             e.maximum.bigIntLength = Default.getNumber(e.maximum.bigIntLength, 0);
             e.maximum.inspectionLevels = Default.getNumber(e.maximum.inspectionLevels, 10);
             e.maximum.propertyNameLength = Default.getNumber(e.maximum.propertyNameLength, 0);
+            e.maximum.functionLength = Default.getNumber(e.maximum.functionLength, 0);
+            e.maximum.lambdaLength = Default.getNumber(e.maximum.lambdaLength, 0);
             return e.maximum;
         }
         function r(e) {
@@ -2465,7 +2472,7 @@ var ContextMenu;
                 T = true;
             }
         } else if (Is.definedFunction(r)) {
-            const t = Default.getFunctionName(r, e);
+            const t = Default.getFunctionName(r, e, o);
             if (t.isLambda) {
                 y = "lambda";
                 if (!o.ignore.lambdaValues) {

@@ -245,6 +245,8 @@ export type BindingOptionsMaximum = {
 	bigIntLength?: number;
 	inspectionLevels?: number;
 	propertyNameLength?: number;
+	functionLength?: number;
+	lambdaLength?: number;
 };
 
 export type BindingOptionsPaging = {

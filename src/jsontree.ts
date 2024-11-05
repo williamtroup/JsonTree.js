@@ -1523,7 +1523,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
         } else if ( Is.definedFunction( value ) ) {
-            const functionName: FunctionName = Default.getFunctionName( value, _configuration );
+            const functionName: FunctionName = Default.getFunctionName( value, _configuration, bindingOptions );
 
             if ( functionName.isLambda ) {
                 dataType = DataType.lambda;

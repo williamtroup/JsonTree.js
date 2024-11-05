@@ -163,6 +163,8 @@ export namespace Binding {
             options.maximum!.bigIntLength = Default.getNumber( options.maximum!.bigIntLength, 0 );
             options.maximum!.inspectionLevels = Default.getNumber( options.maximum!.inspectionLevels, 10 );
             options.maximum!.propertyNameLength = Default.getNumber( options.maximum!.propertyNameLength, 0 );
+            options.maximum!.functionLength = Default.getNumber( options.maximum!.functionLength, 0 );
+            options.maximum!.lambdaLength = Default.getNumber( options.maximum!.lambdaLength, 0 );
 
             return options.maximum!;
         }
