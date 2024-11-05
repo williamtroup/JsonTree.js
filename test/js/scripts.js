@@ -245,7 +245,10 @@ function getArrayData() {
                 namedFunction: testFunctionName,
                 function: function( message ) {
                     console.log( message );
-                }
+                },
+                functionNoParameters: function() {
+                    console.log( "Function without parameters" );
+                },
             },
             value13: "rgb(144, 238, 144)",
             value14: crypto.randomUUID(),
