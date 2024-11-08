@@ -245,7 +245,7 @@ var Convert2;
                 n = parseFloat(t);
             } else if (Is.definedNumber(e) && !isNaN(+t)) {
                 n = parseInt(t);
-            } else if (Is.definedString(e)) {
+            } else if (Is.definedStringAny(e)) {
                 n = t;
             } else if (Is.definedDate(e)) {
                 n = new Date(t);
@@ -364,7 +364,7 @@ var Convert2;
     Convert.stringToBoolean = stringToBoolean;
     function stringToParsedValue(e, t) {
         let n = null;
-        if (Is.definedString(e)) {
+        if (Is.definedString(e) && e.trim() !== "") {
             const o = parseFloat(e);
             if (t.parse.stringsToBooleans && Is.String.boolean(e)) {
                 n = Convert.stringToBoolean(e);
@@ -383,7 +383,44 @@ var Convert2;
         return n;
     }
     Convert.stringToParsedValue = stringToParsedValue;
+    function symbolToSpacedOutString(e) {
+        let t = e.toString();
+        if (t.indexOf("()") === -1) {
+            t = t.replace("(", `(${" "}`).replace(")", `${" "})`);
+        } else {
+            t = t.replace("()", "");
+        }
+        return t;
+    }
+    Convert.symbolToSpacedOutString = symbolToSpacedOutString;
 })(Convert2 || (Convert2 = {}));
+
+var Str;
+
+(e => {
+    function t(e, t = 1, n = "0") {
+        const o = e.toString();
+        let l = o;
+        if (o.length < t) {
+            const e = t - o.length + 1;
+            l = `${Array(e).join(n)}${o}`;
+        }
+        return l;
+    }
+    e.padNumber = t;
+    function n(e) {
+        return `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
+    }
+    e.capitalizeFirstLetter = n;
+    function o(e, t, n) {
+        let o = e;
+        if (t > 0 && o.length > t) {
+            o = `${o.substring(0, t)}${" "}${n}${" "}`;
+        }
+        return o;
+    }
+    e.getMaximumLengthDisplay = o;
+})(Str || (Str = {}));
 
 var Default;
 
@@ -439,20 +476,23 @@ var Default;
         return n;
     }
     e.getStringOrArray = c;
-    function d(e, t) {
-        let n;
-        let o = false;
-        const l = e.toString().split("(");
-        const r = l[0].split(" ");
-        const i = "()";
-        n = `${r.join(" ")}${i}`;
-        if (n.trim() === i) {
-            n = `${t.text.functionText}${i}`;
-            o = true;
+    function d(e, t, n) {
+        const o = e.toString();
+        const l = o.substring(0, o.indexOf(")") + 1);
+        let r = l.trim();
+        let i = false;
+        if (l[0] === "(") {
+            r = `${t.text.functionText}${r}`;
+            i = true;
+        }
+        if (!i) {
+            r = Str.getMaximumLengthDisplay(r, n.maximum.functionLength, t.text.ellipsisText);
+        } else {
+            r = Str.getMaximumLengthDisplay(r, n.maximum.lambdaLength, t.text.ellipsisText);
         }
         return {
-            name: n,
-            isLambda: o
+            name: r,
+            isLambda: i
         };
     }
     e.getFunctionName = d;
@@ -609,33 +649,6 @@ var DomElement;
     }
     e.getStyleValueByName = d;
 })(DomElement || (DomElement = {}));
-
-var Str;
-
-(e => {
-    function t(e, t = 1, n = "0") {
-        const o = e.toString();
-        let l = o;
-        if (o.length < t) {
-            const e = t - o.length + 1;
-            l = `${Array(e).join(n)}${o}`;
-        }
-        return l;
-    }
-    e.padNumber = t;
-    function n(e) {
-        return `${e.charAt(0).toUpperCase()}${e.slice(1)}`;
-    }
-    e.capitalizeFirstLetter = n;
-    function o(e, t, n) {
-        let o = e;
-        if (t > 0 && o.length > t) {
-            o = `${o.substring(0, t)}${" "}${n}${" "}`;
-        }
-        return o;
-    }
-    e.getMaximumLengthDisplay = o;
-})(Str || (Str = {}));
 
 var DateTime;
 
@@ -797,6 +810,7 @@ var Binding;
             t.rootName = Default.getString(t.rootName, "root");
             t.emptyStringValue = Default.getString(t.emptyStringValue, "");
             t.expandIconType = Default.getString(t.expandIconType, "arrow");
+            t.openUrlsInSameWindow = Default.getBoolean(t.openUrlsInSameWindow, false);
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
@@ -823,6 +837,8 @@ var Binding;
             e.maximum.bigIntLength = Default.getNumber(e.maximum.bigIntLength, 0);
             e.maximum.inspectionLevels = Default.getNumber(e.maximum.inspectionLevels, 10);
             e.maximum.propertyNameLength = Default.getNumber(e.maximum.propertyNameLength, 0);
+            e.maximum.functionLength = Default.getNumber(e.maximum.functionLength, 0);
+            e.maximum.lambdaLength = Default.getNumber(e.maximum.lambdaLength, 0);
             return e.maximum;
         }
         function r(e) {
@@ -1504,6 +1520,7 @@ var ContextMenu;
     }
     function s(t, n, o, l, r, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        const c = o._currentView.currentColumnBuildingIndex;
         if (!Is.defined(t)) {
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1512,7 +1529,7 @@ var ContextMenu;
                 n.onclick = () => M(o);
             }
         } else {
-            s.onscroll = () => d(s, o, o._currentView.currentColumnBuildingIndex);
+            s.onscroll = () => d(s, o, c);
             if (o.paging.enabled && Is.definedNumber(l)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
@@ -1531,13 +1548,13 @@ var ContextMenu;
                 i = DomElement.create(s, "div", "contents-column-lines");
                 e = i;
             }
-            const c = {
+            const p = {
                 column: s,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(c);
+            o._currentView.currentContentColumns.push(p);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
                 q(e, o, t, "array");
@@ -1635,28 +1652,22 @@ var ContextMenu;
         const l = e.scrollLeft;
         const r = t._currentView.currentContentColumns.length;
         if (t.controlPanel.enabled) {
-            const e = t._currentView.currentContentColumns[n].controlButtons;
-            if (Is.defined(e)) {
-                e.style.top = `${t._currentView.currentContentColumns[n].column.scrollTop}px`;
-                e.style.right = `-${t._currentView.currentContentColumns[n].column.scrollLeft}px`;
+            const e = t._currentView.currentContentColumns[n];
+            if (Is.defined(e.controlButtons)) {
+                e.controlButtons.style.top = `${e.column.scrollTop}px`;
+                e.controlButtons.style.right = `-${e.column.scrollLeft}px`;
             }
         }
-        if (t.paging.synchronizeScrolling) {
-            for (let e = 0; e < r; e++) {
-                if (n !== e) {
-                    t._currentView.currentContentColumns[e].column.scrollTop = o;
-                    t._currentView.currentContentColumns[e].column.scrollLeft = l;
+        for (let n = 0; n < r; n++) {
+            const r = t._currentView.currentContentColumns[n];
+            if (r.column !== e) {
+                if (t.paging.synchronizeScrolling) {
+                    r.column.scrollTop = o;
+                    r.column.scrollLeft = l;
                 }
-            }
-        }
-        if (t.controlPanel.enabled) {
-            for (let e = 0; e < r; e++) {
-                if (n !== e) {
-                    const n = t._currentView.currentContentColumns[e].controlButtons;
-                    if (Is.defined(n)) {
-                        n.style.top = `${t._currentView.currentContentColumns[e].column.scrollTop}px`;
-                        n.style.right = `-${t._currentView.currentContentColumns[e].column.scrollLeft}px`;
-                    }
+                if (t.controlPanel.enabled && Is.defined(r.controlButtons)) {
+                    r.controlButtons.style.top = `${r.column.scrollTop}px`;
+                    r.controlButtons.style.right = `-${r.column.scrollLeft}px`;
                 }
             }
         }
@@ -2459,7 +2470,7 @@ var ContextMenu;
                 T = true;
             }
         } else if (Is.definedFunction(r)) {
-            const t = Default.getFunctionName(r, e);
+            const t = Default.getFunctionName(r, e, o);
             if (t.isLambda) {
                 y = "lambda";
                 if (!o.ignore.lambdaValues) {
@@ -2568,7 +2579,13 @@ var ContextMenu;
                 w = o.allowEditing.urlValues && !c;
                 if (o.showUrlOpenButtons) {
                     v = DomElement.createWithHTML(g, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
-                    v.onclick = () => window.open(r);
+                    v.onclick = () => {
+                        if (o.openUrlsInSameWindow) {
+                            window.location = r;
+                        } else {
+                            window.open(r);
+                        }
+                    };
                 }
                 te(o, t, l, r, x, a, w, v);
                 Trigger.customEvent(o.events.onUrlRender, o._currentView.element, x);
@@ -2642,7 +2659,7 @@ var ContextMenu;
             y = "symbol";
             if (!o.ignore.symbolValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, r.toString());
+                x = DomElement.createWithHTML(g, "span", p, Convert2.symbolToSpacedOutString(r));
                 w = o.allowEditing.symbolValues && !c;
                 te(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, x);
@@ -3435,7 +3452,10 @@ var ContextMenu;
     function Ve(e, l) {
         o = Be(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Be(e) && e.code === "F11") {
+            if (Be(e) && e.code === "KeyC") {
+                e.preventDefault();
+                v(l, l.data);
+            } else if (Be(e) && e.code === "F11") {
                 e.preventDefault();
                 V(l);
             } else if (e.code === "ArrowLeft") {
@@ -3652,7 +3672,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.4.0";
+            return "4.5.0";
         }
     };
     (() => {

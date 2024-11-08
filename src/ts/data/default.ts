@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        default.ts
- * @version     v4.4.0
+ * @version     v4.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -14,11 +14,13 @@
 import {
     type StringToJson,
     type Configuration,
-    type FunctionName } from "../type";
+    type FunctionName, 
+    type BindingOptions } from "../type";
 
 import { Convert } from "./convert";
 import { Char } from "./enum";
 import { Is } from "./is";
+import { Str } from "./str";
 
 
 export namespace Default {
@@ -77,19 +79,21 @@ export namespace Default {
         return result;
     }
 
-    export function getFunctionName( value: any, configuration: Configuration ) : FunctionName {
-        let name: string;
+    export function getFunctionName( value: any, configuration: Configuration, bindingOptions: BindingOptions ) : FunctionName {
+        const functionName = value.toString();
+        const functionNameWithParameters: string = functionName.substring( 0, functionName.indexOf( ")" ) + 1 );
+        let name: string = functionNameWithParameters.trim();
         let isLambda: boolean = false;
 
-        const valueParts: string[] = value.toString().split( "(" );
-        const valueNameParts: string[] = valueParts[ 0 ].split( Char.space );
-        const functionBrackets: string = "()";
-
-        name = `${valueNameParts.join(Char.space)}${functionBrackets}`;
-
-        if ( name.trim() === functionBrackets ) {
-            name = `${configuration.text!.functionText!}${functionBrackets}`;
+        if ( functionNameWithParameters[ 0 ] === "(" ) {
+            name = `${configuration.text!.functionText!}${name}`;
             isLambda = true;
+        }
+
+        if ( !isLambda ) {
+            name = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.functionLength!, configuration.text!.ellipsisText! );
+        } else {
+            name = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.lambdaLength!, configuration.text!.ellipsisText! );
         }
 
         return {

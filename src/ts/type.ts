@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.4.0
+ * @version     v4.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -183,6 +183,7 @@ export type BindingOptions = {
 	rootName?: string;
 	emptyStringValue?: string;
 	expandIconType?: string;
+	openUrlsInSameWindow?: boolean;
 	lineNumbers?: BindingOptionsLineNumbers;
 	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;
@@ -244,6 +245,8 @@ export type BindingOptionsMaximum = {
 	bigIntLength?: number;
 	inspectionLevels?: number;
 	propertyNameLength?: number;
+	functionLength?: number;
+	lambdaLength?: number;
 };
 
 export type BindingOptionsPaging = {

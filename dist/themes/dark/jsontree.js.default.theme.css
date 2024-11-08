@@ -20,11 +20,14 @@
     --json-tree-js-color-undefined: var(--json-tree-js-color-null);
     --json-tree-js-color-symbol: #DAA06D;
     --json-tree-js-color-function: var(--json-tree-js-color-null);
+    --json-tree-js-color-lambda: var(--json-tree-js-color-function);
     --json-tree-js-color-unknown: var(--json-tree-js-color-null);
     --json-tree-js-color-guid: #c45600;
     --json-tree-js-color-regexp: #AA336A;
     --json-tree-js-color-url: #00FFFF;
+    --json-tree-js-color-email: #FA8072;
     --json-tree-js-color-link: #89CFF0;
+    --json-tree-js-color-html: #FF00FF;
     
     /* ToolTip */
     --json-tree-js-tooltip-background-color: var(--json-tree-js-container-background-color);

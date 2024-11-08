@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.4.0
+ * JsonTree.js Library v4.5.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -224,6 +224,7 @@ div.json-tree-js div.closed-square {
   display: inline-block;
   width: 10px;
   height: 10px;
+  margin-left: 1px;
   margin-right: calc(var(--json-tree-js-spacing));
   border-radius: var(--json-tree-js-border-radius-toggle);
 }
@@ -255,6 +256,7 @@ div.json-tree-js div.closed-circle {
   display: inline-block;
   width: 10px;
   height: 10px;
+  margin-left: 1px;
   margin-right: calc(var(--json-tree-js-spacing));
   border-radius: 50%;
 }
@@ -286,6 +288,7 @@ div.json-tree-js div.closed-plus-minus {
   display: inline-block;
   width: 10px;
   height: 10px;
+  margin-left: 1px;
   margin-right: calc(var(--json-tree-js-spacing));
 }
 div.json-tree-js div.opened-plus-minus,
@@ -978,7 +981,7 @@ div.json-tree-js div.object-type-contents img {
 }
 div.json-tree-js div.object-border {
   border-left: var(--json-tree-js-border-size) dotted var(--json-tree-js-container-object-left-border-color);
-  margin-left: 5px;
+  margin-left: 5.5px;
 }
 div.json-tree-js div.object-border-no-toggles {
   margin-left: var(--json-tree-js-border-size);

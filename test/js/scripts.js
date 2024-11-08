@@ -99,6 +99,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
         rootName: "root",
         emptyStringValue: "",
         expandIconType: "arrow",
+        openUrlsInSameWindow: false,
         valueToolTips: allowValueToolTips ? {
             "value1": "This is a boolean tooltip for Value 1",
             "value5\\1": "This is a string tooltip for Value 5 > Array Index 1",
@@ -115,6 +116,8 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             bigIntLength: 0,
             inspectionLevels: 10,
             propertyNameLength: 0,
+            functionLength: 0,
+            lambdaLength: 0,
         },
         parse: {
             stringsToDates: true,
@@ -244,7 +247,10 @@ function getArrayData() {
                 namedFunction: testFunctionName,
                 function: function( message ) {
                     console.log( message );
-                }
+                },
+                functionNoParameters: function() {
+                    console.log( "Function without parameters" );
+                },
             },
             value13: "rgb(144, 238, 144)",
             value14: crypto.randomUUID(),
@@ -291,6 +297,7 @@ function getArrayData() {
                 array: [],
                 html: document.createElement( "div" ),
                 string: "",
+                blankString: "   ",
                 symbol: Symbol(),
                 invalidDate: new Date( "" ),
             },

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.4.0
+ * @version     v4.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -208,6 +208,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
+        const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
         
         if ( !Is.defined( data ) ) {
             const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
@@ -219,7 +220,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
         } else {
             
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, bindingOptions._currentView.currentColumnBuildingIndex );
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
@@ -379,32 +380,26 @@ type JsonTreeData = Record<string, BindingOptions>;
         const columnsLength: number = bindingOptions._currentView.currentContentColumns.length;
 
         if ( bindingOptions.controlPanel!.enabled ) {
-            const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ dataIndex ].controlButtons;
+            const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ dataIndex ];
 
-            if ( Is.defined( controlButtons ) ) {
-                controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollTop}px`;
-                controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ dataIndex ].column.scrollLeft}px`;
+            if ( Is.defined( columnLayout.controlButtons ) ) {
+                columnLayout.controlButtons.style.top = `${columnLayout.column.scrollTop}px`;
+                columnLayout.controlButtons.style.right = `-${columnLayout.column.scrollLeft}px`;
             }
         }
 
-        if ( bindingOptions.paging!.synchronizeScrolling ) {
-            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                if ( dataIndex !== columnIndex ) {
-                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop = scrollTop;
-                    bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft = scrollLeft;
+        for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
+            const columnLayout: ColumnLayout = bindingOptions._currentView.currentContentColumns[ columnIndex ];
+
+            if ( columnLayout.column !== column ) {
+                if ( bindingOptions.paging!.synchronizeScrolling ) {
+                    columnLayout.column.scrollTop = scrollTop;
+                    columnLayout.column.scrollLeft = scrollLeft;
                 }
-            }
-        }
 
-        if ( bindingOptions.controlPanel!.enabled ) {
-            for ( let columnIndex: number = 0; columnIndex < columnsLength; columnIndex++ ) {
-                if ( dataIndex !== columnIndex ) {
-                    const controlButtons: HTMLElement = bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons;
-                    
-                    if ( Is.defined( controlButtons ) ) {
-                        controlButtons.style.top = `${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollTop}px`;
-                        controlButtons.style.right = `-${bindingOptions._currentView.currentContentColumns[ columnIndex ].column.scrollLeft}px`;
-                    }
+                if ( bindingOptions.controlPanel!.enabled && Is.defined( columnLayout.controlButtons ) ) {
+                    columnLayout.controlButtons.style.top = `${columnLayout.column.scrollTop}px`;
+                    columnLayout.controlButtons.style.right = `-${columnLayout.column.scrollLeft}px`;
                 }
             }
         }
@@ -1528,7 +1523,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
         } else if ( Is.definedFunction( value ) ) {
-            const functionName: FunctionName = Default.getFunctionName( value, _configuration );
+            const functionName: FunctionName = Default.getFunctionName( value, _configuration, bindingOptions );
 
             if ( functionName.isLambda ) {
                 dataType = DataType.lambda;
@@ -1677,7 +1672,13 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 if ( bindingOptions.showUrlOpenButtons ) {
                     openButton = DomElement.createWithHTML( objectTypeValueTitle, "span", bindingOptions.showValueColors ? "open-button-color" : "open-button", `${_configuration.text!.openText}${Char.space}${_configuration.text!.openSymbolText}` );
-                    openButton.onclick = () => window.open( value );
+                    openButton.onclick = () => {
+                        if ( bindingOptions.openUrlsInSameWindow ) {
+                            window.location = value;
+                        } else {
+                            window.open( value )
+                        }
+                    };
                 }
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing, openButton );
@@ -1776,7 +1777,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.symbolValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value.toString() );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, Convert.symbolToSpacedOutString( value ) );
                 allowEditing = bindingOptions.allowEditing!.symbolValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -2864,7 +2865,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         _key_Control_Pressed = isCommandKey( ev );
 
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
-            if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
+            if ( isCommandKey( ev ) && ev.code === KeyCode.C ) {
+                ev.preventDefault();
+                onTitleBarCopyAllClick( bindingOptions, bindingOptions.data );
+            
+            } else if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
                 ev.preventDefault();
                 onTitleBarDblClick( bindingOptions );
 
@@ -3210,7 +3215,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.4.0";
+            return "4.5.0";
         }
     };
 

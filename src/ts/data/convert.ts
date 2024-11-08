@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        convert.ts
- * @version     v4.4.0
+ * @version     v4.5.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -17,7 +17,7 @@ import {
     type BindingOptions } from "../type";
     
 import { Default } from "./default";
-import { Char } from "./enum";
+import { Char, Value } from "./enum";
 import { Is } from "./is";
 
 
@@ -119,7 +119,7 @@ export namespace Convert {
             } else if ( Is.definedNumber( oldValue ) && !isNaN( +newValue ) ) {
                 result = parseInt( newValue );
     
-            } else if ( Is.definedString( oldValue ) ) {
+            } else if ( Is.definedStringAny( oldValue ) ) {
                 result = newValue;
     
             } else if ( Is.definedDate( oldValue ) ) {
@@ -267,7 +267,7 @@ export namespace Convert {
     export function stringToParsedValue( value: any, bindingOptions: BindingOptions ) : any {
         let parsedValue: any = null;
 
-        if ( Is.definedString( value ) ) {
+        if ( Is.definedString( value ) && value.trim() !== Char.empty ) {
             const floatValue: number = parseFloat( value );
 
             if ( bindingOptions.parse!.stringsToBooleans && Is.String.boolean( value ) ) {
@@ -291,5 +291,17 @@ export namespace Convert {
         }
 
         return parsedValue;
+    }
+
+    export function symbolToSpacedOutString( value: Symbol ) : string {
+        let result: string = value.toString();
+
+        if ( result.indexOf( "()" ) === Value.notFound ) {
+            result = result.replace( "(", `(${Char.space}` ).replace( ")", `${Char.space})` );
+        } else {
+            result = result.replace( "()", Char.empty );
+        }
+
+        return result;
     }
 }
