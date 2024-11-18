@@ -213,7 +213,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             enabled: true,
             showCopyButton: true,
             showMovingButtons: true,
-            showRemoveButton: true,
+            showRemoveButton: false,
             showEditButton: true,
             showCloseOpenAllButtons: true,
             showSwitchToPagesButton: true,
