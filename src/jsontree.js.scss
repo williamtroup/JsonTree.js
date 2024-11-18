@@ -1,12 +1,12 @@
 /*
- * JsonTree.js Library v4.5.0
+ * JsonTree.js Library v4.6.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
  */
  
 
-@import "sass/styles";
+@use "sass/styles";
 
 :root {
     // Fonts
@@ -146,8 +146,8 @@
 */
 
 div.json-tree-js {
-    @include no-selection-allowed;
-    @include box-sizing;
+    @include styles.no-selection-allowed;
+    @include styles.box-sizing;
     font-family: var(--json-tree-js-default-font) !important;
     display: inline-block;
     position: relative;
@@ -179,11 +179,11 @@ div.json-tree-js {
     }
 
     * {
-        @include box-sizing;
+        @include styles.box-sizing;
 
         &::before,
         &::after {
-            @include box-sizing;
+            @include styles.box-sizing;
         }
     }
 }
@@ -420,10 +420,10 @@ div.json-tree-js {
         justify-content: left;
         align-items: center;
 
-        @include buttons;
+        @include styles.buttons;
 
         button {
-            @include symbol-buttons;
+            @include styles.symbol-buttons;
         }
 
         button.side-menu {
@@ -452,7 +452,7 @@ div.json-tree-js {
             button.copy-all {
                 display: none;
         
-                @media (min-width: $minimum-width) { 
+                @media (min-width: styles.$minimum-width) { 
                     display: inline-block;
                 }
             }
@@ -569,12 +569,12 @@ div.json-tree-js {
                 text-align: right;
                 white-space: nowrap;
 
-                @include buttons;
+                @include styles.buttons;
     
                 button {
                     margin-left: var(--json-tree-js-spacing-title-bar) !important;
                     
-                    @include symbol-buttons;
+                    @include styles.symbol-buttons;
                 }
             }
         }
@@ -636,7 +636,7 @@ div.json-tree-js {
                     margin-left: var(--json-tree-js-spacing);
                     text-align: left;
 
-                    @include type-span-colors;
+                    @include styles.type-span-colors;
 
                     div.checkbox:last-child {
                         margin-bottom: 0;
@@ -725,19 +725,38 @@ div.json-tree-js {
                 border-bottom-left-radius: var(--json-tree-js-border-radius);
                 border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
                 border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
-                padding: var(--json-tree-js-spacing-title-bar);
                 z-index: 50;
+                overflow: hidden;
 
-                @include buttons;
+                @include styles.buttons;
 
                 button {
-                    margin-bottom: var(--json-tree-js-spacing-title-bar);
+                    margin: var(--json-tree-js-spacing-title-bar);
+                    margin-top: 0;
 
-                    @include symbol-buttons;
+                    @include styles.symbol-buttons;
 
-                    &:last-child {
-                        margin-bottom: 0;
+                    &:first-child {
+                        margin-top: var(--json-tree-js-spacing-title-bar);
                     }
+                }
+
+                button.expander,
+                button.expander-closed {
+                    margin-top: var(--json-tree-js-spacing-title-bar);
+                    margin: 0;
+                    width: calc( styles.$minimum-button-size + ( var(--json-tree-js-spacing-title-bar) * 2 ) + ( var(--json-tree-js-border-size) * 4 ) );
+                    border: none;
+                    border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+                    border-radius: 0;
+                    padding-top: 3px;
+                    padding-bottom: 3px;
+                    min-height: 0 !important;
+                    font-size: smaller;
+                }
+
+                button.expander-closed {
+                    border-top: none;
                 }
             }
 
@@ -770,7 +789,7 @@ div.json-tree-js {
             }
         }
 
-        @include type-span-colors;
+        @include styles.type-span-colors;
 
         span.size {
             margin-left: calc( var(--json-tree-js-spacing) / 2 );
@@ -1123,7 +1142,7 @@ div.json-tree-js {
         margin-bottom: calc( var(--json-tree-js-spacing) / 3 );
 
         label.checkbox {
-            @include no-selection-allowed;
+            @include styles.no-selection-allowed;
             display: inline-block;
             position: relative;
             padding-left: 20px;
@@ -1197,8 +1216,8 @@ div.json-tree-js {
 */
 
 div.jsontree-js-context-menu {
-    @include no-selection-allowed;
-    @include box-sizing;
+    @include styles.no-selection-allowed;
+    @include styles.box-sizing;
     font-family: var(--json-tree-js-default-font);
     animation: fade-in-animation var(--json-tree-js-animation-length);
     position: absolute;
@@ -1255,8 +1274,8 @@ div.jsontree-js-context-menu {
 
 div.jsontree-js-tooltip,
 div.jsontree-js-tooltip-value {
-    @include no-selection-allowed;
-    @include box-sizing;
+    @include styles.no-selection-allowed;
+    @include styles.box-sizing;
     font-family: var(--json-tree-js-default-font);
     animation: fade-in-animation var(--json-tree-js-animation-length);
     position: absolute;

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v4.5.0
+ * @version     v4.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -27,7 +27,8 @@ import {
     type BindingOptionsFooter, 
     type BindingOptionsControlPanel, 
     type BindingOptionsLineNumbers, 
-    type BindingOptionsMaximum } from "../type";
+    type BindingOptionsMaximum, 
+    type ControlButtonsOpenStateArrayIndex } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -47,6 +48,7 @@ export namespace Binding {
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
             bindingOptions._currentView.idSet = false;
+            bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.contentPanelsDataIndex = 0;
@@ -215,6 +217,7 @@ export namespace Binding {
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
             options.controlPanel!.showImportButton = Default.getBoolean( options.controlPanel!.showImportButton, true );
             options.controlPanel!.showExportButton = Default.getBoolean( options.controlPanel!.showExportButton, true );
+            options.controlPanel!.showOpenCloseButton = Default.getBoolean( options.controlPanel!.showOpenCloseButton, true );
 
             return options.controlPanel!;
         }

@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        dom.ts
- * @version     v4.5.0
+ * @version     v4.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024

@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.5.0
+ * JsonTree.js Library v4.6.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -719,8 +719,8 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
   border-bottom-left-radius: var(--json-tree-js-border-radius);
   border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
-  padding: var(--json-tree-js-spacing-title-bar);
   z-index: 50;
+  overflow: hidden;
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
@@ -752,15 +752,35 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button {
-  margin-bottom: var(--json-tree-js-spacing-title-bar);
+  margin: var(--json-tree-js-spacing-title-bar);
+  margin-top: 0;
   font-weight: var(--json-tree-js-bold-weight-heavy);
   min-width: 30px;
   min-height: 30px;
   text-align: center;
 }
-div.json-tree-js div.contents div.contents-column div.column-control-buttons button:last-child,
-div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:last-child {
-  margin-bottom: 0;
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button:first-child,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:first-child {
+  margin-top: var(--json-tree-js-spacing-title-bar);
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button.expander,
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button.expander-closed,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander-closed {
+  margin-top: var(--json-tree-js-spacing-title-bar);
+  margin: 0;
+  width: calc(30px + var(--json-tree-js-spacing-title-bar) * 2 + var(--json-tree-js-border-size) * 4);
+  border: none;
+  border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+  border-radius: 0;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  min-height: 0 !important;
+  font-size: smaller;
+}
+div.json-tree-js div.contents div.contents-column div.column-control-buttons button.expander-closed,
+div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander-closed {
+  border-top: none;
 }
 div.json-tree-js div.contents div.contents-column:last-child,
 div.json-tree-js div.contents div.contents-column-multiple:last-child {

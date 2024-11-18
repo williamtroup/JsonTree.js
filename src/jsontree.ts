@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.5.0
+ * @version     v4.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -20,7 +20,8 @@ import {
     type FunctionName, 
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
-    type CustomDataType } from "./ts/type";
+    type CustomDataType, 
+    type ControlButtonsOpenStateArrayIndex } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { ImportedFilename } from "./ts/type";  
@@ -215,7 +216,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( noJson, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
 
             if ( bindingOptions.sideMenu!.showImportButton ) {
-                const importText: HTMLSpanElement = DomElement.createWithHTML( noJson, "span", "no-json-import-text", `${_configuration.text!.importButtonText!}${_configuration.text!.ellipsisText!}` ) as HTMLSpanElement;
+                const importText: HTMLSpanElement = DomElement.createWithHTML( noJson, "span", "no-json-import-text", `${_configuration.text!.importButtonText!}${Char.space}${_configuration.text!.ellipsisText!}` ) as HTMLSpanElement;
                 importText.onclick = () => onSideMenuImportClick( bindingOptions );
             }
         } else {
@@ -338,6 +339,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                             if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
                                 bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
                             }
+
+                            updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions, dataIndex );
                         }
                         
                     } else {
@@ -430,6 +433,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             const dataArray2: any = bindingOptions.data[ oldIndex ];
             let dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ newIndex ];
             let dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ oldIndex ];
+            let dataControlButtonOpen1: boolean = bindingOptions._currentView.controlButtonsOpen[ newIndex ];
+            let dataControlButtonOpen2: boolean = bindingOptions._currentView.controlButtonsOpen[ oldIndex ];
 
             if ( !Is.defined( dataPanelsOpen1 ) ) {
                 dataPanelsOpen1 = {} as ContentPanels;
@@ -444,6 +449,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
             bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
+
+            bindingOptions._currentView.controlButtonsOpen[ newIndex ] = dataControlButtonOpen2;
+            bindingOptions._currentView.controlButtonsOpen[ oldIndex ] = dataControlButtonOpen1;
 
             if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
                 bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
@@ -533,7 +541,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             const isPagingEnabled: boolean = bindingOptions.paging!.enabled! && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1;
     
             if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showEditButton ) {
-                const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
+                const editButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button edit", _configuration.text!.editSymbolButtonText! ) as HTMLButtonElement;
                 editButton.onclick = () => enableContentsColumnEditMode( null!, bindingOptions, data, contentsColumn, dataIndex );;
                 editButton.ondblclick = DomElement.cancelBubble;
         
@@ -541,7 +549,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.paging!.allowColumnReordering && bindingOptions.controlPanel!.showMovingButtons ) {
-                const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
+                const moveRightButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button move-right", _configuration.text!.moveRightSymbolButtonText! ) as HTMLButtonElement;
                 moveRightButton.ondblclick = DomElement.cancelBubble;
     
                 if ( ( dataIndex + 1 ) > bindingOptions.data.length - 1 ) {
@@ -552,7 +560,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         
                 ToolTip.add( moveRightButton, bindingOptions, _configuration.text!.moveRightButtonText! );
         
-                const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
+                const moveLeftButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button move-left", _configuration.text!.moveLeftSymbolButtonText! ) as HTMLButtonElement;
                 moveLeftButton.ondblclick = DomElement.cancelBubble;
     
                 if ( ( dataIndex - 1 ) < 0 ) {
@@ -565,7 +573,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( isPagingEnabled && bindingOptions.controlPanel!.showCopyButton ) {
-                const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
+                const copyButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button copy", _configuration.text!.copyButtonSymbolText! ) as HTMLButtonElement;
                 copyButton.onclick = () => onCopy( bindingOptions, data );
                 copyButton.ondblclick = DomElement.cancelBubble;
             
@@ -573,13 +581,13 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( isPagingEnabled && bindingOptions.controlPanel!.showCloseOpenAllButtons ) {
-                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
+                const openAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button open-all", _configuration.text!.openAllButtonSymbolText! ) as HTMLButtonElement;
                 openAllButton.onclick = () => onOpenAllForPage( bindingOptions, dataIndex );
                 openAllButton.ondblclick = DomElement.cancelBubble;
     
                 ToolTip.add( openAllButton, bindingOptions, _configuration.text!.openAllButtonText! );
     
-                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
+                const closeAllButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button close-all", _configuration.text!.closeAllButtonSymbolText! ) as HTMLButtonElement;
                 closeAllButton.onclick = () => onCloseAllForPage( bindingOptions, dataIndex );
                 closeAllButton.ondblclick = DomElement.cancelBubble;
     
@@ -587,21 +595,21 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( isPagingEnabled && bindingOptions.controlPanel!.showExportButton ) {
-                const exportButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
+                const exportButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button export", _configuration.text!.exportButtonSymbolText! ) as HTMLButtonElement;
                 exportButton.onclick = () => onExport( bindingOptions, data );
     
                 ToolTip.add( exportButton, bindingOptions, _configuration.text!.exportButtonText! );
             }
     
             if ( isPagingEnabled && bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showImportButton ) {
-                const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
+                const importButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button import", _configuration.text!.importButtonSymbolText! ) as HTMLButtonElement;
                 importButton.onclick = () => onSideMenuImportClick( bindingOptions, dataIndex + 1 );
     
                 ToolTip.add( importButton, bindingOptions, _configuration.text!.importButtonText! );
             }
     
             if ( bindingOptions.allowEditing!.bulk && bindingOptions.controlPanel!.showRemoveButton ) {
-                const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
+                const removeButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button remove", _configuration.text!.removeSymbolButtonText! ) as HTMLButtonElement;
                 removeButton.onclick = () => onRemoveArrayJson( bindingOptions, dataIndex );
                 removeButton.ondblclick = DomElement.cancelBubble;
         
@@ -609,7 +617,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( !isPagingEnabled && Is.definedArray( bindingOptions.data ) && bindingOptions.data.length > 1 && bindingOptions.controlPanel!.showSwitchToPagesButton ) {
-                const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
+                const switchToPagesButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "control-button switch-to-pages", _configuration.text!.switchToPagesSymbolText! ) as HTMLButtonElement;
                 switchToPagesButton.onclick = () => onSwitchToPages( bindingOptions );
                 switchToPagesButton.ondblclick = DomElement.cancelBubble;
     
@@ -617,6 +625,18 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( controlButtons.innerHTML !== Char.empty ) {
+                if ( bindingOptions.controlPanel!.showOpenCloseButton ) {
+                    if ( !bindingOptions._currentView.controlButtonsOpen.hasOwnProperty( dataIndex ) ) {
+                        bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = true;
+                    }
+    
+                    const expanderButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "expander", _configuration.text!.openCloseSymbolText! ) as HTMLButtonElement;
+                    expanderButton.onclick = () => onExpandControlButtons( bindingOptions, expanderButton, controlButtons, dataIndex );
+                    expanderButton.ondblclick = DomElement.cancelBubble;
+    
+                    updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
+                }
+
                 const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
     
                 bindingOptions._currentView.currentContentColumns[ columnIndex ].controlButtons = controlButtons;
@@ -627,6 +647,25 @@ type JsonTreeData = Record<string, BindingOptions>;
                 contentsColumn.removeChild( controlButtons );
             }
         }
+    }
+
+    function onExpandControlButtons( bindingOptions: BindingOptions, expanderButton: HTMLButtonElement, controlButtons: HTMLElement, dataIndex: number ) : void {
+        bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = !bindingOptions._currentView.controlButtonsOpen[ dataIndex ];
+
+        updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
+    }
+
+    function updateControlButtonsVisibleState( expanderButton: HTMLButtonElement, controlButtons: HTMLElement, state: boolean ) : void {
+        const buttons: NodeListOf<Element> = controlButtons.querySelectorAll( ".control-button" );
+        const buttonsLength: number = buttons.length;
+
+        for ( let buttonIndex: number = 0; buttonIndex < buttonsLength; buttonIndex++ ) {
+            const button: HTMLButtonElement = buttons[ buttonIndex ] as HTMLButtonElement;
+
+            button.style.display = state ? "block" : "none";
+        }
+
+        expanderButton.className = state ? "expander" : "expander-closed";
     }
 
     function onSwitchToPages( bindingOptions: BindingOptions ) : void {
@@ -671,6 +710,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions.data = null;
         }
 
+        updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions, dataIndex );
         renderControlContainer( bindingOptions );
         setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
     }
@@ -682,6 +722,37 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
         Trigger.customEvent( bindingOptions.events!.onCopy!, bindingOptions._currentView.element, copyDataJson );
+    }
+
+    function updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions: BindingOptions, dataIndex: number ) : void {
+        const newContentPanelsOpen = {} as ContentPanelsForArrayIndex;
+        const newControlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
+
+        delete bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
+        delete bindingOptions._currentView.controlButtonsOpen[ dataIndex ];
+
+        for ( const dataArrayIndex in bindingOptions._currentView.contentPanelsOpen ) {
+            let newDataArrayIndex: number = +dataArrayIndex;
+
+            if ( newDataArrayIndex > dataIndex ) {
+                newDataArrayIndex--;
+            }
+
+            newContentPanelsOpen[ newDataArrayIndex ] = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ];
+        }
+
+        for ( const dataArrayIndex in bindingOptions._currentView.controlButtonsOpen ) {
+            let newDataArrayIndex: number = +dataArrayIndex;
+
+            if ( newDataArrayIndex > dataIndex ) {
+                newDataArrayIndex--;
+            }
+
+            newControlButtonsOpen[ newDataArrayIndex ] = bindingOptions._currentView.controlButtonsOpen[ dataArrayIndex ];
+        }
+
+        bindingOptions._currentView.contentPanelsOpen = newContentPanelsOpen;
+        bindingOptions._currentView.controlButtonsOpen = newControlButtonsOpen;
     }
 
     
@@ -2770,6 +2841,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, any>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
         bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+        bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
 
         const keys: string[] = Object.keys( filesData ) as Array<string>;
         keys.sort();
@@ -3075,6 +3147,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                 bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+                bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
                 bindingOptions.data = jsonObject;
 
                 renderControlContainer( bindingOptions );
@@ -3215,7 +3288,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.5.0";
+            return "4.6.0";
         }
     };
 

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.5.0 - Galician | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.6.0 - Galician | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [

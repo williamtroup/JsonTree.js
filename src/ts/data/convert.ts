@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        convert.ts
- * @version     v4.5.0
+ * @version     v4.6.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -45,7 +45,7 @@ export namespace Convert {
             result = object.toString();
 
         } else if ( Is.definedFunction( object ) ) {
-            result = Default.getFunctionName( object, configuration ).name;
+            result = Default.getFunctionName( object, configuration, bindingOptions ).name;
 
         } else if ( Is.definedRegExp( object ) ) {
             result = object.source;
