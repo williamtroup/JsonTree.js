@@ -623,15 +623,17 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( controlButtons.innerHTML !== Char.empty ) {
-                if ( !bindingOptions._currentView.controlButtonsOpen.hasOwnProperty( dataIndex ) ) {
-                    bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = true;
+                if ( bindingOptions.controlPanel!.showOpenCloseButton ) {
+                    if ( !bindingOptions._currentView.controlButtonsOpen.hasOwnProperty( dataIndex ) ) {
+                        bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = true;
+                    }
+    
+                    const expanderButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "expander", _configuration.text!.openCloseSymbolText! ) as HTMLButtonElement;
+                    expanderButton.onclick = () => onExpandControlButtons( bindingOptions, expanderButton, controlButtons, dataIndex );
+                    expanderButton.ondblclick = DomElement.cancelBubble;
+    
+                    updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
                 }
-
-                const expanderButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "expander", _configuration.text!.openCloseSymbolText! ) as HTMLButtonElement;
-                expanderButton.onclick = () => onExpandControlButtons( bindingOptions, expanderButton, controlButtons, dataIndex );
-                expanderButton.ondblclick = DomElement.cancelBubble;
-
-                updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
 
                 const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
     

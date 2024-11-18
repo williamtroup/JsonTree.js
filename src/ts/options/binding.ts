@@ -217,6 +217,7 @@ export namespace Binding {
             options.controlPanel!.showSwitchToPagesButton = Default.getBoolean( options.controlPanel!.showSwitchToPagesButton, true );
             options.controlPanel!.showImportButton = Default.getBoolean( options.controlPanel!.showImportButton, true );
             options.controlPanel!.showExportButton = Default.getBoolean( options.controlPanel!.showExportButton, true );
+            options.controlPanel!.showOpenCloseButton = Default.getBoolean( options.controlPanel!.showOpenCloseButton, true );
 
             return options.controlPanel!;
         }

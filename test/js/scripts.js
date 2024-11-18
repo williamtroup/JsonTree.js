@@ -219,6 +219,7 @@ function bindingOptions( showValueColors = true, allowValueToolTips = true, show
             showSwitchToPagesButton: true,
             showImportButton: true,
             showExportButton: true,
+            showOpenCloseButton: true,
         },
         lineNumbers: {
             enabled: true,

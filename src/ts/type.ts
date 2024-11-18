@@ -297,6 +297,7 @@ export type BindingOptionsControlPanel = {
 	showSwitchToPagesButton?: boolean;
 	showImportButton?: boolean;
 	showExportButton?: boolean;
+	showOpenCloseButton?: boolean;
 };
 
 export type BindingOptionsLineNumbers = {

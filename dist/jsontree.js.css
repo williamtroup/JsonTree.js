@@ -763,14 +763,11 @@ div.json-tree-js div.contents div.contents-column div.column-control-buttons but
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:first-child {
   margin-top: var(--json-tree-js-spacing-title-bar);
 }
-div.json-tree-js div.contents div.contents-column div.column-control-buttons button:last-child,
-div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button:last-child {
-  margin-bottom: 0;
-}
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button.expander,
 div.json-tree-js div.contents div.contents-column div.column-control-buttons button.expander-closed,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander,
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander-closed {
+  margin-top: var(--json-tree-js-spacing-title-bar);
   margin: 0;
   width: 46px;
   border: none;

@@ -884,6 +884,7 @@ var Binding;
             e.controlPanel.showSwitchToPagesButton = Default.getBoolean(e.controlPanel.showSwitchToPagesButton, true);
             e.controlPanel.showImportButton = Default.getBoolean(e.controlPanel.showImportButton, true);
             e.controlPanel.showExportButton = Default.getBoolean(e.controlPanel.showExportButton, true);
+            e.controlPanel.showOpenCloseButton = Default.getBoolean(e.controlPanel.showOpenCloseButton, true);
             return e.controlPanel;
         }
         function u(e) {
@@ -1826,17 +1827,19 @@ var ContextMenu;
                 ToolTip.add(n, t, e.text.switchToPagesText);
             }
             if (i.innerHTML !== "") {
-                if (!t._currentView.controlButtonsOpen.hasOwnProperty(l)) {
-                    t._currentView.controlButtonsOpen[l] = true;
+                if (t.controlPanel.showOpenCloseButton) {
+                    if (!t._currentView.controlButtonsOpen.hasOwnProperty(l)) {
+                        t._currentView.controlButtonsOpen[l] = true;
+                    }
+                    const n = DomElement.createWithHTML(i, "button", "expander", e.text.openCloseSymbolText);
+                    n.onclick = () => b(t, n, i, l);
+                    n.ondblclick = DomElement.cancelBubble;
+                    y(n, i, t._currentView.controlButtonsOpen[l]);
                 }
-                const o = DomElement.createWithHTML(i, "button", "expander", e.text.openCloseSymbolText);
-                o.onclick = () => b(t, o, i, l);
-                o.ondblclick = DomElement.cancelBubble;
-                y(o, i, t._currentView.controlButtonsOpen[l]);
-                const a = DomElement.getStyleValueByName(n, "padding-left", true);
+                const o = DomElement.getStyleValueByName(n, "padding-left", true);
                 t._currentView.currentContentColumns[r].controlButtons = i;
                 n.style.minHeight = `${i.offsetHeight}px`;
-                n.style.paddingRight = `${i.offsetWidth + a}px`;
+                n.style.paddingRight = `${i.offsetWidth + o}px`;
             } else {
                 n.removeChild(i);
             }

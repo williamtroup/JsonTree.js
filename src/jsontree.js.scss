@@ -739,14 +739,11 @@ div.json-tree-js {
                     &:first-child {
                         margin-top: var(--json-tree-js-spacing-title-bar);
                     }
-
-                    &:last-child {
-                        margin-bottom: 0;
-                    }
                 }
 
                 button.expander,
                 button.expander-closed {
+                    margin-top: var(--json-tree-js-spacing-title-bar);
                     margin: 0;
                     width: 46px;
                     border: none;
