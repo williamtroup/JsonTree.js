@@ -769,7 +769,7 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander-closed {
   margin-top: var(--json-tree-js-spacing-title-bar);
   margin: 0;
-  width: 46px;
+  width: calc(30px + var(--json-tree-js-spacing-title-bar) * 2 + var(--json-tree-js-border-size) * 4);
   border: none;
   border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   border-radius: 0;

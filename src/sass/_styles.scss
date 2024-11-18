@@ -1,4 +1,5 @@
 $minimum-width: 768px;
+$minimum-button-size: 30px;
 
 @mixin no-selection-allowed {
     -moz-user-select: none;
@@ -141,7 +142,7 @@ $minimum-width: 768px;
 
 @mixin symbol-buttons {
     font-weight: var(--json-tree-js-bold-weight-heavy);
-    min-width: 30px;
-    min-height: 30px;
+    min-width: $minimum-button-size;
+    min-height: $minimum-button-size;
     text-align: center;
 }
