@@ -13,6 +13,7 @@
 
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
+export type ControlButtonsOpenStateArrayIndex = Record<number, boolean>;
 
 export class ImportedFilename {
 	public filename: string = null!;
@@ -208,6 +209,7 @@ export type BindingOptionsCurrentView = {
 	valueClickTimerId: number;
 	editMode: boolean;
 	idSet: boolean;
+	controlButtonsOpen: ControlButtonsOpenStateArrayIndex;
 	contentPanelsOpen: ContentPanelsForArrayIndex;
 	contentPanelsIndex: number;
 	contentPanelsDataIndex: number;

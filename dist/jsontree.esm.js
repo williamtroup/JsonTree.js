@@ -726,6 +726,7 @@ var Binding;
             o._currentView.valueClickTimerId = 0;
             o._currentView.editMode = false;
             o._currentView.idSet = false;
+            o._currentView.controlButtonsOpen = {};
             o._currentView.contentPanelsOpen = {};
             o._currentView.contentPanelsIndex = 0;
             o._currentView.contentPanelsDataIndex = 0;
@@ -1466,7 +1467,7 @@ var ContextMenu;
             n++;
         }
         i(e);
-        Se(e);
+        Ve(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -1490,7 +1491,7 @@ var ContextMenu;
         e._currentView.sideMenuChanged = false;
         e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
-        V(e, n);
+        v(e, n);
         const l = DomElement.create(e._currentView.element, "div", "contents");
         if (t) {
             l.classList.add("page-switch");
@@ -1513,10 +1514,10 @@ var ContextMenu;
             e._currentView.contentPanelsDataIndex = 0;
             s(n, l, e, null, o[0], 1, false);
         }
-        A(e);
         M(e);
-        H(e);
-        pe(e);
+        O(e);
+        R(e);
+        xe(e);
         e._currentView.initialized = true;
     }
     function s(t, n, o, l, r, i, a) {
@@ -1527,7 +1528,7 @@ var ContextMenu;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${" "}${e.text.ellipsisText}`);
-                n.onclick = () => O(o);
+                n.onclick = () => L(o);
             }
         } else {
             s.onscroll = () => d(s, o, c);
@@ -1558,17 +1559,17 @@ var ContextMenu;
             o._currentView.currentContentColumns.push(p);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             if (Is.definedArray(t)) {
-                Z(e, o, t, "array");
+                Q(e, o, t, "array");
             } else if (Is.definedSet(t)) {
-                Z(e, o, Convert2.setToArray(t), "set");
+                Q(e, o, Convert2.setToArray(t), "set");
             } else if (Is.definedHtml(t)) {
-                q(e, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
+                Z(e, o, Convert2.htmlToObject(t, o.showCssStylesForHtmlObjects), l, "html");
             } else if (Is.definedMap(t)) {
-                q(e, o, Convert2.mapToObject(t), l, "map");
+                Z(e, o, Convert2.mapToObject(t), l, "map");
             } else if (Is.definedObject(t)) {
-                q(e, o, t, l, "object");
+                Z(e, o, t, l, "object");
             } else {
-                q(e, o, Obj.createFromValue(t), l, "object");
+                Z(e, o, Obj.createFromValue(t), l, "object");
             }
             x(o._currentView.currentColumnBuildingIndex, o);
             T(o, s, t, l);
@@ -1600,14 +1601,14 @@ var ContextMenu;
         l.onblur = () => {
             i(n, false);
             if (Is.definedString(a)) {
-                U(n, a);
+                q(n, a);
             }
         };
         l.onkeydown = t => {
             if (t.code === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (Ee(t) && t.code === "Enter") {
+            } else if (Ie(t) && t.code === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
@@ -1692,6 +1693,8 @@ var ContextMenu;
             const r = t.data[n];
             let a = t._currentView.contentPanelsOpen[o];
             let s = t._currentView.contentPanelsOpen[n];
+            let u = t._currentView.controlButtonsOpen[o];
+            let c = t._currentView.controlButtonsOpen[n];
             if (!Is.defined(a)) {
                 a = {};
             }
@@ -1702,13 +1705,15 @@ var ContextMenu;
             t.data[n] = l;
             t._currentView.contentPanelsOpen[o] = s;
             t._currentView.contentPanelsOpen[n] = a;
+            t._currentView.controlButtonsOpen[o] = c;
+            t._currentView.controlButtonsOpen[n] = u;
             if (t._currentView.currentDataArrayPageIndex + (t.paging.columnsPerPage - 1) < o) {
                 t._currentView.currentDataArrayPageIndex += t.paging.columnsPerPage;
             } else if (o < t._currentView.currentDataArrayPageIndex) {
                 t._currentView.currentDataArrayPageIndex -= t.paging.columnsPerPage;
             }
             i(t);
-            U(t, e.text.jsonUpdatedText);
+            q(t, e.text.jsonUpdatedText);
         }
     }
     function x(e, t) {
@@ -1782,76 +1787,77 @@ var ContextMenu;
             }
             if (a && t.controlPanel.showCopyButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button copy", e.text.copyButtonSymbolText);
-                n.onclick = () => S(t, o);
+                n.onclick = () => V(t, o);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.copyButtonText);
             }
             if (a && t.controlPanel.showCloseOpenAllButtons) {
                 const n = DomElement.createWithHTML(i, "button", "control-button open-all", e.text.openAllButtonSymbolText);
-                n.onclick = () => h(t, l);
+                n.onclick = () => w(t, l);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(i, "button", "control-button close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => w(t, l);
+                o.onclick = () => D(t, l);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
             if (a && t.controlPanel.showExportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button export", e.text.exportButtonSymbolText);
-                n.onclick = () => we(t, o);
+                n.onclick = () => De(t, o);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (a && t.allowEditing.bulk && t.controlPanel.showImportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button import", e.text.importButtonSymbolText);
-                n.onclick = () => O(t, l + 1);
+                n.onclick = () => L(t, l + 1);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button remove", e.text.removeSymbolButtonText);
-                n.onclick = () => D(t, l);
+                n.onclick = () => S(t, l);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
             if (!a && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button switch-to-pages", e.text.switchToPagesSymbolText);
-                n.onclick = () => y(t);
+                n.onclick = () => h(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.switchToPagesText);
             }
             if (i.innerHTML !== "") {
+                if (!t._currentView.controlButtonsOpen.hasOwnProperty(l)) {
+                    t._currentView.controlButtonsOpen[l] = true;
+                }
                 const o = DomElement.createWithHTML(i, "button", "expander", e.text.openCloseSymbolText);
-                o.onclick = () => b(o, i);
+                o.onclick = () => b(t, o, i, l);
                 o.ondblclick = DomElement.cancelBubble;
-                const l = DomElement.getStyleValueByName(n, "padding-left", true);
+                y(o, i, t._currentView.controlButtonsOpen[l]);
+                const a = DomElement.getStyleValueByName(n, "padding-left", true);
                 t._currentView.currentContentColumns[r].controlButtons = i;
                 n.style.minHeight = `${i.offsetHeight}px`;
-                n.style.paddingRight = `${i.offsetWidth + l}px`;
+                n.style.paddingRight = `${i.offsetWidth + a}px`;
             } else {
                 n.removeChild(i);
             }
         }
     }
-    function b(e, t) {
-        const n = t.querySelectorAll(".control-button");
-        const o = n.length;
-        let l = false;
-        for (let e = 0; e < o; e++) {
-            const t = n[e];
-            if (t.style.display === "none") {
-                t.style.display = "block";
-                l = true;
-            } else {
-                t.style.display = "none";
-                l = false;
-            }
-        }
-        e.className = l ? "expander" : "expander-closed";
+    function b(e, t, n, o) {
+        e._currentView.controlButtonsOpen[o] = !e._currentView.controlButtonsOpen[o];
+        y(t, n, e._currentView.controlButtonsOpen[o]);
     }
-    function y(e) {
+    function y(e, t, n) {
+        const o = t.querySelectorAll(".control-button");
+        const l = o.length;
+        for (let e = 0; e < l; e++) {
+            const t = o[e];
+            t.style.display = n ? "block" : "none";
+        }
+        e.className = n ? "expander" : "expander-closed";
+    }
+    function h(e) {
         e.paging.enabled = true;
         i(e);
     }
-    function h(e, t) {
+    function w(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
@@ -1860,7 +1866,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function w(e, t) {
+    function D(e, t) {
         const n = e._currentView.contentPanelsOpen[t];
         for (const e in n) {
             if (n.hasOwnProperty(e)) {
@@ -1869,7 +1875,7 @@ var ContextMenu;
         }
         i(e);
     }
-    function D(t, n) {
+    function S(t, n) {
         if (t.paging.enabled) {
             t.data.splice(n, 1);
             if (n === t._currentView.currentDataArrayPageIndex && t._currentView.currentDataArrayPageIndex > 0) {
@@ -1879,23 +1885,23 @@ var ContextMenu;
             t.data = null;
         }
         i(t);
-        U(t, e.text.arrayJsonItemDeleted);
-    }
-    function S(t, n) {
-        const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
-        navigator.clipboard.writeText(o);
-        U(t, e.text.copiedText);
-        Trigger.customEvent(t.events.onCopy, t._currentView.element, o);
+        q(t, e.text.arrayJsonItemDeleted);
     }
     function V(t, n) {
+        const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
+        navigator.clipboard.writeText(o);
+        q(t, e.text.copiedText);
+        Trigger.customEvent(t.events.onCopy, t._currentView.element, o);
+    }
+    function v(t, n) {
         if (Is.definedString(t.title.text) || t.title.showCloseOpenAllButtons || t.title.showCopyButton || t.sideMenu.enabled || t.paging.enabled || t.title.enableFullScreenToggling) {
             const o = DomElement.create(t._currentView.element, "div", "title-bar");
             if (t.title.enableFullScreenToggling) {
-                o.ondblclick = () => v(t);
+                o.ondblclick = () => B(t);
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => L(t);
+                n.onclick = () => P(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -1905,17 +1911,17 @@ var ContextMenu;
             }
             if (t.title.showCopyButton && Is.defined(n)) {
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "copy-all", e.text.copyButtonSymbolText);
-                o.onclick = () => B(t, n);
+                o.onclick = () => E(t, n);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.copyAllButtonText);
             }
             if (t.title.showCloseOpenAllButtons && Is.defined(n)) {
                 const n = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "open-all", e.text.openAllButtonSymbolText);
-                n.onclick = () => E(t);
+                n.onclick = () => I(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.openAllButtonText);
                 const o = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "close-all", e.text.closeAllButtonSymbolText);
-                o.onclick = () => I(t);
+                o.onclick = () => C(t);
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
@@ -1924,7 +1930,7 @@ var ContextMenu;
                 t._currentView.backPageButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.backPageButton, t, e.text.backButtonText);
                 if (t._currentView.currentDataArrayPageIndex > 0) {
-                    t._currentView.backPageButton.onclick = () => C(t);
+                    t._currentView.backPageButton.onclick = () => _(t);
                 } else {
                     t._currentView.backPageButton.disabled = true;
                 }
@@ -1932,7 +1938,7 @@ var ContextMenu;
                 t._currentView.nextPageButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.nextPageButton, t, e.text.nextButtonText);
                 if (t._currentView.currentDataArrayPageIndex + (t.paging.columnsPerPage - 1) < n.length - 1) {
-                    t._currentView.nextPageButton.onclick = () => _(t);
+                    t._currentView.nextPageButton.onclick = () => A(t);
                 } else {
                     t._currentView.nextPageButton.disabled = true;
                 }
@@ -1944,13 +1950,13 @@ var ContextMenu;
             if (t.title.enableFullScreenToggling && t.title.showFullScreenButton) {
                 const n = !t._currentView.fullScreenOn ? e.text.fullScreenOnButtonSymbolText : e.text.fullScreenOffButtonSymbolText;
                 t._currentView.toggleFullScreenButton = DomElement.createWithHTML(t._currentView.titleBarButtons, "button", "toggle-full-screen", n);
-                t._currentView.toggleFullScreenButton.onclick = () => v(t);
+                t._currentView.toggleFullScreenButton.onclick = () => B(t);
                 t._currentView.toggleFullScreenButton.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(t._currentView.toggleFullScreenButton, t, e.text.fullScreenButtonText);
             }
         }
     }
-    function v(t) {
+    function B(t) {
         if (t.title.enableFullScreenToggling) {
             if (t._currentView.element.classList.contains("full-screen")) {
                 t._currentView.element.classList.remove("full-screen");
@@ -1963,47 +1969,47 @@ var ContextMenu;
             }
             ToolTip.hide(t);
             ContextMenu.hide(t);
-            W(t);
+            $(t);
             Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element, t._currentView.element.classList.contains("full-screen"));
         }
     }
-    function B(t, n) {
+    function E(t, n) {
         const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
         navigator.clipboard.writeText(o);
-        U(t, e.text.copiedText);
+        q(t, e.text.copiedText);
         Trigger.customEvent(t.events.onCopyAll, t._currentView.element, o);
     }
-    function E(e) {
+    function I(e) {
         e.showAllAsClosed = false;
         e._currentView.contentPanelsOpen = {};
         i(e);
         Trigger.customEvent(e.events.onOpenAll, e._currentView.element);
     }
-    function I(e) {
+    function C(e) {
         e.showAllAsClosed = true;
         e._currentView.contentPanelsOpen = {};
         i(e);
         Trigger.customEvent(e.events.onCloseAll, e._currentView.element);
     }
-    function C(e) {
+    function _(e) {
         if (e._currentView.backPageButton !== null && !e._currentView.backPageButton.disabled) {
             e._currentView.currentDataArrayPageIndex -= e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onBackPage, e._currentView.element);
         }
     }
-    function _(e) {
+    function A(e) {
         if (e._currentView.nextPageButton !== null && !e._currentView.nextPageButton.disabled) {
             e._currentView.currentDataArrayPageIndex += e.paging.columnsPerPage;
             i(e, true);
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function A(e) {
+    function M(e) {
         e._currentView.disabledBackground = DomElement.create(e._currentView.element, "div", "disabled-background");
-        e._currentView.disabledBackground.onclick = () => P(e);
+        e._currentView.disabledBackground.onclick = () => N(e);
     }
-    function M(t) {
+    function O(t) {
         if (t.sideMenu.enabled) {
             t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
             const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
@@ -2014,38 +2020,38 @@ var ContextMenu;
             const o = DomElement.create(n, "div", "side-menu-title-controls");
             if (t.sideMenu.showClearJsonButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "clear-json", e.text.clearJsonSymbolText);
-                n.onclick = () => N(t);
+                n.onclick = () => j(t);
                 ToolTip.add(n, t, e.text.clearJsonText);
             }
             if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => we(t, t.data);
+                n.onclick = () => De(t, t.data);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => O(t);
+                n.onclick = () => L(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
-            l.onclick = () => P(t);
+            l.onclick = () => N(t);
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                j(e, t);
+                k(e, t);
             }
         }
     }
-    function O(e, t = null) {
+    function L(e, t = null) {
         const n = DomElement.createWithNoContainer("input");
         n.type = "file";
         n.accept = ".json";
         n.multiple = true;
-        P(e);
-        n.onchange = () => be(n.files, e, t);
+        N(e);
+        n.onchange = () => ye(n.files, e, t);
         n.click();
     }
-    function L(e) {
+    function P(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -2053,7 +2059,7 @@ var ContextMenu;
             ContextMenu.hide(e);
         }
     }
-    function P(t) {
+    function N(t) {
         let n = false;
         if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
             t._currentView.sideMenu.classList.remove("side-menu-open");
@@ -2063,19 +2069,19 @@ var ContextMenu;
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
                     i(t);
-                    U(t, e.text.ignoreDataTypesUpdated);
+                    q(t, e.text.ignoreDataTypesUpdated);
                 }), t.sideMenu.updateDisplayDelay);
             }
             n = true;
         }
         return n;
     }
-    function N(t) {
+    function j(t) {
         t.data = null;
         i(t);
-        U(t, e.text.jsonUpdatedText);
+        q(t, e.text.jsonUpdatedText);
     }
-    function j(t, n) {
+    function k(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -2083,8 +2089,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => k(n, o, true);
-        s.onclick = () => k(n, o, false);
+        a.onclick = () => F(n, o, true);
+        s.onclick = () => F(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2097,13 +2103,13 @@ var ContextMenu;
         }
         c.sort();
         c.forEach(((e, t) => {
-            const l = F(u, e, n, !d[`${e}Values`]);
+            const l = H(u, e, n, !d[`${e}Values`]);
             if (Is.defined(l)) {
                 o.push(l);
             }
         }));
     }
-    function k(e, t, n) {
+    function F(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -2112,7 +2118,7 @@ var ContextMenu;
         }
         e._currentView.sideMenuChanged = true;
     }
-    function F(e, t, n, o) {
+    function H(e, t, n, o) {
         let l = null;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
@@ -2133,10 +2139,10 @@ var ContextMenu;
         }
         return l;
     }
-    function H(t) {
+    function R(t) {
         if (t.footer.enabled && Is.defined(t.data)) {
             t._currentView.footer = DomElement.create(t._currentView.element, "div", "footer-bar");
-            W(t);
+            $(t);
             t._currentView.footerStatusText = DomElement.createWithHTML(t._currentView.footer, "div", "status-text", e.text.waitingText);
             if (t.footer.showDataTypes) {
                 t._currentView.footerDataTypeText = DomElement.create(t._currentView.footer, "div", "status-value-data-type");
@@ -2152,11 +2158,11 @@ var ContextMenu;
             }
             if (t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1 && t.footer.showPageOf) {
                 t._currentView.footerPageText = DomElement.create(t._currentView.footer, "div", "status-page-index");
-                R(t);
+                W(t);
             }
         }
     }
-    function R(t) {
+    function W(t) {
         if (t.paging.enabled) {
             const n = Math.ceil((t._currentView.currentDataArrayPageIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
@@ -2166,12 +2172,12 @@ var ContextMenu;
             t._currentView.footerPageText.innerHTML = i;
         }
     }
-    function W(e) {
+    function $(e) {
         if (Is.defined(e._currentView.footer)) {
             e._currentView.footer.style.display = e._currentView.fullScreenOn ? "flex" : "none";
         }
     }
-    function $(t, n, o) {
+    function J(t, n, o) {
         if (t.footer.enabled && t.footer.showDataTypes) {
             o.addEventListener("mousemove", (() => {
                 const o = DomElement.createWithHTML(null, "span", "status-count", n).outerHTML;
@@ -2185,7 +2191,7 @@ var ContextMenu;
             }));
         }
     }
-    function J(t, n, o) {
+    function z(t, n, o) {
         if (t.footer.enabled && t.footer.showLengths) {
             const l = Size.length(n, t.showCssStylesForHtmlObjects);
             if (l > 0) {
@@ -2202,7 +2208,7 @@ var ContextMenu;
             }
         }
     }
-    function z(t, n, o) {
+    function U(t, n, o) {
         if (t.footer.enabled && t.footer.showSizes) {
             const l = Size.of(n, t.showCssStylesForHtmlObjects);
             if (Is.definedString(l)) {
@@ -2219,7 +2225,7 @@ var ContextMenu;
             }
         }
     }
-    function U(t, n) {
+    function q(t, n) {
         if (t.footer.enabled) {
             t._currentView.footerStatusText.innerHTML = n;
             clearTimeout(t._currentView.footerStatusTextTimerId);
@@ -2228,7 +2234,7 @@ var ContextMenu;
             }), t.footer.statusResetDelay);
         }
     }
-    function q(t, n, o, l, r) {
+    function Z(t, n, o, l, r) {
         let i = o;
         if (Is.definedImportedFilename(o)) {
             i = i.object;
@@ -2262,7 +2268,7 @@ var ContextMenu;
             const m = DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} main-title` : "main-title", u);
             let p = null;
             let x = null;
-            G(d, n);
+            ee(d, n);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -2285,14 +2291,14 @@ var ContextMenu;
             if (n.showClosedObjectCurlyBraces) {
                 x = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
             }
-            Q(f, null, d, n, i, a, p, x, false, true, "", r, r !== "object", 1);
-            le(n, m, i, r, false);
+            Y(f, null, d, n, i, a, p, x, false, true, "", r, r !== "object", 1);
+            re(n, m, i, r, false);
+            U(n, i, m);
             z(n, i, m);
-            J(n, i, m);
-            de(n, c, false, i, i, null, false, null);
+            fe(n, c, false, i, i, null, false, null);
         }
     }
-    function Z(t, n, o, l) {
+    function Q(t, n, o, l) {
         let r = o;
         if (Is.definedImportedFilename(o)) {
             r = r.object;
@@ -2320,7 +2326,7 @@ var ContextMenu;
         const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
         let d = null;
         let f = null;
-        G(s, n);
+        ee(s, n);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
@@ -2330,76 +2336,76 @@ var ContextMenu;
         if (n.showClosedArraySquaredBrackets) {
             f = DomElement.createWithHTML(a, "span", "closed-symbols", "[ ... ]");
         }
-        Y(u, null, s, n, o, d, f, false, true, "", l, l !== "array", 1);
-        le(n, c, o, l, false);
+        K(u, null, s, n, o, d, f, false, true, "", l, l !== "array", 1);
+        re(n, c, o, l, false);
+        U(n, o, c);
         z(n, o, c);
-        J(n, o, c);
-        de(n, a, false, o, o, null, false, null);
+        fe(n, a, false, o, o, null, false, null);
     }
-    function Q(t, n, o, l, r, i, a, s, u, c, d, f, g, m) {
+    function Y(t, n, o, l, r, i, a, s, u, c, d, f, g, m) {
         let p = true;
         const x = i.length;
         const T = d !== "" ? x : 0;
         if (x === 0 && !l.ignore.emptyObjects) {
-            K(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g, m);
+            X(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g, m);
             p = false;
         } else if (l.maximum.inspectionLevels > 0 && m > l.maximum.inspectionLevels) {
-            K(r, o, l, "", e.text.maximumInspectionLevelsReached, true, false, "", f, g, m);
+            X(r, o, l, "", e.text.maximumInspectionLevelsReached, true, false, "", f, g, m);
             p = false;
         } else {
             for (let e = 0; e < x; e++) {
                 const t = i[e];
                 const n = d === "" ? t : `${d}${"\\"}${t}`;
                 if (r.hasOwnProperty(t)) {
-                    K(r, o, l, t, r[t], e === x - 1, false, n, f, g, m);
+                    X(r, o, l, t, r[t], e === x - 1, false, n, f, g, m);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                K(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g, m);
+                X(r, o, l, "", e.text.noPropertiesText, true, false, "", f, g, m);
                 p = false;
             } else {
                 if (l.showOpeningClosingCurlyBraces) {
-                    ae(l, o, "}", u, c);
+                    se(l, o, "}", u, c);
                 }
             }
         }
-        re(l, t, n, o, a, s, T, f);
+        ie(l, t, n, o, a, s, T, f);
         return p;
     }
-    function Y(t, n, o, l, r, i, a, s, u, c, d, f, g) {
+    function K(t, n, o, l, r, i, a, s, u, c, d, f, g) {
         let m = true;
         const p = r.length;
         const x = c !== "" ? p : 0;
         if (l.maximum.inspectionLevels > 0 && g > l.maximum.inspectionLevels) {
-            K(r, o, l, "", e.text.maximumInspectionLevelsReached, true, false, "", d, f, g);
+            X(r, o, l, "", e.text.maximumInspectionLevelsReached, true, false, "", d, f, g);
             m = false;
         } else {
             if (!l.reverseArrayValues) {
                 for (let e = 0; e < p; e++) {
                     const t = Arr.getIndex(e, l);
                     const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                    K(r, o, l, Arr.getIndexName(l, t, p), r[e], e === p - 1, true, n, d, f, g);
+                    X(r, o, l, Arr.getIndexName(l, t, p), r[e], e === p - 1, true, n, d, f, g);
                 }
             } else {
                 for (let e = p; e--; ) {
                     const t = Arr.getIndex(e, l);
                     const n = c === "" ? t.toString() : `${c}${"\\"}${t}`;
-                    K(r, o, l, Arr.getIndexName(l, t, p), r[e], e === 0, true, n, d, f, g);
+                    X(r, o, l, Arr.getIndexName(l, t, p), r[e], e === 0, true, n, d, f, g);
                 }
             }
             if (o.children.length === 0 || l.showOpenedObjectArrayBorders && o.children.length === 1) {
-                K(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f, g);
+                X(r, o, l, "", e.text.noPropertiesText, true, false, "", d, f, g);
                 m = false;
             } else {
                 if (l.showOpeningClosingSquaredBrackets) {
-                    ae(l, o, "]", s, u);
+                    se(l, o, "]", s, u);
                 }
             }
         }
-        re(l, t, n, o, i, a, x, d);
+        ie(l, t, n, o, i, a, x, d);
         return m;
     }
-    function K(t, n, o, l, r, i, a, s, u, c, d) {
+    function X(t, n, o, l, r, i, a, s, u, c, d) {
         const f = DomElement.create(n, "div", "object-type-value");
         const g = DomElement.create(f, "div", "object-type-value-title");
         const m = o.showExpandIcons ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
@@ -2442,7 +2448,7 @@ var ContextMenu;
         if (Is.defined(h) && !S) {
             DomElement.createWithHTML(g, "span", "split", e.text.propertyColonCharacter);
             if (!c) {
-                te(o, t, l, h, a);
+                ne(o, t, l, h, a);
             } else {
                 h.ondblclick = DomElement.cancelBubble;
             }
@@ -2450,10 +2456,10 @@ var ContextMenu;
                 g.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, s);
             }
             if (!a) {
+                U(o, l, h);
                 z(o, l, h);
-                J(o, l, h);
             }
-            se(o, g, s, B, r);
+            ue(o, g, s, B, r);
         }
         const E = Trigger.customEvent(o.events.onCustomDataTypeRender, o._currentView.element, r);
         if (Is.defined(E) && E !== false) {
@@ -2464,8 +2470,8 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", E.class, E.html);
                 w = E.allowEditing;
-                ne(o, t, l, r, x, a, w);
-                ie(o, g, i);
+                oe(o, t, l, r, x, a, w);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2475,7 +2481,7 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value undefined-or-null` : "value undefined-or-null";
                 x = DomElement.createWithHTML(g, "span", p, "null");
                 Trigger.customEvent(o.events.onNullRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2485,7 +2491,7 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value undefined-or-null` : "value undefined-or-null";
                 x = DomElement.createWithHTML(g, "span", p, "undefined");
                 Trigger.customEvent(o.events.onUndefinedRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2497,7 +2503,7 @@ var ContextMenu;
                     p = o.showValueColors ? `${y} value non-value` : "value non-value";
                     x = DomElement.createWithHTML(g, "span", p, t.name);
                     Trigger.customEvent(o.events.onLambdaRender, o._currentView.element, x);
-                    ie(o, g, i);
+                    ae(o, g, i);
                 } else {
                     T = true;
                 }
@@ -2507,7 +2513,7 @@ var ContextMenu;
                     p = o.showValueColors ? `${y} value non-value` : "value non-value";
                     x = DomElement.createWithHTML(g, "span", p, t.name);
                     Trigger.customEvent(o.events.onFunctionRender, o._currentView.element, x);
-                    ie(o, g, i);
+                    ae(o, g, i);
                 } else {
                     T = true;
                 }
@@ -2518,9 +2524,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r);
                 w = o.allowEditing.booleanValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onBooleanRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2531,9 +2537,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, e);
                 w = o.allowEditing.floatValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onFloatRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2544,9 +2550,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, n);
                 w = o.allowEditing.numberValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onNumberRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2557,9 +2563,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, n);
                 w = o.allowEditing.bigIntValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2569,9 +2575,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r);
                 w = o.allowEditing.guidValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onGuidRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2584,9 +2590,9 @@ var ContextMenu;
                 if (o.showValueColors) {
                     x.style.color = r;
                 }
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onColorRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2607,9 +2613,9 @@ var ContextMenu;
                         }
                     };
                 }
-                ne(o, t, l, r, x, a, w, v);
+                oe(o, t, l, r, x, a, w, v);
                 Trigger.customEvent(o.events.onUrlRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2624,9 +2630,9 @@ var ContextMenu;
                     v = DomElement.createWithHTML(g, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(`mailto:${r}`);
                 }
-                ne(o, t, l, r, x, a, w, v);
+                oe(o, t, l, r, x, a, w, v);
                 Trigger.customEvent(o.events.onEmailRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2635,7 +2641,7 @@ var ContextMenu;
             if (!o.ignore.stringValues || S) {
                 const f = Convert2.stringToParsedValue(r, o);
                 if (Is.defined(f)) {
-                    K(t, n, o, l, f, i, a, s, u, c, d);
+                    X(t, n, o, l, f, i, a, s, u, c, d);
                     T = true;
                     b = true;
                 } else {
@@ -2655,9 +2661,9 @@ var ContextMenu;
                     }
                     x = DomElement.createWithHTML(g, "span", p, n);
                     if (!S) {
-                        ne(o, t, l, r, x, a, w);
+                        oe(o, t, l, r, x, a, w);
                         Trigger.customEvent(o.events.onStringRender, o._currentView.element, x);
-                        ie(o, g, i);
+                        ae(o, g, i);
                     }
                 }
             } else {
@@ -2669,9 +2675,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
                 w = o.allowEditing.dateValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onDateRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2681,9 +2687,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, Convert2.symbolToSpacedOutString(r));
                 w = o.allowEditing.symbolValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2693,9 +2699,9 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r.source.toString());
                 w = o.allowEditing.regExpValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onRegExpRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2705,11 +2711,11 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.create(g, "span", p);
                 w = o.allowEditing.imageValues && !c;
-                ne(o, t, l, r, x, a, w);
+                oe(o, t, l, r, x, a, w);
                 const e = DomElement.create(x, "img");
                 e.src = r.src;
                 Trigger.customEvent(o.events.onImageRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2726,7 +2732,7 @@ var ContextMenu;
                     const a = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    G(a, o);
+                    ee(a, o);
                     if (i) {
                         a.classList.add("last-item");
                     }
@@ -2740,8 +2746,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = ie(o, r, i);
-                    const T = Q(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
+                    const p = ae(o, r, i);
+                    const T = Y(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2758,7 +2764,7 @@ var ContextMenu;
                 const l = DomElement.create(f, "div", "object-type-contents");
                 let a = null;
                 let u = null;
-                G(l, o);
+                ee(l, o);
                 if (i) {
                     l.classList.add("last-item");
                 }
@@ -2772,8 +2778,8 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
-                const c = ie(o, n, i);
-                const p = Y(m, c, l, o, t, a, u, true, i, s, y, true, d + 1);
+                const c = ae(o, n, i);
+                const p = K(m, c, l, o, t, a, u, true, i, s, y, true, d + 1);
                 if (!p && o.showOpeningClosingSquaredBrackets) {
                     a.parentNode.removeChild(a);
                     u.parentNode.removeChild(u);
@@ -2788,7 +2794,7 @@ var ContextMenu;
                 const n = DomElement.create(f, "div", "object-type-contents");
                 let l = null;
                 let a = null;
-                G(n, o);
+                ee(n, o);
                 if (i) {
                     n.classList.add("last-item");
                 }
@@ -2802,8 +2808,8 @@ var ContextMenu;
                 if (o.showClosedArraySquaredBrackets) {
                     a = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
-                const u = ie(o, t, i);
-                const c = Y(m, u, n, o, r, l, a, true, i, s, y, false, d + 1);
+                const u = ae(o, t, i);
+                const c = K(m, u, n, o, r, l, a, true, i, s, y, false, d + 1);
                 if (!c && o.showOpeningClosingSquaredBrackets) {
                     l.parentNode.removeChild(l);
                     a.parentNode.removeChild(a);
@@ -2824,7 +2830,7 @@ var ContextMenu;
                     const a = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    G(a, o);
+                    ee(a, o);
                     if (i) {
                         a.classList.add("last-item");
                     }
@@ -2838,8 +2844,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = ie(o, r, i);
-                    const T = Q(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
+                    const p = ae(o, r, i);
+                    const T = Y(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2860,7 +2866,7 @@ var ContextMenu;
                     const a = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    G(a, o);
+                    ee(a, o);
                     if (i) {
                         a.classList.add("last-item");
                     }
@@ -2874,8 +2880,8 @@ var ContextMenu;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = ie(o, l, i);
-                    const T = Q(m, p, a, o, r, t, u, c, true, i, s, y, false, d + 1);
+                    const p = ae(o, l, i);
+                    const T = Y(m, p, a, o, r, t, u, c, true, i, s, y, false, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2890,23 +2896,23 @@ var ContextMenu;
                 p = o.showValueColors ? `${y} value non-value` : "value non-value";
                 x = DomElement.createWithHTML(g, "span", p, r.toString());
                 Trigger.customEvent(o.events.onUnknownRender, o._currentView.element, x);
-                ie(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
         }
         if (!S && !b) {
-            X(o, y);
+            G(o, y);
         }
         if (T) {
             n.removeChild(f);
         } else {
             if (Is.defined(x)) {
                 if (!S) {
+                    U(o, r, x);
                     z(o, r, x);
-                    J(o, r, x);
-                    $(o, y, x);
-                    de(o, x, w, t, r, l, a, v);
+                    J(o, y, x);
+                    fe(o, x, w, t, r, l, a, v);
                 }
                 if (Is.defined(D)) {
                     if (y !== "null" && y !== "undefined" && y !== "array" && y !== "object" && y !== "map" && y !== "set") {
@@ -2917,21 +2923,21 @@ var ContextMenu;
                     }
                 }
                 if (V) {
-                    ee(o, s, h, D, x);
-                    le(o, x, r, y, w);
+                    te(o, s, h, D, x);
+                    re(o, x, r, y, w);
                 } else {
                     x.ondblclick = DomElement.cancelBubble;
                 }
             }
         }
     }
-    function X(e, t) {
+    function G(e, t) {
         if (!e._currentView.dataTypeCounts.hasOwnProperty(t)) {
             e._currentView.dataTypeCounts[t] = 0;
         }
         e._currentView.dataTypeCounts[t]++;
     }
-    function G(e, t) {
+    function ee(e, t) {
         if (t.showOpenedObjectArrayBorders) {
             e.classList.add("object-border");
             if (!t.showExpandIcons) {
@@ -2940,7 +2946,7 @@ var ContextMenu;
             DomElement.create(e, "div", "object-border-bottom");
         }
     }
-    function ee(e, t, n, o, l) {
+    function te(e, t, n, o, l) {
         if (Is.definedObject(e.valueToolTips)) {
             if (e.logJsonValueToolTipPaths) {
                 console.log(t);
@@ -2960,7 +2966,7 @@ var ContextMenu;
             }
         }
     }
-    function te(t, n, o, l, r) {
+    function ne(t, n, o, l, r) {
         if (t.allowEditing.propertyNames) {
             l.ondblclick = a => {
                 DomElement.cancelBubble(a);
@@ -2981,7 +2987,7 @@ var ContextMenu;
                 l.onblur = () => {
                     i(t, false);
                     if (Is.definedString(u)) {
-                        U(t, u);
+                        q(t, u);
                     }
                 };
                 l.onkeydown = i => {
@@ -3028,14 +3034,14 @@ var ContextMenu;
             };
         }
     }
-    function ne(e, t, n, o, l, r, i, a = null) {
+    function oe(e, t, n, o, l, r, i, a = null) {
         if (i) {
             l.ondblclick = i => {
-                oe(i, e, t, n, o, l, r, a);
+                le(i, e, t, n, o, l, r, a);
             };
         }
     }
-    function oe(t, n, o, l, r, a, s, u = null) {
+    function le(t, n, o, l, r, a, s, u = null) {
         let c = null;
         DomElement.cancelBubble(t);
         clearTimeout(n._currentView.valueClickTimerId);
@@ -3062,7 +3068,7 @@ var ContextMenu;
         a.onblur = () => {
             i(n, false);
             if (Is.definedString(c)) {
-                U(n, c);
+                q(n, c);
             }
         };
         a.onkeydown = t => {
@@ -3095,7 +3101,7 @@ var ContextMenu;
             }
         };
     }
-    function le(t, n, o, l, r) {
+    function re(t, n, o, l, r) {
         if (Is.definedFunction(t.events.onValueClick)) {
             n.onclick = () => {
                 let i = o;
@@ -3117,7 +3123,7 @@ var ContextMenu;
             n.classList.add("no-hover");
         }
     }
-    function re(e, t, n, l, r, i, a, s) {
+    function ie(e, t, n, l, r, i, a, s) {
         const u = e._currentView.contentPanelsIndex;
         const c = e._currentView.contentPanelsDataIndex;
         const d = e._currentView.currentColumnBuildingIndex;
@@ -3147,7 +3153,7 @@ var ContextMenu;
             if (Is.defined(a)) {
                 DomElement.cancelBubble(a);
                 if (!o) {
-                    ue(e);
+                    ce(e);
                 }
             }
             l.style.display = "block";
@@ -3172,7 +3178,7 @@ var ContextMenu;
             if (Is.defined(t)) {
                 DomElement.cancelBubble(t);
                 if (!o) {
-                    ue(e);
+                    ce(e);
                 }
             }
             if (n) {
@@ -3211,22 +3217,22 @@ var ContextMenu;
         m(null, p, false);
         e._currentView.contentPanelsIndex++;
     }
-    function ie(e, t, n) {
+    function ae(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
         }
         return o;
     }
-    function ae(e, t, n, o, l) {
+    function se(e, t, n, o, l) {
         const r = DomElement.create(t, "div", "closing-symbol");
         if (o && e.showExpandIcons || e.showOpenedObjectArrayBorders) {
             DomElement.create(r, "div", `no-${e.expandIconType}`);
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);
-        ie(e, r, l);
+        ae(e, r, l);
     }
-    function se(e, t, n, l, r) {
+    function ue(e, t, n, l, r) {
         t.onclick = i => {
             DomElement.cancelBubble(i);
             const a = t.classList.contains("highlight-selected") && o;
@@ -3245,7 +3251,7 @@ var ContextMenu;
                         i.classList.remove("highlight-selected");
                         i.classList.remove("highlight-compare");
                     }
-                    if (ce(e) && t !== l) {
+                    if (de(e) && t !== l) {
                         const e = i.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
                         if (Is.definedString(e) && e === n) {
                             if (!a) {
@@ -3272,7 +3278,7 @@ var ContextMenu;
             x(l, e);
         };
     }
-    function ue(e) {
+    function ce(e) {
         if (e._currentView.selectedValues.length > 0) {
             const t = e._currentView.currentContentColumns;
             const n = e._currentView.currentContentColumns.length;
@@ -3287,7 +3293,7 @@ var ContextMenu;
                         o.classList.remove("highlight-selected");
                         n = true;
                     }
-                    if (ce(e) && o.classList.contains("highlight-compare")) {
+                    if (de(e) && o.classList.contains("highlight-compare")) {
                         o.classList.remove("highlight-compare");
                         n = true;
                     }
@@ -3299,41 +3305,41 @@ var ContextMenu;
             }
         }
     }
-    function ce(e) {
+    function de(e) {
         return e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowComparisons;
     }
-    function de(t, n, o, l, r, i, a, s) {
+    function fe(t, n, o, l, r, i, a, s) {
         n.oncontextmenu = u => {
             DomElement.cancelBubble(u);
             t._currentView.contextMenu.innerHTML = "";
             if (o && t._currentView.selectedValues.length <= 1) {
                 const o = ContextMenu.addMenuItem(t, e.text.editSymbolButtonText, e.text.editButtonText);
-                o.onclick = e => fe(e, t, n, l, i, r, a, s);
+                o.onclick = e => ge(e, t, n, l, i, r, a, s);
             }
             const c = ContextMenu.addMenuItem(t, e.text.copyButtonSymbolText, e.text.copyButtonText);
-            c.onclick = e => ge(e, t, r);
+            c.onclick = e => me(e, t, r);
             if (o && t._currentView.selectedValues.length <= 1) {
                 const n = ContextMenu.addMenuItem(t, e.text.removeSymbolButtonText, e.text.removeButtonText);
-                n.onclick = e => me(e, t, l, i, a);
+                n.onclick = e => pe(e, t, l, i, a);
             }
             DomElement.showElementAtMousePosition(u, t._currentView.contextMenu, 0);
         };
     }
-    function fe(e, t, n, o, l, r, i, a) {
+    function ge(e, t, n, o, l, r, i, a) {
         DomElement.cancelBubble(e);
-        oe(e, t, o, l, r, n, i, a);
+        le(e, t, o, l, r, n, i, a);
         ContextMenu.hide(t);
     }
-    function ge(e, t, n) {
+    function me(e, t, n) {
         DomElement.cancelBubble(e);
         let o = n;
         if (t._currentView.selectedValues.length !== 0) {
             o = t._currentView.selectedValues;
         }
-        S(t, o);
+        V(t, o);
         ContextMenu.hide(t);
     }
-    function me(t, n, o, l, r) {
+    function pe(t, n, o, l, r) {
         DomElement.cancelBubble(t);
         if (r) {
             o.splice(Arr.getIndexFromBrackets(l), 1);
@@ -3342,9 +3348,9 @@ var ContextMenu;
         }
         ContextMenu.hide(n);
         i(n, false);
-        U(n, e.text.itemDeletedText);
+        q(n, e.text.itemDeletedText);
     }
-    function pe(t) {
+    function xe(t) {
         if (t.fileDroppingEnabled) {
             const n = DomElement.create(t._currentView.element, "div", "drag-and-drop-background");
             const o = DomElement.create(n, "div", "notice-text");
@@ -3352,27 +3358,27 @@ var ContextMenu;
             DomElement.createWithHTML(o, "p", "notice-text-title", e.text.dragAndDropTitleText);
             DomElement.createWithHTML(o, "p", "notice-text-description", e.text.dragAndDropDescriptionText);
             t._currentView.dragAndDropBackground = n;
-            t._currentView.element.ondragover = () => xe(t, n);
-            t._currentView.element.ondragenter = () => xe(t, n);
+            t._currentView.element.ondragover = () => Te(t, n);
+            t._currentView.element.ondragenter = () => Te(t, n);
             n.ondragover = DomElement.cancelBubble;
             n.ondragenter = DomElement.cancelBubble;
             n.ondragleave = () => n.style.display = "none";
-            n.ondrop = e => Te(e, t);
+            n.ondrop = e => be(e, t);
         }
     }
-    function xe(e, t) {
+    function Te(e, t) {
         if (!e._currentView.columnDragging) {
             t.style.display = "block";
         }
     }
-    function Te(e, t) {
+    function be(e, t) {
         DomElement.cancelBubble(e);
         t._currentView.dragAndDropBackground.style.display = "none";
         if (Is.defined(window.FileReader) && e.dataTransfer.files.length > 0) {
-            be(e.dataTransfer.files, t);
+            ye(e.dataTransfer.files, t);
         }
     }
-    function be(e, t, n = null) {
+    function ye(e, t, n = null) {
         let o = e.length;
         let l = 0;
         let r = {};
@@ -3380,20 +3386,20 @@ var ContextMenu;
             l++;
             r[i] = e;
             if (l === o) {
-                he(t, r, n, l, o);
+                we(t, r, n, l, o);
             }
         };
         for (let t = 0; t < o; t++) {
             const n = e[t];
             const l = n.name.split(".").pop().toLowerCase();
             if (l === "json") {
-                ye(n, i);
+                he(n, i);
             } else {
                 o--;
             }
         }
     }
-    function ye(t, n) {
+    function he(t, n) {
         const o = new FileReader;
         let l = null;
         o.onloadend = () => n(l, t.name);
@@ -3407,8 +3413,9 @@ var ContextMenu;
         };
         o.readAsText(t);
     }
-    function he(t, n, o, l, r) {
+    function we(t, n, o, l, r) {
         t._currentView.contentPanelsOpen = {};
+        t._currentView.controlButtonsOpen = {};
         const a = Object.keys(n);
         a.sort();
         if (Is.definedNumber(o)) {
@@ -3432,79 +3439,79 @@ var ContextMenu;
             }
         }
         i(t);
-        U(t, e.text.importedText.replace("{0}", r.toString()));
+        q(t, e.text.importedText.replace("{0}", r.toString()));
         Trigger.customEvent(t.events.onSetJson, t._currentView.element);
     }
-    function we(t, n) {
+    function De(t, n) {
         const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
         if (Is.definedString(o)) {
             const n = DomElement.create(document.body, "a");
             n.style.display = "none";
             n.setAttribute("target", "_blank");
             n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
-            n.setAttribute("download", De(t));
+            n.setAttribute("download", Se(t));
             n.click();
             document.body.removeChild(n);
-            P(t);
-            U(t, e.text.exportedText);
+            N(t);
+            q(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }
-    function De(t) {
+    function Se(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
         return o;
     }
-    function Se(e, t = true) {
+    function Ve(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
-        n("keydown", (t => ve(t, e)));
-        n("keyup", (e => Be(e)));
-        n("contextmenu", (() => Ve(e)));
-        l("click", (() => Ve(e)));
+        n("keydown", (t => Be(t, e)));
+        n("keyup", (e => Ee(e)));
+        n("contextmenu", (() => ve(e)));
+        l("click", (() => ve(e)));
         l("focus", (() => o = false));
     }
-    function Ve(e) {
+    function ve(e) {
         if (!o) {
-            ue(e);
+            ce(e);
         }
     }
-    function ve(e, l) {
-        o = Ee(e);
+    function Be(e, l) {
+        o = Ie(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ee(e) && e.code === "KeyC") {
+            if (Ie(e) && e.code === "KeyC") {
                 e.preventDefault();
-                B(l, l.data);
-            } else if (Ee(e) && e.code === "F11") {
+                E(l, l.data);
+            } else if (Ie(e) && e.code === "F11") {
                 e.preventDefault();
-                v(l);
+                B(l);
             } else if (e.code === "ArrowLeft") {
                 e.preventDefault();
-                C(l);
+                _(l);
             } else if (e.code === "ArrowRight") {
                 e.preventDefault();
-                _(l);
+                A(l);
             } else if (e.code === "ArrowUp") {
                 e.preventDefault();
-                I(l);
+                C(l);
             } else if (e.code === "ArrowDown") {
                 e.preventDefault();
-                E(l);
+                I(l);
             } else if (e.code === "Escape") {
                 e.preventDefault();
-                if (!P(l) && !o) {
-                    ue(l);
+                if (!N(l) && !o) {
+                    ce(l);
                 }
             }
         }
     }
-    function Be(e) {
-        o = Ee(e);
-    }
     function Ee(e) {
-        return e.ctrlKey || e.metaKey;
+        o = Ie(e);
     }
     function Ie(e) {
+        return e.ctrlKey || e.metaKey;
+    }
+    function Ce(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         e._currentView.element.classList.remove("full-screen");
@@ -3521,21 +3528,21 @@ var ContextMenu;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        Se(e, false);
+        Ve(e, false);
         ToolTip.assignToEvents(e, false);
         ContextMenu.assignToEvents(e, false);
         ToolTip.remove(e);
         ContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const Ce = {
+    const _e = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return Ce;
+            return _e;
         },
         refreshAll: function() {
             for (const e in t) {
@@ -3545,47 +3552,47 @@ var ContextMenu;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return Ce;
+            return _e;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return Ce;
+            return _e;
         },
         renderAll: function() {
             l();
-            return Ce;
+            return _e;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                E(t[e]);
+                I(t[e]);
             }
-            return Ce;
+            return _e;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                I(t[e]);
+                C(t[e]);
             }
-            return Ce;
+            return _e;
         },
         backPage: function(e) {
-            if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                const n = t[e];
-                if (n.paging.enabled) {
-                    C(t[e]);
-                }
-            }
-            return Ce;
-        },
-        nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 if (n.paging.enabled) {
                     _(t[e]);
                 }
             }
-            return Ce;
+            return _e;
+        },
+        nextPage: function(e) {
+            if (Is.definedString(e) && t.hasOwnProperty(e)) {
+                const n = t[e];
+                if (n.paging.enabled) {
+                    A(t[e]);
+                }
+            }
+            return _e;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -3609,11 +3616,12 @@ var ContextMenu;
                 const r = t[n];
                 r._currentView.currentDataArrayPageIndex = 0;
                 r._currentView.contentPanelsOpen = {};
+                r._currentView.controlButtonsOpen = {};
                 r.data = l;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return Ce;
+            return _e;
         },
         getJson: function(e) {
             let n = null;
@@ -3639,7 +3647,7 @@ var ContextMenu;
                 t[e]._currentView = r;
                 i(t[e]);
             }
-            return Ce;
+            return _e;
         },
         getBindingOptions: function(e) {
             let n = null;
@@ -3650,21 +3658,21 @@ var ContextMenu;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                Ie(t[e]);
+                Ce(t[e]);
                 delete t[e];
                 n--;
             }
-            return Ce;
+            return _e;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    Ie(t[e]);
+                    Ce(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return Ce;
+            return _e;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -3680,7 +3688,7 @@ var ContextMenu;
                     e = Config.Options.get(o);
                 }
             }
-            return Ce;
+            return _e;
         },
         getIds: function() {
             const e = [];
@@ -3699,7 +3707,7 @@ var ContextMenu;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => l()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = Ce;
+            window.$jsontree = _e;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

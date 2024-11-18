@@ -20,7 +20,8 @@ import {
     type FunctionName, 
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
-    type CustomDataType } from "./ts/type";
+    type CustomDataType, 
+    type ControlButtonsOpenStateArrayIndex } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { ImportedFilename } from "./ts/type";  
@@ -430,6 +431,8 @@ type JsonTreeData = Record<string, BindingOptions>;
             const dataArray2: any = bindingOptions.data[ oldIndex ];
             let dataPanelsOpen1: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ newIndex ];
             let dataPanelsOpen2: ContentPanels = bindingOptions._currentView.contentPanelsOpen[ oldIndex ];
+            let dataControlButtonOpen1: boolean = bindingOptions._currentView.controlButtonsOpen[ newIndex ];
+            let dataControlButtonOpen2: boolean = bindingOptions._currentView.controlButtonsOpen[ oldIndex ];
 
             if ( !Is.defined( dataPanelsOpen1 ) ) {
                 dataPanelsOpen1 = {} as ContentPanels;
@@ -444,6 +447,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     
             bindingOptions._currentView.contentPanelsOpen[ newIndex ] = dataPanelsOpen2;
             bindingOptions._currentView.contentPanelsOpen[ oldIndex ] = dataPanelsOpen1;
+
+            bindingOptions._currentView.controlButtonsOpen[ newIndex ] = dataControlButtonOpen2;
+            bindingOptions._currentView.controlButtonsOpen[ oldIndex ] = dataControlButtonOpen1;
 
             if ( ( bindingOptions._currentView.currentDataArrayPageIndex + ( bindingOptions.paging!.columnsPerPage! - 1 ) ) < newIndex ) {
                 bindingOptions._currentView.currentDataArrayPageIndex += bindingOptions.paging!.columnsPerPage!;
@@ -617,9 +623,15 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
     
             if ( controlButtons.innerHTML !== Char.empty ) {
+                if ( !bindingOptions._currentView.controlButtonsOpen.hasOwnProperty( dataIndex ) ) {
+                    bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = true;
+                }
+
                 const expanderButton: HTMLButtonElement = DomElement.createWithHTML( controlButtons, "button", "expander", _configuration.text!.openCloseSymbolText! ) as HTMLButtonElement;
-                expanderButton.onclick = () => onExpandControlButtons( expanderButton, controlButtons );
+                expanderButton.onclick = () => onExpandControlButtons( bindingOptions, expanderButton, controlButtons, dataIndex );
                 expanderButton.ondblclick = DomElement.cancelBubble;
+
+                updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
 
                 const paddingLeft: number = DomElement.getStyleValueByName( contentsColumn, "padding-left", true );
     
@@ -633,24 +645,23 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function onExpandControlButtons( expanderButton: HTMLButtonElement, controlButtons: HTMLElement ) : void {
+    function onExpandControlButtons( bindingOptions: BindingOptions, expanderButton: HTMLButtonElement, controlButtons: HTMLElement, dataIndex: number ) : void {
+        bindingOptions._currentView.controlButtonsOpen[ dataIndex ] = !bindingOptions._currentView.controlButtonsOpen[ dataIndex ];
+
+        updateControlButtonsVisibleState( expanderButton, controlButtons, bindingOptions._currentView.controlButtonsOpen[ dataIndex ] );
+    }
+
+    function updateControlButtonsVisibleState( expanderButton: HTMLButtonElement, controlButtons: HTMLElement, state: boolean ) : void {
         const buttons: NodeListOf<Element> = controlButtons.querySelectorAll( ".control-button" );
         const buttonsLength: number = buttons.length;
-        let isOpen: boolean = false;
 
         for ( let buttonIndex: number = 0; buttonIndex < buttonsLength; buttonIndex++ ) {
             const button: HTMLButtonElement = buttons[ buttonIndex ] as HTMLButtonElement;
 
-            if ( button.style.display === "none" ) {
-                button.style.display = "block";
-                isOpen = true;
-            } else {
-                button.style.display = "none";
-                isOpen = false;
-            }
+            button.style.display = state ? "block" : "none";
         }
 
-        expanderButton.className = isOpen ? "expander" : "expander-closed";
+        expanderButton.className = state ? "expander" : "expander-closed";
     }
 
     function onSwitchToPages( bindingOptions: BindingOptions ) : void {
@@ -2794,6 +2805,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, any>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
         bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+        bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
 
         const keys: string[] = Object.keys( filesData ) as Array<string>;
         keys.sort();
@@ -3099,6 +3111,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     
                 bindingOptions._currentView.currentDataArrayPageIndex = 0;
                 bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
+                bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
                 bindingOptions.data = jsonObject;
 
                 renderControlContainer( bindingOptions );

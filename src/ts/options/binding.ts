@@ -27,7 +27,8 @@ import {
     type BindingOptionsFooter, 
     type BindingOptionsControlPanel, 
     type BindingOptionsLineNumbers, 
-    type BindingOptionsMaximum } from "../type";
+    type BindingOptionsMaximum, 
+    type ControlButtonsOpenStateArrayIndex } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -47,6 +48,7 @@ export namespace Binding {
             bindingOptions._currentView.valueClickTimerId = 0;
             bindingOptions._currentView.editMode = false;
             bindingOptions._currentView.idSet = false;
+            bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
             bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
             bindingOptions._currentView.contentPanelsIndex = 0;
             bindingOptions._currentView.contentPanelsDataIndex = 0;
