@@ -1528,7 +1528,7 @@ var ContextMenu;
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
-                const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${e.text.ellipsisText}`);
+                const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${" "}${e.text.ellipsisText}`);
                 n.onclick = () => O(o);
             }
         } else {

@@ -215,7 +215,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             DomElement.createWithHTML( noJson, "span", "no-json-text", _configuration.text!.noJsonToViewText! );
 
             if ( bindingOptions.sideMenu!.showImportButton ) {
-                const importText: HTMLSpanElement = DomElement.createWithHTML( noJson, "span", "no-json-import-text", `${_configuration.text!.importButtonText!}${_configuration.text!.ellipsisText!}` ) as HTMLSpanElement;
+                const importText: HTMLSpanElement = DomElement.createWithHTML( noJson, "span", "no-json-import-text", `${_configuration.text!.importButtonText!}${Char.space}${_configuration.text!.ellipsisText!}` ) as HTMLSpanElement;
                 importText.onclick = () => onSideMenuImportClick( bindingOptions );
             }
         } else {
