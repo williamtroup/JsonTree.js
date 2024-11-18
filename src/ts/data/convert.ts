@@ -45,7 +45,7 @@ export namespace Convert {
             result = object.toString();
 
         } else if ( Is.definedFunction( object ) ) {
-            result = Default.getFunctionName( object, configuration ).name;
+            result = Default.getFunctionName( object, configuration, bindingOptions ).name;
 
         } else if ( Is.definedRegExp( object ) ) {
             result = object.source;

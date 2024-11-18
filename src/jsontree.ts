@@ -339,6 +339,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                             if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
                                 bindingOptions._currentView.currentDataArrayPageIndex -= bindingOptions.paging!.columnsPerPage!
                             }
+
+                            updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions, dataIndex );
                         }
                         
                     } else {
@@ -708,6 +710,21 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions.data = null;
         }
 
+        updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions, dataIndex );
+        renderControlContainer( bindingOptions );
+        setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
+    }
+
+    function onCopy( bindingOptions: BindingOptions, data: any ) : void {
+        const copyDataJson: string  = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
+
+        navigator.clipboard.writeText( copyDataJson );
+
+        setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
+        Trigger.customEvent( bindingOptions.events!.onCopy!, bindingOptions._currentView.element, copyDataJson );
+    }
+
+    function updateColumnNodesAndControlButtonsForArrayIndexDeleted( bindingOptions: BindingOptions, dataIndex: number ) : void {
         const newContentPanelsOpen = {} as ContentPanelsForArrayIndex;
         const newControlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
 
@@ -736,18 +753,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         bindingOptions._currentView.contentPanelsOpen = newContentPanelsOpen;
         bindingOptions._currentView.controlButtonsOpen = newControlButtonsOpen;
-
-        renderControlContainer( bindingOptions );
-        setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
-    }
-
-    function onCopy( bindingOptions: BindingOptions, data: any ) : void {
-        const copyDataJson: string  = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
-
-        navigator.clipboard.writeText( copyDataJson );
-
-        setFooterStatusText( bindingOptions, _configuration.text!.copiedText! );
-        Trigger.customEvent( bindingOptions.events!.onCopy!, bindingOptions._currentView.element, copyDataJson );
     }
 
     
