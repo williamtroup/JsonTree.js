@@ -708,6 +708,35 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions.data = null;
         }
 
+        const newContentPanelsOpen = {} as ContentPanelsForArrayIndex;
+        const newControlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
+
+        delete bindingOptions._currentView.contentPanelsOpen[ dataIndex ];
+        delete bindingOptions._currentView.controlButtonsOpen[ dataIndex ];
+
+        for ( const dataArrayIndex in bindingOptions._currentView.contentPanelsOpen ) {
+            let newDataArrayIndex: number = +dataArrayIndex;
+
+            if ( newDataArrayIndex > dataIndex ) {
+                newDataArrayIndex--;
+            }
+
+            newContentPanelsOpen[ newDataArrayIndex ] = bindingOptions._currentView.contentPanelsOpen[ dataArrayIndex ];
+        }
+
+        for ( const dataArrayIndex in bindingOptions._currentView.controlButtonsOpen ) {
+            let newDataArrayIndex: number = +dataArrayIndex;
+
+            if ( newDataArrayIndex > dataIndex ) {
+                newDataArrayIndex--;
+            }
+
+            newControlButtonsOpen[ newDataArrayIndex ] = bindingOptions._currentView.controlButtonsOpen[ dataArrayIndex ];
+        }
+
+        bindingOptions._currentView.contentPanelsOpen = newContentPanelsOpen;
+        bindingOptions._currentView.controlButtonsOpen = newControlButtonsOpen;
+
         renderControlContainer( bindingOptions );
         setFooterStatusText( bindingOptions, _configuration.text!.arrayJsonItemDeleted! );
     }

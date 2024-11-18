@@ -1515,8 +1515,8 @@ var ContextMenu;
             e._currentView.contentPanelsDataIndex = 0;
             s(n, l, e, null, o[0], 1, false);
         }
-        M(e);
         O(e);
+        M(e);
         R(e);
         xe(e);
         e._currentView.initialized = true;
@@ -1887,6 +1887,26 @@ var ContextMenu;
         } else {
             t.data = null;
         }
+        const o = {};
+        const l = {};
+        delete t._currentView.contentPanelsOpen[n];
+        delete t._currentView.controlButtonsOpen[n];
+        for (const e in t._currentView.contentPanelsOpen) {
+            let l = +e;
+            if (l > n) {
+                l--;
+            }
+            o[l] = t._currentView.contentPanelsOpen[e];
+        }
+        for (const e in t._currentView.controlButtonsOpen) {
+            let o = +e;
+            if (o > n) {
+                o--;
+            }
+            l[o] = t._currentView.controlButtonsOpen[e];
+        }
+        t._currentView.contentPanelsOpen = o;
+        t._currentView.controlButtonsOpen = l;
         i(t);
         q(t, e.text.arrayJsonItemDeleted);
     }
@@ -2008,11 +2028,11 @@ var ContextMenu;
             Trigger.customEvent(e.events.onNextPage, e._currentView.element);
         }
     }
-    function M(e) {
+    function O(e) {
         e._currentView.disabledBackground = DomElement.create(e._currentView.element, "div", "disabled-background");
         e._currentView.disabledBackground.onclick = () => N(e);
     }
-    function O(t) {
+    function M(t) {
         if (t.sideMenu.enabled) {
             t._currentView.sideMenu = DomElement.create(t._currentView.element, "div", "side-menu");
             const n = DomElement.create(t._currentView.sideMenu, "div", "side-menu-title-bar");
