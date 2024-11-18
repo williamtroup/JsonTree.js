@@ -725,19 +725,41 @@ div.json-tree-js {
                 border-bottom-left-radius: var(--json-tree-js-border-radius);
                 border-bottom: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
                 border-left: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
-                padding: var(--json-tree-js-spacing-title-bar);
                 z-index: 50;
+                overflow: hidden;
 
                 @include styles.buttons;
 
                 button {
-                    margin-bottom: var(--json-tree-js-spacing-title-bar);
+                    margin: var(--json-tree-js-spacing-title-bar);
+                    margin-top: 0;
 
                     @include styles.symbol-buttons;
+
+                    &:first-child {
+                        margin-top: var(--json-tree-js-spacing-title-bar);
+                    }
 
                     &:last-child {
                         margin-bottom: 0;
                     }
+                }
+
+                button.expander,
+                button.expander-closed {
+                    margin: 0;
+                    width: 46px;
+                    border: none;
+                    border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
+                    border-radius: 0;
+                    padding-top: 3px;
+                    padding-bottom: 3px;
+                    min-height: 0 !important;
+                    font-size: smaller;
+                }
+
+                button.expander-closed {
+                    border-top: none;
                 }
             }
 

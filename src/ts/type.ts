@@ -134,6 +134,7 @@ export type ConfigurationText = {
 	clearJsonSymbolText?: string;
 	clearJsonText?: string;
 	maximumInspectionLevelsReached?: string;
+	openCloseSymbolText?: string;
 };
 
 export type BindingOptions = {

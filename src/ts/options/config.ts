@@ -105,6 +105,7 @@ export namespace Config {
             configuration.text!.clearJsonSymbolText = Default.getAnyString( configuration.text!.clearJsonSymbolText, "⏎" );
             configuration.text!.clearJsonText = Default.getAnyString( configuration.text!.clearJsonText, "Clear JSON" );
             configuration.text!.maximumInspectionLevelsReached = Default.getAnyString( configuration.text!.maximumInspectionLevelsReached, "Maximum inspection levels have been reached." );
+            configuration.text!.openCloseSymbolText = Default.getAnyString( configuration.text!.openCloseSymbolText, "↹" );
 
             if ( Is.invalidOptionArray( configuration.text!.dayNames, 7 ) ) {
                 configuration.text!.dayNames = [
