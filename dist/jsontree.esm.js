@@ -1472,7 +1472,8 @@ var ContextMenu;
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
-        let l = t[n._currentView.element.id].data;
+        const l = t[n._currentView.element.id].data;
+        n._currentView.currentColumnBuildingIndex = 0;
         if (Is.definedUrl(l)) {
             Default.getObjectFromUrl(l, e, (e => {
                 a(n, o, e);
@@ -1523,7 +1524,6 @@ var ContextMenu;
     }
     function s(t, n, o, l, r, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
-        const c = o._currentView.currentColumnBuildingIndex;
         if (!Is.defined(t)) {
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1532,7 +1532,6 @@ var ContextMenu;
                 n.onclick = () => P(o);
             }
         } else {
-            s.onscroll = () => d(s, o, c);
             if (o.paging.enabled && Is.definedNumber(l)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
@@ -1551,14 +1550,16 @@ var ContextMenu;
                 i = DomElement.create(s, "div", "contents-column-lines");
                 e = i;
             }
-            const p = {
+            const c = {
                 column: s,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(p);
+            o._currentView.currentContentColumns.push(c);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
+            const p = o._currentView.currentColumnBuildingIndex;
+            s.onscroll = () => d(s, o, p);
             if (Is.definedArray(t)) {
                 Y(e, o, t, "array");
             } else if (Is.definedSet(t)) {

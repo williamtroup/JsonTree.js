@@ -139,7 +139,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContainer( bindingOptions: BindingOptions, isForPageSwitch: boolean = false ) : void {
-        let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+        const data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+
+        bindingOptions._currentView.currentColumnBuildingIndex = 0;
 
         if ( Is.definedUrl( data ) ) {
             Default.getObjectFromUrl( data, _configuration, ( ajaxData: any ) => {
@@ -209,7 +211,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
-        const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
         
         if ( !Is.defined( data ) ) {
             const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
@@ -220,8 +221,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 importText.onclick = () => onSideMenuImportClick( bindingOptions );
             }
         } else {
-            
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
@@ -254,6 +253,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             bindingOptions._currentView.currentContentColumns.push( columnLayout );
             bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
+
+            const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( Is.definedArray( data ) ) {
                 renderRootArray( renderValuesContainer, bindingOptions, data, DataType.array );
