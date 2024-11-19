@@ -446,6 +446,14 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( !Is.defined( dataPanelsOpen2 ) ) {
                 dataPanelsOpen2 = {} as ContentPanels;
             }
+
+            if ( !Is.defined( dataControlButtonOpen1 ) ) {
+                dataControlButtonOpen1 = true;
+            }
+
+            if ( !Is.defined( dataControlButtonOpen2 ) ) {
+                dataControlButtonOpen2 = true;
+            }
     
             bindingOptions.data[ newIndex ] = dataArray2;
             bindingOptions.data[ oldIndex  ] = dataArray1;

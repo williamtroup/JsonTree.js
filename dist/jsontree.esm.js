@@ -1704,6 +1704,12 @@ var ContextMenu;
             if (!Is.defined(s)) {
                 s = {};
             }
+            if (!Is.defined(u)) {
+                u = true;
+            }
+            if (!Is.defined(c)) {
+                c = true;
+            }
             t.data[o] = r;
             t.data[n] = l;
             t._currentView.contentPanelsOpen[o] = s;
