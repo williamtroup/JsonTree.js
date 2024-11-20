@@ -11,7 +11,7 @@
  */
 
 
-import { type Configuration } from "../type";
+import { type BindingOptions, type Configuration } from "../type";
 import { Is } from "./is";
 import { Str } from "./str";
 
@@ -39,11 +39,15 @@ export namespace DateTime {
         return result;
     }
 
-    export function getCustomFormattedDateText( configuration: Configuration, date: Date , dateFormat: string ) : string {
+    export function getCustomFormattedDateText( configuration: Configuration, date: Date, bindingOptions: BindingOptions ) : string {
         const actualDate: Date = isNaN( +date ) ? new Date() : date;
-        let result: string = dateFormat;
+        let result: string = bindingOptions.dateTimeFormat!;
         const weekDayNumber: number = getWeekdayNumber( actualDate );
+        let twelveHours: number = actualDate.getHours() % 12;
 
+        twelveHours = twelveHours === 0 ? 12 : twelveHours;
+
+        result = result.replace( "{hhh}", Str.padNumber( twelveHours, 2 ) );
         result = result.replace( "{hh}", Str.padNumber( actualDate.getHours(), 2 ) );
         result = result.replace( "{h}", actualDate.getHours().toString() );
     

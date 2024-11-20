@@ -1843,7 +1843,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions ) );
                 allowEditing = bindingOptions.allowEditing!.dateValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -2915,7 +2915,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function getExportFilename( bindingOptions: BindingOptions ) : string {
         const date: Date = new Date();
-        const filename: string = DateTime.getCustomFormattedDateText( _configuration, date, bindingOptions.exportFilenameFormat! )
+        const filename: string = DateTime.getCustomFormattedDateText( _configuration, date, bindingOptions )
 
         return filename;
     }

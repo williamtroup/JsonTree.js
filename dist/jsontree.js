@@ -680,8 +680,11 @@ var DateTime;
     e.getDayOrdinal = n;
     function o(e, o, l) {
         const r = isNaN(+o) ? new Date : o;
-        let i = l;
+        let i = l.dateTimeFormat;
         const a = t(r);
+        let s = r.getHours() % 12;
+        s = s === 0 ? 12 : s;
+        i = i.replace("{hhh}", Str.padNumber(s, 2));
         i = i.replace("{hh}", Str.padNumber(r.getHours(), 2));
         i = i.replace("{h}", r.getHours().toString());
         i = i.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
@@ -2079,7 +2082,7 @@ var ContextMenu;
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                F(e, t);
+                H(e, t);
             }
         }
     }
@@ -2122,7 +2125,7 @@ var ContextMenu;
         i(t);
         Z(t, e.text.jsonUpdatedText);
     }
-    function F(t, n) {
+    function H(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -2130,8 +2133,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => H(n, o, true);
-        s.onclick = () => H(n, o, false);
+        a.onclick = () => F(n, o, true);
+        s.onclick = () => F(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2150,7 +2153,7 @@ var ContextMenu;
             }
         }));
     }
-    function H(e, t, n) {
+    function F(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -2714,7 +2717,7 @@ var ContextMenu;
             y = "date";
             if (!o.ignore.dateValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
+                x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o));
                 w = o.allowEditing.dateValues && !c;
                 le(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onDateRender, o._currentView.element, x);
@@ -3500,7 +3503,7 @@ var ContextMenu;
     }
     function Ve(t) {
         const n = new Date;
-        const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
+        const o = DateTime.getCustomFormattedDateText(e, n, t);
         return o;
     }
     function ve(e, t = true) {
