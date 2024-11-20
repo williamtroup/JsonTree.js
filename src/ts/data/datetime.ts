@@ -74,6 +74,8 @@ export namespace DateTime {
         result = result.replace( "{yy}", actualDate.getFullYear().toString().substring( 2 ) );
         result = result.replace( "{y}", Number.parseInt( actualDate.getFullYear().toString().substring( 2 ) ).toString() );
 
+        result = result.replace( "{aa}", actualDate.getHours() >= 12 ? "PM" : "AM" );
+
         return result;
     }
 }

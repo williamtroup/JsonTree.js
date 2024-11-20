@@ -704,6 +704,7 @@ var DateTime;
         i = i.replace("{yyy}", r.getFullYear().toString().substring(1));
         i = i.replace("{yy}", r.getFullYear().toString().substring(2));
         i = i.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+        i = i.replace("{aa}", r.getHours() >= 12 ? "PM" : "AM");
         return i;
     }
     e.getCustomFormattedDateText = o;
