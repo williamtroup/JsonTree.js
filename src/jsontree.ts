@@ -1692,10 +1692,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.bigint;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
-                let newBigIntValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
+                let newBigIntValue = `${value.toString()}n`;
+                let newBigIntValueDisplay: string = Str.getMaximumLengthDisplay( newBigIntValue, bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValue );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValueDisplay );
                 allowEditing = bindingOptions.allowEditing!.bigIntValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );

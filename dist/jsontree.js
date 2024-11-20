@@ -2603,9 +2603,10 @@ var ContextMenu;
         } else if (Is.definedBigInt(r)) {
             y = "bigint";
             if (!o.ignore.bigintValues) {
-                let n = Str.getMaximumLengthDisplay(r.toString(), o.maximum.bigIntLength, e.text.ellipsisText);
+                let n = `${r.toString()}n`;
+                let s = Str.getMaximumLengthDisplay(n, o.maximum.bigIntLength, e.text.ellipsisText);
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, n);
+                x = DomElement.createWithHTML(g, "span", p, s);
                 w = o.allowEditing.bigIntValues && !c;
                 le(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, x);
