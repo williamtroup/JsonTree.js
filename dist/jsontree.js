@@ -395,6 +395,10 @@ var Convert2;
         return t;
     }
     Convert.symbolToSpacedOutString = symbolToSpacedOutString;
+    function colorToSpacedOutString(e) {
+        return e.toString().replace(" ", "").replace("(", `(${" "}`).replace(")", `${" "})`).replace(",", `${" "}${","}`);
+    }
+    Convert.colorToSpacedOutString = colorToSpacedOutString;
 })(Convert2 || (Convert2 = {}));
 
 var Str;
@@ -2621,7 +2625,7 @@ var ContextMenu;
             y = "color";
             if (!o.ignore.colorValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, r);
+                x = DomElement.createWithHTML(g, "span", p, Convert2.colorToSpacedOutString(r));
                 w = o.allowEditing.colorValues && !c;
                 if (o.showValueColors) {
                     x.style.color = r;

@@ -304,4 +304,13 @@ export namespace Convert {
 
         return result;
     }
+
+    export function colorToSpacedOutString( value: any ) : string {
+        return value
+            .toString()
+            .replace( Char.space, Char.empty )
+            .replace( "(", `(${Char.space}` )
+            .replace( ")", `${Char.space})` )
+            .replace( Char.coma, `${Char.space}${Char.coma}` );
+    }
 }

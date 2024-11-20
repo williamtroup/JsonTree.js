@@ -1727,7 +1727,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.colorValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, Convert.colorToSpacedOutString( value ) );
                 allowEditing = bindingOptions.allowEditing!.colorValues! && !preventEditing;
 
                 if ( bindingOptions.showValueColors ) {
