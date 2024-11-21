@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.6.0
+ * JsonTree.js Library v4.6.1
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -638,10 +638,10 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents div.checkbox:last-child {
@@ -865,10 +865,10 @@ div.json-tree-js div.contents span.null,
 div.json-tree-js div.contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
 }
 div.json-tree-js div.contents span.size {
@@ -1117,7 +1117,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null {
   font-style: italic;
-  padding-right: 5px;
+  padding-right: 4px;
   text-transform: uppercase;
   font-weight: var(--json-tree-js-bold-weight-medium);
 }

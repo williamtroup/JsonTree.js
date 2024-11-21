@@ -395,6 +395,10 @@ var Convert2;
         return t;
     }
     Convert.symbolToSpacedOutString = symbolToSpacedOutString;
+    function colorToSpacedOutString(e) {
+        return e.toString().replace(" ", "").replace("(", `(${" "}`).replace(")", `${" "})`).replace(",", `${" "}${","}`);
+    }
+    Convert.colorToSpacedOutString = colorToSpacedOutString;
 })(Convert2 || (Convert2 = {}));
 
 var Str;
@@ -676,8 +680,11 @@ var DateTime;
     e.getDayOrdinal = n;
     function o(e, o, l) {
         const r = isNaN(+o) ? new Date : o;
-        let i = l;
+        let i = l.dateTimeFormat;
         const a = t(r);
+        let s = r.getHours() % 12;
+        s = s === 0 ? 12 : s;
+        i = i.replace("{hhh}", Str.padNumber(s, 2));
         i = i.replace("{hh}", Str.padNumber(r.getHours(), 2));
         i = i.replace("{h}", r.getHours().toString());
         i = i.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
@@ -700,6 +707,7 @@ var DateTime;
         i = i.replace("{yyy}", r.getFullYear().toString().substring(1));
         i = i.replace("{yy}", r.getFullYear().toString().substring(2));
         i = i.replace("{y}", Number.parseInt(r.getFullYear().toString().substring(2)).toString());
+        i = i.replace("{aa}", r.getHours() >= 12 ? "PM" : "AM");
         return i;
     }
     e.getCustomFormattedDateText = o;
@@ -1474,7 +1482,8 @@ var ContextMenu;
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
-        let l = t[n._currentView.element.id].data;
+        const l = t[n._currentView.element.id].data;
+        n._currentView.currentColumnBuildingIndex = 0;
         if (Is.definedUrl(l)) {
             Default.getObjectFromUrl(l, e, (e => {
                 a(n, o, e);
@@ -1525,7 +1534,6 @@ var ContextMenu;
     }
     function s(t, n, o, l, r, i, a) {
         const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
-        const c = o._currentView.currentColumnBuildingIndex;
         if (!Is.defined(t)) {
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1534,7 +1542,6 @@ var ContextMenu;
                 n.onclick = () => P(o);
             }
         } else {
-            s.onscroll = () => d(s, o, c);
             if (o.paging.enabled && Is.definedNumber(l)) {
                 s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
@@ -1553,14 +1560,16 @@ var ContextMenu;
                 i = DomElement.create(s, "div", "contents-column-lines");
                 e = i;
             }
-            const p = {
+            const c = {
                 column: s,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
             };
-            o._currentView.currentContentColumns.push(p);
+            o._currentView.currentContentColumns.push(c);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
+            const p = o._currentView.currentColumnBuildingIndex;
+            s.onscroll = () => d(s, o, p);
             if (Is.definedArray(t)) {
                 Y(e, o, t, "array");
             } else if (Is.definedSet(t)) {
@@ -1704,6 +1713,12 @@ var ContextMenu;
             }
             if (!Is.defined(s)) {
                 s = {};
+            }
+            if (!Is.defined(u)) {
+                u = true;
+            }
+            if (!Is.defined(c)) {
+                c = true;
             }
             t.data[o] = r;
             t.data[n] = l;
@@ -2067,7 +2082,7 @@ var ContextMenu;
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
-                F(e, t);
+                H(e, t);
             }
         }
     }
@@ -2110,7 +2125,7 @@ var ContextMenu;
         i(t);
         Z(t, e.text.jsonUpdatedText);
     }
-    function F(t, n) {
+    function H(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -2118,8 +2133,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => H(n, o, true);
-        s.onclick = () => H(n, o, false);
+        a.onclick = () => F(n, o, true);
+        s.onclick = () => F(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2138,7 +2153,7 @@ var ContextMenu;
             }
         }));
     }
-    function H(e, t, n) {
+    function F(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -2588,9 +2603,10 @@ var ContextMenu;
         } else if (Is.definedBigInt(r)) {
             y = "bigint";
             if (!o.ignore.bigintValues) {
-                let n = Str.getMaximumLengthDisplay(r.toString(), o.maximum.bigIntLength, e.text.ellipsisText);
+                let n = `${r.toString()}n`;
+                let s = Str.getMaximumLengthDisplay(n, o.maximum.bigIntLength, e.text.ellipsisText);
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, n);
+                x = DomElement.createWithHTML(g, "span", p, s);
                 w = o.allowEditing.bigIntValues && !c;
                 le(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, x);
@@ -2614,7 +2630,7 @@ var ContextMenu;
             y = "color";
             if (!o.ignore.colorValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, r);
+                x = DomElement.createWithHTML(g, "span", p, Convert2.colorToSpacedOutString(r));
                 w = o.allowEditing.colorValues && !c;
                 if (o.showValueColors) {
                     x.style.color = r;
@@ -2702,7 +2718,7 @@ var ContextMenu;
             y = "date";
             if (!o.ignore.dateValues) {
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o.dateTimeFormat));
+                x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o));
                 w = o.allowEditing.dateValues && !c;
                 le(o, t, l, r, x, a, w);
                 Trigger.customEvent(o.events.onDateRender, o._currentView.element, x);
@@ -3488,7 +3504,7 @@ var ContextMenu;
     }
     function Ve(t) {
         const n = new Date;
-        const o = DateTime.getCustomFormattedDateText(e, n, t.exportFilenameFormat);
+        const o = DateTime.getCustomFormattedDateText(e, n, t);
         return o;
     }
     function ve(e, t = true) {
@@ -3729,7 +3745,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.6.0";
+            return "4.6.1";
         }
     };
     (() => {

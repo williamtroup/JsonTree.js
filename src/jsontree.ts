@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.6.0
+ * @version     v4.6.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -139,7 +139,9 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContainer( bindingOptions: BindingOptions, isForPageSwitch: boolean = false ) : void {
-        let data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+        const data: any = _elements_Data[ bindingOptions._currentView.element.id ].data;
+
+        bindingOptions._currentView.currentColumnBuildingIndex = 0;
 
         if ( Is.definedUrl( data ) ) {
             Default.getObjectFromUrl( data, _configuration, ( ajaxData: any ) => {
@@ -209,7 +211,6 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
         const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
-        const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
         
         if ( !Is.defined( data ) ) {
             const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
@@ -220,8 +221,6 @@ type JsonTreeData = Record<string, BindingOptions>;
                 importText.onclick = () => onSideMenuImportClick( bindingOptions );
             }
         } else {
-            
-            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 contentsColumn.setAttribute( Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, dataIndex.toString() );
@@ -254,6 +253,10 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             bindingOptions._currentView.currentContentColumns.push( columnLayout );
             bindingOptions._currentView.currentColumnBuildingIndex = bindingOptions._currentView.currentContentColumns.length - 1;
+
+            const contentsColumnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
+            contentsColumn.onscroll = () => onContentsColumnScroll( contentsColumn, bindingOptions, contentsColumnIndex );
 
             if ( Is.definedArray( data ) ) {
                 renderRootArray( renderValuesContainer, bindingOptions, data, DataType.array );
@@ -442,6 +445,14 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !Is.defined( dataPanelsOpen2 ) ) {
                 dataPanelsOpen2 = {} as ContentPanels;
+            }
+
+            if ( !Is.defined( dataControlButtonOpen1 ) ) {
+                dataControlButtonOpen1 = true;
+            }
+
+            if ( !Is.defined( dataControlButtonOpen2 ) ) {
+                dataControlButtonOpen2 = true;
             }
     
             bindingOptions.data[ newIndex ] = dataArray2;
@@ -1681,10 +1692,11 @@ type JsonTreeData = Record<string, BindingOptions>;
             dataType = DataType.bigint;
 
             if ( !bindingOptions.ignore!.bigintValues ) {
-                let newBigIntValue: string = Str.getMaximumLengthDisplay( value.toString(), bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
+                let newBigIntValue = `${value.toString()}n`;
+                let newBigIntValueDisplay: string = Str.getMaximumLengthDisplay( newBigIntValue, bindingOptions.maximum!.bigIntLength!, _configuration.text!.ellipsisText! );
 
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValue );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, newBigIntValueDisplay );
                 allowEditing = bindingOptions.allowEditing!.bigIntValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -1716,7 +1728,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.colorValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, value );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, Convert.colorToSpacedOutString( value ) );
                 allowEditing = bindingOptions.allowEditing!.colorValues! && !preventEditing;
 
                 if ( bindingOptions.showValueColors ) {
@@ -1832,7 +1844,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( !bindingOptions.ignore!.dateValues ) {
                 valueClass = bindingOptions.showValueColors ? `${dataType} value` : "value";
-                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions.dateTimeFormat! ) );
+                valueElement = DomElement.createWithHTML( objectTypeValueTitle, "span", valueClass, DateTime.getCustomFormattedDateText( _configuration, value, bindingOptions ) );
                 allowEditing = bindingOptions.allowEditing!.dateValues! && !preventEditing;
 
                 makePropertyValueEditable( bindingOptions, data, name, value, valueElement, isArrayItem, allowEditing );
@@ -2904,7 +2916,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
     function getExportFilename( bindingOptions: BindingOptions ) : string {
         const date: Date = new Date();
-        const filename: string = DateTime.getCustomFormattedDateText( _configuration, date, bindingOptions.exportFilenameFormat! )
+        const filename: string = DateTime.getCustomFormattedDateText( _configuration, date, bindingOptions )
 
         return filename;
     }
@@ -3288,7 +3300,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.6.0";
+            return "4.6.1";
         }
     };
 

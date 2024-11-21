@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        convert.ts
- * @version     v4.6.0
+ * @version     v4.6.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -303,5 +303,14 @@ export namespace Convert {
         }
 
         return result;
+    }
+
+    export function colorToSpacedOutString( value: any ) : string {
+        return value
+            .toString()
+            .replace( Char.space, Char.empty )
+            .replace( "(", `(${Char.space}` )
+            .replace( ")", `${Char.space})` )
+            .replace( Char.coma, `${Char.space}${Char.coma}` );
     }
 }
