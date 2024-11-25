@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.6.2
+ * @version     v4.6.3
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -331,7 +331,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 if ( newData.parsed ) {
                     statusBarMessage = _configuration.text!.jsonUpdatedText!;
 
-                    if ( bindingOptions.paging!.enabled ) {
+                    if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) ) {
                         if ( Is.defined( newData.object ) ) {
                             bindingOptions.data[ dataIndex ] = newData.object;
 
@@ -710,7 +710,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function onRemoveArrayJson( bindingOptions: BindingOptions, dataIndex: number ) : void {
-        if ( bindingOptions.paging!.enabled ) {
+        if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) ) {
             bindingOptions.data.splice( dataIndex, 1 );
 
             if ( dataIndex === bindingOptions._currentView.currentDataArrayPageIndex && bindingOptions._currentView.currentDataArrayPageIndex > 0 ) {
@@ -1158,7 +1158,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function getFooterPageText( bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.paging!.enabled ) {
+        if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) ) {
             const currentPage: number = Math.ceil( ( bindingOptions._currentView.currentDataArrayPageIndex + 1 ) / bindingOptions.paging!.columnsPerPage! );
             const totalPages: number = Math.ceil( bindingOptions.data.length / bindingOptions.paging!.columnsPerPage! );
             const currentReplacement: string = DomElement.createWithHTML( null!, "span", "status-count", currentPage.toFixed() ).outerHTML;
@@ -3101,7 +3101,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
 
-                if ( bindingOptions.paging!.enabled ) {
+                if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) ) {
                     onBackPage( _elements_Data[ elementId ] );
                 }
             }
@@ -3113,7 +3113,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( Is.definedString( elementId ) && _elements_Data.hasOwnProperty( elementId ) ) {
                 const bindingOptions: BindingOptions = _elements_Data[ elementId ];
 
-                if ( bindingOptions.paging!.enabled ) {
+                if ( bindingOptions.paging!.enabled && Is.definedArray( bindingOptions.data ) ) {
                     onNextPage( _elements_Data[ elementId ] );
                 }
             }
@@ -3300,7 +3300,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.6.2";
+            return "4.6.3";
         }
     };
 

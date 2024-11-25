@@ -1624,7 +1624,7 @@ var ContextMenu;
                 const i = Convert2.jsonStringToObject(o, e);
                 if (i.parsed) {
                     a = e.text.jsonUpdatedText;
-                    if (n.paging.enabled) {
+                    if (n.paging.enabled && Is.definedArray(n.data)) {
                         if (Is.defined(i.object)) {
                             n.data[r] = i.object;
                         } else {
@@ -1895,7 +1895,7 @@ var ContextMenu;
         i(e);
     }
     function S(t, n) {
-        if (t.paging.enabled) {
+        if (t.paging.enabled && Is.definedArray(t.data)) {
             t.data.splice(n, 1);
             if (n === t._currentView.currentDataArrayPageIndex && t._currentView.currentDataArrayPageIndex > 0) {
                 t._currentView.currentDataArrayPageIndex -= t.paging.columnsPerPage;
@@ -2205,7 +2205,7 @@ var ContextMenu;
         }
     }
     function $(t) {
-        if (t.paging.enabled) {
+        if (t.paging.enabled && Is.definedArray(t.data)) {
             const n = Math.ceil((t._currentView.currentDataArrayPageIndex + 1) / t.paging.columnsPerPage);
             const o = Math.ceil(t.data.length / t.paging.columnsPerPage);
             const l = DomElement.createWithHTML(null, "span", "status-count", n.toFixed()).outerHTML;
@@ -3622,7 +3622,7 @@ var ContextMenu;
         backPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
-                if (n.paging.enabled) {
+                if (n.paging.enabled && Is.definedArray(n.data)) {
                     A(t[e]);
                 }
             }
@@ -3631,7 +3631,7 @@ var ContextMenu;
         nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
-                if (n.paging.enabled) {
+                if (n.paging.enabled && Is.definedArray(n.data)) {
                     O(t[e]);
                 }
             }
@@ -3743,7 +3743,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.6.2";
+            return "4.6.3";
         }
     };
     (() => {
