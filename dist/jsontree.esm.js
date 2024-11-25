@@ -3522,7 +3522,7 @@ var ContextMenu;
     function Ee(e, l) {
         o = Ce(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ce(e) && e.key === "c") {
+            if (Ce(e) && e.key.toLowerCase() === "c") {
                 e.preventDefault();
                 I(l, l.data);
             } else if (Ce(e) && e.key === "F11") {
