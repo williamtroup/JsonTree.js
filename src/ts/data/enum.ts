@@ -54,7 +54,7 @@ export enum DataType {
 }
 
 export enum KeyCode {
-    C = "KeyC",
+    C = "c",
     escape = "Escape",
     enter = "Enter",
     left = "ArrowLeft",

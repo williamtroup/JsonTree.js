@@ -1615,10 +1615,10 @@ var ContextMenu;
             }
         };
         l.onkeydown = t => {
-            if (t.code === "Escape") {
+            if (t.key === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (Ce(t) && t.code === "Enter") {
+            } else if (Ce(t) && t.key === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
@@ -1640,7 +1640,7 @@ var ContextMenu;
                     }
                 }
                 l.setAttribute("contenteditable", "false");
-            } else if (t.code === "Enter") {
+            } else if (t.key === "Enter") {
                 t.preventDefault();
                 document.execCommand("insertLineBreak");
             }
@@ -3034,10 +3034,10 @@ var ContextMenu;
                     }
                 };
                 l.onkeydown = i => {
-                    if (i.code === "Escape") {
+                    if (i.key === "Escape") {
                         i.preventDefault();
                         l.setAttribute("contenteditable", "false");
-                    } else if (i.code === "Enter") {
+                    } else if (i.key === "Enter") {
                         i.preventDefault();
                         const a = l.innerText;
                         if (r) {
@@ -3115,10 +3115,10 @@ var ContextMenu;
             }
         };
         a.onkeydown = t => {
-            if (t.code === "Escape") {
+            if (t.key === "Escape") {
                 t.preventDefault();
                 a.setAttribute("contenteditable", "false");
-            } else if (t.code === "Enter") {
+            } else if (t.key === "Enter") {
                 t.preventDefault();
                 const i = a.innerText;
                 if (i.trim() === "") {
@@ -3522,25 +3522,25 @@ var ContextMenu;
     function Ee(e, l) {
         o = Ce(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ce(e) && e.code === "KeyC") {
+            if (Ce(e) && e.key === "c") {
                 e.preventDefault();
                 I(l, l.data);
-            } else if (Ce(e) && e.code === "F11") {
+            } else if (Ce(e) && e.key === "F11") {
                 e.preventDefault();
                 E(l);
-            } else if (e.code === "ArrowLeft") {
+            } else if (e.key === "ArrowLeft") {
                 e.preventDefault();
                 A(l);
-            } else if (e.code === "ArrowRight") {
+            } else if (e.key === "ArrowRight") {
                 e.preventDefault();
                 O(l);
-            } else if (e.code === "ArrowUp") {
+            } else if (e.key === "ArrowUp") {
                 e.preventDefault();
                 _(l);
-            } else if (e.code === "ArrowDown") {
+            } else if (e.key === "ArrowDown") {
                 e.preventDefault();
                 C(l);
-            } else if (e.code === "Escape") {
+            } else if (e.key === "Escape") {
                 e.preventDefault();
                 if (!j(l) && !o) {
                     de(l);
