@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.6.1
+ * @version     v4.6.2
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -318,11 +318,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         contentsColumn.onkeydown = ( ev: KeyboardEvent ) => {
-            if ( ev.code === KeyCode.escape ) {
+            if ( ev.key === KeyCode.escape ) {
                 ev.preventDefault();
                 contentsColumn.setAttribute( "contenteditable", "false" );
 
-            } else if ( isCommandKey( ev ) && ev.code === KeyCode.enter ) {
+            } else if ( isCommandKey( ev ) && ev.key === KeyCode.enter ) {
                 ev.preventDefault();
 
                 const newValue: string = contentsColumn.innerText;
@@ -353,7 +353,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
                 contentsColumn.setAttribute( "contenteditable", "false" );
                 
-            } else if ( ev.code === KeyCode.enter ) {
+            } else if ( ev.key === KeyCode.enter ) {
                 ev.preventDefault();
                 document.execCommand( "insertLineBreak" );    
             }
@@ -2270,11 +2270,11 @@ type JsonTreeData = Record<string, BindingOptions>;
                 };
     
                 propertyName.onkeydown = ( ev: KeyboardEvent ) => {
-                    if ( ev.code === KeyCode.escape ) {
+                    if ( ev.key === KeyCode.escape ) {
                         ev.preventDefault();
                         propertyName.setAttribute( "contenteditable", "false" );
 
-                    } else if ( ev.code === KeyCode.enter ) {
+                    } else if ( ev.key === KeyCode.enter ) {
                         ev.preventDefault();
     
                         const newPropertyName: string = propertyName.innerText;
@@ -2380,11 +2380,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         };
 
         propertyValue.onkeydown = ( ev: KeyboardEvent ) => {
-            if ( ev.code === KeyCode.escape ) {
+            if ( ev.key === KeyCode.escape ) {
                 ev.preventDefault();
                 propertyValue.setAttribute( "contenteditable", "false" );
                 
-            } else if ( ev.code === KeyCode.enter ) {
+            } else if ( ev.key === KeyCode.enter ) {
                 ev.preventDefault();
 
                 const newPropertyValue: string = propertyValue.innerText;
@@ -2949,31 +2949,31 @@ type JsonTreeData = Record<string, BindingOptions>;
         _key_Control_Pressed = isCommandKey( ev );
 
         if ( bindingOptions.shortcutKeysEnabled && _elements_Data_Count === 1 && _elements_Data.hasOwnProperty( bindingOptions._currentView.element.id ) && !bindingOptions._currentView.editMode ) {
-            if ( isCommandKey( ev ) && ev.code === KeyCode.C ) {
+            if ( isCommandKey( ev ) && ev.key.toLowerCase() === KeyCode.C ) {
                 ev.preventDefault();
                 onTitleBarCopyAllClick( bindingOptions, bindingOptions.data );
             
-            } else if ( isCommandKey( ev ) && ev.code === KeyCode.f11 ) {
+            } else if ( isCommandKey( ev ) && ev.key === KeyCode.f11 ) {
                 ev.preventDefault();
                 onTitleBarDblClick( bindingOptions );
 
-            } else if ( ev.code === KeyCode.left ) {
+            } else if ( ev.key === KeyCode.left ) {
                 ev.preventDefault();
                 onBackPage( bindingOptions );
 
-            } else if ( ev.code === KeyCode.right ) {
+            } else if ( ev.key === KeyCode.right ) {
                 ev.preventDefault();
                 onNextPage( bindingOptions );
 
-            } else if ( ev.code === KeyCode.up ) {
+            } else if ( ev.key === KeyCode.up ) {
                 ev.preventDefault();
                 onCloseAll( bindingOptions );
 
-            } else if ( ev.code === KeyCode.down ) {
+            } else if ( ev.key === KeyCode.down ) {
                 ev.preventDefault();
                 onOpenAll( bindingOptions );
 
-            } else if ( ev.code === KeyCode.escape ) {
+            } else if ( ev.key === KeyCode.escape ) {
                 ev.preventDefault();
 
                 if ( !onSideMenuClose( bindingOptions ) && !_key_Control_Pressed ) {
@@ -3300,7 +3300,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.6.1";
+            return "4.6.2";
         }
     };
 
