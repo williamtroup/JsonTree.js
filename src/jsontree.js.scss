@@ -745,7 +745,8 @@ div.json-tree-js {
                 button.expander-closed {
                     margin-top: var(--json-tree-js-spacing-title-bar);
                     margin: 0;
-                    width: calc( styles.$minimum-button-size + ( var(--json-tree-js-spacing-title-bar) * 2 ) + ( var(--json-tree-js-border-size) * 4 ) );
+                    min-width: calc( styles.$minimum-button-size + ( var(--json-tree-js-spacing-title-bar) * 2 ) + ( var(--json-tree-js-border-size) * 4 ) );
+                    width: 100%;
                     border: none;
                     border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
                     border-radius: 0;
