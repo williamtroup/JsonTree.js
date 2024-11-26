@@ -136,6 +136,11 @@
 
     // Indentation
     --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
+
+    // Scroll Bars
+    --json-tree-js-scroll-bar-size: 6px;
+    --json-tree-js-scroll-bar-border-style: inset 0 0 var(--json-tree-js-scroll-bar-size) var(--json-tree-js-color-black);
+    --json-tree-js-scroll-bar-hover-background-color: var(--json-tree-js-color-snow-white);
 }
 
 
@@ -1081,7 +1086,7 @@ div.json-tree-js {
                 border-radius: var(--json-tree-js-border-radius-editable) !important;
                 max-width: 250px;
                 cursor: text !important;
-                overflow: scroll;
+                overflow-x: auto;
                 vertical-align: middle;
             }
 
@@ -1305,5 +1310,45 @@ div.jsontree-js-tooltip-value {
     }
     100% { 
         opacity: 1;
+    }
+}
+
+
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Scroll Bars
+    -------------------------------------------------------------------------
+*/
+
+.jsontree-js-scroll-bars {
+    &::-webkit-scrollbar {
+        width: var(--json-tree-js-scroll-bar-size);
+        height: var(--json-tree-js-scroll-bar-size);
+        border-radius: var(--json-tree-js-border-radius);
+    }
+    
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: var(--json-tree-js-scroll-bar-border-style);
+        box-shadow: var(--json-tree-js-scroll-bar-border-style);
+        border-radius: var(--json-tree-js-border-radius);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: var(--json-tree-js-scroll-bar-border-style);
+        box-shadow: var(--json-tree-js-scroll-bar-border-style);
+        background: var(--json-tree-js-color-snow-white);
+        border-radius: var(--json-tree-js-border-radius);
+
+        &:hover {
+            background-color: var(--json-tree-js-scroll-bar-hover-background-color);
+        }
+
+        &:active {
+            background-color: var(--json-tree-js-color-light-gray);
+        }
+    }
+
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
     }
 }
