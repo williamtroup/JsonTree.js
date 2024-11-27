@@ -641,8 +641,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 1px;
-  padding-bottom: 1px;
   padding-left: 3px;
   padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
@@ -869,8 +867,6 @@ div.json-tree-js div.contents span.null,
 div.json-tree-js div.contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 1px;
-  padding-bottom: 1px;
   padding-left: 3px;
   padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
