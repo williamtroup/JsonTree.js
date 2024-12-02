@@ -1502,7 +1502,7 @@ var ContextMenu;
         e._currentView.currentContentColumns = [];
         e._currentView.dataTypeCounts = {};
         B(e, n);
-        const l = DomElement.create(e._currentView.element, "div", "contents");
+        const l = DomElement.create(e._currentView.element, "div", "contents jsontree-js-scroll-bars");
         if (t) {
             l.classList.add("page-switch");
         }
@@ -1531,7 +1531,7 @@ var ContextMenu;
         e._currentView.initialized = true;
     }
     function s(t, n, o, l, r, i, a) {
-        const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple" : "contents-column");
+        const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple jsontree-js-scroll-bars" : "contents-column jsontree-js-scroll-bars");
         if (!Is.defined(t)) {
             const t = DomElement.create(s, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
@@ -1603,6 +1603,7 @@ var ContextMenu;
         n._currentView.valueClickTimerId = 0;
         n._currentView.editMode = true;
         l.classList.add("editable");
+        l.classList.add("jsontree-js-scroll-bars");
         l.setAttribute("contenteditable", "true");
         l.setAttribute("draggable", "false");
         l.innerText = JSON.stringify(Convert2.toJsonStringifyClone(o, e, n), n.events.onCopyJsonReplacer, n.jsonIndentSpaces);
@@ -1942,8 +1943,8 @@ var ContextMenu;
                 o.ondblclick = () => E(t);
             }
             if (t.sideMenu.enabled) {
-                const n = DomElement.createWithHTML(o, "button", "side-menu", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => N(t);
+                const n = DomElement.createWithHTML(o, "button", "side-menu jsontree-js-scroll-bars", e.text.sideMenuButtonSymbolText);
+                n.onclick = () => j(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -2049,7 +2050,7 @@ var ContextMenu;
     }
     function M(e) {
         e._currentView.disabledBackground = DomElement.create(e._currentView.element, "div", "disabled-background");
-        e._currentView.disabledBackground.onclick = () => j(e);
+        e._currentView.disabledBackground.onclick = () => N(e);
     }
     function L(t) {
         if (t.sideMenu.enabled) {
@@ -2076,10 +2077,10 @@ var ContextMenu;
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
-            l.onclick = () => j(t);
+            l.onclick = () => N(t);
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
-                const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents");
+                const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents jsontree-js-scroll-bars");
                 H(e, t);
             }
         }
@@ -2089,11 +2090,11 @@ var ContextMenu;
         n.type = "file";
         n.accept = ".json";
         n.multiple = true;
-        j(e);
+        N(e);
         n.onchange = () => he(n.files, e, t);
         n.click();
     }
-    function N(e) {
+    function j(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -2101,7 +2102,7 @@ var ContextMenu;
             ContextMenu.hide(e);
         }
     }
-    function j(t) {
+    function N(t) {
         let n = false;
         if (t._currentView.sideMenu.classList.contains("side-menu-open")) {
             t._currentView.sideMenu.classList.remove("side-menu-open");
@@ -3019,6 +3020,7 @@ var ContextMenu;
                 t._currentView.valueClickTimerId = 0;
                 t._currentView.editMode = true;
                 l.classList.add("editable-name");
+                l.classList.add("jsontree-js-scroll-bars");
                 if (r) {
                     l.innerHTML = Arr.getIndexFromBrackets(o).toString();
                 } else {
@@ -3091,6 +3093,7 @@ var ContextMenu;
         n._currentView.valueClickTimerId = 0;
         n._currentView.editMode = true;
         a.classList.add("editable");
+        a.classList.add("jsontree-js-scroll-bars");
         a.setAttribute("contenteditable", "true");
         if (Is.definedDate(r) && !n.includeTimeZoneInDates) {
             a.innerText = JSON.stringify(r).replace(/['"]+/g, "");
@@ -3495,7 +3498,7 @@ var ContextMenu;
             n.setAttribute("download", Ve(t));
             n.click();
             document.body.removeChild(n);
-            j(t);
+            N(t);
             Z(t, e.text.exportedText);
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
@@ -3542,7 +3545,7 @@ var ContextMenu;
                 C(l);
             } else if (e.key === "Escape") {
                 e.preventDefault();
-                if (!j(l) && !o) {
+                if (!N(l) && !o) {
                     de(l);
                 }
             }
@@ -3743,7 +3746,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.6.3";
+            return "4.6.4";
         }
     };
     (() => {

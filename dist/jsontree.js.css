@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.6.3
+ * JsonTree.js Library v4.6.4
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -96,6 +96,9 @@
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
   --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
+  --json-tree-js-scroll-bar-size: 6px;
+  --json-tree-js-scroll-bar-border-style: inset 0 0 var(--json-tree-js-scroll-bar-size) var(--json-tree-js-color-black);
+  --json-tree-js-scroll-bar-hover-background-color: var(--json-tree-js-color-snow-white);
 }
 
 /*
@@ -638,8 +641,6 @@ div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.set
 div.json-tree-js div.side-menu div.side-menu-contents div.settings-panel div.settings-panel-contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 1px;
-  padding-bottom: 1px;
   padding-left: 3px;
   padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
@@ -769,7 +770,8 @@ div.json-tree-js div.contents div.contents-column-multiple div.column-control-bu
 div.json-tree-js div.contents div.contents-column-multiple div.column-control-buttons button.expander-closed {
   margin-top: var(--json-tree-js-spacing-title-bar);
   margin: 0;
-  width: calc(30px + var(--json-tree-js-spacing-title-bar) * 2 + var(--json-tree-js-border-size) * 4);
+  min-width: calc(30px + var(--json-tree-js-spacing-title-bar) * 2 + var(--json-tree-js-border-size) * 4);
+  width: 100%;
   border: none;
   border-top: var(--json-tree-js-border-size) solid var(--json-tree-js-paging-column-border-color);
   border-radius: 0;
@@ -865,8 +867,6 @@ div.json-tree-js div.contents span.null,
 div.json-tree-js div.contents span.undefined {
   background-color: var(--json-tree-js-color-null);
   border-radius: var(--json-tree-js-border-radius-editable);
-  padding-top: 1px;
-  padding-bottom: 1px;
   padding-left: 3px;
   padding-right: 3px;
   color: var(--json-tree-js-color-dark-black);
@@ -1103,7 +1103,7 @@ div.json-tree-js div.object-type-contents div.object-type-value span.editable-na
   border-radius: var(--json-tree-js-border-radius-editable) !important;
   max-width: 250px;
   cursor: text !important;
-  overflow: scroll;
+  overflow-x: auto;
   vertical-align: middle;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.editable {
@@ -1307,6 +1307,36 @@ div.jsontree-js-tooltip-value {
   100% {
     opacity: 1;
   }
+}
+/*
+    -------------------------------------------------------------------------
+    JsonTree.js - Scroll Bars
+    -------------------------------------------------------------------------
+*/
+.jsontree-js-scroll-bars::-webkit-scrollbar {
+  width: var(--json-tree-js-scroll-bar-size);
+  height: var(--json-tree-js-scroll-bar-size);
+  border-radius: var(--json-tree-js-border-radius);
+}
+.jsontree-js-scroll-bars::-webkit-scrollbar-track {
+  -webkit-box-shadow: var(--json-tree-js-scroll-bar-border-style);
+  box-shadow: var(--json-tree-js-scroll-bar-border-style);
+  border-radius: var(--json-tree-js-border-radius);
+}
+.jsontree-js-scroll-bars::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: var(--json-tree-js-scroll-bar-border-style);
+  box-shadow: var(--json-tree-js-scroll-bar-border-style);
+  background: var(--json-tree-js-color-snow-white);
+  border-radius: var(--json-tree-js-border-radius);
+}
+.jsontree-js-scroll-bars::-webkit-scrollbar-thumb:hover {
+  background-color: var(--json-tree-js-scroll-bar-hover-background-color);
+}
+.jsontree-js-scroll-bars::-webkit-scrollbar-thumb:active {
+  background-color: var(--json-tree-js-color-light-gray);
+}
+.jsontree-js-scroll-bars::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
 
 /*# sourceMappingURL=jsontree.js.css.map */

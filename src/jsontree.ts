@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.6.3
+ * @version     v4.6.4
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -169,7 +169,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         renderControlTitleBar( bindingOptions, data );
 
-        const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents" );
+        const contents: HTMLElement = DomElement.create( bindingOptions._currentView.element, "div", "contents jsontree-js-scroll-bars" );
 
         if ( isForPageSwitch ) {
             contents.classList.add( "page-switch" );
@@ -210,7 +210,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     }
 
     function renderControlContentsPanel( data: any, contents: HTMLElement, bindingOptions: BindingOptions, dataIndex: number, scrollTop: number, totalColumns: number, enableColumnOrder: boolean ) : void {
-        const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple" : "contents-column" );
+        const contentsColumn: HTMLElement = DomElement.create( contents, "div", totalColumns > 1 ? "contents-column-multiple jsontree-js-scroll-bars" : "contents-column jsontree-js-scroll-bars" );
         
         if ( !Is.defined( data ) ) {
             const noJson: HTMLElement = DomElement.create( contentsColumn, "div", "no-json" );
@@ -302,6 +302,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.editMode = true;
 
         contentsColumn.classList.add( "editable" );
+        contentsColumn.classList.add( "jsontree-js-scroll-bars" );
         contentsColumn.setAttribute( "contenteditable", "true" );
         contentsColumn.setAttribute( "draggable", "false" );
         contentsColumn.innerText = JSON.stringify( Convert.toJsonStringifyClone( data, _configuration, bindingOptions ), bindingOptions.events!.onCopyJsonReplacer, bindingOptions.jsonIndentSpaces );
@@ -782,7 +783,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             }
 
             if ( bindingOptions.sideMenu!.enabled ) {
-                const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
+                const sideMenuButton: HTMLButtonElement = DomElement.createWithHTML( titleBar, "button", "side-menu jsontree-js-scroll-bars", _configuration.text!.sideMenuButtonSymbolText! ) as HTMLButtonElement;
                 sideMenuButton.onclick = () => onSideMenuOpen( bindingOptions );
                 sideMenuButton.ondblclick = DomElement.cancelBubble;
 
@@ -981,7 +982,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             ToolTip.add( closeButton, bindingOptions, _configuration.text!.closeButtonText! );
 
             if ( Is.definedObject( bindingOptions.data ) ) {
-                const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents" );
+                const contents: HTMLElement = DomElement.create( bindingOptions._currentView.sideMenu, "div", "side-menu-contents jsontree-js-scroll-bars" );
 
                 addSideMenuIgnoreTypes( contents, bindingOptions );
             }
@@ -2249,6 +2250,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 bindingOptions._currentView.editMode = true;
 
                 propertyName.classList.add( "editable-name" );
+                propertyName.classList.add( "jsontree-js-scroll-bars" );
 
                 if ( isArrayItem ) {
                     propertyName.innerHTML = Arr.getIndexFromBrackets( originalPropertyName ).toString();
@@ -2349,6 +2351,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         bindingOptions._currentView.editMode = true;
 
         propertyValue.classList.add( "editable" );
+        propertyValue.classList.add( "jsontree-js-scroll-bars" );
         propertyValue.setAttribute( "contenteditable", "true" );
 
         if ( Is.definedDate( originalPropertyValue ) && !bindingOptions.includeTimeZoneInDates ) {
@@ -3300,7 +3303,7 @@ type JsonTreeData = Record<string, BindingOptions>;
         },
 
         getVersion: function () : string {
-            return "4.6.3";
+            return "4.6.4";
         }
     };
 
