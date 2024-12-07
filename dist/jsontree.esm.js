@@ -3746,7 +3746,7 @@ var ContextMenu;
             return e;
         },
         getVersion: function() {
-            return "4.6.4";
+            return "4.7.0";
         }
     };
     (() => {
