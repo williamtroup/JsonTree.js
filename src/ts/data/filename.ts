@@ -1,0 +1,21 @@
+/**
+ * JsonTree.js
+ * 
+ * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
+ * 
+ * @file        filename.ts
+ * @version     v4.7.0
+ * @author      Bunoon
+ * @license     MIT License
+ * @copyright   Bunoon 2024
+ */
+
+
+import { Char } from "./enum";
+
+
+export namespace Filename {
+    export function getExtension( filename: string ) : string {
+        return filename.split( Char.dot )!.pop()!.toLowerCase();
+    }
+}

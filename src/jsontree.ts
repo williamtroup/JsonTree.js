@@ -41,6 +41,7 @@ import { Size } from "./ts/data/size";
 import { Obj } from "./ts/data/obj";
 import { Convert } from "./ts/data/convert";
 import { ContextMenu } from "./ts/area/context-menu";
+import { Filename } from "./ts/data/filename";
 
 
 type JsonTreeData = Record<string, BindingOptions>;
@@ -2825,7 +2826,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
         for ( let fileIndex: number = 0; fileIndex < filesLength; fileIndex++ ) {
             const file: File = files[ fileIndex ];
-            const fileExtension: string = file!.name!.split( Char.dot )!.pop()!.toLowerCase();
+            const fileExtension: string = Filename.getExtension( file!.name! );
 
             if ( fileExtension === "json" ) {
                 importFromJson( file, onFileLoad );

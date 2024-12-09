@@ -1416,6 +1416,15 @@ var ContextMenu;
     e.addMenuItem = i;
 })(ContextMenu || (ContextMenu = {}));
 
+var Filename;
+
+(e => {
+    function t(e) {
+        return e.split(".").pop().toLowerCase();
+    }
+    e.getExtension = t;
+})(Filename || (Filename = {}));
+
 (() => {
     let e = {};
     let t = {};
@@ -2081,7 +2090,7 @@ var ContextMenu;
             ToolTip.add(l, t, e.text.closeButtonText);
             if (Is.definedObject(t.data)) {
                 const e = DomElement.create(t._currentView.sideMenu, "div", "side-menu-contents jsontree-js-scroll-bars");
-                H(e, t);
+                F(e, t);
             }
         }
     }
@@ -2124,7 +2133,7 @@ var ContextMenu;
         i(t);
         Z(t, e.text.jsonUpdatedText);
     }
-    function H(t, n) {
+    function F(t, n) {
         const o = [];
         const l = DomElement.create(t, "div", "settings-panel");
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
@@ -2132,8 +2141,8 @@ var ContextMenu;
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
         const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
         const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => F(n, o, true);
-        s.onclick = () => F(n, o, false);
+        a.onclick = () => H(n, o, true);
+        s.onclick = () => H(n, o, false);
         ToolTip.add(a, n, e.text.selectAllText);
         ToolTip.add(s, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
@@ -2152,7 +2161,7 @@ var ContextMenu;
             }
         }));
     }
-    function F(e, t, n) {
+    function H(e, t, n) {
         const o = t.length;
         const l = e.ignore;
         for (let e = 0; e < o; e++) {
@@ -3437,7 +3446,7 @@ var ContextMenu;
         };
         for (let t = 0; t < o; t++) {
             const n = e[t];
-            const l = n.name.split(".").pop().toLowerCase();
+            const l = Filename.getExtension(n.name);
             if (l === "json") {
                 we(n, i);
             } else {
