@@ -1423,6 +1423,10 @@ var Filename;
         return e.split(".").pop().toLowerCase();
     }
     e.getExtension = t;
+    function n(e) {
+        return e === "csv" || e === "html" || e === "htm";
+    }
+    e.isExtensionForObjectFile = n;
 })(Filename || (Filename = {}));
 
 (() => {
@@ -1485,7 +1489,7 @@ var Filename;
             n++;
         }
         i(e);
-        Be(e);
+        Ee(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -1628,7 +1632,7 @@ var Filename;
             if (t.key === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (_e(t) && t.key === "Enter") {
+            } else if (Ae(t) && t.key === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
@@ -1830,7 +1834,7 @@ var Filename;
             }
             if (s && t.controlPanel.showExportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button export", e.text.exportButtonSymbolText);
-                n.onclick = () => Ve(t, o);
+                n.onclick = () => ve(t, o);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (s && t.allowEditing.bulk && t.controlPanel.showImportButton) {
@@ -2077,7 +2081,7 @@ var Filename;
             }
             if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => Ve(t, t.data);
+                n.onclick = () => ve(t, t.data);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
@@ -2097,7 +2101,7 @@ var Filename;
     function P(e, t = null) {
         const n = DomElement.createWithNoContainer("input");
         n.type = "file";
-        n.accept = ".json, .csv";
+        n.accept = ".json, .csv, .html, .htm";
         n.multiple = true;
         N(e);
         n.onchange = () => he(n.files, e, t);
@@ -3441,7 +3445,7 @@ var Filename;
             l++;
             r[e.filename] = e;
             if (l === o) {
-                Se(t, r, n, l, o);
+                Ve(t, r, n, l, o);
             }
         };
         for (let t = 0; t < o; t++) {
@@ -3451,6 +3455,8 @@ var Filename;
                 we(n, i);
             } else if (l === "csv") {
                 De(n, i);
+            } else if (l === "html" || l === "htm") {
+                Se(n, i);
             } else {
                 o--;
             }
@@ -3503,7 +3509,23 @@ var Filename;
         };
         n.readAsText(e);
     }
-    function Se(t, n, o, l, r) {
+    function Se(e, t) {
+        const n = new FileReader;
+        let o = null;
+        n.onloadend = () => t(o);
+        n.onload = t => {
+            const n = t.target.result;
+            if (Is.definedString(n)) {
+                const t = DomElement.createWithNoContainer("div");
+                t.innerHTML = n;
+                o = new ImportedFilename;
+                o.filename = e.name;
+                o.object = t;
+            }
+        };
+        n.readAsText(e);
+    }
+    function Ve(t, n, o, l, r) {
         t._currentView.contentPanelsOpen = {};
         t._currentView.controlButtonsOpen = {};
         const s = Object.keys(n);
@@ -3512,7 +3534,7 @@ var Filename;
             for (let e = 0; e < l; e++) {
                 const l = s[e];
                 const r = Filename.getExtension(l);
-                const i = r === "csv" ? n[l].object : n[l];
+                const i = Filename.isExtensionForObjectFile(r) ? n[l].object : n[l];
                 if (o > t.data.length - 1) {
                     t.data = t.data.concat(i);
                 } else {
@@ -3525,14 +3547,14 @@ var Filename;
             if (l === 1) {
                 const e = s[0];
                 const o = Filename.getExtension(e);
-                const l = o === "csv" ? n[e].object : n[e];
+                const l = Filename.isExtensionForObjectFile(o) ? n[e].object : n[e];
                 t.data = l;
             } else {
                 t.data = [];
                 for (let e = 0; e < l; e++) {
                     const o = s[e];
                     const l = Filename.getExtension(o);
-                    const r = l === "csv" ? n[o].object : n[o];
+                    const r = Filename.isExtensionForObjectFile(l) ? n[o].object : n[o];
                     t.data = t.data.concat(r);
                 }
             }
@@ -3541,14 +3563,14 @@ var Filename;
         Z(t, e.text.importedText.replace("{0}", r.toString()));
         Trigger.customEvent(t.events.onSetJson, t._currentView.element);
     }
-    function Ve(t, n) {
+    function ve(t, n) {
         const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
         if (Is.definedString(o)) {
             const n = DomElement.create(document.body, "a");
             n.style.display = "none";
             n.setAttribute("target", "_blank");
             n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
-            n.setAttribute("download", ve(t));
+            n.setAttribute("download", Be(t));
             n.click();
             document.body.removeChild(n);
             N(t);
@@ -3556,32 +3578,32 @@ var Filename;
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }
-    function ve(t) {
+    function Be(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t);
         return o;
     }
-    function Be(e, t = true) {
+    function Ee(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
-        n("keydown", (t => Ie(t, e)));
-        n("keyup", (e => Ce(e)));
-        n("contextmenu", (() => Ee(e)));
-        l("click", (() => Ee(e)));
+        n("keydown", (t => Ce(t, e)));
+        n("keyup", (e => _e(e)));
+        n("contextmenu", (() => Ie(e)));
+        l("click", (() => Ie(e)));
         l("focus", (() => o = false));
     }
-    function Ee(e) {
+    function Ie(e) {
         if (!o) {
             de(e);
         }
     }
-    function Ie(e, l) {
-        o = _e(e);
+    function Ce(e, l) {
+        o = Ae(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (_e(e) && e.key.toLowerCase() === "c") {
+            if (Ae(e) && e.key.toLowerCase() === "c") {
                 e.preventDefault();
                 I(l, l.data);
-            } else if (_e(e) && e.key === "F11") {
+            } else if (Ae(e) && e.key === "F11") {
                 e.preventDefault();
                 E(l);
             } else if (e.key === "ArrowLeft") {
@@ -3604,13 +3626,13 @@ var Filename;
             }
         }
     }
-    function Ce(e) {
-        o = _e(e);
-    }
     function _e(e) {
-        return e.ctrlKey || e.metaKey;
+        o = Ae(e);
     }
     function Ae(e) {
+        return e.ctrlKey || e.metaKey;
+    }
+    function Oe(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         e._currentView.element.classList.remove("full-screen");
@@ -3627,21 +3649,21 @@ var Filename;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        Be(e, false);
+        Ee(e, false);
         ToolTip.assignToEvents(e, false);
         ContextMenu.assignToEvents(e, false);
         ToolTip.remove(e);
         ContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const Oe = {
+    const Me = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return Oe;
+            return Me;
         },
         refreshAll: function() {
             for (const e in t) {
@@ -3651,29 +3673,29 @@ var Filename;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return Oe;
+            return Me;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return Oe;
+            return Me;
         },
         renderAll: function() {
             l();
-            return Oe;
+            return Me;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 C(t[e]);
             }
-            return Oe;
+            return Me;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 _(t[e]);
             }
-            return Oe;
+            return Me;
         },
         backPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3682,7 +3704,7 @@ var Filename;
                     A(t[e]);
                 }
             }
-            return Oe;
+            return Me;
         },
         nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3691,7 +3713,7 @@ var Filename;
                     O(t[e]);
                 }
             }
-            return Oe;
+            return Me;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -3720,7 +3742,7 @@ var Filename;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return Oe;
+            return Me;
         },
         getJson: function(e) {
             let n = null;
@@ -3746,7 +3768,7 @@ var Filename;
                 t[e]._currentView = r;
                 i(t[e]);
             }
-            return Oe;
+            return Me;
         },
         getBindingOptions: function(e) {
             let n = null;
@@ -3757,21 +3779,21 @@ var Filename;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                Ae(t[e]);
+                Oe(t[e]);
                 delete t[e];
                 n--;
             }
-            return Oe;
+            return Me;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    Ae(t[e]);
+                    Oe(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return Oe;
+            return Me;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -3787,7 +3809,7 @@ var Filename;
                     e = Config.Options.get(o);
                 }
             }
-            return Oe;
+            return Me;
         },
         getIds: function() {
             const e = [];
@@ -3806,7 +3828,7 @@ var Filename;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => l()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = Oe;
+            window.$jsontree = Me;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

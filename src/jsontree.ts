@@ -993,7 +993,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onSideMenuImportClick( bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         const input: HTMLInputElement = DomElement.createWithNoContainer( "input" ) as HTMLInputElement;
         input.type = "file";
-        input.accept = ".json, .csv";
+        input.accept = ".json, .csv, .html, .htm";
         input.multiple = true;
 
         onSideMenuClose( bindingOptions );
@@ -2832,6 +2832,8 @@ type JsonTreeData = Record<string, BindingOptions>;
                 importFromJson( file, onFileLoad );
             } else if ( fileExtension === "csv" ) {
                 importFromCsv( file, onFileLoad );
+            } else if ( fileExtension === "html" || fileExtension === "htm" ) {
+                importFromHtml( file, onFileLoad );
             } else {
                 filesLength--;
             }
@@ -2901,6 +2903,28 @@ type JsonTreeData = Record<string, BindingOptions>;
         reader.readAsText( file );
     }
 
+    function importFromHtml( file: File, onFileLoad: ( importFileData: ImportedFilename ) => void ) : void {
+        const reader: FileReader = new FileReader();
+        let renderData: ImportedFilename = null!;
+
+        reader.onloadend = () => onFileLoad( renderData );
+    
+        reader.onload = ( ev: ProgressEvent<FileReader> ) => {
+            const htmlData: any = ev.target!.result;
+
+            if ( Is.definedString( htmlData ) ) {
+                const htmlElement: HTMLElement = DomElement.createWithNoContainer( "div" );
+                htmlElement.innerHTML = htmlData;
+
+                renderData = new ImportedFilename();
+                renderData.filename = file.name;
+                renderData.object = htmlElement;
+            }
+        };
+
+        reader.readAsText( file );
+    }
+
     function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, ImportedFilename>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
         bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
         bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
@@ -2912,7 +2936,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             for ( let filenameIndex: number = 0; filenameIndex < filesRead; filenameIndex++ ) {
                 const filename: string = filenames[ filenameIndex ];
                 const filenameExtension: string = Filename.getExtension( filename );
-                const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+                const objectData: any = Filename.isExtensionForObjectFile( filenameExtension ) ? filesData[ filename ].object : filesData[ filename ];
 
                 if ( insertDataIndex > bindingOptions.data.length - 1 ) {
                     bindingOptions.data = bindingOptions.data.concat( objectData );
@@ -2929,7 +2953,7 @@ type JsonTreeData = Record<string, BindingOptions>;
             if ( filesRead === 1 ) {
                 const filename: string = filenames[ 0 ];
                 const filenameExtension: string = Filename.getExtension( filename );
-                const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+                const objectData: any = Filename.isExtensionForObjectFile( filenameExtension ) ? filesData[ filename ].object : filesData[ filename ];
 
                 bindingOptions.data = objectData;
 
@@ -2939,7 +2963,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 for ( let filenameIndex: number = 0; filenameIndex < filesRead; filenameIndex++ ) {
                     const filename: string = filenames[ filenameIndex ];
                     const filenameExtension: string = Filename.getExtension( filename );
-                    const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+                    const objectData: any = Filename.isExtensionForObjectFile( filenameExtension ) ? filesData[ filename ].object : filesData[ filename ];
 
                     bindingOptions.data = bindingOptions.data.concat( objectData );
                 }

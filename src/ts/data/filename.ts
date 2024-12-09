@@ -18,4 +18,8 @@ export namespace Filename {
     export function getExtension( filename: string ) : string {
         return filename.split( Char.dot )!.pop()!.toLowerCase();
     }
+
+    export function isExtensionForObjectFile( extension: string ) : boolean {
+        return extension === "csv" || extension === "html" || extension === "htm";
+    }
 }
