@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Velikost: {0}",
         "copiedText": "JSON kopiran v odložišče.",
         "exportedText": "JSON izvožen.",
-        "importedText": "{0} Uvoženih datotek JSON.",
+        "importedText": "{0} Uvoženih datotek.",
         "ignoreDataTypesUpdated": "Prezri posodobljene vrste podatkov.",
         "lengthText": "Dolžina: {0}",
         "valueUpdatedText": "Vrednost posodobljena.",

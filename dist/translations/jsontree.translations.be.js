@@ -93,7 +93,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Памер: {0}",
         "copiedText": "JSON скапіраваны ў буфер абмену.",
         "exportedText": "JSON экспартаваны.",
-        "importedText": "Імпартавана файлаў JSON: {0}.",
+        "importedText": "Імпартавана файлаў: {0}.",
         "ignoreDataTypesUpdated": "Ігнараваць абноўленыя тыпы даных.",
         "lengthText": "Даўжыня: {0}",
         "valueUpdatedText": "Значэнне абноўлена.",

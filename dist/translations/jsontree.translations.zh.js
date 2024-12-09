@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "尺寸：{0}",
         "copiedText": "JSON 已复制到剪贴板。",
         "exportedText": "导出 JSON。",
-        "importedText": "已导入 {0} 个 JSON 文件。",
+        "importedText": "已导入 {0} 个 文件。",
         "ignoreDataTypesUpdated": "忽略更新的数据类型。",
         "lengthText": "长度：{0}",
         "valueUpdatedText": "值已更新。",

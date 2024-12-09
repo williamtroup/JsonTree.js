@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "الحجم: {0}",
         "copiedText": "تم نسخ JSON إلى الحافظة.",
         "exportedText": "تم تصدير JSON.",
-        "importedText": "{0} تم استيراد ملفات JSON.",
+        "importedText": "{0} تم استيراد ملفات.",
         "ignoreDataTypesUpdated": "تجاهل أنواع البيانات المحدثة.",
         "lengthText": "الطول: {0}",
         "valueUpdatedText": "تم تحديث القيمة.",

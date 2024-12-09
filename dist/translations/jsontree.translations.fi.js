@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Koko: {0}",
         "copiedText": "JSON kopioitu leikepöydälle.",
         "exportedText": "JSON viety.",
-        "importedText": "{0} JSON-tiedostoa tuotu.",
+        "importedText": "{0} tiedostoa tuotu.",
         "ignoreDataTypesUpdated": "Ohita tietotyypit päivitetty.",
         "lengthText": "Pituus: {0}",
         "valueUpdatedText": "Arvo päivitetty.",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Kích thước: {0}",
         "copiedText": "JSON được sao chép vào bảng nhớ tạm.",
         "exportedText": "Đã xuất JSON.",
-        "importedText": "{0} tệp JSON đã được nhập.",
+        "importedText": "{0} tệp đã được nhập.",
         "ignoreDataTypesUpdated": "Bỏ qua các loại dữ liệu được cập nhật.",
         "lengthText": "Độ dài: {0}",
         "valueUpdatedText": "Đã cập nhật giá trị.",

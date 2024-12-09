@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Dydis: {0}",
         "copiedText": "JSON nukopijuotas į iškarpinę.",
         "exportedText": "JSON eksportuotas.",
-        "importedText": "Importuoti {0} JSON failai.",
+        "importedText": "Importuoti {0} failai.",
         "ignoreDataTypesUpdated": "Ignoruoti duomenų tipus atnaujinti.",
         "lengthText": "Ilgis: {0}",
         "valueUpdatedText": "Vertė atnaujinta.",

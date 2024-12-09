@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Laki: {0}",
         "copiedText": "Kinopya ang JSON sa clipboard.",
         "exportedText": "Na-export ang JSON.",
-        "importedText": "{0} na-import na mga JSON file.",
+        "importedText": "{0} na-import na mga file.",
         "ignoreDataTypesUpdated": "Huwag pansinin ang mga uri ng data na na-update.",
         "lengthText": "Haba: {0}",
         "valueUpdatedText": "Na-update ang halaga.",

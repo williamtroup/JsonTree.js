@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Méid: {0}",
         "copiedText": "Chóipeáil JSON chuig an ngearrthaisce.",
         "exportedText": "Easpórtáil JSON.",
-        "importedText": "Iompórtáladh {0} comhad JSON.",
+        "importedText": "Iompórtáladh {0} comhad.",
         "ignoreDataTypesUpdated": "Déan neamhaird de chineálacha sonraí nuashonraithe.",
         "lengthText": "Fad: {0}",
         "valueUpdatedText": "Luach nuashonraithe.",

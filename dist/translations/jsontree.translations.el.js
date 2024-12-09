@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Μέγεθος: {0}",
         "copiedText": "Το JSON αντιγράφηκε στο πρόχειρο.",
         "exportedText": "JSON εξήχθη.",
-        "importedText": "Εισήχθησαν {0} αρχεία JSON.",
+        "importedText": "Εισήχθησαν {0} αρχεία.",
         "ignoreDataTypesUpdated": "Αγνοήστε τους τύπους δεδομένων που ενημερώθηκαν.",
         "lengthText": "Μήκος: {0}",
         "valueUpdatedText": "Η τιμή ενημερώθηκε.",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Mida: {0}",
         "copiedText": "S'ha copiat JSON al porta-retalls.",
         "exportedText": "JSON exportat.",
-        "importedText": "S'han importat {0} fitxers JSON.",
+        "importedText": "S'han importat {0} fitxers.",
         "ignoreDataTypesUpdated": "Ignora els tipus de dades actualitzats.",
         "lengthText": "Longitud: {0}",
         "valueUpdatedText": "Valor actualitzat.",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Grutte: {0}",
         "copiedText": "JSON kopiearre nei klamboerd.",
         "exportedText": "JSON eksportearre.",
-        "importedText": "{0} JSON-bestannen ymportearre.",
+        "importedText": "{0} bestannen ymportearre.",
         "ignoreDataTypesUpdated": "Negearje bywurke gegevenstypen.",
         "lengthText": "Lengte: {0}",
         "valueUpdatedText": "Wearde bywurke.",

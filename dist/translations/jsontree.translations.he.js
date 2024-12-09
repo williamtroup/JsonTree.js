@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "גודל: {0}",
         "copiedText": "JSON הועתק ללוח.",
         "exportedText": "JSON מיוצא.",
-        "importedText": "{0} קובצי JSON יובאו.",
+        "importedText": "{0} קובצי יובאו.",
         "ignoreDataTypesUpdated": "התעלם מסוגי נתונים שעודכנו.",
         "lengthText": "אורך: {0}",
         "valueUpdatedText": "הערך עודכן.",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Veľkosť: {0}",
         "copiedText": "JSON bol skopírovaný do schránky.",
         "exportedText": "JSON bol exportovaný.",
-        "importedText": "Počet importovaných súborov JSON: {0}.",
+        "importedText": "Počet importovaných súborov: {0}.",
         "ignoreDataTypesUpdated": "Ignorovať aktualizované typy údajov.",
         "lengthText": "Dĺžka: {0}",
         "valueUpdatedText": "Hodnota bola aktualizovaná.",

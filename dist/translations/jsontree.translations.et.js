@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Suurus: {0}",
         "copiedText": "JSON kopeeriti lõikelauale.",
         "exportedText": "JSON eksporditud.",
-        "importedText": "Imporditi {0} JSON-faili.",
+        "importedText": "Imporditi {0} faili.",
         "ignoreDataTypesUpdated": "Ignoreeri andmetüüpe värskendati.",
         "lengthText": "Pikkus: {0}",
         "valueUpdatedText": "Väärtust värskendati.",

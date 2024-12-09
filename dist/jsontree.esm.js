@@ -1099,7 +1099,7 @@ var Config;
             e.text.sizeText = Default.getAnyString(e.text.sizeText, "Size: {0}");
             e.text.copiedText = Default.getAnyString(e.text.copiedText, "JSON copied to clipboard.");
             e.text.exportedText = Default.getAnyString(e.text.exportedText, "JSON exported.");
-            e.text.importedText = Default.getAnyString(e.text.importedText, "{0} JSON files imported.");
+            e.text.importedText = Default.getAnyString(e.text.importedText, "{0} files imported.");
             e.text.ignoreDataTypesUpdated = Default.getAnyString(e.text.ignoreDataTypesUpdated, "Ignore data types updated.");
             e.text.lengthText = Default.getAnyString(e.text.lengthText, "Length: {0}");
             e.text.valueUpdatedText = Default.getAnyString(e.text.valueUpdatedText, "Value updated.");

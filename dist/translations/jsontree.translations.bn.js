@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "আকার: {0}",
         "copiedText": "JSON ক্লিপবোর্ডে কপি করা হয়েছে।",
         "exportedText": "JSON রপ্তানি করা হয়েছে।",
-        "importedText": "{0} JSON ফাইল আমদানি করা হয়েছে৷",
+        "importedText": "{0} ফাইল আমদানি করা হয়েছে৷",
         "ignoreDataTypesUpdated": "উপেক্ষা ডেটা প্রকার আপডেট করা হয়েছে।",
         "lengthText": "দৈর্ঘ্য: {0}",
         "valueUpdatedText": "মান আপডেট করা হয়েছে।",

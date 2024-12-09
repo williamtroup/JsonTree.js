@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Ukuran: {0}",
         "copiedText": "JSON disalin ke papan klip.",
         "exportedText": "JSON diekspor.",
-        "importedText": "{0} File JSON diimpor.",
+        "importedText": "{0} File diimpor.",
         "ignoreDataTypesUpdated": "Abaikan tipe data yang diperbarui.",
         "lengthText": "Panjangnya: {0}",
         "valueUpdatedText": "Nilai diperbarui.",

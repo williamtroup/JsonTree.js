@@ -82,7 +82,7 @@ export namespace Config {
             configuration.text!.sizeText = Default.getAnyString( configuration.text!.sizeText, "Size: {0}" );
             configuration.text!.copiedText = Default.getAnyString( configuration.text!.copiedText, "JSON copied to clipboard." );
             configuration.text!.exportedText = Default.getAnyString( configuration.text!.exportedText, "JSON exported." );
-            configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} JSON files imported." );
+            configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} files imported." );
             configuration.text!.ignoreDataTypesUpdated = Default.getAnyString( configuration.text!.ignoreDataTypesUpdated, "Ignore data types updated." );
             configuration.text!.lengthText = Default.getAnyString( configuration.text!.lengthText, "Length: {0}" );
             configuration.text!.valueUpdatedText = Default.getAnyString( configuration.text!.valueUpdatedText, "Value updated." );

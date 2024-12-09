@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Izmērs: {0}",
         "copiedText": "JSON kopēts starpliktuvē.",
         "exportedText": "JSON eksportēts.",
-        "importedText": "Importēti {0} JSON faili.",
+        "importedText": "Importēti {0} faili.",
         "ignoreDataTypesUpdated": "Ignorēt atjauninātos datu tipus.",
         "lengthText": "Garums: {0}",
         "valueUpdatedText": "Vērtība atjaunināta.",

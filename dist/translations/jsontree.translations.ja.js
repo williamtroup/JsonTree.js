@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "サイズ: {0}",
         "copiedText": "JSON がクリップボードにコピーされました。",
         "exportedText": "JSONがエクスポートされました。",
-        "importedText": "{0} 個の JSON ファイルがインポートされました。",
+        "importedText": "{0} 個の ファイルがインポートされました。",
         "ignoreDataTypesUpdated": "更新されたデータ型を無視します。",
         "lengthText": "長さ: {0}",
         "valueUpdatedText": "値が更新されました。",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Méret: {0}",
         "copiedText": "JSON a vágólapra másolva.",
         "exportedText": "JSON exportálva.",
-        "importedText": "{0} JSON-fájl importálva.",
+        "importedText": "{0} fájl importálva.",
         "ignoreDataTypesUpdated": "Az adattípusok figyelmen kívül hagyása frissítve.",
         "lengthText": "Hossz: {0}",
         "valueUpdatedText": "Érték frissítve.",

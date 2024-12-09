@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "పరిమాణం: {0}",
         "copiedText": "JSON క్లిప్‌బోర్డ్‌కి కాపీ చేయబడింది.",
         "exportedText": "JSON ఎగుమతి చేయబడింది.",
-        "importedText": "{0} JSON ఫైల్‌లు దిగుమతి చేయబడ్డాయి.",
+        "importedText": "{0} ఫైల్‌లు దిగుమతి చేయబడ్డాయి.",
         "ignoreDataTypesUpdated": "నవీకరించబడిన డేటా రకాలను విస్మరించండి.",
         "lengthText": "పొడవు: {0}",
         "valueUpdatedText": "విలువ నవీకరించబడింది.",

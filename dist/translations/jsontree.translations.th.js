@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "ขนาด: {0}",
         "copiedText": "คัดลอก JSON ไปยังคลิปบอร์ดแล้ว",
         "exportedText": "JSON ส่งออกแล้ว",
-        "importedText": "นำเข้าไฟล์ JSON {0} ไฟล์",
+        "importedText": "นำเข้าไฟล์ {0} ไฟล์",
         "ignoreDataTypesUpdated": "ละเว้นประเภทข้อมูลที่อัปเดต",
         "lengthText": "ความยาว: {0}",
         "valueUpdatedText": "อัปเดตค่าแล้ว",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "크기: {0}",
         "copiedText": "JSON이 클립보드에 복사되었습니다.",
         "exportedText": "JSON을 내보냈습니다.",
-        "importedText": "{0} JSON 파일을 가져왔습니다.",
+        "importedText": "{0} 파일을 가져왔습니다.",
         "ignoreDataTypesUpdated": "업데이트된 데이터 유형을 무시합니다.",
         "lengthText": "길이: {0}",
         "valueUpdatedText": "값이 업데이트되었습니다.",

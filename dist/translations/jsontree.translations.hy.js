@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Չափը՝ {0}",
         "copiedText": "JSON-ը պատճենվեց սեղմատախտակում:",
         "exportedText": "JSON-ն արտահանվել է:",
-        "importedText": "Ներմուծվել է {0} JSON ֆայլ:",
+        "importedText": "Ներմուծվել է {0} ֆայլ:",
         "ignoreDataTypesUpdated": "Անտեսեք թարմացված տվյալների տեսակները:",
         "lengthText": "Երկարությունը՝ {0}",
         "valueUpdatedText": "Արժեքը թարմացվել է:",

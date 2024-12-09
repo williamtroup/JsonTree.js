@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Boyut: {0}",
         "copiedText": "JSON panoya kopyalandı.",
         "exportedText": "JSON dışa aktarıldı.",
-        "importedText": "{0} JSON dosyası içe aktarıldı.",
+        "importedText": "{0} dosyası içe aktarıldı.",
         "ignoreDataTypesUpdated": "Güncellenen veri türlerini yoksay.",
         "lengthText": "Uzunluk: {0}",
         "valueUpdatedText": "Değer güncellendi.",

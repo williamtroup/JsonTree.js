@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "ზომა: {0}",
         "copiedText": "JSON კოპირებულია ბუფერში.",
         "exportedText": "JSON ექსპორტირებულია.",
-        "importedText": "იმპორტირებულია {0} JSON ფაილი.",
+        "importedText": "იმპორტირებულია {0} ფაილი.",
         "ignoreDataTypesUpdated": "განახლებული მონაცემთა ტიპების იგნორირება.",
         "lengthText": "სიგრძე: {0}",
         "valueUpdatedText": "ღირებულება განახლებულია.",

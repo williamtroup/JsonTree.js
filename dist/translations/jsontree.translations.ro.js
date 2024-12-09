@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Dimensiune: {0}",
         "copiedText": "JSON a fost copiat în clipboard.",
         "exportedText": "JSON exportat.",
-        "importedText": "{0} fișiere JSON importate.",
+        "importedText": "{0} fișiere importate.",
         "ignoreDataTypesUpdated": "Ignorați tipurile de date actualizate.",
         "lengthText": "Lungime: {0}",
         "valueUpdatedText": "Valoare actualizată.",

@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Größe: {0}",
         "copiedText": "JSON in die Zwischenablage kopiert.",
         "exportedText": "JSON exportiert.",
-        "importedText": "{0} JSON-Dateien importiert.",
+        "importedText": "{0} Dateien importiert.",
         "ignoreDataTypesUpdated": "Aktualisierte Datentypen ignorieren.",
         "lengthText": "Länge: {0}",
         "valueUpdatedText": "Wert aktualisiert.",

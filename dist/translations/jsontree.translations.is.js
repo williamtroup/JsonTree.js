@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Stærð: {0}",
         "copiedText": "JSON afritað á klippiborð.",
         "exportedText": "JSON flutt út.",
-        "importedText": "{0} JSON skrár fluttar inn.",
+        "importedText": "{0} skrár fluttar inn.",
         "ignoreDataTypesUpdated": "Hunsa gagnategundir uppfærðar.",
         "lengthText": "Lengd: {0}",
         "valueUpdatedText": "Gildi uppfært.",

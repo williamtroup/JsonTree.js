@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "அளவு: {0}",
         "copiedText": "JSON கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.",
         "exportedText": "JSON ஏற்றுமதி செய்யப்பட்டது.",
-        "importedText": "{0} JSON கோப்புகள் இறக்குமதி செய்யப்பட்டன.",
+        "importedText": "{0} கோப்புகள் இறக்குமதி செய்யப்பட்டன.",
         "ignoreDataTypesUpdated": "புதுப்பிக்கப்பட்ட தரவு வகைகளைப் புறக்கணிக்கவும்.",
         "lengthText": "நீளம்: {0}",
         "valueUpdatedText": "மதிப்பு புதுப்பிக்கப்பட்டது.",

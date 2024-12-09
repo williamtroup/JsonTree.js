@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "尺寸：{0}",
         "copiedText": "JSON 已複製到剪貼簿。",
         "exportedText": "導出 JSON。",
-        "importedText": "已導入 {0} 個 JSON 檔案。",
+        "importedText": "已導入 {0} 個 檔案。",
         "ignoreDataTypesUpdated": "忽略更新的資料類型。",
         "lengthText": "長度：{0}",
         "valueUpdatedText": "值已更新。",

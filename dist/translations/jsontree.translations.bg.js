@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Размер: {0}",
         "copiedText": "JSON е копиран в клипборда.",
         "exportedText": "Експортиран JSON.",
-        "importedText": "Импортирани са {0} JSON файла.",
+        "importedText": "Импортирани са {0} файла.",
         "ignoreDataTypesUpdated": "Игнорирайте актуализираните типове данни.",
         "lengthText": "Дължина: {0}",
         "valueUpdatedText": "Стойността е актуализирана.",
