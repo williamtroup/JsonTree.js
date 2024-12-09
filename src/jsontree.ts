@@ -2814,9 +2814,9 @@ type JsonTreeData = Record<string, BindingOptions>;
         let filesRead: number = 0;
         let filesData: Record<string, any> = {} as Record<string, any>;
 
-        const onFileLoad = ( data: any, filename: string ) : void => {
+        const onFileLoad = ( importFileData: ImportedFilename ) : void => {
             filesRead++;
-            filesData[ filename ] = data;
+            filesData[ importFileData.filename ] = importFileData;
 
             if ( filesRead === filesLength ) {
                 importLoadedFiles( bindingOptions, filesData, insertDataIndex, filesRead, filesLength );
@@ -2835,11 +2835,11 @@ type JsonTreeData = Record<string, BindingOptions>;
         }
     }
 
-    function importFromJson( file: File, onFileLoad: ( data: any, filename: string ) => void ) : void {
+    function importFromJson( file: File, onFileLoad: ( importFileData: ImportedFilename ) => void ) : void {
         const reader: FileReader = new FileReader();
         let renderData: ImportedFilename = null!;
 
-        reader.onloadend = () => onFileLoad( renderData, file.name );
+        reader.onloadend = () => onFileLoad( renderData );
     
         reader.onload = ( ev: ProgressEvent<FileReader> ) => {
             const json: StringToJson = Convert.jsonStringToObject( ev.target!.result, _configuration );

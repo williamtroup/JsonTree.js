@@ -3430,9 +3430,9 @@ var ContextMenu;
         let o = e.length;
         let l = 0;
         let r = {};
-        const i = (e, i) => {
+        const i = e => {
             l++;
-            r[i] = e;
+            r[e.filename] = e;
             if (l === o) {
                 De(t, r, n, l, o);
             }
@@ -3450,7 +3450,7 @@ var ContextMenu;
     function we(t, n) {
         const o = new FileReader;
         let l = null;
-        o.onloadend = () => n(l, t.name);
+        o.onloadend = () => n(l);
         o.onload = n => {
             const o = Convert2.jsonStringToObject(n.target.result, e);
             if (o.parsed && Is.definedObject(o.object)) {
