@@ -73,10 +73,10 @@ var Is;
             return t;
         }
         e.bigInt = i;
-        function a(e) {
+        function s(e) {
             return e.startsWith("Symbol(") && e.endsWith(")");
         }
-        e.symbol = a;
+        e.symbol = s;
     })(t = e.String || (e.String = {}));
     function n(e) {
         return e !== null && e !== void 0 && e.toString() !== "";
@@ -98,14 +98,14 @@ var Is;
         return e !== null && e !== void 0 && typeof e === "string";
     }
     e.definedStringAny = i;
-    function a(e) {
+    function s(e) {
         return n(e) && typeof e === "function";
     }
-    e.definedFunction = a;
-    function s(e) {
+    e.definedFunction = s;
+    function a(e) {
         return n(e) && typeof e === "number";
     }
-    e.definedNumber = s;
+    e.definedNumber = a;
     function u(e) {
         return n(e) && typeof e === "bigint";
     }
@@ -271,16 +271,16 @@ var Convert2;
         const l = e.children.length;
         const r = "&children";
         const i = "#text";
-        const a = e.cloneNode(true);
-        let s = a.children.length;
-        while (s > 0) {
-            if (a.children[0].nodeType !== Node.TEXT_NODE) {
-                a.removeChild(a.children[0]);
+        const s = e.cloneNode(true);
+        let a = s.children.length;
+        while (a > 0) {
+            if (s.children[0].nodeType !== Node.TEXT_NODE) {
+                s.removeChild(s.children[0]);
             }
-            s--;
+            a--;
         }
         n[r] = [];
-        n[i] = a.innerText;
+        n[i] = s.innerText;
         for (let t = 0; t < o; t++) {
             const o = e.attributes[t];
             if (Is.definedString(o.nodeName)) {
@@ -453,14 +453,14 @@ var Default;
         return Is.definedArray(e) ? e : t;
     }
     e.getArray = i;
-    function a(e, t) {
+    function s(e, t) {
         return Is.definedObject(e) ? e : t;
     }
-    e.getObject = a;
-    function s(e, t, n) {
+    e.getObject = s;
+    function a(e, t, n) {
         return Is.definedNumber(e) ? e >= n ? e : n : t;
     }
-    e.getNumberMinimum = s;
+    e.getNumberMinimum = a;
     function u(e, t, n) {
         return Is.definedNumber(e) ? e > n ? n : e : t;
     }
@@ -580,7 +580,7 @@ var DomElement;
         return t;
     }
     e.getScrollPosition = i;
-    function a(e, t, n) {
+    function s(e, t, n) {
         let o = e.pageX;
         let l = e.pageY;
         const r = i();
@@ -606,18 +606,18 @@ var DomElement;
         t.style.left = `${o}px`;
         t.style.top = `${l}px`;
     }
-    e.showElementAtMousePosition = a;
-    function s(e) {
+    e.showElementAtMousePosition = s;
+    function a(e) {
         const t = document.createRange();
         t.selectNodeContents(e);
         const n = window.getSelection();
         n.removeAllRanges();
         n.addRange(t);
     }
-    e.selectAllText = s;
-    function u(e, t, l, r, i, a) {
-        const s = n(e, "div", "checkbox");
-        const u = n(s, "label", "checkbox");
+    e.selectAllText = a;
+    function u(e, t, l, r, i, s) {
+        const a = n(e, "div", "checkbox");
+        const u = n(a, "label", "checkbox");
         const c = n(u, "input");
         c.type = "checkbox";
         c.name = l;
@@ -625,8 +625,8 @@ var DomElement;
         c.autocomplete = "off";
         n(u, "span", "check-mark");
         o(u, "span", `text ${i}`, t);
-        if (Is.definedString(a)) {
-            o(u, "span", `additional-text`, a);
+        if (Is.definedString(s)) {
+            o(u, "span", `additional-text`, s);
         }
         return c;
     }
@@ -679,10 +679,10 @@ var DateTime;
     function o(e, o, l) {
         const r = isNaN(+o) ? new Date : o;
         let i = l.dateTimeFormat;
-        const a = t(r);
-        let s = r.getHours() % 12;
-        s = s === 0 ? 12 : s;
-        i = i.replace("{hhh}", Str.padNumber(s, 2));
+        const s = t(r);
+        let a = r.getHours() % 12;
+        a = a === 0 ? 12 : a;
+        i = i.replace("{hhh}", Str.padNumber(a, 2));
         i = i.replace("{hh}", Str.padNumber(r.getHours(), 2));
         i = i.replace("{h}", r.getHours().toString());
         i = i.replace("{MM}", Str.padNumber(r.getMinutes(), 2));
@@ -692,8 +692,8 @@ var DateTime;
         i = i.replace("{fff}", Str.padNumber(r.getMilliseconds(), 3));
         i = i.replace("{ff}", Str.padNumber(r.getMilliseconds(), 2));
         i = i.replace("{f}", r.getMilliseconds().toString());
-        i = i.replace("{dddd}", e.text.dayNames[a]);
-        i = i.replace("{ddd}", e.text.dayNamesAbbreviated[a]);
+        i = i.replace("{dddd}", e.text.dayNames[s]);
+        i = i.replace("{ddd}", e.text.dayNamesAbbreviated[s]);
         i = i.replace("{dd}", Str.padNumber(r.getDate()));
         i = i.replace("{d}", r.getDate().toString());
         i = i.replace("{o}", n(e, r.getDate()));
@@ -823,8 +823,8 @@ var Binding;
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
-            t.footer = a(t);
-            t.controlPanel = s(t);
+            t.footer = s(t);
+            t.controlPanel = a(t);
             t.lineNumbers = u(t);
             t.ignore = c(t);
             t.tooltip = d(t);
@@ -869,7 +869,7 @@ var Binding;
             e.title.showFullScreenButton = Default.getBoolean(e.title.showFullScreenButton, true);
             return e.title;
         }
-        function a(e) {
+        function s(e) {
             e.footer = Default.getObject(e.footer, {});
             e.footer.enabled = Default.getBoolean(e.footer.enabled, true);
             e.footer.showDataTypes = Default.getBoolean(e.footer.showDataTypes, true);
@@ -879,7 +879,7 @@ var Binding;
             e.footer.statusResetDelay = Default.getNumber(e.footer.statusResetDelay, 5e3);
             return e.footer;
         }
-        function s(e) {
+        function a(e) {
             e.controlPanel = Default.getObject(e.controlPanel, {});
             e.controlPanel.enabled = Default.getBoolean(e.controlPanel.enabled, true);
             e.controlPanel.showCopyButton = Default.getBoolean(e.controlPanel.showCopyButton, true);
@@ -1485,7 +1485,7 @@ var Filename;
             n++;
         }
         i(e);
-        ve(e);
+        Be(e);
         Trigger.customEvent(e.events.onRenderComplete, e._currentView.element);
     }
     function i(n, o = false) {
@@ -1493,13 +1493,13 @@ var Filename;
         n._currentView.currentColumnBuildingIndex = 0;
         if (Is.definedUrl(l)) {
             Default.getObjectFromUrl(l, e, (e => {
-                a(n, o, e);
+                s(n, o, e);
             }));
         } else {
-            a(n, o, l);
+            s(n, o, l);
         }
     }
-    function a(e, t, n) {
+    function s(e, t, n) {
         const o = c(e);
         ToolTip.hide(e);
         ContextMenu.hide(e);
@@ -1522,16 +1522,16 @@ var Filename;
             for (let n = 0; n < e.paging.columnsPerPage; n++) {
                 const i = n + e._currentView.currentDataArrayPageIndex;
                 if (i <= r.length - 1) {
-                    const a = r[i];
+                    const s = r[i];
                     e._currentView.contentPanelsIndex = 0;
                     e._currentView.contentPanelsDataIndex = i;
-                    s(a, l, e, i, o[n], e.paging.columnsPerPage, t);
+                    a(s, l, e, i, o[n], e.paging.columnsPerPage, t);
                 }
             }
         } else {
             e._currentView.contentPanelsIndex = 0;
             e._currentView.contentPanelsDataIndex = 0;
-            s(n, l, e, null, o[0], 1, false);
+            a(n, l, e, null, o[0], 1, false);
         }
         M(e);
         L(e);
@@ -1539,10 +1539,10 @@ var Filename;
         Te(e);
         e._currentView.initialized = true;
     }
-    function s(t, n, o, l, r, i, a) {
-        const s = DomElement.create(n, "div", i > 1 ? "contents-column-multiple jsontree-js-scroll-bars" : "contents-column jsontree-js-scroll-bars");
+    function a(t, n, o, l, r, i, s) {
+        const a = DomElement.create(n, "div", i > 1 ? "contents-column-multiple jsontree-js-scroll-bars" : "contents-column jsontree-js-scroll-bars");
         if (!Is.defined(t)) {
-            const t = DomElement.create(s, "div", "no-json");
+            const t = DomElement.create(a, "div", "no-json");
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${" "}${e.text.ellipsisText}`);
@@ -1550,25 +1550,25 @@ var Filename;
             }
         } else {
             if (o.paging.enabled && Is.definedNumber(l)) {
-                s.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
+                a.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_ARRAY_INDEX_NAME, l.toString());
             }
-            if (a && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing.bulk) {
-                s.setAttribute("draggable", "true");
-                s.ondragstart = () => f(s, o, l);
-                s.ondragend = () => g(s, o);
-                s.ondragover = e => e.preventDefault();
-                s.ondrop = () => m(o, l);
+            if (s && o.paging.allowColumnReordering && o.paging.columnsPerPage > 1 && o.allowEditing.bulk) {
+                a.setAttribute("draggable", "true");
+                a.ondragstart = () => f(a, o, l);
+                a.ondragend = () => g(a, o);
+                a.ondragover = e => e.preventDefault();
+                a.ondrop = () => m(o, l);
             }
-            let e = s;
+            let e = a;
             let n = null;
             let i = null;
             if (o.lineNumbers.enabled) {
-                n = DomElement.create(s, "div", "contents-column-line-numbers");
-                i = DomElement.create(s, "div", "contents-column-lines");
+                n = DomElement.create(a, "div", "contents-column-line-numbers");
+                i = DomElement.create(a, "div", "contents-column-lines");
                 e = i;
             }
             const c = {
-                column: s,
+                column: a,
                 lineNumbers: n,
                 lines: i,
                 controlButtons: null
@@ -1576,7 +1576,7 @@ var Filename;
             o._currentView.currentContentColumns.push(c);
             o._currentView.currentColumnBuildingIndex = o._currentView.currentContentColumns.length - 1;
             const p = o._currentView.currentColumnBuildingIndex;
-            s.onscroll = () => d(s, o, p);
+            a.onscroll = () => d(a, o, p);
             if (Is.definedArray(t)) {
                 Y(e, o, t, "array");
             } else if (Is.definedSet(t)) {
@@ -1591,20 +1591,20 @@ var Filename;
                 Q(e, o, Obj.createFromValue(t), l, "object");
             }
             x(o._currentView.currentColumnBuildingIndex, o);
-            T(o, s, t, l);
+            T(o, a, t, l);
             if (Is.defined(r)) {
-                s.scrollTop = r;
+                a.scrollTop = r;
             }
             o._currentView.titleBarButtons.style.display = "block";
             if (o.allowEditing.bulk) {
-                s.ondblclick = e => {
-                    u(e, o, t, s, l);
+                a.ondblclick = e => {
+                    u(e, o, t, a, l);
                 };
             }
         }
     }
     function u(t, n, o, l, r) {
-        let a = null;
+        let s = null;
         if (Is.defined(t)) {
             DomElement.cancelBubble(t);
         }
@@ -1620,26 +1620,26 @@ var Filename;
         DomElement.selectAllText(l);
         l.onblur = () => {
             i(n, false);
-            if (Is.definedString(a)) {
-                Z(n, a);
+            if (Is.definedString(s)) {
+                Z(n, s);
             }
         };
         l.onkeydown = t => {
             if (t.key === "Escape") {
                 t.preventDefault();
                 l.setAttribute("contenteditable", "false");
-            } else if (Ce(t) && t.key === "Enter") {
+            } else if (_e(t) && t.key === "Enter") {
                 t.preventDefault();
                 const o = l.innerText;
                 const i = Convert2.jsonStringToObject(o, e);
                 if (i.parsed) {
-                    a = e.text.jsonUpdatedText;
+                    s = e.text.jsonUpdatedText;
                     if (n.paging.enabled && Is.definedArray(n.data)) {
                         if (Is.defined(i.object)) {
                             n.data[r] = i.object;
                         } else {
                             n.data.splice(r, 1);
-                            a = e.text.arrayJsonItemDeleted;
+                            s = e.text.arrayJsonItemDeleted;
                             if (r === n._currentView.currentDataArrayPageIndex && n._currentView.currentDataArrayPageIndex > 0) {
                                 n._currentView.currentDataArrayPageIndex -= n.paging.columnsPerPage;
                             }
@@ -1712,15 +1712,15 @@ var Filename;
         if (n !== o) {
             const l = t.data[o];
             const r = t.data[n];
-            let a = t._currentView.contentPanelsOpen[o];
-            let s = t._currentView.contentPanelsOpen[n];
+            let s = t._currentView.contentPanelsOpen[o];
+            let a = t._currentView.contentPanelsOpen[n];
             let u = t._currentView.controlButtonsOpen[o];
             let c = t._currentView.controlButtonsOpen[n];
-            if (!Is.defined(a)) {
-                a = {};
-            }
             if (!Is.defined(s)) {
                 s = {};
+            }
+            if (!Is.defined(a)) {
+                a = {};
             }
             if (!Is.defined(u)) {
                 u = true;
@@ -1730,8 +1730,8 @@ var Filename;
             }
             t.data[o] = r;
             t.data[n] = l;
-            t._currentView.contentPanelsOpen[o] = s;
-            t._currentView.contentPanelsOpen[n] = a;
+            t._currentView.contentPanelsOpen[o] = a;
+            t._currentView.contentPanelsOpen[n] = s;
             t._currentView.controlButtonsOpen[o] = c;
             t._currentView.controlButtonsOpen[n] = u;
             if (t._currentView.currentDataArrayPageIndex + (t.paging.columnsPerPage - 1) < o) {
@@ -1752,24 +1752,24 @@ var Filename;
             const r = n.column.querySelectorAll(".object-type-title, .object-type-value-title, .object-type-end");
             const i = r.length;
             n.lineNumbers.innerHTML = "";
-            for (let a = 0; a < i; a++) {
-                const s = r[a];
-                if (s.offsetHeight > 0) {
-                    let r = DomElement.getOffset(s).top;
+            for (let s = 0; s < i; s++) {
+                const a = r[s];
+                if (a.offsetHeight > 0) {
+                    let r = DomElement.getOffset(a).top;
                     if (e === 1) {
                         o = r;
                     }
                     r -= o;
-                    const a = DomElement.create(n.lineNumbers, "div", "contents-column-line-number");
+                    const s = DomElement.create(n.lineNumbers, "div", "contents-column-line-number");
                     const u = t.lineNumbers.addDots ? "." : "";
                     if (t.lineNumbers.padNumbers) {
-                        a.innerHTML = `${Str.padNumber(e, i.toString().length)}${u}`;
+                        s.innerHTML = `${Str.padNumber(e, i.toString().length)}${u}`;
                     } else {
-                        a.innerHTML = `${e}${u}`;
+                        s.innerHTML = `${e}${u}`;
                     }
-                    const c = r + s.offsetHeight / 2 - a.offsetHeight / 2;
-                    a.style.top = `${c}px`;
-                    l = Math.max(l, a.offsetWidth);
+                    const c = r + a.offsetHeight / 2 - s.offsetHeight / 2;
+                    s.style.top = `${c}px`;
+                    l = Math.max(l, s.offsetWidth);
                 }
                 e++;
             }
@@ -1787,14 +1787,14 @@ var Filename;
             const r = t._currentView.currentColumnBuildingIndex;
             const i = DomElement.create(n, "div", "column-control-buttons");
             i.ondblclick = DomElement.cancelBubble;
-            const a = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
+            const s = t.paging.enabled && Is.definedArray(t.data) && t.data.length > 1;
             if (t.allowEditing.bulk && t.controlPanel.showEditButton) {
                 const r = DomElement.createWithHTML(i, "button", "control-button edit", e.text.editSymbolButtonText);
                 r.onclick = () => u(null, t, o, n, l);
                 r.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(r, t, e.text.editButtonText);
             }
-            if (a && t.allowEditing.bulk && t.paging.allowColumnReordering && t.controlPanel.showMovingButtons) {
+            if (s && t.allowEditing.bulk && t.paging.allowColumnReordering && t.controlPanel.showMovingButtons) {
                 const n = DomElement.createWithHTML(i, "button", "control-button move-right", e.text.moveRightSymbolButtonText);
                 n.ondblclick = DomElement.cancelBubble;
                 if (l + 1 > t.data.length - 1) {
@@ -1812,13 +1812,13 @@ var Filename;
                 }
                 ToolTip.add(o, t, e.text.moveLeftButtonText);
             }
-            if (a && t.controlPanel.showCopyButton) {
+            if (s && t.controlPanel.showCopyButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button copy", e.text.copyButtonSymbolText);
                 n.onclick = () => V(t, o);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.copyButtonText);
             }
-            if (a && t.controlPanel.showCloseOpenAllButtons) {
+            if (s && t.controlPanel.showCloseOpenAllButtons) {
                 const n = DomElement.createWithHTML(i, "button", "control-button open-all", e.text.openAllButtonSymbolText);
                 n.onclick = () => w(t, l);
                 n.ondblclick = DomElement.cancelBubble;
@@ -1828,12 +1828,12 @@ var Filename;
                 o.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(o, t, e.text.closeAllButtonText);
             }
-            if (a && t.controlPanel.showExportButton) {
+            if (s && t.controlPanel.showExportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button export", e.text.exportButtonSymbolText);
-                n.onclick = () => Se(t, o);
+                n.onclick = () => Ve(t, o);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
-            if (a && t.allowEditing.bulk && t.controlPanel.showImportButton) {
+            if (s && t.allowEditing.bulk && t.controlPanel.showImportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button import", e.text.importButtonSymbolText);
                 n.onclick = () => P(t, l + 1);
                 ToolTip.add(n, t, e.text.importButtonText);
@@ -1844,7 +1844,7 @@ var Filename;
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.removeButtonText);
             }
-            if (!a && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
+            if (!s && Is.definedArray(t.data) && t.data.length > 1 && t.controlPanel.showSwitchToPagesButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button switch-to-pages", e.text.switchToPagesSymbolText);
                 n.onclick = () => h(t);
                 n.ondblclick = DomElement.cancelBubble;
@@ -2077,7 +2077,7 @@ var Filename;
             }
             if (t.sideMenu.showExportButton && Is.definedObject(t.data)) {
                 const n = DomElement.createWithHTML(o, "button", "export", e.text.exportButtonSymbolText);
-                n.onclick = () => Se(t, t.data);
+                n.onclick = () => Ve(t, t.data);
                 ToolTip.add(n, t, e.text.exportButtonText);
             }
             if (t.sideMenu.showImportButton) {
@@ -2097,7 +2097,7 @@ var Filename;
     function P(e, t = null) {
         const n = DomElement.createWithNoContainer("input");
         n.type = "file";
-        n.accept = ".json";
+        n.accept = ".json, .csv";
         n.multiple = true;
         N(e);
         n.onchange = () => he(n.files, e, t);
@@ -2139,12 +2139,12 @@ var Filename;
         const r = DomElement.create(l, "div", "settings-panel-title-bar");
         DomElement.createWithHTML(r, "div", "settings-panel-title-text", `${e.text.showDataTypesText}:`);
         const i = DomElement.create(r, "div", "settings-panel-control-buttons");
-        const a = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
-        const s = DomElement.create(i, "div", "settings-panel-control-button");
-        a.onclick = () => H(n, o, true);
-        s.onclick = () => H(n, o, false);
-        ToolTip.add(a, n, e.text.selectAllText);
-        ToolTip.add(s, n, e.text.selectNoneText);
+        const s = DomElement.create(i, "div", "settings-panel-control-button settings-panel-fill");
+        const a = DomElement.create(i, "div", "settings-panel-control-button");
+        s.onclick = () => H(n, o, true);
+        a.onclick = () => H(n, o, false);
+        ToolTip.add(s, n, e.text.selectAllText);
+        ToolTip.add(a, n, e.text.selectNoneText);
         const u = DomElement.create(l, "div", "settings-panel-contents");
         const c = Object.keys(DataType);
         const d = n.ignore;
@@ -2175,13 +2175,13 @@ var Filename;
         const r = n._currentView.dataTypeCounts[t];
         if (!n.sideMenu.showOnlyDataTypesAvailable || r > 0) {
             let i = Str.capitalizeFirstLetter(t);
-            let a = "";
+            let s = "";
             if (n.sideMenu.showAvailableDataTypeCounts) {
                 if (n._currentView.dataTypeCounts.hasOwnProperty(t)) {
-                    a = `(${r})`;
+                    s = `(${r})`;
                 }
             }
-            l = DomElement.createCheckBox(e, i, t, o, n.showValueColors ? t : "", a);
+            l = DomElement.createCheckBox(e, i, t, o, n.showValueColors ? t : "", s);
             l.onchange = () => {
                 const e = n.ignore;
                 e[`${t}Values`] = !l.checked;
@@ -2291,9 +2291,9 @@ var Filename;
         if (Is.definedImportedFilename(o)) {
             i = i.object;
         }
-        const a = Obj.getPropertyNames(i, n);
-        const s = a.length;
-        if (s !== 0 || !n.ignore.emptyObjects) {
+        const s = Obj.getPropertyNames(i, n);
+        const a = s.length;
+        if (a !== 0 || !n.ignore.emptyObjects) {
             let u = null;
             if (r === "object") {
                 u = e.text.objectText;
@@ -2330,11 +2330,11 @@ var Filename;
                 DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} data-array-index` : "data-array-index", t, o);
                 DomElement.createWithHTML(c, "span", "split", e.text.propertyColonCharacter, o);
             }
-            if (n.showObjectSizes && s > 0) {
+            if (n.showObjectSizes && a > 0) {
                 if (r === "html") {
-                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `<${s}>`);
+                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `<${a}>`);
                 } else {
-                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `{${s}}`);
+                    DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} size` : "size", `{${a}}`);
                 }
             }
             if (n.showOpeningClosingCurlyBraces) {
@@ -2343,7 +2343,7 @@ var Filename;
             if (n.showClosedObjectCurlyBraces) {
                 x = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
             }
-            K(f, null, d, n, i, a, p, x, false, true, "", r, r !== "object", 1);
+            K(f, null, d, n, i, s, p, x, false, true, "", r, r !== "object", 1);
             ie(n, m, i, r, false);
             q(n, i, m);
             U(n, i, m);
@@ -2361,9 +2361,9 @@ var Filename;
         } else if (l === "array") {
             i = e.text.arrayText;
         }
-        const a = DomElement.create(t, "div", "object-type-title");
-        const s = DomElement.create(t, "div", "object-type-contents last-item");
-        const u = n.showExpandIcons ? DomElement.create(a, "div", `opened-${n.expandIconType}`) : null;
+        const s = DomElement.create(t, "div", "object-type-title");
+        const a = DomElement.create(t, "div", "object-type-contents last-item");
+        const u = n.showExpandIcons ? DomElement.create(s, "div", `opened-${n.expandIconType}`) : null;
         if (!n.paging.enabled || Is.definedImportedFilename(o)) {
             let t = n.rootName;
             if (Is.definedImportedFilename(o)) {
@@ -2372,29 +2372,29 @@ var Filename;
             if (n.showPropertyNameQuotes) {
                 t = `"${t}"`;
             }
-            DomElement.createWithHTML(a, "span", "root-name", t);
-            DomElement.createWithHTML(a, "span", "split", e.text.propertyColonCharacter);
+            DomElement.createWithHTML(s, "span", "root-name", t);
+            DomElement.createWithHTML(s, "span", "split", e.text.propertyColonCharacter);
         }
-        const c = DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
+        const c = DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
         let d = null;
         let f = null;
-        te(s, n);
+        te(a, n);
         if (n.showObjectSizes) {
-            DomElement.createWithHTML(a, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
+            DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
         if (n.showOpeningClosingSquaredBrackets) {
-            d = DomElement.createWithHTML(a, "span", "opening-symbol", "[");
+            d = DomElement.createWithHTML(s, "span", "opening-symbol", "[");
         }
         if (n.showClosedArraySquaredBrackets) {
-            f = DomElement.createWithHTML(a, "span", "closed-symbols", "[ ... ]");
+            f = DomElement.createWithHTML(s, "span", "closed-symbols", "[ ... ]");
         }
-        X(u, null, s, n, o, d, f, false, true, "", l, l !== "array", 1);
+        X(u, null, a, n, o, d, f, false, true, "", l, l !== "array", 1);
         ie(n, c, o, l, false);
         q(n, o, c);
         U(n, o, c);
-        ge(n, a, false, o, o, null, false, null);
+        ge(n, s, false, o, o, null, false, null);
     }
-    function K(t, n, o, l, r, i, a, s, u, c, d, f, g, m) {
+    function K(t, n, o, l, r, i, s, a, u, c, d, f, g, m) {
         let p = true;
         const x = i.length;
         const T = d !== "" ? x : 0;
@@ -2421,10 +2421,10 @@ var Filename;
                 }
             }
         }
-        ae(l, t, n, o, a, s, T, f);
+        se(l, t, n, o, s, a, T, f);
         return p;
     }
-    function X(t, n, o, l, r, i, a, s, u, c, d, f, g) {
+    function X(t, n, o, l, r, i, s, a, u, c, d, f, g) {
         let m = true;
         const p = r.length;
         const x = c !== "" ? p : 0;
@@ -2450,14 +2450,14 @@ var Filename;
                 m = false;
             } else {
                 if (l.showOpeningClosingSquaredBrackets) {
-                    ue(l, o, "]", s, u);
+                    ue(l, o, "]", a, u);
                 }
             }
         }
-        ae(l, t, n, o, i, a, x, d);
+        se(l, t, n, o, i, s, x, d);
         return m;
     }
-    function G(t, n, o, l, r, i, a, s, u, c, d) {
+    function G(t, n, o, l, r, i, s, a, u, c, d) {
         const f = DomElement.create(n, "div", "object-type-value");
         const g = DomElement.create(f, "div", "object-type-value-title");
         const m = o.showExpandIcons ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
@@ -2475,12 +2475,12 @@ var Filename;
         const B = o._currentView.currentColumnBuildingIndex;
         if (!S) {
             let t = Str.getMaximumLengthDisplay(l, o.maximum.propertyNameLength, e.text.ellipsisText);
-            if (a || !o.showPropertyNameQuotes) {
+            if (s || !o.showPropertyNameQuotes) {
                 h.innerHTML = t;
             } else {
                 h.innerHTML = `"${t}"`;
             }
-            if (a && !o.showChildIndexes) {
+            if (s && !o.showChildIndexes) {
                 h.parentNode.removeChild(h);
                 h = null;
             }
@@ -2500,18 +2500,18 @@ var Filename;
         if (Is.defined(h) && !S) {
             DomElement.createWithHTML(g, "span", "split", e.text.propertyColonCharacter);
             if (!c) {
-                oe(o, t, l, h, a);
+                oe(o, t, l, h, s);
             } else {
                 h.ondblclick = DomElement.cancelBubble;
             }
-            if (Is.definedString(s)) {
-                g.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, s);
+            if (Is.definedString(a)) {
+                g.setAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME, a);
             }
-            if (!a) {
+            if (!s) {
                 q(o, l, h);
                 U(o, l, h);
             }
-            ce(o, g, s, B, r);
+            ce(o, g, a, B, r);
         }
         const E = Trigger.customEvent(o.events.onCustomDataTypeRender, o._currentView.element, r);
         if (Is.defined(E) && E !== false) {
@@ -2522,8 +2522,8 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", E.class, E.html);
                 w = E.allowEditing;
-                le(o, t, l, r, x, a, w);
-                se(o, g, i);
+                le(o, t, l, r, x, s, w);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2533,7 +2533,7 @@ var Filename;
                 p = o.showValueColors ? `${y} value undefined-or-null` : "value undefined-or-null";
                 x = DomElement.createWithHTML(g, "span", p, "null");
                 Trigger.customEvent(o.events.onNullRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2543,7 +2543,7 @@ var Filename;
                 p = o.showValueColors ? `${y} value undefined-or-null` : "value undefined-or-null";
                 x = DomElement.createWithHTML(g, "span", p, "undefined");
                 Trigger.customEvent(o.events.onUndefinedRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2555,7 +2555,7 @@ var Filename;
                     p = o.showValueColors ? `${y} value non-value` : "value non-value";
                     x = DomElement.createWithHTML(g, "span", p, t.name);
                     Trigger.customEvent(o.events.onLambdaRender, o._currentView.element, x);
-                    se(o, g, i);
+                    ae(o, g, i);
                 } else {
                     T = true;
                 }
@@ -2565,7 +2565,7 @@ var Filename;
                     p = o.showValueColors ? `${y} value non-value` : "value non-value";
                     x = DomElement.createWithHTML(g, "span", p, t.name);
                     Trigger.customEvent(o.events.onFunctionRender, o._currentView.element, x);
-                    se(o, g, i);
+                    ae(o, g, i);
                 } else {
                     T = true;
                 }
@@ -2576,9 +2576,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r);
                 w = o.allowEditing.booleanValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onBooleanRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2589,9 +2589,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, e);
                 w = o.allowEditing.floatValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onFloatRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2602,9 +2602,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, n);
                 w = o.allowEditing.numberValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onNumberRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2612,13 +2612,13 @@ var Filename;
             y = "bigint";
             if (!o.ignore.bigintValues) {
                 let n = `${r.toString()}n`;
-                let s = Str.getMaximumLengthDisplay(n, o.maximum.bigIntLength, e.text.ellipsisText);
+                let a = Str.getMaximumLengthDisplay(n, o.maximum.bigIntLength, e.text.ellipsisText);
                 p = o.showValueColors ? `${y} value` : "value";
-                x = DomElement.createWithHTML(g, "span", p, s);
+                x = DomElement.createWithHTML(g, "span", p, a);
                 w = o.allowEditing.bigIntValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onBigIntRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2628,9 +2628,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r);
                 w = o.allowEditing.guidValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onGuidRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2643,9 +2643,9 @@ var Filename;
                 if (o.showValueColors) {
                     x.style.color = r;
                 }
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onColorRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2666,9 +2666,9 @@ var Filename;
                         }
                     };
                 }
-                le(o, t, l, r, x, a, w, v);
+                le(o, t, l, r, x, s, w, v);
                 Trigger.customEvent(o.events.onUrlRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2683,9 +2683,9 @@ var Filename;
                     v = DomElement.createWithHTML(g, "span", o.showValueColors ? "open-button-color" : "open-button", `${e.text.openText}${" "}${e.text.openSymbolText}`);
                     v.onclick = () => window.open(`mailto:${r}`);
                 }
-                le(o, t, l, r, x, a, w, v);
+                le(o, t, l, r, x, s, w, v);
                 Trigger.customEvent(o.events.onEmailRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2694,7 +2694,7 @@ var Filename;
             if (!o.ignore.stringValues || S) {
                 const f = Convert2.stringToParsedValue(r, o);
                 if (Is.defined(f)) {
-                    G(t, n, o, l, f, i, a, s, u, c, d);
+                    G(t, n, o, l, f, i, s, a, u, c, d);
                     T = true;
                     b = true;
                 } else {
@@ -2714,9 +2714,9 @@ var Filename;
                     }
                     x = DomElement.createWithHTML(g, "span", p, n);
                     if (!S) {
-                        le(o, t, l, r, x, a, w);
+                        le(o, t, l, r, x, s, w);
                         Trigger.customEvent(o.events.onStringRender, o._currentView.element, x);
-                        se(o, g, i);
+                        ae(o, g, i);
                     }
                 }
             } else {
@@ -2728,9 +2728,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, DateTime.getCustomFormattedDateText(e, r, o));
                 w = o.allowEditing.dateValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onDateRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2740,9 +2740,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, Convert2.symbolToSpacedOutString(r));
                 w = o.allowEditing.symbolValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onSymbolRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2752,9 +2752,9 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.createWithHTML(g, "span", p, r.source.toString());
                 w = o.allowEditing.regExpValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 Trigger.customEvent(o.events.onRegExpRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2764,11 +2764,11 @@ var Filename;
                 p = o.showValueColors ? `${y} value` : "value";
                 x = DomElement.create(g, "span", p);
                 w = o.allowEditing.imageValues && !c;
-                le(o, t, l, r, x, a, w);
+                le(o, t, l, r, x, s, w);
                 const e = DomElement.create(x, "img");
                 e.src = r.src;
                 Trigger.customEvent(o.events.onImageRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2782,12 +2782,12 @@ var Filename;
                     T = true;
                 } else {
                     const r = DomElement.create(g, "span", o.showValueColors ? y : "");
-                    const a = DomElement.create(f, "div", "object-type-contents");
+                    const s = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    te(a, o);
+                    te(s, o);
                     if (i) {
-                        a.classList.add("last-item");
+                        s.classList.add("last-item");
                     }
                     x = DomElement.createWithHTML(r, "span", "main-title", e.text.htmlText);
                     if (o.showObjectSizes && (l > 0 || !o.ignore.emptyObjects)) {
@@ -2799,8 +2799,8 @@ var Filename;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = se(o, r, i);
-                    const T = K(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
+                    const p = ae(o, r, i);
+                    const T = K(m, p, s, o, t, n, u, c, true, i, a, y, true, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2815,7 +2815,7 @@ var Filename;
                 const t = Convert2.setToArray(r);
                 const n = DomElement.create(g, "span", o.showValueColors ? y : "");
                 const l = DomElement.create(f, "div", "object-type-contents");
-                let a = null;
+                let s = null;
                 let u = null;
                 te(l, o);
                 if (i) {
@@ -2826,15 +2826,15 @@ var Filename;
                     DomElement.createWithHTML(n, "span", "size", `[${t.length}]`);
                 }
                 if (o.showOpeningClosingSquaredBrackets) {
-                    a = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
+                    s = DomElement.createWithHTML(n, "span", "opening-symbol", "[");
                 }
                 if (o.showClosedArraySquaredBrackets) {
                     u = DomElement.createWithHTML(n, "span", "closed-symbols", "[ ... ]");
                 }
-                const c = se(o, n, i);
-                const p = X(m, c, l, o, t, a, u, true, i, s, y, true, d + 1);
+                const c = ae(o, n, i);
+                const p = X(m, c, l, o, t, s, u, true, i, a, y, true, d + 1);
                 if (!p && o.showOpeningClosingSquaredBrackets) {
-                    a.parentNode.removeChild(a);
+                    s.parentNode.removeChild(s);
                     u.parentNode.removeChild(u);
                 }
             } else {
@@ -2846,7 +2846,7 @@ var Filename;
                 const t = DomElement.create(g, "span", o.showValueColors ? y : "");
                 const n = DomElement.create(f, "div", "object-type-contents");
                 let l = null;
-                let a = null;
+                let s = null;
                 te(n, o);
                 if (i) {
                     n.classList.add("last-item");
@@ -2859,13 +2859,13 @@ var Filename;
                     l = DomElement.createWithHTML(t, "span", "opening-symbol", "[");
                 }
                 if (o.showClosedArraySquaredBrackets) {
-                    a = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
+                    s = DomElement.createWithHTML(t, "span", "closed-symbols", "[ ... ]");
                 }
-                const u = se(o, t, i);
-                const c = X(m, u, n, o, r, l, a, true, i, s, y, false, d + 1);
+                const u = ae(o, t, i);
+                const c = X(m, u, n, o, r, l, s, true, i, a, y, false, d + 1);
                 if (!c && o.showOpeningClosingSquaredBrackets) {
                     l.parentNode.removeChild(l);
-                    a.parentNode.removeChild(a);
+                    s.parentNode.removeChild(s);
                 }
             } else {
                 T = true;
@@ -2880,12 +2880,12 @@ var Filename;
                     T = true;
                 } else {
                     const r = DomElement.create(g, "span", o.showValueColors ? y : "");
-                    const a = DomElement.create(f, "div", "object-type-contents");
+                    const s = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    te(a, o);
+                    te(s, o);
                     if (i) {
-                        a.classList.add("last-item");
+                        s.classList.add("last-item");
                     }
                     x = DomElement.createWithHTML(r, "span", "main-title", e.text.mapText);
                     if (o.showObjectSizes && (l > 0 || !o.ignore.emptyObjects)) {
@@ -2897,8 +2897,8 @@ var Filename;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(r, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = se(o, r, i);
-                    const T = K(m, p, a, o, t, n, u, c, true, i, s, y, true, d + 1);
+                    const p = ae(o, r, i);
+                    const T = K(m, p, s, o, t, n, u, c, true, i, a, y, true, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2916,12 +2916,12 @@ var Filename;
                     T = true;
                 } else {
                     const l = DomElement.create(g, "span", o.showValueColors ? y : "");
-                    const a = DomElement.create(f, "div", "object-type-contents");
+                    const s = DomElement.create(f, "div", "object-type-contents");
                     let u = null;
                     let c = null;
-                    te(a, o);
+                    te(s, o);
                     if (i) {
-                        a.classList.add("last-item");
+                        s.classList.add("last-item");
                     }
                     x = DomElement.createWithHTML(l, "span", "main-title", e.text.objectText);
                     if (o.showObjectSizes && (n > 0 || !o.ignore.emptyObjects)) {
@@ -2933,8 +2933,8 @@ var Filename;
                     if (o.showClosedObjectCurlyBraces) {
                         c = DomElement.createWithHTML(l, "span", "closed-symbols", "{ ... }");
                     }
-                    const p = se(o, l, i);
-                    const T = K(m, p, a, o, r, t, u, c, true, i, s, y, false, d + 1);
+                    const p = ae(o, l, i);
+                    const T = K(m, p, s, o, r, t, u, c, true, i, a, y, false, d + 1);
                     if (!T && o.showOpeningClosingCurlyBraces) {
                         u.parentNode.removeChild(u);
                         c.parentNode.removeChild(c);
@@ -2949,7 +2949,7 @@ var Filename;
                 p = o.showValueColors ? `${y} value non-value` : "value non-value";
                 x = DomElement.createWithHTML(g, "span", p, r.toString());
                 Trigger.customEvent(o.events.onUnknownRender, o._currentView.element, x);
-                se(o, g, i);
+                ae(o, g, i);
             } else {
                 T = true;
             }
@@ -2965,7 +2965,7 @@ var Filename;
                     q(o, r, x);
                     U(o, r, x);
                     z(o, y, x);
-                    ge(o, x, w, t, r, l, a, v);
+                    ge(o, x, w, t, r, l, s, v);
                 }
                 if (Is.defined(D)) {
                     if (y !== "null" && y !== "undefined" && y !== "array" && y !== "object" && y !== "map" && y !== "set") {
@@ -2976,7 +2976,7 @@ var Filename;
                     }
                 }
                 if (V) {
-                    ne(o, s, h, D, x);
+                    ne(o, a, h, D, x);
                     ie(o, x, r, y, w);
                 } else {
                     x.ondblclick = DomElement.cancelBubble;
@@ -3021,9 +3021,9 @@ var Filename;
     }
     function oe(t, n, o, l, r) {
         if (t.allowEditing.propertyNames) {
-            l.ondblclick = a => {
-                DomElement.cancelBubble(a);
-                let s = 0;
+            l.ondblclick = s => {
+                DomElement.cancelBubble(s);
+                let a = 0;
                 let u = null;
                 clearTimeout(t._currentView.valueClickTimerId);
                 t._currentView.valueClickTimerId = 0;
@@ -3050,16 +3050,16 @@ var Filename;
                         l.setAttribute("contenteditable", "false");
                     } else if (i.key === "Enter") {
                         i.preventDefault();
-                        const a = l.innerText;
+                        const s = l.innerText;
                         if (r) {
-                            if (Is.definedString(a) && !isNaN(+a)) {
-                                let o = +a;
+                            if (Is.definedString(s) && !isNaN(+s)) {
+                                let o = +s;
                                 if (!t.useZeroIndexingForArrays) {
                                     o--;
                                 }
-                                if (s !== o) {
+                                if (a !== o) {
                                     u = e.text.indexUpdatedText;
-                                    Arr.moveIndex(n, s, o);
+                                    Arr.moveIndex(n, a, o);
                                     Trigger.customEvent(t.events.onJsonEdit, t._currentView.element);
                                 }
                             } else {
@@ -3067,16 +3067,16 @@ var Filename;
                                 u = e.text.itemDeletedText;
                             }
                         } else {
-                            if (a !== o) {
-                                if (a.trim() === "") {
+                            if (s !== o) {
+                                if (s.trim() === "") {
                                     u = e.text.itemDeletedText;
                                     delete n[o];
                                 } else {
-                                    if (!n.hasOwnProperty(a)) {
+                                    if (!n.hasOwnProperty(s)) {
                                         u = e.text.nameUpdatedText;
                                         const t = n[o];
                                         delete n[o];
-                                        n[a] = t;
+                                        n[s] = t;
                                     }
                                 }
                                 Trigger.customEvent(t.events.onJsonEdit, t._currentView.element);
@@ -3088,53 +3088,53 @@ var Filename;
             };
         }
     }
-    function le(e, t, n, o, l, r, i, a = null) {
+    function le(e, t, n, o, l, r, i, s = null) {
         if (i) {
             l.ondblclick = i => {
-                re(i, e, t, n, o, l, r, a);
+                re(i, e, t, n, o, l, r, s);
             };
         }
     }
-    function re(t, n, o, l, r, a, s, u = null) {
+    function re(t, n, o, l, r, s, a, u = null) {
         let c = null;
         DomElement.cancelBubble(t);
         clearTimeout(n._currentView.valueClickTimerId);
         n._currentView.valueClickTimerId = 0;
         n._currentView.editMode = true;
-        a.classList.add("editable");
-        a.classList.add("jsontree-js-scroll-bars");
-        a.setAttribute("contenteditable", "true");
+        s.classList.add("editable");
+        s.classList.add("jsontree-js-scroll-bars");
+        s.setAttribute("contenteditable", "true");
         if (Is.definedDate(r) && !n.includeTimeZoneInDates) {
-            a.innerText = JSON.stringify(r).replace(/['"]+/g, "");
+            s.innerText = JSON.stringify(r).replace(/['"]+/g, "");
         } else if (Is.definedRegExp(r)) {
-            a.innerText = r.source;
+            s.innerText = r.source;
         } else if (Is.definedSymbol(r)) {
-            a.innerText = Convert2.symbolToString(r);
+            s.innerText = Convert2.symbolToString(r);
         } else if (Is.definedImage(r)) {
-            a.innerText = r.src;
+            s.innerText = r.src;
         } else {
-            a.innerText = r.toString();
+            s.innerText = r.toString();
         }
-        a.focus();
-        DomElement.selectAllText(a);
+        s.focus();
+        DomElement.selectAllText(s);
         if (Is.defined(u)) {
             u.parentNode.removeChild(u);
         }
-        a.onblur = () => {
+        s.onblur = () => {
             i(n, false);
             if (Is.definedString(c)) {
                 Z(n, c);
             }
         };
-        a.onkeydown = t => {
+        s.onkeydown = t => {
             if (t.key === "Escape") {
                 t.preventDefault();
-                a.setAttribute("contenteditable", "false");
+                s.setAttribute("contenteditable", "false");
             } else if (t.key === "Enter") {
                 t.preventDefault();
-                const i = a.innerText;
+                const i = s.innerText;
                 if (i.trim() === "") {
-                    if (s) {
+                    if (a) {
                         o.splice(Arr.getIndexFromBrackets(l), 1);
                     } else {
                         delete o[l];
@@ -3143,7 +3143,7 @@ var Filename;
                 } else {
                     let t = Convert2.stringToDataTypeValue(r, i);
                     if (t !== null) {
-                        if (s) {
+                        if (a) {
                             o[Arr.getIndexFromBrackets(l)] = t;
                         } else {
                             o[l] = t;
@@ -3152,7 +3152,7 @@ var Filename;
                         Trigger.customEvent(n.events.onJsonEdit, n._currentView.element);
                     }
                 }
-                a.setAttribute("contenteditable", "false");
+                s.setAttribute("contenteditable", "false");
             }
         };
     }
@@ -3178,7 +3178,7 @@ var Filename;
             n.classList.add("no-hover");
         }
     }
-    function ae(e, t, n, l, r, i, a, s) {
+    function se(e, t, n, l, r, i, s, a) {
         const u = e._currentView.contentPanelsIndex;
         const c = e._currentView.contentPanelsDataIndex;
         const d = e._currentView.currentColumnBuildingIndex;
@@ -3204,9 +3204,9 @@ var Filename;
                 x(d, e);
             }
         };
-        const g = (a, s = true) => {
-            if (Is.defined(a)) {
-                DomElement.cancelBubble(a);
+        const g = (s, a = true) => {
+            if (Is.defined(s)) {
+                DomElement.cancelBubble(s);
                 if (!o) {
                     de(e);
                 }
@@ -3225,7 +3225,7 @@ var Filename;
             if (Is.defined(n)) {
                 n.style.display = "none";
             }
-            if (s) {
+            if (a) {
                 x(d, e);
             }
         };
@@ -3247,15 +3247,15 @@ var Filename;
             p = e._currentView.contentPanelsOpen[c][u];
         } else {
             if (!e._currentView.initialized) {
-                if (s === "object" && e.autoClose.objectSize > 0 && a >= e.autoClose.objectSize) {
+                if (a === "object" && e.autoClose.objectSize > 0 && s >= e.autoClose.objectSize) {
                     p = true;
-                } else if (s === "array" && e.autoClose.arraySize > 0 && a >= e.autoClose.arraySize) {
+                } else if (a === "array" && e.autoClose.arraySize > 0 && s >= e.autoClose.arraySize) {
                     p = true;
-                } else if (s === "map" && e.autoClose.mapSize > 0 && a >= e.autoClose.mapSize) {
+                } else if (a === "map" && e.autoClose.mapSize > 0 && s >= e.autoClose.mapSize) {
                     p = true;
-                } else if (s === "set" && e.autoClose.setSize > 0 && a >= e.autoClose.setSize) {
+                } else if (a === "set" && e.autoClose.setSize > 0 && s >= e.autoClose.setSize) {
                     p = true;
-                } else if (s === "html" && e.autoClose.htmlSize > 0 && a >= e.autoClose.htmlSize) {
+                } else if (a === "html" && e.autoClose.htmlSize > 0 && s >= e.autoClose.htmlSize) {
                     p = true;
                 }
             }
@@ -3272,7 +3272,7 @@ var Filename;
         m(null, p, false);
         e._currentView.contentPanelsIndex++;
     }
-    function se(e, t, n) {
+    function ae(e, t, n) {
         let o = null;
         if (e.showCommas && !n) {
             o = DomElement.createWithHTML(t, "span", "comma", ",");
@@ -3285,23 +3285,23 @@ var Filename;
             DomElement.create(r, "div", `no-${e.expandIconType}`);
         }
         DomElement.createWithHTML(r, "div", "object-type-end", n);
-        se(e, r, l);
+        ae(e, r, l);
     }
     function ce(e, t, n, l, r) {
         t.onclick = i => {
             DomElement.cancelBubble(i);
-            const a = t.classList.contains("highlight-selected") && o;
-            const s = e._currentView.currentContentColumns;
+            const s = t.classList.contains("highlight-selected") && o;
+            const a = e._currentView.currentContentColumns;
             const u = e._currentView.currentContentColumns.length;
             let c = false;
             if (!o) {
                 e._currentView.selectedValues = [];
             }
             for (let t = 0; t < u; t++) {
-                const r = s[t].column.querySelectorAll(".object-type-value-title");
+                const r = a[t].column.querySelectorAll(".object-type-value-title");
                 const i = r.length;
-                for (let s = 0; s < i; s++) {
-                    const i = r[s];
+                for (let a = 0; a < i; a++) {
+                    const i = r[a];
                     if (!o) {
                         i.classList.remove("highlight-selected");
                         i.classList.remove("highlight-compare");
@@ -3309,7 +3309,7 @@ var Filename;
                     if (fe(e) && t !== l) {
                         const e = i.getAttribute(Constants.JSONTREE_JS_ATTRIBUTE_PATH_NAME);
                         if (Is.definedString(e) && e === n) {
-                            if (!a) {
+                            if (!s) {
                                 i.classList.add("highlight-compare");
                             } else {
                                 i.classList.remove("highlight-compare");
@@ -3322,7 +3322,7 @@ var Filename;
                     x(t, e);
                 }
             }
-            if (!a) {
+            if (!s) {
                 t.classList.add("highlight-selected");
                 e._currentView.selectedValues.push(r);
             } else {
@@ -3363,26 +3363,26 @@ var Filename;
     function fe(e) {
         return e.paging.enabled && e.paging.columnsPerPage > 1 && e.paging.allowComparisons;
     }
-    function ge(t, n, o, l, r, i, a, s) {
+    function ge(t, n, o, l, r, i, s, a) {
         n.oncontextmenu = u => {
             DomElement.cancelBubble(u);
             t._currentView.contextMenu.innerHTML = "";
             if (o && t._currentView.selectedValues.length <= 1) {
                 const o = ContextMenu.addMenuItem(t, e.text.editSymbolButtonText, e.text.editButtonText);
-                o.onclick = e => me(e, t, n, l, i, r, a, s);
+                o.onclick = e => me(e, t, n, l, i, r, s, a);
             }
             const c = ContextMenu.addMenuItem(t, e.text.copyButtonSymbolText, e.text.copyButtonText);
             c.onclick = e => pe(e, t, r);
             if (o && t._currentView.selectedValues.length <= 1) {
                 const n = ContextMenu.addMenuItem(t, e.text.removeSymbolButtonText, e.text.removeButtonText);
-                n.onclick = e => xe(e, t, l, i, a);
+                n.onclick = e => xe(e, t, l, i, s);
             }
             DomElement.showElementAtMousePosition(u, t._currentView.contextMenu, 0);
         };
     }
-    function me(e, t, n, o, l, r, i, a) {
+    function me(e, t, n, o, l, r, i, s) {
         DomElement.cancelBubble(e);
-        re(e, t, o, l, r, n, i, a);
+        re(e, t, o, l, r, n, i, s);
         ContextMenu.hide(t);
     }
     function pe(e, t, n) {
@@ -3441,7 +3441,7 @@ var Filename;
             l++;
             r[e.filename] = e;
             if (l === o) {
-                De(t, r, n, l, o);
+                Se(t, r, n, l, o);
             }
         };
         for (let t = 0; t < o; t++) {
@@ -3449,6 +3449,8 @@ var Filename;
             const l = Filename.getExtension(n.name);
             if (l === "json") {
                 we(n, i);
+            } else if (l === "csv") {
+                De(n, i);
             } else {
                 o--;
             }
@@ -3468,28 +3470,70 @@ var Filename;
         };
         o.readAsText(t);
     }
-    function De(t, n, o, l, r) {
+    function De(e, t) {
+        const n = new FileReader;
+        let o = null;
+        n.onloadend = () => t(o);
+        n.onload = t => {
+            const n = t.target.result;
+            if (Is.definedString(n)) {
+                const t = n.split(/\r\n|\n/);
+                const l = t.length;
+                if (l > 1) {
+                    const n = t[0].split(",");
+                    const r = n.length;
+                    if (r > 0) {
+                        const r = [];
+                        for (let e = 1; e < l - 1; e++) {
+                            const o = t[e];
+                            const l = o.split(",");
+                            const i = l.length;
+                            const s = {};
+                            for (let e = 0; e < i - 1; e++) {
+                                s[n[e]] = l[e];
+                            }
+                            r.push(s);
+                        }
+                        o = new ImportedFilename;
+                        o.filename = e.name;
+                        o.object = r;
+                    }
+                }
+            }
+        };
+        n.readAsText(e);
+    }
+    function Se(t, n, o, l, r) {
         t._currentView.contentPanelsOpen = {};
         t._currentView.controlButtonsOpen = {};
-        const a = Object.keys(n);
-        a.sort();
+        const s = Object.keys(n);
+        s.sort();
         if (Is.definedNumber(o)) {
             for (let e = 0; e < l; e++) {
+                const l = s[e];
+                const r = Filename.getExtension(l);
+                const i = r === "csv" ? n[l].object : n[l];
                 if (o > t.data.length - 1) {
-                    t.data.push(n[a[e]]);
+                    t.data = t.data.concat(i);
                 } else {
-                    t.data.splice(o, 0, n[a[e]]);
+                    t.data.splice(o, 0, i);
                 }
             }
             t._currentView.currentDataArrayPageIndex = o - o % t.paging.columnsPerPage;
         } else {
             t._currentView.currentDataArrayPageIndex = 0;
             if (l === 1) {
-                t.data = n[a[0]];
+                const e = s[0];
+                const o = Filename.getExtension(e);
+                const l = o === "csv" ? n[e].object : n[e];
+                t.data = l;
             } else {
                 t.data = [];
                 for (let e = 0; e < l; e++) {
-                    t.data.push(n[a[e]]);
+                    const o = s[e];
+                    const l = Filename.getExtension(o);
+                    const r = l === "csv" ? n[o].object : n[o];
+                    t.data = t.data.concat(r);
                 }
             }
         }
@@ -3497,14 +3541,14 @@ var Filename;
         Z(t, e.text.importedText.replace("{0}", r.toString()));
         Trigger.customEvent(t.events.onSetJson, t._currentView.element);
     }
-    function Se(t, n) {
+    function Ve(t, n) {
         const o = JSON.stringify(Convert2.toJsonStringifyClone(n, e, t), t.events.onCopyJsonReplacer, t.jsonIndentSpaces);
         if (Is.definedString(o)) {
             const n = DomElement.create(document.body, "a");
             n.style.display = "none";
             n.setAttribute("target", "_blank");
             n.setAttribute("href", `data:application/json;charset=utf-8,${encodeURIComponent(o)}`);
-            n.setAttribute("download", Ve(t));
+            n.setAttribute("download", ve(t));
             n.click();
             document.body.removeChild(n);
             N(t);
@@ -3512,32 +3556,32 @@ var Filename;
             Trigger.customEvent(t.events.onExport, t._currentView.element);
         }
     }
-    function Ve(t) {
+    function ve(t) {
         const n = new Date;
         const o = DateTime.getCustomFormattedDateText(e, n, t);
         return o;
     }
-    function ve(e, t = true) {
+    function Be(e, t = true) {
         const n = t ? document.addEventListener : document.removeEventListener;
         const l = t ? window.addEventListener : window.removeEventListener;
-        n("keydown", (t => Ee(t, e)));
-        n("keyup", (e => Ie(e)));
-        n("contextmenu", (() => Be(e)));
-        l("click", (() => Be(e)));
+        n("keydown", (t => Ie(t, e)));
+        n("keyup", (e => Ce(e)));
+        n("contextmenu", (() => Ee(e)));
+        l("click", (() => Ee(e)));
         l("focus", (() => o = false));
     }
-    function Be(e) {
+    function Ee(e) {
         if (!o) {
             de(e);
         }
     }
-    function Ee(e, l) {
-        o = Ce(e);
+    function Ie(e, l) {
+        o = _e(e);
         if (l.shortcutKeysEnabled && n === 1 && t.hasOwnProperty(l._currentView.element.id) && !l._currentView.editMode) {
-            if (Ce(e) && e.key.toLowerCase() === "c") {
+            if (_e(e) && e.key.toLowerCase() === "c") {
                 e.preventDefault();
                 I(l, l.data);
-            } else if (Ce(e) && e.key === "F11") {
+            } else if (_e(e) && e.key === "F11") {
                 e.preventDefault();
                 E(l);
             } else if (e.key === "ArrowLeft") {
@@ -3560,13 +3604,13 @@ var Filename;
             }
         }
     }
-    function Ie(e) {
-        o = Ce(e);
-    }
     function Ce(e) {
-        return e.ctrlKey || e.metaKey;
+        o = _e(e);
     }
     function _e(e) {
+        return e.ctrlKey || e.metaKey;
+    }
+    function Ae(e) {
         e._currentView.element.innerHTML = "";
         e._currentView.element.classList.remove("json-tree-js");
         e._currentView.element.classList.remove("full-screen");
@@ -3583,21 +3627,21 @@ var Filename;
         if (e._currentView.idSet) {
             e._currentView.element.removeAttribute("id");
         }
-        ve(e, false);
+        Be(e, false);
         ToolTip.assignToEvents(e, false);
         ContextMenu.assignToEvents(e, false);
         ToolTip.remove(e);
         ContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
-    const Ae = {
+    const Oe = {
         refresh: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 const n = t[e];
                 i(n);
                 Trigger.customEvent(n.events.onRefresh, n._currentView.element);
             }
-            return Ae;
+            return Oe;
         },
         refreshAll: function() {
             for (const e in t) {
@@ -3607,29 +3651,29 @@ var Filename;
                     Trigger.customEvent(n.events.onRefresh, n._currentView.element);
                 }
             }
-            return Ae;
+            return Oe;
         },
         render: function(e, t) {
             if (Is.definedObject(e) && Is.definedObject(t)) {
                 r(Binding.Options.getForNewInstance(t, e));
             }
-            return Ae;
+            return Oe;
         },
         renderAll: function() {
             l();
-            return Ae;
+            return Oe;
         },
         openAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 C(t[e]);
             }
-            return Ae;
+            return Oe;
         },
         closeAll: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
                 _(t[e]);
             }
-            return Ae;
+            return Oe;
         },
         backPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3638,7 +3682,7 @@ var Filename;
                     A(t[e]);
                 }
             }
-            return Ae;
+            return Oe;
         },
         nextPage: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
@@ -3647,7 +3691,7 @@ var Filename;
                     O(t[e]);
                 }
             }
-            return Ae;
+            return Oe;
         },
         getPageNumber: function(e) {
             let n = 1;
@@ -3676,7 +3720,7 @@ var Filename;
                 i(r);
                 Trigger.customEvent(r.events.onSetJson, r._currentView.element);
             }
-            return Ae;
+            return Oe;
         },
         getJson: function(e) {
             let n = null;
@@ -3702,7 +3746,7 @@ var Filename;
                 t[e]._currentView = r;
                 i(t[e]);
             }
-            return Ae;
+            return Oe;
         },
         getBindingOptions: function(e) {
             let n = null;
@@ -3713,21 +3757,21 @@ var Filename;
         },
         destroy: function(e) {
             if (Is.definedString(e) && t.hasOwnProperty(e)) {
-                _e(t[e]);
+                Ae(t[e]);
                 delete t[e];
                 n--;
             }
-            return Ae;
+            return Oe;
         },
         destroyAll: function() {
             for (const e in t) {
                 if (t.hasOwnProperty(e)) {
-                    _e(t[e]);
+                    Ae(t[e]);
                 }
             }
             t = {};
             n = 0;
-            return Ae;
+            return Oe;
         },
         setConfiguration: function(t) {
             if (Is.definedObject(t)) {
@@ -3743,7 +3787,7 @@ var Filename;
                     e = Config.Options.get(o);
                 }
             }
-            return Ae;
+            return Oe;
         },
         getIds: function() {
             const e = [];
@@ -3762,7 +3806,7 @@ var Filename;
         e = Config.Options.get();
         document.addEventListener("DOMContentLoaded", (() => l()));
         if (!Is.defined(window.$jsontree)) {
-            window.$jsontree = Ae;
+            window.$jsontree = Oe;
         }
     })();
 })();//# sourceMappingURL=jsontree.esm.js.map

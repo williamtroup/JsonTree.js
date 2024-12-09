@@ -993,7 +993,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function onSideMenuImportClick( bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         const input: HTMLInputElement = DomElement.createWithNoContainer( "input" ) as HTMLInputElement;
         input.type = "file";
-        input.accept = ".json";
+        input.accept = ".json, .csv";
         input.multiple = true;
 
         onSideMenuClose( bindingOptions );
@@ -2813,7 +2813,7 @@ type JsonTreeData = Record<string, BindingOptions>;
     function importFromFiles( files: FileList, bindingOptions: BindingOptions, insertDataIndex: number = null! ) : void {
         let filesLength: number = files.length;
         let filesRead: number = 0;
-        let filesData: Record<string, any> = {} as Record<string, any>;
+        let filesData: Record<string, ImportedFilename> = {} as Record<string, ImportedFilename>;
 
         const onFileLoad = ( importFileData: ImportedFilename ) : void => {
             filesRead++;
@@ -2830,6 +2830,8 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             if ( fileExtension === "json" ) {
                 importFromJson( file, onFileLoad );
+            } else if ( fileExtension === "csv" ) {
+                importFromCsv( file, onFileLoad );
             } else {
                 filesLength--;
             }
@@ -2855,19 +2857,67 @@ type JsonTreeData = Record<string, BindingOptions>;
         reader.readAsText( file );
     }
 
-    function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, any>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
+    function importFromCsv( file: File, onFileLoad: ( importFileData: ImportedFilename ) => void ) : void {
+        const reader: FileReader = new FileReader();
+        let renderData: ImportedFilename = null!;
+
+        reader.onloadend = () => onFileLoad( renderData );
+    
+        reader.onload = ( ev: ProgressEvent<FileReader> ) => {
+            const json: any = ev.target!.result;
+
+            if ( Is.definedString( json ) ) {
+                const jsonLines: string[] = json.split( /\r\n|\n/ );
+                const jsonLinesLength: number = jsonLines.length;
+
+                if ( jsonLinesLength > 1 ) {
+                    const jsonHeaders: string[] = jsonLines[ 0 ].split( Char.coma );
+                    const jsonHeadersLength: number = jsonHeaders.length;
+
+                    if ( jsonHeadersLength > 0 ) {
+                        const jsonObjects: any[] = [];
+
+                        for ( let jsonLineIndex = 1; jsonLineIndex < jsonLinesLength - 1; jsonLineIndex++ ) {
+                            const jsonLine: string = jsonLines[ jsonLineIndex ];
+                            const jsonLineValues: string[] = jsonLine.split( Char.coma );
+                            const jsonLineValuesLength = jsonLineValues.length;
+                            const jsonLineObject: any = {};
+
+                            for ( let jsonLineValueIndex = 0; jsonLineValueIndex < jsonLineValuesLength - 1; jsonLineValueIndex++ ) {
+                                jsonLineObject[ jsonHeaders[ jsonLineValueIndex ] ] = jsonLineValues[ jsonLineValueIndex ];
+                            }
+
+                            jsonObjects.push( jsonLineObject );
+                        }
+
+                        renderData = new ImportedFilename();
+                        renderData.filename = file.name;
+                        renderData.object = jsonObjects;
+                    }
+                }
+            }
+        };
+
+        reader.readAsText( file );
+    }
+
+    function importLoadedFiles( bindingOptions: BindingOptions, filesData: Record<string, ImportedFilename>, insertDataIndex: number, filesRead: number, filesLength: number ) : void {
         bindingOptions._currentView.contentPanelsOpen = {} as ContentPanelsForArrayIndex;
         bindingOptions._currentView.controlButtonsOpen = {} as ControlButtonsOpenStateArrayIndex;
 
-        const keys: string[] = Object.keys( filesData ) as Array<string>;
-        keys.sort();
+        const filenames: string[] = Object.keys( filesData ) as Array<string>;
+        filenames.sort();
 
         if ( Is.definedNumber( insertDataIndex ) ) {
-            for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
+            for ( let filenameIndex: number = 0; filenameIndex < filesRead; filenameIndex++ ) {
+                const filename: string = filenames[ filenameIndex ];
+                const filenameExtension: string = Filename.getExtension( filename );
+                const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+
                 if ( insertDataIndex > bindingOptions.data.length - 1 ) {
-                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                    bindingOptions.data = bindingOptions.data.concat( objectData );
                 } else {
-                    bindingOptions.data.splice( insertDataIndex, 0, filesData[ keys[ keyIndex ] ] );
+                    bindingOptions.data.splice( insertDataIndex, 0, objectData );
                 }
             }
 
@@ -2877,12 +2927,21 @@ type JsonTreeData = Record<string, BindingOptions>;
             bindingOptions._currentView.currentDataArrayPageIndex = 0;
 
             if ( filesRead === 1 ) {
-                bindingOptions.data = filesData[ keys[ 0 ] ];
+                const filename: string = filenames[ 0 ];
+                const filenameExtension: string = Filename.getExtension( filename );
+                const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+
+                bindingOptions.data = objectData;
+
             } else {
                 bindingOptions.data = [];
 
-                for ( let keyIndex: number = 0; keyIndex < filesRead; keyIndex++ ) {
-                    bindingOptions.data.push( filesData[ keys[ keyIndex ] ] );
+                for ( let filenameIndex: number = 0; filenameIndex < filesRead; filenameIndex++ ) {
+                    const filename: string = filenames[ filenameIndex ];
+                    const filenameExtension: string = Filename.getExtension( filename );
+                    const objectData: any = filenameExtension === "csv" ? filesData[ filename ].object : filesData[ filename ];
+
+                    bindingOptions.data = bindingOptions.data.concat( objectData );
                 }
             }
         }
