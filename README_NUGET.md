@@ -20,6 +20,7 @@
 - 🌈 Full CSS theme support (using :root variables), with dark and light themes.
 - 🔍 22 data types supported by default (such as Object, Array, primitive types, and even Sets, Maps, and HTML DOM elements).
 - 🔍 Custom data types support.
+- 🔨 Import and convert CSV and HTML files to JSON!
 - 🔣 Support to show the data types, array/object sizes, comas, and opening/closing symbols!
 - ☑️ Fully configurable per DOM element!
 - 📂 Close and open all objects, arrays, sets, maps, and HTML objects.
@@ -27,7 +28,7 @@
 - ⭐ Custom value rendering.
 - 📃 Array paging, with configurable column count support (show array objects on different pages)!
 - 💥 Compare the property name and index values in multiple page columns!
-- 💧 Drag & Drop JSON files support!
+- 💧 Drag & Drop JSON, CSV, and HTML files support!
 - 📋 Copy to clipboard (all JSON, a specific page, a specific JSON value, or selected JSON values).
 - ✏️ Full editing support (double click a value, property, index, or anywhere for everything).
 - 🔠 Keyboard navigation keys support!
