@@ -11,6 +11,7 @@
  */
 
 
+export type JsonTreeData = Record<string, BindingOptions>;
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 export type ControlButtonsOpenStateArrayIndex = Record<number, boolean>;

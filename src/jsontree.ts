@@ -21,7 +21,8 @@ import {
     type BindingOptionsCurrentView, 
     type ColumnLayout, 
     type CustomDataType, 
-    type ControlButtonsOpenStateArrayIndex } from "./ts/type";
+    type ControlButtonsOpenStateArrayIndex, 
+    type JsonTreeData } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { ImportedFilename } from "./ts/type";  
@@ -42,9 +43,6 @@ import { Obj } from "./ts/data/obj";
 import { Convert } from "./ts/data/convert";
 import { ContextMenu } from "./ts/area/context-menu";
 import { Filename } from "./ts/data/filename";
-
-
-type JsonTreeData = Record<string, BindingOptions>;
 
 
 ( () => {
