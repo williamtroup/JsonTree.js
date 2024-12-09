@@ -496,7 +496,7 @@ type JsonTreeData = Record<string, BindingOptions>;
 
             columnLayout.lineNumbers.innerHTML = Char.empty;
 
-            for ( let valueElementIndex = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
                 if ( valueElement.offsetHeight > 0 ) {
@@ -2222,7 +2222,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                 const jsonPathParts: string[] = jsonPath.split( Char.backslash );
                 const jsonPathPartsLength: number = jsonPathParts.length - 1;
 
-                for ( let jsonPathPartIndex = 0; jsonPathPartIndex < jsonPathPartsLength; jsonPathPartIndex++ ) {
+                for ( let jsonPathPartIndex: number = 0; jsonPathPartIndex < jsonPathPartsLength; jsonPathPartIndex++ ) {
                     jsonPathParts[ jsonPathPartIndex ] = bindingOptions.jsonPathAny!;
                 }
 
