@@ -22,7 +22,8 @@ import {
     type ColumnLayout, 
     type CustomDataType, 
     type ControlButtonsOpenStateArrayIndex, 
-    type JsonTreeData } from "./ts/type";
+    type JsonTreeData, 
+    type DataTypeCounts } from "./ts/type";
 
 import { type PublicApi } from "./ts/api";
 import { ImportedFilename } from "./ts/type";  
@@ -164,7 +165,7 @@ import { Filename } from "./ts/data/filename";
         bindingOptions._currentView.contentPanelsIndex = 0;
         bindingOptions._currentView.sideMenuChanged = false;
         bindingOptions._currentView.currentContentColumns = [];
-        bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
+        bindingOptions._currentView.dataTypeCounts = {} as DataTypeCounts;
 
         renderControlTitleBar( bindingOptions, data );
 
