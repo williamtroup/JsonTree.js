@@ -17,7 +17,7 @@ export type ControlButtonsOpenStateArrayIndex = Record<number, boolean>;
 
 export class ImportedFilename {
 	public filename: string = null!;
-	public object: string = null!;
+	public object: any = null!;
 };
 
 export type CustomDataType = {
