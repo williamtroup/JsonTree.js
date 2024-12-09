@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Impor",
         "fullScreenButtonText": "Alihkan Layar Penuh",
         "copyButtonText": "Menyalin",
-        "dragAndDropTitleText": "Tarik dan lepas file JSON Anda untuk diunggah",
+        "dragAndDropTitleText": "Tarik dan lepas file Anda untuk diunggah",
         "dragAndDropDescriptionText": "Beberapa file akan digabungkan sebagai sebuah array",
         "exportButtonText": "Ekspor",
         "noPropertiesText": "Tidak ada properti untuk dilihat.",

@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importovať",
         "fullScreenButtonText": "Prepnúť na celú obrazovku",
         "copyButtonText": "Kopírovať",
-        "dragAndDropTitleText": "Presuňte súbory JSON, ktoré chcete nahrať",
+        "dragAndDropTitleText": "Presuňte súbory, ktoré chcete nahrať",
         "dragAndDropDescriptionText": "Viacero súborov sa spojí ako pole",
         "exportButtonText": "Exportovať",
         "noPropertiesText": "Nie sú k dispozícii žiadne vlastnosti na zobrazenie.",

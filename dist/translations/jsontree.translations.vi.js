@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Nhập khẩu",
         "fullScreenButtonText": "Chuyển đổi toàn màn hình",
         "copyButtonText": "Sao chép",
-        "dragAndDropTitleText": "Kéo và thả tệp JSON của bạn để tải lên",
+        "dragAndDropTitleText": "Kéo và thả tệp của bạn để tải lên",
         "dragAndDropDescriptionText": "Nhiều tệp sẽ được nối thành một mảng",
         "exportButtonText": "Xuất khẩu",
         "noPropertiesText": "Không có tài sản nào để xem.",

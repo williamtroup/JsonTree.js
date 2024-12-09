@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "يستورد",
         "fullScreenButtonText": "تبديل ملء الشاشة",
         "copyButtonText": "ينسخ",
-        "dragAndDropTitleText": "قم بسحب وإسقاط ملفات JSON للتحميل",
+        "dragAndDropTitleText": "قم بسحب وإسقاط ملفات للتحميل",
         "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
         "exportButtonText": "يصدّر",
         "noPropertiesText": "لا توجد خصائص لعرضها.",

@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Εισαγωγή",
         "fullScreenButtonText": "Εναλλαγή πλήρους οθόνης",
         "copyButtonText": "Αντίγραφο",
-        "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία JSON για μεταφόρτωση",
+        "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία για μεταφόρτωση",
         "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
         "exportButtonText": "Εξαγωγή",
         "noPropertiesText": "Δεν υπάρχουν ιδιότητες για προβολή.",

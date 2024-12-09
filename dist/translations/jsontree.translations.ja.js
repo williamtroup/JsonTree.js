@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "輸入",
         "fullScreenButtonText": "全画面表示の切り替え",
         "copyButtonText": "コピー",
-        "dragAndDropTitleText": "JSON ファイルをドラッグ アンド ドロップしてアップロードします",
+        "dragAndDropTitleText": "ファイルをドラッグ アンド ドロップしてアップロードします",
         "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
         "exportButtonText": "輸出",
         "noPropertiesText": "表示できる物件はありません。",

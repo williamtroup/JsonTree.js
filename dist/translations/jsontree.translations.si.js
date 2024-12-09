@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "ආනයනය කරන්න",
         "fullScreenButtonText": "සම්පූර්ණ තිරය ටොගල් කරන්න",
         "copyButtonText": "පිටපත් කරන්න",
-        "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ JSON ගොනු ඇද දමන්න",
+        "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ ගොනු ඇද දමන්න",
         "dragAndDropDescriptionText": "ගොනු කිහිපයක් අරාවක් ලෙස එකතු වනු ඇත",
         "exportButtonText": "අපනයනය කරන්න",
         "noPropertiesText": "බැලීමට දේපල නොමැත.",

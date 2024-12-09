@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "இறக்குமதி",
         "fullScreenButtonText": "முழுத்திரையை நிலைமாற்று",
         "copyButtonText": "நகலெடுக்கவும்",
-        "dragAndDropTitleText": "பதிவேற்ற உங்கள் JSON கோப்புகளை இழுத்து விடுங்கள்",
+        "dragAndDropTitleText": "பதிவேற்ற உங்கள் கோப்புகளை இழுத்து விடுங்கள்",
         "dragAndDropDescriptionText": "பல கோப்புகள் அணிவரிசையாக இணைக்கப்படும்",
         "exportButtonText": "ஏற்றுமதி",
         "noPropertiesText": "பார்க்க எந்த சொத்துகளும் இல்லை.",

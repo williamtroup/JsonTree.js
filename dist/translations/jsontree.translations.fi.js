@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Tuoda",
         "fullScreenButtonText": "Vaihda koko näyttö päälle",
         "copyButtonText": "Kopioida",
-        "dragAndDropTitleText": "Vedä ja pudota JSON-tiedostosi lähetettäväksi",
+        "dragAndDropTitleText": "Vedä ja pudota tiedostosi lähetettäväksi",
         "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
         "exportButtonText": "Viedä",
         "noPropertiesText": "Ei ole näkyviä kiinteistöjä.",

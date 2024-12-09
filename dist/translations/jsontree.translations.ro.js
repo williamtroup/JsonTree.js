@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Import",
         "fullScreenButtonText": "Comutați ecranul complet",
         "copyButtonText": "Copie",
-        "dragAndDropTitleText": "Trageți și plasați fișierele dvs. JSON pentru a le încărca",
+        "dragAndDropTitleText": "Trageți și plasați fișierele dvs. pentru a le încărca",
         "dragAndDropDescriptionText": "Mai multe fișiere vor fi unite ca o matrice",
         "exportButtonText": "Export",
         "noPropertiesText": "Nu există proprietăți de vizualizat.",

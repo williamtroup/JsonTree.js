@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "İçe aktarmak",
         "fullScreenButtonText": "Tam Ekrana Geçiş Yap",
         "copyButtonText": "Kopyala",
-        "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
+        "dragAndDropTitleText": "Yüklemek için dosyalarınızı sürükleyip bırakın",
         "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
         "exportButtonText": "İhracat",
         "noPropertiesText": "Görüntülenecek mülk yok.",

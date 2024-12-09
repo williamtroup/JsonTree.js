@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Import",
         "fullScreenButtonText": "Toggle Full-Screen",
         "copyButtonText": "Copy",
-        "dragAndDropTitleText": "Drag and drop your JSON files to upload",
+        "dragAndDropTitleText": "Drag and drop your files to upload",
         "dragAndDropDescriptionText": "Multiple files will be joined as an array",
         "exportButtonText": "Export",
         "noPropertiesText": "There are no properties to view.",

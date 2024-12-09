@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Ներմուծում",
         "fullScreenButtonText": "Միացնել ամբողջ էկրանը",
         "copyButtonText": "Պատճենել",
-        "dragAndDropTitleText": "Քաշեք և թողեք ձեր JSON ֆայլերը՝ վերբեռնելու համար",
+        "dragAndDropTitleText": "Քաշեք և թողեք ձեր ֆայլերը՝ վերբեռնելու համար",
         "dragAndDropDescriptionText": "Բազմաթիվ ֆայլեր կմիանան որպես զանգված",
         "exportButtonText": "Արտահանում",
         "noPropertiesText": "Դիտելու հատկություններ չկան:",

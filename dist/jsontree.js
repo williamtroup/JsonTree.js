@@ -1093,7 +1093,7 @@ var Config;
             e.text.fullScreenButtonText = Default.getAnyString(e.text.fullScreenButtonText, "Toggle Full-Screen");
             e.text.copyButtonText = Default.getAnyString(e.text.copyButtonText, "Copy");
             e.text.dragAndDropSymbolText = Default.getAnyString(e.text.dragAndDropSymbolText, "⇪");
-            e.text.dragAndDropTitleText = Default.getAnyString(e.text.dragAndDropTitleText, "Drag and drop your JSON files to upload");
+            e.text.dragAndDropTitleText = Default.getAnyString(e.text.dragAndDropTitleText, "Drag and drop your files to upload");
             e.text.dragAndDropDescriptionText = Default.getAnyString(e.text.dragAndDropDescriptionText, "Multiple files will be joined as an array");
             e.text.exportButtonSymbolText = Default.getAnyString(e.text.exportButtonSymbolText, "↓");
             e.text.exportButtonText = Default.getAnyString(e.text.exportButtonText, "Export");

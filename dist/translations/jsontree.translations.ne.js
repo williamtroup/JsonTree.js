@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "आयात गर्नुहोस्",
         "fullScreenButtonText": "पूर्ण-स्क्रिन टगल गर्नुहोस्",
         "copyButtonText": "प्रतिलिपि गर्नुहोस्",
-        "dragAndDropTitleText": "तपाईंको JSON फाइलहरू अपलोड गर्न ड्र्याग र ड्रप गर्नुहोस्",
+        "dragAndDropTitleText": "तपाईंको फाइलहरू अपलोड गर्न ड्र्याग र ड्रप गर्नुहोस्",
         "dragAndDropDescriptionText": "धेरै फाइलहरू एरेको रूपमा जोडिनेछन्",
         "exportButtonText": "निर्यात गर्नुहोस्",
         "noPropertiesText": "हेर्नको लागि कुनै गुणहरू छैनन्।",

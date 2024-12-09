@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "واردات",
         "fullScreenButtonText": "تمام صفحه را تغییر دهید",
         "copyButtonText": "کپی کنید",
-        "dragAndDropTitleText": "فایل های JSON خود را برای آپلود بکشید و رها کنید",
+        "dragAndDropTitleText": "فایل های خود را برای آپلود بکشید و رها کنید",
         "dragAndDropDescriptionText": "چندین فایل به عنوان یک آرایه به یکدیگر ملحق می شوند",
         "exportButtonText": "صادرات",
         "noPropertiesText": "هیچ خاصیتی برای مشاهده وجود ندارد",

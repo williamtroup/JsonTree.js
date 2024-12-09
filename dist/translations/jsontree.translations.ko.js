@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "수입",
         "fullScreenButtonText": "전체 화면 전환",
         "copyButtonText": "복사",
-        "dragAndDropTitleText": "업로드할 JSON 파일을 드래그 앤 드롭하세요.",
+        "dragAndDropTitleText": "업로드할 파일을 드래그 앤 드롭하세요.",
         "dragAndDropDescriptionText": "여러 파일이 배열로 결합됩니다.",
         "exportButtonText": "내보내다",
         "noPropertiesText": "조회할 속성이 없습니다.",

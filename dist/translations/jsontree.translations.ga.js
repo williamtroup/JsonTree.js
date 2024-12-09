@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Iompórtáil",
         "fullScreenButtonText": "Scoránaigh Lánscáileán",
         "copyButtonText": "Cóip",
-        "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid JSON le huaslódáil",
+        "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid le huaslódáil",
         "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
         "exportButtonText": "Easpórtáil",
         "noPropertiesText": "Níl aon airíonna le feiceáil.",

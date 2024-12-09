@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importera",
         "fullScreenButtonText": "Växla helskärm",
         "copyButtonText": "Kopiera",
-        "dragAndDropTitleText": "Dra och släpp dina JSON-filer för att ladda upp",
+        "dragAndDropTitleText": "Dra och släpp dina filer för att ladda upp",
         "dragAndDropDescriptionText": "Flera filer kommer att sammanfogas som en array",
         "exportButtonText": "Exportera",
         "noPropertiesText": "Det finns inga fastigheter att se.",

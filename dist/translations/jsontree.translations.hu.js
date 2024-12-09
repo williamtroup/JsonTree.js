@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importálás",
         "fullScreenButtonText": "Teljes képernyő váltás",
         "copyButtonText": "Másolat",
-        "dragAndDropTitleText": "A feltöltéshez húzza át a JSON-fájlokat",
+        "dragAndDropTitleText": "A feltöltéshez húzza át a fájlokat",
         "dragAndDropDescriptionText": "Több fájl tömbként fog egyesülni",
         "exportButtonText": "Export",
         "noPropertiesText": "Nincsenek megtekinthető ingatlanok.",

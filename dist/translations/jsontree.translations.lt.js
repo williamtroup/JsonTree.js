@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importuoti",
         "fullScreenButtonText": "Perjungti viso ekrano režimą",
         "copyButtonText": "Kopijuoti",
-        "dragAndDropTitleText": "Nuvilkite JSON failus, kad įkeltumėte",
+        "dragAndDropTitleText": "Nuvilkite failus, kad įkeltumėte",
         "dragAndDropDescriptionText": "Keli failai bus sujungti kaip masyvas",
         "exportButtonText": "Eksportuoti",
         "noPropertiesText": "Nėra nuosavybės, kurią būtų galima peržiūrėti.",

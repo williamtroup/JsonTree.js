@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importar",
         "fullScreenButtonText": "Commuta la pantalla completa",
         "copyButtonText": "Còpia",
-        "dragAndDropTitleText": "Arrossegueu i deixeu anar els fitxers JSON per carregar-los",
+        "dragAndDropTitleText": "Arrossegueu i deixeu anar els fitxers per carregar-los",
         "dragAndDropDescriptionText": "S'uniran diversos fitxers com a matriu",
         "exportButtonText": "Exporta",
         "noPropertiesText": "No hi ha propietats per veure.",

@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Ymport",
         "fullScreenButtonText": "Skeakelje folslein skerm",
         "copyButtonText": "Kopy",
-        "dragAndDropTitleText": "Sleep en drop jo JSON-bestannen om te uploaden",
+        "dragAndDropTitleText": "Sleep en drop jo bestannen om te uploaden",
         "dragAndDropDescriptionText": "Meardere bestannen sille wurde gearfoege as in array",
         "exportButtonText": "Eksportearje",
         "noPropertiesText": "D'r binne gjin eigenskippen om te besjen.",

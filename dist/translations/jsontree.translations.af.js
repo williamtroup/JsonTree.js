@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Invoer",
         "fullScreenButtonText": "Wissel Volskerm",
         "copyButtonText": "Kopieer",
-        "dragAndDropTitleText": "Sleep en los jou JSON-lêers om op te laai",
+        "dragAndDropTitleText": "Sleep en los jou lêers om op te laai",
         "dragAndDropDescriptionText": "Veelvuldige lêers sal as 'n skikking saamgevoeg word",
         "exportButtonText": "Uitvoer",
         "noPropertiesText": "Daar is geen eiendomme om te besigtig nie.",

@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importēt",
         "fullScreenButtonText": "Pārslēgt pilnekrāna režīmu",
         "copyButtonText": "Kopēt",
-        "dragAndDropTitleText": "Velciet un nometiet savus JSON failus, lai augšupielādētu",
+        "dragAndDropTitleText": "Velciet un nometiet savus failus, lai augšupielādētu",
         "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
         "exportButtonText": "Eksportēt",
         "noPropertiesText": "Nav apskatāmo īpašumu.",

@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Import",
         "fullScreenButtonText": "Lülitage täisekraan sisse",
         "copyButtonText": "Kopeeri",
-        "dragAndDropTitleText": "Üleslaadimiseks pukseerige oma JSON-failid",
+        "dragAndDropTitleText": "Üleslaadimiseks pukseerige oma failid",
         "dragAndDropDescriptionText": "Mitu faili liidetakse massiivina",
         "exportButtonText": "Ekspordi",
         "noPropertiesText": "Vaatamiseks pole atribuute.",

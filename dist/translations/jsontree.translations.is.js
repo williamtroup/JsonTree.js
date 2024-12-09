@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Innflutningur",
         "fullScreenButtonText": "Skiptu um allan skjá",
         "copyButtonText": "Afrita",
-        "dragAndDropTitleText": "Dragðu og slepptu JSON skránum þínum til að hlaða upp",
+        "dragAndDropTitleText": "Dragðu og slepptu skránum þínum til að hlaða upp",
         "dragAndDropDescriptionText": "Margar skrár verða sameinaðar sem fylki",
         "exportButtonText": "Útflutningur",
         "noPropertiesText": "Það eru engar eignir til að skoða.",

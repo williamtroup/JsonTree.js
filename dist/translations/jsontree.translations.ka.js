@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "იმპორტი",
         "fullScreenButtonText": "სრულ ეკრანზე გადართვა",
         "copyButtonText": "კოპირება",
-        "dragAndDropTitleText": "გადაიტანეთ და ჩამოაგდეთ თქვენი JSON ფაილები ასატვირთად",
+        "dragAndDropTitleText": "გადაიტანეთ და ჩამოაგდეთ თქვენი ფაილები ასატვირთად",
         "dragAndDropDescriptionText": "მრავალი ფაილი შეუერთდება მასივის სახით",
         "exportButtonText": "ექსპორტი",
         "noPropertiesText": "სანახავი თვისებები არ არის.",

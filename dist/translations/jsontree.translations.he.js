@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "יְבוּא",
         "fullScreenButtonText": "החלף מסך מלא",
         "copyButtonText": "לְהַעְתִיק",
-        "dragAndDropTitleText": "גרור ושחרר את קובצי ה-JSON שלך כדי להעלות",
+        "dragAndDropTitleText": "גרור ושחרר את קובצי ה שלך כדי להעלות",
         "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
         "exportButtonText": "יְצוּא",
         "noPropertiesText": "אין נכסים לצפייה.",
