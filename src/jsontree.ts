@@ -2864,30 +2864,30 @@ type JsonTreeData = Record<string, BindingOptions>;
         reader.onloadend = () => onFileLoad( renderData );
     
         reader.onload = ( ev: ProgressEvent<FileReader> ) => {
-            const json: any = ev.target!.result;
+            const csvData: any = ev.target!.result;
 
-            if ( Is.definedString( json ) ) {
-                const jsonLines: string[] = json.split( /\r\n|\n/ );
-                const jsonLinesLength: number = jsonLines.length;
+            if ( Is.definedString( csvData ) ) {
+                const csvLines: string[] = csvData.split( /\r\n|\n/ );
+                const csvLinesLength: number = csvLines.length;
 
-                if ( jsonLinesLength > 1 ) {
-                    const jsonHeaders: string[] = jsonLines[ 0 ].split( Char.coma );
-                    const jsonHeadersLength: number = jsonHeaders.length;
+                if ( csvLinesLength > 1 ) {
+                    const csvHeaders: string[] = csvLines[ 0 ].split( Char.coma );
+                    const csvHeadersLength: number = csvHeaders.length;
 
-                    if ( jsonHeadersLength > 0 ) {
+                    if ( csvHeadersLength > 0 ) {
                         const jsonObjects: any[] = [];
 
-                        for ( let jsonLineIndex = 1; jsonLineIndex < jsonLinesLength - 1; jsonLineIndex++ ) {
-                            const jsonLine: string = jsonLines[ jsonLineIndex ];
-                            const jsonLineValues: string[] = jsonLine.split( Char.coma );
-                            const jsonLineValuesLength = jsonLineValues.length;
-                            const jsonLineObject: any = {};
+                        for ( let csvLineIndex = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
+                            const csvLine: string = csvLines[ csvLineIndex ];
+                            const csvLineValues: string[] = csvLine.split( Char.coma );
+                            const csvLineValuesLength = csvLineValues.length;
+                            const jsonObject: any = {};
 
-                            for ( let jsonLineValueIndex = 0; jsonLineValueIndex < jsonLineValuesLength - 1; jsonLineValueIndex++ ) {
-                                jsonLineObject[ jsonHeaders[ jsonLineValueIndex ] ] = jsonLineValues[ jsonLineValueIndex ];
+                            for ( let csvLineValueIndex = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
+                                jsonObject[ csvHeaders[ csvLineValueIndex ] ] = csvLineValues[ csvLineValueIndex ];
                             }
 
-                            jsonObjects.push( jsonLineObject );
+                            jsonObjects.push( jsonObject );
                         }
 
                         renderData = new ImportedFilename();
