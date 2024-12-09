@@ -54,7 +54,7 @@ export namespace Convert {
             result = object.src;
 
         } else if ( Is.definedHtml( object ) ) {
-            result = htmlToObject( object, bindingOptions.showCssStylesForHtmlObjects! );
+            result = htmlToObject( object, bindingOptions.showCssStylesForHtmlObjects!, true );
 
         } else if ( Is.definedArray( object ) ) {
             result = [];
@@ -146,7 +146,7 @@ export namespace Convert {
         return result;
     }
 
-    export function htmlToObject( value: HTMLElement, addCssStyles: boolean ) : any {
+    export function htmlToObject( value: HTMLElement, addCssStyles: boolean, convertChildren: boolean = false ) : any {
         const result: any = {};
         const attributesLength: number = value.attributes.length;
         const childrenLength: number = value.children.length;
@@ -165,6 +165,7 @@ export namespace Convert {
 
         result[ childrenKeyName ] = [];
         result[ textKeyName ] = valueCloned.innerText;
+        result[ "$type" ] = valueCloned.nodeName.toLowerCase();
 
         for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
             const attribute: Attr = value.attributes[ attributeIndex ];
@@ -175,7 +176,11 @@ export namespace Convert {
         }
 
         for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
-            result[ childrenKeyName ].push( value.children[ childIndex ] );
+            if ( convertChildren ) {
+                result[ childrenKeyName ].push( htmlToObject( value.children[ childIndex ] as HTMLElement, addCssStyles, convertChildren ) );
+            } else {
+                result[ childrenKeyName ].push( value.children[ childIndex ] );
+            }
         }
 
         if ( addCssStyles ) {

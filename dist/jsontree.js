@@ -199,7 +199,7 @@ var Convert2;
         } else if (Is.definedImage(e)) {
             o = e.src;
         } else if (Is.definedHtml(e)) {
-            o = htmlToObject(e, n.showCssStylesForHtmlObjects);
+            o = htmlToObject(e, n.showCssStylesForHtmlObjects, true);
         } else if (Is.definedArray(e)) {
             o = [];
             const l = e.length;
@@ -267,48 +267,53 @@ var Convert2;
         return n;
     }
     Convert.stringToDataTypeValue = stringToDataTypeValue;
-    function htmlToObject(e, t) {
-        const n = {};
-        const o = e.attributes.length;
-        const l = e.children.length;
-        const r = "&children";
-        const i = "#text";
-        const s = e.cloneNode(true);
-        let a = s.children.length;
-        while (a > 0) {
-            if (s.children[0].nodeType !== Node.TEXT_NODE) {
-                s.removeChild(s.children[0]);
+    function htmlToObject(e, t, n = false) {
+        const o = {};
+        const l = e.attributes.length;
+        const r = e.children.length;
+        const i = "&children";
+        const s = "#text";
+        const a = e.cloneNode(true);
+        let u = a.children.length;
+        while (u > 0) {
+            if (a.children[0].nodeType !== Node.TEXT_NODE) {
+                a.removeChild(a.children[0]);
             }
-            a--;
+            u--;
         }
-        n[r] = [];
-        n[i] = s.innerText;
-        for (let t = 0; t < o; t++) {
-            const o = e.attributes[t];
-            if (Is.definedString(o.nodeName)) {
-                n[`@${o.nodeName}`] = o.nodeValue;
-            }
-        }
+        o[i] = [];
+        o[s] = a.innerText;
+        o["$type"] = a.nodeName.toLowerCase();
         for (let t = 0; t < l; t++) {
-            n[r].push(e.children[t]);
+            const n = e.attributes[t];
+            if (Is.definedString(n.nodeName)) {
+                o[`@${n.nodeName}`] = n.nodeValue;
+            }
+        }
+        for (let l = 0; l < r; l++) {
+            if (n) {
+                o[i].push(htmlToObject(e.children[l], t, n));
+            } else {
+                o[i].push(e.children[l]);
+            }
         }
         if (t) {
             const t = getComputedStyle(e);
-            const o = t.length;
-            for (let e = 0; e < o; e++) {
-                const o = t[e];
-                const l = `$${o}`;
-                const r = t.getPropertyValue(o);
-                n[l] = r;
+            const n = t.length;
+            for (let e = 0; e < n; e++) {
+                const n = t[e];
+                const l = `$${n}`;
+                const r = t.getPropertyValue(n);
+                o[l] = r;
             }
         }
-        if (n[r].length === 0) {
-            delete n[r];
+        if (o[i].length === 0) {
+            delete o[i];
         }
-        if (!Is.definedString(n[i])) {
-            delete n[i];
+        if (!Is.definedString(o[s])) {
+            delete o[s];
         }
-        return n;
+        return o;
     }
     Convert.htmlToObject = htmlToObject;
     function mapToObject(e) {
