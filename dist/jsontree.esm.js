@@ -402,6 +402,29 @@ var Convert2;
         return e.toString().replace(" ", "").replace("(", `(${" "}`).replace(")", `${" "})`).replace(",", `${" "}${","}`);
     }
     Convert.colorToSpacedOutString = colorToSpacedOutString;
+    function csvStringToObject(e) {
+        const t = [];
+        const n = e.split(/\r\n|\n/);
+        const o = n.length;
+        if (o > 1) {
+            const e = n[0].split(",");
+            const l = e.length;
+            if (l > 0) {
+                for (let l = 1; l < o - 1; l++) {
+                    const o = n[l];
+                    const r = o.split(",");
+                    const i = r.length;
+                    const s = {};
+                    for (let t = 0; t < i - 1; t++) {
+                        s[e[t]] = r[t];
+                    }
+                    t.push(s);
+                }
+            }
+        }
+        return t;
+    }
+    Convert.csvStringToObject = csvStringToObject;
 })(Convert2 || (Convert2 = {}));
 
 var Str;
@@ -3488,27 +3511,11 @@ var Filename;
         n.onload = t => {
             const n = t.target.result;
             if (Is.definedString(n)) {
-                const t = n.split(/\r\n|\n/);
-                const l = t.length;
-                if (l > 1) {
-                    const n = t[0].split(",");
-                    const r = n.length;
-                    if (r > 0) {
-                        const r = [];
-                        for (let e = 1; e < l - 1; e++) {
-                            const o = t[e];
-                            const l = o.split(",");
-                            const i = l.length;
-                            const s = {};
-                            for (let e = 0; e < i - 1; e++) {
-                                s[n[e]] = l[e];
-                            }
-                            r.push(s);
-                        }
-                        o = new ImportedFilename;
-                        o.filename = e.name;
-                        o.object = r;
-                    }
+                const t = Convert2.csvStringToObject(n);
+                if (t.length > 0) {
+                    o = new ImportedFilename;
+                    o.filename = e.name;
+                    o.object = t;
                 }
             }
         };

@@ -2868,33 +2868,12 @@ import { Filename } from "./ts/data/filename";
             const csvData: any = ev.target!.result;
 
             if ( Is.definedString( csvData ) ) {
-                const csvLines: string[] = csvData.split( /\r\n|\n/ );
-                const csvLinesLength: number = csvLines.length;
+                const jsonObjects: any[] = Convert.csvStringToObject( csvData );
 
-                if ( csvLinesLength > 1 ) {
-                    const csvHeaders: string[] = csvLines[ 0 ].split( Char.coma );
-                    const csvHeadersLength: number = csvHeaders.length;
-
-                    if ( csvHeadersLength > 0 ) {
-                        const jsonObjects: any[] = [];
-
-                        for ( let csvLineIndex: number = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
-                            const csvLine: string = csvLines[ csvLineIndex ];
-                            const csvLineValues: string[] = csvLine.split( Char.coma );
-                            const csvLineValuesLength: number = csvLineValues.length;
-                            const jsonObject: any = {};
-
-                            for ( let csvLineValueIndex: number = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
-                                jsonObject[ csvHeaders[ csvLineValueIndex ] ] = csvLineValues[ csvLineValueIndex ];
-                            }
-
-                            jsonObjects.push( jsonObject );
-                        }
-
-                        renderData = new ImportedFilename();
-                        renderData.filename = file.name;
-                        renderData.object = jsonObjects;
-                    }
+                if ( jsonObjects.length > 0 ) {
+                    renderData = new ImportedFilename();
+                    renderData.filename = file.name;
+                    renderData.object = jsonObjects;
                 }
             }
         };

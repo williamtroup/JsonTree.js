@@ -318,4 +318,35 @@ export namespace Convert {
             .replace( ")", `${Char.space})` )
             .replace( Char.coma, `${Char.space}${Char.coma}` );
     }
+
+    export function csvStringToObject( csvData: string ) : any[] {
+        const jsonObjects: any[] = [];
+
+        const csvLines: string[] = csvData.split( /\r\n|\n/ );
+        const csvLinesLength: number = csvLines.length;
+
+        if ( csvLinesLength > 1 ) {
+            const csvHeaders: string[] = csvLines[ 0 ].split( Char.coma );
+            const csvHeadersLength: number = csvHeaders.length;
+
+            if ( csvHeadersLength > 0 ) {
+                
+
+                for ( let csvLineIndex: number = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
+                    const csvLine: string = csvLines[ csvLineIndex ];
+                    const csvLineValues: string[] = csvLine.split( Char.coma );
+                    const csvLineValuesLength: number = csvLineValues.length;
+                    const jsonObject: any = {};
+
+                    for ( let csvLineValueIndex: number = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
+                        jsonObject[ csvHeaders[ csvLineValueIndex ] ] = csvLineValues[ csvLineValueIndex ];
+                    }
+
+                    jsonObjects.push( jsonObject );
+                }
+            }
+        }
+
+        return jsonObjects;
+    }
 }
