@@ -2882,7 +2882,7 @@ type JsonTreeData = Record<string, BindingOptions>;
                         for ( let csvLineIndex = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
                             const csvLine: string = csvLines[ csvLineIndex ];
                             const csvLineValues: string[] = csvLine.split( Char.coma );
-                            const csvLineValuesLength = csvLineValues.length;
+                            const csvLineValuesLength: number = csvLineValues.length;
                             const jsonObject: any = {};
 
                             for ( let csvLineValueIndex = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
