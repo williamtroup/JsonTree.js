@@ -2879,13 +2879,13 @@ type JsonTreeData = Record<string, BindingOptions>;
                     if ( csvHeadersLength > 0 ) {
                         const jsonObjects: any[] = [];
 
-                        for ( let csvLineIndex = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
+                        for ( let csvLineIndex: number = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
                             const csvLine: string = csvLines[ csvLineIndex ];
                             const csvLineValues: string[] = csvLine.split( Char.coma );
                             const csvLineValuesLength: number = csvLineValues.length;
                             const jsonObject: any = {};
 
-                            for ( let csvLineValueIndex = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
+                            for ( let csvLineValueIndex: number = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
                                 jsonObject[ csvHeaders[ csvLineValueIndex ] ] = csvLineValues[ csvLineValueIndex ];
                             }
 
