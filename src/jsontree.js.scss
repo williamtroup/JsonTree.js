@@ -678,6 +678,7 @@ div.json-tree-js {
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
         width: 100%;
+        max-height: 700px;
 
         div.contents-column {
             div.column-control-buttons {

@@ -670,6 +670,7 @@ div.json-tree-js div.contents {
   padding: var(--json-tree-js-spacing);
   margin: 0 !important;
   width: 100%;
+  max-height: 700px;
 }
 div.json-tree-js div.contents div.contents-column div.column-control-buttons {
   border-radius: var(--json-tree-js-border-radius);
