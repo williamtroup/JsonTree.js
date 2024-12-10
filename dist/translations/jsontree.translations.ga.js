@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Irish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Irish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Iompórtáil",
         "fullScreenButtonText": "Scoránaigh Lánscáileán",
         "copyButtonText": "Cóip",
-        "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid JSON le huaslódáil",
+        "dragAndDropTitleText": "Tarraing agus scaoil do chomhaid le huaslódáil",
         "dragAndDropDescriptionText": "Déanfar comhaid iolracha a cheangal mar eagar",
         "exportButtonText": "Easpórtáil",
         "noPropertiesText": "Níl aon airíonna le feiceáil.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Méid: {0}",
         "copiedText": "Chóipeáil JSON chuig an ngearrthaisce.",
         "exportedText": "Easpórtáil JSON.",
-        "importedText": "Iompórtáladh {0} comhad JSON.",
+        "importedText": "Iompórtáladh {0} comhad.",
         "ignoreDataTypesUpdated": "Déan neamhaird de chineálacha sonraí nuashonraithe.",
         "lengthText": "Fad: {0}",
         "valueUpdatedText": "Luach nuashonraithe.",

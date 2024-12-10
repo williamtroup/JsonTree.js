@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Bulgarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Bulgarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Импортиране",
         "fullScreenButtonText": "Превключване на цял екран",
         "copyButtonText": "копие",
-        "dragAndDropTitleText": "Плъзнете и пуснете вашите JSON файлове за качване",
+        "dragAndDropTitleText": "Плъзнете и пуснете вашите файлове за качване",
         "dragAndDropDescriptionText": "Няколко файла ще бъдат обединени като масив",
         "exportButtonText": "Експортиране",
         "noPropertiesText": "Няма имоти за разглеждане.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Размер: {0}",
         "copiedText": "JSON е копиран в клипборда.",
         "exportedText": "Експортиран JSON.",
-        "importedText": "Импортирани са {0} JSON файла.",
+        "importedText": "Импортирани са {0} файла.",
         "ignoreDataTypesUpdated": "Игнорирайте актуализираните типове данни.",
         "lengthText": "Дължина: {0}",
         "valueUpdatedText": "Стойността е актуализирана.",

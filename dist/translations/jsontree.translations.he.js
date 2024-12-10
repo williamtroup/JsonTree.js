@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Hebrew | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Hebrew | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "יְבוּא",
         "fullScreenButtonText": "החלף מסך מלא",
         "copyButtonText": "לְהַעְתִיק",
-        "dragAndDropTitleText": "גרור ושחרר את קובצי ה-JSON שלך כדי להעלות",
+        "dragAndDropTitleText": "גרור ושחרר את קובצי ה שלך כדי להעלות",
         "dragAndDropDescriptionText": "קבצים מרובים יצטרפו כמערך",
         "exportButtonText": "יְצוּא",
         "noPropertiesText": "אין נכסים לצפייה.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "גודל: {0}",
         "copiedText": "JSON הועתק ללוח.",
         "exportedText": "JSON מיוצא.",
-        "importedText": "{0} קובצי JSON יובאו.",
+        "importedText": "{0} קובצי יובאו.",
         "ignoreDataTypesUpdated": "התעלם מסוגי נתונים שעודכנו.",
         "lengthText": "אורך: {0}",
         "valueUpdatedText": "הערך עודכן.",

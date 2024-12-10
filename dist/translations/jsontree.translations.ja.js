@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Japanese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Japanese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "輸入",
         "fullScreenButtonText": "全画面表示の切り替え",
         "copyButtonText": "コピー",
-        "dragAndDropTitleText": "JSON ファイルをドラッグ アンド ドロップしてアップロードします",
+        "dragAndDropTitleText": "ファイルをドラッグ アンド ドロップしてアップロードします",
         "dragAndDropDescriptionText": "複数のファイルが配列として結合されます",
         "exportButtonText": "輸出",
         "noPropertiesText": "表示できる物件はありません。",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "サイズ: {0}",
         "copiedText": "JSON がクリップボードにコピーされました。",
         "exportedText": "JSONがエクスポートされました。",
-        "importedText": "{0} 個の JSON ファイルがインポートされました。",
+        "importedText": "{0} 個の ファイルがインポートされました。",
         "ignoreDataTypesUpdated": "更新されたデータ型を無視します。",
         "lengthText": "長さ: {0}",
         "valueUpdatedText": "値が更新されました。",

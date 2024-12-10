@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Italian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Italian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importare",
         "fullScreenButtonText": "Attiva/disattiva la modalità a schermo intero",
         "copyButtonText": "Copia",
-        "dragAndDropTitleText": "Trascina e rilascia i file JSON da caricare",
+        "dragAndDropTitleText": "Trascina e rilascia i file da caricare",
         "dragAndDropDescriptionText": "Più file verranno uniti come un array",
         "exportButtonText": "Esportare",
         "noPropertiesText": "Non ci sono immobili da visualizzare.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Taglia: {0}",
         "copiedText": "JSON copiato negli appunti.",
         "exportedText": "JSON esportato.",
-        "importedText": "{0} file JSON importati.",
+        "importedText": "{0} file importati.",
         "ignoreDataTypesUpdated": "Ignora i tipi di dati aggiornati.",
         "lengthText": "Lunghezza: {0}",
         "valueUpdatedText": "Valore aggiornato.",

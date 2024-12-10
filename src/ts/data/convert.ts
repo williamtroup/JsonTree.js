@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        convert.ts
- * @version     v4.6.4
+ * @version     v4.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -54,7 +54,7 @@ export namespace Convert {
             result = object.src;
 
         } else if ( Is.definedHtml( object ) ) {
-            result = htmlToObject( object, bindingOptions.showCssStylesForHtmlObjects! );
+            result = htmlToObject( object, bindingOptions.showCssStylesForHtmlObjects!, true );
 
         } else if ( Is.definedArray( object ) ) {
             result = [];
@@ -146,7 +146,7 @@ export namespace Convert {
         return result;
     }
 
-    export function htmlToObject( value: HTMLElement, addCssStyles: boolean ) : any {
+    export function htmlToObject( value: HTMLElement, addCssStyles: boolean, convertChildren: boolean = false ) : any {
         const result: any = {};
         const attributesLength: number = value.attributes.length;
         const childrenLength: number = value.children.length;
@@ -165,6 +165,7 @@ export namespace Convert {
 
         result[ childrenKeyName ] = [];
         result[ textKeyName ] = valueCloned.innerText;
+        result[ "$type" ] = valueCloned.nodeName.toLowerCase();
 
         for ( let attributeIndex: number = 0; attributeIndex < attributesLength; attributeIndex++ ) {
             const attribute: Attr = value.attributes[ attributeIndex ];
@@ -175,7 +176,11 @@ export namespace Convert {
         }
 
         for ( let childIndex: number = 0; childIndex < childrenLength; childIndex++ ) {
-            result[ childrenKeyName ].push( value.children[ childIndex ] );
+            if ( convertChildren ) {
+                result[ childrenKeyName ].push( htmlToObject( value.children[ childIndex ] as HTMLElement, addCssStyles, convertChildren ) );
+            } else {
+                result[ childrenKeyName ].push( value.children[ childIndex ] );
+            }
         }
 
         if ( addCssStyles ) {
@@ -312,5 +317,36 @@ export namespace Convert {
             .replace( "(", `(${Char.space}` )
             .replace( ")", `${Char.space})` )
             .replace( Char.coma, `${Char.space}${Char.coma}` );
+    }
+
+    export function csvStringToObject( csvData: string ) : any[] {
+        const jsonObjects: any[] = [];
+
+        const csvLines: string[] = csvData.split( /\r\n|\n/ );
+        const csvLinesLength: number = csvLines.length;
+
+        if ( csvLinesLength > 1 ) {
+            const csvHeaders: string[] = csvLines[ 0 ].split( Char.coma );
+            const csvHeadersLength: number = csvHeaders.length;
+
+            if ( csvHeadersLength > 0 ) {
+                
+
+                for ( let csvLineIndex: number = 1; csvLineIndex < csvLinesLength - 1; csvLineIndex++ ) {
+                    const csvLine: string = csvLines[ csvLineIndex ];
+                    const csvLineValues: string[] = csvLine.split( Char.coma );
+                    const csvLineValuesLength: number = csvLineValues.length;
+                    const jsonObject: any = {};
+
+                    for ( let csvLineValueIndex: number = 0; csvLineValueIndex < csvLineValuesLength - 1; csvLineValueIndex++ ) {
+                        jsonObject[ csvHeaders[ csvLineValueIndex ] ] = csvLineValues[ csvLineValueIndex ];
+                    }
+
+                    jsonObjects.push( jsonObject );
+                }
+            }
+        }
+
+        return jsonObjects;
     }
 }

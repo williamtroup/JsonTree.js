@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Finnish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Finnish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Tuoda",
         "fullScreenButtonText": "Vaihda koko näyttö päälle",
         "copyButtonText": "Kopioida",
-        "dragAndDropTitleText": "Vedä ja pudota JSON-tiedostosi lähetettäväksi",
+        "dragAndDropTitleText": "Vedä ja pudota tiedostosi lähetettäväksi",
         "dragAndDropDescriptionText": "Useat tiedostot yhdistetään taulukoksi",
         "exportButtonText": "Viedä",
         "noPropertiesText": "Ei ole näkyviä kiinteistöjä.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Koko: {0}",
         "copiedText": "JSON kopioitu leikepöydälle.",
         "exportedText": "JSON viety.",
-        "importedText": "{0} JSON-tiedostoa tuotu.",
+        "importedText": "{0} tiedostoa tuotu.",
         "ignoreDataTypesUpdated": "Ohita tietotyypit päivitetty.",
         "lengthText": "Pituus: {0}",
         "valueUpdatedText": "Arvo päivitetty.",

@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Farsi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Farsi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "واردات",
         "fullScreenButtonText": "تمام صفحه را تغییر دهید",
         "copyButtonText": "کپی کنید",
-        "dragAndDropTitleText": "فایل های JSON خود را برای آپلود بکشید و رها کنید",
+        "dragAndDropTitleText": "فایل های خود را برای آپلود بکشید و رها کنید",
         "dragAndDropDescriptionText": "چندین فایل به عنوان یک آرایه به یکدیگر ملحق می شوند",
         "exportButtonText": "صادرات",
         "noPropertiesText": "هیچ خاصیتی برای مشاهده وجود ندارد",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "اندازه: {0}",
         "copiedText": "JSON در کلیپ بورد کپی شد.",
         "exportedText": "JSON صادر شد.",
-        "importedText": "{0} فایل JSON وارد شد.",
+        "importedText": "{0} فایل وارد شد.",
         "ignoreDataTypesUpdated": "انواع داده های به روز شده را نادیده بگیرید.",
         "lengthText": "طول: {0}",
         "valueUpdatedText": "ارزش به روز شد.",

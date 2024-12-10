@@ -1,5 +1,5 @@
 /*
- * JsonTree.js Library v4.6.4
+ * JsonTree.js Library v4.7.0
  *
  * Copyright 2024 Bunoon
  * Released under the MIT License
@@ -678,6 +678,7 @@ div.json-tree-js {
         padding: var(--json-tree-js-spacing);
         margin: 0 !important;
         width: 100%;
+        max-height: 700px;
 
         div.contents-column {
             div.column-control-buttons {

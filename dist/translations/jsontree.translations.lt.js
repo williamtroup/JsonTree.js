@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Lithuanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Lithuanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importuoti",
         "fullScreenButtonText": "Perjungti viso ekrano režimą",
         "copyButtonText": "Kopijuoti",
-        "dragAndDropTitleText": "Nuvilkite JSON failus, kad įkeltumėte",
+        "dragAndDropTitleText": "Nuvilkite failus, kad įkeltumėte",
         "dragAndDropDescriptionText": "Keli failai bus sujungti kaip masyvas",
         "exportButtonText": "Eksportuoti",
         "noPropertiesText": "Nėra nuosavybės, kurią būtų galima peržiūrėti.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Dydis: {0}",
         "copiedText": "JSON nukopijuotas į iškarpinę.",
         "exportedText": "JSON eksportuotas.",
-        "importedText": "Importuoti {0} JSON failai.",
+        "importedText": "Importuoti {0} failai.",
         "ignoreDataTypesUpdated": "Ignoruoti duomenų tipus atnaujinti.",
         "lengthText": "Ilgis: {0}",
         "valueUpdatedText": "Vertė atnaujinta.",

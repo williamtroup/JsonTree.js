@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Afrikaans | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Afrikaans | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Invoer",
         "fullScreenButtonText": "Wissel Volskerm",
         "copyButtonText": "Kopieer",
-        "dragAndDropTitleText": "Sleep en los jou JSON-lêers om op te laai",
+        "dragAndDropTitleText": "Sleep en los jou lêers om op te laai",
         "dragAndDropDescriptionText": "Veelvuldige lêers sal as 'n skikking saamgevoeg word",
         "exportButtonText": "Uitvoer",
         "noPropertiesText": "Daar is geen eiendomme om te besigtig nie.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Grootte: {0}",
         "copiedText": "JSON is na knipbord gekopieer.",
         "exportedText": "JSON uitgevoer.",
-        "importedText": "{0} JSON-lêers is ingevoer.",
+        "importedText": "{0} lêers is ingevoer.",
         "ignoreDataTypesUpdated": "Ignoreer datatipes wat opgedateer is.",
         "lengthText": "Lengte: {0}",
         "valueUpdatedText": "Waarde opgedateer.",

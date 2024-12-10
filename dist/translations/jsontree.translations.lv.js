@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Latvian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Latvian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importēt",
         "fullScreenButtonText": "Pārslēgt pilnekrāna režīmu",
         "copyButtonText": "Kopēt",
-        "dragAndDropTitleText": "Velciet un nometiet savus JSON failus, lai augšupielādētu",
+        "dragAndDropTitleText": "Velciet un nometiet savus failus, lai augšupielādētu",
         "dragAndDropDescriptionText": "Vairāki faili tiks apvienoti kā masīvs",
         "exportButtonText": "Eksportēt",
         "noPropertiesText": "Nav apskatāmo īpašumu.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Izmērs: {0}",
         "copiedText": "JSON kopēts starpliktuvē.",
         "exportedText": "JSON eksportēts.",
-        "importedText": "Importēti {0} JSON faili.",
+        "importedText": "Importēti {0} faili.",
         "ignoreDataTypesUpdated": "Ignorēt atjauninātos datu tipus.",
         "lengthText": "Garums: {0}",
         "valueUpdatedText": "Vērtība atjaunināta.",

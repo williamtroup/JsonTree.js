@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Thai | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Thai | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "นำเข้า",
         "fullScreenButtonText": "สลับแบบเต็มหน้าจอ",
         "copyButtonText": "สำเนา",
-        "dragAndDropTitleText": "ลากและวางไฟล์ JSON ของคุณเพื่ออัปโหลด",
+        "dragAndDropTitleText": "ลากและวางไฟล์ ของคุณเพื่ออัปโหลด",
         "dragAndDropDescriptionText": "ไฟล์หลายไฟล์จะถูกรวมเข้าด้วยกันเป็นอาร์เรย์",
         "exportButtonText": "ส่งออก",
         "noPropertiesText": "ไม่มีคุณสมบัติให้ดู",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "ขนาด: {0}",
         "copiedText": "คัดลอก JSON ไปยังคลิปบอร์ดแล้ว",
         "exportedText": "JSON ส่งออกแล้ว",
-        "importedText": "นำเข้าไฟล์ JSON {0} ไฟล์",
+        "importedText": "นำเข้าไฟล์ {0} ไฟล์",
         "ignoreDataTypesUpdated": "ละเว้นประเภทข้อมูลที่อัปเดต",
         "lengthText": "ความยาว: {0}",
         "valueUpdatedText": "อัปเดตค่าแล้ว",

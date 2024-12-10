@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Vietnamese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Vietnamese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Nhập khẩu",
         "fullScreenButtonText": "Chuyển đổi toàn màn hình",
         "copyButtonText": "Sao chép",
-        "dragAndDropTitleText": "Kéo và thả tệp JSON của bạn để tải lên",
+        "dragAndDropTitleText": "Kéo và thả tệp của bạn để tải lên",
         "dragAndDropDescriptionText": "Nhiều tệp sẽ được nối thành một mảng",
         "exportButtonText": "Xuất khẩu",
         "noPropertiesText": "Không có tài sản nào để xem.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Kích thước: {0}",
         "copiedText": "JSON được sao chép vào bảng nhớ tạm.",
         "exportedText": "Đã xuất JSON.",
-        "importedText": "{0} tệp JSON đã được nhập.",
+        "importedText": "{0} tệp đã được nhập.",
         "ignoreDataTypesUpdated": "Bỏ qua các loại dữ liệu được cập nhật.",
         "lengthText": "Độ dài: {0}",
         "valueUpdatedText": "Đã cập nhật giá trị.",

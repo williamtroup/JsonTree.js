@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Frisian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Frisian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Ymport",
         "fullScreenButtonText": "Skeakelje folslein skerm",
         "copyButtonText": "Kopy",
-        "dragAndDropTitleText": "Sleep en drop jo JSON-bestannen om te uploaden",
+        "dragAndDropTitleText": "Sleep en drop jo bestannen om te uploaden",
         "dragAndDropDescriptionText": "Meardere bestannen sille wurde gearfoege as in array",
         "exportButtonText": "Eksportearje",
         "noPropertiesText": "D'r binne gjin eigenskippen om te besjen.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Grutte: {0}",
         "copiedText": "JSON kopiearre nei klamboerd.",
         "exportedText": "JSON eksportearre.",
-        "importedText": "{0} JSON-bestannen ymportearre.",
+        "importedText": "{0} bestannen ymportearre.",
         "ignoreDataTypesUpdated": "Negearje bywurke gegevenstypen.",
         "lengthText": "Lengte: {0}",
         "valueUpdatedText": "Wearde bywurke.",

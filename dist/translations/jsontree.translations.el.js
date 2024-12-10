@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Greek | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Greek | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Εισαγωγή",
         "fullScreenButtonText": "Εναλλαγή πλήρους οθόνης",
         "copyButtonText": "Αντίγραφο",
-        "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία JSON για μεταφόρτωση",
+        "dragAndDropTitleText": "Σύρετε και αποθέστε τα αρχεία για μεταφόρτωση",
         "dragAndDropDescriptionText": "Πολλά αρχεία θα ενωθούν ως πίνακας",
         "exportButtonText": "Εξαγωγή",
         "noPropertiesText": "Δεν υπάρχουν ιδιότητες για προβολή.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Μέγεθος: {0}",
         "copiedText": "Το JSON αντιγράφηκε στο πρόχειρο.",
         "exportedText": "JSON εξήχθη.",
-        "importedText": "Εισήχθησαν {0} αρχεία JSON.",
+        "importedText": "Εισήχθησαν {0} αρχεία.",
         "ignoreDataTypesUpdated": "Αγνοήστε τους τύπους δεδομένων που ενημερώθηκαν.",
         "lengthText": "Μήκος: {0}",
         "valueUpdatedText": "Η τιμή ενημερώθηκε.",

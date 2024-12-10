@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Chinese (simplified) | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Chinese (simplified) | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "进口",
         "fullScreenButtonText": "切换全屏",
         "copyButtonText": "复制",
-        "dragAndDropTitleText": "拖放 JSON 文件进行上传",
+        "dragAndDropTitleText": "拖放 文件进行上传",
         "dragAndDropDescriptionText": "多个文件将连接为一个数组",
         "exportButtonText": "出口",
         "noPropertiesText": "没有可查看的属性。",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "尺寸：{0}",
         "copiedText": "JSON 已复制到剪贴板。",
         "exportedText": "导出 JSON。",
-        "importedText": "已导入 {0} 个 JSON 文件。",
+        "importedText": "已导入 {0} 个 文件。",
         "ignoreDataTypesUpdated": "忽略更新的数据类型。",
         "lengthText": "长度：{0}",
         "valueUpdatedText": "值已更新。",

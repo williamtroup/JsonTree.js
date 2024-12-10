@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Danish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Danish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importere",
         "fullScreenButtonText": "Skift fuld skærm",
         "copyButtonText": "Kopi",
-        "dragAndDropTitleText": "Træk og slip dine JSON-filer for at uploade",
+        "dragAndDropTitleText": "Træk og slip dine filer for at uploade",
         "dragAndDropDescriptionText": "Flere filer vil blive samlet som et array",
         "exportButtonText": "Eksportere",
         "noPropertiesText": "Der er ingen ejendomme at se.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Størrelse: {0}",
         "copiedText": "JSON kopieret til udklipsholder.",
         "exportedText": "JSON eksporteret.",
-        "importedText": "{0} JSON-filer importeret.",
+        "importedText": "{0} filer importeret.",
         "ignoreDataTypesUpdated": "Ignorer opdaterede datatyper.",
         "lengthText": "Længde: {0}",
         "valueUpdatedText": "Værdi opdateret.",

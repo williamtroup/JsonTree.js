@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Slovak | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Slovak | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importovať",
         "fullScreenButtonText": "Prepnúť na celú obrazovku",
         "copyButtonText": "Kopírovať",
-        "dragAndDropTitleText": "Presuňte súbory JSON, ktoré chcete nahrať",
+        "dragAndDropTitleText": "Presuňte súbory, ktoré chcete nahrať",
         "dragAndDropDescriptionText": "Viacero súborov sa spojí ako pole",
         "exportButtonText": "Exportovať",
         "noPropertiesText": "Nie sú k dispozícii žiadne vlastnosti na zobrazenie.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Veľkosť: {0}",
         "copiedText": "JSON bol skopírovaný do schránky.",
         "exportedText": "JSON bol exportovaný.",
-        "importedText": "Počet importovaných súborov JSON: {0}.",
+        "importedText": "Počet importovaných súborov: {0}.",
         "ignoreDataTypesUpdated": "Ignorovať aktualizované typy údajov.",
         "lengthText": "Dĺžka: {0}",
         "valueUpdatedText": "Hodnota bola aktualizovaná.",

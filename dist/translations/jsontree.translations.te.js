@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Telugu | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Telugu | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "దిగుమతి",
         "fullScreenButtonText": "పూర్తి స్క్రీన్‌ను టోగుల్ చేయండి",
         "copyButtonText": "కాపీ చేయండి",
-        "dragAndDropTitleText": "అప్‌లోడ్ చేయడానికి మీ JSON ఫైల్‌లను లాగండి మరియు వదలండి",
+        "dragAndDropTitleText": "అప్‌లోడ్ చేయడానికి మీ ఫైల్‌లను లాగండి మరియు వదలండి",
         "dragAndDropDescriptionText": "అనేక ఫైల్‌లు శ్రేణిగా చేర్చబడతాయి",
         "exportButtonText": "ఎగుమతి చేయండి",
         "noPropertiesText": "వీక్షించడానికి ప్రాపర్టీలు లేవు.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "పరిమాణం: {0}",
         "copiedText": "JSON క్లిప్‌బోర్డ్‌కి కాపీ చేయబడింది.",
         "exportedText": "JSON ఎగుమతి చేయబడింది.",
-        "importedText": "{0} JSON ఫైల్‌లు దిగుమతి చేయబడ్డాయి.",
+        "importedText": "{0} ఫైల్‌లు దిగుమతి చేయబడ్డాయి.",
         "ignoreDataTypesUpdated": "నవీకరించబడిన డేటా రకాలను విస్మరించండి.",
         "lengthText": "పొడవు: {0}",
         "valueUpdatedText": "విలువ నవీకరించబడింది.",

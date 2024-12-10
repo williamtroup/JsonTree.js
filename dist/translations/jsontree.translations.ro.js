@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Romanian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Romanian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Import",
         "fullScreenButtonText": "Comutați ecranul complet",
         "copyButtonText": "Copie",
-        "dragAndDropTitleText": "Trageți și plasați fișierele dvs. JSON pentru a le încărca",
+        "dragAndDropTitleText": "Trageți și plasați fișierele dvs. pentru a le încărca",
         "dragAndDropDescriptionText": "Mai multe fișiere vor fi unite ca o matrice",
         "exportButtonText": "Export",
         "noPropertiesText": "Nu există proprietăți de vizualizat.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Dimensiune: {0}",
         "copiedText": "JSON a fost copiat în clipboard.",
         "exportedText": "JSON exportat.",
-        "importedText": "{0} fișiere JSON importate.",
+        "importedText": "{0} fișiere importate.",
         "ignoreDataTypesUpdated": "Ignorați tipurile de date actualizate.",
         "lengthText": "Lungime: {0}",
         "valueUpdatedText": "Valoare actualizată.",

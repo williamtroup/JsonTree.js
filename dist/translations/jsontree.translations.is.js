@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Icelandic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Icelandic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Innflutningur",
         "fullScreenButtonText": "Skiptu um allan skjá",
         "copyButtonText": "Afrita",
-        "dragAndDropTitleText": "Dragðu og slepptu JSON skránum þínum til að hlaða upp",
+        "dragAndDropTitleText": "Dragðu og slepptu skránum þínum til að hlaða upp",
         "dragAndDropDescriptionText": "Margar skrár verða sameinaðar sem fylki",
         "exportButtonText": "Útflutningur",
         "noPropertiesText": "Það eru engar eignir til að skoða.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Stærð: {0}",
         "copiedText": "JSON afritað á klippiborð.",
         "exportedText": "JSON flutt út.",
-        "importedText": "{0} JSON skrár fluttar inn.",
+        "importedText": "{0} skrár fluttar inn.",
         "ignoreDataTypesUpdated": "Hunsa gagnategundir uppfærðar.",
         "lengthText": "Lengd: {0}",
         "valueUpdatedText": "Gildi uppfært.",

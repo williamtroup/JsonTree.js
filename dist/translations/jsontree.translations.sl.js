@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Slovenian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Slovenian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Uvozi",
         "fullScreenButtonText": "Preklop na celozaslonski način",
         "copyButtonText": "Kopiraj",
-        "dragAndDropTitleText": "Povlecite in spustite svoje datoteke JSON za nalaganje",
+        "dragAndDropTitleText": "Povlecite in spustite svoje datoteke za nalaganje",
         "dragAndDropDescriptionText": "Več datotek bo združenih v matriko",
         "exportButtonText": "Izvozi",
         "noPropertiesText": "Ni lastnosti za ogled.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Velikost: {0}",
         "copiedText": "JSON kopiran v odložišče.",
         "exportedText": "JSON izvožen.",
-        "importedText": "{0} Uvoženih datotek JSON.",
+        "importedText": "{0} Uvoženih datotek.",
         "ignoreDataTypesUpdated": "Prezri posodobljene vrste podatkov.",
         "lengthText": "Dolžina: {0}",
         "valueUpdatedText": "Vrednost posodobljena.",

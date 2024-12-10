@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Belarusian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Belarusian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayHeaderNames": [
@@ -81,7 +81,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Імпарт",
         "fullScreenButtonText": "Пераключыць поўнаэкранны рэжым",
         "copyButtonText": "Копія",
-        "dragAndDropTitleText": "Перацягніце файлы JSON для загрузкі",
+        "dragAndDropTitleText": "Перацягніце файлы для загрузкі",
         "dragAndDropDescriptionText": "Некалькі файлаў будуць аб'яднаны ў масіў",
         "exportButtonText": "Экспарт",
         "noPropertiesText": "Няма ўласцівасцей для прагляду.",
@@ -93,7 +93,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Памер: {0}",
         "copiedText": "JSON скапіраваны ў буфер абмену.",
         "exportedText": "JSON экспартаваны.",
-        "importedText": "Імпартавана файлаў JSON: {0}.",
+        "importedText": "Імпартавана файлаў: {0}.",
         "ignoreDataTypesUpdated": "Ігнараваць абноўленыя тыпы даных.",
         "lengthText": "Даўжыня: {0}",
         "valueUpdatedText": "Значэнне абноўлена.",

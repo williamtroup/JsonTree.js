@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Malay | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Malay | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Import",
         "fullScreenButtonText": "Togol Skrin Penuh",
         "copyButtonText": "salin",
-        "dragAndDropTitleText": "Seret dan lepaskan fail JSON anda untuk dimuat naik",
+        "dragAndDropTitleText": "Seret dan lepaskan fail anda untuk dimuat naik",
         "dragAndDropDescriptionText": "Berbilang fail akan digabungkan sebagai tatasusunan",
         "exportButtonText": "Eksport",
         "noPropertiesText": "Tiada hartanah untuk dilihat.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Saiz: {0}",
         "copiedText": "JSON disalin ke papan keratan.",
         "exportedText": "JSON dieksport.",
-        "importedText": "{0} Fail JSON diimport.",
+        "importedText": "{0} Fail diimport.",
         "ignoreDataTypesUpdated": "Abaikan jenis data yang dikemas kini.",
         "lengthText": "Panjang: {0}",
         "valueUpdatedText": "Nilai dikemas kini.",

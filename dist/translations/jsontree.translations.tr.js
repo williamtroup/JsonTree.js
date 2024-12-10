@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Turkish | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Turkish | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "İçe aktarmak",
         "fullScreenButtonText": "Tam Ekrana Geçiş Yap",
         "copyButtonText": "Kopyala",
-        "dragAndDropTitleText": "Yüklemek için JSON dosyalarınızı sürükleyip bırakın",
+        "dragAndDropTitleText": "Yüklemek için dosyalarınızı sürükleyip bırakın",
         "dragAndDropDescriptionText": "Birden fazla dosya bir dizi olarak birleştirilecek",
         "exportButtonText": "İhracat",
         "noPropertiesText": "Görüntülenecek mülk yok.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Boyut: {0}",
         "copiedText": "JSON panoya kopyalandı.",
         "exportedText": "JSON dışa aktarıldı.",
-        "importedText": "{0} JSON dosyası içe aktarıldı.",
+        "importedText": "{0} dosyası içe aktarıldı.",
         "ignoreDataTypesUpdated": "Güncellenen veri türlerini yoksay.",
         "lengthText": "Uzunluk: {0}",
         "valueUpdatedText": "Değer güncellendi.",

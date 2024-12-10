@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Tamil | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Tamil | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "இறக்குமதி",
         "fullScreenButtonText": "முழுத்திரையை நிலைமாற்று",
         "copyButtonText": "நகலெடுக்கவும்",
-        "dragAndDropTitleText": "பதிவேற்ற உங்கள் JSON கோப்புகளை இழுத்து விடுங்கள்",
+        "dragAndDropTitleText": "பதிவேற்ற உங்கள் கோப்புகளை இழுத்து விடுங்கள்",
         "dragAndDropDescriptionText": "பல கோப்புகள் அணிவரிசையாக இணைக்கப்படும்",
         "exportButtonText": "ஏற்றுமதி",
         "noPropertiesText": "பார்க்க எந்த சொத்துகளும் இல்லை.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "அளவு: {0}",
         "copiedText": "JSON கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.",
         "exportedText": "JSON ஏற்றுமதி செய்யப்பட்டது.",
-        "importedText": "{0} JSON கோப்புகள் இறக்குமதி செய்யப்பட்டன.",
+        "importedText": "{0} கோப்புகள் இறக்குமதி செய்யப்பட்டன.",
         "ignoreDataTypesUpdated": "புதுப்பிக்கப்பட்ட தரவு வகைகளைப் புறக்கணிக்கவும்.",
         "lengthText": "நீளம்: {0}",
         "valueUpdatedText": "மதிப்பு புதுப்பிக்கப்பட்டது.",

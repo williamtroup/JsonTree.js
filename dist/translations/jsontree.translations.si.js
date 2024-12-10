@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Sinhalese | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Sinhalese | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "ආනයනය කරන්න",
         "fullScreenButtonText": "සම්පූර්ණ තිරය ටොගල් කරන්න",
         "copyButtonText": "පිටපත් කරන්න",
-        "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ JSON ගොනු ඇද දමන්න",
+        "dragAndDropTitleText": "උඩුගත කිරීමට ඔබගේ ගොනු ඇද දමන්න",
         "dragAndDropDescriptionText": "ගොනු කිහිපයක් අරාවක් ලෙස එකතු වනු ඇත",
         "exportButtonText": "අපනයනය කරන්න",
         "noPropertiesText": "බැලීමට දේපල නොමැත.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "ප්‍රමාණය: {0}",
         "copiedText": "JSON පසුරු පුවරුවට පිටපත් කරන ලදී.",
         "exportedText": "JSON අපනයනය කරන ලදී.",
-        "importedText": "{0} JSON ගොනු ආයාත කරන ලදී.",
+        "importedText": "{0} ගොනු ආයාත කරන ලදී.",
         "ignoreDataTypesUpdated": "යාවත්කාලීන කළ දත්ත වර්ග නොසලකා හරින්න.",
         "lengthText": "දිග: {0}",
         "valueUpdatedText": "අගය යාවත්කාලීන කරන ලදී.",

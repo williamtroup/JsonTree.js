@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Arabic | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Arabic | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "يستورد",
         "fullScreenButtonText": "تبديل ملء الشاشة",
         "copyButtonText": "ينسخ",
-        "dragAndDropTitleText": "قم بسحب وإسقاط ملفات JSON للتحميل",
+        "dragAndDropTitleText": "قم بسحب وإسقاط ملفات للتحميل",
         "dragAndDropDescriptionText": "سيتم ضم ملفات متعددة كمصفوفة",
         "exportButtonText": "يصدّر",
         "noPropertiesText": "لا توجد خصائص لعرضها.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "الحجم: {0}",
         "copiedText": "تم نسخ JSON إلى الحافظة.",
         "exportedText": "تم تصدير JSON.",
-        "importedText": "{0} تم استيراد ملفات JSON.",
+        "importedText": "{0} تم استيراد ملفات.",
         "ignoreDataTypesUpdated": "تجاهل أنواع البيانات المحدثة.",
         "lengthText": "الطول: {0}",
         "valueUpdatedText": "تم تحديث القيمة.",

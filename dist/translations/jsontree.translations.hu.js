@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Hungarian | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Hungarian | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Importálás",
         "fullScreenButtonText": "Teljes képernyő váltás",
         "copyButtonText": "Másolat",
-        "dragAndDropTitleText": "A feltöltéshez húzza át a JSON-fájlokat",
+        "dragAndDropTitleText": "A feltöltéshez húzza át a fájlokat",
         "dragAndDropDescriptionText": "Több fájl tömbként fog egyesülni",
         "exportButtonText": "Export",
         "noPropertiesText": "Nincsenek megtekinthető ingatlanok.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Méret: {0}",
         "copiedText": "JSON a vágólapra másolva.",
         "exportedText": "JSON exportálva.",
-        "importedText": "{0} JSON-fájl importálva.",
+        "importedText": "{0} fájl importálva.",
         "ignoreDataTypesUpdated": "Az adattípusok figyelmen kívül hagyása frissítve.",
         "lengthText": "Hossz: {0}",
         "valueUpdatedText": "Érték frissítve.",

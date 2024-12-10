@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        config.ts
- * @version     v4.6.4
+ * @version     v4.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -69,7 +69,7 @@ export namespace Config {
             configuration.text!.fullScreenButtonText = Default.getAnyString( configuration.text!.fullScreenButtonText, "Toggle Full-Screen" );
             configuration.text!.copyButtonText = Default.getAnyString( configuration.text!.copyButtonText, "Copy" );
             configuration.text!.dragAndDropSymbolText = Default.getAnyString( configuration.text!.dragAndDropSymbolText, "⇪" );
-            configuration.text!.dragAndDropTitleText = Default.getAnyString( configuration.text!.dragAndDropTitleText, "Drag and drop your JSON files to upload" );
+            configuration.text!.dragAndDropTitleText = Default.getAnyString( configuration.text!.dragAndDropTitleText, "Drag and drop your files to upload" );
             configuration.text!.dragAndDropDescriptionText = Default.getAnyString( configuration.text!.dragAndDropDescriptionText, "Multiple files will be joined as an array" );
             configuration.text!.exportButtonSymbolText = Default.getAnyString( configuration.text!.exportButtonSymbolText, "↓" );
             configuration.text!.exportButtonText = Default.getAnyString( configuration.text!.exportButtonText, "Export" );
@@ -82,7 +82,7 @@ export namespace Config {
             configuration.text!.sizeText = Default.getAnyString( configuration.text!.sizeText, "Size: {0}" );
             configuration.text!.copiedText = Default.getAnyString( configuration.text!.copiedText, "JSON copied to clipboard." );
             configuration.text!.exportedText = Default.getAnyString( configuration.text!.exportedText, "JSON exported." );
-            configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} JSON files imported." );
+            configuration.text!.importedText = Default.getAnyString( configuration.text!.importedText, "{0} files imported." );
             configuration.text!.ignoreDataTypesUpdated = Default.getAnyString( configuration.text!.ignoreDataTypesUpdated, "Ignore data types updated." );
             configuration.text!.lengthText = Default.getAnyString( configuration.text!.lengthText, "Length: {0}" );
             configuration.text!.valueUpdatedText = Default.getAnyString( configuration.text!.valueUpdatedText, "Value updated." );

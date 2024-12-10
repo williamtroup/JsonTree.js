@@ -4,7 +4,7 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        binding.ts
- * @version     v4.6.4
+ * @version     v4.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
@@ -28,7 +28,8 @@ import {
     type BindingOptionsControlPanel, 
     type BindingOptionsLineNumbers, 
     type BindingOptionsMaximum, 
-    type ControlButtonsOpenStateArrayIndex } from "../type";
+    type ControlButtonsOpenStateArrayIndex, 
+    type DataTypeCounts } from "../type";
 
 import { Default } from "../data/default";
 import { Is } from "../data/is";
@@ -71,7 +72,7 @@ export namespace Binding {
             bindingOptions._currentView.footerStatusTextTimerId = 0;
             bindingOptions._currentView.columnDragging = false;
             bindingOptions._currentView.columnDraggingDataIndex = 0;
-            bindingOptions._currentView.dataTypeCounts = {} as Record<string, number>;
+            bindingOptions._currentView.dataTypeCounts = {} as DataTypeCounts;
             bindingOptions._currentView.contextMenu = null!;
             bindingOptions._currentView.currentColumnBuildingIndex = 0;
             bindingOptions._currentView.selectedValues = [];

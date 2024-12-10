@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Hindi | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Hindi | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "आयात",
         "fullScreenButtonText": "संपूर्ण स्क्रीन टॉगल करें",
         "copyButtonText": "प्रतिलिपि",
-        "dragAndDropTitleText": "अपलोड करने के लिए अपनी JSON फ़ाइलें खींचें और छोड़ें",
+        "dragAndDropTitleText": "अपलोड करने के लिए अपनी फ़ाइलें खींचें और छोड़ें",
         "dragAndDropDescriptionText": "एकाधिक फ़ाइलें एक सरणी के रूप में जोड़ी जाएंगी",
         "exportButtonText": "निर्यात",
         "noPropertiesText": "देखने के लिए कोई संपत्ति नहीं है.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "आकार: {0}",
         "copiedText": "JSON को क्लिपबोर्ड पर कॉपी किया गया।",
         "exportedText": "JSON निर्यात किया गया.",
-        "importedText": "{0} JSON फ़ाइलें आयात की गईं.",
+        "importedText": "{0} फ़ाइलें आयात की गईं.",
         "ignoreDataTypesUpdated": "अद्यतन किए गए डेटा प्रकारों पर ध्यान न दें.",
         "lengthText": "लंबाई: {0}",
         "valueUpdatedText": "मूल्य अद्यतन किया गया.",

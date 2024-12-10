@@ -1,4 +1,4 @@
-/*! JsonTree.js v4.6.4 - Tagalog | (c) Bunoon 2024 | MIT License */
+/*! JsonTree.js v4.7.0 - Tagalog | (c) Bunoon 2024 | MIT License */
 $jsontree.setConfiguration( {
     "text": {
         "dayNames": [
@@ -72,7 +72,7 @@ $jsontree.setConfiguration( {
         "importButtonText": "Mag-import",
         "fullScreenButtonText": "I-toggle ang Full-Screen",
         "copyButtonText": "Kopyahin",
-        "dragAndDropTitleText": "I-drag at i-drop ang iyong mga JSON file para i-upload",
+        "dragAndDropTitleText": "I-drag at i-drop ang iyong mga file para i-upload",
         "dragAndDropDescriptionText": "Maraming mga file ang isasama bilang isang array",
         "exportButtonText": "I-export",
         "noPropertiesText": "Walang mga property na titingnan.",
@@ -84,7 +84,7 @@ $jsontree.setConfiguration( {
         "sizeText": "Laki: {0}",
         "copiedText": "Kinopya ang JSON sa clipboard.",
         "exportedText": "Na-export ang JSON.",
-        "importedText": "{0} na-import na mga JSON file.",
+        "importedText": "{0} na-import na mga file.",
         "ignoreDataTypesUpdated": "Huwag pansinin ang mga uri ng data na na-update.",
         "lengthText": "Haba: {0}",
         "valueUpdatedText": "Na-update ang halaga.",

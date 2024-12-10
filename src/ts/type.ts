@@ -4,20 +4,22 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        type.ts
- * @version     v4.6.4
+ * @version     v4.7.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2024
  */
 
 
+export type JsonTreeData = Record<string, BindingOptions>;
 export type ContentPanels = Record<number, boolean>;
 export type ContentPanelsForArrayIndex = Record<number, ContentPanels>;
 export type ControlButtonsOpenStateArrayIndex = Record<number, boolean>;
+export type DataTypeCounts = Record<string, number>;
 
 export class ImportedFilename {
 	public filename: string = null!;
-	public object: string = null!;
+	public object: any = null!;
 };
 
 export type CustomDataType = {
@@ -232,7 +234,7 @@ export type BindingOptionsCurrentView = {
 	footerStatusTextTimerId: number;
 	columnDragging: boolean;
 	columnDraggingDataIndex: number;
-	dataTypeCounts: Record<string, number>;
+	dataTypeCounts: DataTypeCounts;
 	contextMenu: HTMLElement;
 	currentDataArrayPageIndex: number;
 	currentColumnBuildingIndex: number;
