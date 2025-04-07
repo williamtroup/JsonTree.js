@@ -850,6 +850,8 @@ var Binding;
             t.emptyStringValue = Default.getString(t.emptyStringValue, "");
             t.expandIconType = Default.getString(t.expandIconType, "arrow");
             t.openUrlsInSameWindow = Default.getBoolean(t.openUrlsInSameWindow, false);
+            t.wrapTextInValues = Default.getBoolean(t.wrapTextInValues, false);
+            t.hideRootObjectNames = Default.getBoolean(t.hideRootObjectNames, false);
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
@@ -1580,7 +1582,7 @@ var Filename;
             DomElement.createWithHTML(t, "span", "no-json-text", e.text.noJsonToViewText);
             if (o.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(t, "span", "no-json-import-text", `${e.text.importButtonText}${" "}${e.text.ellipsisText}`);
-                n.onclick = () => P(o);
+                n.onclick = () => j(o);
             }
         } else {
             if (o.paging.enabled && Is.definedNumber(l)) {
@@ -1786,7 +1788,11 @@ var Filename;
             const r = n.column.querySelectorAll(".object-type-title, .object-type-value-title, .object-type-end");
             const i = r.length;
             n.lineNumbers.innerHTML = "";
-            for (let s = 0; s < i; s++) {
+            let s = 0;
+            if (t.hideRootObjectNames) {
+                s++;
+            }
+            for (;s < i; s++) {
                 const a = r[s];
                 if (a.offsetHeight > 0) {
                     let r = DomElement.getOffset(a).top;
@@ -1869,7 +1875,7 @@ var Filename;
             }
             if (s && t.allowEditing.bulk && t.controlPanel.showImportButton) {
                 const n = DomElement.createWithHTML(i, "button", "control-button import", e.text.importButtonSymbolText);
-                n.onclick = () => P(t, l + 1);
+                n.onclick = () => j(t, l + 1);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             if (t.allowEditing.bulk && t.controlPanel.showRemoveButton) {
@@ -1987,7 +1993,7 @@ var Filename;
             }
             if (t.sideMenu.enabled) {
                 const n = DomElement.createWithHTML(o, "button", "side-menu jsontree-js-scroll-bars", e.text.sideMenuButtonSymbolText);
-                n.onclick = () => j(t);
+                n.onclick = () => P(t);
                 n.ondblclick = DomElement.cancelBubble;
                 ToolTip.add(n, t, e.text.sideMenuButtonText);
             }
@@ -2116,7 +2122,7 @@ var Filename;
             }
             if (t.sideMenu.showImportButton) {
                 const n = DomElement.createWithHTML(o, "button", "import", e.text.importButtonSymbolText);
-                n.onclick = () => P(t);
+                n.onclick = () => j(t);
                 ToolTip.add(n, t, e.text.importButtonText);
             }
             const l = DomElement.createWithHTML(o, "button", "close", e.text.closeButtonSymbolText);
@@ -2128,7 +2134,7 @@ var Filename;
             }
         }
     }
-    function P(e, t = null) {
+    function j(e, t = null) {
         const n = DomElement.createWithNoContainer("input");
         n.type = "file";
         n.accept = ".json, .csv, .html, .htm";
@@ -2137,7 +2143,7 @@ var Filename;
         n.onchange = () => he(n.files, e, t);
         n.click();
     }
-    function j(e) {
+    function P(e) {
         if (!e._currentView.sideMenu.classList.contains("side-menu-open")) {
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
@@ -2354,7 +2360,7 @@ var Filename;
             const m = DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} main-title` : "main-title", u);
             let p = null;
             let x = null;
-            te(d, n);
+            te(d, n, n.hideRootObjectNames);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -2376,6 +2382,10 @@ var Filename;
             }
             if (n.showClosedObjectCurlyBraces) {
                 x = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
+            }
+            if (n.hideRootObjectNames) {
+                c.style.display = "none";
+                d.classList.add("root-item");
             }
             K(f, null, d, n, i, s, p, x, false, true, "", r, r !== "object", 1);
             ie(n, m, i, r, false);
@@ -2412,7 +2422,7 @@ var Filename;
         const c = DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
         let d = null;
         let f = null;
-        te(a, n);
+        te(a, n, n.hideRootObjectNames);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
@@ -2421,6 +2431,10 @@ var Filename;
         }
         if (n.showClosedArraySquaredBrackets) {
             f = DomElement.createWithHTML(s, "span", "closed-symbols", "[ ... ]");
+        }
+        if (n.hideRootObjectNames) {
+            s.style.display = "none";
+            a.classList.add("root-item");
         }
         X(u, null, a, n, o, d, f, false, true, "", l, l !== "array", 1);
         ie(n, c, o, l, false);
@@ -2455,7 +2469,9 @@ var Filename;
                 }
             }
         }
-        se(l, t, n, o, s, a, T, f);
+        if (!l.hideRootObjectNames || m > 1) {
+            se(l, t, n, o, s, a, T, f);
+        }
         return p;
     }
     function X(t, n, o, l, r, i, s, a, u, c, d, f, g) {
@@ -2488,11 +2504,13 @@ var Filename;
                 }
             }
         }
-        se(l, t, n, o, i, s, x, d);
+        if (!l.hideRootObjectNames || g > 1) {
+            se(l, t, n, o, i, s, x, d);
+        }
         return m;
     }
     function G(t, n, o, l, r, i, s, a, u, c, d) {
-        const f = DomElement.create(n, "div", "object-type-value");
+        const f = DomElement.create(n, "div", !o.wrapTextInValues ? "object-type-value" : "object-type-value-wrapped");
         const g = DomElement.create(f, "div", "object-type-value-title");
         const m = o.showExpandIcons ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
         let p = null;
@@ -2507,6 +2525,9 @@ var Filename;
         let V = true;
         let v = null;
         const B = o._currentView.currentColumnBuildingIndex;
+        if (o.hideRootObjectNames && d === 1) {
+            f.classList.add("object-type-value-no-padding");
+        }
         if (!S) {
             let t = Str.getMaximumLengthDisplay(l, o.maximum.propertyNameLength, e.text.ellipsisText);
             if (s || !o.showPropertyNameQuotes) {
@@ -3024,8 +3045,8 @@ var Filename;
         }
         e._currentView.dataTypeCounts[t]++;
     }
-    function te(e, t) {
-        if (t.showOpenedObjectArrayBorders) {
+    function te(e, t, n = false) {
+        if (!n && t.showOpenedObjectArrayBorders) {
             e.classList.add("object-border");
             if (!t.showExpandIcons) {
                 e.classList.add("object-border-no-toggles");
@@ -3835,7 +3856,7 @@ var Filename;
             return e;
         },
         getVersion: function() {
-            return "4.7.0";
+            return "4.7.1";
         }
     };
     (() => {

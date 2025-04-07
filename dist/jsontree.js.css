@@ -1,7 +1,7 @@
 /*
- * JsonTree.js Library v4.7.0
+ * JsonTree.js Library v4.7.1
  *
- * Copyright 2024 Bunoon
+ * Copyright 2025 Bunoon
  * Released under the MIT License
  */
 :root {
@@ -96,7 +96,7 @@
   --json-tree-js-transition: all .3s;
   --json-tree-js-animation-length: 0.5s;
   --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
-  --json-tree-js-scroll-bar-size: 6px;
+  --json-tree-js-scroll-bar-size: 5px;
   --json-tree-js-scroll-bar-border-style: inset 0 0 var(--json-tree-js-scroll-bar-size) var(--json-tree-js-color-black);
   --json-tree-js-scroll-bar-hover-background-color: var(--json-tree-js-color-snow-white);
 }
@@ -879,6 +879,9 @@ div.json-tree-js div.contents span.size {
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
 }
+div.json-tree-js div.contents div.root-item {
+  margin-top: calc(-1 * var(--json-tree-js-spacing) / 2) !important;
+}
 div.json-tree-js div.contents div.no-json {
   font-style: italic;
 }
@@ -1042,58 +1045,78 @@ div.json-tree-js div.object-type-contents div.closing-symbol div.object-type-end
   margin-top: 3px;
   font-weight: var(--json-tree-js-bold-weight-light);
 }
-div.json-tree-js div.object-type-contents div.object-type-value {
+div.json-tree-js div.object-type-contents div.object-type-value-no-padding {
+  margin-left: 0 !important;
+}
+div.json-tree-js div.object-type-contents div.object-type-value,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped {
   white-space: nowrap;
   margin-top: calc(var(--json-tree-js-spacing) / 2);
   margin-bottom: calc(var(--json-tree-js-spacing) / 2);
   margin-left: var(--json-tree-js-indentation-size);
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.object-type-value-title {
+div.json-tree-js div.object-type-contents div.object-type-value div.object-type-value-title,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped div.object-type-value-title {
   width: fit-content;
 }
-div.json-tree-js div.object-type-contents div.object-type-value img {
+div.json-tree-js div.object-type-contents div.object-type-value img,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped img {
   vertical-align: middle;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.split {
+div.json-tree-js div.object-type-contents div.object-type-value span.split,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.split {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   margin-right: calc(var(--json-tree-js-spacing) / 2);
   font-weight: var(--json-tree-js-bold-weight-light);
 }
 div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected,
-div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare {
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped div.highlight-selected,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped div.highlight-compare {
   padding: calc(var(--json-tree-js-spacing) / 2);
   border-radius: var(--json-tree-js-border-radius);
   transition: var(--json-tree-js-transition);
   transition-property: background-color;
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected {
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-selected,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped div.highlight-selected {
   background-color: var(--json-tree-js-highlight-selected-color);
   border: var(--json-tree-js-border-size) dashed var(--json-tree-js-highlight-selected-border-color);
 }
-div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare {
+div.json-tree-js div.object-type-contents div.object-type-value div.highlight-compare,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped div.highlight-compare {
   background-color: var(--json-tree-js-highlight-compare-color);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.data-type,
-div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.data-type,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.data-type-color {
   margin-left: calc(var(--json-tree-js-spacing) / 2);
   font-style: italic;
   font-size: smaller;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.data-type-color,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.data-type-color {
   color: var(--json-tree-js-color-light-gray);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.value,
-div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
+div.json-tree-js div.object-type-contents div.object-type-value span.main-title,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.value,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.main-title {
   transition: var(--json-tree-js-transition);
   transition-property: opacity;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.value:not(.no-hover):not(.editable):hover,
-div.json-tree-js div.object-type-contents div.object-type-value span.main-title:not(.no-hover):not(.editable):hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.main-title:not(.no-hover):not(.editable):hover,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.value:not(.no-hover):not(.editable):hover,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.main-title:not(.no-hover):not(.editable):hover {
   cursor: pointer;
   opacity: 0.7;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.editable,
-div.json-tree-js div.object-type-contents div.object-type-value span.editable-name {
+div.json-tree-js div.object-type-contents div.object-type-value span.editable-name,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.editable,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.editable-name {
   display: inline-block;
   background-color: var(--json-tree-js-editable-background-color) !important;
   color: var(--json-tree-js-editable-text-color) !important;
@@ -1107,40 +1130,59 @@ div.json-tree-js div.object-type-contents div.object-type-value span.editable-na
   overflow-x: auto;
   vertical-align: middle;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.editable {
+div.json-tree-js div.object-type-contents div.object-type-value span.editable,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.editable {
   min-width: 70px;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.main-title {
+div.json-tree-js div.object-type-contents div.object-type-value span.main-title,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.main-title {
   font-weight: var(--json-tree-js-bold-weight-heavy);
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.non-value {
+div.json-tree-js div.object-type-contents div.object-type-value span.non-value,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.non-value {
   font-style: italic;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null {
+div.json-tree-js div.object-type-contents div.object-type-value span.undefined-or-null,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.undefined-or-null {
   font-style: italic;
   padding-right: 4px;
   text-transform: uppercase;
   font-weight: var(--json-tree-js-bold-weight-medium);
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.no-properties-text {
+div.json-tree-js div.object-type-contents div.object-type-value span.no-properties-text,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.no-properties-text {
   font-style: italic;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.comma {
+div.json-tree-js div.object-type-contents div.object-type-value span.comma,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.comma {
   color: var(--json-tree-js-color-snow-white);
   font-weight: var(--json-tree-js-bold-weight-medium);
   margin-left: 2px;
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button,
-div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.open-button,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.open-button-color {
   margin-left: calc(var(--json-tree-js-spacing) * 2);
 }
 div.json-tree-js div.object-type-contents div.object-type-value span.open-button:hover,
-div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color:hover {
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color:hover,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.open-button:hover,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.open-button-color:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color {
+div.json-tree-js div.object-type-contents div.object-type-value span.open-button-color,
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.open-button-color {
   color: var(--json-tree-js-color-link);
+}
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span {
+  vertical-align: middle;
+}
+div.json-tree-js div.object-type-contents div.object-type-value-wrapped span.value {
+  display: inline-block;
+  height: fit-content;
+  white-space: wrap;
 }
 
 /*

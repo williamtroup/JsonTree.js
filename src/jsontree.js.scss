@@ -1,7 +1,7 @@
 /*
- * JsonTree.js Library v4.7.0
+ * JsonTree.js Library v4.7.1
  *
- * Copyright 2024 Bunoon
+ * Copyright 2025 Bunoon
  * Released under the MIT License
  */
  
@@ -138,7 +138,7 @@
     --json-tree-js-indentation-size: calc( var(--json-tree-js-spacing) * 2 );
 
     // Scroll Bars
-    --json-tree-js-scroll-bar-size: 6px;
+    --json-tree-js-scroll-bar-size: 5px;
     --json-tree-js-scroll-bar-border-style: inset 0 0 var(--json-tree-js-scroll-bar-size) var(--json-tree-js-color-black);
     --json-tree-js-scroll-bar-hover-background-color: var(--json-tree-js-color-snow-white);
 }
@@ -807,6 +807,10 @@ div.json-tree-js {
             margin-bottom: 0 !important;
         }
 
+        div.root-item {
+            margin-top: calc( -1 * ( var(--json-tree-js-spacing) / 2 ) ) !important;
+        }
+
         div.no-json {
             font-style: italic;
 
@@ -1015,8 +1019,13 @@ div.json-tree-js {
                 font-weight: var(--json-tree-js-bold-weight-light);
             }
         }
+
+        div.object-type-value-no-padding {
+            margin-left: 0 !important;
+        }
         
-        div.object-type-value {
+        div.object-type-value,
+        div.object-type-value-wrapped {
             white-space: nowrap;
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
@@ -1132,6 +1141,18 @@ div.json-tree-js {
 
             span.open-button-color {
                 color: var(--json-tree-js-color-link);
+            }
+        }
+
+        div.object-type-value-wrapped {
+            span {
+                vertical-align: middle;
+            }
+
+            span.value {
+                display: inline-block;
+                height: fit-content;
+                white-space: wrap;
             }
         }
     }

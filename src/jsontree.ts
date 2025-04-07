@@ -4,10 +4,10 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        jsontree.ts
- * @version     v4.7.0
+ * @version     v4.7.1
  * @author      Bunoon
  * @license     MIT License
- * @copyright   Bunoon 2024
+ * @copyright   Bunoon 2025
  */
 
 
@@ -494,8 +494,13 @@ import { Filename } from "./ts/data/filename";
             const valueElementsLength: number = valueElements.length;
 
             columnLayout.lineNumbers.innerHTML = Char.empty;
+            let valueElementIndex: number = 0;
 
-            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+            if ( bindingOptions.hideRootObjectNames ) {
+                valueElementIndex++;
+            }
+
+            for ( ; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
                 if ( valueElement.offsetHeight > 0 ) {
@@ -1301,7 +1306,7 @@ import { Filename } from "./ts/data/filename";
             let openingBrace: HTMLSpanElement = null!;
             let closedBraces: HTMLSpanElement = null!;
 
-            addObjectContentsBorder( objectTypeContents, bindingOptions );
+            addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootObjectNames );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
@@ -1330,6 +1335,11 @@ import { Filename } from "./ts/data/filename";
 
             if ( bindingOptions.showClosedObjectCurlyBraces ) {
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
+            }
+
+            if ( bindingOptions.hideRootObjectNames ) {
+                objectTypeTitle.style.display = "none";
+                objectTypeContents.classList.add( "root-item" );
             }
 
             renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, actualData, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
@@ -1378,7 +1388,7 @@ import { Filename } from "./ts/data/filename";
         let openingBracket: HTMLSpanElement = null!;
         let closedBrackets: HTMLSpanElement = null!;
 
-        addObjectContentsBorder( objectTypeContents, bindingOptions );
+        addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootObjectNames );
 
         if ( bindingOptions.showObjectSizes ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} size` : "size", `[${data.length}]` );
@@ -1390,6 +1400,11 @@ import { Filename } from "./ts/data/filename";
 
         if ( bindingOptions.showClosedArraySquaredBrackets ) {
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
+        }
+
+        if ( bindingOptions.hideRootObjectNames ) {
+            objectTypeTitle.style.display = "none";
+            objectTypeContents.classList.add( "root-item" );
         }
 
         renderArrayValues( expandIcon, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array, 1 );
@@ -1440,7 +1455,9 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
+        if ( !bindingOptions.hideRootObjectNames || indentationLevel > 1 ) {
+            addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
+        }
 
         return propertiesAdded;
     }
@@ -1483,13 +1500,15 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
+        if ( !bindingOptions.hideRootObjectNames || indentationLevel > 1 ) {
+            addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
+        }
 
         return propertiesAdded;
     }
 
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : void {
-        const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
+        const objectTypeValue: HTMLElement = DomElement.create( container, "div", !bindingOptions.wrapTextInValues ? "object-type-value" : "object-type-value-wrapped" );
         const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
         const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeValueTitle, "div", `no-${bindingOptions.expandIconType}` ) : null!;
         let valueClass: string = null!;
@@ -1504,6 +1523,10 @@ import { Filename } from "./ts/data/filename";
         let assignClickEvent: boolean = true;
         let openButton: HTMLSpanElement = null!;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
+        if ( bindingOptions.hideRootObjectNames && indentationLevel === 1 ) {
+            objectTypeValue.classList.add( "object-type-value-no-padding" );
+        }
 
         if ( !isForEmptyProperties ) {
             let nameValue: string = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.propertyNameLength!, _configuration.text!.ellipsisText! );
@@ -2199,8 +2222,8 @@ import { Filename } from "./ts/data/filename";
         bindingOptions._currentView.dataTypeCounts[ dataType ]++;
     }
 
-    function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.showOpenedObjectArrayBorders ) {
+    function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions, hideRootsObjectNames: boolean = false ) : void {
+        if ( !hideRootsObjectNames && bindingOptions.showOpenedObjectArrayBorders ) {
             objectContents.classList.add( "object-border" );
 
             if ( !bindingOptions.showExpandIcons ) {
@@ -3365,7 +3388,7 @@ import { Filename } from "./ts/data/filename";
         },
 
         getVersion: function () : string {
-            return "4.7.0";
+            return "4.7.1";
         }
     };
 

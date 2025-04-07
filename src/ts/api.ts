@@ -4,10 +4,10 @@
  * A lightweight JavaScript library that generates customizable tree views to better visualize, and edit, JSON data.
  * 
  * @file        api.ts
- * @version     v4.7.0
+ * @version     v4.7.1
  * @author      Bunoon
  * @license     MIT License
- * @copyright   Bunoon 2024
+ * @copyright   Bunoon 2025
  */
 
 
