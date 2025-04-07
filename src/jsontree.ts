@@ -494,8 +494,13 @@ import { Filename } from "./ts/data/filename";
             const valueElementsLength: number = valueElements.length;
 
             columnLayout.lineNumbers.innerHTML = Char.empty;
+            let valueElementIndex: number = 0;
 
-            for ( let valueElementIndex: number = 0; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
+            if ( bindingOptions.hideRootsObjectNames ) {
+                valueElementIndex++;
+            }
+
+            for ( ; valueElementIndex < valueElementsLength; valueElementIndex++ ) {
                 const valueElement: HTMLElement = valueElements[ valueElementIndex ] as HTMLElement;
 
                 if ( valueElement.offsetHeight > 0 ) {
@@ -1301,7 +1306,7 @@ import { Filename } from "./ts/data/filename";
             let openingBrace: HTMLSpanElement = null!;
             let closedBraces: HTMLSpanElement = null!;
 
-            addObjectContentsBorder( objectTypeContents, bindingOptions );
+            addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootsObjectNames );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
@@ -1330,6 +1335,11 @@ import { Filename } from "./ts/data/filename";
 
             if ( bindingOptions.showClosedObjectCurlyBraces ) {
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
+            }
+
+            if ( bindingOptions.hideRootsObjectNames ) {
+                objectTypeTitle.style.display = "none";
+                objectTypeContents.classList.add( "root-item" );
             }
 
             renderObjectValues( expandIcon, null!, objectTypeContents, bindingOptions, actualData, propertyNames, openingBrace, closedBraces, false, true, Char.empty, dataType, dataType !== DataType.object, 1 );
@@ -1378,7 +1388,7 @@ import { Filename } from "./ts/data/filename";
         let openingBracket: HTMLSpanElement = null!;
         let closedBrackets: HTMLSpanElement = null!;
 
-        addObjectContentsBorder( objectTypeContents, bindingOptions );
+        addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootsObjectNames );
 
         if ( bindingOptions.showObjectSizes ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} size` : "size", `[${data.length}]` );
@@ -1390,6 +1400,11 @@ import { Filename } from "./ts/data/filename";
 
         if ( bindingOptions.showClosedArraySquaredBrackets ) {
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
+        }
+
+        if ( bindingOptions.hideRootsObjectNames ) {
+            objectTypeTitle.style.display = "none";
+            objectTypeContents.classList.add( "root-item" );
         }
 
         renderArrayValues( expandIcon, null!, objectTypeContents, bindingOptions, data, openingBracket, closedBrackets, false, true, Char.empty, dataType, dataType !== DataType.array, 1 );
@@ -1440,7 +1455,9 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
+        if ( !bindingOptions.hideRootsObjectNames || indentationLevel > 1 ) {
+            addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
+        }
 
         return propertiesAdded;
     }
@@ -1483,7 +1500,9 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
+        if ( !bindingOptions.hideRootsObjectNames || indentationLevel > 1 ) {
+            addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
+        }
 
         return propertiesAdded;
     }
@@ -1504,6 +1523,10 @@ import { Filename } from "./ts/data/filename";
         let assignClickEvent: boolean = true;
         let openButton: HTMLSpanElement = null!;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
+
+        if ( bindingOptions.hideRootsObjectNames && indentationLevel === 1 ) {
+            objectTypeValue.classList.add( "object-type-value-no-padding" );
+        }
 
         if ( !isForEmptyProperties ) {
             let nameValue: string = Str.getMaximumLengthDisplay( name, bindingOptions.maximum!.propertyNameLength!, _configuration.text!.ellipsisText! );
@@ -2199,8 +2222,8 @@ import { Filename } from "./ts/data/filename";
         bindingOptions._currentView.dataTypeCounts[ dataType ]++;
     }
 
-    function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions ) : void {
-        if ( bindingOptions.showOpenedObjectArrayBorders ) {
+    function addObjectContentsBorder( objectContents: HTMLElement, bindingOptions: BindingOptions, hideRootsObjectNames: boolean = false ) : void {
+        if ( !hideRootsObjectNames && bindingOptions.showOpenedObjectArrayBorders ) {
             objectContents.classList.add( "object-border" );
 
             if ( !bindingOptions.showExpandIcons ) {

@@ -879,6 +879,9 @@ div.json-tree-js div.contents span.size {
 div.json-tree-js div.contents div.last-item {
   margin-bottom: 0 !important;
 }
+div.json-tree-js div.contents div.root-item {
+  margin-top: calc(-1 * var(--json-tree-js-spacing) / 2) !important;
+}
 div.json-tree-js div.contents div.no-json {
   font-style: italic;
 }
@@ -1041,6 +1044,9 @@ div.json-tree-js div.object-type-contents div.closing-symbol div {
 div.json-tree-js div.object-type-contents div.closing-symbol div.object-type-end {
   margin-top: 3px;
   font-weight: var(--json-tree-js-bold-weight-light);
+}
+div.json-tree-js div.object-type-contents div.object-type-value-no-padding {
+  margin-left: 0 !important;
 }
 div.json-tree-js div.object-type-contents div.object-type-value,
 div.json-tree-js div.object-type-contents div.object-type-value-wrapped {

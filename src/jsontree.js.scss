@@ -807,6 +807,10 @@ div.json-tree-js {
             margin-bottom: 0 !important;
         }
 
+        div.root-item {
+            margin-top: calc( -1 * ( var(--json-tree-js-spacing) / 2 ) ) !important;
+        }
+
         div.no-json {
             font-style: italic;
 
@@ -1014,6 +1018,10 @@ div.json-tree-js {
                 margin-top: 3px;
                 font-weight: var(--json-tree-js-bold-weight-light);
             }
+        }
+
+        div.object-type-value-no-padding {
+            margin-left: 0 !important;
         }
         
         div.object-type-value,
