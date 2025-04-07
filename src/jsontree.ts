@@ -496,7 +496,7 @@ import { Filename } from "./ts/data/filename";
             columnLayout.lineNumbers.innerHTML = Char.empty;
             let valueElementIndex: number = 0;
 
-            if ( bindingOptions.hideRootsObjectNames ) {
+            if ( bindingOptions.hideRootObjectNames ) {
                 valueElementIndex++;
             }
 
@@ -1306,7 +1306,7 @@ import { Filename } from "./ts/data/filename";
             let openingBrace: HTMLSpanElement = null!;
             let closedBraces: HTMLSpanElement = null!;
 
-            addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootsObjectNames );
+            addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootObjectNames );
 
             if ( bindingOptions.paging!.enabled && Is.definedNumber( dataIndex ) ) {
                 let dataArrayIndex: string = bindingOptions.useZeroIndexingForArrays ? dataIndex.toString() : ( dataIndex + 1 ).toString();
@@ -1337,7 +1337,7 @@ import { Filename } from "./ts/data/filename";
                 closedBraces = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "{ ... }" ) as HTMLSpanElement;
             }
 
-            if ( bindingOptions.hideRootsObjectNames ) {
+            if ( bindingOptions.hideRootObjectNames ) {
                 objectTypeTitle.style.display = "none";
                 objectTypeContents.classList.add( "root-item" );
             }
@@ -1388,7 +1388,7 @@ import { Filename } from "./ts/data/filename";
         let openingBracket: HTMLSpanElement = null!;
         let closedBrackets: HTMLSpanElement = null!;
 
-        addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootsObjectNames );
+        addObjectContentsBorder( objectTypeContents, bindingOptions, bindingOptions.hideRootObjectNames );
 
         if ( bindingOptions.showObjectSizes ) {
             DomElement.createWithHTML( objectTypeTitle, "span", bindingOptions.showValueColors ? `${dataType} size` : "size", `[${data.length}]` );
@@ -1402,7 +1402,7 @@ import { Filename } from "./ts/data/filename";
             closedBrackets = DomElement.createWithHTML( objectTypeTitle, "span", "closed-symbols", "[ ... ]" ) as HTMLSpanElement;
         }
 
-        if ( bindingOptions.hideRootsObjectNames ) {
+        if ( bindingOptions.hideRootObjectNames ) {
             objectTypeTitle.style.display = "none";
             objectTypeContents.classList.add( "root-item" );
         }
@@ -1455,7 +1455,7 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        if ( !bindingOptions.hideRootsObjectNames || indentationLevel > 1 ) {
+        if ( !bindingOptions.hideRootObjectNames || indentationLevel > 1 ) {
             addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBrace, closedBraces, propertiesLengthForAutoClose, parentType );
         }
 
@@ -1500,7 +1500,7 @@ import { Filename } from "./ts/data/filename";
             }
         }
 
-        if ( !bindingOptions.hideRootsObjectNames || indentationLevel > 1 ) {
+        if ( !bindingOptions.hideRootObjectNames || indentationLevel > 1 ) {
             addExpandIconEvent( bindingOptions, expandIcon, coma, objectTypeContents, openingBracket, closedBrackets, dataLengthForAutoClose, parentType );
         }
 
@@ -1524,7 +1524,7 @@ import { Filename } from "./ts/data/filename";
         let openButton: HTMLSpanElement = null!;
         const columnIndex: number = bindingOptions._currentView.currentColumnBuildingIndex;
 
-        if ( bindingOptions.hideRootsObjectNames && indentationLevel === 1 ) {
+        if ( bindingOptions.hideRootObjectNames && indentationLevel === 1 ) {
             objectTypeValue.classList.add( "object-type-value-no-padding" );
         }
 

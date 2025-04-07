@@ -849,7 +849,7 @@ var Binding;
             t.expandIconType = Default.getString(t.expandIconType, "arrow");
             t.openUrlsInSameWindow = Default.getBoolean(t.openUrlsInSameWindow, false);
             t.wrapTextInValues = Default.getBoolean(t.wrapTextInValues, false);
-            t.hideRootsObjectNames = Default.getBoolean(t.hideRootsObjectNames, false);
+            t.hideRootObjectNames = Default.getBoolean(t.hideRootObjectNames, false);
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
@@ -1787,7 +1787,7 @@ var Filename;
             const i = r.length;
             n.lineNumbers.innerHTML = "";
             let s = 0;
-            if (t.hideRootsObjectNames) {
+            if (t.hideRootObjectNames) {
                 s++;
             }
             for (;s < i; s++) {
@@ -2358,7 +2358,7 @@ var Filename;
             const m = DomElement.createWithHTML(c, "span", n.showValueColors ? `${r} main-title` : "main-title", u);
             let p = null;
             let x = null;
-            te(d, n, n.hideRootsObjectNames);
+            te(d, n, n.hideRootObjectNames);
             if (n.paging.enabled && Is.definedNumber(l)) {
                 let t = n.useZeroIndexingForArrays ? l.toString() : (l + 1).toString();
                 if (n.showArrayIndexBrackets) {
@@ -2381,7 +2381,7 @@ var Filename;
             if (n.showClosedObjectCurlyBraces) {
                 x = DomElement.createWithHTML(c, "span", "closed-symbols", "{ ... }");
             }
-            if (n.hideRootsObjectNames) {
+            if (n.hideRootObjectNames) {
                 c.style.display = "none";
                 d.classList.add("root-item");
             }
@@ -2420,7 +2420,7 @@ var Filename;
         const c = DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} main-title` : "main-title", i);
         let d = null;
         let f = null;
-        te(a, n, n.hideRootsObjectNames);
+        te(a, n, n.hideRootObjectNames);
         if (n.showObjectSizes) {
             DomElement.createWithHTML(s, "span", n.showValueColors ? `${l} size` : "size", `[${o.length}]`);
         }
@@ -2430,7 +2430,7 @@ var Filename;
         if (n.showClosedArraySquaredBrackets) {
             f = DomElement.createWithHTML(s, "span", "closed-symbols", "[ ... ]");
         }
-        if (n.hideRootsObjectNames) {
+        if (n.hideRootObjectNames) {
             s.style.display = "none";
             a.classList.add("root-item");
         }
@@ -2467,7 +2467,7 @@ var Filename;
                 }
             }
         }
-        if (!l.hideRootsObjectNames || m > 1) {
+        if (!l.hideRootObjectNames || m > 1) {
             se(l, t, n, o, s, a, T, f);
         }
         return p;
@@ -2502,7 +2502,7 @@ var Filename;
                 }
             }
         }
-        if (!l.hideRootsObjectNames || g > 1) {
+        if (!l.hideRootObjectNames || g > 1) {
             se(l, t, n, o, i, s, x, d);
         }
         return m;
@@ -2523,7 +2523,7 @@ var Filename;
         let V = true;
         let v = null;
         const B = o._currentView.currentColumnBuildingIndex;
-        if (o.hideRootsObjectNames && d === 1) {
+        if (o.hideRootObjectNames && d === 1) {
             f.classList.add("object-type-value-no-padding");
         }
         if (!S) {

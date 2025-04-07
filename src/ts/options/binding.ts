@@ -139,7 +139,7 @@ export namespace Binding {
             options.expandIconType = Default.getString( options.expandIconType, "arrow" );
             options.openUrlsInSameWindow = Default.getBoolean( options.openUrlsInSameWindow, false );
             options.wrapTextInValues = Default.getBoolean( options.wrapTextInValues, false );
-            options.hideRootsObjectNames = Default.getBoolean( options.hideRootsObjectNames, false );
+            options.hideRootObjectNames = Default.getBoolean( options.hideRootObjectNames, false );
 
             options.maximum = getMaximum( options );
             options.paging = getPaging( options );
