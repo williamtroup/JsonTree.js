@@ -138,6 +138,7 @@ export namespace Binding {
             options.emptyStringValue = Default.getString( options.emptyStringValue, Char.empty );
             options.expandIconType = Default.getString( options.expandIconType, "arrow" );
             options.openUrlsInSameWindow = Default.getBoolean( options.openUrlsInSameWindow, false );
+            options.wrapTextInValues = Default.getBoolean( options.wrapTextInValues, false );
 
             options.maximum = getMaximum( options );
             options.paging = getPaging( options );

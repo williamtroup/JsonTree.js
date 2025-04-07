@@ -1489,7 +1489,7 @@ import { Filename } from "./ts/data/filename";
     }
 
     function renderValue( data: any, container: HTMLElement, bindingOptions: BindingOptions, name: string, value: any, isLastItem: boolean, isArrayItem: boolean, jsonPath: string, parentType: string, preventEditing: boolean, indentationLevel: number ) : void {
-        const objectTypeValue: HTMLElement = DomElement.create( container, "div", "object-type-value" );
+        const objectTypeValue: HTMLElement = DomElement.create( container, "div", !bindingOptions.wrapTextInValues ? "object-type-value" : "object-type-value-wrapped" );
         const objectTypeValueTitle: HTMLElement = DomElement.create( objectTypeValue, "div", "object-type-value-title" );
         const expandIcon: HTMLElement = bindingOptions.showExpandIcons ? DomElement.create( objectTypeValueTitle, "div", `no-${bindingOptions.expandIconType}` ) : null!;
         let valueClass: string = null!;

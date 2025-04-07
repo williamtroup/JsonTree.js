@@ -850,6 +850,7 @@ var Binding;
             t.emptyStringValue = Default.getString(t.emptyStringValue, "");
             t.expandIconType = Default.getString(t.expandIconType, "arrow");
             t.openUrlsInSameWindow = Default.getBoolean(t.openUrlsInSameWindow, false);
+            t.wrapTextInValues = Default.getBoolean(t.wrapTextInValues, false);
             t.maximum = l(t);
             t.paging = r(t);
             t.title = i(t);
@@ -2492,7 +2493,7 @@ var Filename;
         return m;
     }
     function G(t, n, o, l, r, i, s, a, u, c, d) {
-        const f = DomElement.create(n, "div", "object-type-value");
+        const f = DomElement.create(n, "div", !o.wrapTextInValues ? "object-type-value" : "object-type-value-wrapped");
         const g = DomElement.create(f, "div", "object-type-value-title");
         const m = o.showExpandIcons ? DomElement.create(g, "div", `no-${o.expandIconType}`) : null;
         let p = null;

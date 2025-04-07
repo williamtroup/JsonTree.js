@@ -188,6 +188,7 @@ export type BindingOptions = {
 	emptyStringValue?: string;
 	expandIconType?: string;
 	openUrlsInSameWindow?: boolean;
+	wrapTextInValues?: boolean;
 	lineNumbers?: BindingOptionsLineNumbers;
 	maximum?: BindingOptionsMaximum;
 	controlPanel?: BindingOptionsControlPanel;

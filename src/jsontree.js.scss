@@ -1016,7 +1016,8 @@ div.json-tree-js {
             }
         }
         
-        div.object-type-value {
+        div.object-type-value,
+        div.object-type-value-wrapped {
             white-space: nowrap;
             margin-top: calc( var(--json-tree-js-spacing) / 2 );
             margin-bottom: calc( var(--json-tree-js-spacing) / 2 );
@@ -1132,6 +1133,18 @@ div.json-tree-js {
 
             span.open-button-color {
                 color: var(--json-tree-js-color-link);
+            }
+        }
+
+        div.object-type-value-wrapped {
+            span {
+                vertical-align: middle;
+            }
+
+            span.value {
+                display: inline-block;
+                height: fit-content;
+                white-space: wrap;
             }
         }
     }
