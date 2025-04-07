@@ -7,7 +7,7 @@
  * @version     v4.7.1
  * @author      Bunoon
  * @license     MIT License
- * @copyright   Bunoon 2024
+ * @copyright   Bunoon 2025
  */
 
 import { Char } from "./enum";
